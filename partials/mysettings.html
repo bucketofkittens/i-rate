@@ -146,7 +146,7 @@
 
 				</select>
 			</p>
-			<p ng-controller="QuickUserChangeCtrl">
+			<p ng-if="!workspace.user.isSocial && !workspace.user.improva">
 				<button class="reset" ng-click="onChangePassword()">Reset password</button>
 			</p>
 		</div>

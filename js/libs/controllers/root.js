@@ -152,6 +152,7 @@ function RootController($scope, $facebook, AuthUser, User, $rootScope, Needs, So
         if($scope.authUserId) {
             User.query({id: $scope.authUserId}, function(data) {
                 $scope.workspace.user = data;
+                $scope.workspace.user.isSocial = AuthUser.getExternal();
                 $scope.workspace.user.points = parseInt($scope.workspace.user.points);
                 if(isNaN($scope.workspace.user.points)) {
                     $scope.workspace.user.points = 0;
@@ -344,6 +345,9 @@ function RootController($scope, $facebook, AuthUser, User, $rootScope, Needs, So
     $scope.$on('onSignin', function($event, message) {
         if(message && message.sguid) {
             User.query({id: message.sguid}, function(data) {
+                data.isSocial = message.isSocial;
+                data.improva = message.improva;
+
                 $scope.workspace.user = data;
                 if(message.update) {
                     User.updateUser(
@@ -362,7 +366,12 @@ function RootController($scope, $facebook, AuthUser, User, $rootScope, Needs, So
                     $scope.workspace.user.points = 0;
                 }
 
-                AuthUser.set(message.sguid, message.token);
+                var external = false;
+                if(message.improva || message.isSocial) {
+                    external = true;
+                }
+
+                AuthUser.set(message.sguid, message.token, external);
 
                 if($scope.workspace.user.points == 0) {
                   $cookieStore.put("myProfileTab", 3);

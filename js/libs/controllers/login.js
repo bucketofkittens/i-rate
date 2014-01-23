@@ -114,7 +114,7 @@ function LoginController($scope, Sessions, $rootScope, User, Social, $facebook, 
                          * @type {[type]}
                          */
 
-                        $rootScope.$broadcast('onSignin', {sguid: data.guid, token: data.token});
+                        $rootScope.$broadcast('onSignin', {sguid: data.guid, token: data.token, improva: true});
                         $rootScope.$broadcast('loaderHide');
                     } else {
                         /**
@@ -180,7 +180,7 @@ function LoginController($scope, Sessions, $rootScope, User, Social, $facebook, 
             "password": $scope.login.password
         }), function(data) {
             if(data.success) {
-                $rootScope.$broadcast('onSignin', {sguid: data.guid, isSocial: true, token: data.token});
+                $rootScope.$broadcast('onSignin', {sguid: data.guid, isSocial: false, token: data.token});
                 $scope.show = false;
             } else {
                 $scope.error = data.message;

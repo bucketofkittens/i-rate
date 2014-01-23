@@ -412,17 +412,27 @@ pgrModule.factory('AuthUser', function ($cookieStore) {
             return $cookieStore.get("user");
         }
 
+        this.getExternal = function() {
+            return $cookieStore.get("external");
+        }
+
         this.getToken = function() {
             return $cookieStore.get("token");
         }
 
-        this.set = function(guid, token) {
+        this.set = function(guid, token, external) {
             $cookieStore.put("user", guid);
             $cookieStore.put("token", token);
+
+            if(external) {
+                $cookieStore.put("external", "1");    
+            }
         }
 
         this.logout = function() {
-            $cookieStore.remove("user"); 
+            $cookieStore.remove("user");
+            $cookieStore.remove("token"); 
+            $cookieStore.remove("external");
         }
     };
     return new AuthUser();
