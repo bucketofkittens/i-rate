@@ -1,0 +1,21 @@
+<div class="galblo">
+	<div class="galblos isotope item"
+		ng-repeat="userItem in users"
+		ng-click="onUserPage(userItem)">
+		<div class="image">
+			<img ng-src="{{userItem.avatar}}" alt="" err-src="/images/unknown-person.png" />
+			<i>{{userItem.points}}</i>
+		</div>
+		<div class="text">
+			<p class="name">{{userItem.name}}</p>
+			<p class="birthday">{{userItem.birthday}}</p>
+			<p class="birthday gr">{{userItem.state.name}}</p>
+			<p class="profession gr">{{userItem.profession.name}}</p>
+		</div>
+		<img class="sealin" src="./images/i1l.png" alt="">
+		<b></b>
+	</div>
+</div>
+
+<sub ng-if="swipe > 0" ng-click="onSwipeLeft()"><img src="../images/left.png"></sub>
+<sup ng-if="users.length > limit && swipe < swipeMax - 1" ng-click="onSwipeRight()"><img src="../images/right.png"></sup>

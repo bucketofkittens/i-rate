@@ -1,0 +1,154 @@
+<div ng-controller="CropImageController"  >
+	<div ng-class="{show: show}" id="crop_modal">
+		<div class="modal-body">
+			<form action="" method="get" accept-charset="utf-8">
+				<div id='cropContainer'>
+			      <div class="cropper">
+			         <div class="preview-container">
+			         	<img src="" id="crop_img" alt="" />
+		        		<canvas id="image_canvas"></canvas>
+			         </div>
+			      </div>
+			   </div>
+		   </form>
+		</div>
+		<div class="buttons">
+			<button ng-click="close()">Cancel</button>
+			<button class="apply" ng-click="onSend()">Apply</button>
+		</div>
+	</div>
+</div>
+<section class="myset">
+	<div 
+		class="pmain pro promy" 
+		ng-controller="UserController" >
+		<div class="block">
+			<input class="hidden" id="photo_crop" onchange="angular.element(this).scope().onReadFile()" capture="camera" type="file" accept="image/*" />
+			
+			<div class="image_box" ng-click="onUpdateFile()">
+				<img class="pp" ng-src="{{workspace.user.avatar}}" ng-if="workspace.user.avatar" err-src="/images/unknown-person.png" />
+				<img class="pp" ng-src="/images/unknown-person.png" ng-if="!workspace.user.avatar" />
+			</div>
+			
+			<div class="publish" ng-if="workspace.user.published == 0">
+				<p>
+					<strong>Your account is private.<b>Only you can see your profile.</b></strong>
+					<button ng-click="onOnPublish()">{{'_PublishL_' | i18n}}</button>
+				</p>
+			</div>
+			<div class="publish" ng-if="workspace.user.published == 1">
+				<p>
+					<strong>Your account is public.<b>Everybody can see you profile.</b></strong>
+					<button ng-click="onUnPublish()">Make it private</button>
+				</p>
+			</div>
+			<div class="publish">
+				<button ng-click="onLogout()">Sign out</button>
+			</div>
+		</div>
+
+		<div class="pmpar">
+			<p>
+				<label for="name_i">{{'_NameL_' | i18n}}:</label> 
+				<input 
+					type="text" 
+					id="name_i" 
+					ng-model="workspace.user.name"
+					required />
+			</p>
+			<div class="proffesion_list" ng-if="showedNames.length > 0">
+				<ul>
+					<li ng-repeat="(nameKey, nameItem) in showedNames">
+						<a>{{nameItem}}</a>
+					</li>
+				</ul>
+			</div>
+			<p class="errors" ng-if="nameIsError">Name already user.</p>
+			<p>
+				<label for="age_i">{{'_BirthdayL_' | i18n}}:</label>
+				<input 
+					type="datetime"
+					ng-model="workspace.user.birthdayDate"
+					ui-date="dateOptions"
+					id="age_i" />
+			</p>
+			<p>
+				<label for="areapro2_i">Сountry:</label>
+				<select 
+					id="areapro2_i"
+					ng-options="item.name for item in states" 
+					ng-model="state"
+					ng-change="selectCityByState($event, state)">
+				</select>
+			</p>
+			<p>
+				<label for="loc_i">City:</label>
+				<input 
+					id="loc_i" 
+					ng-model="workspace.user.city.name"
+					type="text"
+					ng-change="testCity($event)" />
+					<img src="/images/7.jpg" ng-if="isAddState" class="cursor" ng-click="addCity($event)" width="40px" alt="" />
+			</p>
+			<div class="proffesion_list" ng-if="curState && showState && showState2">
+				<ul>
+					<li ng-if="stateItem.show" ng-repeat="(stateKey, stateItem) in curState">
+						<a ng-click="selectCurrentCity($event, stateItem, stateKey)">{{stateItem.name}}</a>
+						<span class="close icon" ng-click="deleteCityItem($event, stateItem, stateKey)"></span>
+					</li>
+				</ul>
+			</div>
+			<p>
+				<label for="areapro_i">Career:</label>
+				<select 
+					id="areapro_i"
+					ng-options="item.name for item in curNeed.goals" 
+					ng-model="career"
+					ng-change="selectCareer($event, career)">
+				</select>
+			</p>
+			<p>
+				<label for="pro_i">{{'_ProfL_' | i18n}}:</label>
+				<input 
+					id="pro_i" 
+					ng-model="workspace.user.profession.name"
+					type="text"
+					ng-change="selectProfession($event, career)"  />
+					<img src="/images/7.jpg" ng-if="isAddProff" class="cursor" ng-click="addProfession($event)" width="40px" alt="" />
+			</p>
+			<div class="proffesion_list" ng-if="curProff && showProf && showProf2">
+				<ul>
+					<li ng-if="profItem.show" ng-repeat="(profKey, profItem) in curProff">
+						<a ng-click="selectCurrentProfession($event, profItem, profKey)">{{profItem.name}}</a>
+						<span class="close icon" ng-click="deleteItem($event, profItem, profKey)"></span>
+					</li>
+				</ul>
+			</div>
+			<p>
+				<label for="email_i">{{'_EmaiL_' | i18n}}:</label> 
+				<input 
+					type="email" 
+					id="email_i" 
+					ng-model="workspace.user.email"
+					readonly="readonly"
+					required />
+			</p>
+			<p ng-controller="QuickUserChangeCtrl">
+				<label for="username_i">{{'_UserName_' | i18n}}:</label>
+				<span ng-if="users.length == 0">Users loading...</span>
+				<select
+					 ng-if="users.length > 0"
+					id="acc_i"
+					ng-options="item.fullname for item in users" 
+					ng-model="nextUser" 
+					ng-change="onMoveUserClick($event, nextUser)">
+					<option value="">{{workspace.user.login}}, {{workspace.user.name}}</option>
+
+				</select>
+			</p>
+			<p ng-controller="QuickUserChangeCtrl">
+				<button class="reset" ng-click="onChangePassword()">Reset password</button>
+			</p>
+		</div>
+	</div>
+</section>

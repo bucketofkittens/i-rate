@@ -1,0 +1,25 @@
+<section class="leaglist">
+	<article ng-repeat="(leaguesKey, leagueItem) in leagues">
+		<a>
+			<img ng-if="leagueItem.name == '1'" src="/images/I.png" />
+			<img ng-if="leagueItem.name == '2'" src="/images/II.png" />
+			<img ng-if="leagueItem.name == '3'" src="/images/III.png" />
+			<img ng-if="leagueItem.name == '4'" src="/images/IV.png" />
+			<img ng-if="leagueItem.name == '5'" src="/images/V.png" />
+			<img ng-if="leagueItem.name == '6'" src="/images/VI.png" />
+			<img ng-if="leagueItem.name == '7'" src="/images/VII.png" />
+			<img ng-if="leagueItem.name == '8'" src="/images/VIII.png" />
+			<img ng-if="leagueItem.name == '9'" src="/images/IX.png" />
+			<img ng-if="leagueItem.name == '10'" src="/images/X.png" />
+		</a>
+		<div>
+			<sub></sub>
+			<sup></sup>
+			<p>
+				<a href="#/profile/{{userValue.sguid}}" ng-repeat="(userKey, userValue) in leagueItem.users">
+					<img ng-src="{{userValue.avatar}}" alt="" err-src="/images/unknown-person.png" />
+				</a>
+			</p>
+		</div>
+	</article>
+</section>

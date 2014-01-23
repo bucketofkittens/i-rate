@@ -1,0 +1,14 @@
+<div class="comm">
+	<div class="cmnt" ng-repeat="comment in commentsList | orderBy:'post_date'"  >
+		<strong>{{comment.user.name}}</strong>
+		<i>{{comment.post_date}}</i>
+		<br />
+		<p>{{comment.message}}</p>
+	</div>
+</div>
+<div class="butcomm">
+	<ng-form>
+		<textarea ng-model="form.message" id="comment_message" name="comment" placeholder="Enter your comment here"></textarea>
+		<button ng-click="onSendMessage()">Send</button>
+	</ng-form>
+</div>

@@ -1,0 +1,38 @@
+<div id="nsi_content" ng-controller="NSIController">
+	<h2>NSI</h2>
+	<table>
+		<thead>
+			<tr>
+				<th>Name</th>
+				<th>Min</th>
+				<th>Max</th>
+				<th>Size</th>
+				<th></th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr ng-repeat="(key, value) in workspace.leagues | orderBy: 'position'">
+				<td width="20%" class="editing_cell">
+					<input type="text" ng-model="value.name" ng-change="update(value)" />
+				</td>
+				<td width="20%" class="editing_cell">
+					<input type="text" ng-model="value.min_border" ng-change="update(value)" />
+				</td>
+				<td width="20%" class="editing_cell">
+					<input type="text" ng-model="value.max_border" ng-change="update(value)" />
+				</td>
+				<td width="20%" class="editing_cell">
+					<input type="text" ng-model="value.size" ng-change="update(value)" />
+				</td>
+				<td width="40%">
+					<span class="icon delete" ng-click="delete(value)"></span>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+	<div class="btns">
+		<a class="buttons all" ng-click="ok()">Ok</a>
+		<a class="buttons green" ng-click="addLeague()">Add league</a>
+		<a class="buttons red" ng-click="closeModal()">Close</a>
+	</div>
+</div>

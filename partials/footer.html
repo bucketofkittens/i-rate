@@ -1,0 +1,30 @@
+
+<!-- Футер -->
+<footer>
+	<div id="footer">
+		<div class="sexual" ng-include src="'partials/share.html'"></div>
+		
+		<div ng-if="controller != '_compare'">
+			<div 
+				class="lnbl" 
+				ng-include
+				src="'partials/follow.html'"  >
+			</div>	
+		</div>	
+	</div>
+</footer>
+
+<section ng-include src="'partials/loader.html'"></section>
+
+<div id="fb-root"></div>
+
+<!-- Тенюшка -->
+<section ng-controller="ShadowCtrl">
+	<div id="shadow" ng-class="{show: show}" ng-click="onHideModal()"></div>
+</section>
+
+<section ng-controller="ModalController" id="modal">
+	<div ng-class="{show: show}" class="body {{template}}" ng-if="template">
+		<section ng-include src="'partials/'+template+'.html'"></section>
+	</div>
+</section>
