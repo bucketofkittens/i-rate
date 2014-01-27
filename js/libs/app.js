@@ -3,9 +3,9 @@
 var socialsAccess = {
 	facebook: {
 		applicationId: {
-			"localhost": '205232122986999', 
-			"xmpp.dev.improva.com": '173391222849160',
-			"i-rate.com": '181043732091838'
+			"localhost": "205232122986999",
+			"xmpp.dev.improva.com": "173391222849160",
+			"i-rate.com": "181043732091838"
 		},
 		isLoggined: false
 	},
