@@ -1,21 +1,8 @@
 /**
  * Основной контроллер.
  * В нем используются данные которые нужны на всех страницах.
- * @param {[type]} $scope       [description]
- * @param {[type]} $facebook    [description]
- * @param {[type]} AuthUser     [description]
- * @param {[type]} User         [description]
- * @param {[type]} $rootScope   [description]
- * @param {[type]} Needs        [description]
- * @param {[type]} Social       [description]
- * @param {[type]} $cookieStore [description]
- * @param {[type]} States       [description]
- * @param {[type]} Professions  [description]
- * @param {[type]} $location    [description]
- * @param {[type]} $timeout     [description]
- * @param {[type]} Leagues      [description]
  */
-function RootController($scope, $facebook, AuthUser, User, $rootScope, Needs, Social, $cookieStore, States, Professions, $location, $timeout, Leagues) {
+function RootController($scope, $facebook, UserService, User, $rootScope, Needs, Social, $cookieStore, States, Professions, $location, $timeout, Leagues) {
     
     /**
      * Открывает модальное окно
@@ -47,18 +34,12 @@ function RootController($scope, $facebook, AuthUser, User, $rootScope, Needs, So
      * @return {Array} [description]
      */
     $scope.guestFollowGetOnStorage = function() {
-        var follows =  JSON.parse(localStorage.getItem('follows'));
+        var follows = JSON.parse(localStorage.getItem('follows'));
         if(follows == null) {
             follows = [];
         }
         return follows;
     }
-
-    /**
-     * ID авторизованного пользователя
-     * @type {[type]}
-     */
-    $scope.authUserId = AuthUser.get();
 
     /**
      * Массив всяких данных
@@ -67,30 +48,17 @@ function RootController($scope, $facebook, AuthUser, User, $rootScope, Needs, So
     $scope.workspace = {};
 
     /**
+     * Забираем юзера из кеша
+     * @type {[type]}
+     */
+    $scope.workspace.user = UserService.getAuthData();
+
+    /**
      * Массив хренения списка друзей для не авторизованного пользователя
      * @type {[type]}
      */
-    $scope.tmpFollows = $scope.guestFollowGetOnStorage();
+    $scope.workspace.friends = $scope.guestFollowGetOnStorage();
 
-    /**
-     * получаем имя текущего контроллера
-     * @type {[type]}
-     */
-    $scope.controller = $location.path().split("/").join("_");
-
-    /**
-     * События перехода по страницам
-     * @param  {[type]}   event   [description]
-     * @param  {Function} next    [description]
-     * @param  {[type]}   current [description]
-     * @return {[type]}           [description]
-     */
-    $scope.$on('$routeChangeStart', function(event, next, current) {
-        $scope.controller = $location.path().split("/").join("_");
-
-        // скрываем поиск
-        $rootScope.$broadcast('hideSearch');
-    });
 
     /**
      * Забираем список друзей для не зарегистрированного пользователя
@@ -99,7 +67,7 @@ function RootController($scope, $facebook, AuthUser, User, $rootScope, Needs, So
      * @return {[type]}         [description]
      */
     $scope.$on('getTmpFollows', function($event, message) {
-        $scope.tmpFollows = $scope.guestFollowGetOnStorage();
+        $scope.workspace.friends = $scope.guestFollowGetOnStorage();
         $rootScope.$broadcast('getTmpFollowsCallback_');
     });
 
@@ -110,17 +78,18 @@ function RootController($scope, $facebook, AuthUser, User, $rootScope, Needs, So
      * @return {[type]}         [description]
      */
     $scope.$on('logout', function($event, message) {
-        $scope.authUserId = null;
+        $scope.workspace.user = null;
     });
-
-    
 
     /**
      * Выходим из системы
      * @return {[type]} [description]
      */
     $scope.onLogout = function() {
-        AuthUser.logout();
+        $scope.workspace.user = null;
+
+        // затираем кеш пользователя
+        UserService.removeAuthData();
     
         if(socialsAccess.facebook.isLoggined) {
             $facebook.logout();
@@ -138,7 +107,7 @@ function RootController($scope, $facebook, AuthUser, User, $rootScope, Needs, So
             socialsAccess.googlePlus.isLoggined = false;  
         }
         
-        $scope.workspace.user = null;
+        
         $rootScope.$broadcast('logout');
         $rootScope.$broadcast('getTmpFollows');
         $location.path("/");
@@ -152,14 +121,10 @@ function RootController($scope, $facebook, AuthUser, User, $rootScope, Needs, So
         if($scope.authUserId) {
             User.query({id: $scope.authUserId}, function(data) {
                 $scope.workspace.user = data;
-                $scope.workspace.user.isSocial = AuthUser.getExternal();
-                $scope.workspace.user.points = parseInt($scope.workspace.user.points);
-                if(isNaN($scope.workspace.user.points)) {
-                    $scope.workspace.user.points = 0;
-                }
 
-                User.get_friends({id: $scope.authUserId}, {}, function(frends) {
-                   $scope.workspace.user.frends = frends;
+                // получаем список друзей
+                User.get_friends({id: $scope.workspace.user.sguid}, {}, function(friends) {
+                   $scope.workspace.friends = friends;
                    $rootScope.$broadcast('authUserGetData');
                 });
             });
@@ -244,7 +209,7 @@ function RootController($scope, $facebook, AuthUser, User, $rootScope, Needs, So
      * @return {[type]}         [description]
      */
     $scope.$on('unfollow', function($event, message) {
-        if($scope.authUserId) {
+        if($scope.workspace.user.sguid) {
             $scope.authUnFollow(message);
         } else {
             $scope.guestUnFollow(message);
@@ -258,7 +223,7 @@ function RootController($scope, $facebook, AuthUser, User, $rootScope, Needs, So
      * @return {[type]}         [description]
      */
     $scope.$on('follow', function($event, message) {
-        if($scope.authUserId) {
+        if($scope.workspace.user.sguid) {
             $scope.authFollow(message);
         } else {
             $scope.guestFollow(message);
@@ -325,13 +290,14 @@ function RootController($scope, $facebook, AuthUser, User, $rootScope, Needs, So
      * @return {[type]}         [description]
      */
     $scope.guestUnFollow = function(message) {
-        var frend = $scope.tmpFollows.filter(function(data) {
+        var frend = $scope.workspace.friends.filter(function(data) {
             if(data.user.sguid === message.frendId) {
                 return data;
             }
         })[0];
-        var index = $scope.tmpFollows.indexOf(frend);
-        $scope.tmpFollows.splice(index, 1);
+
+        var index = $scope.workspace.friends.indexOf(frend);
+        $scope.workspace.friends.splice(index, 1);
         $scope.guestFollowPersist();
         $rootScope.$broadcast('unfollowCallback', {frendId: message.frendId});
     };
@@ -371,7 +337,7 @@ function RootController($scope, $facebook, AuthUser, User, $rootScope, Needs, So
                     external = true;
                 }
 
-                AuthUser.set(message.sguid, message.token, external);
+                //AuthUser.set(message.sguid, message.token, external);
 
                 if($scope.workspace.user.points == 0) {
                   $cookieStore.put("myProfileTab", 3);

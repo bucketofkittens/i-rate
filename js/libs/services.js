@@ -402,40 +402,25 @@ pgrModule.factory('Sessions', function ($resource) {
 });
 
 /**
- * 
- * @param  {[type]} $cookies [description]
- * @return {[type]}          [description]
+ * Сервис сохранения пользователя в кеше
  */
-pgrModule.factory('AuthUser', function ($cookieStore) {
-    var AuthUser = function() {
-        this.get = function() {
-            return $cookieStore.get("user");
-        }
+pgrModule.service('UserService', function () {
+    this.getAuthData = function() {
+        return lscache.get("user");
+    }
+    this.setAuthData = function(user) {
+        // время жизни 
+        var timeLive = 1400;
 
-        this.getExternal = function() {
-            return $cookieStore.get("external");
-        }
+        // сохраняем данные пользователя в localStorage
+        lscache.set('user', JSON.stringify(user), timeLive);
+    }
+    this.removeAuthData = function() {
+        lscache.remove('user');
+    }
+});
 
-        this.getToken = function() {
-            return $cookieStore.get("token");
-        }
-
-        this.set = function(guid, token, external) {
-            $cookieStore.put("user", guid);
-            $cookieStore.put("token", token);
-
-            if(external) {
-                $cookieStore.put("external", "1");    
-            }
-        }
-
-        this.logout = function() {
-            $cookieStore.remove("user");
-            $cookieStore.remove("token"); 
-            $cookieStore.remove("external");
-        }
-    };
-    return new AuthUser();
+pgrModule.service('AuthUser', function () {
 });
 
 

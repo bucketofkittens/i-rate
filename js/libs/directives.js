@@ -116,6 +116,28 @@ pgrModule.directive('caruselPosition', function($window) {
 pgrModule.directive('masonry', function(User) {
   return {
     link: function($scope, element, attrs) {
+      
+      /**
+       * Событие скроллинга мышкой
+       */
+      $scope.onWheel = function($event, $delta, $deltaX, $deltaY) {
+          var contentWidth = $(element).width();
+          var windowWidth = $(window).width();
+
+          if(contentWidth > windowWidth) {
+              var step = $event.wheelDeltaY ? $event.wheelDeltaY/2 : $event.deltaY * 40;
+
+              if(!$scope.scrollDelta) {
+                  $scope.scrollDelta = 0;
+              }
+              
+              if($scope.scrollDelta + step <= 0) {
+                  if(Math.abs($scope.scrollDelta + step) + windowWidth <= contentWidth+50) {
+                      $scope.scrollDelta = $scope.scrollDelta + step;
+                  }    
+              }
+          }
+      }
 
       /** коэффициэнт количество элементов **/
       var limitCorruption = 30;
@@ -134,9 +156,17 @@ pgrModule.directive('masonry', function(User) {
       
       /** есть ли элементы в кеше **/
       var isCached = true;
+
+      // время жизни кеша с пользователям
+      var cacheTime = 1440;
       
       /** забираем список пользователей из кеша **/
       $scope.users = lscache.get("masonry");
+
+      /** открываем всплывающее окно пользователя **/
+      $scope.openUserInfo = function(userItem, $event) {
+        
+      }
       
       /** инициализируем isotope **/
       this.initIso = function() {
@@ -155,22 +185,16 @@ pgrModule.directive('masonry', function(User) {
       /** забираем список пользователей из backend-а **/
       this.getUsersFromBackend = function(limit, skip, total_count, view_count) {
         User.for_main_from_limit({limit: limit, skip: skip}, {}, function(data) {
-            angular.forEach(data, function(value, key) {
-                value.points = parseInt(value.points);
-                total_count = value.total_count;
-                if(isNaN(value.points)) {
-                    value.points = 0;
-                }
-                value.size = value.league.size+"px";
-                $scope.users.push(value);
-            });
+            $scope.users = $scope.users.concat(data);
 
             view_count += limit;
             if(view_count < total_count) {
               skip += limit;
+              // рекурсивно берем еще пользователей
               this.getUsersFromBackend(limit, skip, total_count, view_count);
             } else {
-              lscache.set('masonry', JSON.stringify($scope.users), 1440);
+              // отправляем данные в кеш
+              lscache.set('masonry', JSON.stringify($scope.users), cacheTime);
             }
         });
       }
@@ -184,10 +208,9 @@ pgrModule.directive('masonry', function(User) {
         this.getPublishedUser(limit, skip, total_count, view_count);  
       }
       
+      // инициизируем masonry
       this.initIso();
     }
-
-    
   }
 })
 

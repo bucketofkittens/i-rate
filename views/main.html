@@ -1,26 +1,26 @@
-<section
-	msd-wheel="onWheel($event, $delta, $deltaX, $deltaY)"
+<section 
+	msd-wheel="onWheel($event, $delta, $deltaX, $deltaY)" 
 	class="gallery" 
 	ng-controller="GalleryController">
-	<div 
-		id="masonry"
-		ng-style="{left: scrollDelta}" 
-		class="packery isotope"
-		masonry>
-		<div
-			ng-click="onUserClick(userItem, $event)"
-			class="item l_{{userItem.league.name}} isotope-item"
-			ng-repeat="(userKey, userItem) in users"
-			ng-style="{width: userItem.size, height: userItem.size}"
-			masonry-item>
-			<div 	
-				class="wr" 
-				back-img="{{userItem.avatar}}" 
-				ng-click="switchState(userItem)"
-				ng-style="{width: userItem.size, height: userItem.size}" >
-				<i>{{userItem.points}}</i>
-				<em></em>
-			</div>
-		</div>
-	</div>
+  <div 
+  	id="masonry" 
+  	ng-style="{left: scrollDelta}" 
+  	class="packery isotope" 
+  	masonry>
+    <div 
+    	ng-click="openUserInfo(userItem, $event)" 
+    	class="item l_{{userItem.league.name}} isotope-item" 
+    	ng-repeat="(userKey, userItem) in users" 
+    	ng-style="{width: userItem.league.size+'px', height: userItem.league.size+'px'}" 
+    	masonry-item>
+      <div 
+      	class="wr" 
+      	back-img="{{userItem.avatar}}" 
+      	ng-click="switchState(userItem)" 
+      	ng-style="{width: userItem.league.size+'px', height: userItem.league.size+'px'}">
+        <i>{{userItem.points}}</i>
+        <em></em>
+      </div>
+    </div>
+  </div>
 </section>
