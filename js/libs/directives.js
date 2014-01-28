@@ -116,27 +116,23 @@ pgrModule.directive('caruselPosition', function($window) {
 pgrModule.directive('masonry', function(User) {
   return {
     link: function($scope, element, attrs) {
-      
-      /**
-       * Событие скроллинга мышкой
-       */
-      $scope.onWheel = function($event, $delta, $deltaX, $deltaY) {
-          var contentWidth = $(element).width();
-          var windowWidth = $(window).width();
+      // родительский элемент
+      var parentElement = element.parent()[0];
 
-          if(contentWidth > windowWidth) {
-              var step = $event.wheelDeltaY ? $event.wheelDeltaY/2 : $event.deltaY * 40;
+      // добавляем скроллинг мышкой
+      parentElement.onmousewheel = function($event) {
+        var contentWidth = $(element).width();
+        var windowWidth = $(window).width();
 
-              if(!$scope.scrollDelta) {
-                  $scope.scrollDelta = 0;
-              }
-              
-              if($scope.scrollDelta + step <= 0) {
-                  if(Math.abs($scope.scrollDelta + step) + windowWidth <= contentWidth+50) {
-                      $scope.scrollDelta = $scope.scrollDelta + step;
-                  }    
-              }
-          }
+        if(contentWidth > windowWidth) {
+            var step = $event.wheelDeltaY ? $event.wheelDeltaY/2 : $event.deltaY * 40;
+            
+            if(parentElement.scrollLeft + step <= 0) {
+                if(Math.abs(parentElement.scrollLeft + step) + windowWidth <= contentWidth+50) {
+                  parentElement.scrollLeft = parentElement.scrollLeft - step;
+                }    
+            }
+        }
       }
 
       /** коэффициэнт количество элементов **/
@@ -226,15 +222,13 @@ pgrModule.directive('masonryItem', function() {
     link: function(scope, element, attrs) {
       /** родительский элемент **/
       var parentElement = $(element).parent();
-      imagesLoaded(element, function( instance ) {
-        setTimeout(function() {
-          $(element).addClass("iso-item");
-          parentElement.isotope("insert", $(element));
-        }, randomRange(1000, 3000));
-        setTimeout(function() {
-          $(element).addClass("all");
-        }, 5000);  
-      });
+      setTimeout(function() {
+        $(element).addClass("iso-item");
+        parentElement.isotope("insert", $(element));
+      }, randomRange(1000, 3000));
+      setTimeout(function() {
+        $(element).addClass("all");
+      }, 5000); 
     }
   }
 })

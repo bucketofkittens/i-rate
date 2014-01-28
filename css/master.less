@@ -163,7 +163,7 @@ body {
     overflow: hidden;
     .content_wrap {
         height: 100%;
-        width: 1000px;
+        width: 100%;
         position: relative;
 
         &.ng-enter {
@@ -3205,6 +3205,11 @@ table#graphs {
     } 
 }
 
+#masonry_parent {
+    width: 100%;
+    overflow-x: auto !important;
+    overflow-y: hidden !important;
+}
 #masonry {
     height: 100%;
     .item {
