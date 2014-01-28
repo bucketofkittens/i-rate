@@ -405,39 +405,49 @@ pgrModule.factory('Sessions', function ($resource) {
  * Сервис сохранения пользователя в кеше
  */
 pgrModule.service('UserService', function () {
+    // название кеша
+    this.cacheName = 'user';
+
+    // время кеширования
+    this.cacheTime = 1440;
+
     // забираем пользователя из кеша
     this.getAuthData = function() {
-        return lscache.get("user");
+        return lscache.get(this.cacheName);
     }
 
     // передаем данные в кеш
     this.setAuthData = function(user) {
-        // время жизни 
-        var timeLive = 1400;
-
         // сохраняем данные пользователя в localStorage
-        lscache.set('user', JSON.stringify(user), timeLive);
+        lscache.set(this.cacheName, JSON.stringify(user), this.cacheTime);
     }
 
     // удаляем пользователя из кеша
     this.removeAuthData = function() {
-        lscache.remove('user');
+        lscache.remove(this.cacheName);
     }
 });
 
 /**
- * Сервис списка needs
+ * Сервис списка нидсов
  */
 pgrModule.service('NeedsService', function (Needs) {
-    // забираем пользователя из кеша
+    // название кеша
+    this.cacheName = 'needs';
+
+    // время кеширования
+    this.cacheTime = 1440;
+
+    // забираем нидсы из кеша
     this.getList = function(callback) {
-        var needs = lscache.get("needs");
+        var needs = lscache.get(this.cacheName);
         if(!needs) {
             this.getNeedsOnServer_(callback);
         } else {
             callback(needs);
         }
     }
+    // забираем список нидсов с свервера
     this.getNeedsOnServer_ = function(callback) {
         var self = this;
         Needs.query({}, {}, function(data) {
@@ -445,19 +455,31 @@ pgrModule.service('NeedsService', function (Needs) {
             callback(data);
         });
     }
+    //Сохраняем
     this.persist = function(data) {
-        var cacheTime = 1440;
-        lscache.set('needs', JSON.stringify(data), cacheTime);
+        lscache.set(this.cacheName, JSON.stringify(data), this.cacheTime);
     }
 });
 
 /**
- * Сервис списка needs
+ * Сервис списка карьер
  */
 pgrModule.service('СareerService', function (Needs) {
+    // название кеша
+    this.cacheName = 'career';
+
+    // время кеширования
+    this.cacheTime = 1440;
+
+    // id карьеры
+    this.careerId = '169990243011789827';
+
+    // id карьеры
+    this.moneyId = '170689401829983233';
+
     // забираем пользователя из кеша
     this.getList = function(needs, callback) {
-        var career = lscache.get("career");
+        var career = lscache.get(this.cacheName);
         if(!career) {
             this.getCareer_(needs, callback);
         } else {
@@ -467,29 +489,37 @@ pgrModule.service('СareerService', function (Needs) {
     this.getCareer_ = function(needs, callback) {
         var needs = JSON.parse(JSON.stringify(needs));
 
+        // получаем нужный need
         var curNeed = needs.filter(function(value) {
-            if(value.sguid == "169990243011789827") {
+            if(value.sguid == this.careerId) {
                 return value;
             }
         })[0];
 
+        // получаем список карьер без money
         var careerList = curNeed.goals.filter(function(value) {
-            if(value.sguid != "170689401829983233") { return value }
+            if(value.sguid != this.moneyId) { return value }
         });
 
         this.persist(careerList);
         callback(careerList);
     }
+    // сохранение
     this.persist = function(data) {
-        var cacheTime = 1440;
-        lscache.set('career', JSON.stringify(data), cacheTime);
+        lscache.set(this.cacheName, JSON.stringify(data), cacheTime);
     }
 });
 
 pgrModule.service('CountryService', function (Country) {
+    // название кеша
+    this.cacheName = 'country';
+
+    // время кеширования
+    this.cacheTime = 1440;
+
     // забираем пользователя из кеша
     this.getList = function(callback) {
-        var country = lscache.get("country");
+        var country = lscache.get(this.cacheName);
         if(!country) {
             this.getCountryOnServer_(callback);
         } else {
@@ -504,15 +534,23 @@ pgrModule.service('CountryService', function (Country) {
         });
     }
     this.persist = function(data) {
-        var cacheTime = 1440;
-        lscache.set('country', JSON.stringify(data), cacheTime);
+        lscache.set(this.cacheName, JSON.stringify(data), this.cacheTime);
     }
 });
 
+/**
+ * Сервис списка лиг
+ */
 pgrModule.service('LeagueService', function (Leagues) {
+    // название кеша
+    this.cacheName = 'league';
+
+    // время кеширования
+    this.cacheTime = 1440;
+
     // забираем пользователя из кеша
     this.getList = function(callback) {
-        var league = lscache.get("league");
+        var league = lscache.get(this.cacheName);
         if(!league) {
             this.getLeagueOnServer_(callback);
         } else {
@@ -527,23 +565,25 @@ pgrModule.service('LeagueService', function (Leagues) {
         });
     }
     this.persist = function(data) {
-        var cacheTime = 1440;
-        lscache.set('league', JSON.stringify(data), cacheTime);
+        lscache.set(this.cacheName, JSON.stringify(data), this.cacheTime);
     }
 });
 
 
 pgrModule.service('FriendsService', function (UserService, User, $rootScope) {
+    // название кеша
+    this.cacheName = 'follows';
+
+    // время кеширования
+    this.cacheTime = 1440;
+
     // забираем пользователя из кеша
     this.getList = function() {
-        return lscache.get("follows");
+        return lscache.get(this.cacheName);
     }
 
-    this.persist = function(friends) {
-        localStorage.setItem('follows', JSON.stringify(friends));
-    }
-
-    this.follow = function(friend) {
+    // добавляем чувака в друзья
+    this.follow = function(friend, friends, callback) {
         var user = UserService.getAuthData();
         
         if(user) {
@@ -551,61 +591,46 @@ pgrModule.service('FriendsService', function (UserService, User, $rootScope) {
                 friend_guid: user.sguid
             }, function(response) {     
                 if(response.success) {
-                    $scope.workspace.user.frends.push({sguid: response.message.guid, user: message.user});
-                    $rootScope.$broadcast('followCallback', {frendId: message.friendId});
+                    friends.push({sguid: response.message.guid, user: message.user});
                 }
             });
         } else {
-            $scope.workspace.user.frends.push({sguid: null, user: friend});
-            $rootScope.$broadcast('followCallback', {frendId: friend.sguid});
-
-            this.persist();
+            friends.push({sguid: null, user: friend});
+            this.persist(friends);
         }
     }
 
-    this.unfollow = function(friend) {
+    // убираем пользователя из друзей
+    this.unfollow = function(friend, friends, callback) {
         var user = UserService.getAuthData();
         
         if(user) {
             User.destroy_friendship({id: user.sguid, friendId: friend.sguid}, { }, function() {
-                var frend = $scope.workspace.friends.filter(function(data) {
+                var frend = friends.filter(function(data) {
                     if(data.user.sguid === message.frendId) {
                         return data;
                     }
                 })[0];
-                var index = $scope.workspace.friends.indexOf(frend);
-                $scope.workspace.friends.splice(index, 1);
-
-                $rootScope.$broadcast('unfollowCallback', {frendId: friend.sguid});
+                var index = friends.indexOf(frend);
+                friends.splice(index, 1);
             });
         } else {
-            var frend = $scope.workspace.friends.filter(function(data) {
+            var frend = friends.filter(function(data) {
                 if(data.user.sguid === message.frendId) {
                     return data;
                 }
             })[0];
 
-            var index = $scope.workspace.friends.indexOf(frend);
-            $scope.workspace.friends.splice(index, 1);
+            var index = friends.indexOf(frend);
+            friends.splice(index, 1);
 
-            $rootScope.$broadcast('unfollowCallback', {frendId: message.frendId});
-
-            this.persist();
+            this.persist(friends);
         }
     }
 
     // передаем данные в кеш
-    this.setAuthData = function(user) {
-        // время жизни 
-        var timeLive = 1400;
-
-        // сохраняем данные пользователя в localStorage
-        lscache.set('user', JSON.stringify(user), timeLive);
-    }
-
-    // удаляем пользователя из кеша
-    this.removeAuthData = function() {
-        lscache.remove('user');
+    this.persist = function(friends) {
+        lscache.set(this.cacheName, JSON.stringify(friends), this.cacheTime);
     }
 });
 
