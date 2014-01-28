@@ -5,19 +5,15 @@
   <div 
   	id="masonry" 
   	ng-style="{left: scrollDelta}" 
-  	class="packery isotope" 
+  	class="isotope" 
   	masonry>
     <div 
     	ng-click="openUserInfo(userItem, $event)" 
-    	class="item l_{{userItem.league.name}} isotope-item" 
+    	class="item isotope-item" 
     	ng-repeat="(userKey, userItem) in users" 
-    	ng-style="{width: userItem.league.size+'px', height: userItem.league.size+'px'}" 
     	masonry-item>
-      <div 
-      	class="wr" 
-      	back-img="{{userItem.avatar}}" 
-      	ng-click="switchState(userItem)" 
-      	ng-style="{width: userItem.league.size+'px', height: userItem.league.size+'px'}">
+      <div class="wr">
+        <img ng-src="{{userItem.avatar}}" width="{{userItem.league.size}}px" height="{{userItem.league.size}}px" />
         <i>{{userItem.points}}</i>
         <em></em>
       </div>

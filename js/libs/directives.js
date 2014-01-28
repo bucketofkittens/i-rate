@@ -188,8 +188,10 @@ pgrModule.directive('masonry', function(User) {
             $scope.users = $scope.users.concat(data);
 
             view_count += limit;
-            total_count = $scope.users[0].total_count;
-            
+
+            // выглядит дико, знаю
+            total_count = $scope.users[0] ? $scope.users[0].total_count : total_count;
+
             if(view_count < total_count) {
               skip += limit;
               // рекурсивно берем еще пользователей
