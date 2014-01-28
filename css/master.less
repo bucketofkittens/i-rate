@@ -2526,23 +2526,37 @@ sup.bidubi {
     vertical-align: middle;
 }
 
+
 #recaptcha_table {
     border: 0px !important;
+    position: relative;
+    left: 20px;
+    td {
+        padding-left: 0px !important;
+        padding-right: 0px !important;
+        &:nth-child(2) {
+            position: relative;
+            left: 8px;
+        }
+    }
+    a {
+        margin: 0px !important;
+    }
 }
 #recaptcha_image, .recaptcha_image_cell {
-    width: 230px !important;
+    width: 160px !important;
 }
 .recaptchatable .recaptcha_image_cell center img {
-    width: 230px !important;
+    width: 160px !important;
 }
 .recaptcha_image_cell {
-    width: 230px !important;
+    width: 160px !important;
 }
 #recaptcha_logo, #recaptcha_privacy {
     display: none;
 }
 #recaptcha_image, #recaptcha_response_field {
-    width: 230px !important;
+    width: 165px !important;
 }
 #recaptcha_response_field {
     border: 1px solid #ddd !important;
@@ -3479,7 +3493,7 @@ table#graphs {
             text-align: center;
             margin-bottom: 20px;
         }
-        .sign-in {
+        .sign-in, .sign-up {
             display: block;
             text-align: center;
             input {
@@ -3499,31 +3513,46 @@ table#graphs {
                 &.rss {
                     top: 145px;
                 }
-            }
-            .step {
-                a {
-                    font-family: 'Helvetica Neue Light';
-                    color: #b7b7b7;
-                    font-size: 14px;
-                    display: block;
-                    text-decoration: none;
-                    margin-bottom: 10px;
+                &.rrss {
+                    top: 205px;
                 }
-                label {
-                    color: #b7b7b7;
-                    font-size: 14px;
-                }     
-                .singin-sub {
-                    margin: 20px 0px;
-                    input {
-                        color: #ffffff;
-                        font-size: 18px;
-                        float: none;
-                        margin: 0px 0px 0px -10px;  
-                        padding: 0px !important;   
-                        background: url("../images/ssbg.png") center center no-repeat;                   
-                    }
-                }         
+            }
+            a {
+                font-family: 'Helvetica Neue Light';
+                color: #b7b7b7;
+                font-size: 14px;
+                display: block;
+                text-decoration: none;
+                margin-bottom: 10px;
+            }
+            label {
+                color: #b7b7b7;
+                font-size: 14px;
+                a {
+                    color: #028dda;
+                    text-decoration: underline;
+                    margin-bottom: 0px;
+                }
+            }  
+            p.acknowledge {
+                width: 170px;
+                position: relative;
+                margin: 0px auto;
+                top: -20px;
+            }   
+            .singin-sub, .signup-submit {
+                margin: 20px 0px;
+                input {
+                    color: #ffffff;
+                    font-size: 18px;
+                    float: none;
+                    margin: 0px 0px 0px -10px;  
+                    padding: 0px !important;   
+                    background: url("../images/ssbg.png") center center no-repeat;                   
+                }
+            }  
+            .signup-submit {
+                margin-top: -10px;
             }
             .rere {
                 color: #b7b7b7;

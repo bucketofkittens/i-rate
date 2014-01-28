@@ -1,69 +1,72 @@
 <h4>Sign up</h4>
-<div class="sign-in">
-  <ng-form 
-     id="login_form" 
-     name="LoginForm" 
-     novalidate 
-     class="css-form myForm" >
-     <p>
-        <input 
-           type="email" 
-           id="login_i" 
-           class="form-input"
-           ng-model="login.email"
-           name="Email"
-           required 
-           ng-minlength="6"
-           placeholder="Email"
-           ui-keypress="{13:'onKeyPress($event)'}" />
-           <br />
-           <span 
-           	class="errorss" 
-           	ng-show="LoginForm.Email.$dirty && (LoginForm.Email.$error.required || LoginForm.Email.$error.minlength || LoginForm.Email.$error.email)">Incorrect email</span>
-     </p>
-       
-     <p>
-        <input 
-           type="password" 
-           id="pass_i"
-           class="form-input"
-           ng-model="login.password"
-           required 
-           name="Password"
-           ng-minlength="6"
-           placeholder="Password"
-           ui-keypress="{13:'onKeyPress($event)'}"
-           ng-trim="false" /> 
-           <br />
-           <span 
-           	class="errorss rss" 
-           	ng-show="LoginForm.Password.$dirty && (LoginForm.Password.$error.required || LoginForm.Password.$error.minlength)">Incorrect password</span>
-     </p>
-     <div class="step">
-       <p>
-          <a href="#/change_password">Forgot your password?</a>
-       </p>
-       <p>
-          <input type="checkbox" icheck />
-          <label>Keep me signed in</label>
-       </p>
-       <p class="errors" ng-show="error">{{error}}</p>
-       <p class="singin-sub">
-          <input 
-             ng-disabled="LoginForm.$invalid"
-             ng-click="onSingin()" 
-             type="button" 
-             value="Sign in" />
-       </p>    
-     </div>
-     <div class="rere">
-       <p>Don’t have an iRate account yet?</p>	
-       <p class="singin-sub">
-          <input 
-             ng-click="signupChange(false)" 
-             type="button" 
-             value="Sign in" />
-       </p>          
-     </div>
+<div class="sign-up" ng-show="signup">
+  <ng-form name="RegForm" novalidate class="css-form myForm" >
+    <p>
+      <input 
+        type="email" 
+        id="email_i" 
+        class="form-input"
+        ng-model="user.email" 
+        required
+        ng-minlength="6"
+        placeholder="Email"
+        name="NewEmail"
+        ui-keypress="{13:'onKeyPressReg($event)'}"  />
+      <br />
+      <span class="errorss" ng-show="RegForm.NewEmail.$dirty && (RegForm.NewEmail.$error.required || RegForm.NewEmail.$error.minlength || RegForm.NewEmail.$error.email)">Incorrect email</span>
+    </p>
+    <p class="errors" ng-if="errorEmail">{{errorEmail}}</p>
+    <p>
+      <input 
+        type="email" 
+        id="name_i" 
+        class="form-input"
+        ng-model="user.reemail" 
+        required 
+        ng-minlength="6"
+        placeholder="Confirm email"
+        disable-paste
+        onpaste="return false;"
+        name="NewMassEmail"
+        ui-keypress="{13:'onKeyPressReg($event)'}" />
+      <br />
+      <span class="errorss rss" ng-show="RegForm.NewMassEmail.$dirty && (RegForm.NewMassEmail.$error.required || RegForm.NewMassEmail.$error.minlength || RegForm.NewEmail.$error.email)">Incorrect mismatch</span> 
+    </p>
+    <p>
+      <input 
+        type="password" 
+        id="name_i" 
+        class="form-input"
+        ng-model="user.password" 
+        required 
+        ng-minlength="6"
+        placeholder="Password"
+        name="NewPassword"
+        ui-keypress="{13:'onKeyPressReg($event)'}" /> 
+      <br />
+      <span class="errorss rrss" ng-show="RegForm.NewPassword.$dirty && (RegForm.NewPassword.$error.required || RegForm.NewPassword.$error.minlength)">Incorrect password</span>
+    </p>
+    <div
+      vc-recaptcha
+      theme="clean"
+      lang="en"
+      ng-model="captha"
+      key="6Lf1Z-oSAAAAAEkk7m5n6cGiwgqeMya21UetPbIO">
+    </div>
+
+    <p class="errors" ng-if="errorValidate"><br />{{errorValidate}}</p><br />    
+
+    <p class="acknowledge">
+      <input type="checkbox" icheck required="required" ng-model="acknowledge" class="icheckbox_minimal" />
+      <label>I acknowledge I have read and accept the<a href="/views/terms.html" class="notdark">Terms of use Agreement</a> and consent to the <a href="/views/terms.html" class="notdark">Privacy Policy</a>.</label>
+    </p>
+
+    <p class="signup-submit">
+      <input 
+        type="button" 
+        value="Sign up"
+        ng-disabled="RegForm.$invalid"
+        ng-click="onAddUser()" />
+    </p>
   </ng-form>
 </div>
