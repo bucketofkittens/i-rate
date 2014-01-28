@@ -29,17 +29,7 @@ function RootController($scope, СareerService, LeagueService, CountryService, N
      * Массив хренения списка друзей для не авторизованного пользователя
      * @type {[type]}
      */
-    $scope.workspace.friends = FriendsService.getList();
-
-    
-
-    
-
-    /**
-     * Выходим из системы
-     * @return {[type]} [description]
-     */
-    
+    $scope.workspace.friends = $scope.workspace.user && $scope.workspace.user.friends ? $scope.workspace.user.friends : FriendsService.getList();
 
     this.needsServiceCallback_ = function(data) {
         $scope.workspace.needs = data;
