@@ -462,6 +462,20 @@ pgrModule.service('UserService', function (User) {
     this.getFriends = function(sguid, callback) {
         User.get_friends({id: sguid}, callback);
     }
+
+    this.create = function(params, callback, fail) {
+        User.create(
+            {user: JSON.stringify(params)}
+            ,function(data) {
+                if(!data.success && fail) {
+                    fail(data);      
+                }
+                if(data.success && callback) {
+                    callback(data);      
+                }
+            }
+        );
+    }
 });
 
 /**

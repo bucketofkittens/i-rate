@@ -2138,18 +2138,30 @@ ng-form:not(.ng-pristine) {
     }
 }
 
-/* iCheck plugin Minimal skin, black
------------------------------------ */
-.icheckbox_minimal,
-.iradio_minimal {
-    display: inline-block;
-    margin: 0;
-    padding: 0;
+input[type="checkbox"] {
+    display:inline-block; 
     width: 18px;
     height: 18px;
-    background: url(../images/minimal.png) no-repeat;
-    border: none;
+    visibility: hidden;
     cursor: pointer;
+    &:checked {
+        &:before {
+            background-position: -18px 1px !important;
+        }
+    }
+    &:before {
+        content:" "; 
+        display:inline-block; 
+        width: 18px;
+        height: 18px;
+        margin: 0;
+        padding: 0;
+        
+        background: url(../images/minimal.png) no-repeat;
+        border: none;
+        cursor: pointer;
+        visibility: visible;
+    }
 }
 
 .icheckbox_minimal {
@@ -3584,7 +3596,7 @@ table#graphs {
         .sign-in, .sign-up {
             display: block;
             text-align: center;
-            input {
+            input[type="text"], input[type="password"], input[type="email"] {
                 width: 220px;
                 height: 40px;
                 margin-bottom: 20px;

@@ -90,16 +90,6 @@ pgrModule.directive('bridge', function($window) {
   }
 })
 
-pgrModule.directive('icheck', function($window) {
-  return {
-    link: function(scope, element, attrs) {
-      $(element).iCheck({
-        checkboxClass: 'icheckbox_minimal'
-      });
-    }
-  }
-})
-
 pgrModule.directive('caruselPosition', function($window) {
   return {
     link: function(scope, element, attrs) {

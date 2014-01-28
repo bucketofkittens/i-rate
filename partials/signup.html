@@ -1,5 +1,5 @@
 <h4>Sign up</h4>
-<div class="sign-up" ng-show="signup">
+<div class="sign-up">
   <ng-form name="RegForm" novalidate class="css-form myForm" >
     <p>
       <input 
@@ -13,7 +13,9 @@
         name="NewEmail"
         ui-keypress="{13:'onKeyPressReg($event)'}"  />
       <br />
-      <span class="errorss" ng-show="RegForm.NewEmail.$dirty && (RegForm.NewEmail.$error.required || RegForm.NewEmail.$error.minlength || RegForm.NewEmail.$error.email)">Incorrect email</span>
+      <span 
+        class="errorss" 
+        ng-show="RegForm.NewEmail.$dirty && (RegForm.NewEmail.$error.required || RegForm.NewEmail.$error.minlength || RegForm.NewEmail.$error.email)">Incorrect email</span>
     </p>
     <p class="errors" ng-if="errorEmail">{{errorEmail}}</p>
     <p>
@@ -30,7 +32,9 @@
         name="NewMassEmail"
         ui-keypress="{13:'onKeyPressReg($event)'}" />
       <br />
-      <span class="errorss rss" ng-show="RegForm.NewMassEmail.$dirty && (RegForm.NewMassEmail.$error.required || RegForm.NewMassEmail.$error.minlength || RegForm.NewEmail.$error.email)">Incorrect mismatch</span> 
+      <span 
+        class="errorss rss" 
+        ng-show="RegForm.NewMassEmail.$dirty && (RegForm.NewMassEmail.$error.required || RegForm.NewMassEmail.$error.minlength || RegForm.NewEmail.$error.email)">Incorrect mismatch</span> 
     </p>
     <p>
       <input 
@@ -44,8 +48,11 @@
         name="NewPassword"
         ui-keypress="{13:'onKeyPressReg($event)'}" /> 
       <br />
-      <span class="errorss rrss" ng-show="RegForm.NewPassword.$dirty && (RegForm.NewPassword.$error.required || RegForm.NewPassword.$error.minlength)">Incorrect password</span>
+      <span 
+        class="errorss rrss" 
+        ng-show="RegForm.NewPassword.$dirty && (RegForm.NewPassword.$error.required || RegForm.NewPassword.$error.minlength)">Incorrect password</span>
     </p>
+    <!--
     <div
       vc-recaptcha
       theme="clean"
@@ -53,11 +60,12 @@
       ng-model="captha"
       key="6Lf1Z-oSAAAAAEkk7m5n6cGiwgqeMya21UetPbIO">
     </div>
+    -->
 
     <p class="errors" ng-if="errorValidate"><br />{{errorValidate}}</p><br />    
 
     <p class="acknowledge">
-      <input type="checkbox" icheck required="required" ng-model="acknowledge" class="icheckbox_minimal" />
+      <input type="checkbox"  required="required" ng-model="acknowledge" class="icheckbox_minimal" />
       <label>I acknowledge I have read and accept the<a href="/views/terms.html" class="notdark">Terms of use Agreement</a> and consent to the <a href="/views/terms.html" class="notdark">Privacy Policy</a>.</label>
     </p>
 
