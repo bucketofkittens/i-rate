@@ -1,7 +1,9 @@
 /**
  * форма модального окна авторизации
  */
-function LoginController($scope) {
+function LoginController($scope, SessionsService, UserService) {
+    // сообщение об ошибке
+    $scope.error = null;
 
     // модель формы авторизации
     $scope.login = {
@@ -16,20 +18,30 @@ function LoginController($scope) {
         }
     }
 
+    $scope.getFriendsCallback_ = function(data) {
+        $scope.workspace.friends = data;
+    }
+
+    $scope.onSigninFailCallback_ = function(data) {
+        $scope.error = data.message;
+    }
+
+    $scope.onSigninSuccessCallback_ = function(data) {
+        UserService.setAuthData(data);
+        UserService.getFriends(data.sguid, $scope.getFriendsCallback_);
+
+        $scope.workspace.user = data;
+    }
+
     /**
-     * получение данных пользователя
-     */
+    * получение данных пользователя
+    */
     $scope.onSingin = function(data) {
-        Sessions.signin({}, $.param({
-            "email": $scope.login.email,
-            "password": $scope.login.password
-        }), function(data) {
-            if(data.success) {
-                $rootScope.$broadcast('onSignin', {sguid: data.guid, isSocial: false, token: data.token});
-                $scope.show = false;
-            } else {
-                $scope.error = data.message;
-            }
-        });
+        SessionsService.signin(
+            $scope.login.email, 
+            $scope.login.password, 
+            $scope.onSigninSuccessCallback_,
+            $scope.onSigninFailCallback_
+        );
     }
 }

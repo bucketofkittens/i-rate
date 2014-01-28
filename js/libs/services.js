@@ -402,9 +402,41 @@ pgrModule.factory('Sessions', function ($resource) {
 });
 
 /**
+ * Сервис авторизации
+ */
+pgrModule.service('SessionsService', function (Sessions, User) {
+
+    // забираем пользователя из кеша
+    this.signin = function(login, password, callback, fail) {
+        var self = this;
+        Sessions.signin({}, $.param({
+            "email": login,
+            "password": password
+        }), function(data) {
+            if(data.success) {
+                self.signinSuccess_(data.guid, callback);
+                
+            } else {
+                fail(data);
+            }
+        });
+    }
+    this.signinSuccess_ = function(sguid, callback) {
+        User.query({id: sguid}, function(data) {
+            
+
+            callback(data);
+
+
+            
+        });
+    }
+});
+
+/**
  * Сервис сохранения пользователя в кеше
  */
-pgrModule.service('UserService', function () {
+pgrModule.service('UserService', function (User) {
     // название кеша
     this.cacheName = 'user';
 
@@ -425,6 +457,10 @@ pgrModule.service('UserService', function () {
     // удаляем пользователя из кеша
     this.removeAuthData = function() {
         lscache.remove(this.cacheName);
+    }
+
+    this.getFriends = function(sguid, callback) {
+        User.get_friends({id: sguid}, callback);
     }
 });
 

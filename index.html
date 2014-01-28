@@ -25,7 +25,7 @@
     <div id="content" class="my-slide-container">
         <div class="content_wrap" ng-view></div>
 
-        <div ng-include src="'partials/signin.html'"></div>
+        <div ng-include ng-if="!workspace.user" src="'partials/signin.html'"></div>
     </div>
 
     <script src="/js/jquery-2.0.3.min.js" type="text/javascript"></script>

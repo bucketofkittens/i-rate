@@ -127,10 +127,9 @@ pgrModule.directive('masonry', function(User) {
         if(contentWidth > windowWidth) {
             var step = $event.wheelDeltaY;
             
-            if(parentElement.scrollLeft + step >= 0) {
+            if(parentElement.scrollLeft - step >= 0) {
                 if(Math.abs(parentElement.scrollLeft + step) + windowWidth <= contentWidth+50) {
-                  parentElement.scrollLeft = parentElement.scrollLeft + step;
-                  console.log(parentElement.scrollLeft - step);
+                  parentElement.scrollLeft = parentElement.scrollLeft - step;
                 }    
             }
         }
