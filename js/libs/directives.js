@@ -110,26 +110,37 @@ pgrModule.directive('caruselPosition', function($window) {
   }
 })
 
+/**
+ * Директива плитки на главной
+ */
 pgrModule.directive('masonry', function(User) {
   return {
     link: function($scope, element, attrs) {
 
-      window.onorientationchange = function() {
-          angular.forEach($scope.users, function(value, key) {
-              value.big = false;
-          });
-      };
-
-      $scope.limit = parseInt($(window).height()/30);
-      $scope.skip = 0;
-      $scope.view_count = 0;
-      $scope.total_count = 0;
-      $scope.isCached = true;
+      /** коэффициэнт количество элементов **/
+      var limitCorruption = 30;
+      
+      /** Количество элементов на странице **/
+      var limit = parseInt($(window).height()/limitCorruption);
+      
+      /** текущий отступ  элементов **/
+      var skip = 0;
+      
+      /** сколько сейчас показано элементов **/
+      var view_count = 0;
+      
+      /** общее количество элементов **/
+      var total_count = null;
+      
+      /** есть ли элементы в кеше **/
+      var isCached = true;
+      
+      /** забираем список пользователей из кеша **/
       $scope.users = lscache.get("masonry");
-
-      $scope.initIso = function() {
-        $scope.masonryContainer = $('#masonry');
-        $scope.masonryContainer.isotope({
+      
+      /** инициализируем isotope **/
+      this.initIso = function() {
+        $(element).isotope({
           itemSelector: '.iso-item',
           rowHeight: 70,
           layoutMode: "perfectMasonry",
@@ -138,28 +149,26 @@ pgrModule.directive('masonry', function(User) {
               columnWidth: 70,
               rowHeight: 70
          }
-        });  
+        });
       }
 
-      $scope.getPublishedUser = function() {
-        User.for_main_from_limit({limit: $scope.limit, skip: $scope.skip}, {}, function(data) {
-            var newArray = [];
+      /** забираем список пользователей из backend-а **/
+      this.getUsersFromBackend = function(limit, skip, total_count, view_count) {
+        User.for_main_from_limit({limit: limit, skip: skip}, {}, function(data) {
             angular.forEach(data, function(value, key) {
                 value.points = parseInt(value.points);
-                $scope.total_count = value.total_count;
+                total_count = value.total_count;
                 if(isNaN(value.points)) {
                     value.points = 0;
                 }
                 value.size = value.league.size+"px";
-                newArray.push(value);
+                $scope.users.push(value);
             });
-            newArray.shuffle();
-            $scope.users = $scope.users.concat(newArray);
 
-            $scope.view_count += $scope.limit;
-            if($scope.view_count < $scope.total_count) {
-              $scope.skip += $scope.limit;
-              $scope.getPublishedUser();
+            view_count += limit;
+            if(view_count < total_count) {
+              skip += limit;
+              this.getUsersFromBackend(limit, skip, total_count, view_count);
             } else {
               lscache.set('masonry', JSON.stringify($scope.users), 1440);
             }
@@ -170,25 +179,30 @@ pgrModule.directive('masonry', function(User) {
        * Забираем список пользователей
        */
       if(!$scope.users) {
-        $scope.isCached = false;
+        isCached = false;
         $scope.users = [];
-        $scope.getPublishedUser();  
+        this.getPublishedUser(limit, skip, total_count, view_count);  
       }
       
-      $scope.initIso();
+      this.initIso();
     }
 
     
   }
 })
 
+/** 
+ * Директира для внутреннего элемента masonry
+ */
 pgrModule.directive('masonryItem', function() {
   return {
-    link: function(scope, element, attrs) { 
+    link: function(scope, element, attrs) {
+      /** родительский элемент **/
+      var parentElement = $(element).parent();
       imagesLoaded(element, function( instance ) {
         setTimeout(function() {
           $(element).addClass("iso-item");
-          scope.masonryContainer.isotope("insert", $(element));
+          parentElement.isotope("insert", $(element));
         }, randomRange(1000, 3000));
         setTimeout(function() {
           $(element).addClass("all");

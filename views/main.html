@@ -2,12 +2,6 @@
 	msd-wheel="onWheel($event, $delta, $deltaX, $deltaY)"
 	class="gallery" 
 	ng-controller="GalleryController">
-
-	<div ng-click="onLogin()" class="rate-yourself" ng-if="!workspace.user">
-		<h2>Click to find</h2>
-		<h2>where are you</h2>
-	</div>
-
 	<div 
 		id="masonry"
 		ng-style="{left: scrollDelta}" 
@@ -30,39 +24,3 @@
 		</div>
 	</div>
 </section>
-
-<div id="zoom_element" set-width>
-	<div class="sub2" >
-		<div class="item l_{{zoomElement.league.name}} isotope-item" >
-			<div 	
-				class="wr" 
-				back-img="{{zoomElement.avatar}}" >
-				<i>{{zoomElement.points}}</i>
-				<div class="sub">
-					<b>{{zoomElement.name}} <br /><s>{{zoomElement.league.name}} league</s></b>
-					<ul>
-						<li>
-							<a ng-click="onMoveToProfile(zoomElement)">
-								<span class="icon profile navigate"></span>
-							</a>
-						</li>
-						<li>
-							<a ng-click="onMoveToCompare(zoomElement)">
-								<span class="icon compare navigate"></span>
-							</a>
-						</li>
-						<li>
-							<a ng-if="!zoomElement.isFrend" ng-click="onFollow(zoomElement)">
-								<span class="icon follow navigate"></span>
-							</a>
-							<a ng-if="zoomElement.isFrend" ng-click="onUnFollow(zoomElement)">
-								<span class="icon unfollow navigate"></span>
-							</a>
-						</li>
-					</ul>
-				</div>
-			</div>
-			<em></em>
-		</div>
-	</div>
-</div>

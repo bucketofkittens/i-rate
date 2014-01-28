@@ -44,8 +44,6 @@ var pgrModule = angular.module(
 		'ngTouch', 
 		'ngFacebook',
 		"localization", 
-		'route-segment', 
-		'view-segment', 
         'monospaced.mousewheel',
         'ui.date',
         'ui.autocomplete',
@@ -56,101 +54,20 @@ var pgrModule = angular.module(
 		]
 	);
 
-
-/**
- * Роутинг приложения
- * @param  {[type]} $routeProvider [description]
- * @return {[type]}                [description]
- */
-pgrModule.config(function($routeSegmentProvider, $routeProvider) {
-	$routeSegmentProvider.options.autoLoadTemplates = true;
-
-	$routeSegmentProvider
-    
-        .when('/my_profile',                'my_profile')
-        .when('/login',                     'login')
-        .when('/profile/',          'profile.oneUser')
-        .when('/profile/:userId1',          'profile.oneUser')
-        .when('/profile/:userId1/:userId2', 'profile.manyUser')
-        .when('/change_email',              'changeEmail')
-        .when('/change_password',           'changePassword')
-        .when('/forgot/:hash',              'changePassword')
-        .when('/compare',                   'compare')
-        .when('/search',                    'search')
-        .when('/nsi',                       'nsi')
-        
-        .when('/',                          'main')
-        
-        .when('/graphs',                    'graphs')
-        .when('/leagues',                   'leagues')
-        .when('/confirm_signup/:hash',      'confirm')
-        
-        
-        .segment('profile', {
-            templateUrl: 'views/profile.html',
-            controller: ProfileController})
-            
-        .within()
-            .segment('oneUser', {
-                templateUrl: 'views/profile/one.html',
-            	dependencies: ['userId1'],
-            	reloadOnSearch: false})
-                
-            .segment('manyUser', {
-                templateUrl: 'views/profile/many.html',
-                dependencies: ['userId2', 'userId1']})
-                
-        .up()
-
-        .segment('main', {
+/** Роутинг **/
+pgrModule.config(['$routeProvider',
+    function($routeProvider) {
+        $routeProvider.
+          when('/', {
             templateUrl: 'views/main.html',
-            controller: MainController,
-        	reloadOnSearch: false})
-
-        .segment('confirm', {
-            templateUrl: 'views/confirm.html',
-            controller: ConfirmController,
-            dependencies: ['hash']})
-
-        .segment('search', {
-            templateUrl: 'views/search.html',
-            controller: SearchAdvanceController})
-
-        .segment('nsi', {
-            templateUrl: 'views/nsi.html',
-            controller: NSIController})
-
-        .segment('compare', {
-            templateUrl: 'views/compare.html',
-            controller: CompareController})
-
-        .segment('changeEmail', {
-            templateUrl: 'views/changeEmail.html',
-            controller: ChangeEmailController})
-
-        .segment('changePassword', {
-            templateUrl: 'views/changePassword.html',
-            controller: ChangePasswordController,
-        	dependencies: ['hash']})
-
-        .segment('login', {
-            templateUrl: 'views/login.html',
-            controller: LoginController})
-
-        .segment('my_profile', {
-            templateUrl: 'views/my_profile.html',
-            controller: MyProfileController})
-
-        .segment('graphs', {
-            templateUrl: 'views/graphs.html',
-            controller: GraphsController})
-
-        .segment('leagues', {
-            templateUrl: 'views/leagues.html',
-            controller: LeaguesController});
-
-	$routeProvider.otherwise({ redirectTo: '/' });
-});
+            controller: 'MainController',
+            reloadOnSearch: false
+          }).
+          otherwise({
+            redirectTo: '/addOrder'
+          });
+    }
+]);
 
 pgrModule.factory('httpRequestInterceptor', function () {
   return {

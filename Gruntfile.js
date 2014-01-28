@@ -17,7 +17,6 @@ module.exports = function(grunt) {
                 	'js/angular-resource.min.js',
                 	'js/angular-cookies.min.js',
                 	'js/angular-touch.min.js',
-                	'js/angular-route-segment.min.js',
                     'js/angular-recaptcha.min.js',
                     'js/angular-scroll.js',
                     'js/jquery.Jcrop.min.js',
