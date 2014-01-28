@@ -78,10 +78,10 @@ body {
             #search {
                 float: right;
                 width: 200px;
-                margin: 10px 20px 0px 0px;
+                margin: 15px 20px 0px 0px;
                 background: url("../images/sbg.png") center center no-repeat;
-                background-size: 200px 40px;
-                height: 40px;
+                background-size: 200px 30px;
+                height: 30px;
                 position: relative;
                 .all {
                     text-align: center;
@@ -104,7 +104,7 @@ body {
                     float: left;
                     display: block;
                     position: relative;
-                    margin: 10px 0px 0px 10px;
+                    margin: 5px 0px 0px 10px;
                     position: relative;
                     line-height: 20px;
                     border: none;
@@ -120,7 +120,7 @@ body {
                     padding: 0px;
                     text-indent: -999px;
                     position: absolute;
-                    top: 10px;
+                    top: 5px;
                     right: 10px;
                     background-size: 100%;
                 }
@@ -148,6 +148,84 @@ body {
                         text-align: center;
                         position: relative;
                     }
+                }
+            }            
+            #follow_tab {
+                background: url("../images/sbg.png") center center no-repeat;
+                background-size: 300px 50px;
+                width: 300px;
+                height: 50px;
+                right: 20px;
+                top: 5px;
+                z-index: 300;
+                overflow: hidden;
+                position: absolute;
+                vertical-align: middle;
+                white-space: nowrap;
+                img {
+                    display: inline-block;
+                    max-height: 30px;
+                    margin-left: 5px;
+                    margin-right: 0px;
+                    height: 27px;
+                    width: 30px;
+                    vertical-align: middle;
+                    position: relative;
+                    top: 10px;
+                }
+                ul {
+                    display: inline-block;
+                    vertical-align: middle;
+                    max-width: 480px;
+                    overflow: hidden;
+                    li {
+                        display: inline-block;
+                        position: relative;
+                        overflow: hidden;
+                        img {
+                            height: auto;
+                            display: block;
+                            max-height: 50px;
+                            margin: 0px !important;
+                        }
+                        sub {
+                            display: none;
+                            position: absolute;
+                            top: 0%;
+                            left: 0%;
+                            padding: 8% 0% 0% 7%;
+                            width: 100%;
+                            color: #ffffff;
+                            background: rgba(0, 0, 0, 0.5);
+                        }
+                        &.show {
+                            sub {
+                                display: block;
+                                height: 100%;
+                                a {
+                                    font-size: 80%;
+                                    color: #ffffff;
+                                    position: absolute;
+                                    top: 10%;
+                                    left: 5%;
+                                    border: 0px !important;
+                                    &.compare {
+                                        bottom: 25%;
+                                        top: auto !important;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }        
+                a {
+                    position: absolute;
+                    top: 15px;
+                    right: 5px;
+                    cursor: pointer;
+                    background: url("../images/nx.png") right center no-repeat;
+                    width: 22px;
+                    height: 20px;
                 }
             }
         }
@@ -688,6 +766,95 @@ body {
             h4 {
                 font-size: 20px;
             }
+        }
+        .lnbl {
+            display: block;
+            position: relative;
+            padding-bottom: 50px;
+            float: left;
+            .galblo {
+                display: block;
+                width: 100%;
+                margin: 0px auto;
+                text-align: center;
+                position: relative;
+                opacity: 1;
+                max-width: 1000px !important;
+                max-height: 1000px !important;
+                .galblos {
+                    width: 100%;
+                    margin: 0%;
+                    vertical-align: top;
+                    display: block;
+                    transition: all 0.5s ease-out;
+                    -webkit-transition: all 0.5s ease-out;
+                    display: inline-block;
+                    position: relative;
+                    b {
+                        border-bottom: 2px solid #cccccc;
+                        width: 110%;
+                        position: absolute;
+                        bottom: 0px;
+                        left: -5%;
+                        display: block;
+                        height: 2px;
+                    }
+                    .image {
+                        float: left;
+                        margin: 0px;
+                        width: 100px;
+                        position: relative;
+                        cursor: pointer;
+                        i {
+                            position: absolute;
+                            left: 0;
+                            bottom: 0px;
+                            width: 99%;
+                            padding-right: 1%;
+                            text-align: center;
+                            color: #fff;
+                            line-height: 23px;
+                            height: 20px;
+                            font-size: 120%;
+                            font-family: 'Helvetica Neue Light';
+                            z-index: 3;
+                            border: none;
+                        }
+                        img {
+                            display: block;
+                            width: 100px;
+                        }
+                    }
+                    .text {
+                        float: left;
+                        width: 170px;
+                        padding: 0px 0px 0px 10px;
+                        line-height: 140%;
+                        cursor: pointer;
+                        text-align: left;
+                        p {
+                            font-size: 15px;
+                            color: #333333;
+                            &:first-child {
+                                font-size: 17px;
+                                color: #000000;
+                            }
+                            &.gr {
+                                color: #666666;
+                            }
+                        }
+                    }
+                    img.sealin {
+                        position: absolute;
+                        width: 40px;
+                        height: 40px;
+                        top: 50%;
+                        margin-top: -20px;
+                        right: 15px;
+                        cursor: pointer;
+                    }
+                }                    
+            }  
         }
     }
 
@@ -1564,85 +1731,6 @@ footer {
                     background-position: -90px 0px;
                     width: 40px;
                 }
-            }
-        }
-        #follow_tab {
-            background: rgba(255, 255, 255, 0.05);
-            width: 67%;
-            height: 80%;
-            right: 20px;
-            top: 10%;
-            z-index: 300;
-            overflow: hidden;
-            position: absolute;
-            border: 1px solid rgba(200, 200, 200, 0.3);
-            vertical-align: middle;
-            white-space: nowrap;
-            img {
-                display: inline-block;
-                max-height: 100%;
-                margin-left: 3%;
-                margin-right: 2%;
-                height: 50%;
-                vertical-align: middle;
-                position: relative;
-                top: -10%;
-            }
-            ul {
-                display: inline-block;
-                vertical-align: middle;
-                max-width: 480px;
-                overflow: hidden;
-                li {
-                    display: inline-block;
-                    position: relative;
-                    overflow: hidden;
-                    img {
-                        height: auto;
-                        display: block;
-                        max-height: 50px;
-                        margin: 0px !important;
-                    }
-                    sub {
-                        display: none;
-                        position: absolute;
-                        top: 0%;
-                        left: 0%;
-                        padding: 8% 0% 0% 7%;
-                        width: 100%;
-                        color: #ffffff;
-                        background: rgba(0, 0, 0, 0.5);
-                    }
-                    &.show {
-                        sub {
-                            display: block;
-                            height: 100%;
-                            a {
-                                font-size: 80%;
-                                color: #ffffff;
-                                position: absolute;
-                                top: 10%;
-                                left: 5%;
-                                border: 0px !important;
-                                &.compare {
-                                    bottom: 25%;
-                                    top: auto !important;
-                                }
-                            }
-                        }
-                    }
-                }
-            }        
-            a {
-                position: absolute;
-                top: 30%;
-                right: 1%;
-                cursor: pointer;
-                width: 0px;
-                height: 0px;
-                border-style: solid;
-                border-width: 10px 0 10px 20px;
-                border-color: transparent transparent transparent #ffffff;
             }
         }
     }
@@ -3576,95 +3664,6 @@ table#graphs {
 }
 
 
-.lnbl {
-    display: block;
-    position: relative;
-    padding-bottom: 50px;
-    float: left;
-    .galblo {
-        display: block;
-        width: 100%;
-        margin: 0px auto;
-        text-align: center;
-        position: relative;
-        opacity: 1;
-        max-width: 1000px !important;
-        max-height: 1000px !important;
-        .galblos {
-            width: 100%;
-            margin: 0%;
-            vertical-align: top;
-            display: block;
-            transition: all 0.5s ease-out;
-            -webkit-transition: all 0.5s ease-out;
-            display: inline-block;
-            position: relative;
-            b {
-                border-bottom: 2px solid #cccccc;
-                width: 110%;
-                position: absolute;
-                bottom: 0px;
-                left: -5%;
-                display: block;
-                height: 2px;
-            }
-            .image {
-                float: left;
-                margin: 0px;
-                width: 100px;
-                position: relative;
-                cursor: pointer;
-                i {
-                    position: absolute;
-                    left: 0;
-                    bottom: 0px;
-                    width: 99%;
-                    padding-right: 1%;
-                    text-align: center;
-                    color: #fff;
-                    line-height: 23px;
-                    height: 20px;
-                    font-size: 120%;
-                    font-family: 'Helvetica Neue Light';
-                    z-index: 3;
-                    border: none;
-                }
-                img {
-                    display: block;
-                    width: 100px;
-                }
-            }
-            .text {
-                float: left;
-                width: 170px;
-                padding: 0px 0px 0px 10px;
-                line-height: 140%;
-                cursor: pointer;
-                text-align: left;
-                p {
-                    font-size: 15px;
-                    color: #333333;
-                    &:first-child {
-                        font-size: 17px;
-                        color: #000000;
-                    }
-                    &.gr {
-                        color: #666666;
-                    }
-                }
-            }
-            img.sealin {
-                position: absolute;
-                width: 40px;
-                height: 40px;
-                top: 50%;
-                margin-top: -20px;
-                right: 15px;
-                cursor: pointer;
-            }
-        }                    
-    }  
-}
 
 .full_height {
     height: 100%;
