@@ -1,4 +1,4 @@
-<div id="signin_panel">
+<div id="signin_panel" ng-controller="LoginController">
 	<div class="glass">
 	   <h4>Sign in</h4>
 	   <div class="sign-in" ng-show="!signup">
@@ -19,7 +19,9 @@
 	               placeholder="Email"
 	               ui-keypress="{13:'onKeyPress($event)'}" />
 	               <br />
-	               <span class="errorss" ng-show="LoginForm.Email.$dirty && (LoginForm.Email.$error.required || LoginForm.Email.$error.minlength || LoginForm.Email.$error.email)">Incorrect email</span>
+	               <span 
+	               	class="errorss" 
+	               	ng-show="LoginForm.Email.$dirty && (LoginForm.Email.$error.required || LoginForm.Email.$error.minlength || LoginForm.Email.$error.email)">Incorrect email</span>
 	         </p>
 	           
 	         <p>
@@ -35,7 +37,9 @@
 	               ui-keypress="{13:'onKeyPress($event)'}"
 	               ng-trim="false" /> 
 	               <br />
-	               <span class="errorss rss" ng-show="LoginForm.Password.$dirty && (LoginForm.Password.$error.required || LoginForm.Password.$error.minlength)">Incorrect password</span>
+	               <span 
+	               	class="errorss rss" 
+	               	ng-show="LoginForm.Password.$dirty && (LoginForm.Password.$error.required || LoginForm.Password.$error.minlength)">Incorrect password</span>
 	         </p>
 	         <div class="step">
                <p>
@@ -51,8 +55,7 @@
                      ng-disabled="LoginForm.$invalid"
                      ng-click="onSingin()" 
                      type="button" 
-                     value="Sign in"
-                     ui-keypress="{13:'onKeyPress($event)'}" />
+                     value="Sign in" />
                </p>    
 	         </div>
 	         <div class="rere">
