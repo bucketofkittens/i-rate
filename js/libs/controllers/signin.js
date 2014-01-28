@@ -1,7 +1,7 @@
 /**
  * форма модального окна авторизации
  */
-function LoginController($scope, SessionsService, UserService) {
+function SigninController($scope, SessionsService, UserService) {
     // сообщение об ошибке
     $scope.error = null;
 
