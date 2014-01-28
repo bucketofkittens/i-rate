@@ -1,7 +1,7 @@
 select, textarea, input {
     padding: 0px !important;
 } 
-   
+
 img {
     image-rendering: optimizeQuality; 
     -ms-interpolation-mode: bicubic;
@@ -31,7 +31,7 @@ body {
     header {
         height: 60px;
         width: 100%;
-        background: #36374b;
+        background: url("../images/hbg.png") left top repeat-x;
         top: 0px;
         z-index: 1020;
         position: absolute;
@@ -40,9 +40,8 @@ body {
             width: 1020px;
             margin: 0px auto;
             .logo { 
-                background-size: contain;
                 width: 140px;
-                height: 50px;
+                height: 60px;
                 margin-left: 20px;
                 position: relative;
                 display: inline-block;
@@ -54,6 +53,15 @@ body {
                     top: 0px;
                     height: 50px;
                 }
+            }
+            .imp {
+                background: url("../images/imp.png") center center no-repeat;
+                float: left;
+                height: 40px;
+                width: 175px;
+                margin: 10px 0px 0px 100px;
+                display: inline-block;
+                position: relative;
             }
             .link {
                 float: right;
@@ -69,10 +77,10 @@ body {
             }
             #search {
                 float: right;
-                width: 275px;
-                margin: 15px 20px 0px 0px;
-                background: #ffffff;
-                height: 30px;
+                width: 250px;
+                margin: 10px 20px 0px 0px;
+                background: url("../images/sbg.png") center center no-repeat;
+                height: 40px;
                 position: relative;
                 .all {
                     text-align: center;
@@ -89,16 +97,17 @@ body {
                     }
                 }
                 .search {
-                    font-size: 14px;
-                    color: #666666;
+                    font-size: 15px;
+                    color: #959595;
                     border: none;
                     float: left;
                     display: block;
                     position: relative;
-                    margin: 5px 0px 0px 10px;
+                    margin: 10px 0px 0px 10px;
                     position: relative;
                     line-height: 20px;
                     border: none;
+                    background: none;
                 }
                 .searcher {
                     background: url("../images/search.png") left top no-repeat;
@@ -110,16 +119,16 @@ body {
                     padding: 0px;
                     text-indent: -999px;
                     position: absolute;
-                    top: 5px;
+                    top: 10px;
                     right: 10px;
                     background-size: 100%;
                 }
             }
             #avatar {
                 float: right;
-                margin: 3px 20px 0px 0px;
+                margin: 5px 20px 0px 0px;
                 .current {
-                    max-height: 54px;
+                    max-height: 50px;
                 }
                 p {
                     text-align: center;
