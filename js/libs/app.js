@@ -28,6 +28,7 @@ var socialsAccess = {
 	}
 };
 
+
 /**
  * Основной модуль приложения
  * @type {[type]}
@@ -54,6 +55,7 @@ var pgrModule = angular.module(
         'ngScrollEvent'
 		]
 	);
+
 
 /**
  * Роутинг приложения
