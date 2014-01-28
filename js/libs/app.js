@@ -44,13 +44,11 @@ var pgrModule = angular.module(
 		'ngTouch', 
 		'ngFacebook',
 		"localization", 
-        'monospaced.mousewheel',
         'ui.date',
         'ui.autocomplete',
         'ui.keypress',
         'vcRecaptcha',
-        'rzModule',
-        'ngScrollEvent'
+        'rzModule'
 		]
 	);
 
@@ -64,7 +62,7 @@ pgrModule.config(['$routeProvider',
             reloadOnSearch: false
           }).
           otherwise({
-            redirectTo: '/addOrder'
+            redirectTo: '/'
           });
     }
 ]);
