@@ -59,7 +59,7 @@ body {
                 float: left;
                 height: 40px;
                 width: 175px;
-                margin: 10px 0px 0px 100px;
+                margin: 10px 0px 0px 50px;
                 display: inline-block;
                 position: relative;
             }
@@ -77,7 +77,7 @@ body {
             }
             #search {
                 float: right;
-                width: 250px;
+                width: 220px;
                 margin: 10px 20px 0px 0px;
                 background: url("../images/sbg.png") center center no-repeat;
                 height: 40px;
@@ -152,6 +152,7 @@ body {
         }
     }
 }
+
 
 #content {
     position: relative;
@@ -2063,20 +2064,12 @@ ng-form:not(.ng-pristine) {
 }
 
 .icheckbox_minimal {
-    background-position: 0 0;
+    background-position: 0px 0;
+    top: 3px;
 }
-    .icheckbox_minimal.hover {
-        background-position: -20px 0;
-    }
     .icheckbox_minimal.checked {
-        background-position: -40px 0;
-    }
-    .icheckbox_minimal.disabled {
-        background-position: -60px 0;
-        cursor: default;
-    }
-    .icheckbox_minimal.checked.disabled {
-        background-position: -80px 0;
+        background-position: -18px 1px;
+        top: 3px;
     }
 
 .iradio_minimal {
@@ -3457,16 +3450,85 @@ table#graphs {
     margin-top: 100px;
 }
 
+
 /** <signin_panel> **/
 #signin_panel {
     position: absolute;
     right: 0px;
-    top: 0px;
+    top: 60px;
+    width: 300px;
     height: 100%;
     z-index: 999;
-    background: #ffffff;
+    background: url("../images/inbg.png") right top no-repeat;
+    .glass {
+        width: 265px;
+        position: absolute;
+        right: 0px;
+        top: 20px;
+        h4 {
+            color: #ffffff;
+            font-size: 24px;
+            display: block;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .sign-in {
+            display: block;
+            text-align: center;
+            input {
+                width: 220px;
+                height: 40px;
+                margin-bottom: 20px;
+                padding: 0px 0px 0px 20px !important;
+                background: url("../images/sbg.png") center center no-repeat;
+                position: relative;
+                border: none;
+                color: #898989;
+            }
+            .step {
+                a {
+                    font-family: 'Helvetica Neue Light';
+                    color: #b7b7b7;
+                    font-size: 14px;
+                    display: block;
+                    text-decoration: none;
+                    margin-bottom: 10px;
+                }
+                label {
+                    color: #b7b7b7;
+                    font-size: 14px;
+                }     
+                .singin-sub {
+                    margin: 20px 0px;
+                    input {
+                        color: #ffffff;
+                        font-size: 20px;
+                        float: none;
+                        margin: 0px 0px 0px -3px;  
+                        padding: 0px !important;                      
+                    }
+                }         
+            }
+            .rere {
+                color: #b7b7b7;
+                font-size: 14px;
+                margin: 50px 0px 10px 0px;
+                input {
+                    width: 220px;
+                    height: 40px;
+                    margin: -20px 0px 0px -3px;
+                    left: -7px;
+                    padding: 0px !important;
+                    background: url("../images/sbg.png") center center no-repeat;
+                    position: relative;
+                    border: none;
+                    color: #ffffff;                    
+                }
+            }
+        }
+    }
 }
-/** </signin_panel> **/
+
 
 .lnbl {
     display: block;

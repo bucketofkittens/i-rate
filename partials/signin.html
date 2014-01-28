@@ -1,3 +1,70 @@
 <div id="signin_panel">
-	123
+	<div class="glass">
+	   <h4>Sign in</h4>
+	   <div class="sign-in" ng-show="!signup">
+	      <ng-form 
+	         id="login_form" 
+	         name="LoginForm" 
+	         novalidate 
+	         class="css-form myForm" >
+	         <p>
+	            <input 
+	               type="email" 
+	               id="login_i" 
+	               class="form-input"
+	               ng-model="login.email"
+	               name="Email"
+	               required 
+	               ng-minlength="6"
+	               placeholder="Email"
+	               ui-keypress="{13:'onKeyPress($event)'}" />
+	               <br />
+	               <span class="errorss" ng-show="LoginForm.Email.$dirty && (LoginForm.Email.$error.required || LoginForm.Email.$error.minlength || LoginForm.Email.$error.email)">Incorrect email</span>
+	         </p>
+	           
+	         <p>
+	            <input 
+	               type="password" 
+	               id="pass_i"
+	               class="form-input"
+	               ng-model="login.password"
+	               required 
+	               name="Password"
+	               ng-minlength="6"
+	               placeholder="Password"
+	               ui-keypress="{13:'onKeyPress($event)'}"
+	               ng-trim="false" /> 
+	               <br />
+	               <span class="errorss" ng-show="LoginForm.Password.$dirty && (LoginForm.Password.$error.required || LoginForm.Password.$error.minlength)">Incorrect password</span>
+	         </p>
+	         <div class="step">
+               <p>
+                  <a href="#/change_password">Forgot your password?</a>
+               </p>
+               <p>
+                  <input type="checkbox" icheck />
+                  <label>Keep me signed in</label>
+               </p>
+               <p class="errors" ng-show="error">{{error}}</p>
+               <p class="singin-sub">
+                  <input 
+                     ng-disabled="LoginForm.$invalid"
+                     ng-click="onSingin()" 
+                     type="button" 
+                     value="Sign in"
+                     ui-keypress="{13:'onKeyPress($event)'}" />
+               </p>    
+	         </div>
+	         <div class="rere">
+               <p>Don’t have an iRate account yet?</p>	
+               <p class="singin-sub">
+                  <input 
+                     ng-click="onSinginStateChange()" 
+                     type="button" 
+                     value="Sign up" />
+               </p>          
+	         </div>
+	      </ng-form>
+	   </div>		
+	</div>
 </div>
