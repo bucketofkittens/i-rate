@@ -188,6 +188,8 @@ pgrModule.directive('masonry', function(User) {
             $scope.users = $scope.users.concat(data);
 
             view_count += limit;
+            total_count = $scope.users[0].total_count;
+            
             if(view_count < total_count) {
               skip += limit;
               // рекурсивно берем еще пользователей
@@ -205,7 +207,7 @@ pgrModule.directive('masonry', function(User) {
       if(!$scope.users) {
         isCached = false;
         $scope.users = [];
-        this.getPublishedUser(limit, skip, total_count, view_count);  
+        this.getUsersFromBackend(limit, skip, total_count, view_count);  
       }
       
       // инициизируем masonry

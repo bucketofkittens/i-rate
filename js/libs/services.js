@@ -488,17 +488,18 @@ pgrModule.service('СareerService', function (Needs) {
     }
     this.getCareer_ = function(needs, callback) {
         var needs = JSON.parse(JSON.stringify(needs));
+        var self = this;
 
         // получаем нужный need
         var curNeed = needs.filter(function(value) {
-            if(value.sguid == this.careerId) {
+            if(value.sguid == self.careerId) {
                 return value;
             }
         })[0];
 
         // получаем список карьер без money
         var careerList = curNeed.goals.filter(function(value) {
-            if(value.sguid != this.moneyId) { return value }
+            if(value.sguid != self.moneyId) { return value }
         });
 
         this.persist(careerList);
@@ -506,7 +507,7 @@ pgrModule.service('СareerService', function (Needs) {
     }
     // сохранение
     this.persist = function(data) {
-        lscache.set(this.cacheName, JSON.stringify(data), cacheTime);
+        lscache.set(this.cacheName, JSON.stringify(data), this.cacheTime);
     }
 });
 
