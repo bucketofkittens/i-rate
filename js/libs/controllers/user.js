@@ -58,12 +58,14 @@ function UserController($scope, FriendsService, UserService, $element, $route, $
     }
 
     // callback после добавления пользователя в друзья
-    $scope.followCallback_ = function() {
+    $scope.followCallback_ = function(friends) {
+        $scope.workspace.friends = friends;
         $scope.isFriend = true;
     }
 
     // callback после удаления пользователя из друзей
-    $scope.unfollowCallback_ = function() {
+    $scope.unfollowCallback_ = function(friends) {
+        $scope.workspace.friends = friends;
         $scope.isFriend = false;
     }
 

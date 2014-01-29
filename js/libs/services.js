@@ -679,7 +679,7 @@ pgrModule.service('FriendsService', function (UserService, User, $rootScope) {
             }, function(response) {     
                 if(response.success) {
                     friends.push({sguid: response.message.guid, user: message.user});
-                    callback();
+                    callback(friends);
                 }
             });
         } else {
@@ -688,7 +688,7 @@ pgrModule.service('FriendsService', function (UserService, User, $rootScope) {
             }
             friends.push({sguid: null, user: friend});
             this.persist(friends);
-            callback();
+            callback(friends);
         }
     }
 
@@ -705,7 +705,7 @@ pgrModule.service('FriendsService', function (UserService, User, $rootScope) {
                 })[0];
                 var index = friends.indexOf(frend);
                 friends.splice(index, 1);
-                callback();
+                callback(friends);
             });
         } else {
             var frend = friends.filter(function(data) {
@@ -718,7 +718,7 @@ pgrModule.service('FriendsService', function (UserService, User, $rootScope) {
             friends.splice(index, 1);
 
             this.persist(friends);
-            callback();
+            callback(friends);
         }
     }
 
