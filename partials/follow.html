@@ -7,7 +7,7 @@
 				ng-mouseleave="onMouseLeaveUser(userItem.user)" 
 				ng-click="onMouseEnterUser(userItem.user)" 
 				ng-mouseenter="onMouseEnterUser(userItem.user)" 
-				ng-repeat="userItem in frends">
+				ng-repeat="userItem in workspace.friends">
 				<img 
 					ng-click="onCompare(userItem.user)" 
 					ng-src="{{userItem.user.avatar}}" 

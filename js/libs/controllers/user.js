@@ -1,12 +1,15 @@
 /**
  * Контроллер  профиля
  */
-function UserController($scope, UserService, $element, $route, $routeParams, User, Needs, Professions, States, $http, NeedsByUser, $rootScope, GoalsByUser, AuthUser, Leagues, $location, $window) {
+function UserController($scope, FriendsService, UserService, $element, $route, $routeParams, User, Needs, Professions, States, $http, NeedsByUser, $rootScope, GoalsByUser, AuthUser, Leagues, $location, $window) {
     // данные пользователя
     $scope.user = null;
 
     // под каким route в search будем искать id пользователя
     $scope.route = '';
+
+    // является ли пользователь другом
+    $scope.isFriend = false;
 
     $scope.newImage = null;
     $scope.bindIn = "";
@@ -36,6 +39,9 @@ function UserController($scope, UserService, $element, $route, $routeParams, Use
     // callback получения данных пользователя
     $scope.userServiceGetByIdCallback_ = function(data) {
         $scope.user = data;
+
+        // определяем друг пользователь или нет
+        $scope.isFriend = FriendsService.isFriend($scope.user, $scope.workspace.friends);
     }
 
     // закрывает плашку с текущим пользователем
@@ -50,9 +56,29 @@ function UserController($scope, UserService, $element, $route, $routeParams, Use
         // забираем данные пользователя
         $scope.setCurrentUser();
     }
+
+    // callback после добавления пользователя в друзья
+    $scope.followCallback_ = function() {
+        $scope.isFriend = true;
+    }
+
+    // callback после удаления пользователя из друзей
+    $scope.unfollowCallback_ = function() {
+        $scope.isFriend = false;
+    }
+
+    /** Событие добавление в друзья */
+    $scope.onFollow = function() {
+        FriendsService.follow($scope.user, $scope.workspace.friends, $scope.followCallback_);
+    }
+
+    /** Событие удаление из друзей */
+    $scope.onUnFollow = function() {
+        FriendsService.unfollow($scope.user, $scope.workspace.friends, $scope.unfollowCallback_);
+    }
     
 
-    /**Событие клика на пользователе в сравнении */
+    /**Событие клика на пользователе в сравнении 
     $scope.onUserClick = function(user, $event) {
         if($scope.compare && user.sguid != AuthUser.get()) {
             if(user.hover == true) {
@@ -62,7 +88,7 @@ function UserController($scope, UserService, $element, $route, $routeParams, Use
             }
         }
     }
-
+*/
     /*
     $scope.$on('$locationChangeSuccess', function(location) {
         if($scope.bindIn == "user2") {
@@ -89,6 +115,7 @@ function UserController($scope, UserService, $element, $route, $routeParams, Use
     });
     */
 
+/*
     $scope.onCompareUser = function() {
         if($scope.workspace.user && $scope.workspace.user.sguid) {
             $location.path("/compare").search({user1: $scope.workspace.user.sguid, user2: $scope.userId});
@@ -115,44 +142,11 @@ function UserController($scope, UserService, $element, $route, $routeParams, Use
             return profession.name;
         });
     }
+*/
 
-     /**
-     * Событие.
-     * Пользователя удалили из друзей
-     * @param  {[type]} $event  [description]
-     * @param  {[type]} message [description]
-     * @return {[type]}         [description]
-     */
-    $scope.$on('unfollowCallback', function($event, message) {
-        if($scope.user.sguid == message.frendId) {
-            $scope.user.isFollow = false;
-        }
-    });
+    
 
-    /**
-     * Событие.
-     * Пользователя добавили в друзья
-     * @param  {[type]} $event  [description]
-     * @param  {[type]} message [description]
-     * @return {[type]}         [description]
-     */
-    $scope.$on('followCallback', function($event, message) {
-        if($scope.user.sguid == message.frendId) {
-            $scope.user.isFollow = true;
-        }
-    });
-
-    /** Событие добавление в друзья */
-    $scope.onFollow = function() {
-        $rootScope.$broadcast('follow', {userId: AuthUser.get(), frendId: $scope.user.sguid, user: $scope.user});
-    }
-
-    /** Событие удаление из друзей */
-    $scope.onUnFollow = function() {
-        $rootScope.$broadcast('unfollow', {userId: AuthUser.get(), frendId: $scope.user.sguid, user: $scope.user});
-    }
-
-    /** Событие перехода к пользователю */
+    /** Событие перехода к пользователю
     $scope.onMoveToProfile = function(user) {
         $location.path("/profile/").search({user: user.sguid});;
     }
@@ -180,44 +174,20 @@ function UserController($scope, UserService, $element, $route, $routeParams, Use
             $rootScope.$broadcast('updateUserLegueAndPoints');
         });
     });
-    
-
-    $scope.testFollow = function() {
-        /*
-        if($scope.userId) {
-            if($scope.workspace.user && $scope.workspace.user.frends) {
-                var item = $scope.workspace.user.frends.filter(function(item) {
-                    if(item.user.sguid == $scope.userId) { return item; }
-                });
-            } else {
-                var item = $scope.tmpFollows.filter(function(item) {
-                    if(item.user.sguid == $scope.userId) { return item; }
-                });
-            }
-            if($scope.user) {
-                if(item.length > 0) {
-                    $scope.user.isFollow = true;
-                } else {
-                    $scope.user.isFollow = false;
-                }    
-            }
-            
-        }*/
-    }
-
+ */
     /**
      * Событие обновления лиги у пользователя
      * @return {[type]} [description]
-     */
+   
     $scope.$on('updateUserLegueAndPoints', function() {
         User.query({id: $scope.currentUserId}, $.proxy($scope.userLegueAndPointsUpdate_, $scope));
     });
-
+  */
     /**
      * Обновляет данные лиги у пользователя
      * @param  {[type]} data [description]
      * @return {[type]}      [description]
-     */
+  
     $scope.userLegueAndPointsUpdate_ = function(data) {
         $scope.user.league = data.league;
         $scope.user.points = data.points;
@@ -225,11 +195,11 @@ function UserController($scope, UserService, $element, $route, $routeParams, Use
         $rootScope.workspace.user.league = data.league;
         $rootScope.workspace.user.points = data.points;
     }
-
+   */
     /**
      * Событие при изменении критерия
      * @return {[type]} [description]
-     */
+  
     $scope.$on('userCriteriaUpdate', function() {
         $rootScope.$broadcast('updateLegue');
     });
@@ -237,13 +207,13 @@ function UserController($scope, UserService, $element, $route, $routeParams, Use
     $scope.$on('updateUser', function() {
         $scope.getUserInfo();
     });
-
+   */
     /**
      * Список годов
      * @param  {[type]} min [description]
      * @param  {[type]} max [description]
      * @return {[type]}     [description]
-     */
+  
     this.generateAgesArray = function(min, max) {
         var i = min, ret = [];
         for(i = min; i <= max; i++){
@@ -261,13 +231,13 @@ function UserController($scope, UserService, $element, $route, $routeParams, Use
     $scope.onBack = function($event) {
         $window.history.back();
     }
-
+   */
     /**
      * 
      * @param {type} $event
      * @param {type} elementId
      * @returns {undefined}
-     */
+
     $scope.onEditActivate = function($event, elementId) {
         angular.element(".form-control").attr("disabled", "disabled");
     
@@ -288,21 +258,21 @@ function UserController($scope, UserService, $element, $route, $routeParams, Use
         $(elm).focus();
     };
     
-
+     */
     /**
      * [onReadFile description]
      * @param  {[type]} $event
      * @return {[type]}
-     */
+
     $scope.onReadFile = function($event) {
         $rootScope.$broadcast('cropImage');
     }
-
+     */
     /**
      * 
      * @param  {[type]} $event
      * @return {[type]}
-     */
+     
     $scope.onUpdateFile = function($event) {
         $("#photo_crop").click();
     }
@@ -338,5 +308,5 @@ function UserController($scope, UserService, $element, $route, $routeParams, Use
     if($scope.workspace && $scope.workspace.user) {
         $scope.authUser = $scope.workspace.user;
         $scope.testFollow();
-    }
+    }*/
 }

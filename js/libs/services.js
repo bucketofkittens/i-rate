@@ -656,6 +656,19 @@ pgrModule.service('FriendsService', function (UserService, User, $rootScope) {
         return lscache.get(this.cacheName);
     }
 
+    // проверяет является ли передаваемый пользователь другом для списка друзей.
+    this.isFriend = function(user, friends) {
+
+        if(friends) {
+            var item = friends.filter(function(item) {
+                if(item.user.sguid == user.sguid) { return item; }
+            });
+            return item.length > 0 ? true : false;
+        }
+        
+        return false;
+    }
+
     // добавляем чувака в друзья
     this.follow = function(friend, friends, callback) {
         var user = UserService.getAuthData();
@@ -666,11 +679,16 @@ pgrModule.service('FriendsService', function (UserService, User, $rootScope) {
             }, function(response) {     
                 if(response.success) {
                     friends.push({sguid: response.message.guid, user: message.user});
+                    callback();
                 }
             });
         } else {
+            if(!friends) {
+                friends = [];
+            }
             friends.push({sguid: null, user: friend});
             this.persist(friends);
+            callback();
         }
     }
 
@@ -687,10 +705,11 @@ pgrModule.service('FriendsService', function (UserService, User, $rootScope) {
                 })[0];
                 var index = friends.indexOf(frend);
                 friends.splice(index, 1);
+                callback();
             });
         } else {
             var frend = friends.filter(function(data) {
-                if(data.user.sguid === message.frendId) {
+                if(data.user.sguid === friend.sguid) {
                     return data;
                 }
             })[0];
@@ -699,6 +718,7 @@ pgrModule.service('FriendsService', function (UserService, User, $rootScope) {
             friends.splice(index, 1);
 
             this.persist(friends);
+            callback();
         }
     }
 

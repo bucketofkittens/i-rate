@@ -120,8 +120,8 @@
 			</p>
 		</div>
 
-		<a class="il" ng-if="user && !user.isFollow && !compare" ng-click="onFollow()"><img src="../images/i3.png"></a>
-		<a class="il" ng-if="user && user.isFollow && !compare" ng-click="onUnFollow()"><img src="../images/i3i.png"></a>
+		<a class="il" ng-if="user && !isFriend && !compare" ng-click="onFollow()"><img src="../images/i3.png"></a>
+		<a class="il" ng-if="user && isFriend && !compare" ng-click="onUnFollow()"><img src="../images/i3i.png"></a>
 
 		<!-- кнопочка закрытия -->
 		<a class="il" ng-if="user && !compare && user.sguid != workspace.user.sguid" ng-click="close()">
