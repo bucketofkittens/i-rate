@@ -110,20 +110,9 @@ pgrModule.directive('masonry', function(User) {
       var parentElement = element.parent()[0];
 
       // добавляем скроллинг мышкой
-      parentElement.onmousewheel = function($event) {
-        var contentWidth = $(element).width();
-        var windowWidth = $(window).width();
-
-        if(contentWidth > windowWidth) {
-            var step = $event.wheelDeltaY;
-            
-            if(parentElement.scrollLeft - step >= 0) {
-                if(Math.abs(parentElement.scrollLeft + step) + windowWidth <= contentWidth+50) {
-                  parentElement.scrollLeft = parentElement.scrollLeft - step;
-                }    
-            }
-        }
-      }
+      $(parentElement).on("mousewheel DOMMouseScroll", function($event) {
+        $(element).parent()[0].scrollLeft += $event.originalEvent.wheelDeltaY;
+      });
 
       /** коэффициэнт количество элементов **/
       var limitCorruption = 30;
