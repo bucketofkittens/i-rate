@@ -790,3 +790,15 @@ pgrModule.factory('Social', function ($resource) {
     );
 });
 
+pgrModule.factory('Recaptha', function ($resource) {
+    return $resource(
+        hostShort+'/verify_recaptcha', 
+        {},
+        {
+            "verify": {
+                method: 'POST'
+            }
+            
+        }
+    );
+});
