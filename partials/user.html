@@ -32,7 +32,6 @@
 			<div class="image_box" ng-class="{updated: user.sguid == authUserId && isEdit, big: user.hover}" 
 				ng-click="onUserClick(user, $event)" >
 				<img class="pp" ng-src="{{user.avatar}}" err-src="/images/unknown-person.png" />
-				<i>{{user.points}}</i>
 				<a ng-click="onUpdateFile()" title="">Update image</a>
 				<span></span>	
 				<s ng-if="user.artificial">profile is created by experts based on available public info</s>	
@@ -124,7 +123,10 @@
 		<a class="il" ng-if="user && !user.isFollow && !compare" ng-click="onFollow()"><img src="../images/i3.png"></a>
 		<a class="il" ng-if="user && user.isFollow && !compare" ng-click="onUnFollow()"><img src="../images/i3i.png"></a>
 
-		<a class="il" ng-if="user && !compare && user.sguid != workspace.user.sguid" ng-click="onCompareUser()"><img src="../images/cl.png"></a> 
+		<!-- кнопочка закрытия -->
+		<a class="il" ng-if="user && !compare && user.sguid != workspace.user.sguid" ng-click="close()">
+			<img src="../images/cl.png">
+		</a> 
 	</div>
 
 	<div 

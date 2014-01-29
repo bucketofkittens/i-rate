@@ -1,7 +1,14 @@
 // контролле панели пользователей
-function UsersController($scope, $location, $rootScope) {
+function UsersController($scope, $location, $rootScope, $timeout) {
 	// определяем показываем ли мы панель или нет
 	$scope.show = $location.search().user1 || $location.search().user2 ? true : false;
+
+	// закрываем правую панель. Грязный хак. нужно будет переписать когда пойму как.
+	if($scope.show) {
+		$timeout(function(){
+			$rootScope.$broadcast('hideRightPanel');	
+		}, 0);
+	}
 
 	// событие показа панели с пользователем
 	$scope.$on('showUserProfile', function(event, message) {
@@ -12,8 +19,11 @@ function UsersController($scope, $location, $rootScope) {
 		if($location.search().user1 && !$location.search().user2) {
         	$location.search({user1: $location.search().user1, user2: message.user.sguid});
 		}
-		if(!$location.search().user1) {
+		if(!$location.search().user1 && !$location.search().user2) {
         	$location.search({user1: message.user.sguid});
+		}
+		if(!$location.search().user1 && $location.search().user2) {
+        	$location.search({user1: message.user.sguid, user2: $location.search().user2});
 		}
     });
 }

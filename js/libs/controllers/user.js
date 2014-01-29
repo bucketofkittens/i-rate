@@ -38,6 +38,11 @@ function UserController($scope, UserService, $element, $route, $routeParams, Use
         $scope.user = data;
     }
 
+    // закрывает плашку с текущим пользователем
+    $scope.close = function() {
+        $location.search($scope.route, null);
+    }
+
     // инициализация контрллера
     $scope.init = function(route) {
         $scope.route = route;
