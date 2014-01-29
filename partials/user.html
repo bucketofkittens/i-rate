@@ -1,4 +1,4 @@
-<div ng-if="user">
+<div ng-if="user" class="sam">
 	<!-- Поиск -->
 	<div id="search" class="search" ng-if="compare">
 		<div ng-controller="SearchController">
@@ -121,10 +121,10 @@
 			</p>
 		</div>
 
-		<a class="il" ng-if="user && !user.isFollow && !compare" ng-click="onFollow()"><img src="../images/i3l.png"></a>
+		<a class="il" ng-if="user && !user.isFollow && !compare" ng-click="onFollow()"><img src="../images/i3.png"></a>
 		<a class="il" ng-if="user && user.isFollow && !compare" ng-click="onUnFollow()"><img src="../images/i3i.png"></a>
 
-		<a class="il" ng-if="user && !compare && user.sguid != workspace.user.sguid" ng-click="onCompareUser()"><img src="../images/i2l.png"></a> 
+		<a class="il" ng-if="user && !compare && user.sguid != workspace.user.sguid" ng-click="onCompareUser()"><img src="../images/cl.png"></a> 
 	</div>
 
 	<div 

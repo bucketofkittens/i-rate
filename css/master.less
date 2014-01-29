@@ -308,9 +308,11 @@ body {
         .image_box {
             width: 140px;
             height: 140px;
+            box-shadow: 0 0 30px 1px rgba(1,161,201,0.5);
         }
         &.pro {
             padding: 15px;
+            margin-bottom: 5px;
             .block {
                 display: inline-block;
                 width: 140px;
@@ -332,13 +334,15 @@ body {
                 p {
                     font-size: 18px;
                     color: #969696;
-                    line-height: 30px;
+                    line-height: 28px;
                 }
                 label {
                     display: inline-block;
                     width: 100px; 
                     vertical-align: middle;                  
                     cursor: pointer;
+                    color: #b7b7b7;
+                    font-size: 14px;
                 }
                 select, input {                        
                     width: 200px;
@@ -373,8 +377,9 @@ body {
                     border-width: 1px;
                     cursor: default;
                 }
-                i {
-                    color: #000000;
+                i {                    
+                    color: #ecf0f9;
+                    font-size: 16px;
                 }
             }
 
@@ -384,10 +389,14 @@ body {
                 top: 120px;
                 cursor: pointer;
                 img {
-                    width: 40px;
+                    width: 30px;
                 }
                 &:last-child {
                     top: 30px;
+                    right: 23px;
+                    img {
+                        width: 25px;
+                    }
                 }
             }
         }
@@ -1539,12 +1548,13 @@ body {
     s {
         display: block;
         position: absolute;
-        bottom: -25px;
+        bottom: -20px;
         left: 0px;
         width: 300px;
         z-index: 10;
         text-decoration: none;
         font-size: 12px;
+        color: #e1e1e1;
     }
     .sub {
         position: absolute;
@@ -3640,7 +3650,7 @@ table#graphs {
                     width: 220px;
                     height: 40px;
                     margin: -20px 0px 0px 0px;
-                    left: -10px;
+                    left: -5px;
                     padding: 0px !important;
                     background: url("../images/ssbg.png") center center no-repeat;
                     position: relative;
@@ -3668,6 +3678,14 @@ table#graphs {
         .user {
             width: 500px;
             float: left;
+            .sam {
+                width: 500px;
+                position: relative;
+                top: 60px;
+                background: url("../images/glass.png") left top no-repeat;
+                background-size: 100% 100%;
+                z-index: 3;
+            }
         }
     }
 }
