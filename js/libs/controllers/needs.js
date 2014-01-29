@@ -494,13 +494,13 @@ function NeedsAndGoalsController($scope, Goals, Criterion, AuthUser, UserCriteri
         parentLi.addClass("current");
 
         if(parentLi.index() != 0) {
-            var size = parentUl.get(0).clientWidth - parentLi.get(0).offsetLeft - parentLi.get(0).clientWidth;
+            var size = parentLi.get(0).offsetLeft + parentLi.get(0).clientWidth;
             if (size <  15) {
                 size = 0;
             }
-            slider.css("width", size + "px").css("right", "-15px");
+            slider.css("width", size + "px").css("left", "-15px");
         } else {
-            slider.css("width", "95%").css("right", "-1%");
+            slider.css("width", "95%").css("left", "-1%");
         }
         
         var isCurrent = false;
