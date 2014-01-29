@@ -6,7 +6,7 @@ function UsersController($scope, $location, $rootScope, $timeout) {
 	// закрываем правую панель. Грязный хак. нужно будет переписать когда пойму как.
 	if($scope.show) {
 		$timeout(function(){
-			$rootScope.$broadcast('hideRightPanel');	
+			$rootScope.$broadcast('hideRightPanel');
 		}, 0);
 	}
 
@@ -25,5 +25,13 @@ function UsersController($scope, $location, $rootScope, $timeout) {
 		if(!$location.search().user1 && $location.search().user2) {
         	$location.search({user1: message.user.sguid, user2: $location.search().user2});
 		}
+    });
+
+    // событие переключчения состояния страницы.
+    $scope.$on('$locationChangeSuccess', function () {
+    	// если нет пользователей возвращаем плашку срава
+        if(!$location.search().user1 && !$location.search().user2) {
+        	$rootScope.$broadcast('showRightPanel');
+        }
     });
 }

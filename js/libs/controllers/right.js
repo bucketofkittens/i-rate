@@ -13,6 +13,11 @@ function RightController($scope) {
     	$scope.show = false;
     });
 
+    // показываем плашку
+    $scope.$on('showRightPanel', function() {
+        $scope.show = true;
+    });
+
     // переключаем состояние панели
     $scope.signupChange = function(state) {
         $scope.signup = state;
