@@ -9,11 +9,11 @@ function UsersController($scope, $location) {
 		$scope.show = true;
 
 		// указываем переданного пользователя
+		if($location.search().user1 && !$location.search().user2) {
+        	$location.search({user1: $location.search().user1, user2: message.user.sguid});
+		}
 		if(!$location.search().user1) {
         	$location.search({user1: message.user.sguid});
-		} else {
-			$location.search({user2: message.user.sguid});
 		}
-		
     });
 }

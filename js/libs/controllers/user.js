@@ -7,28 +7,12 @@ function UserController($scope, $element, $route, $routeParams, User, Needs, Pro
     $scope.bindIn = "";
     $scope.hidden = false;
 
-    $scope.userId = $location.search().user;
-
-    $scope.$on('authUserIdChange', function() {
-        $scope.userId = AuthUser.get();
-    }); 
-
-    if($location.search().user1) {
-        $scope.userId = $location.search().user1;
-        $scope.bindIn = "user1";
-    }
-
-    if($scope.rightId) {
-        $scope.userId = $scope.rightId;
-        $scope.bindIn = "user2";
-    }
-
-    if($location.search().user1 && $location.search().user2 && $location.search().user1 == $location.search().user2) {
-        User.for_main({}, {}, function(data) {
-            var index = getRandomInt(0, data.length-1);
-            $location.path("/compare").search({user1: $location.search().user1, user2: data[index].sguid})
-        });
-    }
+    $scope.$on('$locationChangeSuccess', function () {
+        var userId = $location.search()[$scope.route];
+        console.log(userId);
+        $scope.userId = userId;
+        $scope.getUserInfo();
+    });
 
     /**Событие клика на пользователе в сравнении */
     $scope.onUserClick = function(user, $event) {
@@ -41,16 +25,7 @@ function UserController($scope, $element, $route, $routeParams, User, Needs, Pro
         }
     }
 
-    $scope.changeUser = function(user) {
-        if($scope.bindIn == "user2") {
-            $location.search({user1: $location.search().user1, user2: user.sguid});
-        } else {
-            $location.search({user1: user.sguid, user2: $location.search().user2});
-        }
-
-        $rootScope.$broadcast('hideSearch');
-    }
-
+    /*
     $scope.$on('$locationChangeSuccess', function(location) {
         if($scope.bindIn == "user2") {
             $("sub.du, sup.du").remove();
@@ -74,6 +49,7 @@ function UserController($scope, $element, $route, $routeParams, User, Needs, Pro
             $scope.getUserInfo();
         }
     });
+    */
 
     $scope.onCompareUser = function() {
         if($scope.workspace.user && $scope.workspace.user.sguid) {
@@ -229,6 +205,7 @@ function UserController($scope, $element, $route, $routeParams, User, Needs, Pro
     
 
     $scope.testFollow = function() {
+        /*
         if($scope.userId) {
             if($scope.workspace.user && $scope.workspace.user.frends) {
                 var item = $scope.workspace.user.frends.filter(function(item) {
@@ -247,7 +224,7 @@ function UserController($scope, $element, $route, $routeParams, User, Needs, Pro
                 }    
             }
             
-        }
+        }*/
     }
 
     /**
