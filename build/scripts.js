@@ -307,79 +307,12 @@ window.angular);
 //# sourceMappingURL=angular-touch.min.js.map
 
 /**
- * angular-route-segment v1.2.0
- * https://angular-route-segment.com
- * @author Artem Chivchalov
- * @license MIT License http://opensource.org/licenses/MIT
- */
-"use strict";!function(a){a.module("route-segment",[]).provider("$routeSegment",["$routeProvider",function(b){function c(a){return a.replace(/([\:\-\_]+(.))/g,function(a,b,c,d){return d?c.toUpperCase():c})}function d(a,b){if(!a)throw new Error("Invalid pointer segment");var e;return{segment:function(b,d){return a[c(b)]={params:d},e=b,this},within:function(b){var g;if(b=b||e,g=a[c(b)])void 0==g.children&&(g.children={});else{if(f.strictMode)throw new Error("Cannot get into unknown `"+b+"` segment");g=a[c(b)]={params:{},children:{}}}return d(g.children,this)},up:function(){return b},root:function(){return h}}}var e=this,f=e.options={autoLoadTemplates:!1,strictMode:!1},g=this.segments={},h=d(g,null);e.when=function(a,c){return b.when(a,{segment:c}),this},a.extend(e,h),this.$get=["$rootScope","$q","$http","$templateCache","$route","$routeParams","$injector",function(b,d,e,h,i,j,k){function l(b){var c=!1;return b.params.dependencies&&a.forEach(b.params.dependencies,function(b){a.equals(q.$routeParams[b],j[b])||(c=!0)}),c}function m(a,b){return q.chain[a]&&q.chain[a].clearWatcher&&q.chain[a].clearWatcher(),b?(r[a]=b.name,b.params.untilResolved?n(a,b.name,b.params.untilResolved).then(function(c){return void 0!=c.success&&o(a),n(a,b.name,b.params)}):n(a,b.name,b.params)):(r[a]=null,o(a),void 0)}function n(c,g,i){var j=a.extend({},i.resolve);return a.forEach(j,function(b,c){j[c]=a.isString(b)?k.get(b):k.invoke(b)}),i.template&&(j.$template=i.template),f.autoLoadTemplates&&i.templateUrl&&(j.$template=e.get(i.templateUrl,{cache:h}).then(function(a){return a.data})),d.all(j).then(function(e){if(r[c]!=g)return d.reject();if(q.chain[c]={name:g,params:i,locals:e,reload:function(){m(c,this).then(function(a){void 0!=a.success&&o(c)})}},i.watcher){var f=function(){if(!a.isFunction(i.watcher))throw new Error("Watcher is not a function in segment `"+g+"`");return k.invoke(i.watcher,{},{segment:q.chain[c]})},h=f();q.chain[c].clearWatcher=b.$watch(f,function(a){a!=h&&(h=a,q.chain[c].reload())})}return{success:c}},function(b){if(i.resolveFailed){var e={error:function(){return d.when(b)}};return n(c,g,a.extend({resolve:e},i.resolveFailed))}throw new Error("Resolving failed with a reason `"+b+"`, but no `resolveFailed` "+"provided for segment `"+g+"`")})}function o(c){q.$routeParams=a.copy(j),q.name="";for(var d=0;d<q.chain.length;d++)q.name+=q.chain[d].name+".";q.name=q.name.substr(0,q.name.length-1),b.$broadcast("routeSegmentChange",{index:c,segment:q.chain[c]||null})}function p(a,b){if(!b)return null;if(a>=b.length)return null;for(var d,e=g,f=0;a>=f;f++)d=b[f],void 0!=e[c(d)]&&(e=e[c(d)]),a>f&&(e=e.children);return{name:d,params:e.params}}var q={name:"",$routeParams:a.copy(j),chain:[],startsWith:function(a){var b=new RegExp("^"+a);return b.test(q.name)},contains:function(a){for(var b=0;b<this.chain.length;b++)if(this.chain[b].name==a)return!0;return!1}},r={};return b.$on("$routeChangeSuccess",function(a,b){var c=b.$route||b.$$route;if(c&&c.segment){for(var e=c.segment,f=e.split("."),g=[],h=0;h<f.length;h++){var i=p(h,f);(r[h]!=i.name||l(i))&&(q.chain[h]&&q.chain[h].name==i.name&&!l(i)?r[h]=i.name:g.push({index:h,newSegment:i}))}var j=d.when();if(g.length>0)for(var h=0;h<g.length;h++)!function(a){j=j.then(function(){return m(g[a].index,g[a].newSegment)}).then(function(a){void 0!=a.success&&o(a.success)})}(h);j.then(function(){if(q.chain.length>f.length){var a=q.chain.length,b=q.chain.length-f.length;q.chain.splice(-b,b);for(var c=f.length;a>c;c++)m(c,null)}})}}),q}]}])}(angular),function(a){a.module("view-segment",["route-segment"]).directive("appViewSegment",["$route","$compile","$controller","$routeParams","$routeSegment","$q","$injector",function(b,c,d,e,f,g,h){return{restrict:"ECA",priority:500,compile:function(b,e){var g=b.html(),i=!0,j=a.element(document.createComment(" view-segment "));return b.prepend(j),function(k){function l(){o&&(q.leave(o),o=null),n&&(n.$destroy(),n=null)}function m(e){if(p=e,i&&(i=!1,b.replaceWith(j)),!e)return l(),o=b.clone(),o.html(g),q.enter(o,null,j),c(o,!1,499)(k),void 0;var f=a.extend({},e.locals),h=f&&f.$template;l(),o=b.clone(),o.html(h?h:g),q.enter(o,null,j);var m,s=c(o,!1,499);n=k.$new(),e.params.controller&&(f.$scope=n,m=d(e.params.controller,f),e.params.controllerAs&&(n[e.params.controllerAs]=m),o.data("$ngControllerController",m),o.children().data("$ngControllerController",m)),s(n),n.$emit("$viewContentLoaded"),n.$eval(r)}var n,o,p,q,r=e.onload||"",s=parseInt(e.appViewSegment);try{var t=h.get("$animator");q=t(k,e)}catch(u){}try{q=h.get("$animate")}catch(u){}f.chain[s]&&m(f.chain[s]),k.$on("routeSegmentChange",function(a,b){b.index==s&&p!=b.segment&&m(b.segment)})}}}}])}(angular);
-/**
  * angular-recaptcha build:2013-10-17 
  * https://github.com/vividcortex/angular-recaptcha 
  * Copyright (c) 2013 VividCortex 
 **/
 
 !function(a){"use strict";a.module("vcRecaptcha",[])}(angular),function(a,b){"use strict";var c=a.module("vcRecaptcha");c.service("vcRecaptchaService",["$timeout","$log",function(a){var c;return{create:function(a,d,e,f){c=e,f.callback=e,b.create(d,a,f)},reload:function(d){b.reload(d&&"t"),a(c,1e3)},data:function(){return{response:b.get_response(),challenge:b.get_challenge()}},destroy:function(){b.destroy()}}}])}(angular,Recaptcha),function(a,b){"use strict";var c=a.module("vcRecaptcha");c.directive("vcRecaptcha",["$log","$timeout","vcRecaptchaService",function(a,c,d){return{restrict:"A",require:"?ngModel",link:function(a,e,f,g){if(!f.hasOwnProperty("key")||40!==f.key.length)throw'You need to set the "key" attribute to your public reCaptcha key. If you don\'t have a key, please get one from https://www.google.com/recaptcha/admin/create';var h,i,j=function(){g&&g.$setViewValue({response:h.val(),challenge:i.val()})},k=function(){var a=e.find("input");i=angular.element(a[0]),h=angular.element(a[1]),j()},l=function(){k(),h.bind("keyup",function(){a.$apply(j)}),g&&(g.$render=function(){h.val(g.$viewValue.response),i.val(g.$viewValue.challenge)}),e.bind("click",function(){c(function(){a.$apply(k)},1e3)})};b.reload,d.create(e[0],f.key,l,{tabindex:f.tabindex,theme:f.theme,lang:f.lang||null})}}}])}(angular,Recaptcha);
-(function(angular) {
-    'use strict';
-    
-    var INTERVAL_DELAY = 150;
-  
-    angular.module('ngScrollEvent', [])
-    .directive('ngScrollEvent', ['$parse', '$window', function($parse, $window) {
-        return function(scope, element, attr) {
-          var fn = $parse(attr.ngScrollEvent);
-    
-            var interval,
-            handler,
-            el = element[0],
-            scrollEvent = 'scroll',
-            scrollPosition = {
-                x: 0,
-                y: 0
-            };
-    
-            var bindScroll = function() {
-                handler = function(event) {
-                    scrollPosition.x = el.scrollLeft;
-                    scrollPosition.y = el.scrollTop;
-    
-                    startInterval(event);
-                    unbindScroll();
-                    scrollTrigger(event, false);
-                };
-
-                element.bind(scrollEvent, handler);
-            };
-    
-            var startInterval = function(event) {
-                interval = $window.setInterval(function() {
-                    if(scrollPosition.x == el.scrollLeft && scrollPosition.y == el.scrollTop) {
-                        $window.clearInterval(interval);
-                        bindScroll();
-                        scrollTrigger(event, true);
-                    } else {
-                        scrollPosition.x = el.scrollLeft;
-                        scrollPosition.y = el.scrollTop;
-                    }
-                }, INTERVAL_DELAY);
-            };
-    
-            var unbindScroll = function() {
-                // be nice to others, don't unbind their scroll handlers
-                element.unbind(scrollEvent, handler);
-            };
-    
-            var scrollTrigger = function(event, isEndEvent) {
-                scope.$apply(function() {
-                  fn(scope, {$event: event, isEndEvent: isEndEvent});
-                });
-            };
-    
-            bindScroll();
-        };
-    }]);
-})(angular);
 /**
  * jquery.Jcrop.min.js v0.9.12 (build:20130202)
  * jQuery Image Cropping Plugin - released under MIT License
@@ -1677,393 +1610,6 @@ angular.module('ui.autocomplete', [])
       };
     }
   ]);
-/*
- * Hamster.js v1.0.3
- * (c) 2013 Monospaced http://monospaced.com
- * License: MIT
- */
-
-(function(window, document){
-'use strict';
-
-/**
- * Hamster
- * use this to create instances
- * @returns {Hamster.Instance}
- * @constructor
- */
-var Hamster = function(element) {
-  return new Hamster.Instance(element);
-};
-
-// default event name
-Hamster.SUPPORT = 'wheel';
-
-// default DOM methods
-Hamster.ADD_EVENT = 'addEventListener';
-Hamster.REMOVE_EVENT = 'removeEventListener';
-Hamster.PREFIX = '';
-
-// until browser inconistencies have been fixed...
-Hamster.READY = false;
-
-Hamster.Instance = function(element){
-  if (!Hamster.READY) {
-    // fix browser inconistencies
-    Hamster.normalise.browser();
-
-    // Hamster is ready...!
-    Hamster.READY = true;
-  }
-
-  this.element = element;
-
-  // store attached event handlers
-  this.handlers = [];
-
-  // return instance
-  return this;
-};
-
-/**
- * create new hamster instance
- * all methods should return the instance itself, so it is chainable.
- * @param   {HTMLElement}       element
- * @returns {Hamster.Instance}
- * @constructor
- */
-Hamster.Instance.prototype = {
-  /**
-   * bind events to the instance
-   * @param   {Function}    handler
-   * @param   {Boolean}     useCapture
-   * @returns {Hamster.Instance}
-   */
-  wheel: function onEvent(handler, useCapture){
-    Hamster.event.add(this, Hamster.SUPPORT, handler, useCapture);
-
-    // handle MozMousePixelScroll in older Firefox
-    if (Hamster.SUPPORT === 'DOMMouseScroll') {
-      Hamster.event.add(this, 'MozMousePixelScroll', handler, useCapture);
-    }
-
-    return this;
-  },
-
-  /**
-   * unbind events to the instance
-   * @param   {Function}    handler
-   * @param   {Boolean}     useCapture
-   * @returns {Hamster.Instance}
-   */
-  unwheel: function offEvent(handler, useCapture){
-    // if no handler argument,
-    // unbind the last bound handler (if exists)
-    if (handler === undefined && (handler = this.handlers.slice(-1)[0])) {
-      handler = handler.original;
-    }
-
-    Hamster.event.remove(this, Hamster.SUPPORT, handler, useCapture);
-
-    // handle MozMousePixelScroll in older Firefox
-    if (Hamster.SUPPORT === 'DOMMouseScroll') {
-      Hamster.event.remove(this, 'MozMousePixelScroll', handler, useCapture);
-    }
-
-    return this;
-  }
-};
-
-Hamster.event = {
-  /**
-   * cross-browser 'addWheelListener'
-   * @param   {Instance}    hamster
-   * @param   {String}      eventName
-   * @param   {Function}    handler
-   * @param   {Boolean}     useCapture
-   */
-  add: function add(hamster, eventName, handler, useCapture){
-    // store the original handler
-    var originalHandler = handler;
-
-    // redefine the handler
-    handler = function(originalEvent){
-
-      if (!originalEvent) {
-        originalEvent = window.event;
-      }
-
-      // create a normalised event object,
-      // and normalise "deltas" of the mouse wheel
-      var event = Hamster.normalise.event(originalEvent),
-          delta = Hamster.normalise.delta(originalEvent);
-
-      // fire the original handler with normalised arguments
-      return originalHandler(event, delta[0], delta[1], delta[2]);
-
-    };
-
-    // cross-browser addEventListener
-    hamster.element[Hamster.ADD_EVENT](Hamster.PREFIX + eventName, handler, useCapture || false);
-
-    // store original and normalised handlers on the instance
-    hamster.handlers.push({
-      original: originalHandler,
-      normalised: handler
-    });
-  },
-
-  /**
-   * removeWheelListener
-   * @param   {Instance}    hamster
-   * @param   {String}      eventName
-   * @param   {Function}    handler
-   * @param   {Boolean}     useCapture
-   */
-  remove: function remove(hamster, eventName, handler, useCapture){
-    // search for handler on the instance
-    var originalHandler = handler,
-        lookup = {};
-    for (var i = 0, len = hamster.handlers.length; i < len; ++i) {
-      lookup[hamster.handlers[i].original] = hamster.handlers[i];
-    }
-    handler = lookup[originalHandler].normalised;
-
-    if (handler) {
-      // cross-browser removeEventListener
-      hamster.element[Hamster.REMOVE_EVENT](Hamster.PREFIX + eventName, handler, useCapture || false);
-      // remove handler from the instance
-      hamster.handlers.splice(hamster.handlers.indexOf(handler), 1);
-    }
-  }
-};
-
-/**
- * these hold the lowest deltas,
- * used to normalise the delta values
- * @type {Number}
- */
-var lowestDelta,
-    lowestDeltaXY;
-
-Hamster.normalise = {
-  /**
-   * fix browser inconistencies
-   */
-  browser: function normaliseBrowser(){
-    // detect deprecated wheel events
-    if (!('onwheel' in document || document.documentMode >= 9)) {
-      Hamster.SUPPORT = document.onmousewheel !== undefined ?
-                        'mousewheel' : // webkit and IE < 9 support at least "mousewheel"
-                        'DOMMouseScroll'; // assume remaining browsers are older Firefox
-    }
-
-    // detect deprecated event model
-    if (!window.addEventListener) {
-      // assume IE < 9
-      Hamster.ADD_EVENT = 'attachEvent';
-      Hamster.REMOVE_EVENT = 'detachEvent';
-      Hamster.PREFIX = 'on';
-    }
-
-    // indexOf shim for IE < 9
-    if (!('indexOf' in Array.prototype)) {
-      Array.prototype.indexOf= function(find, i /*opt*/) {
-        if (i === undefined) {
-          i = 0;
-        }
-        if (i < 0) {
-          i += this.length;
-        }
-        if (i < 0) {
-          i = 0;
-        }
-        for (var n = this.length; i < n; ++i) {
-          if (i in this && this[i] === find) {
-            return i;
-          }
-        }
-        return -1;
-      };
-    }
-  },
-
-  /**
-   * create a normalised event object
-   * @param   {Function}    originalEvent
-   * @returns {Object}      event
-   */
-   event: function normaliseEvent(originalEvent){
-    var event = Hamster.SUPPORT === 'wheel' ? originalEvent : {
-          // keep a reference to the original event object
-          originalEvent: originalEvent,
-          target: originalEvent.target || originalEvent.srcElement,
-          type: 'wheel',
-          deltaMode: originalEvent.type === 'MozMousePixelScroll' ? 0 : 1,
-          deltaX: 0,
-          delatZ: 0,
-          preventDefault: function(){
-            if (originalEvent.preventDefault) {
-              originalEvent.preventDefault();
-            } else {
-              originalEvent.returnValue = false;
-            }
-          },
-          stopPropagation: function(){
-            if (originalEvent.stopPropagation) {
-              originalEvent.stopPropagation();
-            } else {
-              originalEvent.cancelBubble = false;
-            }
-          }
-        };
-
-    // calculate deltaY (and deltaX) according to the event
-
-    // 'mousewheel'
-    if (originalEvent.wheelDelta) {
-      event.deltaY = - 1/40 * originalEvent.wheelDelta;
-    }
-    // webkit
-    if (originalEvent.wheelDeltaX) {
-      event.deltaX = - 1/40 * originalEvent.wheelDeltaX;
-    }
-
-    // 'DomMouseScroll'
-    if (originalEvent.detail) {
-      event.deltaY = originalEvent.detail;
-    }
-
-    return event;
-  },
-
-  /**
-   * normalise 'deltas' of the mouse wheel
-   * @param   {Function}    originalEvent
-   * @returns {Array}       deltas
-   */
-  delta: function normaliseDelta(originalEvent){
-    var delta = 0,
-      deltaX = 0,
-      deltaY = 0,
-      absDelta = 0,
-      absDeltaXY = 0,
-      fn;
-
-    // normalise deltas according to the event
-
-    // 'wheel' event
-    if (originalEvent.deltaY) {
-      deltaY = originalEvent.deltaY * -1;
-      delta  = deltaY;
-    }
-    if (originalEvent.deltaX) {
-      deltaX = originalEvent.deltaX;
-      delta  = deltaX * -1;
-    }
-
-    // 'mousewheel' event
-    if (originalEvent.wheelDelta) {
-      delta = originalEvent.wheelDelta;
-    }
-    // webkit
-    if (originalEvent.wheelDeltaY) {
-      deltaY = originalEvent.wheelDeltaY;
-    }
-    if (originalEvent.wheelDeltaX) {
-      deltaX = originalEvent.wheelDeltaX * -1;
-    }
-
-    // 'DomMouseScroll' event
-    if (originalEvent.detail) {
-      delta = originalEvent.detail * -1;
-    }
-
-    // look for lowest delta to normalize the delta values
-    absDelta = Math.abs(delta);
-    if (!lowestDelta || absDelta < lowestDelta) {
-      lowestDelta = absDelta;
-    }
-    absDeltaXY = Math.max(Math.abs(deltaY), Math.abs(deltaX));
-    if (!lowestDeltaXY || absDeltaXY < lowestDeltaXY) {
-      lowestDeltaXY = absDeltaXY;
-    }
-
-    // convert deltas to whole numbers
-    fn = delta > 0 ? 'floor' : 'ceil';
-    delta  = Math[fn](delta / lowestDelta);
-    deltaX = Math[fn](deltaX / lowestDeltaXY);
-    deltaY = Math[fn](deltaY / lowestDeltaXY);
-
-    return [delta, deltaX, deltaY];
-  }
-};
-
-// Expose Hamster to the global object
-window.Hamster = Hamster;
-
-// requireJS module definition
-if (typeof window.define === 'function' && window.define.amd) {
-  window.define('hamster', [], function(){
-    return Hamster;
-  });
-}
-
-})(window, window.document);
-
-/*
- * angular-mousewheel v1.0.4
- * (c) 2013 Monospaced http://monospaced.com
- * License: MIT
- */
-
-angular.module('monospaced.mousewheel', [])
-  .directive('msdWheel', ['$parse', function($parse){
-    return {
-      restrict: 'A, C',
-        link: function(scope, element, attr) {
-        var expr = $parse(attr['msdWheel']),
-            fn = function(event, delta, deltaX, deltaY){
-              scope.$apply(function(){
-                expr(scope, {
-                  $event: event,
-                  $delta: delta,
-                  $deltaX: deltaX,
-                  $deltaY: deltaY
-                });
-              });
-            },
-            hamster;
-
-        if (typeof Hamster === 'undefined') {
-          // fallback to standard wheel event
-          element.bind('wheel', function(event){
-            scope.$apply(function() {
-              expr(scope, {
-                $event: event
-              });
-            });
-          });
-          return;
-        }
-
-        // don't create multiple Hamster instances per element
-        if (!(hamster = element.data('hamster'))) {
-          hamster = Hamster(element[0]);
-          element.data('hamster', hamster);
-        }
-
-        // bind Hamster wheel event
-        hamster.wheel(fn);
-
-        // unbind Hamster wheel event
-        scope.$on('$destroy', function(){
-          hamster.unwheel(fn);
-        });
-      }
-    };
-  }]);
-
 /**
  * Angular Facebook service
  * ---------------------------
@@ -2917,18 +2463,6 @@ var lscache = function() {
 
 /*! angularjs-slider - v0.1.2 - (c) Rafal Zajac <rzajac@gmail.com>, https://github.com/rzajac/angularjs-slider.git - 2013-12-16 */
 angular.module("rzModule",[]).value("throttle",function(a,b,c){var d,e,f,g=Date.now||function(){return(new Date).getTime()},h=null,i=0;c||(c={});var j=function(){i=c.leading===!1?0:g(),h=null,f=a.apply(d,e),d=e=null};return function(){var k=g();i||c.leading!==!1||(i=k);var l=b-(k-i);return d=this,e=arguments,0>=l?(clearTimeout(h),h=null,i=k,f=a.apply(d,e),d=e=null):h||c.trailing===!1||(h=setTimeout(j,l)),f}}).factory("Slider",["$timeout","$document","throttle",function(a,b,c){var d=function(a,b,c){this.scope=a,this.attributes=c,this.sliderElem=b,this.range=void 0!==c.rzSliderHigh&&void 0!==c.rzSliderModel,this.handleHalfWidth=0,this.maxLeft=0,this.precision=0,this.step=0,this.tracking="",this.minValue=0,this.maxValue=0,this.valueRange=0,this.initRun=!1,this.customTrFn=null,this.fullBar=null,this.selBar=null,this.minH=null,this.maxH=null,this.flrLab=null,this.ceilLab=null,this.minLab=null,this.maxLab=null,this.cmbLab=null,this.init()};return d.prototype={init:function(){var b=this;this.scope.rzSliderTranslate&&(this.customTrFn=this.scope.rzSliderTranslate()),this.initElemHandles(),this.calcViewDimensions(),this.setMinAndMax(),this.precision=void 0===this.scope.rzSliderPrecision?0:+this.scope.rzSliderPrecision,this.step=void 0===this.scope.rzSliderStep?1:+this.scope.rzSliderStep,a(function(){b.updateCeilLab(),b.updateFloorLab(),b.initHandles(),b.bindEvents()}),angular.element(window).on("resize",angular.bind(this,this.calcViewDimensions)),this.initRun=!0;var d=c(function(){b.setMinAndMax(),b.updateLowHandle(b.valueToOffset(b.scope.rzSliderModel)),b.range&&(b.updateSelectionBar(),b.updateCmbLabel())},350,{leading:!1}),e=c(function(){b.setMinAndMax(),b.updateHighHandle(b.valueToOffset(b.scope.rzSliderHigh)),b.updateSelectionBar(),b.updateCmbLabel()},350,{leading:!1});this.scope.$watch("rzSliderModel",function(a,b){a!==b&&d()}),this.scope.$watch("rzSliderHigh",function(a,b){a!==b&&e()})},initHandles:function(){this.updateLowHandle(this.valueToOffset(this.scope.rzSliderModel)),this.range&&(this.updateHighHandle(this.valueToOffset(this.scope.rzSliderHigh)),this.updateSelectionBar(),this.updateCmbLabel())},translateFn:function(a,b,c){c=void 0===c?!0:c;var d=this.customTrFn&&c?""+this.customTrFn(a):""+a,e=!1;(void 0===b.rzsv||b.rzsv.length!=d.length)&&(e=!0,b.rzsv=d),b.text(d),e&&this.getWidth(b)},setMinAndMax:function(){this.minValue=this.scope.rzSliderFloor?+this.scope.rzSliderFloor:this.scope.rzSliderFloor=0,this.scope.rzSliderCeil?this.maxValue=+this.scope.rzSliderCeil:this.scope.rzSliderCeil=this.maxValue=this.range?this.scope.rzSliderHigh:this.scope.rzSliderModel,this.valueRange=this.maxValue-this.minValue},initElemHandles:function(){angular.forEach(this.sliderElem.children(),function(a,b){var c=angular.element(a);switch(b){case 0:this.fullBar=c;break;case 1:this.selBar=c;break;case 2:this.minH=c;break;case 3:this.maxH=c;break;case 4:this.flrLab=c;break;case 5:this.ceilLab=c;break;case 6:this.minLab=c;break;case 7:this.maxLab=c;break;case 8:this.cmbLab=c}},this),this.fullBar.rzsl=0,this.selBar.rzsl=0,this.minH.rzsl=0,this.maxH.rzsl=0,this.flrLab.rzsl=0,this.ceilLab.rzsl=0,this.minLab.rzsl=0,this.maxLab.rzsl=0,this.cmbLab.rzsl=0,this.range||(this.cmbLab.remove(),this.maxLab.remove(),this.maxH.remove(),this.selBar.remove())},calcViewDimensions:function(){var a=this.getWidth(this.minH);this.handleHalfWidth=a/2,this.barWidth=this.getWidth(this.fullBar),this.maxLeft=this.barWidth-a,this.getWidth(this.sliderElem),this.sliderElem.rzsl=this.sliderElem[0].getBoundingClientRect().left,this.initRun&&(this.updateCeilLab(),this.initHandles())},updateCeilLab:function(){this.translateFn(this.scope.rzSliderCeil,this.ceilLab),this.setLeft(this.ceilLab,this.barWidth-this.ceilLab.rzsw),this.getWidth(this.ceilLab)},updateFloorLab:function(){this.translateFn(this.scope.rzSliderFloor,this.flrLab),this.getWidth(this.flrLab)},updateHandles:function(a,b){return"rzSliderModel"===a?(this.updateLowHandle(b),this.range&&(this.updateSelectionBar(),this.updateCmbLabel()),void 0):"rzSliderHigh"===a?(this.updateHighHandle(b),this.range&&(this.updateSelectionBar(),this.updateCmbLabel()),void 0):(this.updateLowHandle(b),this.updateHighHandle(b),this.updateSelectionBar(),this.updateCmbLabel(),void 0)},updateLowHandle:function(a){this.setLeft(this.minH,a),this.translateFn(this.scope.rzSliderModel,this.minLab),this.setLeft(this.minLab,a-this.minLab.rzsw/2+this.handleHalfWidth),this.shFloorCeil()},updateHighHandle:function(a){this.setLeft(this.maxH,a),this.translateFn(this.scope.rzSliderHigh,this.maxLab),this.setLeft(this.maxLab,a-this.maxLab.rzsw/2+this.handleHalfWidth),this.shFloorCeil()},shFloorCeil:function(){var a=!1,b=!1;this.minLab.rzsl<=this.flrLab.rzsl+this.flrLab.rzsw+5?(a=!0,this.hideEl(this.flrLab)):(a=!1,this.showEl(this.flrLab)),this.minLab.rzsl+this.minLab.rzsw>=this.ceilLab.rzsl-this.handleHalfWidth-10?(b=!0,this.hideEl(this.ceilLab)):(b=!1,this.showEl(this.ceilLab)),this.range&&(this.maxLab.rzsl+this.maxLab.rzsw>=this.ceilLab.rzsl-10?this.hideEl(this.ceilLab):b||this.showEl(this.ceilLab),this.maxLab.rzsl<=this.flrLab.rzsl+this.flrLab.rzsw+this.handleHalfWidth?this.hideEl(this.flrLab):a||this.showEl(this.flrLab))},updateSelectionBar:function(){this.setWidth(this.selBar,this.maxH.rzsl-this.minH.rzsl),this.setLeft(this.selBar,this.minH.rzsl+this.handleHalfWidth)},updateCmbLabel:function(){var a,b;this.minLab.rzsl+this.minLab.rzsw+10>=this.maxLab.rzsl?(this.customTrFn?(a=this.customTrFn(this.scope.rzSliderModel),b=this.customTrFn(this.scope.rzSliderHigh)):(a=this.scope.rzSliderModel,b=this.scope.rzSliderHigh),this.translateFn(a+" - "+b,this.cmbLab,!1),this.setLeft(this.cmbLab,this.selBar.rzsl+this.selBar.rzsw/2-this.cmbLab.rzsw/2),this.hideEl(this.minLab),this.hideEl(this.maxLab),this.showEl(this.cmbLab)):(this.showEl(this.maxLab),this.showEl(this.minLab),this.hideEl(this.cmbLab))},roundStep:function(a){var b=this.step,c=(a-this.minValue)%b,d=c>b/2?a+b-c:a-c;return+d.toFixed(this.precision)},hideEl:function(a){return a.css({opacity:0})},showEl:function(a){return a.css({opacity:1})},setLeft:function(a,b){return a.rzsl=b,a.css({left:b+"px"}),b},getWidth:function(a){var b=a[0].getBoundingClientRect();return a.rzsw=b.right-b.left,a.rzsw},setWidth:function(a,b){return a.rzsw=b,a.css({width:b+"px"}),b},valueToOffset:function(a){return(a-this.minValue)*this.maxLeft/this.valueRange},offsetToValue:function(a){return a/this.maxLeft*this.valueRange+this.minValue},bindEvents:function(){this.minH.on("mousedown",angular.bind(this,this.onStart,this.minH,"rzSliderModel")),this.range&&this.maxH.on("mousedown",angular.bind(this,this.onStart,this.maxH,"rzSliderHigh")),this.minH.on("touchstart",angular.bind(this,this.onStart,this.minH,"rzSliderModel")),this.range&&this.maxH.on("touchstart",angular.bind(this,this.onStart,this.maxH,"rzSliderHigh"))},onStart:function(a,c,d){d.stopPropagation(),d.preventDefault(),""===this.tracking&&(this.calcViewDimensions(),this.tracking=c,a.addClass("active"),d.touches?(b.on("touchmove",angular.bind(this,this.onMove,a)),b.on("touchend",angular.bind(this,this.onEnd))):(b.on("mousemove",angular.bind(this,this.onMove,a)),b.on("mouseup",angular.bind(this,this.onEnd))))},onMove:function(a,b){var c,d=b.clientX||b.touches[0].clientX,e=this.sliderElem.rzsl,f=d-e-this.handleHalfWidth;return 0>=f?(0!==a.rzsl&&(this.scope[this.tracking]=this.minValue,this.updateHandles(this.tracking,0),this.scope.$apply()),void 0):f>=this.maxLeft?(a.rzsl!==this.maxLeft&&(this.scope[this.tracking]=this.maxValue,this.updateHandles(this.tracking,this.maxLeft),this.scope.$apply()),void 0):(c=this.offsetToValue(f),c=this.roundStep(c),this.range&&("rzSliderModel"===this.tracking&&c>=this.scope.rzSliderHigh?(this.scope[this.tracking]=this.scope.rzSliderHigh,this.updateHandles(this.tracking,this.maxH.rzsl),this.tracking="rzSliderHigh",this.minH.removeClass("active"),this.maxH.addClass("active")):"rzSliderHigh"===this.tracking&&c<=this.scope.rzSliderModel&&(this.scope[this.tracking]=this.scope.rzSliderModel,this.updateHandles(this.tracking,this.minH.rzsl),this.tracking="rzSliderModel",this.maxH.removeClass("active"),this.minH.addClass("active"))),this.scope[this.tracking]!==c&&(this.scope[this.tracking]=c,this.updateHandles(this.tracking,f),this.scope.$apply()),void 0)},onEnd:function(a){this.minH.removeClass("active"),this.maxH.removeClass("active"),a.touches?(b.unbind("touchmove"),b.unbind("touchend")):(b.unbind("mousemove"),b.unbind("mouseup")),this.tracking=""}},d}]).directive("rzslider",["Slider",function(a){return{restrict:"E",scope:{rzSliderFloor:"=?",rzSliderCeil:"=?",rzSliderStep:"@",rzSliderPrecision:"@",rzSliderModel:"=?",rzSliderHigh:"=?",rzSliderTranslate:"&"},template:'<span class="bar"></span><span class="bar selection"></span><span class="pointer"></span><span class="pointer"></span><span class="bubble limit"></span><span class="bubble limit"></span><span class="bubble"></span><span class="bubble"></span><span class="bubble"></span>',link:function(b,c,d){return new a(b,c,d)}}}]);
-/*!
-* @license PreloadJS
-* Visit http://createjs.com/ for documentation, updates and examples.
-*
-* Copyright (c) 2011-2013 gskinner.com, inc.
-*
-* Distributed under the terms of the MIT license.
-* http://www.opensource.org/licenses/mit-license.html
-*
-* This notice shall be included in all copies or substantial portions of the Software.
-*/
-this.createjs=this.createjs||{},function(){"use strict";var a=createjs.PreloadJS=createjs.PreloadJS||{};a.version="0.4.1",a.buildDate="Thu, 12 Dec 2013 23:33:38 GMT"}(),this.createjs=this.createjs||{},function(){"use strict";var a=function(a,b,c){this.initialize(a,b,c)},b=a.prototype;b.type=null,b.target=null,b.currentTarget=null,b.eventPhase=0,b.bubbles=!1,b.cancelable=!1,b.timeStamp=0,b.defaultPrevented=!1,b.propagationStopped=!1,b.immediatePropagationStopped=!1,b.removed=!1,b.initialize=function(a,b,c){this.type=a,this.bubbles=b,this.cancelable=c,this.timeStamp=(new Date).getTime()},b.preventDefault=function(){this.defaultPrevented=!0},b.stopPropagation=function(){this.propagationStopped=!0},b.stopImmediatePropagation=function(){this.immediatePropagationStopped=this.propagationStopped=!0},b.remove=function(){this.removed=!0},b.clone=function(){return new a(this.type,this.bubbles,this.cancelable)},b.toString=function(){return"[Event (type="+this.type+")]"},createjs.Event=a}(),this.createjs=this.createjs||{},function(){"use strict";var a=function(){},b=a.prototype;a.initialize=function(a){a.addEventListener=b.addEventListener,a.on=b.on,a.removeEventListener=a.off=b.removeEventListener,a.removeAllEventListeners=b.removeAllEventListeners,a.hasEventListener=b.hasEventListener,a.dispatchEvent=b.dispatchEvent,a._dispatchEvent=b._dispatchEvent,a.willTrigger=b.willTrigger},b._listeners=null,b._captureListeners=null,b.initialize=function(){},b.addEventListener=function(a,b,c){var d;d=c?this._captureListeners=this._captureListeners||{}:this._listeners=this._listeners||{};var e=d[a];return e&&this.removeEventListener(a,b,c),e=d[a],e?e.push(b):d[a]=[b],b},b.on=function(a,b,c,d,e,f){return b.handleEvent&&(c=c||b,b=b.handleEvent),c=c||this,this.addEventListener(a,function(a){b.call(c,a,e),d&&a.remove()},f)},b.removeEventListener=function(a,b,c){var d=c?this._captureListeners:this._listeners;if(d){var e=d[a];if(e)for(var f=0,g=e.length;g>f;f++)if(e[f]==b){1==g?delete d[a]:e.splice(f,1);break}}},b.off=b.removeEventListener,b.removeAllEventListeners=function(a){a?(this._listeners&&delete this._listeners[a],this._captureListeners&&delete this._captureListeners[a]):this._listeners=this._captureListeners=null},b.dispatchEvent=function(a,b){if("string"==typeof a){var c=this._listeners;if(!c||!c[a])return!1;a=new createjs.Event(a)}if(a.target=b||this,a.bubbles&&this.parent){for(var d=this,e=[d];d.parent;)e.push(d=d.parent);var f,g=e.length;for(f=g-1;f>=0&&!a.propagationStopped;f--)e[f]._dispatchEvent(a,1+(0==f));for(f=1;g>f&&!a.propagationStopped;f++)e[f]._dispatchEvent(a,3)}else this._dispatchEvent(a,2);return a.defaultPrevented},b.hasEventListener=function(a){var b=this._listeners,c=this._captureListeners;return!!(b&&b[a]||c&&c[a])},b.willTrigger=function(a){for(var b=this;b;){if(b.hasEventListener(a))return!0;b=b.parent}return!1},b.toString=function(){return"[EventDispatcher]"},b._dispatchEvent=function(a,b){var c,d=1==b?this._captureListeners:this._listeners;if(a&&d){var e=d[a.type];if(!e||!(c=e.length))return;a.currentTarget=this,a.eventPhase=b,a.removed=!1,e=e.slice();for(var f=0;c>f&&!a.immediatePropagationStopped;f++){var g=e[f];g.handleEvent?g.handleEvent(a):g(a),a.removed&&(this.off(a.type,g,1==b),a.removed=!1)}}},createjs.EventDispatcher=a}(),this.createjs=this.createjs||{},function(){"use strict";createjs.indexOf=function(a,b){for(var c=0,d=a.length;d>c;c++)if(b===a[c])return c;return-1}}(),this.createjs=this.createjs||{},function(){"use strict";createjs.proxy=function(a,b){var c=Array.prototype.slice.call(arguments,2);return function(){return a.apply(b,Array.prototype.slice.call(arguments,0).concat(c))}}}(),this.createjs=this.createjs||{},function(){"use strict";var a=function(){this.init()};a.prototype=new createjs.EventDispatcher;var b=a.prototype,c=a;c.FILE_PATTERN=/^(?:(\w+:)\/{2}(\w+(?:\.\w+)*\/?)|(.{0,2}\/{1}))?([/.]*?(?:[^?]+)?\/)?((?:[^/?]+)\.(\w+))(?:\?(\S+)?)?$/,c.PATH_PATTERN=/^(?:(\w+:)\/{2})|(.{0,2}\/{1})?([/.]*?(?:[^?]+)?\/?)?$/,b.loaded=!1,b.canceled=!1,b.progress=0,b._item=null,b.getItem=function(){return this._item},b.init=function(){},b.load=function(){},b.close=function(){},b._sendLoadStart=function(){this._isCanceled()||this.dispatchEvent("loadstart")},b._sendProgress=function(a){if(!this._isCanceled()){var b=null;"number"==typeof a?(this.progress=a,b=new createjs.Event("progress"),b.loaded=this.progress,b.total=1):(b=a,this.progress=a.loaded/a.total,(isNaN(this.progress)||1/0==this.progress)&&(this.progress=0)),b.progress=this.progress,this.hasEventListener("progress")&&this.dispatchEvent(b)}},b._sendComplete=function(){this._isCanceled()||this.dispatchEvent("complete")},b._sendError=function(a){!this._isCanceled()&&this.hasEventListener("error")&&(null==a&&(a=new createjs.Event("error")),this.dispatchEvent(a))},b._isCanceled=function(){return null==window.createjs||this.canceled?!0:!1},b._parseURI=function(a){return a?a.match(c.FILE_PATTERN):null},b._parsePath=function(a){return a?a.match(c.PATH_PATTERN):null},b._formatQueryString=function(a,b){if(null==a)throw new Error("You must specify data.");var c=[];for(var d in a)c.push(d+"="+escape(a[d]));return b&&(c=c.concat(b)),c.join("&")},b.buildPath=function(a,b){if(null==b)return a;var c=[],d=a.indexOf("?");if(-1!=d){var e=a.slice(d+1);c=c.concat(e.split("&"))}return-1!=d?a.slice(0,d)+"?"+this._formatQueryString(b,c):a+"?"+this._formatQueryString(b,c)},b._isCrossDomain=function(a){var b=document.createElement("a");b.href=a.src;var c=document.createElement("a");c.href=location.href;var d=""!=b.hostname&&(b.port!=c.port||b.protocol!=c.protocol||b.hostname!=c.hostname);return d},b._isLocal=function(a){var b=document.createElement("a");return b.href=a.src,""==b.hostname&&"file:"==b.protocol},b.toString=function(){return"[PreloadJS AbstractLoader]"},createjs.AbstractLoader=a}(),this.createjs=this.createjs||{},function(){"use strict";var a=function(a,b,c){this.init(a,b,c)},b=a.prototype=new createjs.AbstractLoader,c=a;c.loadTimeout=8e3,c.LOAD_TIMEOUT=0,c.BINARY="binary",c.CSS="css",c.IMAGE="image",c.JAVASCRIPT="javascript",c.JSON="json",c.JSONP="jsonp",c.MANIFEST="manifest",c.SOUND="sound",c.SVG="svg",c.TEXT="text",c.XML="xml",c.POST="POST",c.GET="GET",b._basePath=null,b._crossOrigin="",b.useXHR=!0,b.stopOnError=!1,b.maintainScriptOrder=!0,b.next=null,b._typeCallbacks=null,b._extensionCallbacks=null,b._loadStartWasDispatched=!1,b._maxConnections=1,b._currentlyLoadingScript=null,b._currentLoads=null,b._loadQueue=null,b._loadQueueBackup=null,b._loadItemsById=null,b._loadItemsBySrc=null,b._loadedResults=null,b._loadedRawResults=null,b._numItems=0,b._numItemsLoaded=0,b._scriptOrder=null,b._loadedScripts=null,b.init=function(a,b,c){this._numItems=this._numItemsLoaded=0,this._paused=!1,this._loadStartWasDispatched=!1,this._currentLoads=[],this._loadQueue=[],this._loadQueueBackup=[],this._scriptOrder=[],this._loadedScripts=[],this._loadItemsById={},this._loadItemsBySrc={},this._loadedResults={},this._loadedRawResults={},this._typeCallbacks={},this._extensionCallbacks={},this._basePath=b,this.setUseXHR(a),this._crossOrigin=c===!0?"Anonymous":c===!1||null==c?"":c},b.setUseXHR=function(a){return this.useXHR=0!=a&&null!=window.XMLHttpRequest,this.useXHR},b.removeAll=function(){this.remove()},b.remove=function(a){var b=null;if(!a||a instanceof Array){if(a)b=a;else if(arguments.length>0)return}else b=[a];var c=!1;if(b){for(;b.length;){var d=b.pop(),e=this.getResult(d);for(f=this._loadQueue.length-1;f>=0;f--)if(g=this._loadQueue[f].getItem(),g.id==d||g.src==d){this._loadQueue.splice(f,1)[0].cancel();break}for(f=this._loadQueueBackup.length-1;f>=0;f--)if(g=this._loadQueueBackup[f].getItem(),g.id==d||g.src==d){this._loadQueueBackup.splice(f,1)[0].cancel();break}if(e)delete this._loadItemsById[e.id],delete this._loadItemsBySrc[e.src],this._disposeItem(e);else for(var f=this._currentLoads.length-1;f>=0;f--){var g=this._currentLoads[f].getItem();if(g.id==d||g.src==d){this._currentLoads.splice(f,1)[0].cancel(),c=!0;break}}}c&&this._loadNext()}else{this.close();for(var h in this._loadItemsById)this._disposeItem(this._loadItemsById[h]);this.init(this.useXHR)}},b.reset=function(){this.close();for(var a in this._loadItemsById)this._disposeItem(this._loadItemsById[a]);for(var b=[],c=0,d=this._loadQueueBackup.length;d>c;c++)b.push(this._loadQueueBackup[c].getItem());this.loadManifest(b,!1)},c.isBinary=function(a){switch(a){case createjs.LoadQueue.IMAGE:case createjs.LoadQueue.BINARY:return!0;default:return!1}},c.isText=function(a){switch(a){case createjs.LoadQueue.TEXT:case createjs.LoadQueue.JSON:case createjs.LoadQueue.MANIFEST:case createjs.LoadQueue.XML:case createjs.LoadQueue.HTML:case createjs.LoadQueue.CSS:case createjs.LoadQueue.SVG:case createjs.LoadQueue.JAVASCRIPT:return!0;default:return!1}},b.installPlugin=function(a){if(null!=a&&null!=a.getPreloadHandlers){var b=a.getPreloadHandlers();if(b.scope=a,null!=b.types)for(var c=0,d=b.types.length;d>c;c++)this._typeCallbacks[b.types[c]]=b;if(null!=b.extensions)for(c=0,d=b.extensions.length;d>c;c++)this._extensionCallbacks[b.extensions[c]]=b}},b.setMaxConnections=function(a){this._maxConnections=a,!this._paused&&this._loadQueue.length>0&&this._loadNext()},b.loadFile=function(a,b,c){if(null==a){var d=new createjs.Event("error");return d.text="PRELOAD_NO_FILE",this._sendError(d),void 0}this._addItem(a,null,c),b!==!1?this.setPaused(!1):this.setPaused(!0)},b.loadManifest=function(a,b,d){var e=null,f=null;if(a instanceof Array){if(0==a.length){var g=new createjs.Event("error");return g.text="PRELOAD_MANIFEST_EMPTY",this._sendError(g),void 0}e=a}else if("string"==typeof a)e=[{src:a,type:c.MANIFEST}];else{if("object"!=typeof a){var g=new createjs.Event("error");return g.text="PRELOAD_MANIFEST_NULL",this._sendError(g),void 0}if(void 0!==a.src){if(null==a.type)a.type=c.MANIFEST;else if(a.type!=c.MANIFEST){var g=new createjs.Event("error");g.text="PRELOAD_MANIFEST_ERROR",this._sendError(g)}e=[a]}else void 0!==a.manifest&&(e=a.manifest,f=a.path)}for(var h=0,i=e.length;i>h;h++)this._addItem(e[h],f,d);b!==!1?this.setPaused(!1):this.setPaused(!0)},b.load=function(){this.setPaused(!1)},b.getItem=function(a){return this._loadItemsById[a]||this._loadItemsBySrc[a]},b.getResult=function(a,b){var c=this._loadItemsById[a]||this._loadItemsBySrc[a];if(null==c)return null;var d=c.id;return b&&this._loadedRawResults[d]?this._loadedRawResults[d]:this._loadedResults[d]},b.setPaused=function(a){this._paused=a,this._paused||this._loadNext()},b.close=function(){for(;this._currentLoads.length;)this._currentLoads.pop().cancel();this._scriptOrder.length=0,this._loadedScripts.length=0,this.loadStartWasDispatched=!1},b._addItem=function(a,b,c){var d=this._createLoadItem(a,b,c);if(null!=d){var e=this._createLoader(d);null!=e&&(this._loadQueue.push(e),this._loadQueueBackup.push(e),this._numItems++,this._updateProgress(),this.maintainScriptOrder&&d.type==createjs.LoadQueue.JAVASCRIPT&&e instanceof createjs.XHRLoader&&(this._scriptOrder.push(d),this._loadedScripts.push(null)))}},b._createLoadItem=function(a,b,c){var d=null;switch(typeof a){case"string":d={src:a};break;case"object":d=window.HTMLAudioElement&&a instanceof window.HTMLAudioElement?{tag:a,src:d.tag.src,type:createjs.LoadQueue.SOUND}:a;break;default:return null}var e=this._parseURI(d.src);null!=e&&(d.ext=e[6]),null==d.type&&(d.type=this._getTypeByExtension(d.ext));var f="",g=c||this._basePath,h=d.src;if(e&&null==e[1]&&null==e[3])if(b){f=b;var i=this._parsePath(b);h=b+h,null!=g&&i&&null==i[1]&&null==i[2]&&(f=g+f)}else null!=g&&(f=g);if(d.src=f+d.src,d.path=f,(d.type==createjs.LoadQueue.JSON||d.type==createjs.LoadQueue.MANIFEST)&&(d._loadAsJSONP=null!=d.callback),d.type==createjs.LoadQueue.JSONP&&null==d.callback)throw new Error("callback is required for loading JSONP requests.");(void 0===d.tag||null===d.tag)&&(d.tag=this._createTag(d)),(void 0===d.id||null===d.id||""===d.id)&&(d.id=h);var j=this._typeCallbacks[d.type]||this._extensionCallbacks[d.ext];if(j){var k=j.callback.call(j.scope,d.src,d.type,d.id,d.data,f,this);if(k===!1)return null;k===!0||(null!=k.src&&(d.src=k.src),null!=k.id&&(d.id=k.id),null!=k.tag&&(d.tag=k.tag),null!=k.completeHandler&&(d.completeHandler=k.completeHandler),k.type&&(d.type=k.type),e=this._parseURI(d.src),null!=e&&null!=e[6]&&(d.ext=e[6].toLowerCase()))}return this._loadItemsById[d.id]=d,this._loadItemsBySrc[d.src]=d,d},b._createLoader=function(a){var b=this.useXHR;switch(a.type){case createjs.LoadQueue.JSON:case createjs.LoadQueue.MANIFEST:b=!a._loadAsJSONP;break;case createjs.LoadQueue.XML:case createjs.LoadQueue.TEXT:b=!0;break;case createjs.LoadQueue.SOUND:case createjs.LoadQueue.JSONP:b=!1;break;case null:return null}return b?new createjs.XHRLoader(a,this._crossOrigin):new createjs.TagLoader(a)},b._loadNext=function(){if(!this._paused){this._loadStartWasDispatched||(this._sendLoadStart(),this._loadStartWasDispatched=!0),this._numItems==this._numItemsLoaded?(this.loaded=!0,this._sendComplete(),this.next&&this.next.load&&this.next.load()):this.loaded=!1;for(var a=0;a<this._loadQueue.length&&!(this._currentLoads.length>=this._maxConnections);a++){var b=this._loadQueue[a];if(this.maintainScriptOrder&&b instanceof createjs.TagLoader&&b.getItem().type==createjs.LoadQueue.JAVASCRIPT){if(this._currentlyLoadingScript)continue;this._currentlyLoadingScript=!0}this._loadQueue.splice(a,1),a--,this._loadItem(b)}}},b._loadItem=function(a){a.on("progress",this._handleProgress,this),a.on("complete",this._handleFileComplete,this),a.on("error",this._handleFileError,this),this._currentLoads.push(a),this._sendFileStart(a.getItem()),a.load()},b._handleFileError=function(a){var b=a.target;this._numItemsLoaded++,this._updateProgress();var c=new createjs.Event("error");c.text="FILE_LOAD_ERROR",c.item=b.getItem(),this._sendError(c),this.stopOnError||(this._removeLoadItem(b),this._loadNext())},b._handleFileComplete=function(a){var b=a.target,c=b.getItem();if(this._loadedResults[c.id]=b.getResult(),b instanceof createjs.XHRLoader&&(this._loadedRawResults[c.id]=b.getResult(!0)),this._removeLoadItem(b),this.maintainScriptOrder&&c.type==createjs.LoadQueue.JAVASCRIPT){if(!(b instanceof createjs.TagLoader))return this._loadedScripts[createjs.indexOf(this._scriptOrder,c)]=c,this._checkScriptLoadOrder(b),void 0;this._currentlyLoadingScript=!1}if(delete c._loadAsJSONP,c.type==createjs.LoadQueue.MANIFEST){var d=b.getResult();null!=d&&void 0!==d.manifest&&this.loadManifest(d,!0)}this._processFinishedLoad(c,b)},b._processFinishedLoad=function(a,b){this._numItemsLoaded++,this._updateProgress(),this._sendFileComplete(a,b),this._loadNext()},b._checkScriptLoadOrder=function(){for(var a=this._loadedScripts.length,b=0;a>b;b++){var c=this._loadedScripts[b];if(null===c)break;if(c!==!0){var d=this._loadedResults[c.id];(document.body||document.getElementsByTagName("body")[0]).appendChild(d),this._processFinishedLoad(c),this._loadedScripts[b]=!0}}},b._removeLoadItem=function(a){for(var b=this._currentLoads.length,c=0;b>c;c++)if(this._currentLoads[c]==a){this._currentLoads.splice(c,1);break}},b._handleProgress=function(a){var b=a.target;this._sendFileProgress(b.getItem(),b.progress),this._updateProgress()},b._updateProgress=function(){var a=this._numItemsLoaded/this._numItems,b=this._numItems-this._numItemsLoaded;if(b>0){for(var c=0,d=0,e=this._currentLoads.length;e>d;d++)c+=this._currentLoads[d].progress;a+=c/b*(b/this._numItems)}this._sendProgress(a)},b._disposeItem=function(a){delete this._loadedResults[a.id],delete this._loadedRawResults[a.id],delete this._loadItemsById[a.id],delete this._loadItemsBySrc[a.src]},b._createTag=function(a){var b=null;switch(a.type){case createjs.LoadQueue.IMAGE:return b=document.createElement("img"),""==this._crossOrigin||this._isLocal(a)||(b.crossOrigin=this._crossOrigin),b;case createjs.LoadQueue.SOUND:return b=document.createElement("audio"),b.autoplay=!1,b;case createjs.LoadQueue.JSON:case createjs.LoadQueue.JSONP:case createjs.LoadQueue.JAVASCRIPT:case createjs.LoadQueue.MANIFEST:return b=document.createElement("script"),b.type="text/javascript",b;case createjs.LoadQueue.CSS:return b=this.useXHR?document.createElement("style"):document.createElement("link"),b.rel="stylesheet",b.type="text/css",b;case createjs.LoadQueue.SVG:return this.useXHR?b=document.createElement("svg"):(b=document.createElement("object"),b.type="image/svg+xml"),b}return null},b._getTypeByExtension=function(a){if(null==a)return createjs.LoadQueue.TEXT;switch(a.toLowerCase()){case"jpeg":case"jpg":case"gif":case"png":case"webp":case"bmp":return createjs.LoadQueue.IMAGE;case"ogg":case"mp3":case"wav":return createjs.LoadQueue.SOUND;case"json":return createjs.LoadQueue.JSON;case"xml":return createjs.LoadQueue.XML;case"css":return createjs.LoadQueue.CSS;case"js":return createjs.LoadQueue.JAVASCRIPT;case"svg":return createjs.LoadQueue.SVG;default:return createjs.LoadQueue.TEXT}},b._sendFileProgress=function(a,b){if(this._isCanceled())return this._cleanUp(),void 0;if(this.hasEventListener("fileprogress")){var c=new createjs.Event("fileprogress");c.progress=b,c.loaded=b,c.total=1,c.item=a,this.dispatchEvent(c)}},b._sendFileComplete=function(a,b){if(!this._isCanceled()){var c=new createjs.Event("fileload");c.loader=b,c.item=a,c.result=this._loadedResults[a.id],c.rawResult=this._loadedRawResults[a.id],a.completeHandler&&a.completeHandler(c),this.hasEventListener("fileload")&&this.dispatchEvent(c)}},b._sendFileStart=function(a){var b=new createjs.Event("filestart");b.item=a,this.hasEventListener("filestart")&&this.dispatchEvent(b)},b.toString=function(){return"[PreloadJS LoadQueue]"},createjs.LoadQueue=a;var d=function(){};d.init=function(){var a=navigator.userAgent;d.isFirefox=a.indexOf("Firefox")>-1,d.isOpera=null!=window.opera,d.isChrome=a.indexOf("Chrome")>-1,d.isIOS=a.indexOf("iPod")>-1||a.indexOf("iPhone")>-1||a.indexOf("iPad")>-1},d.init(),createjs.LoadQueue.BrowserDetect=d}(),this.createjs=this.createjs||{},function(){"use strict";var a=function(a){this.init(a)},b=a.prototype=new createjs.AbstractLoader;b._loadTimeout=null,b._tagCompleteProxy=null,b._isAudio=!1,b._tag=null,b._jsonResult=null,b.init=function(a){this._item=a,this._tag=a.tag,this._isAudio=window.HTMLAudioElement&&a.tag instanceof window.HTMLAudioElement,this._tagCompleteProxy=createjs.proxy(this._handleLoad,this)},b.getResult=function(){return this._item.type==createjs.LoadQueue.JSONP||this._item.type==createjs.LoadQueue.MANIFEST?this._jsonResult:this._tag},b.cancel=function(){this.canceled=!0,this._clean()},b.load=function(){var a=this._item,b=this._tag;clearTimeout(this._loadTimeout);var c=createjs.LoadQueue.LOAD_TIMEOUT;0==c&&(c=createjs.LoadQueue.loadTimeout),this._loadTimeout=setTimeout(createjs.proxy(this._handleTimeout,this),c),this._isAudio&&(b.src=null,b.preload="auto"),b.onerror=createjs.proxy(this._handleError,this),this._isAudio?(b.onstalled=createjs.proxy(this._handleStalled,this),b.addEventListener("canplaythrough",this._tagCompleteProxy,!1)):(b.onload=createjs.proxy(this._handleLoad,this),b.onreadystatechange=createjs.proxy(this._handleReadyStateChange,this));var d=this.buildPath(a.src,a.values);switch(a.type){case createjs.LoadQueue.CSS:b.href=d;break;case createjs.LoadQueue.SVG:b.data=d;break;default:b.src=d}if(a.type==createjs.LoadQueue.JSONP||a.type==createjs.LoadQueue.JSON||a.type==createjs.LoadQueue.MANIFEST){if(null==a.callback)throw new Error("callback is required for loading JSONP requests.");if(null!=window[a.callback])throw new Error('JSONP callback "'+a.callback+'" already exists on window. You need to specify a different callback. Or re-name the current one.');window[a.callback]=createjs.proxy(this._handleJSONPLoad,this)}(a.type==createjs.LoadQueue.SVG||a.type==createjs.LoadQueue.JSONP||a.type==createjs.LoadQueue.JSON||a.type==createjs.LoadQueue.MANIFEST||a.type==createjs.LoadQueue.JAVASCRIPT||a.type==createjs.LoadQueue.CSS)&&(this._startTagVisibility=b.style.visibility,b.style.visibility="hidden",(document.body||document.getElementsByTagName("body")[0]).appendChild(b)),null!=b.load&&b.load()},b._handleJSONPLoad=function(a){this._jsonResult=a},b._handleTimeout=function(){this._clean();var a=new createjs.Event("error");a.text="PRELOAD_TIMEOUT",this._sendError(a)},b._handleStalled=function(){},b._handleError=function(){this._clean();var a=new createjs.Event("error");this._sendError(a)},b._handleReadyStateChange=function(){clearTimeout(this._loadTimeout);var a=this.getItem().tag;("loaded"==a.readyState||"complete"==a.readyState)&&this._handleLoad()},b._handleLoad=function(){if(!this._isCanceled()){var a=this.getItem(),b=a.tag;if(!(this.loaded||this._isAudio&&4!==b.readyState)){switch(this.loaded=!0,a.type){case createjs.LoadQueue.SVG:case createjs.LoadQueue.JSON:case createjs.LoadQueue.JSONP:case createjs.LoadQueue.MANIFEST:case createjs.LoadQueue.CSS:b.style.visibility=this._startTagVisibility,(document.body||document.getElementsByTagName("body")[0]).removeChild(b)}this._clean(),this._sendComplete()}}},b._clean=function(){clearTimeout(this._loadTimeout);var a=this.getItem(),b=a.tag;null!=b&&(b.onload=null,b.removeEventListener&&b.removeEventListener("canplaythrough",this._tagCompleteProxy,!1),b.onstalled=null,b.onprogress=null,b.onerror=null,null!=b.parentNode&&a.type==createjs.LoadQueue.SVG&&a.type==createjs.LoadQueue.JSON&&a.type==createjs.LoadQueue.MANIFEST&&a.type==createjs.LoadQueue.CSS&&a.type==createjs.LoadQueue.JSONP&&b.parentNode.removeChild(b));var a=this.getItem();(a.type==createjs.LoadQueue.JSONP||a.type==createjs.LoadQueue.MANIFEST)&&(window[a.callback]=null)},b.toString=function(){return"[PreloadJS TagLoader]"},createjs.TagLoader=a}(),this.createjs=this.createjs||{},function(){"use strict";var a=function(a,b){this.init(a,b)},b=a.prototype=new createjs.AbstractLoader;b._request=null,b._loadTimeout=null,b._xhrLevel=1,b._response=null,b._rawResponse=null,b._crossOrigin="",b.init=function(a,b){this._item=a,this._crossOrigin=b,!this._createXHR(a)},b.getResult=function(a){return a&&this._rawResponse?this._rawResponse:this._response},b.cancel=function(){this.canceled=!0,this._clean(),this._request.abort()},b.load=function(){if(null==this._request)return this._handleError(),void 0;if(this._request.onloadstart=createjs.proxy(this._handleLoadStart,this),this._request.onprogress=createjs.proxy(this._handleProgress,this),this._request.onabort=createjs.proxy(this._handleAbort,this),this._request.onerror=createjs.proxy(this._handleError,this),this._request.ontimeout=createjs.proxy(this._handleTimeout,this),1==this._xhrLevel){var a=createjs.LoadQueue.LOAD_TIMEOUT;if(0==a)a=createjs.LoadQueue.loadTimeout;else try{console.warn("LoadQueue.LOAD_TIMEOUT has been deprecated in favor of LoadQueue.loadTimeout")}catch(b){}this._loadTimeout=setTimeout(createjs.proxy(this._handleTimeout,this),a)}this._request.onload=createjs.proxy(this._handleLoad,this),this._request.onreadystatechange=createjs.proxy(this._handleReadyStateChange,this);try{this._item.values&&this._item.method!=createjs.LoadQueue.GET?this._item.method==createjs.LoadQueue.POST&&this._request.send(this._formatQueryString(this._item.values)):this._request.send()}catch(c){var d=new createjs.Event("error");d.error=c,this._sendError(d)}},b.getAllResponseHeaders=function(){return this._request.getAllResponseHeaders instanceof Function?this._request.getAllResponseHeaders():null},b.getResponseHeader=function(a){return this._request.getResponseHeader instanceof Function?this._request.getResponseHeader(a):null},b._handleProgress=function(a){if(a&&!(a.loaded>0&&0==a.total)){var b=new createjs.Event("progress");b.loaded=a.loaded,b.total=a.total,this._sendProgress(b)}},b._handleLoadStart=function(){clearTimeout(this._loadTimeout),this._sendLoadStart()},b._handleAbort=function(){this._clean();var a=new createjs.Event("error");a.text="XHR_ABORTED",this._sendError(a)},b._handleError=function(){this._clean();var a=new createjs.Event("error");this._sendError(a)},b._handleReadyStateChange=function(){4==this._request.readyState&&this._handleLoad()},b._handleLoad=function(){if(!this.loaded){if(this.loaded=!0,!this._checkError())return this._handleError(),void 0;this._response=this._getResponse(),this._clean();var a=this._generateTag();a&&this._sendComplete()}},b._handleTimeout=function(a){this._clean();var b=new createjs.Event("error");b.text="PRELOAD_TIMEOUT",this._sendError(a)},b._checkError=function(){var a=parseInt(this._request.status);switch(a){case 404:case 0:return!1}return!0},b._getResponse=function(){if(null!=this._response)return this._response;if(null!=this._request.response)return this._request.response;try{if(null!=this._request.responseText)return this._request.responseText}catch(a){}try{if(null!=this._request.responseXML)return this._request.responseXML}catch(a){}return null},b._createXHR=function(a){var b=this._isCrossDomain(a),c=null;if(b&&window.XDomainRequest)c=new XDomainRequest;else if(window.XMLHttpRequest)c=new XMLHttpRequest;else try{c=new ActiveXObject("Msxml2.XMLHTTP.6.0")}catch(d){try{c=new ActiveXObject("Msxml2.XMLHTTP.3.0")}catch(d){try{c=new ActiveXObject("Msxml2.XMLHTTP")}catch(d){return!1}}}createjs.LoadQueue.isText(a.type)&&c.overrideMimeType&&c.overrideMimeType("text/plain; charset=utf-8"),this._xhrLevel="string"==typeof c.responseType?2:1;var e=null;return e=a.method==createjs.LoadQueue.GET?this.buildPath(a.src,a.values):a.src,c.open(a.method||createjs.LoadQueue.GET,e,!0),b&&c instanceof XMLHttpRequest&&1==this._xhrLevel&&c.setRequestHeader("Origin",location.origin),a.values&&a.method==createjs.LoadQueue.POST&&c.setRequestHeader("Content-Type","application/x-www-form-urlencoded"),createjs.LoadQueue.isBinary(a.type)&&(c.responseType="arraybuffer"),this._request=c,!0},b._clean=function(){clearTimeout(this._loadTimeout);var a=this._request;a.onloadstart=null,a.onprogress=null,a.onabort=null,a.onerror=null,a.onload=null,a.ontimeout=null,a.onloadend=null,a.onreadystatechange=null},b._generateTag=function(){var a=this._item.type,b=this._item.tag;switch(a){case createjs.LoadQueue.IMAGE:return b.onload=createjs.proxy(this._handleTagReady,this),""!=this._crossOrigin&&(b.crossOrigin="Anonymous"),b.src=this.buildPath(this._item.src,this._item.values),this._rawResponse=this._response,this._response=b,!1;case createjs.LoadQueue.JAVASCRIPT:return b=document.createElement("script"),b.text=this._response,this._rawResponse=this._response,this._response=b,!0;case createjs.LoadQueue.CSS:var c=document.getElementsByTagName("head")[0];if(c.appendChild(b),b.styleSheet)b.styleSheet.cssText=this._response;else{var d=document.createTextNode(this._response);b.appendChild(d)}return this._rawResponse=this._response,this._response=b,!0;case createjs.LoadQueue.XML:var e=this._parseXML(this._response,"text/xml");return this._rawResponse=this._response,this._response=e,!0;case createjs.LoadQueue.SVG:var e=this._parseXML(this._response,"image/svg+xml");return this._rawResponse=this._response,null!=e.documentElement?(b.appendChild(e.documentElement),this._response=b):this._response=e,!0;case createjs.LoadQueue.JSON:case createjs.LoadQueue.MANIFEST:var f={};try{f=JSON.parse(this._response)}catch(g){f=g}return this._rawResponse=this._response,this._response=f,!0}return!0},b._parseXML=function(a,b){var c=null;try{if(window.DOMParser){var d=new DOMParser;c=d.parseFromString(a,b)}else c=new ActiveXObject("Microsoft.XMLDOM"),c.async=!1,c.loadXML(a)}catch(e){}return c},b._handleTagReady=function(){this._sendComplete()},b.toString=function(){return"[PreloadJS XHRLoader]"},createjs.XHRLoader=a}(),"object"!=typeof JSON&&(JSON={}),function(){"use strict";function f(a){return 10>a?"0"+a:a}function quote(a){return escapable.lastIndex=0,escapable.test(a)?'"'+a.replace(escapable,function(a){var b=meta[a];return"string"==typeof b?b:"\\u"+("0000"+a.charCodeAt(0).toString(16)).slice(-4)})+'"':'"'+a+'"'}function str(a,b){var c,d,e,f,g,h=gap,i=b[a];switch(i&&"object"==typeof i&&"function"==typeof i.toJSON&&(i=i.toJSON(a)),"function"==typeof rep&&(i=rep.call(b,a,i)),typeof i){case"string":return quote(i);case"number":return isFinite(i)?String(i):"null";case"boolean":case"null":return String(i);case"object":if(!i)return"null";if(gap+=indent,g=[],"[object Array]"===Object.prototype.toString.apply(i)){for(f=i.length,c=0;f>c;c+=1)g[c]=str(c,i)||"null";return e=0===g.length?"[]":gap?"[\n"+gap+g.join(",\n"+gap)+"\n"+h+"]":"["+g.join(",")+"]",gap=h,e}if(rep&&"object"==typeof rep)for(f=rep.length,c=0;f>c;c+=1)"string"==typeof rep[c]&&(d=rep[c],e=str(d,i),e&&g.push(quote(d)+(gap?": ":":")+e));else for(d in i)Object.prototype.hasOwnProperty.call(i,d)&&(e=str(d,i),e&&g.push(quote(d)+(gap?": ":":")+e));return e=0===g.length?"{}":gap?"{\n"+gap+g.join(",\n"+gap)+"\n"+h+"}":"{"+g.join(",")+"}",gap=h,e}}"function"!=typeof Date.prototype.toJSON&&(Date.prototype.toJSON=function(){return isFinite(this.valueOf())?this.getUTCFullYear()+"-"+f(this.getUTCMonth()+1)+"-"+f(this.getUTCDate())+"T"+f(this.getUTCHours())+":"+f(this.getUTCMinutes())+":"+f(this.getUTCSeconds())+"Z":null},String.prototype.toJSON=Number.prototype.toJSON=Boolean.prototype.toJSON=function(){return this.valueOf()});var cx=/[\u0000\u00ad\u0600-\u0604\u070f\u17b4\u17b5\u200c-\u200f\u2028-\u202f\u2060-\u206f\ufeff\ufff0-\uffff]/g,escapable=/[\\\"\x00-\x1f\x7f-\x9f\u00ad\u0600-\u0604\u070f\u17b4\u17b5\u200c-\u200f\u2028-\u202f\u2060-\u206f\ufeff\ufff0-\uffff]/g,gap,indent,meta={"\b":"\\b","	":"\\t","\n":"\\n","\f":"\\f","\r":"\\r",'"':'\\"',"\\":"\\\\"},rep;"function"!=typeof JSON.stringify&&(JSON.stringify=function(a,b,c){var d;if(gap="",indent="","number"==typeof c)for(d=0;c>d;d+=1)indent+=" ";else"string"==typeof c&&(indent=c);if(rep=b,b&&"function"!=typeof b&&("object"!=typeof b||"number"!=typeof b.length))throw new Error("JSON.stringify");return str("",{"":a})}),"function"!=typeof JSON.parse&&(JSON.parse=function(text,reviver){function walk(a,b){var c,d,e=a[b];if(e&&"object"==typeof e)for(c in e)Object.prototype.hasOwnProperty.call(e,c)&&(d=walk(e,c),void 0!==d?e[c]=d:delete e[c]);return reviver.call(a,b,e)}var j;if(text=String(text),cx.lastIndex=0,cx.test(text)&&(text=text.replace(cx,function(a){return"\\u"+("0000"+a.charCodeAt(0).toString(16)).slice(-4)})),/^[\],:{}\s]*$/.test(text.replace(/\\(?:["\\\/bfnrt]|u[0-9a-fA-F]{4})/g,"@").replace(/"[^"\\\n\r]*"|true|false|null|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?/g,"]").replace(/(?:^|:|,)(?:\s*\[)+/g,"")))return j=eval("("+text+")"),"function"==typeof reviver?walk({"":j},""):j;throw new SyntaxError("JSON.parse")})}();
 /*! KineticJS v5.0.0 2014-01-12 http://www.kineticjs.com by Eric Rowell @ericdrowell - MIT License https://github.com/ericdrowell/KineticJS/wiki/License*/
 var Kinetic={};!function(){Kinetic={version:"5.0.0",stages:[],idCounter:0,ids:{},names:{},shapes:{},listenClickTap:!1,inDblClickWindow:!1,enableTrace:!1,traceArrMax:100,dblClickWindow:400,pixelRatio:void 0,UA:function(){var a=navigator.userAgent.toLowerCase(),b=/(chrome)[ \/]([\w.]+)/.exec(a)||/(webkit)[ \/]([\w.]+)/.exec(a)||/(opera)(?:.*version|)[ \/]([\w.]+)/.exec(a)||/(msie) ([\w.]+)/.exec(a)||a.indexOf("compatible")<0&&/(mozilla)(?:.*? rv:([\w.]+)|)/.exec(a)||[];return{browser:b[1]||"",version:b[2]||"0"}}(),Filters:{},Node:function(a){this._init(a)},Shape:function(a){this.__init(a)},Container:function(a){this.__init(a)},Stage:function(a){this.___init(a)},Layer:function(a){this.___init(a)},Group:function(a){this.___init(a)},isDragging:function(){var a=Kinetic.DD;return a?a.isDragging:!1},isDragReady:function(){var a=Kinetic.DD;return a?!!a.node:!1},_addId:function(a,b){void 0!==b&&(this.ids[b]=a)},_removeId:function(a){void 0!==a&&delete this.ids[a]},_addName:function(a,b){void 0!==b&&(void 0===this.names[b]&&(this.names[b]=[]),this.names[b].push(a))},_removeName:function(a,b){if(void 0!==a){var c=this.names[a];if(void 0!==c){for(var d=0;d<c.length;d++){var e=c[d];e._id===b&&c.splice(d,1)}0===c.length&&delete this.names[a]}}}}}(),function(a,b){"object"==typeof exports?module.exports=b():"function"==typeof define&&define.amd?define(b):a.returnExports=b()}(this,function(){return Kinetic}),function(){Kinetic.Collection=function(){var a=[].slice.call(arguments),b=a.length,c=0;for(this.length=b;b>c;c++)this[c]=a[c];return this},Kinetic.Collection.prototype=[],Kinetic.Collection.prototype.each=function(a){for(var b=0;b<this.length;b++)a(this[b],b)},Kinetic.Collection.prototype.toArray=function(){var a,b=[],c=this.length;for(a=0;c>a;a++)b.push(this[a]);return b},Kinetic.Collection.toCollection=function(a){var b,c=new Kinetic.Collection,d=a.length;for(b=0;d>b;b++)c.push(a[b]);return c},Kinetic.Collection.mapMethods=function(a){var b,c=a.length;for(b=0;c>b;b++)!function(b){var c=a[b];Kinetic.Collection.prototype[c]=function(){var a,b=this.length;for(args=[].slice.call(arguments),a=0;b>a;a++)this[a][c].apply(this[a],args)}}(b)},Kinetic.Transform=function(){this.m=[1,0,0,1,0,0]},Kinetic.Transform.prototype={translate:function(a,b){this.m[4]+=this.m[0]*a+this.m[2]*b,this.m[5]+=this.m[1]*a+this.m[3]*b},scale:function(a,b){this.m[0]*=a,this.m[1]*=a,this.m[2]*=b,this.m[3]*=b},rotate:function(a){var b=Math.cos(a),c=Math.sin(a),d=this.m[0]*b+this.m[2]*c,e=this.m[1]*b+this.m[3]*c,f=this.m[0]*-c+this.m[2]*b,g=this.m[1]*-c+this.m[3]*b;this.m[0]=d,this.m[1]=e,this.m[2]=f,this.m[3]=g},getTranslation:function(){return{x:this.m[4],y:this.m[5]}},skew:function(a,b){var c=this.m[0]+this.m[2]*b,d=this.m[1]+this.m[3]*b,e=this.m[2]+this.m[0]*a,f=this.m[3]+this.m[1]*a;this.m[0]=c,this.m[1]=d,this.m[2]=e,this.m[3]=f},multiply:function(a){var b=this.m[0]*a.m[0]+this.m[2]*a.m[1],c=this.m[1]*a.m[0]+this.m[3]*a.m[1],d=this.m[0]*a.m[2]+this.m[2]*a.m[3],e=this.m[1]*a.m[2]+this.m[3]*a.m[3],f=this.m[0]*a.m[4]+this.m[2]*a.m[5]+this.m[4],g=this.m[1]*a.m[4]+this.m[3]*a.m[5]+this.m[5];this.m[0]=b,this.m[1]=c,this.m[2]=d,this.m[3]=e,this.m[4]=f,this.m[5]=g},invert:function(){var a=1/(this.m[0]*this.m[3]-this.m[1]*this.m[2]),b=this.m[3]*a,c=-this.m[1]*a,d=-this.m[2]*a,e=this.m[0]*a,f=a*(this.m[2]*this.m[5]-this.m[3]*this.m[4]),g=a*(this.m[1]*this.m[4]-this.m[0]*this.m[5]);this.m[0]=b,this.m[1]=c,this.m[2]=d,this.m[3]=e,this.m[4]=f,this.m[5]=g},getMatrix:function(){return this.m},setAbsolutePosition:function(a,b){var c=this.m[0],d=this.m[1],e=this.m[2],f=this.m[3],g=this.m[4],h=this.m[5],i=(c*(b-h)-d*(a-g))/(c*f-d*e),j=(a-g-e*i)/c;this.translate(j,i)}};var a="canvas",b="2d",c="[object Array]",d="[object Number]",e="[object String]",f=Math.PI/180,g=180/Math.PI,h="#",i="",j="0",k="Kinetic warning: ",l="Kinetic error: ",m="rgb(",n={aqua:[0,255,255],lime:[0,255,0],silver:[192,192,192],black:[0,0,0],maroon:[128,0,0],teal:[0,128,128],blue:[0,0,255],navy:[0,0,128],white:[255,255,255],fuchsia:[255,0,255],olive:[128,128,0],yellow:[255,255,0],orange:[255,165,0],gray:[128,128,128],purple:[128,0,128],green:[0,128,0],red:[255,0,0],pink:[255,192,203],cyan:[0,255,255],transparent:[255,255,255,0]},o=/rgb\((\d{1,3}),(\d{1,3}),(\d{1,3})\)/;Kinetic.Util={_isElement:function(a){return!(!a||1!=a.nodeType)},_isFunction:function(a){return!!(a&&a.constructor&&a.call&&a.apply)},_isObject:function(a){return!!a&&a.constructor==Object},_isArray:function(a){return Object.prototype.toString.call(a)==c},_isNumber:function(a){return Object.prototype.toString.call(a)==d},_isString:function(a){return Object.prototype.toString.call(a)==e},_hasMethods:function(a){var b,c=[];for(b in a)this._isFunction(a[b])&&c.push(b);return c.length>0},_isInDocument:function(a){for(;a=a.parentNode;)if(a==document)return!0;return!1},_simplifyArray:function(a){var b,c,d=[],e=a.length,f=Kinetic.Util;for(b=0;e>b;b++)c=a[b],f._isNumber(c)?c=Math.round(1e3*c)/1e3:f._isString(c)||(c=c.toString()),d.push(c);return d},_getImage:function(c,d){var e,f;c?this._isElement(c)?d(c):this._isString(c)?(e=new Image,e.onload=function(){d(e)},e.src=c):c.data?(f=document.createElement(a),f.width=c.width,f.height=c.height,_context=f.getContext(b),_context.putImageData(c,0,0),this._getImage(f.toDataURL(),d)):d(null):d(null)},_rgbToHex:function(a,b,c){return((1<<24)+(a<<16)+(b<<8)+c).toString(16).slice(1)},_hexToRgb:function(a){a=a.replace(h,i);var b=parseInt(a,16);return{r:255&b>>16,g:255&b>>8,b:255&b}},getRandomColor:function(){for(var a=(16777215*Math.random()<<0).toString(16);a.length<6;)a=j+a;return h+a},get:function(a,b){return void 0===a?b:a},getRGB:function(a){var b;return a in n?(b=n[a],{r:b[0],g:b[1],b:b[2]}):a[0]===h?this._hexToRgb(a.substring(1)):a.substr(0,4)===m?(b=o.exec(a.replace(/ /g,"")),{r:parseInt(b[1],10),g:parseInt(b[2],10),b:parseInt(b[3],10)}):{r:0,g:0,b:0}},_merge:function(a,b){var c=this._clone(b);for(var d in a)c[d]=this._isObject(a[d])?this._merge(a[d],c[d]):a[d];return c},cloneObject:function(a){var b={};for(var c in a)b[c]=this._isObject(a[c])?this._clone(a[c]):a[c];return b},cloneArray:function(a){return a.slice(0)},_degToRad:function(a){return a*f},_radToDeg:function(a){return a*g},_capitalize:function(a){return a.charAt(0).toUpperCase()+a.slice(1)},error:function(a){throw new Error(l+a)},warn:function(a){window.console&&console.warn&&console.warn(k+a)},extend:function(a,b){for(var c in b.prototype)c in a.prototype||(a.prototype[c]=b.prototype[c])},addMethods:function(a,b){var c;for(c in b)a.prototype[c]=b[c]},_getControlPoints:function(a,b,c,d,e,f,g){var h=Math.sqrt(Math.pow(c-a,2)+Math.pow(d-b,2)),i=Math.sqrt(Math.pow(e-c,2)+Math.pow(f-d,2)),j=g*h/(h+i),k=g*i/(h+i),l=c-j*(e-a),m=d-j*(f-b),n=c+k*(e-a),o=d+k*(f-b);return[l,m,n,o]},_expandPoints:function(a,b){var c,d,e=a.length,f=[];for(c=2;e-2>c;c+=2)d=Kinetic.Util._getControlPoints(a[c-2],a[c-1],a[c],a[c+1],a[c+2],a[c+3],b),f.push(d[0]),f.push(d[1]),f.push(a[c]),f.push(a[c+1]),f.push(d[2]),f.push(d[3]);return f},_removeLastLetter:function(a){return a.substring(0,a.length-1)}}}(),function(){var a=document.createElement("canvas"),b=a.getContext("2d"),c=window.devicePixelRatio||1,d=b.webkitBackingStorePixelRatio||b.mozBackingStorePixelRatio||b.msBackingStorePixelRatio||b.oBackingStorePixelRatio||b.backingStorePixelRatio||1,e=c/d;Kinetic.Canvas=function(a){this.init(a)},Kinetic.Canvas.prototype={init:function(a){a=a||{};var b=a.pixelRatio||Kinetic.pixelRatio||e;this.pixelRatio=b,this._canvas=document.createElement("canvas"),this._canvas.style.padding=0,this._canvas.style.margin=0,this._canvas.style.border=0,this._canvas.style.background="transparent",this._canvas.style.position="absolute",this._canvas.style.top=0,this._canvas.style.left=0},getContext:function(){return this.context},getPixelRatio:function(){return this.pixelRatio},setPixelRatio:function(a){this.pixelRatio=a,this.setSize(this.getWidth(),this.getHeight())},setWidth:function(a){this.width=this._canvas.width=a*this.pixelRatio,this._canvas.style.width=a+"px"},setHeight:function(a){this.height=this._canvas.height=a*this.pixelRatio,this._canvas.style.height=a+"px"},getWidth:function(){return this.width},getHeight:function(){return this.height},setSize:function(a,b){this.setWidth(a),this.setHeight(b)},toDataURL:function(a,b){try{return this._canvas.toDataURL(a,b)}catch(c){try{return this._canvas.toDataURL()}catch(d){return Kinetic.Util.warn("Unable to get data URL. "+d.message),""}}}},Kinetic.SceneCanvas=function(a){a=a||{};var b=a.width||0,c=a.height||0;Kinetic.Canvas.call(this,a),this.context=new Kinetic.SceneContext(this),this.setSize(b,c)},Kinetic.SceneCanvas.prototype={setWidth:function(a){var b=this.pixelRatio,c=this.getContext()._context;Kinetic.Canvas.prototype.setWidth.call(this,a),c.scale(b,b)},setHeight:function(a){var b=this.pixelRatio,c=this.getContext()._context;Kinetic.Canvas.prototype.setHeight.call(this,a),c.scale(b,b)}},Kinetic.Util.extend(Kinetic.SceneCanvas,Kinetic.Canvas),Kinetic.HitCanvas=function(a){a=a||{};var b=a.width||0,c=a.height||0;Kinetic.Canvas.call(this,a),this.context=new Kinetic.HitContext(this),this.setSize(b,c)},Kinetic.Util.extend(Kinetic.HitCanvas,Kinetic.Canvas)}(),function(){var a=",",b="(",c=")",d="([",e="])",f=";",g="()",h="=",i=["arc","arcTo","beginPath","bezierCurveTo","clearRect","clip","closePath","createLinearGradient","createPattern","createRadialGradient","drawImage","fill","fillText","getImageData","createImageData","lineTo","moveTo","putImageData","quadraticCurveTo","rect","restore","rotate","save","scale","setLineDash","setTransform","stroke","strokeText","transform","translate"];Kinetic.Context=function(a){this.init(a)},Kinetic.Context.prototype={init:function(a){this.canvas=a,this._context=a._canvas.getContext("2d"),Kinetic.enableTrace&&(this.traceArr=[],this._enableTrace())},fillShape:function(a){a.getFillEnabled()&&this._fill(a)},strokeShape:function(a){a.getStrokeEnabled()&&this._stroke(a)},fillStrokeShape:function(a){var b=a.getFillEnabled();b&&this._fill(a),a.getStrokeEnabled()&&this._stroke(a)},getTrace:function(i){var j,k,l,m,n=this.traceArr,o=n.length,p="";for(j=0;o>j;j++)k=n[j],l=k.method,l?(m=k.args,p+=l,p+=i?g:Kinetic.Util._isArray(m[0])?d+m.join(a)+e:b+m.join(a)+c):(p+=k.property,i||(p+=h+k.val)),p+=f;return p},clearTrace:function(){this.traceArr=[]},_trace:function(a){var b,c=this.traceArr;c.push(a),b=c.length,b>=Kinetic.traceArrMax&&c.shift()},reset:function(){var a=this.getCanvas().getPixelRatio();this.setTransform(1*a,0,0,1*a,0,0)},getCanvas:function(){return this.canvas},clear:function(a){var b=this.getCanvas();a?this.clearRect(a.x||0,a.y||0,a.width||0,a.height||0):this.clearRect(0,0,b.getWidth(),b.getHeight())},_applyLineCap:function(a){var b=a.getLineCap();b&&this.setAttr("lineCap",b)},_applyOpacity:function(a){var b=a.getAbsoluteOpacity();1!==b&&this.setAttr("globalAlpha",b)},_applyLineJoin:function(a){var b=a.getLineJoin();b&&this.setAttr("lineJoin",b)},_applyTransform:function(a){var b,c=a.getTransformsEnabled();"all"===c?(b=a.getAbsoluteTransform().getMatrix(),this.transform(b[0],b[1],b[2],b[3],b[4],b[5])):"position"===c&&this.translate(a.getX(),a.getY())},setAttr:function(a,b){this._context[a]=b},arc:function(){var a=arguments;this._context.arc(a[0],a[1],a[2],a[3],a[4],a[5])},beginPath:function(){this._context.beginPath()},bezierCurveTo:function(){var a=arguments;this._context.bezierCurveTo(a[0],a[1],a[2],a[3],a[4],a[5])},clearRect:function(){var a=arguments;this._context.clearRect(a[0],a[1],a[2],a[3])},clip:function(){this._context.clip()},closePath:function(){this._context.closePath()},createImageData:function(){var a=arguments;return 2===a.length?this._context.createImageData(a[0],a[1]):1===a.length?this._context.createImageData(a[0]):void 0},createLinearGradient:function(){var a=arguments;return this._context.createLinearGradient(a[0],a[1],a[2],a[3])},createPattern:function(){var a=arguments;return this._context.createPattern(a[0],a[1])},createRadialGradient:function(){var a=arguments;return this._context.createRadialGradient(a[0],a[1],a[2],a[3],a[4],a[5])},drawImage:function(){var a=arguments,b=this._context;3===a.length?b.drawImage(a[0],a[1],a[2]):5===a.length?b.drawImage(a[0],a[1],a[2],a[3],a[4]):9===a.length&&b.drawImage(a[0],a[1],a[2],a[3],a[4],a[5],a[6],a[7],a[8])},fill:function(){this._context.fill()},fillText:function(){var a=arguments;this._context.fillText(a[0],a[1],a[2])},getImageData:function(){var a=arguments;return this._context.getImageData(a[0],a[1],a[2],a[3])},lineTo:function(){var a=arguments;this._context.lineTo(a[0],a[1])},moveTo:function(){var a=arguments;this._context.moveTo(a[0],a[1])},rect:function(){var a=arguments;this._context.rect(a[0],a[1],a[2],a[3])},putImageData:function(){var a=arguments;this._context.putImageData(a[0],a[1],a[2])},quadraticCurveTo:function(){var a=arguments;this._context.quadraticCurveTo(a[0],a[1],a[2],a[3])},restore:function(){this._context.restore()},rotate:function(){var a=arguments;this._context.rotate(a[0])},save:function(){this._context.save()},scale:function(){var a=arguments;this._context.scale(a[0],a[1])},setLineDash:function(){var a=arguments,b=this._context;this._context.setLineDash?b.setLineDash(a[0]):"mozDash"in b?b.mozDash=a[0]:"webkitLineDash"in b&&(b.webkitLineDash=a[0])},setTransform:function(){var a=arguments;this._context.setTransform(a[0],a[1],a[2],a[3],a[4],a[5])},stroke:function(){this._context.stroke()},strokeText:function(){var a=arguments;this._context.strokeText(a[0],a[1],a[2])},transform:function(){var a=arguments;this._context.transform(a[0],a[1],a[2],a[3],a[4],a[5])},translate:function(){var a=arguments;this._context.translate(a[0],a[1])},_enableTrace:function(){var a,b,c=this,d=i.length,e=Kinetic.Util._simplifyArray,f=this.setAttr;for(a=0;d>a;a++)!function(a){var d,f=c[a];c[a]=function(){return b=e(Array.prototype.slice.call(arguments,0)),d=f.apply(c,arguments),c._trace({method:a,args:b}),d}}(i[a]);c.setAttr=function(){f.apply(c,arguments),c._trace({property:arguments[0],val:arguments[1]})}}},Kinetic.SceneContext=function(a){Kinetic.Context.call(this,a)},Kinetic.SceneContext.prototype={_fillColor:function(a){var b=a.fill()||Kinetic.Util._rgbToHex(a.fillRed(),a.fillGreen(),a.fillBlue());this.setAttr("fillStyle",b),a._fillFunc(this)},_fillPattern:function(a){var b=a.getFillPatternImage(),c=a.getFillPatternX(),d=a.getFillPatternY(),e=a.getFillPatternScale(),f=a.getFillPatternRotation(),g=a.getFillPatternOffset(),h=a.getFillPatternRepeat();(c||d)&&this.translate(c||0,d||0),f&&this.rotate(f),e&&this.scale(e.x,e.y),g&&this.translate(-1*g.x,-1*g.y),this.setAttr("fillStyle",this.createPattern(b,h||"repeat")),this.fill()},_fillLinearGradient:function(a){var b=a.getFillLinearGradientStartPoint(),c=a.getFillLinearGradientEndPoint(),d=a.getFillLinearGradientColorStops(),e=this.createLinearGradient(b.x,b.y,c.x,c.y);if(d){for(var f=0;f<d.length;f+=2)e.addColorStop(d[f],d[f+1]);this.setAttr("fillStyle",e),this.fill()}},_fillRadialGradient:function(a){for(var b=a.getFillRadialGradientStartPoint(),c=a.getFillRadialGradientEndPoint(),d=a.getFillRadialGradientStartRadius(),e=a.getFillRadialGradientEndRadius(),f=a.getFillRadialGradientColorStops(),g=this.createRadialGradient(b.x,b.y,d,c.x,c.y,e),h=0;h<f.length;h+=2)g.addColorStop(f[h],f[h+1]);this.setAttr("fillStyle",g),this.fill()},_fill:function(a){var b=a.fill()||a.fillRed()||a.fillGreen()||a.fillBlue(),c=a.getFillPatternImage(),d=a.getFillLinearGradientColorStops(),e=a.getFillRadialGradientColorStops(),f=a.getFillPriority();b&&"color"===f?this._fillColor(a):c&&"pattern"===f?this._fillPattern(a):d&&"linear-gradient"===f?this._fillLinearGradient(a):e&&"radial-gradient"===f?this._fillRadialGradient(a):b?this._fillColor(a):c?this._fillPattern(a):d?this._fillLinearGradient(a):e&&this._fillRadialGradient(a)},_stroke:function(a){var b=a.dash(),c=a.getStrokeScaleEnabled();a.hasStroke()&&(c||(this.save(),this.setTransform(1,0,0,1,0,0)),this._applyLineCap(a),b&&a.dashEnabled()&&this.setLineDash(b),this.setAttr("lineWidth",a.strokeWidth()),this.setAttr("strokeStyle",a.stroke()||Kinetic.Util._rgbToHex(a.strokeRed(),a.strokeGreen(),a.strokeBlue())),a._strokeFunc(this),c||this.restore())},_applyShadow:function(a){var b=Kinetic.Util,c=a.getAbsoluteOpacity(),d=b.get(a.getShadowColor(),"black"),e=b.get(a.getShadowBlur(),5),f=b.get(a.getShadowOpacity(),0),g=b.get(a.getShadowOffset(),{x:0,y:0});f&&this.setAttr("globalAlpha",f*c),this.setAttr("shadowColor",d),this.setAttr("shadowBlur",e),this.setAttr("shadowOffsetX",g.x),this.setAttr("shadowOffsetY",g.y)}},Kinetic.Util.extend(Kinetic.SceneContext,Kinetic.Context),Kinetic.HitContext=function(a){Kinetic.Context.call(this,a)},Kinetic.HitContext.prototype={_fill:function(a){this.save(),this.setAttr("fillStyle",a.colorKey),a._fillFuncHit(this),this.restore()},_stroke:function(a){a.hasStroke()&&(this._applyLineCap(a),this.setAttr("lineWidth",a.strokeWidth()),this.setAttr("strokeStyle",a.colorKey),a._strokeFuncHit(this))}},Kinetic.Util.extend(Kinetic.HitContext,Kinetic.Context)}(),function(){var a="get",b="set";Kinetic.Factory={addGetterSetter:function(a,b,c,d){this.addGetter(a,b,c),this.addSetter(a,b,d),this.addOverloadedGetterSetter(a,b)},addGetter:function(b,c,d){var e=a+Kinetic.Util._capitalize(c);b.prototype[e]=function(){var a=this.attrs[c];return void 0===a?d:a}},addSetter:function(a,c,d){var e=b+Kinetic.Util._capitalize(c);a.prototype[e]=function(a){return d&&(a=d.call(this,a)),this._setAttr(c,a),this}},addComponentsGetterSetter:function(c,d,e,f){var g,h,i=e.length,j=Kinetic.Util._capitalize,k=a+j(d),l=b+j(d);c.prototype[k]=function(){var a={};for(g=0;i>g;g++)h=e[g],a[h]=this.getAttr(d+j(h));return a},c.prototype[l]=function(a){var b,c=this.attrs[d];f&&(a=f.call(this,a));for(b in a)this._setAttr(d+j(b),a[b]);return this._fireChangeEvent(d,c,a),this},this.addOverloadedGetterSetter(c,d)},addOverloadedGetterSetter:function(c,d){var e=Kinetic.Util._capitalize(d),f=b+e,g=a+e;c.prototype[d]=function(){return arguments.length?(this[f](arguments[0]),this):this[g]()}},backCompat:function(a,b){var c;for(c in b)a.prototype[c]=a.prototype[b[c]]}}}(),function(){var a="absoluteOpacity",b="absoluteTransform",c="before",d="Change",e="children",f=".",g="",h="get",i="id",j="kinetic",k="listening",l="mouseenter",m="mouseleave",n="name",o="set",p="Shape",q=" ",r="stage",s="transform",t="Stage",u="visible",v=["xChange.kinetic","yChange.kinetic","scaleXChange.kinetic","scaleYChange.kinetic","skewXChange.kinetic","skewYChange.kinetic","rotationChange.kinetic","offsetXChange.kinetic","offsetYChange.kinetic","transformsEnabledChange.kinetic"].join(q);Kinetic.Util.addMethods(Kinetic.Node,{_init:function(c){var d=this;this._id=Kinetic.idCounter++,this.eventListeners={},this.attrs={},this._cache={},this._filterUpToDate=!1,this.setAttrs(c),this.on(v,function(){this._clearCache(s),d._clearSelfAndDescendantCache(b)}),this.on("visibleChange.kinetic",function(){d._clearSelfAndDescendantCache(u)}),this.on("listeningChange.kinetic",function(){d._clearSelfAndDescendantCache(k)}),this.on("opacityChange.kinetic",function(){d._clearSelfAndDescendantCache(a)})},_clearCache:function(a){a?delete this._cache[a]:this._cache={}},_getCache:function(a,b){var c=this._cache[a];return void 0===c&&(this._cache[a]=b.call(this)),this._cache[a]},_clearSelfAndDescendantCache:function(a){this._clearCache(a),this.children&&this.getChildren().each(function(b){b._clearSelfAndDescendantCache(a)})},clearCache:function(){return delete this._cache.canvas,this._filterUpToDate=!1,this},cache:function(a){var b,c=a||{},d=c.x||0,e=c.y||0,f=c.width||this.width(),g=c.height||this.height(),h=c.drawBorder||!1,i=new Kinetic.SceneCanvas({pixelRatio:1,width:f,height:g}),j=new Kinetic.SceneCanvas({pixelRatio:1,width:f,height:g}),k=new Kinetic.HitCanvas({width:f,height:g}),l=this.transformsEnabled(),m=this.x(),n=this.y();return this.clearCache(),this.transformsEnabled("position"),this.x(-1*d),this.y(-1*e),this.drawScene(i),this.drawHit(k),h&&(b=i.getContext(),b.save(),b.beginPath(),b.rect(0,0,f,g),b.closePath(),b.setAttr("strokeStyle","red"),b.setAttr("lineWidth",5),b.stroke(),b.restore()),this.x(m),this.y(n),this.transformsEnabled(l),this._cache.canvas={scene:i,filter:j,hit:k},this},_drawCachedSceneCanvas:function(a){a.save(),a._applyTransform(this),a.drawImage(this._getCachedSceneCanvas()._canvas,0,0),a.restore()},_getCachedSceneCanvas:function(){var a,b,c,d,e=this.filters(),f=this._cache.canvas,g=f.scene,h=f.filter,i=h.getContext();if(e){if(!this._filterUpToDate){try{for(a=e.length,i.clear(),i.drawImage(g._canvas,0,0),b=i.getImageData(0,0,h.getWidth(),h.getHeight()),c=0;a>c;c++)d=e[c],d.call(this,b),i.putImageData(b,0,0)}catch(j){Kinetic.Util.warn("Unable to apply filter. "+j.message)}this._filterUpToDate=!0}return h}return g},_drawCachedHitCanvas:function(a){var b=this._cache.canvas,c=b.hit;a.save(),a._applyTransform(this),a.drawImage(c._canvas,0,0),a.restore()},on:function(a,b){var c,d,e,h,i,j=a.split(q),k=j.length;for(c=0;k>c;c++)d=j[c],e=d.split(f),h=e[0],i=e[1]||g,this.eventListeners[h]||(this.eventListeners[h]=[]),this.eventListeners[h].push({name:i,handler:b});return this},off:function(a){var b,c,d,e,g,h,i=a.split(q),j=i.length;for(b=0;j>b;b++)if(d=i[b],e=d.split(f),g=e[0],h=e[1],g)this.eventListeners[g]&&this._off(g,h);else for(c in this.eventListeners)this._off(c,h);return this},remove:function(){var c=this.getParent();return c&&c.children&&(c.children.splice(this.index,1),c._setChildrenIndices(),delete this.parent),this._clearSelfAndDescendantCache(r),this._clearSelfAndDescendantCache(b),this._clearSelfAndDescendantCache(u),this._clearSelfAndDescendantCache(k),this._clearSelfAndDescendantCache(a),this},destroy:function(){Kinetic._removeId(this.getId()),Kinetic._removeName(this.getName(),this._id),this.remove()},getAttr:function(a){var b=h+Kinetic.Util._capitalize(a);return Kinetic.Util._isFunction(this[b])?this[b]():this.attrs[a]},getAncestors:function(){for(var a=this.getParent(),b=new Kinetic.Collection;a;)b.push(a),a=a.getParent();return b},getAttrs:function(){return this.attrs||{}},setAttrs:function(a){var b,c;if(a)for(b in a)b===e||(c=o+Kinetic.Util._capitalize(b),Kinetic.Util._isFunction(this[c])?this[c](a[b]):this._setAttr(b,a[b]));return this},isListening:function(){return this._getCache(k,this._isListening)},_isListening:function(){var a=this.getListening(),b=this.getParent();return"inherit"===a?b?b.isListening():!0:a},isVisible:function(){return this._getCache(u,this._isVisible)},_isVisible:function(){var a=this.getVisible(),b=this.getParent();return"inherit"===a?b?b.isVisible():!0:a},shouldDrawHit:function(){var a=this.getLayer();return a&&a.isHitGraphEnabled()&&this.isListening()&&this.isVisible()&&!Kinetic.isDragging()},show:function(){return this.setVisible(!0),this},hide:function(){return this.setVisible(!1),this},getZIndex:function(){return this.index||0},getAbsoluteZIndex:function(){function a(i){for(b=[],c=i.length,d=0;c>d;d++)e=i[d],h++,e.nodeType!==p&&(b=b.concat(e.getChildren().toArray())),e._id===g._id&&(d=c);b.length>0&&b[0].getDepth()<=f&&a(b)}var b,c,d,e,f=this.getDepth(),g=this,h=0;return g.nodeType!==t&&a(g.getStage().getChildren()),h},getDepth:function(){for(var a=0,b=this.parent;b;)a++,b=b.parent;return a},setPosition:function(a){return this.setX(a.x),this.setY(a.y),this},getPosition:function(){return{x:this.getX(),y:this.getY()}},getAbsolutePosition:function(){var a=this.getAbsoluteTransform().getMatrix(),b=new Kinetic.Transform,c=this.offset();return b.m=a.slice(),b.translate(c.x,c.y),b.getTranslation()},setAbsolutePosition:function(a){var b,c=this._clearTransform();return this.attrs.x=c.x,this.attrs.y=c.y,delete c.x,delete c.y,b=this.getAbsoluteTransform(),b.invert(),b.translate(a.x,a.y),a={x:this.attrs.x+b.getTranslation().x,y:this.attrs.y+b.getTranslation().y},this.setPosition({x:a.x,y:a.y}),this._setTransform(c),this},_setTransform:function(a){var c;for(c in a)this.attrs[c]=a[c];this._clearCache(s),this._clearSelfAndDescendantCache(b)},_clearTransform:function(){var a={x:this.getX(),y:this.getY(),rotation:this.getRotation(),scaleX:this.getScaleX(),scaleY:this.getScaleY(),offsetX:this.getOffsetX(),offsetY:this.getOffsetY(),skewX:this.getSkewX(),skewY:this.getSkewY()};return this.attrs.x=0,this.attrs.y=0,this.attrs.rotation=0,this.attrs.scaleX=1,this.attrs.scaleY=1,this.attrs.offsetX=0,this.attrs.offsetY=0,this.attrs.skewX=0,this.attrs.skewY=0,this._clearCache(s),this._clearSelfAndDescendantCache(b),a},move:function(a){var b=a.x,c=a.y,d=this.getX(),e=this.getY();return void 0!==b&&(d+=b),void 0!==c&&(e+=c),this.setPosition({x:d,y:e}),this},_eachAncestorReverse:function(a,b){var c,d,e=[],f=this.getParent();for(b&&e.unshift(this);f;)e.unshift(f),f=f.parent;for(c=e.length,d=0;c>d;d++)a(e[d])},rotate:function(a){return this.setRotation(this.getRotation()+a),this},moveToTop:function(){var a=this.index;return this.parent.children.splice(a,1),this.parent.children.push(this),this.parent._setChildrenIndices(),!0},moveUp:function(){var a=this.index,b=this.parent.getChildren().length;return b-1>a?(this.parent.children.splice(a,1),this.parent.children.splice(a+1,0,this),this.parent._setChildrenIndices(),!0):!1},moveDown:function(){var a=this.index;return a>0?(this.parent.children.splice(a,1),this.parent.children.splice(a-1,0,this),this.parent._setChildrenIndices(),!0):!1},moveToBottom:function(){var a=this.index;return a>0?(this.parent.children.splice(a,1),this.parent.children.unshift(this),this.parent._setChildrenIndices(),!0):!1},setZIndex:function(a){var b=this.index;return this.parent.children.splice(b,1),this.parent.children.splice(a,0,this),this.parent._setChildrenIndices(),this},getAbsoluteOpacity:function(){return this._getCache(a,this._getAbsoluteOpacity)},_getAbsoluteOpacity:function(){var a=this.getOpacity();return this.getParent()&&(a*=this.getParent().getAbsoluteOpacity()),a},moveTo:function(a){return Kinetic.Node.prototype.remove.call(this),a.add(this),this},toObject:function(){var a,b,c,d,e=Kinetic.Util,f={},g=this.getAttrs();f.attrs={};for(a in g)b=g[a],e._isFunction(b)||e._isElement(b)||e._isObject(b)&&e._hasMethods(b)||(c=this[h+Kinetic.Util._capitalize(a)],d=c?c.call({attrs:{}}):null,d!==b&&(f.attrs[a]=b));return f.className=this.getClassName(),f},toJSON:function(){return JSON.stringify(this.toObject())},getParent:function(){return this.parent},getLayer:function(){var a=this.getParent();return a?a.getLayer():null},getStage:function(){return this._getCache(r,this._getStage)},_getStage:function(){var a=this.getParent();return a?a.getStage():void 0},fire:function(a,b,c){return c?this._fireAndBubble(a,b||{}):this._fire(a,b||{}),this},getAbsoluteTransform:function(){return this._getCache(b,this._getAbsoluteTransform)},_getAbsoluteTransform:function(){var a,b,c=new Kinetic.Transform;return this._eachAncestorReverse(function(d){a=d.transformsEnabled(),b=d.getTransform(),"all"===a?c.multiply(b):"position"===a&&c.translate(d.x(),d.y())},!0),c},getTransform:function(){return this._getCache(s,this._getTransform)},_getTransform:function(){var a=new Kinetic.Transform,b=this.getX(),c=this.getY(),d=this.getRotation()*Math.PI/180,e=this.getScaleX(),f=this.getScaleY(),g=this.getSkewX(),h=this.getSkewY(),i=this.getOffsetX(),j=this.getOffsetY();return(0!==b||0!==c)&&a.translate(b,c),0!==d&&a.rotate(d),(0!==g||0!==h)&&a.skew(g,h),(1!==e||1!==f)&&a.scale(e,f),(0!==i||0!==j)&&a.translate(-1*i,-1*j),a},clone:function(a){var b,c,d,e,f,g=this.getClassName(),h=new Kinetic[g](this.attrs);for(b in this.eventListeners)for(c=this.eventListeners[b],d=c.length,e=0;d>e;e++)f=c[e],f.name.indexOf(j)<0&&(h.eventListeners[b]||(h.eventListeners[b]=[]),h.eventListeners[b].push(f));return h.setAttrs(a),h},toDataURL:function(a){a=a||{};var b=a.mimeType||null,c=a.quality||null,d=this.getStage(),e=a.x||0,f=a.y||0,g=new Kinetic.SceneCanvas({width:a.width||this.getWidth()||(d?d.getWidth():0),height:a.height||this.getHeight()||(d?d.getHeight():0),pixelRatio:1}),h=g.getContext();return h.save(),(e||f)&&h.translate(-1*e,-1*f),this.drawScene(g),h.restore(),g.toDataURL(b,c)},toImage:function(a){Kinetic.Util._getImage(this.toDataURL(a),function(b){a.callback(b)})},setSize:function(a){return this.setWidth(a.width),this.setHeight(a.height),this},getSize:function(){return{width:this.getWidth(),height:this.getHeight()}},getWidth:function(){return this.attrs.width||0},getHeight:function(){return this.attrs.height||0},getClassName:function(){return this.className||this.nodeType},getType:function(){return this.nodeType},_get:function(a){return this.nodeType===a?[this]:[]},_off:function(a,b){var c,d,e=this.eventListeners[a];for(c=0;c<e.length;c++)if(d=e[c].name,!("kinetic"===d&&"kinetic"!==b||b&&d!==b)){if(e.splice(c,1),0===e.length){delete this.eventListeners[a];break}c--}},_fireBeforeChangeEvent:function(a,b,e){this._fire([c,Kinetic.Util._capitalize(a),d].join(g),{oldVal:b,newVal:e})},_fireChangeEvent:function(a,b,c){this._fire(a+d,{oldVal:b,newVal:c})},setId:function(a){var b=this.getId();return Kinetic._removeId(b),Kinetic._addId(this,a),this._setAttr(i,a),this},setName:function(a){var b=this.getName();return Kinetic._removeName(b,this._id),Kinetic._addName(this,a),this._setAttr(n,a),this},setAttr:function(){var a=Array.prototype.slice.call(arguments),b=a[0],c=a[1],d=o+Kinetic.Util._capitalize(b),e=this[d];return Kinetic.Util._isFunction(e)?e.call(this,c):this._setAttr(b,c),this},_setAttr:function(a,b){var c;void 0!==b&&(c=this.attrs[a],this.attrs[a]=b,this._fireChangeEvent(a,c,b))},_setComponentAttr:function(a,b,c){var d;void 0!==c&&(d=this.attrs[a],d||(this.attrs[a]=this.getAttr(a)),this.attrs[a][b]=c,this._fireChangeEvent(a,d,c))},_fireAndBubble:function(a,b,c){var d=!0;b&&this.nodeType===p&&(b.targetNode=this),a===l&&c&&this._id===c._id?d=!1:a===m&&c&&this._id===c._id&&(d=!1),d&&(this._fire(a,b),b&&!b.cancelBubble&&this.parent&&(c&&c.parent?this._fireAndBubble.call(this.parent,a,b,c.parent):this._fireAndBubble.call(this.parent,a,b)))},_fire:function(a,b){var c,d=this.eventListeners[a];if(d)for(c=0;c<d.length;c++)d[c].handler.call(this,b)},draw:function(){return this.drawScene(),this.drawHit(),this}}),Kinetic.Node.create=function(a,b){return this._createNode(JSON.parse(a),b)},Kinetic.Node._createNode=function(a,b){var c,d,e,f=Kinetic.Node.prototype.getClassName.call(a),g=a.children;if(b&&(a.attrs.container=b),c=new Kinetic[f](a.attrs),g)for(d=g.length,e=0;d>e;e++)c.add(this._createNode(g[e]));return c},Kinetic.Factory.addOverloadedGetterSetter(Kinetic.Node,"position"),Kinetic.Factory.addGetterSetter(Kinetic.Node,"x",0),Kinetic.Factory.addGetterSetter(Kinetic.Node,"y",0),Kinetic.Factory.addGetterSetter(Kinetic.Node,"opacity",1),Kinetic.Factory.addGetter(Kinetic.Node,"name"),Kinetic.Factory.addOverloadedGetterSetter(Kinetic.Node,"name"),Kinetic.Factory.addGetter(Kinetic.Node,"id"),Kinetic.Factory.addOverloadedGetterSetter(Kinetic.Node,"id"),Kinetic.Factory.addGetterSetter(Kinetic.Node,"rotation",0),Kinetic.Factory.addComponentsGetterSetter(Kinetic.Node,"scale",["x","y"]),Kinetic.Factory.addGetterSetter(Kinetic.Node,"scaleX",1),Kinetic.Factory.addGetterSetter(Kinetic.Node,"scaleY",1),Kinetic.Factory.addComponentsGetterSetter(Kinetic.Node,"skew",["x","y"]),Kinetic.Factory.addGetterSetter(Kinetic.Node,"skewX",0),Kinetic.Factory.addGetterSetter(Kinetic.Node,"skewY",0),Kinetic.Factory.addComponentsGetterSetter(Kinetic.Node,"offset",["x","y"]),Kinetic.Factory.addGetterSetter(Kinetic.Node,"offsetX",0),Kinetic.Factory.addGetterSetter(Kinetic.Node,"offsetY",0),Kinetic.Factory.addSetter(Kinetic.Node,"width",0),Kinetic.Factory.addOverloadedGetterSetter(Kinetic.Node,"width"),Kinetic.Factory.addSetter(Kinetic.Node,"height",0),Kinetic.Factory.addOverloadedGetterSetter(Kinetic.Node,"height"),Kinetic.Factory.addGetterSetter(Kinetic.Node,"listening","inherit"),Kinetic.Factory.addGetterSetter(Kinetic.Node,"filters",void 0,function(a){return this._filterUpToDate=!1,a}),Kinetic.Factory.addGetterSetter(Kinetic.Node,"visible","inherit"),Kinetic.Factory.addGetterSetter(Kinetic.Node,"transformsEnabled","all"),Kinetic.Factory.backCompat(Kinetic.Node,{rotateDeg:"rotate",setRotationDeg:"setRotation",getRotationDeg:"getRotation"}),Kinetic.Collection.mapMethods(["on","off","remove","destroy","show","hide","move","rotate","moveToTop","moveUp","moveDown","moveToBottom","moveTo","fire","draw"])
 }(),function(){Kinetic.Filters.Grayscale=function(a){var b,c,d=a.data,e=d.length;for(b=0;e>b;b+=4)c=.34*d[b]+.5*d[b+1]+.16*d[b+2],d[b]=c,d[b+1]=c,d[b+2]=c}}(),function(){Kinetic.Filters.Brighten=function(a){var b,c=255*this.brightness(),d=a.data,e=d.length;for(b=0;e>b;b+=4)d[b]+=c,d[b+1]+=c,d[b+2]+=c},Kinetic.Factory.addGetterSetter(Kinetic.Node,"brightness",0,function(a){return this._filterUpToDate=!1,a})}(),function(){Kinetic.Filters.Invert=function(a){var b,c=a.data,d=c.length;for(b=0;d>b;b+=4)c[b]=255-c[b],c[b+1]=255-c[b+1],c[b+2]=255-c[b+2]}}(),function(){function a(){this.r=0,this.g=0,this.b=0,this.a=0,this.next=null}function b(b,e){var f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z,A,B,C,D=b.data,E=b.width,F=b.height,G=e+e+1,H=E-1,I=F-1,J=e+1,K=J*(J+1)/2,L=new a,M=null,N=L,O=null,P=null,Q=c[e],R=d[e];for(h=1;G>h;h++)N=N.next=new a,h==J&&(M=N);for(N.next=L,l=k=0,g=0;F>g;g++){for(u=v=w=x=m=n=o=p=0,q=J*(y=D[k]),r=J*(z=D[k+1]),s=J*(A=D[k+2]),t=J*(B=D[k+3]),m+=K*y,n+=K*z,o+=K*A,p+=K*B,N=L,h=0;J>h;h++)N.r=y,N.g=z,N.b=A,N.a=B,N=N.next;for(h=1;J>h;h++)i=k+((h>H?H:h)<<2),m+=(N.r=y=D[i])*(C=J-h),n+=(N.g=z=D[i+1])*C,o+=(N.b=A=D[i+2])*C,p+=(N.a=B=D[i+3])*C,u+=y,v+=z,w+=A,x+=B,N=N.next;for(O=L,P=M,f=0;E>f;f++)D[k+3]=B=p*Q>>R,0!==B?(B=255/B,D[k]=(m*Q>>R)*B,D[k+1]=(n*Q>>R)*B,D[k+2]=(o*Q>>R)*B):D[k]=D[k+1]=D[k+2]=0,m-=q,n-=r,o-=s,p-=t,q-=O.r,r-=O.g,s-=O.b,t-=O.a,i=l+((i=f+e+1)<H?i:H)<<2,u+=O.r=D[i],v+=O.g=D[i+1],w+=O.b=D[i+2],x+=O.a=D[i+3],m+=u,n+=v,o+=w,p+=x,O=O.next,q+=y=P.r,r+=z=P.g,s+=A=P.b,t+=B=P.a,u-=y,v-=z,w-=A,x-=B,P=P.next,k+=4;l+=E}for(f=0;E>f;f++){for(v=w=x=u=n=o=p=m=0,k=f<<2,q=J*(y=D[k]),r=J*(z=D[k+1]),s=J*(A=D[k+2]),t=J*(B=D[k+3]),m+=K*y,n+=K*z,o+=K*A,p+=K*B,N=L,h=0;J>h;h++)N.r=y,N.g=z,N.b=A,N.a=B,N=N.next;for(j=E,h=1;e>=h;h++)k=j+f<<2,m+=(N.r=y=D[k])*(C=J-h),n+=(N.g=z=D[k+1])*C,o+=(N.b=A=D[k+2])*C,p+=(N.a=B=D[k+3])*C,u+=y,v+=z,w+=A,x+=B,N=N.next,I>h&&(j+=E);for(k=f,O=L,P=M,g=0;F>g;g++)i=k<<2,D[i+3]=B=p*Q>>R,B>0?(B=255/B,D[i]=(m*Q>>R)*B,D[i+1]=(n*Q>>R)*B,D[i+2]=(o*Q>>R)*B):D[i]=D[i+1]=D[i+2]=0,m-=q,n-=r,o-=s,p-=t,q-=O.r,r-=O.g,s-=O.b,t-=O.a,i=f+((i=g+J)<I?i:I)*E<<2,m+=u+=O.r=D[i],n+=v+=O.g=D[i+1],o+=w+=O.b=D[i+2],p+=x+=O.a=D[i+3],O=O.next,q+=y=P.r,r+=z=P.g,s+=A=P.b,t+=B=P.a,u-=y,v-=z,w-=A,x-=B,P=P.next,k+=E}}var c=[512,512,456,512,328,456,335,512,405,328,271,456,388,335,292,512,454,405,364,328,298,271,496,456,420,388,360,335,312,292,273,512,482,454,428,405,383,364,345,328,312,298,284,271,259,496,475,456,437,420,404,388,374,360,347,335,323,312,302,292,282,273,265,512,497,482,468,454,441,428,417,405,394,383,373,364,354,345,337,328,320,312,305,298,291,284,278,271,265,259,507,496,485,475,465,456,446,437,428,420,412,404,396,388,381,374,367,360,354,347,341,335,329,323,318,312,307,302,297,292,287,282,278,273,269,265,261,512,505,497,489,482,475,468,461,454,447,441,435,428,422,417,411,405,399,394,389,383,378,373,368,364,359,354,350,345,341,337,332,328,324,320,316,312,309,305,301,298,294,291,287,284,281,278,274,271,268,265,262,259,257,507,501,496,491,485,480,475,470,465,460,456,451,446,442,437,433,428,424,420,416,412,408,404,400,396,392,388,385,381,377,374,370,367,363,360,357,354,350,347,344,341,338,335,332,329,326,323,320,318,315,312,310,307,304,302,299,297,294,292,289,287,285,282,280,278,275,273,271,269,267,265,263,261,259],d=[9,11,12,13,13,14,14,15,15,15,15,16,16,16,16,17,17,17,17,17,17,17,18,18,18,18,18,18,18,18,18,19,19,19,19,19,19,19,19,19,19,19,19,19,19,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,21,21,21,21,21,21,21,21,21,21,21,21,21,21,21,21,21,21,21,21,21,21,21,21,21,21,21,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,23,23,23,23,23,23,23,23,23,23,23,23,23,23,23,23,23,23,23,23,23,23,23,23,23,23,23,23,23,23,23,23,23,23,23,23,23,23,23,23,23,23,23,23,23,23,23,23,23,23,23,23,23,23,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24];Kinetic.Filters.Blur=function(a){var c=0|this.blurRadius();c>0&&b(a,c)},Kinetic.Factory.addGetterSetter(Kinetic.Node,"blurRadius",0,function(a){return this._filterUpToDate=!1,a})}(),function(){function a(a,b,c){var d=4*(c*a.width+b),e=[];return e.push(a.data[d++],a.data[d++],a.data[d++],a.data[d++]),e}function b(a,b){return Math.sqrt(Math.pow(a[0]-b[0],2)+Math.pow(a[1]-b[1],2)+Math.pow(a[2]-b[2],2))}function c(a){for(var b=[0,0,0],c=0;c<a.length;c++)b[0]+=a[c][0],b[1]+=a[c][1],b[2]+=a[c][2];return b[0]/=a.length,b[1]/=a.length,b[2]/=a.length,b}function d(d,e){var f=a(d,0,0),g=a(d,d.width-1,0),h=a(d,0,d.height-1),i=a(d,d.width-1,d.height-1),j=e||10;if(b(f,g)<j&&b(g,i)<j&&b(i,h)<j&&b(h,f)<j){for(var k=c([g,f,i,h]),l=[],m=0;m<d.width*d.height;m++){var n=b(k,[d.data[4*m],d.data[4*m+1],d.data[4*m+2]]);l[m]=j>n?0:255}return l}}function e(a,b){for(var c=0;c<a.width*a.height;c++)a.data[4*c+3]=b[c]}function f(a,b,c){for(var d=[1,1,1,1,0,1,1,1,1],e=Math.round(Math.sqrt(d.length)),f=Math.floor(e/2),g=[],h=0;c>h;h++)for(var i=0;b>i;i++){for(var j=h*b+i,k=0,l=0;e>l;l++)for(var m=0;e>m;m++){var n=h+l-f,o=i+m-f;if(n>=0&&c>n&&o>=0&&b>o){var p=n*b+o,q=d[l*e+m];k+=a[p]*q}}g[j]=2040===k?255:0}return g}function g(a,b,c){for(var d=[1,1,1,1,1,1,1,1,1],e=Math.round(Math.sqrt(d.length)),f=Math.floor(e/2),g=[],h=0;c>h;h++)for(var i=0;b>i;i++){for(var j=h*b+i,k=0,l=0;e>l;l++)for(var m=0;e>m;m++){var n=h+l-f,o=i+m-f;if(n>=0&&c>n&&o>=0&&b>o){var p=n*b+o,q=d[l*e+m];k+=a[p]*q}}g[j]=k>=1020?255:0}return g}function h(a,b,c){for(var d=[1/9,1/9,1/9,1/9,1/9,1/9,1/9,1/9,1/9],e=Math.round(Math.sqrt(d.length)),f=Math.floor(e/2),g=[],h=0;c>h;h++)for(var i=0;b>i;i++){for(var j=h*b+i,k=0,l=0;e>l;l++)for(var m=0;e>m;m++){var n=h+l-f,o=i+m-f;if(n>=0&&c>n&&o>=0&&b>o){var p=n*b+o,q=d[l*e+m];k+=a[p]*q}}g[j]=k}return g}Kinetic.Filters.Mask=function(a){var b=this.threshold(),c=d(a,b);return c&&(c=f(c,a.width,a.height),c=g(c,a.width,a.height),c=h(c,a.width,a.height),e(a,c)),a},Kinetic.Factory.addGetterSetter(Kinetic.Node,"threshold",0,function(a){return this._filterUpToDate=!1,a})}(),function(){Kinetic.Filters.RGB=function(a){var b,c,d=a.data,e=d.length,f=this.red(),g=this.green(),h=this.blue();for(b=0;e>b;b+=4)c=(.34*d[b]+.5*d[b+1]+.16*d[b+2])/255,d[b]=c*f,d[b+1]=c*g,d[b+2]=c*h,d[b+3]=d[b+3]},Kinetic.Factory.addGetterSetter(Kinetic.Node,"red",0,function(a){return this._filterUpToDate=!1,a>255?255:0>a?0:Math.round(a)}),Kinetic.Factory.addGetterSetter(Kinetic.Node,"green",0,function(a){return this._filterUpToDate=!1,a>255?255:0>a?0:Math.round(a)}),Kinetic.Factory.addGetterSetter(Kinetic.Node,"blue",0,function(a){return this._filterUpToDate=!1,a>255?255:0>a?0:Math.round(a)})}(),function(){Kinetic.Filters.HSV=function(a){var b,c,d,e,f,g=a.data,h=g.length,i=this.value(),j=this.saturation(),k=Math.abs(this.hue()+360)%360,l=i*j*Math.cos(k*Math.PI/180),m=i*j*Math.sin(k*Math.PI/180),n=.299*i+.701*l+.167*m,o=.587*i-.587*l+.33*m,p=.114*i-.114*l-.497*m,q=.299*i-.299*l-.328*m,r=.587*i+.413*l+.035*m,s=.114*i-.114*l+.293*m,t=.299*i-.3*l+1.25*m,u=.587*i-.586*l-1.05*m,v=.114*i+.886*l-.2*m;for(b=0;h>b;b+=4)c=g[b+0],d=g[b+1],e=g[b+2],f=g[b+3],g[b+0]=n*c+o*d+p*e,g[b+1]=q*c+r*d+s*e,g[b+2]=t*c+u*d+v*e,g[b+3]=f},Kinetic.Factory.addGetterSetter(Kinetic.Node,"hue",0,function(a){return this._filterUpToDate=!1,a}),Kinetic.Factory.addGetterSetter(Kinetic.Node,"saturation",1,function(a){return this._filterUpToDate=!1,a}),Kinetic.Factory.addGetterSetter(Kinetic.Node,"value",1,function(a){return this._filterUpToDate=!1,a})}(),function(){Kinetic.Filters.Emboss=function(a){var b=10*this.embossStrength(),c=255*this.embossWhiteLevel(),d=this.embossDirection(),e=this.embossBlend(),f=0,g=0,h=a.data,i=a.width,j=a.height,k=4*i,l=j;switch(d){case"top-left":f=-1,g=-1;break;case"top":f=-1,g=0;break;case"top-right":f=-1,g=1;break;case"right":f=0,g=1;break;case"bottom-right":f=1,g=1;break;case"bottom":f=1,g=0;break;case"bottom-left":f=1,g=-1;break;case"left":f=0,g=-1}do{var m=(l-1)*k,n=f;1>l+n&&(n=0),l+n>j&&(n=0);var o=4*(l-1+n)*i,p=i;do{var q=m+4*(p-1),r=g;1>p+r&&(r=0),p+r>i&&(r=0);var s=o+4*(p-1+r),t=h[q]-h[s],u=h[q+1]-h[s+1],v=h[q+2]-h[s+2],w=t,x=w>0?w:-w,y=u>0?u:-u,z=v>0?v:-v;if(y>x&&(w=u),z>x&&(w=v),w*=b,e){var A=h[q]+w,B=h[q+1]+w,C=h[q+2]+w;h[q]=A>255?255:0>A?0:A,h[q+1]=B>255?255:0>B?0:B,h[q+2]=C>255?255:0>C?0:C}else{var D=c-w;0>D?D=0:D>255&&(D=255),h[q]=h[q+1]=h[q+2]=D}}while(--p)}while(--l)},Kinetic.Factory.addGetterSetter(Kinetic.Node,"embossStrength",.5,function(a){return this._filterUpToDate=!1,a}),Kinetic.Factory.addGetterSetter(Kinetic.Node,"embossWhiteLevel",.5,function(a){return this._filterUpToDate=!1,a}),Kinetic.Factory.addGetterSetter(Kinetic.Node,"embossDirection","top-left",function(a){return this._filterUpToDate=!1,a}),Kinetic.Factory.addGetterSetter(Kinetic.Node,"embossBlend",!1,function(a){return this._filterUpToDate=!1,a})}(),function(){function a(a,b,c,d,e){var f,g=c-b,h=e-d;return 0===g?d+h/2:0===h?d:(f=(a-b)/g,f=h*f+d)}Kinetic.Filters.Enhance=function(b){var c,d,e,f,g=b.data,h=g.length,i=g[0],j=i,k=g[1],l=k,m=g[2],n=m,o=g[3],p=o,q=this.enhance();if(0!==q){for(f=0;h>f;f+=4)c=g[f+0],i>c?i=c:c>j&&(j=c),d=g[f+1],k>d?k=d:d>l&&(l=d),e=g[f+2],m>e?m=e:e>n&&(n=e);j===i&&(j=255,i=0),l===k&&(l=255,k=0),n===m&&(n=255,m=0),p===o&&(p=255,o=0);var r,s,t,u,v,w,x,y,z,A,B,C;for(q>0?(s=j+q*(255-j),t=i-q*(i-0),v=l+q*(255-l),w=k-q*(k-0),y=n+q*(255-n),C=m-q*(m-0),B=p+q*(255-p),z=o-q*(o-0)):(r=.5*(j+i),s=j+q*(j-r),t=i+q*(i-r),u=.5*(l+k),v=l+q*(l-u),w=k+q*(k-u),x=.5*(n+m),y=n+q*(n-x),C=m+q*(m-x),A=.5*(p+o),B=p+q*(p-A),z=o+q*(o-A)),f=0;h>f;f+=4)g[f+0]=a(g[f+0],i,j,t,s),g[f+1]=a(g[f+1],k,l,w,v),g[f+2]=a(g[f+2],m,n,C,y)}},Kinetic.Factory.addGetterSetter(Kinetic.Node,"enhance",0,function(a){return this._filterUpToDate=!1,a})}(),function(){Kinetic.Filters.Posterize=function(a){var b,c=Math.round(254*this.levels())+1,d=a.data,e=d.length,f=255/c;for(b=0;e>b;b+=1)d[b]=Math.floor(d[b]/f)*f},Kinetic.Factory.addGetterSetter(Kinetic.Node,"levels",.5,function(a){return this._filterUpToDate=!1,a})}(),function(){Kinetic.Filters.Noise=function(a){var b,c=255*this.noise(),d=a.data,e=d.length,f=c/2;for(b=0;e>b;b+=4)d[b+0]+=f-2*f*Math.random(),d[b+1]+=f-2*f*Math.random(),d[b+2]+=f-2*f*Math.random()},Kinetic.Factory.addGetterSetter(Kinetic.Node,"noise",.2,function(a){return this._filterUpToDate=!1,a})}(),function(){Kinetic.Filters.Pixelate=function(a){var b,c,d,e,f,g,h,i,j,k,l,m,n,o,p=Math.ceil(this.pixelSize()),q=a.width,r=a.height,a=a.data,s=Math.ceil(q/p),t=Math.ceil(r/p);for(m=0;s>m;m+=1)for(n=0;t>n;n+=1){for(e=0,f=0,g=0,h=0,i=m*p,j=i+p,k=n*p,l=k+p,o=0,b=i;j>b;b+=1)if(!(b>=q))for(c=k;l>c;c+=1)c>=r||(d=4*(q*c+b),e+=a[d+0],f+=a[d+1],g+=a[d+2],h+=a[d+3],o+=1);for(e/=o,f/=o,g/=o,alphas=h/o,b=i;j>b;b+=1)if(!(b>=q))for(c=k;l>c;c+=1)c>=r||(d=4*(q*c+b),a[d+0]=e,a[d+1]=f,a[d+2]=g,a[d+3]=h)}},Kinetic.Factory.addGetterSetter(Kinetic.Node,"pixelSize",8,function(a){return this._filterUpToDate=!1,a})}(),function(){Kinetic.Filters.Threshold=function(a){var b,c=255*this.threshold(),d=a.data,e=d.length;for(b=0;e>b;b+=1)d[b]=d[b]<c?0:255},Kinetic.Factory.addGetterSetter(Kinetic.Node,"threshold",.5,function(a){return this._filterUpToDate=!1,a})}(),function(){Kinetic.Filters.Sepia=function(a){var b,c,d,e,f,g,h,i,j,k=a.data,l=a.width,m=a.height,n=4*l;do{b=(m-1)*n,c=l;do d=b+4*(c-1),e=k[d],f=k[d+1],g=k[d+2],h=.393*e+.769*f+.189*g,i=.349*e+.686*f+.168*g,j=.272*e+.534*f+.131*g,k[d]=h>255?255:h,k[d+1]=i>255?255:i,k[d+2]=j>255?255:j,k[d+3]=k[d+3];while(--c)}while(--m)}}(),function(){Kinetic.Filters.Solarize=function(a){var b=a.data,c=a.width,d=a.height,e=4*c,f=d;do{var g=(f-1)*e,h=c;do{var i=g+4*(h-1),j=b[i],k=b[i+1],l=b[i+2];j>127&&(j=255-j),k>127&&(k=255-k),l>127&&(l=255-l),b[i]=j,b[i+1]=k,b[i+2]=l}while(--h)}while(--f)}}(),function(){var a=function(a,b,c){var d,e,f,g,h=a.data,i=b.data,j=a.width,k=a.height,l=c.polarCenterX||j/2,m=c.polarCenterY||k/2,n=0,o=0,p=0,q=0,r=Math.sqrt(l*l+m*m);e=j-l,f=k-m,g=Math.sqrt(e*e+f*f),r=g>r?g:r;var s,t,u,v,w,x,y,z,A,B,C,D,E,F=k,G=j,H=360/G*Math.PI/180;for(t=0;G>t;t+=1)for(u=Math.sin(t*H),v=Math.cos(t*H),s=0;F>s;s+=1)e=l+r*s/F*v,f=m+r*s/F*u,1>=e&&(e=1),e>=j-.5&&(e=j-1),1>=f&&(f=1),f>=k-.5&&(f=k-1),w=e-.5,x=e+.5,y=Math.floor(w),z=Math.floor(x),A=f-.5,B=f+.5,C=Math.floor(A),D=Math.floor(B),E=(1-(w-y))*(1-(A-C)),d=4*(C*j+y),n=h[d+0]*E,o=h[d+1]*E,p=h[d+2]*E,q=h[d+3]*E,E=(1-(w-y))*(B-D),d=4*(D*j+y),n+=h[d+0]*E,o+=h[d+1]*E,p+=h[d+2]*E,q+=h[d+3]*E,E=(x-z)*(B-D),d=4*(D*j+z),n+=h[d+0]*E,o+=h[d+1]*E,p+=h[d+2]*E,q+=h[d+3]*E,E=(x-z)*(1-(A-C)),d=4*(C*j+z),n+=h[d+0]*E,o+=h[d+1]*E,p+=h[d+2]*E,q+=h[d+3]*E,d=4*(t+s*j),i[d+0]=n,i[d+1]=o,i[d+2]=p,i[d+3]=q},b=function(a,b,c){var d,e,f,g,h,i,j=a.data,k=b.data,l=a.width,m=a.height,n=c.polarCenterX||l/2,o=c.polarCenterY||m/2,p=0,q=0,r=0,s=0,t=Math.sqrt(n*n+o*o);e=l-n,f=m-o,i=Math.sqrt(e*e+f*f),t=i>t?i:t;var u,v,w=m,x=l,y=c.polarRotation||0;180*(x/360)/Math.PI;var z,A,B,C,D,E,F,G,H;for(e=0;l>e;e+=1)for(f=0;m>f;f+=1)g=e-n,h=f-o,u=Math.sqrt(g*g+h*h)*w/t,v=(180*Math.atan2(h,g)/Math.PI+360+y)%360,v=v*x/360,z=v-.5,A=v+.5,B=Math.floor(z),C=Math.floor(A),D=u-.5,E=u+.5,F=Math.floor(D),G=Math.floor(E),H=(1-(z-B))*(1-(D-F)),d=4*(F*l+B),p=j[d+0]*H,q=j[d+1]*H,r=j[d+2]*H,s=j[d+3]*H,H=(1-(z-B))*(E-G),d=4*(G*l+B),p+=j[d+0]*H,q+=j[d+1]*H,r+=j[d+2]*H,s+=j[d+3]*H,H=(A-C)*(E-G),d=4*(G*l+C),p+=j[d+0]*H,q+=j[d+1]*H,r+=j[d+2]*H,s+=j[d+3]*H,H=(A-C)*(1-(D-F)),d=4*(F*l+C),p+=j[d+0]*H,q+=j[d+1]*H,r+=j[d+2]*H,s+=j[d+3]*H,d=4*(f*l+e),k[d+0]=p,k[d+1]=q,k[d+2]=r,k[d+3]=s},c=document.createElement("canvas");Kinetic.Filters.Kaleidoscope=function(d){var e=d.width,f=d.height,g=Math.round(this.kaleidoscopePower()),h=Math.round(this.kaleidoscopeAngle()),i=Math.floor(e*(h%360)/360);if(!(1>g)){c.width=e,c.height=f;var j=c.getContext("2d").getImageData(0,0,e,f);a(d,j,{polarCenterX:e/2,polarCenterY:f/2});for(var k=e/Math.pow(2,g);8>=k;)k=2*k,g-=1;k=Math.ceil(k);var l=k,m=0,n=l,o=1;for(i+k>e&&(m=l,n=0,o=-1),q=0;f>q;q+=1)for(p=m;p!==n;p+=o)r=Math.round(p+i)%e,x=4*(e*q+r),t=j.data[x+0],u=j.data[x+1],v=j.data[x+2],w=j.data[x+3],y=4*(e*q+p),j.data[y+0]=t,j.data[y+1]=u,j.data[y+2]=v,j.data[y+3]=w;var p,q,r,s,t,u,v,w,x,y;for(q=0;f>q;q+=1)for(l=Math.floor(k),s=0;g>s;s+=1){for(p=0;l+1>p;p+=1)x=4*(e*q+p),t=j.data[x+0],u=j.data[x+1],v=j.data[x+2],w=j.data[x+3],y=4*(e*q+2*l-p-1),j.data[y+0]=t,j.data[y+1]=u,j.data[y+2]=v,j.data[y+3]=w;l*=2}b(j,d,{polarRotation:0})}},Kinetic.Factory.addGetterSetter(Kinetic.Node,"kaleidoscopePower",2,function(a){return this._filterUpToDate=!1,a}),Kinetic.Factory.addGetterSetter(Kinetic.Node,"kaleidoscopeAngle",0,function(a){return this._filterUpToDate=!1,a})}(),function(){function a(a){window.setTimeout(a,1e3/60)}var b=500;Kinetic.Animation=function(a,b){this.func=a,this.setLayers(b),this.id=Kinetic.Animation.animIdCounter++,this.frame={time:0,timeDiff:0,lastTime:(new Date).getTime()}},Kinetic.Animation.prototype={setLayers:function(a){var b=[];b=a?a.length>0?a:[a]:[],this.layers=b},getLayers:function(){return this.layers},addLayer:function(a){var b,c,d=this.layers;if(d){for(b=d.length,c=0;b>c;c++)if(d[c]._id===a._id)return!1}else this.layers=[];return this.layers.push(a),!0},isRunning:function(){for(var a=Kinetic.Animation,b=a.animations,c=0;c<b.length;c++)if(b[c].id===this.id)return!0;return!1},start:function(){this.stop(),this.frame.timeDiff=0,this.frame.lastTime=(new Date).getTime(),Kinetic.Animation._addAnimation(this)},stop:function(){Kinetic.Animation._removeAnimation(this)},_updateFrameObject:function(a){this.frame.timeDiff=a-this.frame.lastTime,this.frame.lastTime=a,this.frame.time+=this.frame.timeDiff,this.frame.frameRate=1e3/this.frame.timeDiff}},Kinetic.Animation.animations=[],Kinetic.Animation.animIdCounter=0,Kinetic.Animation.animRunning=!1,Kinetic.Animation._addAnimation=function(a){this.animations.push(a),this._handleAnimation()},Kinetic.Animation._removeAnimation=function(a){for(var b=a.id,c=this.animations,d=c.length,e=0;d>e;e++)if(c[e].id===b){this.animations.splice(e,1);break}},Kinetic.Animation._runFrames=function(){var a,b,c,d,e,f,g,h,i={},j=this.animations;for(d=0;d<j.length;d++){for(a=j[d],b=a.layers,c=a.func,a._updateFrameObject((new Date).getTime()),f=b.length,e=0;f>e;e++)g=b[e],void 0!==g._id&&(i[g._id]=g);c&&c.call(a,a.frame)}for(h in i)i[h].draw()},Kinetic.Animation._animationLoop=function(){var a=this;this.animations.length>0?(this._runFrames(),Kinetic.Animation.requestAnimFrame(function(){a._animationLoop()})):this.animRunning=!1},Kinetic.Animation._handleAnimation=function(){var a=this;this.animRunning||(this.animRunning=!0,a._animationLoop())};var c=function(){return window.requestAnimationFrame||window.webkitRequestAnimationFrame||window.mozRequestAnimationFrame||window.oRequestAnimationFrame||window.msRequestAnimationFrame||a}();Kinetic.Animation.requestAnimFrame=function(b){var d=Kinetic.isDragging?a:c;d(b)};var d=Kinetic.Node.prototype.moveTo;Kinetic.Node.prototype.moveTo=function(a){d.call(this,a)},Kinetic.Layer.prototype.batchDraw=function(){var a=this;this.batchAnim||(this.batchAnim=new Kinetic.Animation(function(){a.lastBatchDrawTime&&(new Date).getTime()-a.lastBatchDrawTime>b&&a.batchAnim.stop()},this)),this.lastBatchDrawTime=(new Date).getTime(),this.batchAnim.isRunning()||(this.draw(),this.batchAnim.start())},Kinetic.Stage.prototype.batchDraw=function(){this.getChildren().each(function(a){a.batchDraw()})}}(),function(){var a={node:1,duration:1,easing:1,onFinish:1,yoyo:1},b=1,c=2,d=3,e=0;Kinetic.Tween=function(b){var c,d=this,g=b.node,h=g._id,i=b.duration||1,j=b.easing||Kinetic.Easings.Linear,k=!!b.yoyo;this.node=g,this._id=e++,this.anim=new Kinetic.Animation(function(){d.tween.onEnterFrame()},g.getLayer()||g.getLayers()),this.tween=new f(c,function(a){d._tweenFunc(a)},j,0,1,1e3*i,k),this._addListeners(),Kinetic.Tween.attrs[h]||(Kinetic.Tween.attrs[h]={}),Kinetic.Tween.attrs[h][this._id]||(Kinetic.Tween.attrs[h][this._id]={}),Kinetic.Tween.tweens[h]||(Kinetic.Tween.tweens[h]={});for(c in b)void 0===a[c]&&this._addAttr(c,b[c]);this.reset(),this.onFinish=b.onFinish,this.onReset=b.onReset},Kinetic.Tween.attrs={},Kinetic.Tween.tweens={},Kinetic.Tween.prototype={_addAttr:function(a,b){var c,d,e,f,g,h=this.node,i=h._id;if(e=Kinetic.Tween.tweens[i][a],e&&delete Kinetic.Tween.attrs[i][e][a],c=h.getAttr(a),Kinetic.Util._isArray(b))for(d=[],g=b.length,f=0;g>f;f++)d.push(b[f]-c[f]);else d=b-c;Kinetic.Tween.attrs[i][this._id][a]={start:c,diff:d},Kinetic.Tween.tweens[i][a]=this._id},_tweenFunc:function(a){var b,c,d,e,f,g,h,i=this.node,j=Kinetic.Tween.attrs[i._id][this._id];for(b in j){if(c=j[b],d=c.start,e=c.diff,Kinetic.Util._isArray(d))for(f=[],h=d.length,g=0;h>g;g++)f.push(d[g]+e[g]*a);else f=d+e*a;i.setAttr(b,f)}},_addListeners:function(){var a=this;this.tween.onPlay=function(){a.anim.start()},this.tween.onReverse=function(){a.anim.start()},this.tween.onPause=function(){a.anim.stop()},this.tween.onFinish=function(){a.onFinish&&a.onFinish()},this.tween.onReset=function(){a.onReset&&a.onReset()}},play:function(){return this.tween.play(),this},reverse:function(){return this.tween.reverse(),this},reset:function(){var a=this.node;return this.tween.reset(),(a.getLayer()||a.getLayers()).draw(),this},seek:function(a){var b=this.node;return this.tween.seek(1e3*a),(b.getLayer()||b.getLayers()).draw(),this},pause:function(){return this.tween.pause(),this},finish:function(){var a=this.node;return this.tween.finish(),(a.getLayer()||a.getLayers()).draw(),this},destroy:function(){var a,b=this.node._id,c=this._id,d=Kinetic.Tween.tweens[b];this.pause();for(a in d)delete Kinetic.Tween.tweens[b][a];delete Kinetic.Tween.attrs[b][c]}};var f=function(a,b,c,d,e,f,g){this.prop=a,this.propFunc=b,this.begin=d,this._pos=d,this.duration=f,this._change=0,this.prevPos=0,this.yoyo=g,this._time=0,this._position=0,this._startTime=0,this._finish=0,this.func=c,this._change=e-this.begin,this.pause()};f.prototype={fire:function(a){var b=this[a];b&&b()},setTime:function(a){a>this.duration?this.yoyo?(this._time=this.duration,this.reverse()):this.finish():0>a?this.yoyo?(this._time=0,this.play()):this.reset():(this._time=a,this.update())},getTime:function(){return this._time},setPosition:function(a){this.prevPos=this._pos,this.propFunc(a),this._pos=a},getPosition:function(a){return void 0===a&&(a=this._time),this.func(a,this.begin,this._change,this.duration)},play:function(){this.state=c,this._startTime=this.getTimer()-this._time,this.onEnterFrame(),this.fire("onPlay")},reverse:function(){this.state=d,this._time=this.duration-this._time,this._startTime=this.getTimer()-this._time,this.onEnterFrame(),this.fire("onReverse")},seek:function(a){this.pause(),this._time=a,this.update(),this.fire("onSeek")},reset:function(){this.pause(),this._time=0,this.update(),this.fire("onReset")},finish:function(){this.pause(),this._time=this.duration,this.update(),this.fire("onFinish")},update:function(){this.setPosition(this.getPosition(this._time))},onEnterFrame:function(){var a=this.getTimer()-this._startTime;this.state===c?this.setTime(a):this.state===d&&this.setTime(this.duration-a)},pause:function(){this.state=b,this.fire("onPause")},getTimer:function(){return(new Date).getTime()}},Kinetic.Easings={BackEaseIn:function(a,b,c,d){var e=1.70158;return c*(a/=d)*a*((e+1)*a-e)+b},BackEaseOut:function(a,b,c,d){var e=1.70158;return c*((a=a/d-1)*a*((e+1)*a+e)+1)+b},BackEaseInOut:function(a,b,c,d){var e=1.70158;return(a/=d/2)<1?c/2*a*a*(((e*=1.525)+1)*a-e)+b:c/2*((a-=2)*a*(((e*=1.525)+1)*a+e)+2)+b},ElasticEaseIn:function(a,b,c,d,e,f){var g=0;return 0===a?b:1==(a/=d)?b+c:(f||(f=.3*d),!e||e<Math.abs(c)?(e=c,g=f/4):g=f/(2*Math.PI)*Math.asin(c/e),-(e*Math.pow(2,10*(a-=1))*Math.sin((a*d-g)*2*Math.PI/f))+b)},ElasticEaseOut:function(a,b,c,d,e,f){var g=0;return 0===a?b:1==(a/=d)?b+c:(f||(f=.3*d),!e||e<Math.abs(c)?(e=c,g=f/4):g=f/(2*Math.PI)*Math.asin(c/e),e*Math.pow(2,-10*a)*Math.sin((a*d-g)*2*Math.PI/f)+c+b)},ElasticEaseInOut:function(a,b,c,d,e,f){var g=0;return 0===a?b:2==(a/=d/2)?b+c:(f||(f=d*.3*1.5),!e||e<Math.abs(c)?(e=c,g=f/4):g=f/(2*Math.PI)*Math.asin(c/e),1>a?-.5*e*Math.pow(2,10*(a-=1))*Math.sin((a*d-g)*2*Math.PI/f)+b:.5*e*Math.pow(2,-10*(a-=1))*Math.sin((a*d-g)*2*Math.PI/f)+c+b)},BounceEaseOut:function(a,b,c,d){return(a/=d)<1/2.75?c*7.5625*a*a+b:2/2.75>a?c*(7.5625*(a-=1.5/2.75)*a+.75)+b:2.5/2.75>a?c*(7.5625*(a-=2.25/2.75)*a+.9375)+b:c*(7.5625*(a-=2.625/2.75)*a+.984375)+b},BounceEaseIn:function(a,b,c,d){return c-Kinetic.Easings.BounceEaseOut(d-a,0,c,d)+b},BounceEaseInOut:function(a,b,c,d){return d/2>a?.5*Kinetic.Easings.BounceEaseIn(2*a,0,c,d)+b:.5*Kinetic.Easings.BounceEaseOut(2*a-d,0,c,d)+.5*c+b},EaseIn:function(a,b,c,d){return c*(a/=d)*a+b},EaseOut:function(a,b,c,d){return-c*(a/=d)*(a-2)+b},EaseInOut:function(a,b,c,d){return(a/=d/2)<1?c/2*a*a+b:-c/2*(--a*(a-2)-1)+b},StrongEaseIn:function(a,b,c,d){return c*(a/=d)*a*a*a*a+b},StrongEaseOut:function(a,b,c,d){return c*((a=a/d-1)*a*a*a*a+1)+b},StrongEaseInOut:function(a,b,c,d){return(a/=d/2)<1?c/2*a*a*a*a*a+b:c/2*((a-=2)*a*a*a*a+2)+b},Linear:function(a,b,c,d){return c*a/d+b}}}(),function(){Kinetic.DD={anim:new Kinetic.Animation,isDragging:!1,offset:{x:0,y:0},node:null,_drag:function(a){var b=Kinetic.DD,c=b.node;c&&(c._setDragPosition(a),b.isDragging||(b.isDragging=!0,c.fire("dragstart",a,!0)),c.fire("dragmove",a,!0))},_endDragBefore:function(a){var b,c,d=Kinetic.DD,e=d.node;e&&(b=e.nodeType,c=e.getLayer(),d.anim.stop(),d.isDragging&&(d.isDragging=!1,Kinetic.listenClickTap=!1,a&&(a.dragEndNode=e)),delete d.node,(c||e).draw())},_endDragAfter:function(a){a=a||{};var b=a.dragEndNode;a&&b&&b.fire("dragend",a,!0)}},Kinetic.Node.prototype.startDrag=function(){var a=Kinetic.DD,b=this.getStage(),c=this.getLayer(),d=b.getPointerPosition(),e=this.getAbsolutePosition();d&&(a.node&&a.node.stopDrag(),a.node=this,a.offset.x=d.x-e.x,a.offset.y=d.y-e.y,a.anim.setLayers(c||this.getLayers()),a.anim.start(),this._setDragPosition())},Kinetic.Node.prototype._setDragPosition=function(a){var b=Kinetic.DD,c=this.getStage().getPointerPosition(),d=this.getDragBoundFunc(),e={x:c.x-b.offset.x,y:c.y-b.offset.y};void 0!==d&&(e=d.call(this,e,a)),this.setAbsolutePosition(e)},Kinetic.Node.prototype.stopDrag=function(){var a=Kinetic.DD,b={};a._endDragBefore(b),a._endDragAfter(b)},Kinetic.Node.prototype.setDraggable=function(a){this._setAttr("draggable",a),this._dragChange()};var a=Kinetic.Node.prototype.destroy;Kinetic.Node.prototype.destroy=function(){var b=Kinetic.DD;b.node&&b.node._id===this._id&&this.stopDrag(),a.call(this)},Kinetic.Node.prototype.isDragging=function(){var a=Kinetic.DD;return a.node&&a.node._id===this._id&&a.isDragging},Kinetic.Node.prototype._listenDrag=function(){var a=this;this._dragCleanup(),"Stage"===this.getClassName()?this.on("contentMousedown.kinetic contentTouchstart.kinetic",function(b){Kinetic.DD.node||a.startDrag(b)}):this.on("mousedown.kinetic touchstart.kinetic",function(b){Kinetic.DD.node||a.startDrag(b)})},Kinetic.Node.prototype._dragChange=function(){if(this.attrs.draggable)this._listenDrag();else{this._dragCleanup();var a=this.getStage(),b=Kinetic.DD;a&&b.node&&b.node._id===this._id&&b.node.stopDrag()}},Kinetic.Node.prototype._dragCleanup=function(){"Stage"===this.getClassName()?(this.off("contentMousedown.kinetic"),this.off("contentTouchstart.kinetic")):(this.off("mousedown.kinetic"),this.off("touchstart.kinetic"))},Kinetic.Factory.addGetterSetter(Kinetic.Node,"dragBoundFunc"),Kinetic.Factory.addGetter(Kinetic.Node,"draggable",!1),Kinetic.Factory.addOverloadedGetterSetter(Kinetic.Node,"draggable");var b=document.documentElement;b.addEventListener("mouseup",Kinetic.DD._endDragBefore,!0),b.addEventListener("touchend",Kinetic.DD._endDragBefore,!0),b.addEventListener("mouseup",Kinetic.DD._endDragAfter,!1),b.addEventListener("touchend",Kinetic.DD._endDragAfter,!1)}(),function(){Kinetic.Util.addMethods(Kinetic.Container,{__init:function(a){this.children=new Kinetic.Collection,Kinetic.Node.call(this,a)},getChildren:function(){return this.children},hasChildren:function(){return this.getChildren().length>0},removeChildren:function(){for(var a,b=this.children;b.length>0;)a=b[0],a.hasChildren()&&a.removeChildren(),a.remove();return this},destroyChildren:function(){for(var a=this.children;a.length>0;)a[0].destroy();return this},add:function(a){var b=this.children;return this._validateAdd(a),a.index=b.length,a.parent=this,b.push(a),this._fire("add",{child:a}),this},destroy:function(){this.hasChildren()&&this.destroyChildren(),Kinetic.Node.prototype.destroy.call(this)},find:function(a){var b,c,d,e,f,g,h,i=[],j=a.replace(/ /g,"").split(","),k=j.length;for(b=0;k>b;b++)if(d=j[b],"#"===d.charAt(0))f=this._getNodeById(d.slice(1)),f&&i.push(f);else if("."===d.charAt(0))e=this._getNodesByName(d.slice(1)),i=i.concat(e);else for(g=this.getChildren(),h=g.length,c=0;h>c;c++)i=i.concat(g[c]._get(d));return Kinetic.Collection.toCollection(i)},_getNodeById:function(a){var b=Kinetic.ids[a];return void 0!==b&&this.isAncestorOf(b)?b:null},_getNodesByName:function(a){var b=Kinetic.names[a]||[];return this._getDescendants(b)},_get:function(a){for(var b=Kinetic.Node.prototype._get.call(this,a),c=this.getChildren(),d=c.length,e=0;d>e;e++)b=b.concat(c[e]._get(a));return b},toObject:function(){var a=Kinetic.Node.prototype.toObject.call(this);a.children=[];for(var b=this.getChildren(),c=b.length,d=0;c>d;d++){var e=b[d];a.children.push(e.toObject())}return a},_getDescendants:function(a){for(var b=[],c=a.length,d=0;c>d;d++){var e=a[d];this.isAncestorOf(e)&&b.push(e)}return b},isAncestorOf:function(a){for(var b=a.getParent();b;){if(b._id===this._id)return!0;b=b.getParent()}return!1},clone:function(a){var b=Kinetic.Node.prototype.clone.call(this,a);return this.getChildren().each(function(a){b.add(a.clone())}),b},getAllIntersections:function(a){var b=[];return this.find("Shape").each(function(c){c.isVisible()&&c.intersects(a)&&b.push(c)}),b},_setChildrenIndices:function(){this.children.each(function(a,b){a.index=b})},drawScene:function(a){var b=this.getLayer(),c=a||b&&b.getCanvas(),d=c&&c.getContext(),e=this._cache.canvas,f=e&&e.scene;return this.isVisible()&&(f?this._drawCachedSceneCanvas(d):this._drawChildren(c,"drawScene")),this},drawHit:function(a){var b=this.getLayer(),c=a||b&&b.hitCanvas,d=c&&c.getContext(),e=this._cache.canvas,f=e&&e.hit;return this.shouldDrawHit()&&(f?this._drawCachedHitCanvas(d):this._drawChildren(c,"drawHit")),this},_drawChildren:function(a,b){var c,d,e=a&&a.getContext(),f=this.getClipWidth(),g=this.getClipHeight(),h=f&&g;h&&(c=this.getClipX(),d=this.getClipY(),e.save(),e._applyTransform(this),e.beginPath(),e.rect(c,d,f,g),e.clip(),e.reset()),this.children.each(function(c){c[b](a)}),h&&e.restore()}}),Kinetic.Util.extend(Kinetic.Container,Kinetic.Node),Kinetic.Container.prototype.get=Kinetic.Container.prototype.find,Kinetic.Factory.addComponentsGetterSetter(Kinetic.Container,"clip",["x","y","width","height"]),Kinetic.Factory.addGetterSetter(Kinetic.Container,"clipX"),Kinetic.Factory.addGetterSetter(Kinetic.Container,"clipY"),Kinetic.Factory.addGetterSetter(Kinetic.Container,"clipWidth"),Kinetic.Factory.addGetterSetter(Kinetic.Container,"clipHeight")}(),function(){function a(a){a.fill()}function b(a){a.stroke()}function c(a){a.fill()}function d(a){a.stroke()}function e(){this._clearCache(f)}var f="hasShadow";Kinetic.Util.addMethods(Kinetic.Shape,{__init:function(f){this.nodeType="Shape",this._fillFunc=a,this._strokeFunc=b,this._fillFuncHit=c,this._strokeFuncHit=d;for(var g,h=Kinetic.shapes;;)if(g=Kinetic.Util.getRandomColor(),g&&!(g in h))break;this.colorKey=g,h[g]=this,Kinetic.Node.call(this,f),this.on("shadowColorChange.kinetic shadowBlurChange.kinetic shadowOffsetChange.kinetic shadowOpacityChange.kinetic shadowEnabledChanged.kinetic",e)},hasChildren:function(){return!1},getChildren:function(){return[]},getContext:function(){return this.getLayer().getContext()},getCanvas:function(){return this.getLayer().getCanvas()},hasShadow:function(){return this._getCache(f,this._hasShadow)},_hasShadow:function(){return this.getShadowEnabled()&&0!==this.getShadowOpacity()&&!!(this.getShadowColor()||this.getShadowBlur()||this.getShadowOffsetX()||this.getShadowOffsetY())},hasFill:function(){return!!(this.getFill()||this.getFillPatternImage()||this.getFillLinearGradientColorStops()||this.getFillRadialGradientColorStops())},hasStroke:function(){return!!(this.stroke()||this.strokeRed()||this.strokeGreen()||this.strokeBlue())},_get:function(a){return this.className===a||this.nodeType===a?[this]:[]},intersects:function(a){var b,c=this.getStage(),d=c.bufferHitCanvas;return d.getContext().clear(),this.drawScene(d),b=d.context.getImageData(0|a.x,0|a.y,1,1).data,b[3]>0},destroy:function(){Kinetic.Node.prototype.destroy.call(this),delete Kinetic.shapes[this.colorKey]},_useBufferCanvas:function(){return(this.hasShadow()||1!==this.getAbsoluteOpacity())&&this.hasFill()&&this.hasStroke()},drawScene:function(a){var b,c,d,e=a||this.getLayer().getCanvas(),f=e.getContext(),g=this._cache.canvas,h=this.sceneFunc(),i=this.hasShadow();return this.isVisible()&&(g?this._drawCachedSceneCanvas(f):h&&(f.save(),this._useBufferCanvas()?(b=this.getStage(),c=b.bufferCanvas,d=c.getContext(),d.clear(),d.save(),d._applyLineJoin(this),d._applyTransform(this),h.call(this,d),d.restore(),i&&(f.save(),f._applyShadow(this),f.drawImage(c._canvas,0,0),f.restore()),f._applyOpacity(this),f.drawImage(c._canvas,0,0)):(f._applyLineJoin(this),f._applyTransform(this),i&&(f.save(),f._applyShadow(this),h.call(this,f),f.restore()),f._applyOpacity(this),h.call(this,f)),f.restore())),this},drawHit:function(a){var b=a||this.getLayer().hitCanvas,c=b.getContext(),d=this.hitFunc()||this.sceneFunc(),e=this._cache.canvas,f=e&&e.hit;return this.shouldDrawHit()&&(f?this._drawCachedHitCanvas(c):d&&(c.save(),c._applyLineJoin(this),c._applyTransform(this),d.call(this,c),c.restore())),this},drawHitFromCache:function(a){var b,c,d,e,f,g,h,i,j=a||0,k=this._cache.canvas,l=this._getCachedSceneCanvas(),m=l.getContext(),n=k.hit,o=n.getContext(),p=l.getWidth(),q=l.getHeight();o.clear();
@@ -2939,9 +2473,9 @@ var k=i.split(",");k.length>0&&""===k[0]&&k.shift();for(var l=0;l<k.length;l++)k
 var socialsAccess = {
 	facebook: {
 		applicationId: {
-			"localhost": '205232122986999', 
-			"xmpp.dev.improva.com": '173391222849160',
-			"i-rate.com": '181043732091838'
+			"localhost": "205232122986999",
+			"xmpp.dev.improva.com": "173391222849160",
+			"i-rate.com": "181043732091838"
 		},
 		isLoggined: false
 	},
@@ -2964,6 +2498,7 @@ var socialsAccess = {
 	}
 };
 
+
 /**
  * Основной модуль приложения
  * @type {[type]}
@@ -2979,112 +2514,28 @@ var pgrModule = angular.module(
 		'ngTouch', 
 		'ngFacebook',
 		"localization", 
-		'route-segment', 
-		'view-segment', 
-        'monospaced.mousewheel',
         'ui.date',
         'ui.autocomplete',
         'ui.keypress',
         'vcRecaptcha',
-        'rzModule',
-        'ngScrollEvent'
+        'rzModule'
 		]
 	);
 
-/**
- * Роутинг приложения
- * @param  {[type]} $routeProvider [description]
- * @return {[type]}                [description]
- */
-pgrModule.config(function($routeSegmentProvider, $routeProvider) {
-	$routeSegmentProvider.options.autoLoadTemplates = true;
-
-	$routeSegmentProvider
-    
-        .when('/my_profile',                'my_profile')
-        .when('/login',                     'login')
-        .when('/profile/',          'profile.oneUser')
-        .when('/profile/:userId1',          'profile.oneUser')
-        .when('/profile/:userId1/:userId2', 'profile.manyUser')
-        .when('/change_email',              'changeEmail')
-        .when('/change_password',           'changePassword')
-        .when('/forgot/:hash',              'changePassword')
-        .when('/compare',                   'compare')
-        .when('/search',                    'search')
-        .when('/nsi',                       'nsi')
-        
-        .when('/',                          'main')
-        
-        .when('/graphs',                    'graphs')
-        .when('/leagues',                   'leagues')
-        .when('/confirm_signup/:hash',      'confirm')
-        
-        
-        .segment('profile', {
-            templateUrl: 'views/profile.html',
-            controller: ProfileController})
-            
-        .within()
-            .segment('oneUser', {
-                templateUrl: 'views/profile/one.html',
-            	dependencies: ['userId1'],
-            	reloadOnSearch: false})
-                
-            .segment('manyUser', {
-                templateUrl: 'views/profile/many.html',
-                dependencies: ['userId2', 'userId1']})
-                
-        .up()
-
-        .segment('main', {
+/** Роутинг **/
+pgrModule.config(['$routeProvider',
+    function($routeProvider) {
+        $routeProvider.
+          when('/', {
             templateUrl: 'views/main.html',
-            controller: MainController,
-        	reloadOnSearch: false})
-
-        .segment('confirm', {
-            templateUrl: 'views/confirm.html',
-            controller: ConfirmController,
-            dependencies: ['hash']})
-
-        .segment('search', {
-            templateUrl: 'views/search.html',
-            controller: SearchAdvanceController})
-
-        .segment('nsi', {
-            templateUrl: 'views/nsi.html',
-            controller: NSIController})
-
-        .segment('compare', {
-            templateUrl: 'views/compare.html',
-            controller: CompareController})
-
-        .segment('changeEmail', {
-            templateUrl: 'views/changeEmail.html',
-            controller: ChangeEmailController})
-
-        .segment('changePassword', {
-            templateUrl: 'views/changePassword.html',
-            controller: ChangePasswordController,
-        	dependencies: ['hash']})
-
-        .segment('login', {
-            templateUrl: 'views/login.html',
-            controller: LoginController})
-
-        .segment('my_profile', {
-            templateUrl: 'views/my_profile.html',
-            controller: MyProfileController})
-
-        .segment('graphs', {
-            templateUrl: 'views/graphs.html',
-            controller: GraphsController})
-
-        .segment('leagues', {
-            templateUrl: 'views/leagues.html',
-            controller: LeaguesController});
-
-	$routeProvider.otherwise({ redirectTo: '/' });
-});
+            controller: 'MainController',
+            reloadOnSearch: false
+          }).
+          otherwise({
+            redirectTo: '/'
+          });
+    }
+]);
 
 pgrModule.factory('httpRequestInterceptor', function () {
   return {
@@ -3250,6 +2701,13 @@ Array.prototype.remove = function(from, to) {
 
 function degToRad (deg) { return deg / 180 * Math.PI; }
 function radToDeg (rad) { return rad / Math.PI * 180; }
+
+function randomRange(l,h){
+  var range = (h-l);
+  var random = Math.floor(Math.random()*range);
+  if (random === 0){random+=1;}
+  return l+random;
+}
 
 'use strict';
 
@@ -3587,16 +3045,6 @@ pgrModule.directive('bridge', function($window) {
   }
 })
 
-pgrModule.directive('icheck', function($window) {
-  return {
-    link: function(scope, element, attrs) {
-      $(element).iCheck({
-        checkboxClass: 'icheckbox_minimal'
-      });
-    }
-  }
-})
-
 pgrModule.directive('caruselPosition', function($window) {
   return {
     link: function(scope, element, attrs) {
@@ -3607,26 +3055,52 @@ pgrModule.directive('caruselPosition', function($window) {
   }
 })
 
-pgrModule.directive('masonry', function(User) {
+/**
+ * Директива плитки на главной
+ */
+pgrModule.directive('masonry', function(User, $rootScope) {
   return {
     link: function($scope, element, attrs) {
+      var parentElement = element.parent()[0];
 
-      window.onorientationchange = function() {
-          angular.forEach($scope.users, function(value, key) {
-              value.big = false;
-          });
-      };
+      // добавляем скроллинг мышкой
+      $(parentElement).on("mousewheel DOMMouseScroll", function($event) {
+        parentElement.scrollLeft -= $event.originalEvent.wheelDeltaY ? $event.originalEvent.wheelDeltaY : $event.originalEvent.detail * 5;
+      });
 
-      $scope.limit = parseInt($(window).height()/30);
-      $scope.skip = 0;
-      $scope.view_count = 0;
-      $scope.total_count = 0;
-      $scope.isCached = true;
+      /** коэффициэнт количество элементов **/
+      var limitCorruption = 30;
+      
+      /** Количество элементов на странице **/
+      var limit = parseInt($(window).height()/limitCorruption);
+      
+      /** текущий отступ  элементов **/
+      var skip = 0;
+      
+      /** сколько сейчас показано элементов **/
+      var view_count = 0;
+      
+      /** общее количество элементов **/
+      var total_count = null;
+      
+      /** есть ли элементы в кеше **/
+      var isCached = true;
+
+      // время жизни кеша с пользователям
+      var cacheTime = 1440;
+      
+      /** забираем список пользователей из кеша **/
       $scope.users = lscache.get("masonry");
 
-      $scope.initIso = function() {
-        $scope.masonryContainer = $('#masonry');
-        $scope.masonryContainer.isotope({
+      /** открываем всплывающее окно пользователя **/
+      $scope.openUserInfo = function(userItem, $event) {
+        $rootScope.$broadcast('hideRightPanel');
+        $rootScope.$broadcast('showUserProfile', { user: userItem });
+      }
+      
+      /** инициализируем isotope **/
+      this.initIso = function() {
+        $(element).isotope({
           itemSelector: '.iso-item',
           rowHeight: 70,
           layoutMode: "perfectMasonry",
@@ -3635,30 +3109,26 @@ pgrModule.directive('masonry', function(User) {
               columnWidth: 70,
               rowHeight: 70
          }
-        });  
+        });
       }
 
-      $scope.getPublishedUser = function() {
-        User.for_main_from_limit({limit: $scope.limit, skip: $scope.skip}, {}, function(data) {
-            var newArray = [];
-            angular.forEach(data, function(value, key) {
-                value.points = parseInt(value.points);
-                $scope.total_count = value.total_count;
-                if(isNaN(value.points)) {
-                    value.points = 0;
-                }
-                value.size = value.league.size+"px";
-                newArray.push(value);
-            });
-            newArray.shuffle();
-            $scope.users = $scope.users.concat(newArray);
+      /** забираем список пользователей из backend-а **/
+      this.getUsersFromBackend = function(limit, skip, total_count, view_count) {
+        User.for_main_from_limit({limit: limit, skip: skip}, {}, function(data) {
+            $scope.users = $scope.users.concat(data);
 
-            $scope.view_count += $scope.limit;
-            if($scope.view_count < $scope.total_count) {
-              $scope.skip += $scope.limit;
-              $scope.getPublishedUser();
+            view_count += limit;
+
+            // выглядит дико, знаю
+            total_count = $scope.users[0] ? $scope.users[0].total_count : total_count;
+
+            if(view_count < total_count) {
+              skip += limit;
+              // рекурсивно берем еще пользователей
+              this.getUsersFromBackend(limit, skip, total_count, view_count);
             } else {
-              lscache.set('masonry', JSON.stringify($scope.users), 1440);
+              // отправляем данные в кеш
+              lscache.set('masonry', JSON.stringify($scope.users), cacheTime);
             }
         });
       }
@@ -3667,30 +3137,32 @@ pgrModule.directive('masonry', function(User) {
        * Забираем список пользователей
        */
       if(!$scope.users) {
-        $scope.isCached = false;
+        isCached = false;
         $scope.users = [];
-        $scope.getPublishedUser();  
+        this.getUsersFromBackend(limit, skip, total_count, view_count);  
       }
       
-      $scope.initIso();
+      // инициизируем masonry
+      this.initIso();
     }
-
-    
   }
 })
 
+/** 
+ * Директира для внутреннего элемента masonry
+ */
 pgrModule.directive('masonryItem', function() {
   return {
-    link: function(scope, element, attrs) { 
-      imagesLoaded(element, function( instance ) {
-        setTimeout(function() {
-          $(element).addClass("iso-item");
-          scope.masonryContainer.isotope("insert", $(element));
-        }, randomRange(1000, 3000));
-        setTimeout(function() {
-          $(element).addClass("all");
-        }, 5000);  
-      });
+    link: function(scope, element, attrs) {
+      /** родительский элемент **/
+      var parentElement = $(element).parent();
+      setTimeout(function() {
+        $(element).addClass("iso-item");
+        parentElement.isotope("insert", $(element));
+      }, randomRange(1000, 3000));
+      setTimeout(function() {
+        $(element).addClass("all");
+      }, 5000); 
     }
   }
 })
@@ -4137,67 +3609,6 @@ pgrModule.directive('mydash', function(User) {
   }
 })
 
-pgrModule.directive('setWidth', function() {
-  return {
-    link: function(scope, element, attrs) {
-      function setPosition() {
-        if(scope.zoomElement) {
-          $(element).removeClass("show");
-          setTimeout(function() {
-            var newX = scope.zoomElement.x-scope.zoomElement.width/2;
-            if(scope.scrollDelta) {
-              newX += scope.scrollDelta;
-            }
-            if(newX < 0) {
-              newX = 0;
-            }
-            var newY = scope.zoomElement.y-scope.zoomElement.height/2;
-            $(element).css("left", newX+"px");
-            $(element).css("top", newY+"px"); 
-            $(element).addClass("show");
-          }, 200);
-        } else {
-          $(element).removeClass("show");
-        }
-      }
-      scope.$watch("zoomElement", function() {
-          setPosition();
-      });
-      scope.$watch("scrollDelta", function() {
-          if(scope.zoomElement && scope.zoomElement.x) {
-            var newX = scope.zoomElement.x-scope.zoomElement.width/2;
-            if(scope.scrollDelta) {
-              newX += scope.scrollDelta;
-            }
-            $(element).css("left", newX+"px");
-          }
-      });
-    }
-  }
-})
-
-pgrModule.directive('setWidthSmall', function() {
-  return {
-    link: function(scope, element, attrs) {
-      scope.$watch("userItem.hover", function() {
-        if(scope.userItem.hover) {
-          //$(element).clone().addClass("clone").insertAfter($(element));
-        } else {
-          //$(".clone").remove();
-        }
-      });
-    }
-  }
-})
-
-function randomRange(l,h){
-  var range = (h-l);
-  var random = Math.floor(Math.random()*range);
-  if (random === 0){random+=1;}
-  return l+random;
-}
-
-
 
 var host = "http://dev.sir.improva.com/api/v1";
 var debugHost = "http://192.168.1.116:3000/api/v1"; 
@@ -4219,7 +3630,21 @@ pgrModule.factory('User', function ($resource) {
             	method: 'GET', 
             	transformResponse: function (data) {
                     if(data) {
+                        // подготавливаем данные 
                         var user = angular.fromJson(data)[0];
+                        user.points = parseInt(user.points);
+
+                        if(user.points == null || isNaN(user.points)) {
+                            user.points = 0;
+                        }
+
+                        /**
+                         * Указваем формат дня рождения
+                         */
+                        if(user.birthday) {
+                            user.birthday = moment(user.birthday).format("DD/MM/YYYY");
+                        }
+
                         return user;    
                     }
             	}
@@ -4492,7 +3917,7 @@ pgrModule.factory('CityByState', function ($resource) {
     );
 });
 
-pgrModule.factory('States', function ($resource) {
+pgrModule.factory('Country', function ($resource) {
     return $resource(
         host+'/states/', 
         {id:'@id'}, 
@@ -4603,40 +4028,319 @@ pgrModule.factory('Sessions', function ($resource) {
 });
 
 /**
- * 
- * @param  {[type]} $cookies [description]
- * @return {[type]}          [description]
+ * Сервис авторизации
  */
-pgrModule.factory('AuthUser', function ($cookieStore) {
-    var AuthUser = function() {
-        this.get = function() {
-            return $cookieStore.get("user");
-        }
+pgrModule.service('SessionsService', function (Sessions, User) {
 
-        this.getExternal = function() {
-            return $cookieStore.get("external");
-        }
-
-        this.getToken = function() {
-            return $cookieStore.get("token");
-        }
-
-        this.set = function(guid, token, external) {
-            $cookieStore.put("user", guid);
-            $cookieStore.put("token", token);
-
-            if(external) {
-                $cookieStore.put("external", "1");    
+    // забираем пользователя из кеша
+    this.signin = function(login, password, callback, fail) {
+        var self = this;
+        Sessions.signin({}, $.param({
+            "email": login,
+            "password": password
+        }), function(data) {
+            if(data.success) {
+                self.signinSuccess_(data.guid, callback);
+                
+            } else {
+                fail(data);
             }
-        }
+        });
+    }
+    this.signinSuccess_ = function(sguid, callback) {
+        User.query({id: sguid}, function(data) {
+            
 
-        this.logout = function() {
-            $cookieStore.remove("user");
-            $cookieStore.remove("token"); 
-            $cookieStore.remove("external");
+            callback(data);
+
+
+            
+        });
+    }
+});
+
+/**
+ * Сервис сохранения пользователя в кеше
+ */
+pgrModule.service('UserService', function (User) {
+    // название кеша
+    this.cacheName = 'user';
+
+    // время кеширования
+    this.cacheTime = 1440;
+
+    // забираем пользователя из кеша
+    this.getAuthData = function() {
+        return lscache.get(this.cacheName);
+    }
+
+    // передаем данные в кеш
+    this.setAuthData = function(user) {
+        // сохраняем данные пользователя в localStorage
+        lscache.set(this.cacheName, JSON.stringify(user), this.cacheTime);
+    }
+
+    // удаляем пользователя из кеша
+    this.removeAuthData = function() {
+        lscache.remove(this.cacheName);
+    }
+
+    // получение списка друзей
+    this.getFriends = function(sguid, callback) {
+        User.get_friends({id: sguid}, callback);
+    }
+
+    // создание нового пользователя
+    this.create = function(params, callback, fail) {
+        User.create(
+            {user: JSON.stringify(params)}
+            ,function(data) {
+                if(!data.success && fail) {
+                    fail(data);      
+                }
+                if(data.success && callback) {
+                    callback(data);      
+                }
+            }
+        );
+    }
+
+    // получаем данные по указанному пользователю с указанным id
+    this.getById = function(id, callback) {
+        User.query({id: id}, function(data) {
+            callback(data);
+        });
+    }
+});
+
+/**
+ * Сервис списка нидсов
+ */
+pgrModule.service('NeedsService', function (Needs) {
+    // название кеша
+    this.cacheName = 'needs';
+
+    // время кеширования
+    this.cacheTime = 1440;
+
+    // забираем нидсы из кеша
+    this.getList = function(callback) {
+        var needs = lscache.get(this.cacheName);
+        if(!needs) {
+            this.getNeedsOnServer_(callback);
+        } else {
+            callback(needs);
         }
-    };
-    return new AuthUser();
+    }
+    // забираем список нидсов с свервера
+    this.getNeedsOnServer_ = function(callback) {
+        var self = this;
+        Needs.query({}, {}, function(data) {
+            self.persist(data);
+            callback(data);
+        });
+    }
+    //Сохраняем
+    this.persist = function(data) {
+        lscache.set(this.cacheName, JSON.stringify(data), this.cacheTime);
+    }
+});
+
+/**
+ * Сервис списка карьер
+ */
+pgrModule.service('СareerService', function (Needs) {
+    // название кеша
+    this.cacheName = 'career';
+
+    // время кеширования
+    this.cacheTime = 1440;
+
+    // id карьеры
+    this.careerId = '169990243011789827';
+
+    // id карьеры
+    this.moneyId = '170689401829983233';
+
+    // забираем пользователя из кеша
+    this.getList = function(needs, callback) {
+        var career = lscache.get(this.cacheName);
+        if(!career) {
+            this.getCareer_(needs, callback);
+        } else {
+            callback(career);
+        }
+    }
+    this.getCareer_ = function(needs, callback) {
+        var needs = JSON.parse(JSON.stringify(needs));
+        var self = this;
+
+        // получаем нужный need
+        var curNeed = needs.filter(function(value) {
+            if(value.sguid == self.careerId) {
+                return value;
+            }
+        })[0];
+
+        // получаем список карьер без money
+        var careerList = curNeed.goals.filter(function(value) {
+            if(value.sguid != self.moneyId) { return value }
+        });
+
+        this.persist(careerList);
+        callback(careerList);
+    }
+    // сохранение
+    this.persist = function(data) {
+        lscache.set(this.cacheName, JSON.stringify(data), this.cacheTime);
+    }
+});
+
+pgrModule.service('CountryService', function (Country) {
+    // название кеша
+    this.cacheName = 'country';
+
+    // время кеширования
+    this.cacheTime = 1440;
+
+    // забираем пользователя из кеша
+    this.getList = function(callback) {
+        var country = lscache.get(this.cacheName);
+        if(!country) {
+            this.getCountryOnServer_(callback);
+        } else {
+            callback(country);
+        }
+    }
+    this.getCountryOnServer_ = function(callback) {
+        var self = this;
+        Country.query({}, {}, function(data) {
+            callback(data);
+            self.persist(data);
+        });
+    }
+    this.persist = function(data) {
+        lscache.set(this.cacheName, JSON.stringify(data), this.cacheTime);
+    }
+});
+
+/**
+ * Сервис списка лиг
+ */
+pgrModule.service('LeagueService', function (Leagues) {
+    // название кеша
+    this.cacheName = 'league';
+
+    // время кеширования
+    this.cacheTime = 1440;
+
+    // забираем пользователя из кеша
+    this.getList = function(callback) {
+        var league = lscache.get(this.cacheName);
+        if(!league) {
+            this.getLeagueOnServer_(callback);
+        } else {
+            callback(league);
+        }
+    }
+    this.getLeagueOnServer_ = function(callback) {
+        var self = this;
+        Leagues.query({}, {}, function(data) {
+            callback(data);
+            self.persist(data);
+        });
+    }
+    this.persist = function(data) {
+        lscache.set(this.cacheName, JSON.stringify(data), this.cacheTime);
+    }
+});
+
+
+pgrModule.service('FriendsService', function (UserService, User, $rootScope) {
+    // название кеша
+    this.cacheName = 'follows';
+
+    // время кеширования
+    this.cacheTime = 1440;
+
+    // забираем пользователя из кеша
+    this.getList = function() {
+        return lscache.get(this.cacheName);
+    }
+
+    // проверяет является ли передаваемый пользователь другом для списка друзей.
+    this.isFriend = function(user, friends) {
+
+        if(friends) {
+            var item = friends.filter(function(item) {
+                if(item.user.sguid == user.sguid) { return item; }
+            });
+            return item.length > 0 ? true : false;
+        }
+        
+        return false;
+    }
+
+    // добавляем чувака в друзья
+    this.follow = function(friend, friends, callback) {
+        var user = UserService.getAuthData();
+        
+        if(user) {
+            User.create_friendship({id: friend.sguid}, {
+                friend_guid: user.sguid
+            }, function(response) {     
+                if(response.success) {
+                    friends.push({sguid: response.message.guid, user: message.user});
+                    callback(friends);
+                }
+            });
+        } else {
+            if(!friends) {
+                friends = [];
+            }
+            friends.push({sguid: null, user: friend});
+            this.persist(friends);
+            callback(friends);
+        }
+    }
+
+    // убираем пользователя из друзей
+    this.unfollow = function(friend, friends, callback) {
+        var user = UserService.getAuthData();
+        
+        if(user) {
+            User.destroy_friendship({id: user.sguid, friendId: friend.sguid}, { }, function() {
+                var frend = friends.filter(function(data) {
+                    if(data.user.sguid === message.frendId) {
+                        return data;
+                    }
+                })[0];
+                var index = friends.indexOf(frend);
+                friends.splice(index, 1);
+                callback(friends);
+            });
+        } else {
+            var frend = friends.filter(function(data) {
+                if(data.user.sguid === friend.sguid) {
+                    return data;
+                }
+            })[0];
+
+            var index = friends.indexOf(frend);
+            friends.splice(index, 1);
+
+            this.persist(friends);
+            callback(friends);
+        }
+    }
+
+    // передаем данные в кеш
+    this.persist = function(friends) {
+        lscache.set(this.cacheName, JSON.stringify(friends), this.cacheTime);
+    }
+});
+
+pgrModule.service('AuthUser', function () {
 });
 
 
@@ -4698,7 +4402,18 @@ pgrModule.factory('Social', function ($resource) {
     );
 });
 
-
+pgrModule.factory('Recaptha', function ($resource) {
+    return $resource(
+        hostShort+'/verify_recaptcha', 
+        {},
+        {
+            "verify": {
+                method: 'POST'
+            }
+            
+        }
+    );
+});
 angular.module('pgrModule').run(['$templateCache', function($templateCache) {
 $templateCache.put('views/changeEmail.html', "<div class=\"email login\" ng-if=\"workspace.user\">\n    <div class=\"modal\">\n        <div class=\"modal_wrapper\">\n            <div class=\"header\">\n               <h4>Change email</h4>\n            </div>\n            <div class=\"body\">\n                <ng-form id=\"login_form\" novalidate name=\"ReemailForm\" class=\"css-form myForm\" >\n                    <p>\n                        <input \n                            id=\"login_i\" \n                            class=\"form-input\"\n                            ng-model=\"form.password\"\n                            required \n                            ng-minlength=\"6\"\n                            placeholder=\"Current password\"\n                            type=\"password\" />\n                    </p>\n                    <p>\n                        <input \n                            type=\"email\" \n                            id=\"pass_i\"\n                            class=\"form-input\"\n                            ng-model=\"form.newEmail\"\n                            required \n                            ng-minlength=\"6\"\n                            placeholder=\"New email\" /> \n                    </p>\n                    <p class=\"errors\" ng-if=\"error\">{{error}}</p>\n                    <p>\n                        <input \n                            ng-click=\"onCancel()\" \n                            type=\"button\" \n                            value=\"Cancel\" class=\"cancel\" />\n                        <input \n                            ng-disabled=\"ReemailForm.$invalid\"\n                            ng-click=\"onChangeEmail()\" \n                            type=\"button\" \n                            value=\"Save\" />\n                    </p>\n                </ng-form>\n            </div>\n        </div>\n    </div>\n</div>\n");
 $templateCache.put('views/changePassword.html', "<div class=\"email login\">\n    <div class=\"modal\">\n        <div class=\"modal_wrapper\">\n            <div class=\"header\">\n               <br /><br /><br /><br /><br /><br />\n               <h4 ng-if=\"message == 0\">Reset password</h4>\n            </div>\n            <div class=\"body\">\n                <div class=\"form-show\" ng-if=\"message == 1\">\n                    <p>Message with code was sent to your email</p>\n                    <input \n                            ng-click=\"onChangePasswordOk()\" \n                            type=\"button\" \n                            value=\"OK\" />\n                </div>\n                <div class=\"form-show\" ng-if=\"message == 3\">\n                    <p>Password changed</p>\n                    <input \n                            ng-click=\"onChangePasswordChanged()\" \n                            type=\"button\" \n                            value=\"OK\" />\n                </div>\n                <ng-form  \n                    ng-if=\"message == 0\"\n                    id=\"RepasswordForm\" \n                    name=\"RepasswordForm\" \n                    novalidate \n                    class=\"css-form myForm\" >\n                    <p ng-if=\"state == 1\">\n                        <input \n                            id=\"login_i\" \n                            class=\"form-input\"\n                            ng-model=\"form.email\"\n                            required \n                            placeholder=\"Email\"\n                            required\n                            type=\"email\" />\n                        <p class=\"errors\" ng-if=\"isEmailNotFound\">Email not found.</p>\n                    </p>\n                    <p ng-if=\"state == 2\">\n                        <input \n                            id=\"login_i\" \n                            class=\"form-input\"\n                            ng-model=\"form.code\"\n                            required \n                            placeholder=\"Current code\"\n                            type=\"text\" />\n                    </p>\n                    <p ng-if=\"state == 2\">\n                        <input \n                            type=\"password\" \n                            id=\"pass_i\"\n                            class=\"form-input\"\n                            ng-model=\"form.newPassword\"\n                            placeholder=\"New password\"\n                            required\n                            ng-minlength=\"6\" /> \n                    </p>\n                    <p ng-if=\"state == 2\">\n                        <input \n                            type=\"password\" \n                            id=\"pass_i\"\n                            class=\"form-input\"\n                            ng-model=\"form.confirmPassword\"\n                            placeholder=\"Confirm password\"\n                            required\n                            ng-minlength=\"6\" /> \n                    </p>\n                    <p class=\"errors\" ng-if=\"error\">{{error}}</p>\n                    <p ng-if=\"state == 1\">\n                        <input \n                            ng-click=\"onChangePasswordCancel()\" \n                            type=\"button\" \n                            value=\"Cancel\"\n                            class=\"cancel\" />\n                        <input \n                            ng-disabled=\"RepasswordForm.$invalid\"\n                            ng-click=\"onChangePassword()\" \n                            type=\"button\" \n                            value=\"Send code\" />\n                    </p>\n                    <p ng-if=\"state == 2\">\n                        <input \n                            ng-click=\"onChangePasswordCancel2()\" \n                            type=\"button\" \n                            value=\"Cancel\"\n                            class=\"cancel\" />\n                        <input \n                            ng-disabled=\"RepasswordForm.$invalid\"\n                            ng-click=\"onChangePasswordBegin()\" \n                            type=\"button\" \n                            value=\"Save\" />\n                    </p>\n                </ng-form>\n            </div>\n        </div>\n    </div>\n</div>\n");
@@ -4707,7 +4422,7 @@ $templateCache.put('views/confirm.html', "");
 $templateCache.put('views/graphs.html', "<div id=\"graph_container\">\n\t<table id=\"graphs\">\n\t\t<tbody>\n\t\t\n\t\t\t<tr ng-repeat=\"(lKey,lItem) in leagues | orderBy:'position':true\"\t>\n\t\t\t\t<th>\n\t\t\t\t\t{{lItem.min_border}}\n\t\t\t\t</th>\n\t\t\t\t<td ng-repeat=\"(uKey,uItem) in lItem.users\" points\" data-points=\"{{uItem.points}}\" data-step=\"{{lItem.position+1}}\">\n\t\t\t\t\t<a ng-if=\"uItem.name\" href=\"#/profile/?user={{uItem.sguid}}\">\n\t\t\t\t\t\t<img ng-if=\"uItem.avatar\" ng-src=\"{{uItem.avatar}}\" />\n\t\t\t\t\t\t<img ng-if=\"!uItem.avatar\" src=\"./images/unknown-person.png\" />\t\n\t\t\t\t\t</a>\n\t\t\t\t</td>\n\t\t\t</tr>\n\t\t</tbody>\n\t</table>\n\n\t<ul id=\"loosers\">\n\t\t<li ng-repeat=\"(uKey,uItem) in looserUser\">\n\t\t\t<a ng-if=\"uItem\" href=\"#/profile/{{uItem.sguid}}\">\n\t\t\t\t<img ng-if=\"uItem.avatar\" ng-src=\"{{uItem.avatar}}\" />\n\t\t\t\t<img ng-if=\"!uItem.avatar\" src=\"./images/unknown-person.png\" />\t\n\t\t\t</a>\n\t\t</li>\n\t</ul>\n</div>");
 $templateCache.put('views/leagues.html', "<section class=\"leaglist\">\n\t<article ng-repeat=\"(leaguesKey, leagueItem) in leagues\">\n\t\t<a>\n\t\t\t<img ng-if=\"leagueItem.name == '1'\" src=\"/images/I.png\" />\n\t\t\t<img ng-if=\"leagueItem.name == '2'\" src=\"/images/II.png\" />\n\t\t\t<img ng-if=\"leagueItem.name == '3'\" src=\"/images/III.png\" />\n\t\t\t<img ng-if=\"leagueItem.name == '4'\" src=\"/images/IV.png\" />\n\t\t\t<img ng-if=\"leagueItem.name == '5'\" src=\"/images/V.png\" />\n\t\t\t<img ng-if=\"leagueItem.name == '6'\" src=\"/images/VI.png\" />\n\t\t\t<img ng-if=\"leagueItem.name == '7'\" src=\"/images/VII.png\" />\n\t\t\t<img ng-if=\"leagueItem.name == '8'\" src=\"/images/VIII.png\" />\n\t\t\t<img ng-if=\"leagueItem.name == '9'\" src=\"/images/IX.png\" />\n\t\t\t<img ng-if=\"leagueItem.name == '10'\" src=\"/images/X.png\" />\n\t\t</a>\n\t\t<div>\n\t\t\t<sub></sub>\n\t\t\t<sup></sup>\n\t\t\t<p>\n\t\t\t\t<a href=\"#/profile/{{userValue.sguid}}\" ng-repeat=\"(userKey, userValue) in leagueItem.users\">\n\t\t\t\t\t<img ng-src=\"{{userValue.avatar}}\" alt=\"\" err-src=\"/images/unknown-person.png\" />\n\t\t\t\t</a>\n\t\t\t</p>\n\t\t</div>\n\t</article>\n</section>");
 $templateCache.put('views/login.html', "<div class=\"form-show improva\" ng-show=\"improva == 1\">\n    <h2>Sign in with improva account</h2>\n    <p>Use your improva account to sign in to iRate</p>\n    <ng-form \n        id=\"improva_form\" \n        name=\"ImprovaForm\" \n        novalidate \n        class=\"css-form myForm\" >\n        <div class=\"left\">\n            <img src=\"/images/improva.png\" alt=\"\" />\n        </div>\n        <div class=\"right\">\n            <p>\n                <input \n                    type=\"email\" \n                    id=\"login_i\" \n                    class=\"form-input\"\n                    ng-model=\"improvaForm.email\"\n                    name=\"ImprovaEmail\"\n                    required \n                    ng-minlength=\"6\"\n                    placeholder=\"Email\" />\n                    <br />\n                    <span class=\"errorss\" ng-show=\"ImprovaForm.ImprovaEmail.$dirty && (ImprovaForm.ImprovaEmail.$error.required || ImprovaForm.ImprovaEmail.$error.minlength || ImprovaForm.ImprovaEmail.$error.email )\">Incorrect email</span>\n            </p>\n            <p>\n                <input \n                    type=\"password\" \n                    id=\"pass_i\"\n                    class=\"form-input\"\n                    ng-model=\"improvaForm.password\"\n                    required \n                    name=\"ImprovaPassword\"\n                    placeholder=\"Password\" /> \n                    <br />\n                    <span class=\"errorss\" ng-show=\"ImprovaForm.ImprovaPassword.$dirty && (ImprovaForm.ImprovaPassword.$error.required || ImprovaForm.ImprovaPassword.$error.minlength)\">Incorrect password</span>\n            </p>\n            <p class=\"errors\" ng-if=\"improvaError\">{{improvaError}}</p>\n            <p class=\"buttons\">\n                <input \n                    type=\"button\" \n                    value=\"Cancel\"\n                    ng-click=\"onCancelImprova()\" />\n                <input \n                    type=\"button\" \n                    value=\"Sign in\"\n                    ng-disabled=\"ImprovaForm.$invalid\"\n                    ng-click=\"onImprovaSign()\" />\n            </p>\n        </div>\n    </ng-form>\n</div>\n<div class=\"form-show improva\" ng-show=\"user_create == 1\">\n    <h2>Successful registration!</h2>\n    <p>The message have been sent to your email. Sign in by the inner link now.</p>\n    <ng-form \n        id=\"create_form\" \n        name=\"create_form\" \n        novalidate \n        class=\"css-form myForm\" >\n            <p class=\"buttons\">\n                <input \n                    type=\"button\" \n                    value=\"Ok\"\n                    ng-click=\"onCancelCreate()\" />\n            </p>\n        </div>\n    </ng-form>\n</div>\n<div class=\"form-show improva\" ng-show=\"onSuccessRegistration == 1\">\n    <h2>Successful registration!</h2>\n    <p>Please login now.</p>\n    <ng-form \n        id=\"create_form\" \n        name=\"create_form\" \n        novalidate \n        class=\"css-form myForm\" >\n            <p class=\"buttons\">\n                <input \n                    type=\"button\" \n                    value=\"Ok\"\n                    ng-click=\"onCancelSuccess()\" />\n            </p>\n        </div>\n    </ng-form>\n</div>\n<div class=\"login\">\n    <div class=\"modal\">\n        <div class=\"modal_wrapper\">\n            <div class=\"header\" ng-if=\"signup\">\n               <h4>Sign up with your email address</h4>\n               <p>Аlready have a iRate account? <a ng-click=\"onSignStateChange()\">Sign in </a>now.</p>\n            </div>\n            <div class=\"header\" ng-if=\"!signup\">\n               <h4>Sign in to iRate</h4>\n               <p>Use Facebook, LiveID, Google+, Improva or your email to sign in.</p> \n               <p>Don’t have a iRate account yet? <a ng-click=\"onSignStateChange()\">Sign up </a>now.</p>\n            </div>\n            <div class=\"body\">\n                <div class=\"left\" ng-show=\"!signup\">\n                    <div class=\"left_wrapper\">\n                        <ul>\n                            <li>\n                                <a ng-click=\"socialFacebookLogin()\">\n                                    <img src=\"/images/facebook.png\" alt=\"\" />\n                                </a>\n                            </li>\n                            <li>\n                                <a ng-click=\"socialGooglePlusLogin()\">\n                                    <img src=\"/images/google.png\" alt=\"\" />\n                                </a>\n                            </li>\n                            <li>\n                                <a ng-click=\"socialMicrosoftLiveLogin()\">\n                                    <img src=\"/images/live.png\" alt=\"\" />\n                                </a>\n                            </li>\n                            <li>\n                                <a ng-click=\"improvaLogin()\">\n                                    <img src=\"/images/improva.png\" alt=\"\" />\n                                </a>\n                            </li>\n                        </ul>\n                    </div>\n                </div>\n                <div class=\"right\" ng-class=\"{full: signup}\">\n                    <div class=\"right_wrapper\">\n                        <div class=\"sign-up\" ng-show=\"signup\">\n                            <ng-form name=\"RegForm\" novalidate class=\"css-form myForm\" >\n                                <p>\n                                    <input \n                                        type=\"email\" \n                                        id=\"email_i\" \n                                        class=\"form-input\"\n                                        ng-model=\"user.email\" \n                                        required\n                                        ng-minlength=\"6\"\n                                        placeholder=\"Email\"\n                                        name=\"NewEmail\"\n                                        ui-keypress=\"{13:'onKeyPressReg($event)'}\"  />\n                                        <br />\n                                        <span class=\"errorss\" ng-show=\"RegForm.NewEmail.$dirty && (RegForm.NewEmail.$error.required || RegForm.NewEmail.$error.minlength || RegForm.NewEmail.$error.email)\">Incorrect email</span>\n                                </p>\n                                <p class=\"errors\" ng-if=\"errorEmail\">{{errorEmail}}</p>\n                                <p>\n                                    <input \n                                        type=\"email\" \n                                        id=\"name_i\" \n                                        class=\"form-input\"\n                                        ng-model=\"user.reemail\" \n                                        required \n                                        ng-minlength=\"6\"\n                                        placeholder=\"Confirm email\"\n                                        disable-paste\n                                        onpaste=\"return false;\"\n                                        name=\"NewMassEmail\"\n                                        ui-keypress=\"{13:'onKeyPressReg($event)'}\" />\n                                        <br />\n                                        <span class=\"errorss\" ng-show=\"RegForm.NewMassEmail.$dirty && (RegForm.NewMassEmail.$error.required || RegForm.NewMassEmail.$error.minlength || RegForm.NewEmail.$error.email)\">Incorrect mismatch</span> \n                                </p>\n                                <p>\n                                    <input \n                                        type=\"password\" \n                                        id=\"name_i\" \n                                        class=\"form-input\"\n                                        ng-model=\"user.password\" \n                                        required \n                                        ng-minlength=\"6\"\n                                        placeholder=\"Password\"\n                                        name=\"NewPassword\"\n                                        ui-keypress=\"{13:'onKeyPressReg($event)'}\" /> \n                                        <br />\n                                        <span class=\"errorss\" ng-show=\"RegForm.NewPassword.$dirty && (RegForm.NewPassword.$error.required || RegForm.NewPassword.$error.minlength)\">Incorrect password</span>\n                                </p>\n                                <div\n                                    vc-recaptcha\n                                    theme=\"clean\"\n                                    lang=\"en\"\n                                    ng-model=\"captha\"\n                                    key=\"6Lf1Z-oSAAAAAEkk7m5n6cGiwgqeMya21UetPbIO\"\n                                ></div>\n                                <p class=\"errors\" ng-if=\"errorValidate\"><br />{{errorValidate}}</p><br />\n\n                                <p class=\"acknowledge\">\n                                    <input type=\"checkbox\" required=\"required\" ng-model=\"acknowledge\" class=\"icheckbox_minimal\"  />\n                                    <label>I acknowledge that I have read and accept the<a href=\"/views/terms.html\" class=\"notdark\">Terms of use Agreement</a> and consent to the <a href=\"/views/terms.html\" class=\"notdark\">Privacy Policy</a>.</label>\n                                </p> \n                                <p class=\"signup-submit\">\n                                    <input \n                                        type=\"button\" \n                                        value=\"Sign up\"\n                                        ng-disabled=\"RegForm.$invalid\"\n                                        ng-click=\"onAddUser()\" />\n                                </p>\n                            </ng-form>\n                        </div>\n                        <div class=\"sign-in\" ng-show=\"!signup\">\n                            <ng-form \n                                id=\"login_form\" \n                                name=\"LoginForm\" \n                                novalidate \n                                class=\"css-form myForm\" >\n                                <p>\n                                    <input \n                                        type=\"email\" \n                                        id=\"login_i\" \n                                        class=\"form-input\"\n                                        ng-model=\"login.email\"\n                                        name=\"Email\"\n                                        required \n                                        ng-minlength=\"6\"\n                                        placeholder=\"Email\"\n                                        ui-keypress=\"{13:'onKeyPress($event)'}\" />\n                                        <br />\n                                        <span class=\"errorss\" ng-show=\"LoginForm.Email.$dirty && (LoginForm.Email.$error.required || LoginForm.Email.$error.minlength || LoginForm.Email.$error.email)\">Incorrect email</span>\n                                </p>\n                                \n                                <p>\n                                    <input \n                                        type=\"password\" \n                                        id=\"pass_i\"\n                                        class=\"form-input\"\n                                        ng-model=\"login.password\"\n                                        required \n                                        name=\"Password\"\n                                        ng-minlength=\"6\"\n                                        placeholder=\"Password\"\n                                        ui-keypress=\"{13:'onKeyPress($event)'}\"\n                                        ng-trim=\"false\" /> \n                                        <br />\n                                        <span class=\"errorss\" ng-show=\"LoginForm.Password.$dirty && (LoginForm.Password.$error.required || LoginForm.Password.$error.minlength)\">Incorrect password</span>\n                                </p>\n                                <div class=\"step\">\n                                    <div class=\"left\">\n                                        \n                                        <p>\n                                            <a href=\"#/change_password\">Forgot your password?</a>\n                                        </p>\n                                        <p>\n                                            <input type=\"checkbox\" icheck />\n                                            <label>Keep me signed in</label>\n                                        </p>\n                                        <p class=\"errors\" ng-show=\"error\">{{error}}</p>\n                                    </div>\n                                    <div class=\"right\">\n                                        <p class=\"singin-sub\">\n                                            <input \n                                                ng-disabled=\"LoginForm.$invalid\"\n                                                ng-click=\"onSingin()\" \n                                                type=\"button\" \n                                                value=\"Sign in\"\n                                                ui-keypress=\"{13:'onKeyPress($event)'}\" />\n                                        </p>    \n                                    </div> \n                                </div>\n                            </ng-form>\n                        </div>\n                    </div>\n                </div>\n            </div>\n        </div>\n    </div>\n</div>\n");
-$templateCache.put('views/main.html', "<section\n\tmsd-wheel=\"onWheel($event, $delta, $deltaX, $deltaY)\"\n\tclass=\"gallery\" \n\tng-controller=\"GalleryController\">\n\n\t<div ng-click=\"onLogin()\" class=\"rate-yourself\" ng-if=\"!workspace.user\">\n\t\t<h2>Click to find</h2>\n\t\t<h2>where are you</h2>\n\t</div>\n\n\t<div \n\t\tid=\"masonry\"\n\t\tng-style=\"{left: scrollDelta}\" \n\t\tclass=\"packery isotope\"\n\t\tmasonry>\n\t\t<div\n\t\t\tng-click=\"onUserClick(userItem, $event)\"\n\t\t\tclass=\"item l_{{userItem.league.name}} isotope-item\"\n\t\t\tng-repeat=\"(userKey, userItem) in users\"\n\t\t\tng-style=\"{width: userItem.size, height: userItem.size}\"\n\t\t\tmasonry-item>\n\t\t\t<div \t\n\t\t\t\tclass=\"wr\" \n\t\t\t\tback-img=\"{{userItem.avatar}}\" \n\t\t\t\tng-click=\"switchState(userItem)\"\n\t\t\t\tng-style=\"{width: userItem.size, height: userItem.size}\" >\n\t\t\t\t<i>{{userItem.points}}</i>\n\t\t\t\t<em></em>\n\t\t\t</div>\n\t\t</div>\n\t</div>\n</section>\n\n<div id=\"zoom_element\" set-width>\n\t<div class=\"sub2\" >\n\t\t<div class=\"item l_{{zoomElement.league.name}} isotope-item\" >\n\t\t\t<div \t\n\t\t\t\tclass=\"wr\" \n\t\t\t\tback-img=\"{{zoomElement.avatar}}\" >\n\t\t\t\t<i>{{zoomElement.points}}</i>\n\t\t\t\t<div class=\"sub\">\n\t\t\t\t\t<b>{{zoomElement.name}} <br /><s>{{zoomElement.league.name}} league</s></b>\n\t\t\t\t\t<ul>\n\t\t\t\t\t\t<li>\n\t\t\t\t\t\t\t<a ng-click=\"onMoveToProfile(zoomElement)\">\n\t\t\t\t\t\t\t\t<span class=\"icon profile navigate\"></span>\n\t\t\t\t\t\t\t</a>\n\t\t\t\t\t\t</li>\n\t\t\t\t\t\t<li>\n\t\t\t\t\t\t\t<a ng-click=\"onMoveToCompare(zoomElement)\">\n\t\t\t\t\t\t\t\t<span class=\"icon compare navigate\"></span>\n\t\t\t\t\t\t\t</a>\n\t\t\t\t\t\t</li>\n\t\t\t\t\t\t<li>\n\t\t\t\t\t\t\t<a ng-if=\"!zoomElement.isFrend\" ng-click=\"onFollow(zoomElement)\">\n\t\t\t\t\t\t\t\t<span class=\"icon follow navigate\"></span>\n\t\t\t\t\t\t\t</a>\n\t\t\t\t\t\t\t<a ng-if=\"zoomElement.isFrend\" ng-click=\"onUnFollow(zoomElement)\">\n\t\t\t\t\t\t\t\t<span class=\"icon unfollow navigate\"></span>\n\t\t\t\t\t\t\t</a>\n\t\t\t\t\t\t</li>\n\t\t\t\t\t</ul>\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t\t<em></em>\n\t\t</div>\n\t</div>\n</div>");
+$templateCache.put('views/main.html', "<section\n  id=\"masonry_parent\"\n\tclass=\"gallery\" \n\tng-controller=\"GalleryController\">\n  <div \n  \tid=\"masonry\" \n  \tclass=\"isotope\" \n  \tmasonry>\n    <div \n    \tng-click=\"openUserInfo(userItem, $event)\" \n    \tclass=\"item isotope-item\" \n    \tng-repeat=\"(userKey, userItem) in users\" \n    \tmasonry-item>\n      <div class=\"wr\">\n        <img ng-src=\"{{userItem.avatar}}\" width=\"{{userItem.league.size}}px\" height=\"{{userItem.league.size}}px\" />\n        <i>{{userItem.points}}</i>\n        <em></em>\n      </div>\n    </div>\n  </div>\n</section>");
 $templateCache.put('views/my_profile.html', "<div class=\"mynav\" ng-if=\"workspace.user\">\n\t<ul>\n\t\t<li ng-click=\"onChange(1)\" ng-class=\"{current: tab == 1}\">\n\t\t\t<a>\n\t\t\t\t<span square class=\"icon myprofile profile\" ng-class=\"{current: tab == 1}\"></span>\n\t\t\t</a>\n\t\t</li>\n\t\t<li ng-click=\"onChange(2)\" ng-class=\"{current: tab == 2}\">\n\t\t\t<a>\n\t\t\t\t<span square class=\"icon myprofile dash\" ng-class=\"{current: tab == 2}\"></span>\n\t\t\t</a>\n\t\t</li>\n\t\t<li ng-click=\"onChange(3)\" ng-class=\"{current: tab == 3}\">\n\t\t\t<a>\n\t\t\t\t<span square class=\"icon myprofile settings\" ng-class=\"{current: tab == 3}\"></span>\n\t\t\t</a>\n\t\t</li>\n\t</ul>\n\t<h2 ng-if=\"tab == 1\">\n\t\tProfile\n\t</h2>\n\t<h2 ng-if=\"tab == 2\">\n\t\tDashboard\n\t</h2>\n\t<h2 ng-if=\"tab == 3\">\n\t\tSettings\n\t</h2>\n</div>\n<p id=\"setting_info\">\n\t<span class=\"icon league\"></span>\n\t{{workspace.user.league.name}} league   Score: {{workspace.user.points}}\n</p>\n<a  class=\"imp-link\" href=\"http://improva.com\"></a>\n<div ng-if=\"tab == 1 && workspace.user\" class=\"tab\">\n\t<section class=\"tab\" ng-include src=\"'partials/myprofile.html'\" ></section>\n</div>\n<div ng-show=\"tab == 2 && workspace.user\" class=\"tab\">\n\t<section class=\"tab\" ng-include src=\"'partials/mydash.html'\" ></section>\n</div>\n<div ng-if=\"tab == 3 && workspace.user\" class=\"tab\">\n\t<section class=\"tab\" ng-include src=\"'partials/mysettings.html'\" ></section>\n</div>");
 $templateCache.put('views/nsi.html', "<div id=\"nsi_content\">\n\tnsi\n</div>");
 $templateCache.put('views/profile.html', "<section class=\"promain\" scroller ng-include src=\"'partials/user.html'\" ></section>\n\n<div class=\"user_right\">\n\t<ul id=\"nav2\">\n\t\t<li><a ng-click=\"closeComments()\" ng-class=\"{current: !comments}\">Top of the league</a></li>\n\t\t<li ng-if=\"workspace.user\"><a ng-click=\"onShowComments()\" ng-class=\"{current: comments}\">Comments</a></li>\n\t</ul>\n\n\t<section class=\"pronear\" ng-show=\"!comments\" app-view-segment=\"1\"></section>\n\t<section ng-controller=\"CommentsController\" id=\"comments\" ng-show=\"comments\" class=\"pronear\" ng-include src=\"'partials/comments.html'\" ></section>\t\n</div>");
@@ -4715,10 +4430,10 @@ $templateCache.put('views/search.html', "<section class=\"searchfull\">\n\t<div 
 $templateCache.put('views/terms.html', "<h1>TERMS OF USE and PRIVACY POLICY</h1>\n<p>terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use</p>");
 $templateCache.put('partials/comments.html', "<div class=\"comm\">\n\t<div class=\"cmnt\" ng-repeat=\"comment in commentsList | orderBy:'post_date'\"  >\n\t\t<strong>{{comment.user.name}}</strong>\n\t\t<i>{{comment.post_date}}</i>\n\t\t<br />\n\t\t<p>{{comment.message}}</p>\n\t</div>\n</div>\n<div class=\"butcomm\">\n\t<ng-form>\n\t\t<textarea ng-model=\"form.message\" id=\"comment_message\" name=\"comment\" placeholder=\"Enter your comment here\"></textarea>\n\t\t<button ng-click=\"onSendMessage()\">Send</button>\n\t</ng-form>\n</div>\n");
 $templateCache.put('partials/compare.html', "<div class=\"comp\" ng-include src=\"'partials/user.html'\" ng-controller=\"UserController\" ng-init=\"currentUserId=routeUserId;allUser=false;isEdit=false;\"></div>");
-$templateCache.put('partials/follow.html', "<section ng-controller=\"FollowController\" >\n\t<div id=\"follow_tab\" ng-if=\"frends.length > 0\">\n\t\t<img class=\"fuck\" src=\"/images/f.png\" alt=\"\" />\n\t\t<ul>\n\t\t\t<li \n\t\t\t\tng-class=\"{show: userItem.user.show}\" \n\t\t\t\tng-mouseleave=\"onMouseLeaveUser(userItem.user)\" \n\t\t\t\tng-click=\"onMouseEnterUser(userItem.user)\" \n\t\t\t\tng-mouseenter=\"onMouseEnterUser(userItem.user)\" \n\t\t\t\tng-repeat=\"userItem in frends\">\n\t\t\t\t<img \n\t\t\t\t\tng-click=\"onCompare(userItem.user)\" \n\t\t\t\t\tng-src=\"{{userItem.user.avatar}}\" \n\t\t\t\t\talt=\"\" \n\t\t\t\t\terr-src=\"/images/unknown-person.png\" />\n\t\t\t</li>\n\t\t</ul>\n\t\t<a ng-click=\"onMoveToUser()\"></a>\n\t</div>\n</section>");
+$templateCache.put('partials/follow.html', "<section ng-controller=\"FollowController\" >\n\t<div id=\"follow_tab\">\n\t\t<img class=\"fuck\" src=\"/images/f.png\" alt=\"\" />\n\t\t<ul>\n\t\t\t<li \n\t\t\t\tng-class=\"{show: userItem.user.show}\" \n\t\t\t\tng-mouseleave=\"onMouseLeaveUser(userItem.user)\" \n\t\t\t\tng-click=\"onMouseEnterUser(userItem.user)\" \n\t\t\t\tng-mouseenter=\"onMouseEnterUser(userItem.user)\" \n\t\t\t\tng-repeat=\"userItem in workspace.friends\">\n\t\t\t\t<img \n\t\t\t\t\tng-click=\"onCompare(userItem.user)\" \n\t\t\t\t\tng-src=\"{{userItem.user.avatar}}\" \n\t\t\t\t\talt=\"\" \n\t\t\t\t\terr-src=\"/images/unknown-person.png\" />\n\t\t\t</li>\n\t\t</ul>\n\t\t<a ng-click=\"onMoveToUser()\"></a>\n\t</div>\n</section>");
 $templateCache.put('partials/footer.html', "\n<!-- Футер -->\n<footer>\n\t<div id=\"footer\">\n\t\t<div class=\"sexual\" ng-include src=\"'partials/share.html'\"></div>\n\t\t\n\t\t<div ng-if=\"controller != '_compare'\">\n\t\t\t<div \n\t\t\t\tclass=\"lnbl\" \n\t\t\t\tng-include\n\t\t\t\tsrc=\"'partials/follow.html'\"  >\n\t\t\t</div>\t\n\t\t</div>\t\n\t</div>\n</footer>\n\n<section ng-include src=\"'partials/loader.html'\"></section>\n\n<div id=\"fb-root\"></div>\n\n<!-- Тенюшка -->\n<section ng-controller=\"ShadowCtrl\">\n\t<div id=\"shadow\" ng-class=\"{show: show}\" ng-click=\"onHideModal()\"></div>\n</section>\n\n<section ng-controller=\"ModalController\" id=\"modal\">\n\t<div ng-class=\"{show: show}\" class=\"body {{template}}\" ng-if=\"template\">\n\t\t<section ng-include src=\"'partials/'+template+'.html'\"></section>\n\t</div>\n</section>");
 $templateCache.put('partials/gallery.html', "<div class=\"galblo\">\n\t<div class=\"galblos isotope item\"\n\t\tng-repeat=\"userItem in users\"\n\t\tng-click=\"onUserPage(userItem)\">\n\t\t<div class=\"image\">\n\t\t\t<img ng-src=\"{{userItem.avatar}}\" alt=\"\" err-src=\"/images/unknown-person.png\" />\n\t\t\t<i>{{userItem.points}}</i>\n\t\t</div>\n\t\t<div class=\"text\">\n\t\t\t<p class=\"name\">{{userItem.name}}</p>\n\t\t\t<p class=\"birthday\">{{userItem.birthday}}</p>\n\t\t\t<p class=\"birthday gr\">{{userItem.state.name}}</p>\n\t\t\t<p class=\"profession gr\">{{userItem.profession.name}}</p>\n\t\t</div>\n\t\t<img class=\"sealin\" src=\"./images/i1l.png\" alt=\"\">\n\t\t<b></b>\n\t</div>\n</div>\n\n<sub ng-if=\"swipe > 0\" ng-click=\"onSwipeLeft()\"><img src=\"../images/left.png\"></sub>\n<sup ng-if=\"users.length > limit && swipe < swipeMax - 1\" ng-click=\"onSwipeRight()\"><img src=\"../images/right.png\"></sup>");
-$templateCache.put('partials/header.html', "<header class=\"header_{{controller}}\">\n\t<div id=\"header\">\n\t\t<!-- Логотип -->\n\t\t<a href=\"#/\" class=\"logo\">\n\t\t\t<span class=\"logo icon\"></span>\n\t\t</a>\n\n\t\t<!-- Аватар -->\n\t\t<section id=\"avatar\" ng-cloak>\n\t\t    <p ng-if=\"!workspace.user\">\n\t\t        <img ng-click=\"onLogin()\" ng-src=\"/images/anon.png\" alt=\"\" />\n\t\t        <span ng-click=\"onLogin()\">{{'_SignIn_' | i18n}}</span>\n\t\t    </p>\n\t\t    <p ng-if=\"workspace.user\">\n\t\t        <img \n\t\t        \tng-click=\"onOpenProfileAuthUser()\" \n\t\t        \terr-src=\"/images/unknown-person.png\" \n\t\t        \tng-src=\"{{workspace.user.avatar}}\" \n\t\t        \tclass=\"current\" \n\t\t        \talt=\"{{workspace.user.name}}\" />\n\t\t    </p>\n\t\t</section>\n\n\t\t<!-- Поиск -->\n\t\t<div id=\"search\" ng-controller=\"SearchController\" ng-init=\"limit=5\">\n\t\t\t<input \n\t\t\t\ttype=\"text\" \n\t\t\t\tng-model=\"searchText\" \n\t\t\t\tplaceholder=\"Search people\" \n\t\t\t\tclass=\"search\"\n\t\t\t\tng-change=\"onSearch()\" />\n\t\t\t<input type=\"submit\" class=\"searcher\" ng-click=\"onAdvanceSearch()\" />\n\t\t\t<div ng-cloak class=\"searchResult\" ng-if=\"resultSearch.length > 0\">\n\t\t\t\t<div class=\"item\" ng-repeat=\"(userKey, userItem) in resultSearch | limitTo: limit\">\n\t\t\t\t\t<div class=\"image\" ng-click=\"onCompare(userItem)\">\n\t\t\t\t\t\t<img ng-src=\"{{userItem.avatar}}\" err-src=\"/images/unknown-person.png\" alt=\"\" />\n\t\t\t\t\t\t<i>{{userItem.points}}</i>\n\t\t\t\t\t</div>\n\t\t\t\t\t<div class=\"text\" ng-click=\"onCompare(userItem)\">\n\t\t\t\t\t\t<p class=\"name\">{{userItem.name}}</p>\n\t\t\t\t\t\t<p class=\"birthday\">{{userItem.birthday}}</p>\n\t\t\t\t\t\t<p class=\"birthday gr\">{{userItem.state.name}}</p>\n\t\t\t\t\t\t<p class=\"profession gr\">{{userItem.profession.name}}</p>\n\t\t\t\t\t\t<p class=\"league\">{{userItem.league.name}} league</p>\n\t\t\t\t\t</div>\n\t\t\t\t\t<img class=\"sealin\" src=\"./images/i1l.png\" alt=\"\" ng-click=\"onCompare(userItem)\">\n\t\t\t\t</div>\n\t\t\t\t<div class=\"all\" ng-if=\"resultSearch.length > limit\">\n\t\t\t\t\t<a ng-click=\"onAdvanceSearch()\">See all results</a>\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t</div>\n\n\t\t<!-- GRAPHS -->\n\t\t<a class=\"link\" ng-if=\"workspace.user\" ng-cloak ng-click=\"showModal('nsi')\">NSI</a>\n\t\t<a class=\"link\" ng-if=\"workspace.user\" ng-cloak href=\"#/graphs\">GRAPH</a>\n\t</div>\n</header>");
+$templateCache.put('partials/header.html', "<header>\n\t<div id=\"header\">\n\t\t<!-- Логотип -->\n\t\t<a href=\"#/\" class=\"logo\">\n\t\t\t<span class=\"logo icon\"></span>\n\t\t</a>\n\t\t<a href=\"http://improva.com\" class=\"imp\"></a>\n\n\t\t<div class=\"lnbl\" ng-include src=\"'partials/follow.html'\" ></div>\n\n\t\t<!-- Аватар -->\n\t\t<section id=\"avatar\" ng-cloak>\n\t\t    <p ng-if=\"!workspace.user\">\n\t\t        <img ng-click=\"onLogin()\" ng-src=\"/images/anon.png\" alt=\"\" />\n\t\t    </p>\n\t\t    <p ng-if=\"workspace.user\">\n\t\t        <img \n\t\t        \tng-click=\"onOpenProfileAuthUser()\" \n\t\t        \terr-src=\"/images/unknown-person.png\" \n\t\t        \tng-src=\"{{workspace.user.avatar}}\" \n\t\t        \tclass=\"current\" \n\t\t        \talt=\"{{workspace.user.name}}\" />\n\t\t    </p>\n\t\t</section>\n\n\t\t<!-- Поиск -->\n\t\t<div id=\"search\" ng-controller=\"SearchController\" ng-init=\"limit=5\">\n\t\t\t<input \n\t\t\t\ttype=\"text\" \n\t\t\t\tng-model=\"searchText\" \n\t\t\t\tplaceholder=\"Search people\" \n\t\t\t\tclass=\"search\"\n\t\t\t\tng-change=\"onSearch()\" />\n\t\t\t<input type=\"submit\" class=\"searcher\" ng-click=\"onAdvanceSearch()\" />\n\t\t\t<div ng-cloak class=\"searchResult\" ng-if=\"resultSearch.length > 0\">\n\t\t\t\t<div class=\"item\" ng-repeat=\"(userKey, userItem) in resultSearch | limitTo: limit\">\n\t\t\t\t\t<div class=\"image\" ng-click=\"onCompare(userItem)\">\n\t\t\t\t\t\t<img ng-src=\"{{userItem.avatar}}\" err-src=\"/images/unknown-person.png\" alt=\"\" />\n\t\t\t\t\t\t<i>{{userItem.points}}</i>\n\t\t\t\t\t</div>\n\t\t\t\t\t<div class=\"text\" ng-click=\"onCompare(userItem)\">\n\t\t\t\t\t\t<p class=\"name\">{{userItem.name}}</p>\n\t\t\t\t\t\t<p class=\"birthday\">{{userItem.birthday}}</p>\n\t\t\t\t\t\t<p class=\"birthday gr\">{{userItem.state.name}}</p>\n\t\t\t\t\t\t<p class=\"profession gr\">{{userItem.profession.name}}</p>\n\t\t\t\t\t\t<p class=\"league\">{{userItem.league.name}} league</p>\n\t\t\t\t\t</div>\n\t\t\t\t\t<img class=\"sealin\" src=\"./images/i1l.png\" alt=\"\" ng-click=\"onCompare(userItem)\">\n\t\t\t\t</div>\n\t\t\t\t<div class=\"all\" ng-if=\"resultSearch.length > limit\">\n\t\t\t\t\t<a ng-click=\"onAdvanceSearch()\">See all results</a>\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t</div>\n\n\t\t<!-- GRAPHS -->\n\t\t<a class=\"link\" ng-if=\"workspace.user\" ng-cloak ng-click=\"showModal('nsi')\">NSI</a>\n\t\t<a class=\"link\" ng-if=\"workspace.user\" ng-cloak href=\"#/graphs\">GRAPH</a>\n\t</div>\n</header>");
 $templateCache.put('partials/leagues.html', "<section class=\"leaglist\">\n\t<a ng-click=\"onLeagUser(item)\" ng-class=\"{curleag:item.curleag}\" ng-repeat=\"(key, item) in leagues\">\n\t\t<img ng-if=\"key == 0\" src=\"/images/I.png\" />\n\t\t<img ng-if=\"key == 1\" src=\"/images/II.png\" />\n\t\t<img ng-if=\"key == 2\" src=\"/images/III.png\" />\n\t\t<img ng-if=\"key == 3\" src=\"/images/IV.png\" />\n\t\t<img ng-if=\"key == 4\" src=\"/images/V.png\" />\n\t\t<img ng-if=\"key == 5\" src=\"/images/VI.png\" />\n\t\t<img ng-if=\"key == 6\" src=\"/images/VII.png\" />\n\t\t<img ng-if=\"key == 7\" src=\"/images/VIII.png\" />\n\t\t<img ng-if=\"key == 8\" src=\"/images/IX.png\" />\n\t\t<img ng-if=\"key == 9\" src=\"/images/X.png\" />\n\t</a>\n</section>");
 $templateCache.put('partials/loader.html', "<div id=\"modal-shadow\" ng-controller=\"LoaderController\">\n\t<span id=\"loader\"></span>\n</div>");
 $templateCache.put('partials/main_user_item.html', "<div\n\tng-click=\"onUserClick(userItem, $event)\"\n\tng-class=\"{big: userItem.big}\"\n\tclass=\"item l_{userItem.league.name}\"\n\tng-repeat=\"(userKey, userItem) in users\"\n\tng-style=\"{width: userItem.size, height: userItem.size}\"\n\tmasonry-item>\n\t<div \t\n\t\tclass=\"wr\" \n\t\tng-style=\"{width: userItem.size, height: userItem.size}\" \n\t\tback-img=\"{{userItem.avatar}}\" \n\t\tng-class=\"{big: userItem.big}\"\n\t\tng-click=\"switchState(userItem)\"\n\t\tset-width >\n\t\t<i>{{userItem.points}}</i>\n\t\t<div class=\"sub\">\n\t\t\t<b>{{userItem.name}} <br /><s>{{userItem.league.name}} league</s></b>\n\t\t\t<ul>\n\t\t\t\t<li>\n\t\t\t\t\t<a ng-click=\"onMoveToProfile(userItem)\">\n\t\t\t\t\t\t<span class=\"icon profile navigate\"></span>\n\t\t\t\t\t</a>\n\t\t\t\t</li>\n\t\t\t\t<li>\n\t\t\t\t\t<a ng-click=\"onMoveToCompare(userItem)\">\n\t\t\t\t\t\t<span class=\"icon compare navigate\"></span>\n\t\t\t\t\t</a>\n\t\t\t\t</li>\n\t\t\t\t<li>\n\t\t\t\t\t<a ng-if=\"!userItem.isFrend\" ng-click=\"onFollow(userItem)\">\n\t\t\t\t\t\t<span class=\"icon follow navigate\"></span>\n\t\t\t\t\t</a>\n\t\t\t\t\t<a ng-if=\"userItem.isFrend\" ng-click=\"onUnFollow(userItem)\">\n\t\t\t\t\t\t<span class=\"icon unfollow navigate\"></span>\n\t\t\t\t\t</a>\n\t\t\t\t</li>\n\t\t\t</ul>\n\t\t</div>\n\t\t<em></em>\n\t</div>\n</div>");
@@ -4728,8 +4443,12 @@ $templateCache.put('partials/mysettings.html', "<div ng-controller=\"CropImageCo
 $templateCache.put('partials/neighbours.html', "<div class=\"nearblock\" ng-controller=\"NeighboursCtrl\">\n\t<div ng-controller=\"GalleryController\"  ng-init=\"id='top';title='_topL_'\">\n\t\t<div class=\"lnbl\" ng-include src=\"'partials/gallery.html'\"></div>\n\t</div>\n\t<i></i>\n\t<div ng-controller=\"GalleryController\"  ng-init=\"id='neigh';title='_neighL_'\">\n\t\t<div class=\"lnbl\" ng-include src=\"'partials/gallery.html'\"></div>\n\t</div>\n</div>");
 $templateCache.put('partials/nsi-add.html', "<div id=\"nsi_content\" ng-controller=\"NSIAddController\">\n\t<h2>Add league</h2>\n\t<table>\n\t\t<tr>\n\t\t\t<td>Name:</td>\n\t\t\t<td><input type=\"text\" ng-model=\"form.name\" /></td>\n\t\t</tr>\n\t\t<tr>\n\t\t\t<td>Min:</td>\n\t\t\t<td><input type=\"text\" ng-model=\"form.min_border\" /></td>\n\t\t</tr>\n\t\t<tr>\n\t\t\t<td>Max:</td>\n\t\t\t<td><input type=\"text\" ng-model=\"form.max_border\" /></td>\n\t\t</tr>\n\t\t<tr>\n\t\t\t<td>Size:</td>\n\t\t\t<td><input type=\"text\" ng-model=\"form.size\" /></td>\n\t\t</tr>\n\t\t<tr>\n\t\t\t<td></td>\n\t\t\t<td>\n\t\t\t\t<a class=\"buttons green\" ng-click=\"addLeague()\">Save</a>\n\t\t\t\t<a class=\"buttons red\" ng-click=\"close()\">Close</a>\n\t\t\t</td>\n\t\t</tr>\n\t</table>\n\t<div class=\"btns\">\n\t\t\n\t</div>\n</div>");
 $templateCache.put('partials/nsi.html', "<div id=\"nsi_content\" ng-controller=\"NSIController\">\n\t<h2>NSI</h2>\n\t<table>\n\t\t<thead>\n\t\t\t<tr>\n\t\t\t\t<th>Name</th>\n\t\t\t\t<th>Min</th>\n\t\t\t\t<th>Max</th>\n\t\t\t\t<th>Size</th>\n\t\t\t\t<th></th>\n\t\t\t</tr>\n\t\t</thead>\n\t\t<tbody>\n\t\t\t<tr ng-repeat=\"(key, value) in workspace.leagues | orderBy: 'position'\">\n\t\t\t\t<td width=\"20%\" class=\"editing_cell\">\n\t\t\t\t\t<input type=\"text\" ng-model=\"value.name\" ng-change=\"update(value)\" />\n\t\t\t\t</td>\n\t\t\t\t<td width=\"20%\" class=\"editing_cell\">\n\t\t\t\t\t<input type=\"text\" ng-model=\"value.min_border\" ng-change=\"update(value)\" />\n\t\t\t\t</td>\n\t\t\t\t<td width=\"20%\" class=\"editing_cell\">\n\t\t\t\t\t<input type=\"text\" ng-model=\"value.max_border\" ng-change=\"update(value)\" />\n\t\t\t\t</td>\n\t\t\t\t<td width=\"20%\" class=\"editing_cell\">\n\t\t\t\t\t<input type=\"text\" ng-model=\"value.size\" ng-change=\"update(value)\" />\n\t\t\t\t</td>\n\t\t\t\t<td width=\"40%\">\n\t\t\t\t\t<span class=\"icon delete\" ng-click=\"delete(value)\"></span>\n\t\t\t\t</td>\n\t\t\t</tr>\n\t\t</tbody>\n\t</table>\n\t<div class=\"btns\">\n\t\t<a class=\"buttons all\" ng-click=\"ok()\">Ok</a>\n\t\t<a class=\"buttons green\" ng-click=\"addLeague()\">Add league</a>\n\t\t<a class=\"buttons red\" ng-click=\"closeModal()\">Close</a>\n\t</div>\n</div>");
+$templateCache.put('partials/right.html', "<div id=\"signin_panel\" class=\"full_height\" ng-if=\"show\" >\n\t<div class=\"glass\">\n\t\t<div class=\"full_height\" ng-if=\"!signup\" ng-include ng-controller=\"SigninController\" src=\"'partials/signin.html'\"></div>\n\t\t<div class=\"full_height\" ng-if=\"signup\" ng-include ng-controller=\"SignupController\" src=\"'partials/signup.html'\"></div>\n\t</div>\n</div>");
 $templateCache.put('partials/share.html', "<div ng-controller=\"ShareController\">\n\t<a \n\t\thref=\"https://twitter.com/intent/tweet?text=iRate&url=http://www.irate.com\" \n\t\ttarget=\"_blank\"></a>\n\t<a \n\t\tng-click=\"shareFacebook('http://www.irate.com', 'iRate', '', 'http://www.improva.com/src/assets/images/icons/improva_icon.png')\" class=\"facebook\"></a>\n\t<a \n\t\tng-click=\"shareGoogle('http://www.irate.com')\" \n\t\tclass=\"google\"></a>\t\n</div>");
-$templateCache.put('partials/user.html', "<div ng-controller=\"UserController\">\n\t<!-- Поиск -->\n\t<div id=\"search\" class=\"search\" ng-if=\"compare\">\n\t\t<div ng-controller=\"SearchController\">\n\t\t\t<input \n\t\t\t\ttype=\"text\" \n\t\t\t\tng-model=\"searchText\" \n\t\t\t\tplaceholder=\"Search people\" \n\t\t\t\tclass=\"search\"\n\t\t\t\tng-change=\"onSearch()\"\n\t\t\t\tui-keypress=\"{13:'onSearch()'}\" />\n\t\t\t<input type=\"button\" class=\"searcher\" ng-click=\"onSearch()\" />\n\t\t\t<div ng-cloak class=\"searchResult\" ng-if=\"resultSearch.length > 0\">\n\t\t\t\t<div class=\"item\" ng-repeat=\"(userKey, userItem) in resultSearch\" ng-click=\"changeUser(userItem)\">\n\t\t\t\t\t<div class=\"image\">\n\t\t\t\t\t\t<img ng-src=\"{{userItem.avatar}}\" alt=\"\">\n\t\t\t\t\t\t<i ng-if=\"userItem.points\">{{userItem.points}}</i>\n\t\t\t\t\t</div>\n\t\t\t\t\t<div class=\"text\">\n\t\t\t\t\t\t<p class=\"name\">{{userItem.name}}</p>\n\t\t\t\t\t\t<p class=\"birthday\">{{userItem.birthday}}</p>\n\t\t\t\t\t\t<p class=\"birthday\">{{userItem.state.name}}</p>\n\t\t\t\t\t\t<p class=\"profession\">{{userItem.profession.name}}</p>\n\t\t\t\t\t\t<p class=\"league\">{{userItem.league.name}} league</p>\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t</div>\t\n\t\t</div>\n\t</div>\n\t<div class=\"pmain pro\" >\n\t\t<div class=\"block\" ng-if=\"user\">\n\t\t\t<div class=\"image_box\" ng-class=\"{updated: user.sguid == authUserId && isEdit, big: user.hover}\" \n\t\t\t\tng-click=\"onUserClick(user, $event)\" >\n\t\t\t\t<img class=\"pp\" ng-src=\"{{user.avatar}}\" err-src=\"/images/unknown-person.png\" />\n\t\t\t\t<i>{{user.points}}</i>\n\t\t\t\t<a ng-click=\"onUpdateFile()\" title=\"\">Update image</a>\n\t\t\t\t<span></span>\t\n\t\t\t\t<s ng-if=\"user.artificial\">profile is created by experts based on available public info</s>\t\n\t\t\t\t<div class=\"sub\">\n\t\t\t\t\t<b>{{user.name}} <br /><s>{{user.league.name}} league</s></b>\n\t\t\t\t\t<ul>\n\t\t\t\t\t\t<li>\n\t\t\t\t\t\t\t<a ng-click=\"onMoveToProfile(user)\">\n\t\t\t\t\t\t\t\t<span class=\"icon profile navigate\"></span>\n\t\t\t\t\t\t\t</a>\n\t\t\t\t\t\t</li>\n\t\t\t\t\t\t<li>\n\t\t\t\t\t\t\t<a ng-if=\"user && !user.isFollow\" ng-click=\"onFollow()\">\n\t\t\t\t\t\t\t\t<span class=\"icon follow navigate\"></span>\n\t\t\t\t\t\t\t</a>\n\t\t\t\t\t\t\t<a ng-if=\"user && user.isFollow\" ng-click=\"onUnFollow()\">\n\t\t\t\t\t\t\t\t<span class=\"icon unfollow navigate\"></span>\n\t\t\t\t\t\t\t</a>\n\t\t\t\t\t\t</li>\n\t\t\t\t\t</ul>\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t</div>\n\t\t<div class=\"pmpar\" ng-if=\"user\">\n\t\t\t<p>\n\t\t\t\t<label for=\"name_i\">{{'_NameL_' | i18n}}:</label> \n\t\t\t\t<input \n\t\t\t\t\ttype=\"text\" \n\t\t\t\t\tid=\"name_i\" \n\t\t\t\t\tclass=\"clean form-control\" \n\t\t\t\t\tng-model=\"user.name\"\n\t\t\t\t\treadonly=\"readonly\"\n\t\t\t\t\trequired\n\t\t\t\t\tng-minlength=\"6\"\n\t\t\t\t\tng-click=\"onElementClick($event)\"\n\t\t\t\t\tng-if=\"isEdit && user.sguid == authUserId\" />\n\t\t\t\t<i ng-if=\"!isEdit || user.sguid != authUserId\">{{user.name}}</i>\n\t\t\t</p>\n\t\t\t<p>\n\t\t\t\t<label for=\"age_i\">{{'_BirthdayL_' | i18n}}:</label>\n\t\t\t\t<input \n\t\t\t\t\ttype=\"text\" \n\t\t\t\t\tng-model=\"user.birthday\" \n\t\t\t\t\tdata-date-format=\"dd/mm/yyyy\" \n\t\t\t\t\tbs-datepicker\n\t\t\t\t\treadonly=\"readonly\"\n\t\t\t\t\tclass=\"clean form-control\" \n\t\t\t\t\tid=\"age_i\"\n\t\t\t\t\tng-click=\"onElementClick($event)\"\n\t\t\t\t\tng-if=\"isEdit && user.sguid == authUserId\" />\n\t\t\t\t<i ng-if=\"!isEdit || user.sguid != authUserId\">{{user.birthday}}</i>\n\t\t\t</p>\n\t\t\t<p>\n\t\t\t\t<label for=\"loc_i\">{{'_LocL_' | i18n}}:</label>\n\t\t\t\t<select \n\t\t\t\t\tng-options=\"item.sguid as item.name for item in states\" \n\t\t\t\t\tng-model=\"user.state.sguid\" \n\t\t\t\t\treadonly=\"readonly\" \n\t\t\t\t\tid=\"loc_i\"\n\t\t\t\t\tng-click=\"onElementClick($event)\"\n\t\t\t\t\tng-if=\"isEdit && user.sguid == authUserId\">\n\t\t\t\t</select>\n\t\t\t\t<i ng-if=\"!isEdit || user.sguid != authUserId\">\n\t\t\t\t\t<span ng-if=\"user.state.name\">{{user.state.name}}</span>\n\t\t\t\t\t<span ng-if=\"user.city.name\">\n\t\t\t\t\t\t<span ng-if=\"user.state.name\">,</span> \n\t\t\t\t\t\t{{user.city.name}}\n\t\t\t\t\t</span>\n\t\t\t\t</i>\n\t\t\t<p>\n\t\t\t\t<label for=\"pro_i\">{{'_ProfL_' | i18n}}:</label>\n\t\t\t\t<input \n\t\t\t\t\tid=\"pro_i\" \n\t\t\t\t\tng-if=\"isEdit && user.sguid == authUserId\" \n\t\t\t\t\tng-model=\"user.profession.name\" \n\t\t\t\t\ttype=\"text\" \n\t\t\t\t\tbs-typeahead=\"professionFn\"\n\t\t\t\t\treadonly=\"readonly\"\n\t\t\t\t\tng-click=\"onElementClick($event)\" />\n\t\t\t\t<i ng-if=\"!isEdit || user.sguid != authUserId\">{{user.profession.name}}<span ng-if=\"user.goal_name\">, {{user.goal_name}}</span></i>\n\t\t\t</p>\n\n\t\t\t<p>\n\t\t\t\t<label for=\"pro_i\">{{'_LEAGUES_' | i18n}}:</label>\n\t\t\t\t<i>{{user.league.name}}</i>\n\t\t\t</p>\n\t\t</div>\n\n\t\t<a class=\"il\" ng-if=\"user && !user.isFollow && !compare\" ng-click=\"onFollow()\"><img src=\"../images/i3l.png\"></a>\n\t\t<a class=\"il\" ng-if=\"user && user.isFollow && !compare\" ng-click=\"onUnFollow()\"><img src=\"../images/i3i.png\"></a>\n\n\t\t<a class=\"il\" ng-if=\"user && !compare && user.sguid != workspace.user.sguid\" ng-click=\"onCompareUser()\"><img src=\"../images/i2l.png\"></a> \n\t</div>\n\n\t<div \n\t\tclass=\"crits\" \n\t\tng-controller=\"NeedsAndGoalsController\" \n\t\tng-init=\"openFirst = false; allOpen = false; persistState = false;\">\n\t\t<ul> \n\t\t\t<li \n\t\t\t\tng-class=\"{current: needItem.current}\"\n\t\t\t\tclass=\"{{needItem.name}}\" \n\t\t\t\tng-repeat=\"(needKey, needItem) in needs | orderBy:'position'\" \n\t\t\t\tdata-needId=\"{{needItem.sguid}}\">\n\t\t\t\t<div class=\"cr\" ng-click=\"onShowGoals($event, needItem)\">\n\t\t\t\t\t<p>{{needItem.name}}<s></s></p>\n\t\t\t\t\t<div class=\"right\">\n\t\t\t\t\t\t<b>{{needItem.current_value}} / {{needItem.points_summary}}</b>\n\t\t\t\t\t\t<strong>\n\t\t\t\t\t\t\t<span \n\t\t\t\t\t\t\t\tclass=\"current_position\"\n\t\t\t\t\t\t\t\tposition-need>\n\t\t\t\t\t\t\t</span>\n\t\t\t\t\t\t</strong>\t\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t\t<ul ng-class=\"{current: needItem.current}\">\n\t\t\t\t\t<li ng-repeat=\"(goalKey,goalItem) in needItem.goals | orderBy:'position'\" data-goalid=\"{{goalItem.sguid}}\" user-id=\"{{user.sguid}}\" >\n\t\t\t\t\t\t<h5>\n\t\t\t\t\t\t\t<a \n\t\t\t\t\t\t\t\tng-class=\"{current: goalItem.current}\"\n\t\t\t\t\t\t\t\tdata-goalid=\"{{goalItem.sguid}}\" user-id=\"{{user.sguid}}\"\n\t\t\t\t\t\t\t\tng-click=\"openCriteriumList($event, needItem, goalItem, needs)\">\n\t\t\t\t\t\t\t\t<span><img ng-src=\"{{goalItem.icon}}\" alt=\"\" title=\"{{goalItem.name}}\" /></span>\n\t\t\t\t\t\t\t\t{{goalItem.name}}\n\t\t\t\t\t\t\t\t<s></s>\n\t\t\t\t\t\t\t</a>\t\n\t\t\t\t\t\t\t<div class=\"right\">\n\t\t\t\t\t\t\t\t<b>{{goalItem.current_value}} / {{goalItem.points_summary}}</b>\t\n\t\t\t\t\t\t\t\t<strong>\n\t\t\t\t\t\t\t\t\t<span position-goal class=\"current_position\" ></span>\n\t\t\t\t\t\t\t\t</strong>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t</h5>\n\t\t\t\t\t\t<ul class=\"criterion\" ng-class=\"{current: goalItem.current}\">\n\t\t\t\t\t\t\t<li \n\t\t\t\t\t\t\t\tdata-id=\"{{crItem.sguid}}\" \n\t\t\t\t\t\t\t\tng-repeat=\"crItem in goalItem.criteriums | orderBy:'position'\" >\n\t\t\t\t\t\t\t\t<p>{{crItem.name}}</p>\n\t\t\t\t\t\t\t\t<div class=\"bord\">\n\t\t\t\t\t\t\t\t\t<ul class=\"crp\">\n\t\t\t\t\t\t\t\t\t\t<div class=\"tab\">\n\t\t\t\t\t\t\t\t\t\t\t<li data-id=\"{{value.sguid}}\"  \n\t\t\t\t\t\t\t\t\t\t\t\tng-repeat=\"value in crItem.criteria_values | orderBy:'position'\"  \n\t\t\t\t\t\t\t\t\t\t\t\tclass=\"{{value.user_criteria}} position_{{value.position}}\" \n\t\t\t\t\t\t\t\t\t\t\t\tng-click=\"onCriteriaSelect(value, crItem, $event, needItem, goalItem)\">\n\t\t\t\t\t\t\t\t\t\t\t\t<i ng-if=\"value.sguid != 'none'\">{{value.name}}</i>\n\t\t\t\t\t\t\t\t\t\t\t\t<i ng-if=\"value.sguid == 'none'\" class=\"null_criteria\"></i>\n\t\t\t\t\t\t\t\t\t\t\t</li>\n\t\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t\t<span>\n\t\t\t\t\t\t\t\t\t\t\t<img src=\"../images/ar.png\">\n\t\t\t\t\t\t\t\t\t\t</span>\n\t\t\t\t\t\t\t\t\t</ul>\n\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t</li>\n\t\t\t\t\t\t</ul>\n\t\t\t\t\t</li>\n\t\t\t\t\t\n\t\t\t\t</ul>\n\t\t\t</li>\n\t\t</ul>\n\t</div>\n</div>");
+$templateCache.put('partials/signin.html', "<h4>Sign in</h4>\n<div class=\"sign-in\">\n   <ng-form \n     id=\"login_form\" \n     name=\"LoginForm\" \n     novalidate \n     class=\"css-form myForm\" >\n     <p>\n        <input \n           type=\"email\" \n           id=\"login_i\" \n           class=\"form-input\"\n           ng-model=\"login.email\"\n           name=\"Email\"\n           required \n           ng-minlength=\"6\"\n           placeholder=\"Email\"\n           ui-keypress=\"{13:'onKeyPress($event)'}\" />\n           <br />\n           <span \n           \tclass=\"errorss\" \n           \tng-show=\"LoginForm.Email.$dirty && (LoginForm.Email.$error.required || LoginForm.Email.$error.minlength || LoginForm.Email.$error.email)\">Incorrect email</span>\n     </p>\n       \n     <p>\n        <input \n           type=\"password\" \n           id=\"pass_i\"\n           class=\"form-input\"\n           ng-model=\"login.password\"\n           required \n           name=\"Password\"\n           ng-minlength=\"6\"\n           placeholder=\"Password\"\n           ui-keypress=\"{13:'onKeyPress($event)'}\"\n           ng-trim=\"false\" /> \n           <br />\n           <span \n           \tclass=\"errorss rss\" \n           \tng-show=\"LoginForm.Password.$dirty && (LoginForm.Password.$error.required || LoginForm.Password.$error.minlength)\">Incorrect password</span>\n     </p>\n     <div class=\"step\">\n       <p>\n          <a href=\"#/change_password\">Forgot your password?</a>\n       </p>\n       <p>\n          <input type=\"checkbox\"  />\n          <label>Keep me signed in</label>\n       </p>\n       <p class=\"errors\" ng-show=\"error\">{{error}}</p>\n       <p class=\"singin-sub\">\n          <input \n             ng-disabled=\"LoginForm.$invalid\"\n             ng-click=\"onSingin()\" \n             type=\"button\" \n             value=\"Sign in\" />\n       </p>    \n     </div>\n     <div class=\"rere\">\n       <p>Don’t have an iRate account yet?</p>\t\n       <p class=\"singin-sub\">\n          <input \n             ng-click=\"signupChange(true)\" \n             type=\"button\" \n             value=\"Sign up\" />\n       </p>          \n     </div>\n  </ng-form>\n</div>");
+$templateCache.put('partials/signup.html', "<h4>Sign up</h4>\n<div class=\"sign-up\">\n  <ng-form name=\"RegForm\" novalidate class=\"css-form myForm\" >\n    <p>\n      <input \n        type=\"email\" \n        id=\"email_i\" \n        class=\"form-input\"\n        ng-model=\"user.email\" \n        required\n        ng-minlength=\"6\"\n        placeholder=\"Email\"\n        name=\"NewEmail\"\n        ui-keypress=\"{13:'onKeyPressReg($event)'}\"  />\n      <br />\n      <span \n        class=\"errorss\" \n        ng-show=\"RegForm.NewEmail.$dirty && (RegForm.NewEmail.$error.required || RegForm.NewEmail.$error.minlength || RegForm.NewEmail.$error.email)\">Incorrect email</span>\n    </p>\n    <p class=\"errors\" ng-if=\"errorEmail\">{{errorEmail}}</p>\n    <p>\n      <input \n        type=\"email\" \n        id=\"name_i\" \n        class=\"form-input\"\n        ng-model=\"user.reemail\" \n        required \n        ng-minlength=\"6\"\n        placeholder=\"Confirm email\"\n        disable-paste\n        onpaste=\"return false;\"\n        name=\"NewMassEmail\"\n        ui-keypress=\"{13:'onKeyPressReg($event)'}\" />\n      <br />\n      <span \n        class=\"errorss rss\" \n        ng-show=\"RegForm.NewMassEmail.$dirty && (RegForm.NewMassEmail.$error.required || RegForm.NewMassEmail.$error.minlength || RegForm.NewEmail.$error.email)\">Incorrect mismatch</span> \n    </p>\n    <p>\n      <input \n        type=\"password\" \n        id=\"name_i\" \n        class=\"form-input\"\n        ng-model=\"user.password\" \n        required \n        ng-minlength=\"6\"\n        placeholder=\"Password\"\n        name=\"NewPassword\"\n        ui-keypress=\"{13:'onKeyPressReg($event)'}\" /> \n      <br />\n      <span \n        class=\"errorss rrss\" \n        ng-show=\"RegForm.NewPassword.$dirty && (RegForm.NewPassword.$error.required || RegForm.NewPassword.$error.minlength)\">Incorrect password</span>\n    </p>\n    <div\n      vc-recaptcha\n      theme=\"blackglass\"\n      lang=\"en\"\n      ng-model=\"captha\"\n      key=\"6Lf1Z-oSAAAAAEkk7m5n6cGiwgqeMya21UetPbIO\">\n    </div>\n\n    <p class=\"errors\" ng-if=\"errorValidate\"><br />{{errorValidate}}</p><br />\n\n    <p class=\"acknowledge\">\n      <input type=\"checkbox\"  required=\"required\" ng-model=\"acknowledge\" class=\"icheckbox_minimal\" />\n      <label>I acknowledge I have read and accept the<a href=\"/views/terms.html\" class=\"notdark\">Terms of use Agreement</a> and consent to the <a href=\"/views/terms.html\" class=\"notdark\">Privacy Policy</a>.</label>\n    </p>\n\n    <p class=\"signup-submit\">\n      <input \n        type=\"button\" \n        value=\"Sign up\"\n        ng-disabled=\"RegForm.$invalid\"\n        ng-click=\"addUser()\" />\n    </p>\n  </ng-form>\n</div>");
+$templateCache.put('partials/user.html', "<div ng-if=\"user\" class=\"sam\">\n\t<!-- Поиск -->\n\t<div id=\"search\" class=\"search\" ng-if=\"compare\">\n\t\t<div ng-controller=\"SearchController\">\n\t\t\t<input \n\t\t\t\ttype=\"text\" \n\t\t\t\tng-model=\"searchText\" \n\t\t\t\tplaceholder=\"Search people\" \n\t\t\t\tclass=\"search\"\n\t\t\t\tng-change=\"onSearch()\"\n\t\t\t\tui-keypress=\"{13:'onSearch()'}\" />\n\t\t\t<input type=\"button\" class=\"searcher\" ng-click=\"onSearch()\" />\n\t\t\t<div ng-cloak class=\"searchResult\" ng-if=\"resultSearch.length > 0\">\n\t\t\t\t<div class=\"item\" ng-repeat=\"(userKey, userItem) in resultSearch\" ng-click=\"changeUser(userItem)\">\n\t\t\t\t\t<div class=\"image\">\n\t\t\t\t\t\t<img ng-src=\"{{userItem.avatar}}\" alt=\"\">\n\t\t\t\t\t\t<i ng-if=\"userItem.points\">{{userItem.points}}</i>\n\t\t\t\t\t</div>\n\t\t\t\t\t<div class=\"text\">\n\t\t\t\t\t\t<p class=\"name\">{{userItem.name}}</p>\n\t\t\t\t\t\t<p class=\"birthday\">{{userItem.birthday}}</p>\n\t\t\t\t\t\t<p class=\"birthday\">{{userItem.state.name}}</p>\n\t\t\t\t\t\t<p class=\"profession\">{{userItem.profession.name}}</p>\n\t\t\t\t\t\t<p class=\"league\">{{userItem.league.name}} league</p>\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t</div>\t\n\t\t</div>\n\t</div>\n\t<div class=\"pmain pro\" >\n\t\t<div class=\"block\" ng-if=\"user\">\n\t\t\t<div class=\"image_box\" ng-class=\"{updated: user.sguid == authUserId && isEdit, big: user.hover}\" \n\t\t\t\tng-click=\"onUserClick(user, $event)\" >\n\t\t\t\t<img class=\"pp\" ng-src=\"{{user.avatar}}\" err-src=\"/images/unknown-person.png\" />\n\t\t\t\t<a ng-click=\"onUpdateFile()\" title=\"\">Update image</a>\n\t\t\t\t<span></span>\t\n\t\t\t\t<s ng-if=\"user.artificial\">profile is created by experts based on available public info</s>\t\n\t\t\t\t<div class=\"sub\">\n\t\t\t\t\t<b>{{user.name}} <br /><s>{{user.league.name}} league</s></b>\n\t\t\t\t\t<ul>\n\t\t\t\t\t\t<li>\n\t\t\t\t\t\t\t<a ng-click=\"onMoveToProfile(user)\">\n\t\t\t\t\t\t\t\t<span class=\"icon profile navigate\"></span>\n\t\t\t\t\t\t\t</a>\n\t\t\t\t\t\t</li>\n\t\t\t\t\t\t<li>\n\t\t\t\t\t\t\t<a ng-if=\"user && !user.isFollow\" ng-click=\"onFollow()\">\n\t\t\t\t\t\t\t\t<span class=\"icon follow navigate\"></span>\n\t\t\t\t\t\t\t</a>\n\t\t\t\t\t\t\t<a ng-if=\"user && user.isFollow\" ng-click=\"onUnFollow()\">\n\t\t\t\t\t\t\t\t<span class=\"icon unfollow navigate\"></span>\n\t\t\t\t\t\t\t</a>\n\t\t\t\t\t\t</li>\n\t\t\t\t\t</ul>\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t</div>\n\t\t<div class=\"pmpar\" ng-if=\"user\">\n\t\t\t<p>\n\t\t\t\t<label for=\"name_i\">{{'_NameL_' | i18n}}:</label> \n\t\t\t\t<input \n\t\t\t\t\ttype=\"text\" \n\t\t\t\t\tid=\"name_i\" \n\t\t\t\t\tclass=\"clean form-control\" \n\t\t\t\t\tng-model=\"user.name\"\n\t\t\t\t\treadonly=\"readonly\"\n\t\t\t\t\trequired\n\t\t\t\t\tng-minlength=\"6\"\n\t\t\t\t\tng-click=\"onElementClick($event)\"\n\t\t\t\t\tng-if=\"isEdit && user.sguid == authUserId\" />\n\t\t\t\t<i ng-if=\"!isEdit || user.sguid != authUserId\">{{user.name}}</i>\n\t\t\t</p>\n\t\t\t<p>\n\t\t\t\t<label for=\"age_i\">{{'_BirthdayL_' | i18n}}:</label>\n\t\t\t\t<input \n\t\t\t\t\ttype=\"text\" \n\t\t\t\t\tng-model=\"user.birthday\" \n\t\t\t\t\tdata-date-format=\"dd/mm/yyyy\" \n\t\t\t\t\tbs-datepicker\n\t\t\t\t\treadonly=\"readonly\"\n\t\t\t\t\tclass=\"clean form-control\" \n\t\t\t\t\tid=\"age_i\"\n\t\t\t\t\tng-click=\"onElementClick($event)\"\n\t\t\t\t\tng-if=\"isEdit && user.sguid == authUserId\" />\n\t\t\t\t<i ng-if=\"!isEdit || user.sguid != authUserId\">{{user.birthday}}</i>\n\t\t\t</p>\n\t\t\t<p>\n\t\t\t\t<label for=\"loc_i\">{{'_LocL_' | i18n}}:</label>\n\t\t\t\t<select \n\t\t\t\t\tng-options=\"item.sguid as item.name for item in states\" \n\t\t\t\t\tng-model=\"user.state.sguid\" \n\t\t\t\t\treadonly=\"readonly\" \n\t\t\t\t\tid=\"loc_i\"\n\t\t\t\t\tng-click=\"onElementClick($event)\"\n\t\t\t\t\tng-if=\"isEdit && user.sguid == authUserId\">\n\t\t\t\t</select>\n\t\t\t\t<i ng-if=\"!isEdit || user.sguid != authUserId\">\n\t\t\t\t\t<span ng-if=\"user.state.name\">{{user.state.name}}</span>\n\t\t\t\t\t<span ng-if=\"user.city.name\">\n\t\t\t\t\t\t<span ng-if=\"user.state.name\">,</span> \n\t\t\t\t\t\t{{user.city.name}}\n\t\t\t\t\t</span>\n\t\t\t\t</i>\n\t\t\t<p>\n\t\t\t\t<label for=\"pro_i\">{{'_ProfL_' | i18n}}:</label>\n\t\t\t\t<input \n\t\t\t\t\tid=\"pro_i\" \n\t\t\t\t\tng-if=\"isEdit && user.sguid == authUserId\" \n\t\t\t\t\tng-model=\"user.profession.name\" \n\t\t\t\t\ttype=\"text\" \n\t\t\t\t\tbs-typeahead=\"professionFn\"\n\t\t\t\t\treadonly=\"readonly\"\n\t\t\t\t\tng-click=\"onElementClick($event)\" />\n\t\t\t\t<i ng-if=\"!isEdit || user.sguid != authUserId\">{{user.profession.name}}<span ng-if=\"user.goal_name\">, {{user.goal_name}}</span></i>\n\t\t\t</p>\n\n\t\t\t<p>\n\t\t\t\t<label for=\"pro_i\">{{'_LEAGUES_' | i18n}}:</label>\n\t\t\t\t<i>{{user.league.name}}</i>\n\t\t\t</p>\n\t\t\t<p>\n\t\t\t\t<label for=\"pro_i\">Score:</label>\n\t\t\t\t<i>{{user.points}}</i>\n\t\t\t</p>\n\t\t</div>\n\n\t\t<a class=\"il\" ng-if=\"user && !isFriend && !compare\" ng-click=\"onFollow()\"><img src=\"../images/i3.png\"></a>\n\t\t<a class=\"il\" ng-if=\"user && isFriend && !compare\" ng-click=\"onUnFollow()\"><img src=\"../images/i3i.png\"></a>\n\n\t\t<!-- кнопочка закрытия -->\n\t\t<a class=\"il\" ng-if=\"user && !compare && user.sguid != workspace.user.sguid\" ng-click=\"close()\">\n\t\t\t<img src=\"../images/cl.png\">\n\t\t</a> \n\t</div>\n\n\t<div \n\t\tclass=\"crits\" \n\t\tng-controller=\"NeedsAndGoalsController\" \n\t\tng-init=\"openFirst = false; allOpen = false; persistState = false;\">\n\t\t<ul> \n\t\t\t<li \n\t\t\t\tng-class=\"{current: needItem.current}\"\n\t\t\t\tclass=\"{{needItem.name}}\" \n\t\t\t\tng-repeat=\"(needKey, needItem) in needs | orderBy:'position'\" \n\t\t\t\tdata-needId=\"{{needItem.sguid}}\">\n\t\t\t\t<div class=\"cr\" ng-click=\"onShowGoals($event, needItem)\">\n\t\t\t\t\t<p>{{needItem.name}}</p>\n\t\t\t\t\t<div class=\"right\">\n\t\t\t\t\t\t<strong>\n\t\t\t\t\t\t\t<span \n\t\t\t\t\t\t\t\tclass=\"current_position\"\n\t\t\t\t\t\t\t\tposition-need>\n\t\t\t\t\t\t\t</span>\n\t\t\t\t\t\t</strong>\t\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t\t<ul ng-class=\"{current: needItem.current}\">\n\t\t\t\t\t<li ng-repeat=\"(goalKey,goalItem) in needItem.goals | orderBy:'position'\" data-goalid=\"{{goalItem.sguid}}\" user-id=\"{{user.sguid}}\" >\n\t\t\t\t\t\t<h5>\n\t\t\t\t\t\t\t<a \n\t\t\t\t\t\t\t\tng-class=\"{current: goalItem.current}\"\n\t\t\t\t\t\t\t\tdata-goalid=\"{{goalItem.sguid}}\" user-id=\"{{user.sguid}}\"\n\t\t\t\t\t\t\t\tng-click=\"openCriteriumList($event, needItem, goalItem, needs)\">\n\t\t\t\t\t\t\t\t<span><img ng-src=\"{{goalItem.icon}}\" alt=\"\" title=\"{{goalItem.name}}\" /></span>\n\t\t\t\t\t\t\t\t{{goalItem.name}}\n\t\t\t\t\t\t\t\t<s></s>\n\t\t\t\t\t\t\t</a>\t\n\t\t\t\t\t\t\t<div class=\"right\">\n\t\t\t\t\t\t\t\t<strong>\n\t\t\t\t\t\t\t\t\t<span position-goal class=\"current_position\" ></span>\n\t\t\t\t\t\t\t\t</strong>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t<i ng-if=\"!goalItem.current\"><em></em></i>\n\t\t\t\t\t\t</h5>\n\t\t\t\t\t\t<ul class=\"criterion\" ng-class=\"{current: goalItem.current}\">\n\t\t\t\t\t\t\t<li \n\t\t\t\t\t\t\t\tdata-id=\"{{crItem.sguid}}\" \n\t\t\t\t\t\t\t\tng-repeat=\"crItem in goalItem.criteriums | orderBy:'position'\" >\n\t\t\t\t\t\t\t\t<p>{{crItem.name}}</p>\n\t\t\t\t\t\t\t\t<div class=\"bord\">\n\t\t\t\t\t\t\t\t\t<ul class=\"crp\">\n\t\t\t\t\t\t\t\t\t\t<div class=\"tab\">\n\t\t\t\t\t\t\t\t\t\t\t<li data-id=\"{{value.sguid}}\"  \n\t\t\t\t\t\t\t\t\t\t\t\tng-repeat=\"value in crItem.criteria_values | orderBy:'position'\"  \n\t\t\t\t\t\t\t\t\t\t\t\tclass=\"{{value.user_criteria}} position_{{value.position}}\" \n\t\t\t\t\t\t\t\t\t\t\t\tng-click=\"onCriteriaSelect(value, crItem, $event, needItem, goalItem)\">\n\t\t\t\t\t\t\t\t\t\t\t\t<i ng-if=\"value.sguid != 'none'\">{{value.name}}</i>\n\t\t\t\t\t\t\t\t\t\t\t\t<i ng-if=\"value.sguid == 'none'\" class=\"null_criteria\"></i>\n\t\t\t\t\t\t\t\t\t\t\t</li>\n\t\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t\t<span>\n\t\t\t\t\t\t\t\t\t\t\t<img src=\"../images/ar.png\">\n\t\t\t\t\t\t\t\t\t\t</span>\n\t\t\t\t\t\t\t\t\t</ul>\n\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t</li>\n\t\t\t\t\t\t</ul>\n\t\t\t\t\t</li>\n\t\t\t\t\t\n\t\t\t\t</ul>\n\t\t\t</li>\n\t\t</ul>\n\t</div>\n</div>");
+$templateCache.put('partials/users.html', "<div id=\"users\" class=\"full_height\" ng-if=\"show\" >\n\t<div class=\"center\">\n\t\t<div \n\t\t\tclass=\"full_height user sha\" \n\t\t\tng-controller=\"UserController\" \n\t\t\tng-include\n\t\t\tng-init=\"init('user1')\"\n\t\t\tsrc=\"'partials/user.html'\">\n\t\t</div>\n\t\t<div \n\t\t\tclass=\"full_height user\" \n\t\t\tng-controller=\"UserController\" \n\t\t\tng-include\n\t\t\tng-init=\"init('user2')\"\n\t\t\tsrc=\"'partials/user.html'\">\n\t\t</div>\t\n\t</div>\n</div>");
 $templateCache.put('views/profile/many.html', "<div ng-include src=\"'partials/user.html'\" ng-controller=\"UserController\" ng-init=\"currentUserId=userId2;isEdit=fase;id='rightUser'\"></div>");
 $templateCache.put('views/profile/one.html', "<div class=\"nearblock\" ng-controller=\"NeighboursCtrl\" ng-scroll-event=\"updateOnScrollEvents($event, isEndEvent)\">\n\t<div ng-controller=\"TopGalleryController\">\n\t\t<div ng-controller=\"GalleryController\">\n\t\t\t<div class=\"lnbl\">\n\t\t\t\t<div class=\"gallery\" ng-if=\"users.length > 0\">\n\t\t\t\t\t<div class=\"lnbl\" ng-include src=\"'partials/gallery.html'\"></div>\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t</div>\n\t</div>\n</div>");
 }]);
@@ -5640,24 +5359,7 @@ function LoginController($scope, Sessions, $rootScope, User, Social, $facebook, 
         });
     }
 
-    /**
-     * Вызывается при нажатии ok в форме авторизации
-     * @param  {[type]} $event [description]
-     * @return {[type]}        [description]
-     */
-    $scope.onSingin = function(data) {
-        Sessions.signin({}, $.param({
-            "email": $scope.login.email,
-            "password": $scope.login.password
-        }), function(data) {
-            if(data.success) {
-                $rootScope.$broadcast('onSignin', {sguid: data.guid, isSocial: false, token: data.token});
-                $scope.show = false;
-            } else {
-                $scope.error = data.message;
-            }
-        });
-    }
+    
 
     $scope.onKeyPress = function($event) {
         if(!$scope.LoginForm.$invalid) {
@@ -5808,141 +5510,10 @@ function LoginController($scope, Sessions, $rootScope, User, Social, $facebook, 
     });
 }
 /**
- * Контроллер главной страницыMainC
- * @param {object} $scope
- * @param {object} Leagues
- * @param {object} User
- * @param {object} AuthUser
- * @param {object} $rootScope
- * @param {object} $location
- * @param {object} $timeout
- * @returns {MainController}
+ * Контроллер страницы с плиткой
  */
-function MainController($scope, Leagues, User, $rootScope, $location, $timeout, AuthUser, $cookieStore) {
+function MainController($scope, Leagues) {
 
-    $(document).on("click touchstart", function(event) {
-        event.stopPropagation();
-        if(
-            !$(event.target).hasClass("wr") 
-            && $(event.target).parents(".sub2").size() == 0) {
-            $("#zoom_element").removeClass("show");
-        }
-        $scope.$apply(function() {
-            if(
-                !$(event.target).hasClass("wr") 
-                && $(event.target).parents(".sub2").size() == 0  ) {
-                $scope.zoomElement = null;
-            }
-        });
-    });
-    
-    /**
-     * Событие перехода к пользователю
-     * @param  {object} user
-     * @return {object}     
-     */
-    $scope.onMoveToProfile = function(user) {
-        $location.path("/profile/").search({user: user.sguid});
-    }
-
-    $scope.onMoveToCompare = function(user) {
-        $location.path("/compare").search({user1: user.sguid, user2: $scope.workspace.user.sguid});
-    }
-
-    /**
-     * Событие перехода к сравнению
-     * @param  {object} user
-     * @return {object}
-     */
-    $scope.onCompareToUser = function(user) {
-        $location.path("/profile/"+$scope.rootUser.sguid+"/"+user.sguid)
-    }
-
-    /**
-     * Событие добавление в друзья
-     * @param  {object} user   
-     * @return {object}        
-     */
-    $scope.onFollow = function(user) {
-        $rootScope.$broadcast('follow', {userId: AuthUser.get(), frendId: user.sguid, user: user});
-    }
-
-    /**
-     * Событие удаление из друзей
-     * @param  {object} user
-     * @return {object}      
-     */
-    $scope.onUnFollow = function(user) {
-        $rootScope.$broadcast('unfollow', {userId: AuthUser.get(), frendId: user.sguid, user: user});
-    }
-
-    /**
-     * Событие скроллинга мышкой
-     * @param  {object} $event  [description]
-     * @param  {Number} $delta  [description]
-     * @param  {Number} $deltaX [description]
-     * @param  {Number} $deltaY [description]
-     * @return {object}         [description]
-     */
-    $scope.onWheel = function($event, $delta, $deltaX, $deltaY) {
-        var contentWidth = $("#masonry").width();
-        var windowWidth = $(window).width();
-
-        if(contentWidth > windowWidth) {
-            var step = $event.wheelDeltaY ? $event.wheelDeltaY/2 : $event.deltaY * 40;
-
-            if(!$scope.scrollDelta) {
-                $scope.scrollDelta = 0;
-            }
-            
-            if($scope.scrollDelta + step <= 0) {
-                if(Math.abs($scope.scrollDelta + step) + windowWidth <= contentWidth+50) {
-                    $scope.scrollDelta = $scope.scrollDelta + step;
-                }    
-            }
-        }
-    }
-
-    /**
-     * Скроллинг плинки на ipad
-     * @param  {[type]} $event [description]
-     * @return {[type]}        [description]
-     */
-    $scope.onDragLeft = function($event) {
-        if(!$scope.scrollDelta) {
-            $scope.scrollDelta = 0;
-        }
-
-        $scope.scrollDelta = $scope.scrollDelta + $event.gesture.velocityX*10;
-    }
-
-    /**
-     * Скроллинг плинки на ipad
-     * @param  {[type]} $event [description]
-     * @return {[type]}        [description]
-     */
-    $scope.onDragRight = function($event) {
-        if(!$scope.scrollDelta) {
-            $scope.scrollDelta = 0;
-        }
-
-        $scope.scrollDelta = $scope.scrollDelta - $event.gesture.velocityX*10;
-        
-    }
-
-    $scope.onLogin = function() {
-      $location.path('/login/');
-    };
-
-    $scope.$on('galleryElementClick', function($event, message) {
-        if(message.item) {
-          $scope.zoomElement = message.item;
-          $scope.zoomElement.x = $(message.event.target).parent().position().left;
-          $scope.zoomElement.y = $(message.event.target).parent().position().top;
-          $scope.zoomElement.width = $(message.event.target).parent().width();
-          $scope.zoomElement.height = $(message.event.target).parent().height();
-        }
-    });
 }
 /**
  * Контроллер страницы модальных окошек
@@ -6978,13 +6549,13 @@ function NeedsAndGoalsController($scope, Goals, Criterion, AuthUser, UserCriteri
         parentLi.addClass("current");
 
         if(parentLi.index() != 0) {
-            var size = parentUl.get(0).clientWidth - parentLi.get(0).offsetLeft - parentLi.get(0).clientWidth;
+            var size = parentLi.get(0).offsetLeft + parentLi.get(0).clientWidth;
             if (size <  15) {
                 size = 0;
             }
-            slider.css("width", size + "px").css("right", "-15px");
+            slider.css("width", size + "px").css("left", "-15px");
         } else {
-            slider.css("width", "95%").css("right", "-1%");
+            slider.css("width", "95%").css("left", "-1%");
         }
         
         var isCurrent = false;
@@ -7215,23 +6786,35 @@ function QuickUserChangeCtrl($scope, User, AuthUser, $rootScope, $location, $rou
     }); 
 }
 /**
+ * Контроллер правой панели
+ */
+function RightController($scope) {
+	// определяет показывается ли блок или нет
+	$scope.show = true;
+    
+    // определяет в каком состоянии находится signup или нет
+    $scope.signup = false;
+
+    // событие убираня этого блока со страницы
+    $scope.$on('hideRightPanel', function() {
+    	$scope.show = false;
+    });
+
+    // показываем плашку
+    $scope.$on('showRightPanel', function() {
+        $scope.show = true;
+    });
+
+    // переключаем состояние панели
+    $scope.signupChange = function(state) {
+        $scope.signup = state;
+    }
+}
+/**
  * Основной контроллер.
  * В нем используются данные которые нужны на всех страницах.
- * @param {[type]} $scope       [description]
- * @param {[type]} $facebook    [description]
- * @param {[type]} AuthUser     [description]
- * @param {[type]} User         [description]
- * @param {[type]} $rootScope   [description]
- * @param {[type]} Needs        [description]
- * @param {[type]} Social       [description]
- * @param {[type]} $cookieStore [description]
- * @param {[type]} States       [description]
- * @param {[type]} Professions  [description]
- * @param {[type]} $location    [description]
- * @param {[type]} $timeout     [description]
- * @param {[type]} Leagues      [description]
  */
-function RootController($scope, $facebook, AuthUser, User, $rootScope, Needs, Social, $cookieStore, States, Professions, $location, $timeout, Leagues) {
+function RootController($scope, СareerService, LeagueService, CountryService, NeedsService, FriendsService, $facebook, UserService, User, $rootScope, Needs, Social, $cookieStore, States, Professions, $location, $timeout, Leagues) {
     
     /**
      * Открывает модальное окно
@@ -7243,100 +6826,54 @@ function RootController($scope, $facebook, AuthUser, User, $rootScope, Needs, So
     }
 
     /**
-     * Открываем окно авторизации
-     * @returns {undefined}
-     */
-    $scope.onLogin = function() {
-        $location.path("/login/");
-    };
-
-    /**
-     * Переход на страницу профиля
-     * @return {undefined}
-     */
-    $scope.onOpenProfileAuthUser = function() {
-        $location.path("/my_profile/").search({});
-    };
-
-    /**
-     * Забираем список друзей из localStorage
-     * @return {Array} [description]
-     */
-    $scope.guestFollowGetOnStorage = function() {
-        var follows =  JSON.parse(localStorage.getItem('follows'));
-        if(follows == null) {
-            follows = [];
-        }
-        return follows;
-    }
-
-    /**
-     * ID авторизованного пользователя
-     * @type {[type]}
-     */
-    $scope.authUserId = AuthUser.get();
-
-    /**
      * Массив всяких данных
      * @type {Object}
      */
     $scope.workspace = {};
 
     /**
+     * Забираем юзера из кеша
+     * @type {[type]}
+     */
+    $scope.workspace.user = UserService.getAuthData();
+
+    /**
      * Массив хренения списка друзей для не авторизованного пользователя
      * @type {[type]}
      */
-    $scope.tmpFollows = $scope.guestFollowGetOnStorage();
+    $scope.workspace.friends = $scope.workspace.user && $scope.workspace.user.friends ? $scope.workspace.user.friends : FriendsService.getList();
 
-    /**
-     * получаем имя текущего контроллера
-     * @type {[type]}
-     */
-    $scope.controller = $location.path().split("/").join("_");
+    this.needsServiceCallback_ = function(data) {
+        $scope.workspace.needs = data;
+        СareerService.getList($scope.workspace.needs, this.careerServiceCallback_);
+    }
 
-    /**
-     * События перехода по страницам
-     * @param  {[type]}   event   [description]
-     * @param  {Function} next    [description]
-     * @param  {[type]}   current [description]
-     * @return {[type]}           [description]
-     */
-    $scope.$on('$routeChangeStart', function(event, next, current) {
-        $scope.controller = $location.path().split("/").join("_");
+    this.careerServiceCallback_ = function(data) {
+        $scope.workspace.careers = data;
+    }
 
-        // скрываем поиск
-        $rootScope.$broadcast('hideSearch');
-    });
+    this.countryServiceCallback_ = function(data) {
+        $scope.workspace.country = data;
+    }
 
-    /**
-     * Забираем список друзей для не зарегистрированного пользователя
-     * @param  {[type]} $event  [description]
-     * @param  {[type]} message [description]
-     * @return {[type]}         [description]
-     */
-    $scope.$on('getTmpFollows', function($event, message) {
-        $scope.tmpFollows = $scope.guestFollowGetOnStorage();
-        $rootScope.$broadcast('getTmpFollowsCallback_');
-    });
-
-    /**
-     * Выход
-     * @param  {[type]} $event  [description]
-     * @param  {[type]} message [description]
-     * @return {[type]}         [description]
-     */
-    $scope.$on('logout', function($event, message) {
-        $scope.authUserId = null;
-    });
-
+    this.leagueServiceCallback_ = function(data) {
+        $scope.workspace.country = data;
+    }
     
+    NeedsService.getList((this.needsServiceCallback_).bind(this));
+    CountryService.getList(this.countryServiceCallback_);
+    LeagueService.getList(this.leagueServiceCallback_);
 
     /**
-     * Выходим из системы
-     * @return {[type]} [description]
-     */
+    $scope.$on('logout', function($event, message) {
+        $scope.workspace.user = null;
+    });
+
     $scope.onLogout = function() {
-        AuthUser.logout();
+        $scope.workspace.user = null;
+
+        // затираем кеш пользователя
+        UserService.removeAuthData();
     
         if(socialsAccess.facebook.isLoggined) {
             $facebook.logout();
@@ -7354,210 +6891,27 @@ function RootController($scope, $facebook, AuthUser, User, $rootScope, Needs, So
             socialsAccess.googlePlus.isLoggined = false;  
         }
         
-        $scope.workspace.user = null;
+        
         $rootScope.$broadcast('logout');
-        $rootScope.$broadcast('getTmpFollows');
+
+        $scope.workspace.friends = FriendsService.getList();
         $location.path("/");
     }
 
-    /**
-     * Получаем данные по авторизаованному пользователю
-     * @return {[type]} [description]
-     */
     $scope.getUserInfo = function() {
         if($scope.authUserId) {
             User.query({id: $scope.authUserId}, function(data) {
                 $scope.workspace.user = data;
-                $scope.workspace.user.isSocial = AuthUser.getExternal();
-                $scope.workspace.user.points = parseInt($scope.workspace.user.points);
-                if(isNaN($scope.workspace.user.points)) {
-                    $scope.workspace.user.points = 0;
-                }
 
-                User.get_friends({id: $scope.authUserId}, {}, function(frends) {
-                   $scope.workspace.user.frends = frends;
+                // получаем список друзей
+                User.get_friends({id: $scope.workspace.user.sguid}, {}, function(friends) {
+                   $scope.workspace.friends = friends;
                    $rootScope.$broadcast('authUserGetData');
                 });
             });
         }
     };
 
-    /**
-     * Берем список needs
-     * Если он есть в localstoreage то сначала оттуда
-     * @return {[type]} [description]
-     */
-    $scope.getNeeds = function() {
-        var needs = lscache.get("needs");
-        if(!needs) {
-            $scope.getNeedsOnServer_();
-        } else {
-            $scope.workspace.needs = needs;
-            $rootScope.$broadcast('needsGet');
-        }
-        
-    };
-
-    /**
-     * Забираем список нидсов с сервера
-     * @return {[type]} [description]
-     */
-    $scope.getNeedsOnServer_ = function() {
-        Needs.query({}, {}, function(data) {
-            $scope.workspace.needs = data;
-            lscache.set('needs', JSON.stringify(data), 1440);
-            $rootScope.$broadcast('needsGet');
-        });
-    }
-
-    $scope.getCountries = function() {
-        States.query({}, {}, function(data) {
-            $scope.workspace.countries = data;
-        });    
-    }
-
-    /**
-     * Забираем список всех лиг
-     * @return {[type]} [description]
-     */
-    $scope.getAllLeagues = function() {
-        /**
-         * Забираем список всех лиг
-         * @param  {[type]} data [description]
-         * @return {[type]}      [description]
-         */
-        Leagues.query({}, {}, function(data) {
-            $scope.workspace.leagues = data;
-        });
-    }
-
-    // грузим данные
-    $scope.getUserInfo();
-    $scope.getNeeds();
-    $scope.getCountries();
-    $scope.getAllLeagues();
-
-    /**
-     * Событие обновления списка лиг
-     * @param  {[type]} $event  [description]
-     * @param  {[type]} message [description]
-     * @return {[type]}         [description]
-     */
-    $scope.$on('reloadLeagues', function($event, message) {
-        $scope.getAllLeagues();
-    });
-    
-    $scope.$on('updateUserData', function($event, message) {
-        if(message.user.sguid === $rootScope.authUserId) {
-            $rootScope.workspace.user = message.user;
-        }
-    });
-
-    /**
-     * Удаление человека из списка друзей
-     * @param  {[type]} $event  [description]
-     * @param  {[type]} message [description]
-     * @return {[type]}         [description]
-     */
-    $scope.$on('unfollow', function($event, message) {
-        if($scope.authUserId) {
-            $scope.authUnFollow(message);
-        } else {
-            $scope.guestUnFollow(message);
-        }
-    });
-
-    /**
-     * Добавление человека в список друзей
-     * @param  {[type]} $event  [description]
-     * @param  {[type]} message [description]
-     * @return {[type]}         [description]
-     */
-    $scope.$on('follow', function($event, message) {
-        if($scope.authUserId) {
-            $scope.authFollow(message);
-        } else {
-            $scope.guestFollow(message);
-        }
-    });
-
-    /**
-     * Добавление в друзья если пользователь авторизирован
-     * @param  {[type]} message [description]
-     * @return {[type]}         [description]
-     */
-    $scope.authFollow = function(message) {
-        User.create_friendship({id: message.userId}, {
-            friend_guid: message.frendId
-        }, function(response) {     
-            if(response.success) {
-                $scope.workspace.user.frends.push({sguid: response.message.guid, user: message.user});
-                $rootScope.$broadcast('followCallback', {frendId: message.frendId});
-            }
-        });
-    };
-
-    /**
-     * Добавление в друзья если пользователь не авторизирован
-     * @param  {[type]} message [description]
-     * @return {[type]}         [description]
-     */
-    $scope.guestFollow = function(message) {
-        $scope.tmpFollows.push({sguid: null, user: message.user});
-        $scope.guestFollowPersist();
-        $rootScope.$broadcast('followCallback', {frendId: message.frendId});
-    };
-
-    /**
-     * Сохраняем список друзей для не авторизированного пользователя в localstorage
-     * @return {[type]} [description]
-     */
-    $scope.guestFollowPersist = function() {
-        localStorage.setItem('follows', JSON.stringify($scope.tmpFollows));
-    }
-
-    /**
-     * Убираем из друзей если пользователь  авторизирован
-     * @param  {[type]} message [description]
-     * @return {[type]}         [description]
-     */
-    $scope.authUnFollow = function(message) {
-        User.destroy_friendship({id: message.userId, friendId: message.frendId}, { }, function() {
-            var frend = $scope.workspace.user.frends.filter(function(data) {
-                if(data.user.sguid === message.frendId) {
-                    return data;
-                }
-            })[0];
-            var index = $scope.workspace.user.frends.indexOf(frend);
-            $scope.workspace.user.frends.splice(index, 1);
-
-            $rootScope.$broadcast('unfollowCallback', {frendId: message.frendId});
-        });
-    };
-
-    /**
-     * Убираем из друзей если пользователь не авторизирован
-     * @param  {[type]} message [description]
-     * @return {[type]}         [description]
-     */
-    $scope.guestUnFollow = function(message) {
-        var frend = $scope.tmpFollows.filter(function(data) {
-            if(data.user.sguid === message.frendId) {
-                return data;
-            }
-        })[0];
-        var index = $scope.tmpFollows.indexOf(frend);
-        $scope.tmpFollows.splice(index, 1);
-        $scope.guestFollowPersist();
-        $rootScope.$broadcast('unfollowCallback', {frendId: message.frendId});
-    };
-
-    /**
-     * Событие авторизации
-     * @param  {[type]} $event  [description]
-     * @param  {[type]} message [description]
-     * @return {[type]}         [description]
-     */
     $scope.$on('onSignin', function($event, message) {
         if(message && message.sguid) {
             User.query({id: message.sguid}, function(data) {
@@ -7587,7 +6941,7 @@ function RootController($scope, $facebook, AuthUser, User, $rootScope, Needs, So
                     external = true;
                 }
 
-                AuthUser.set(message.sguid, message.token, external);
+                //AuthUser.set(message.sguid, message.token, external);
 
                 if($scope.workspace.user.points == 0) {
                   $cookieStore.put("myProfileTab", 3);
@@ -7612,13 +6966,13 @@ function RootController($scope, $facebook, AuthUser, User, $rootScope, Needs, So
             });    
         }
     });
-    
+     */
     /**
      * Авторизация через google plus
      * @param  {[type]} email [description]
      * @param  {[type]} name  [description]
      * @return {[type]}       [description]
-     */
+    
     $scope.gplusAuth = function(email, name) {
         Social.login({}, {email: email}, function(data) {
             var updateUser = {};
@@ -7631,49 +6985,12 @@ function RootController($scope, $facebook, AuthUser, User, $rootScope, Needs, So
 
         });
     };
-
+     
     $scope.gplusFalse = function() {
         $rootScope.$broadcast('loaderHide');
     };
-
-    /**
-     * Список карьер
-     * @type {Array}
-     */
-    $scope.careerList = [];
-
-    /**
-     * Показываем все елементы списка.
-     * @param  {[type]} listName [description]
-     * @return {[type]}          [description]
-     */
-    $scope.showAllListElement = function(listName) {
-        angular.forEach($scope[listName], function(value, key){
-            value.show = true;
-        });
-    }
-
-    /**
-     * Получаем список карьер когда загружены needs
-     * @param  {[type]} newVal [description]
-     * @param  {[type]} oldVal [description]
-     * @param  {[type]} scope  [description]
-     * @return {[type]}        [description]
-     */
-    $scope.$watch("workspace.needs", function (newVal, oldVal, scope) {
-        if(newVal) {
-            var needs = JSON.parse(JSON.stringify($scope.workspace.needs));
-            var curNeed = needs.filter(function(value) {
-                if(value.sguid == "169990243011789827") {
-                    return value;
-                }
-            })[0];
-            $scope.careerList = curNeed.goals.filter(function(value) {
-                if(value.sguid != "170689401829983233") { return value }
-            });
-            $scope.showAllListElement("careerList");
-        }
-    });
+    */
+    
 }
 /**
  * Контроллер страницы расширенного поиска
@@ -8266,46 +7583,187 @@ function ShareController($scope) {
     };
 }
 /**
- * Контроллер  профиля
- * @param {object} $scope
- * @param {object} $route
- * @param {object} $routeParams
- * @param {object} User
- * @param {object} Needs
- * @param {object} Professions
- * @param {object} States
- * @returns {object}
+ * форма модального окна авторизации
  */
-function UserController($scope, $element, $route, $routeParams, User, Needs, Professions, States, $http, NeedsByUser, $rootScope, GoalsByUser, AuthUser, Leagues, $location, $window) {
+function SigninController($scope, SessionsService, UserService) {
+    // сообщение об ошибке
+    $scope.error = null;
+
+    // модель формы авторизации
+    $scope.login = {
+        login: "",
+        password: ""
+    }
+
+    // нажатие enter в форме
+    $scope.onKeyPress = function($event) {
+        if(!$scope.LoginForm.$invalid) {
+            $scope.onSingin();
+        }
+    }
+
+    $scope.getFriendsCallback_ = function(data) {
+        $scope.workspace.friends = data;
+    }
+
+    $scope.onSigninFailCallback_ = function(data) {
+        $scope.error = data.message;
+    }
+
+    $scope.onSigninSuccessCallback_ = function(data) {
+        UserService.setAuthData(data);
+        UserService.getFriends(data.sguid, $scope.getFriendsCallback_);
+
+        $scope.workspace.user = data;
+    }
+
+    /**
+    * получение данных пользователя
+    */
+    $scope.onSingin = function(data) {
+        SessionsService.signin(
+            $scope.login.email, 
+            $scope.login.password, 
+            $scope.onSigninSuccessCallback_,
+            $scope.onSigninFailCallback_
+        );
+    }
+}
+/**
+ * Форма создания нового пользователя
+ */
+function SignupController($scope, UserService, Recaptha) {
+    // модель формы
+    $scope.user = {
+        email: "",
+        password: ""
+    }
+
+    /**
+     *  добавлям нового пользователя
+     */
+    $scope.addUser = function ($event) {
+        // проверяем капчу
+        Recaptha.verify(
+            {}, 
+            {
+                challenge: Recaptcha.get_challenge(),
+                response: Recaptcha.get_response()
+            }, 
+            function(data) {
+                Recaptcha.reload();
+                if(data.success) {
+                    $scope.errorValidate = null;
+
+                    // если капча верна создаем нового пользователя
+                    UserService.create({
+                        "name": $scope.user.email.split("@")[0],
+                        "login": $scope.user.email,
+                        "email": $scope.user.email,
+                        "password": $scope.user.password
+                    }, null, $scope.onAddUserSuccessCallback_);
+                } else {
+                    $scope.errorValidate = "Text invalid";
+                }
+            }
+        );
+        
+    }
+
+    // приводим текст ошибок в порядок
+    $scope.onAddUserSuccessCallback_ = function(data) {
+        $scope.errors = "";
+        $scope.errorEmail = "";
+        angular.forEach(data.errors, function(value, key) {
+            if(value && value == 'login: ["is already taken"]') {
+                $scope.errorEmail = "Exists specified email.";
+            }
+        });
+    }
+}
+/**
+ * Контроллер  профиля
+ */
+function UserController($scope, FriendsService, UserService, $element, $route, $routeParams, User, Needs, Professions, States, $http, NeedsByUser, $rootScope, GoalsByUser, AuthUser, Leagues, $location, $window) {
+    // данные пользователя
     $scope.user = null;
+
+    // под каким route в search будем искать id пользователя
+    $scope.route = '';
+
+    // является ли пользователь другом
+    $scope.isFriend = false;
+
     $scope.newImage = null;
     $scope.bindIn = "";
     $scope.hidden = false;
 
-    $scope.userId = $location.search().user;
+    // событие переключчения состояния страницы.
+    $scope.$on('$locationChangeSuccess', function () {
+        $scope.setCurrentUser();
+    });
 
-    $scope.$on('authUserIdChange', function() {
-        $scope.userId = AuthUser.get();
-    }); 
+    // указываем текущего выбранного пользователя
+    $scope.setCurrentUser = function() {
+        // новый id по указанному rpute в ng-init
+        var newId = $location.search()[$scope.route];
 
-    if($location.search().user1) {
-        $scope.userId = $location.search().user1;
-        $scope.bindIn = "user1";
+        // проверяем а нужно ли вообще менять id
+        if(newId && (!$scope.user || $scope.user.sguid != newId)) {
+            UserService.getById(newId, $scope.userServiceGetByIdCallback_);
+        }
+
+        // если нет id то удаляем данные 
+        if(!newId) {
+            $scope.user = null;
+        }
     }
 
-    if($scope.rightId) {
-        $scope.userId = $scope.rightId;
-        $scope.bindIn = "user2";
+    // callback получения данных пользователя
+    $scope.userServiceGetByIdCallback_ = function(data) {
+        $scope.user = data;
+
+        // определяем друг пользователь или нет
+        $scope.isFriend = FriendsService.isFriend($scope.user, $scope.workspace.friends);
     }
 
-    if($location.search().user1 && $location.search().user2 && $location.search().user1 == $location.search().user2) {
-        User.for_main({}, {}, function(data) {
-            var index = getRandomInt(0, data.length-1);
-            $location.path("/compare").search({user1: $location.search().user1, user2: data[index].sguid})
-        });
+    // закрывает плашку с текущим пользователем
+    $scope.close = function() {
+        $location.search($scope.route, null);
     }
 
-    /**Событие клика на пользователе в сравнении */
+    // инициализация контрллера
+    $scope.init = function(route) {
+        $scope.route = route;
+
+        // забираем данные пользователя
+        $scope.setCurrentUser();
+    }
+
+    // callback после добавления пользователя в друзья
+    $scope.followCallback_ = function(friends) {
+        $scope.workspace.friends = friends;
+        $scope.isFriend = true;
+    }
+
+    // callback после удаления пользователя из друзей
+    $scope.unfollowCallback_ = function(friends) {
+        $scope.workspace.friends = friends;
+        $scope.isFriend = false;
+    }
+
+    /** Событие добавление в друзья */
+    $scope.onFollow = function() {
+        FriendsService.follow($scope.user, $scope.workspace.friends, $scope.followCallback_);
+    }
+
+    /** Событие удаление из друзей */
+    $scope.onUnFollow = function() {
+        FriendsService.unfollow($scope.user, $scope.workspace.friends, $scope.unfollowCallback_);
+    }
+    
+
+    /**Событие клика на пользователе в сравнении 
     $scope.onUserClick = function(user, $event) {
         if($scope.compare && user.sguid != AuthUser.get()) {
             if(user.hover == true) {
@@ -8315,17 +7773,8 @@ function UserController($scope, $element, $route, $routeParams, User, Needs, Pro
             }
         }
     }
-
-    $scope.changeUser = function(user) {
-        if($scope.bindIn == "user2") {
-            $location.search({user1: $location.search().user1, user2: user.sguid});
-        } else {
-            $location.search({user1: user.sguid, user2: $location.search().user2});
-        }
-
-        $rootScope.$broadcast('hideSearch');
-    }
-
+*/
+    /*
     $scope.$on('$locationChangeSuccess', function(location) {
         if($scope.bindIn == "user2") {
             $("sub.du, sup.du").remove();
@@ -8349,7 +7798,9 @@ function UserController($scope, $element, $route, $routeParams, User, Needs, Pro
             $scope.getUserInfo();
         }
     });
+    */
 
+/*
     $scope.onCompareUser = function() {
         if($scope.workspace.user && $scope.workspace.user.sguid) {
             $location.path("/compare").search({user1: $scope.workspace.user.sguid, user2: $scope.userId});
@@ -8371,114 +7822,21 @@ function UserController($scope, $element, $route, $routeParams, User, Needs, Pro
         }
     }
 
-    $scope.$watch("userId", function (newVal, oldVal, scope) {
-        $scope.getUserInfo();
-    });
-
-    $scope.$watch("workspace.user.frends", function (newVal, oldVal, scope) {
-        $scope.testFollow();
-    });
-
     $scope.professionFn = function(query) {
         return $.map($scope.professions, function(profession) {
             return profession.name;
         });
     }
+*/
 
-     /**
-     * Событие.
-     * Пользователя удалили из друзей
-     * @param  {[type]} $event  [description]
-     * @param  {[type]} message [description]
-     * @return {[type]}         [description]
-     */
-    $scope.$on('unfollowCallback', function($event, message) {
-        if($scope.user.sguid == message.frendId) {
-            $scope.user.isFollow = false;
-        }
-    });
+    
 
-    /**
-     * Событие.
-     * Пользователя добавили в друзья
-     * @param  {[type]} $event  [description]
-     * @param  {[type]} message [description]
-     * @return {[type]}         [description]
-     */
-    $scope.$on('followCallback', function($event, message) {
-        if($scope.user.sguid == message.frendId) {
-            $scope.user.isFollow = true;
-        }
-    });
-
-    /** Событие добавление в друзья */
-    $scope.onFollow = function() {
-        $rootScope.$broadcast('follow', {userId: AuthUser.get(), frendId: $scope.user.sguid, user: $scope.user});
-    }
-
-    /** Событие удаление из друзей */
-    $scope.onUnFollow = function() {
-        $rootScope.$broadcast('unfollow', {userId: AuthUser.get(), frendId: $scope.user.sguid, user: $scope.user});
-    }
-
-    /** Событие перехода к пользователю */
+    /** Событие перехода к пользователю
     $scope.onMoveToProfile = function(user) {
         $location.path("/profile/").search({user: user.sguid});;
     }
 
-    /**
-     * Информация по пользователю
-     * @return {[type]} [description]
-     */
-    $scope.getUserInfo = function() {
-        if(!isNaN(parseInt($scope.userId))) {
-            User.query({id: $scope.userId}, function(data) {
-                $scope.user = data;
-
-                $scope.user.points = parseInt($scope.user.points);
-
-                if($scope.user.points == null) {
-                    $scope.user.points = 0;
-                }
-
-                if(isNaN($scope.user.points)) {
-                    $scope.user.points = 0;
-                }
-
-                if(!$scope.user.avatar) {
-                    $scope.user.avatar = "/images/unknown-person.png";
-                }
-
-                /**
-                 * Указваем формат дня рождения
-                 */
-                if($scope.user.birthday) {
-                    $scope.user.birthday = moment($scope.user.birthday).format("DD/MM/YYYY");
-                }
-                
-                /**
-                 * Забираем список друзей пользователя
-                 */
-                if($scope.user.league) {
-                    User.by_league({league_guid: $scope.user.league.sguid}, {}, function(data) {
-                        $scope.user.league.users = data;
-                    });
-                }
-
-                $rootScope.$broadcast('userControllerGetUser', {
-                    user: $scope.user
-                });
-
-                $rootScope.$broadcast('getSelectedUserData', {
-                    user: $scope.user
-                });
-
-
-
-                $scope.testFollow();
-            });
-        }
-    }
+    
 
     $scope.$on('updateUserControllerId', function($event, message) {
         if(message.id == $scope.id) {
@@ -8501,43 +7859,20 @@ function UserController($scope, $element, $route, $routeParams, User, Needs, Pro
             $rootScope.$broadcast('updateUserLegueAndPoints');
         });
     });
-    
-
-    $scope.testFollow = function() {
-        if($scope.userId) {
-            if($scope.workspace.user && $scope.workspace.user.frends) {
-                var item = $scope.workspace.user.frends.filter(function(item) {
-                    if(item.user.sguid == $scope.userId) { return item; }
-                });
-            } else {
-                var item = $scope.tmpFollows.filter(function(item) {
-                    if(item.user.sguid == $scope.userId) { return item; }
-                });
-            }
-            if($scope.user) {
-                if(item.length > 0) {
-                    $scope.user.isFollow = true;
-                } else {
-                    $scope.user.isFollow = false;
-                }    
-            }
-            
-        }
-    }
-
+ */
     /**
      * Событие обновления лиги у пользователя
      * @return {[type]} [description]
-     */
+   
     $scope.$on('updateUserLegueAndPoints', function() {
         User.query({id: $scope.currentUserId}, $.proxy($scope.userLegueAndPointsUpdate_, $scope));
     });
-
+  */
     /**
      * Обновляет данные лиги у пользователя
      * @param  {[type]} data [description]
      * @return {[type]}      [description]
-     */
+  
     $scope.userLegueAndPointsUpdate_ = function(data) {
         $scope.user.league = data.league;
         $scope.user.points = data.points;
@@ -8545,11 +7880,11 @@ function UserController($scope, $element, $route, $routeParams, User, Needs, Pro
         $rootScope.workspace.user.league = data.league;
         $rootScope.workspace.user.points = data.points;
     }
-
+   */
     /**
      * Событие при изменении критерия
      * @return {[type]} [description]
-     */
+  
     $scope.$on('userCriteriaUpdate', function() {
         $rootScope.$broadcast('updateLegue');
     });
@@ -8557,13 +7892,13 @@ function UserController($scope, $element, $route, $routeParams, User, Needs, Pro
     $scope.$on('updateUser', function() {
         $scope.getUserInfo();
     });
-
+   */
     /**
      * Список годов
      * @param  {[type]} min [description]
      * @param  {[type]} max [description]
      * @return {[type]}     [description]
-     */
+  
     this.generateAgesArray = function(min, max) {
         var i = min, ret = [];
         for(i = min; i <= max; i++){
@@ -8581,13 +7916,13 @@ function UserController($scope, $element, $route, $routeParams, User, Needs, Pro
     $scope.onBack = function($event) {
         $window.history.back();
     }
-
+   */
     /**
      * 
      * @param {type} $event
      * @param {type} elementId
      * @returns {undefined}
-     */
+
     $scope.onEditActivate = function($event, elementId) {
         angular.element(".form-control").attr("disabled", "disabled");
     
@@ -8608,21 +7943,21 @@ function UserController($scope, $element, $route, $routeParams, User, Needs, Pro
         $(elm).focus();
     };
     
-
+     */
     /**
      * [onReadFile description]
      * @param  {[type]} $event
      * @return {[type]}
-     */
+
     $scope.onReadFile = function($event) {
         $rootScope.$broadcast('cropImage');
     }
-
+     */
     /**
      * 
      * @param  {[type]} $event
      * @return {[type]}
-     */
+     
     $scope.onUpdateFile = function($event) {
         $("#photo_crop").click();
     }
@@ -8658,5 +7993,42 @@ function UserController($scope, $element, $route, $routeParams, User, Needs, Pro
     if($scope.workspace && $scope.workspace.user) {
         $scope.authUser = $scope.workspace.user;
         $scope.testFollow();
-    }
+    }*/
+}
+// контролле панели пользователей
+function UsersController($scope, $location, $rootScope, $timeout) {
+	// определяем показываем ли мы панель или нет
+	$scope.show = $location.search().user1 || $location.search().user2 ? true : false;
+
+	// закрываем правую панель. Грязный хак. нужно будет переписать когда пойму как.
+	if($scope.show) {
+		$timeout(function(){
+			$rootScope.$broadcast('hideRightPanel');
+		}, 0);
+	}
+
+	// событие показа панели с пользователем
+	$scope.$on('showUserProfile', function(event, message) {
+		// позываем пользователя
+		$scope.show = true;
+
+		// указываем переданного пользователя
+		if($location.search().user1 && !$location.search().user2) {
+        	$location.search({user1: $location.search().user1, user2: message.user.sguid});
+		}
+		if(!$location.search().user1 && !$location.search().user2) {
+        	$location.search({user1: message.user.sguid});
+		}
+		if(!$location.search().user1 && $location.search().user2) {
+        	$location.search({user1: message.user.sguid, user2: $location.search().user2});
+		}
+    });
+
+    // событие переключчения состояния страницы.
+    $scope.$on('$locationChangeSuccess', function () {
+    	// если нет пользователей возвращаем плашку срава
+        if(!$location.search().user1 && !$location.search().user2) {
+        	$rootScope.$broadcast('showRightPanel');
+        }
+    });
 }
