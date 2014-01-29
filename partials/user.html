@@ -118,6 +118,10 @@
 				<label for="pro_i">{{'_LEAGUES_' | i18n}}:</label>
 				<i>{{user.league.name}}</i>
 			</p>
+			<p>
+				<label for="pro_i">Score:</label>
+				<i>{{user.points}}</i>
+			</p>
 		</div>
 
 		<a class="il" ng-if="user && !isFriend && !compare" ng-click="onFollow()"><img src="../images/i3.png"></a>
