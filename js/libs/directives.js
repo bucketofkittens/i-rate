@@ -103,7 +103,7 @@ pgrModule.directive('caruselPosition', function($window) {
 /**
  * Директива плитки на главной
  */
-pgrModule.directive('masonry', function(User) {
+pgrModule.directive('masonry', function(User, $rootScope) {
   return {
     link: function($scope, element, attrs) {
       // родительский элемент
@@ -111,7 +111,7 @@ pgrModule.directive('masonry', function(User) {
 
       // добавляем скроллинг мышкой
       $(parentElement).on("mousewheel DOMMouseScroll", function($event) {
-        $(element).parent()[0].scrollLeft += $event.originalEvent.wheelDeltaY;
+        $(element).parent()[0].scrollLeft -= $event.originalEvent.wheelDeltaY ? $event.originalEvent.wheelDeltaY : $event.originalEvent.detail * 5;
       });
 
       /** коэффициэнт количество элементов **/
@@ -140,7 +140,8 @@ pgrModule.directive('masonry', function(User) {
 
       /** открываем всплывающее окно пользователя **/
       $scope.openUserInfo = function(userItem, $event) {
-        
+        $rootScope.$broadcast('hideRightPanel');
+        $rootScope.$broadcast('showUserProfile', { user: userItem });
       }
       
       /** инициализируем isotope **/

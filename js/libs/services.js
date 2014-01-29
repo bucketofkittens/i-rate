@@ -459,10 +459,12 @@ pgrModule.service('UserService', function (User) {
         lscache.remove(this.cacheName);
     }
 
+    // получение списка друзей
     this.getFriends = function(sguid, callback) {
         User.get_friends({id: sguid}, callback);
     }
 
+    // создание нового пользователя
     this.create = function(params, callback, fail) {
         User.create(
             {user: JSON.stringify(params)}

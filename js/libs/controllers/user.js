@@ -1,13 +1,5 @@
 /**
  * Контроллер  профиля
- * @param {object} $scope
- * @param {object} $route
- * @param {object} $routeParams
- * @param {object} User
- * @param {object} Needs
- * @param {object} Professions
- * @param {object} States
- * @returns {object}
  */
 function UserController($scope, $element, $route, $routeParams, User, Needs, Professions, States, $http, NeedsByUser, $rootScope, GoalsByUser, AuthUser, Leagues, $location, $window) {
     $scope.user = null;

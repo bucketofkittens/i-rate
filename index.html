@@ -25,6 +25,7 @@
     <div id="content" class="my-slide-container">
         <div class="content_wrap" ng-view></div>
 
+        <div class="full_height" ng-controller="UsersController" ng-include src="'partials/users.html'"></div>
         <div class="full_height" ng-controller="RightController" ng-include ng-if="!workspace.user" src="'partials/right.html'"></div>
     </div>
 
@@ -80,6 +81,7 @@
     <script src="/js/libs/controllers/root.js"></script>
     <script src="/js/libs/controllers/search.js"></script>
     <script src="/js/libs/controllers/right.js"></script>
+    <script src="/js/libs/controllers/users.js"></script>
 
     <script src="/js/libs/controllers/crop-image.js"></script>
     <script src="/js/libs/controllers/share.js"></script>

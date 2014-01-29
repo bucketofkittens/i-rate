@@ -1,4 +1,4 @@
-<div id="signin_panel" class="full_height" >
+<div id="signin_panel" class="full_height" ng-if="show" >
 	<div class="glass">
 		<div class="full_height" ng-if="!signup" ng-include ng-controller="SigninController" src="'partials/signin.html'"></div>
 		<div class="full_height" ng-if="signup" ng-include ng-controller="SignupController" src="'partials/signup.html'"></div>
