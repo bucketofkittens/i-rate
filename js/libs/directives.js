@@ -106,12 +106,11 @@ pgrModule.directive('caruselPosition', function($window) {
 pgrModule.directive('masonry', function(User, $rootScope) {
   return {
     link: function($scope, element, attrs) {
-      // родительский элемент
       var parentElement = element.parent()[0];
 
       // добавляем скроллинг мышкой
       $(parentElement).on("mousewheel DOMMouseScroll", function($event) {
-        $(element).parent()[0].scrollLeft -= $event.originalEvent.wheelDeltaY ? $event.originalEvent.wheelDeltaY : $event.originalEvent.detail * 5;
+        parentElement.scrollLeft -= $event.originalEvent.wheelDeltaY ? $event.originalEvent.wheelDeltaY : $event.originalEvent.detail * 5;
       });
 
       /** коэффициэнт количество элементов **/
@@ -654,64 +653,3 @@ pgrModule.directive('mydash', function(User) {
     }
   }
 })
-
-pgrModule.directive('setWidth', function() {
-  return {
-    link: function(scope, element, attrs) {
-      function setPosition() {
-        if(scope.zoomElement) {
-          $(element).removeClass("show");
-          setTimeout(function() {
-            var newX = scope.zoomElement.x-scope.zoomElement.width/2;
-            if(scope.scrollDelta) {
-              newX += scope.scrollDelta;
-            }
-            if(newX < 0) {
-              newX = 0;
-            }
-            var newY = scope.zoomElement.y-scope.zoomElement.height/2;
-            $(element).css("left", newX+"px");
-            $(element).css("top", newY+"px"); 
-            $(element).addClass("show");
-          }, 200);
-        } else {
-          $(element).removeClass("show");
-        }
-      }
-      scope.$watch("zoomElement", function() {
-          setPosition();
-      });
-      scope.$watch("scrollDelta", function() {
-          if(scope.zoomElement && scope.zoomElement.x) {
-            var newX = scope.zoomElement.x-scope.zoomElement.width/2;
-            if(scope.scrollDelta) {
-              newX += scope.scrollDelta;
-            }
-            $(element).css("left", newX+"px");
-          }
-      });
-    }
-  }
-})
-
-pgrModule.directive('setWidthSmall', function() {
-  return {
-    link: function(scope, element, attrs) {
-      scope.$watch("userItem.hover", function() {
-        if(scope.userItem.hover) {
-          //$(element).clone().addClass("clone").insertAfter($(element));
-        } else {
-          //$(".clone").remove();
-        }
-      });
-    }
-  }
-})
-
-function randomRange(l,h){
-  var range = (h-l);
-  var random = Math.floor(Math.random()*range);
-  if (random === 0){random+=1;}
-  return l+random;
-}
-

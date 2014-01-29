@@ -231,3 +231,10 @@ Array.prototype.remove = function(from, to) {
 
 function degToRad (deg) { return deg / 180 * Math.PI; }
 function radToDeg (rad) { return rad / Math.PI * 180; }
+
+function randomRange(l,h){
+  var range = (h-l);
+  var random = Math.floor(Math.random()*range);
+  if (random === 0){random+=1;}
+  return l+random;
+}
