@@ -424,17 +424,10 @@ body {
                 &.Spirituality {
                     display: none;
                     .cr {
-                        background: rgb(222,237,252);
-                        background: -moz-linear-gradient(left,  rgba(222,237,252,1) 0%, rgba(118,159,211,1) 100%);
-                        background: -webkit-gradient(linear, left top, right top, color-stop(0%,rgba(222,237,252,1)), color-stop(100%,rgba(118,159,211,1)));
-                        background: -webkit-linear-gradient(left,  rgba(222,237,252,1) 0%,rgba(118,159,211,1) 100%);
-                        background: -o-linear-gradient(left,  rgba(222,237,252,1) 0%,rgba(118,159,211,1) 100%);
-                        background: -ms-linear-gradient(left,  rgba(222,237,252,1) 0%,rgba(118,159,211,1) 100%);
-                        background: linear-gradient(to right,  rgba(222,237,252,1) 0%,rgba(118,159,211,1) 100%);
+                        background: url("../images/needsbg.png") right top no-repeat;
                     }
                 }
                 &.current {
-                    margin-bottom: -10px;
                     .cr {
                         s {
                             border-width: 8px 7.5px 0 7.5px !important;
@@ -444,13 +437,7 @@ body {
                     }
                 }
                 .cr { 
-                    background: rgb(117,159,210);
-                    background: -moz-linear-gradient(left, rgb(117,159,210) 0%, rgb(55,55,75) 100%, rgb(125,185,232) 100%);
-                    background: -webkit-gradient(linear, left top, right top, color-stop(0%,rgb(117,159,210)), color-stop(100%,rgb(55,55,75)), color-stop(100%,rgb(125,185,232)));
-                    background: -webkit-linear-gradient(left, rgb(117,159,210) 0%,rgb(55,55,75) 100%,rgb(125,185,232) 100%);
-                    background: -o-linear-gradient(left, rgb(117,159,210) 0%,rgb(55,55,75) 100%,rgb(125,185,232) 100%);
-                    background: -ms-linear-gradient(left, rgb(117,159,210) 0%,rgb(55,55,75) 100%,rgb(125,185,232) 100%);
-                    background: linear-gradient(to right, rgb(117,159,210) 0%,rgb(55,55,75) 100%,rgb(125,185,232) 100%);
+                    background: url("../images/needsbg.png") right top no-repeat;
                     line-height: 50px;
                     cursor: default;
                     position: relative;
@@ -468,48 +455,28 @@ body {
                         margin-top: 3px;
                         text-align: left;
                         padding-left: 15px;
-                        s {
-                            position: absolute;
-                            left: 170px;
-                            top: 18px;
-                            display: inline-block;
-                            width: 0px;
-                            height: 0px;
-                            border-style: solid;
-                            border-width: 7.5px 0 7.5px 8px;
-                            border-color: transparent transparent transparent #ffffff;
-                        }
                     }
                     .right {
                         float: right;
-                        width: 150px;
-                        margin: 17px 15px 0px 0px;
+                        width: 300px;
+                        margin: 25px 15px 0px 0px;
                         cursor: default;
-                        b {
-                            font-size: 16px;
-                            color: #ffffff;
-                            text-align: center;
-                            display: block;
-                            position: relative;
-                            z-index: 5;
-                            text-align: right;
-                            line-height: 18px;
-                        }
                         strong {
-                            background: #ffffff;
+                            background: url("../images/needsbg.png") right top no-repeat;
+                            background-size: 150px 5px;
                             display: block;
-                            width: 130px;
+                            width: 300px;
                             position: relative;
                             overflow: hidden;
-                            height: 3px;
+                            height: 5px;
                             float: right;
                             span {
                                 position: absolute;
                                 left: 0px;
-                                top: 0px;
-                                height: 100%;
+                                top: 1px;
+                                height: 3px;
                                 display: block;
-                                background: #759fd2;
+                                background: #01a1c9;
                                 transition: all 0.5s ease;
                             }
                         }
@@ -530,9 +497,14 @@ body {
                         display: block;
                         margin: 5px auto;
                         cursor: default;
+                        &:last-child {
+                            em {
+                                display: none;
+                            }
+                        }
                         h5 {
                             position: relative;
-                            padding: 7px 0px;
+                            padding: 10px 0px;
                             width: 100%;
                             &:after {
                                 content: ".";
@@ -541,9 +513,19 @@ body {
                                 clear: both;
                                 visibility: hidden;
                             }
+                            em {
+                                display: block;
+                                position: absolute;
+                                bottom: -5px;
+                                left: 10px;
+                                width: 470px;
+                                height: 0px;
+                                border-top: 1px solid #333333;
+                                border-bottom: 1px solid #666666;
+                            }
                             a {
                                 font-size: 16px;
-                                color: #000000;
+                                color: #ffffff;
                                 text-decoration: none;
                                 float: left;
                                 width: 300px;
@@ -557,6 +539,7 @@ body {
                                     margin: 0px 10px 0px 15px;
                                     position: relative;
                                     width: 20px;
+                                    -webkit-filter: invert(100%);
                                     img {
                                         max-width: 20px;
                                     }
@@ -570,45 +553,36 @@ body {
                                     height: 0px;
                                     border-style: solid;
                                     border-width: 7.5px 0 7.5px 8px ;
-                                    border-color: transparent transparent transparent #000000;
+                                    border-color: transparent transparent transparent #ffffff;
                                 }
                                 &.current {
                                     s {
                                         border-width: 8px 7.5px 0 7.5px !important;
-                                        border-color: #000000 transparent transparent transparent !important;
+                                        border-color: #ffffff transparent transparent transparent !important;
                                         top: 15px !important;
                                     }
                                 }
                             }
                             .right {
-                                float: right;
-                                width: 150px;
-                                margin: 0px 15px 0px 0px;
+                                width: 450px;
+                                position: relative;
+                                left: 20px;
+                                top: 5px;
                                 cursor: default;
-                                b {
-                                    font-size: 16px;
-                                    color: #000000;
-                                    text-align: center;
-                                    display: block;
-                                    position: relative;
-                                    z-index: 5;
-                                    text-align: right;
-                                    line-height: 18px;
-                                }
                                 strong {
-                                    background: #ffffff;
-                                    border: 1px solid #dddddd;
+                                    background: url("../images/needsbg.png") right top no-repeat;
+                                    background-size: 450px 5px;
                                     display: block;
-                                    width: 130px;
+                                    width: 450px;
                                     position: relative;
                                     overflow: hidden;
-                                    height: 3px;
+                                    height: 5px;
                                     float: right;
                                     span {
                                         position: absolute;
                                         left: 0px;
-                                        top: 0px;
-                                        height: 100%;
+                                        top: 1px;
+                                        height: 3px;
                                         display: block;
                                         background: #759fd2;
                                         transition: all 0.5s ease;
