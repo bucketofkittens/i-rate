@@ -1,7 +1,7 @@
 // контролле панели пользователей
-function UsersController($scope, $location) {
+function UsersController($scope, $location, $rootScope) {
 	// определяем показываем ли мы панель или нет
-	$scope.show = false;
+	$scope.show = $location.search().user1 || $location.search().user2 ? true : false;
 
 	// событие показа панели с пользователем
 	$scope.$on('showUserProfile', function(event, message) {

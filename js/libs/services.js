@@ -18,7 +18,21 @@ pgrModule.factory('User', function ($resource) {
             	method: 'GET', 
             	transformResponse: function (data) {
                     if(data) {
+                        // подготавливаем данные 
                         var user = angular.fromJson(data)[0];
+                        user.points = parseInt(user.points);
+
+                        if(user.points == null || isNaN(user.points)) {
+                            user.points = 0;
+                        }
+
+                        /**
+                         * Указваем формат дня рождения
+                         */
+                        if(user.birthday) {
+                            user.birthday = moment(user.birthday).format("DD/MM/YYYY");
+                        }
+
                         return user;    
                     }
             	}
@@ -477,6 +491,13 @@ pgrModule.service('UserService', function (User) {
                 }
             }
         );
+    }
+
+    // получаем данные по указанному пользователю с указанным id
+    this.getById = function(id, callback) {
+        User.query({id: id}, function(data) {
+            callback(data);
+        });
     }
 });
 

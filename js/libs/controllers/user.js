@@ -1,18 +1,51 @@
 /**
  * Контроллер  профиля
  */
-function UserController($scope, $element, $route, $routeParams, User, Needs, Professions, States, $http, NeedsByUser, $rootScope, GoalsByUser, AuthUser, Leagues, $location, $window) {
+function UserController($scope, UserService, $element, $route, $routeParams, User, Needs, Professions, States, $http, NeedsByUser, $rootScope, GoalsByUser, AuthUser, Leagues, $location, $window) {
+    // данные пользователя
     $scope.user = null;
+
+    // под каким route в search будем искать id пользователя
+    $scope.route = '';
+
     $scope.newImage = null;
     $scope.bindIn = "";
     $scope.hidden = false;
 
+    // событие переключчения состояния страницы.
     $scope.$on('$locationChangeSuccess', function () {
-        var userId = $location.search()[$scope.route];
-        console.log(userId);
-        $scope.userId = userId;
-        $scope.getUserInfo();
+        $scope.setCurrentUser();
     });
+
+    // указываем текущего выбранного пользователя
+    $scope.setCurrentUser = function() {
+        // новый id по указанному rpute в ng-init
+        var newId = $location.search()[$scope.route];
+
+        // проверяем а нужно ли вообще менять id
+        if(newId && (!$scope.user || $scope.user.sguid != newId)) {
+            UserService.getById(newId, $scope.userServiceGetByIdCallback_);
+        }
+
+        // если нет id то удаляем данные 
+        if(!newId) {
+            $scope.user = null;
+        }
+    }
+
+    // callback получения данных пользователя
+    $scope.userServiceGetByIdCallback_ = function(data) {
+        $scope.user = data;
+    }
+
+    // инициализация контрллера
+    $scope.init = function(route) {
+        $scope.route = route;
+
+        // забираем данные пользователя
+        $scope.setCurrentUser();
+    }
+    
 
     /**Событие клика на пользователе в сравнении */
     $scope.onUserClick = function(user, $event) {
@@ -72,14 +105,6 @@ function UserController($scope, $element, $route, $routeParams, User, Needs, Pro
         }
     }
 
-    $scope.$watch("userId", function (newVal, oldVal, scope) {
-        $scope.getUserInfo();
-    });
-
-    $scope.$watch("workspace.user.frends", function (newVal, oldVal, scope) {
-        $scope.testFollow();
-    });
-
     $scope.professionFn = function(query) {
         return $.map($scope.professions, function(profession) {
             return profession.name;
@@ -127,59 +152,7 @@ function UserController($scope, $element, $route, $routeParams, User, Needs, Pro
         $location.path("/profile/").search({user: user.sguid});;
     }
 
-    /**
-     * Информация по пользователю
-     * @return {[type]} [description]
-     */
-    $scope.getUserInfo = function() {
-        if(!isNaN(parseInt($scope.userId))) {
-            User.query({id: $scope.userId}, function(data) {
-                $scope.user = data;
-
-                $scope.user.points = parseInt($scope.user.points);
-
-                if($scope.user.points == null) {
-                    $scope.user.points = 0;
-                }
-
-                if(isNaN($scope.user.points)) {
-                    $scope.user.points = 0;
-                }
-
-                if(!$scope.user.avatar) {
-                    $scope.user.avatar = "/images/unknown-person.png";
-                }
-
-                /**
-                 * Указваем формат дня рождения
-                 */
-                if($scope.user.birthday) {
-                    $scope.user.birthday = moment($scope.user.birthday).format("DD/MM/YYYY");
-                }
-                
-                /**
-                 * Забираем список друзей пользователя
-                 */
-                if($scope.user.league) {
-                    User.by_league({league_guid: $scope.user.league.sguid}, {}, function(data) {
-                        $scope.user.league.users = data;
-                    });
-                }
-
-                $rootScope.$broadcast('userControllerGetUser', {
-                    user: $scope.user
-                });
-
-                $rootScope.$broadcast('getSelectedUserData', {
-                    user: $scope.user
-                });
-
-
-
-                $scope.testFollow();
-            });
-        }
-    }
+    
 
     $scope.$on('updateUserControllerId', function($event, message) {
         if(message.id == $scope.id) {
