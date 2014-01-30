@@ -12,9 +12,9 @@
     	ng-repeat="(userKey, userItem) in users" 
     	masonry-item>
       <div class="wr">
-        <img ng-src="{{userItem.avatar}}" width="{{userItem.league.size}}px" height="{{userItem.league.size}}px" />
-        <i>{{userItem.points}}</i>
-        <em></em>
+        <img 
+          ng-src="{{userItem.avatar}}"
+          ng-style="{width: userItem.league.size, height: userItem.league.size}" />
       </div>
     </div>
   </div>
