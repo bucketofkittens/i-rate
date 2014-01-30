@@ -2319,11 +2319,12 @@ input[type="checkbox"] {
 
 .searchResult {
     position: absolute;
-    background: #ffffff;
+    background: url("../images/inbg.png") right top no-repeat;
+    background-size: 330px 520px;
     z-index: 999;
-    right: -95px;
-    top: 31px;
-    width: 370px;
+    right: -80px;
+    top: 30px;
+    width: 327px;
     height: 520px;
     padding-top: 15px;
     padding-bottom: 15px;
@@ -2334,59 +2335,43 @@ input[type="checkbox"] {
         height: 0px; 
     }
     .item {
-        width: 100%;
+        width: 300px;
         overflow: hidden;
-        border-bottom: 1px solid #d6d6d6;
+        border-bottom: 1px solid #333333;
+        border-top: 1px solid #666666;
         position: relative;
+        margin-left: 30px;
         .image {
             float: left;
             margin: 0px 0px 0px 15px;
-            width: 100px;
+            width: 70px;
             position: relative;
             cursor: pointer;
-            i {
-                position: absolute;
-                left: 0;
-                bottom: 0;
-                width: 99%;
-                padding-right: 1%;
-                text-align: center;
-                color: #fff;
-                line-height: 100%;
-                font-size: 120%;
-                font-family: 'Helvetica Neue Light';
-                z-index: 3;
-            }
             img {
                 display: block;
-                width: 100px;
+                width: 70px;
             }
         }
         .text {
             float: left;
-            width: 210px;
+            width: 170px;
             padding: 0px 0px 0px 10px;
-            line-height: 140%;
+            line-height: 25px;
             cursor: pointer;            
             p {
-                font-size: 15px;
-                color: #333333;
+                font-size: 14px;
+                color: #ffffff;
                 &:first-child {
-                    font-size: 17px;
-                    color: #000000;
-                }
-                &.gr {
-                    color: #666666;
+                    font-size: 18px;
                 }
             }
         }
         img.sealin {
             position: absolute;
-            width: 40px;
-            height: 40px;
-            top: 50%;
-            margin-top: -20px;
-            right: 15px;
+            width: 35px;
+            height: 35px;
+            top: 18px;
+            right: 10px;
             cursor: pointer;
         }
     }
