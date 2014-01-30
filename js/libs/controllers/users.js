@@ -31,11 +31,15 @@ function UsersController($scope, $location, $rootScope, $timeout) {
 
     // событие загрузки цифр для колбас для needs
     $scope.$on('criteriaUserValueLoaded', function (event, message) {
-        if(!$scope.criteriumsValues[message.route]) {
-            $scope.criteriumsValues[message.route] = {};
+        if(!$scope.criteriumsValues[message.fCriteria.sguid]) {
+            $scope.criteriumsValues[message.fCriteria.sguid] = {};
         }
-        $scope.criteriumsValues[message.route][message.fCriteria.sguid] = message.fCriteria;
-        console.log($scope.criteriumsValues);
+
+        var fCriteriumValue = message.fCriteria.criteria_values.filter(function(value) {
+            return value.sguid == message.fCriteria.user_criteria_sguid;
+        })[0];
+
+        $scope.criteriumsValues[message.fCriteria.sguid][message.route] = fCriteriumValue.value;
     });
 
 	// событие показа панели с пользователем

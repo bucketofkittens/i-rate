@@ -165,59 +165,26 @@ pgrModule.directive('criteriumComparator', function($rootScope) {
         CENTER: 'same'
       };
 
-      
-      /*
-
-      attrs.$observe('criteriums', function(data) {
-        scope.criteriumsCurrentValues = JSON.parse(data);
-        if(scope.currentValues && scope.criteriumsCurrentValues) {
-          scope.isCompare();
+      attrs.$observe('criterium', function(data) {
+        if(data && data.length > 0 && scope.route == lastUser) {
+          var values = JSON.parse(data);
+          if(values[lastUser] && values[firstUser]) {
+            scope.isCompare(values[lastUser], values[firstUser]);  
+          }  
         }
-        //console.log(scope.crItem);
-        //if(scope.criteriumsCurrentValues && scope.goalItem.current_value)
-        //  scope.isCompare();
       });
 
-      scope.getValueById = function(id, values) {
-        var item = null;
-        angular.forEach(values, function(value, key){
-          if(value.sguid == id) {
-            item = value
-          }
-        });
-
-        return item;
-      }
-
-      $rootScope.$on('closeUserPanel', function (event, message) {
-        element.removeClass(classes.DOWN);
-        element.removeClass(classes.UP);
-        element.removeClass(classes.CENTER);
-      });
-
-      /*scope.$watch("goalItem.current_value", function (newVal, oldVal, scope) {
-        if(scope.goalsCurrentValues && newVal)
-          scope.isCompare();
-      });
-
-      // функция сравнения
-      scope.isCompare = function() {
-        var fCriterium = scope.criteriumsCurrentValues[firstUser][scope.crItem.sguid];
-        var fCriteriumValue = fCriterium.criteria_values.filter(function(value) {
-            return value.sguid == fCriterium.user_criteria_sguid;
-        })[0];
-
-        if(scope.goalsCurrentValues[firstUser][scope.goalItem.sguid] > scope.goalItem.current_value) {
+      scope.isCompare = function(first, last) {
+        if(first < last) {
           element.addClass(classes.DOWN);
         }
-        if(scope.goalsCurrentValues[firstUser][scope.goalItem.sguid] < scope.goalItem.current_value) {
+        if(first > last) {
           element.addClass(classes.UP);
         }
-        if(scope.goalsCurrentValues[firstUser][scope.goalItem.sguid] == scope.goalItem.current_value) {
+        if(first == last) {
           element.addClass(classes.CENTER);
-        }
+        }  
       }
-      */
     }
   }
 })
