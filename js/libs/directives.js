@@ -140,6 +140,7 @@ pgrModule.directive('masonry', function(User, $rootScope) {
       /** открываем всплывающее окно пользователя **/
       $scope.openUserInfo = function(userItem, $event) {
         $rootScope.$broadcast('hideRightPanel');
+        $rootScope.$broadcast('closeAllGoals');
         $rootScope.$broadcast('showUserProfile', { user: userItem });
       }
       

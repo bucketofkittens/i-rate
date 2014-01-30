@@ -244,6 +244,10 @@ function NeedsAndGoalsController($scope, Goals, Criterion, AuthUser, UserCriteri
         }
     });
 
+    $scope.$on('closeAllGoals', function($event, message) {
+        $scope.closeAllGoals($scope.needs);
+    });
+
     /**
      * 
      * @param  {[type]} goalId [description]

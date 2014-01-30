@@ -13,11 +13,12 @@
 		<div ng-include src="'partials/header.html'"></div>
 
 		<!-- Контент -->
-		<div id="content" class="my-slide-container">
-			<div class="content_wrap" ng-view></div>
+	    <div id="content" class="my-slide-container">
+	        <div class="content_wrap" ng-view></div>
 
-			<div ng-include ng-if="!workspace.user" src="'partials/signin.html'"></div>
-		</div>
+	        <div class="full_height" ng-controller="UsersController" ng-include src="'partials/users.html'"></div>
+	        <div class="full_height" ng-controller="RightController" ng-include ng-if="!workspace.user" src="'partials/right.html'"></div>
+	    </div>
 
 		<script type="text/javascript" src="http://www.google.com/recaptcha/api/js/recaptcha_ajax.js"></script>
 		
