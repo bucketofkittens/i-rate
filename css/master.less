@@ -2379,7 +2379,7 @@ input[type="checkbox"] {
             width: 35px;
             height: 35px;
             top: 18px;
-            right: 10px;
+            right: 15px;
             cursor: pointer;
         }
     }
@@ -3706,6 +3706,8 @@ table#graphs {
         .user {
             width: 500px;
             float: right;
+            position: relative;
+            z-index: 10;
             &:first-child {
                 float: left;
             }
@@ -3729,22 +3731,19 @@ table#graphs {
 .compare {
     position: absolute;
     z-index: 10;
-    left: 0px;
-    top: 0px;
-    display: block;
+    left: -40px;
+    top: 3px;
+    width: 35px;
+    height: 48px;
+    background-size: 100%;
     &.up {
-        width: 50px;
-        height: 70px;
-        background: url("../images/sub.png") left top no-repeat;
+        background-image: url("../images/sub.png");
     }
     &.down {
-        width: 50px;
-        height: 70px;
-        background: url("../images/sup.png") left top no-repeat;
+        background-image: url("../images/sup.png");
+        left: -28px;
     }
     &.same {
-        width: 50px;
-        height: 70px;
-        background: url("../images/sss.png") left top no-repeat;
+        background-image: url("../images/sss.png");
     }
 }
