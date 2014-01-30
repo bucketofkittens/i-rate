@@ -42,12 +42,31 @@ function UsersController($scope, $location, $rootScope, $timeout) {
         $scope.criteriumsValues[message.fCriteria.sguid][message.route] = fCriteriumValue.value;
     });
 
+    // событие закрытия панели с пользователем
+    $scope.$on('closeUserPanel', function (event, message) {
+        $scope.needsValues = $scope.clearRoute($scope.needsValues, message.route);
+        $scope.goalsValues = $scope.clearRoute($scope.goalsValues, message.route);
+        $scope.criteriumsValues = $scope.clearRoute($scope.criteriumsValues, message.route);
+    });
+
+    // строим массив значений
     $scope.calculateValue = function(data, beginData, route) {
         angular.forEach(data, function(value, key){
             if(!beginData[key]) {
                 beginData[key] = {};
             }
             beginData[key][route] = value;
+        });
+
+        return beginData;
+    }
+
+    // удаляем из массива значений значения для указанного роутинга
+    $scope.clearRoute = function(beginData, route) {
+        angular.forEach(beginData, function(value, key){
+            if(value[route]) {
+                delete value[route];
+            }
         });
 
         return beginData;

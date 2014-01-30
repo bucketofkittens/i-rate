@@ -52,41 +52,44 @@ pgrModule.directive('backImg', function() {
   }
 })
 
-//
+// сравнение пользователей
 pgrModule.directive('comparator', function() {
   return {
     scope: {
     },
     link: function(scope, element, attrs) {
-      var lastUser = 'user2';
-      var firstUser = 'user1';
+      // название роутингов пользователей
+      var usersName = {
+        USER1: "user1",
+        USER2: "user2"
+      }
+
+      // название подставляемых классов
       var classes = {
         DOWN: 'down',
         UP: 'up',
         CENTER: 'same'
       };
 
+      // событие изменения значений
       attrs.$observe('values', function(data) {
-        if(data && data.length > 0 && attrs.route == lastUser) {
+        if(data && data.length > 0 && attrs.route == usersName.USER2) {
           var values = JSON.parse(data);
-          if(values[lastUser] && values[firstUser]) {
-            var first = values[firstUser];
-            var last = values[lastUser];
-
-            element.removeClass(classes.DOWN);
-            element.removeClass(classes.UP);
-            element.removeClass(classes.CENTER);
-
-            if(first > last) {
+          if(values[usersName.USER1] && values[usersName.USER2]) {
+            if(values[usersName.USER1] > values[usersName.USER2]) {
               element.addClass(classes.DOWN);
             }
-            if(first < last) {
+            if(values[usersName.USER1] < values[usersName.USER2]) {
               element.addClass(classes.UP);
             }
-            if(first == last) {
+            if(values[usersName.USER1] == values[usersName.USER2]) {
               element.addClass(classes.CENTER);
             }
-          }  
+          } else {
+            element.removeClass(classes.DOWN).removeClass(classes.UP).removeClass(classes.CENTER);
+          }
+        } else {
+          element.removeClass(classes.DOWN).removeClass(classes.UP).removeClass(classes.CENTER);
         }
       });
     }
