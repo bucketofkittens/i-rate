@@ -164,6 +164,8 @@ pgrModule.directive('criteriumComparator', function($rootScope) {
         UP: 'up',
         CENTER: 'same'
       };
+
+      
       /*
 
       attrs.$observe('criteriums', function(data) {
