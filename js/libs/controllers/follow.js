@@ -1,13 +1,15 @@
 /**
- * Контроллер панели друзей
- * @param {object} $scope       
- * @param {object} $rootScope   
- * @param {object} User         
- * @param {object} $location   
- * @param {object} $routeParams 
- * @param {object} AuthUser     
+ * Контроллер панели друзей  
  */
-function FollowController($scope, $rootScope, User, $location, $routeParams, AuthUser) {
+function FollowController($scope, $rootScope) {
+
+    // открываем планшку с пользователем
+    $scope.openUser = function(userItem) {
+        $rootScope.$broadcast('hideRightPanel');
+        $rootScope.$broadcast('closeAllGoals');
+        $rootScope.$broadcast('showUserProfile', { user: userItem });
+    }
+    /*
     $scope.compareState = 1;
     
     $scope.onCompare = function(user) {
@@ -71,61 +73,5 @@ function FollowController($scope, $rootScope, User, $location, $routeParams, Aut
             $rootScope.$broadcast('loaderShow');    
         }
     };
-
-    /**
-     * Получаем список друзей. Или временный или же из массива пользователя.
-     */
-    $scope.setAuthUserData = function() {
-        if($scope.workspace.user && $scope.workspace.user.sguid) {
-            $scope.frends = $scope.workspace.user.frends;
-        } else {
-            $scope.frends = $scope.tmpFollows;
-        }
-    }
-
-    $scope.$on('login', function() {
-        $scope.setAuthUserData();
-    });
-
-    $scope.$on('authUserGetData', function() {
-        $scope.setAuthUserData();
-    });
-
-    $scope.$on('frendLoad', function() {
-        $scope.setAuthUserData();
-    });
-
-    $scope.$on('getTmpFollowsCallback_', function() {
-        $scope.frends = $scope.tmpFollows;
-    });
-
-    $scope.onUnfollow = function(user) {
-        $rootScope.$broadcast('unfollow', {userId: AuthUser.get(), frendId: user.sguid});
-    }
-
-    $scope.onCompareToMain = function(user) {
-        if($scope.rootUser.sguid) {
-            $location.path("/profile/"+$scope.rootUser.sguid+"/"+user.sguid);
-        } else {
-            $location.path("/profile/").search({user: user.sguid});
-        }
-    }
-
-    $scope.onMoveToUser = function() {
-
-        if($scope.workspace.user && $scope.workspace.user.sguid) {
-            $location.path("/compare").search({user1: $scope.workspace.user.sguid, user2: $scope.workspace.user.frends[0].user.sguid});
-        } else {
-            if($scope.tmpFollows.length > 1) {
-                $location.path("/compare").search({user1: $scope.tmpFollows[0].user.sguid, user2: $scope.tmpFollows[1].user.sguid});
-            } else {
-                $location.path("/compare").search({user1: $scope.tmpFollows[0].user.sguid, user2: $scope.tmpFollows[0].user.sguid});
-            }
-        }
-    }
-
-    /**
-     * Забираем информацию о пользователю
-     */
-    $scope.setAuthUserData();
+    */
 }

@@ -16,13 +16,13 @@ function UsersController($scope, $location, $rootScope, $timeout) {
 		$scope.show = true;
 
 		// указываем переданного пользователя
-		if($location.search().user1 && !$location.search().user2) {
+		if($location.search().user1 && !$location.search().user2 && $location.search().user1 != message.user.sguid) {
         	$location.search({user1: $location.search().user1, user2: message.user.sguid});
 		}
 		if(!$location.search().user1 && !$location.search().user2) {
         	$location.search({user1: message.user.sguid});
 		}
-		if(!$location.search().user1 && $location.search().user2) {
+		if(!$location.search().user1 && $location.search().user2 && $location.search().user2 != message.user.sguid) {
         	$location.search({user1: message.user.sguid, user2: $location.search().user2});
 		}
     });

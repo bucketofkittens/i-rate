@@ -1,15 +1,11 @@
 <section ng-controller="FollowController" >
 	<div id="follow_tab">
-		<img class="fuck" src="/images/f.png" alt="" />
+		<span class="icon star"></span>
 		<ul>
 			<li 
-				ng-class="{show: userItem.user.show}" 
-				ng-mouseleave="onMouseLeaveUser(userItem.user)" 
-				ng-click="onMouseEnterUser(userItem.user)" 
-				ng-mouseenter="onMouseEnterUser(userItem.user)" 
+				ng-click="openUser(userItem.user)" 
 				ng-repeat="userItem in workspace.friends">
 				<img 
-					ng-click="onCompare(userItem.user)" 
 					ng-src="{{userItem.user.avatar}}" 
 					alt="" 
 					err-src="/images/unknown-person.png" />
