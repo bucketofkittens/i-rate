@@ -153,9 +153,10 @@ pgrModule.directive('goalComparator', function($rootScope) {
 })
 
 //
-pgrModule.directive('criteriumComparator', function($rootScope) {
+pgrModule.directive('criteriumComparator', function() {
   return {
-    scope: true,
+    scope: {
+    },
     link: function(scope, element, attrs) {
       var lastUser = 'user2';
       var firstUser = 'user1';
@@ -166,25 +167,24 @@ pgrModule.directive('criteriumComparator', function($rootScope) {
       };
 
       attrs.$observe('criterium', function(data) {
-        if(data && data.length > 0 && scope.route == lastUser) {
+        if(data && data.length > 0 && attrs.route == lastUser) {
           var values = JSON.parse(data);
           if(values[lastUser] && values[firstUser]) {
-            scope.isCompare(values[lastUser], values[firstUser]);  
+            var first = values[firstUser];
+            var last = values[lastUser];
+
+            if(first < last) {
+              element.addClass(classes.DOWN);
+            }
+            if(first > last) {
+              element.addClass(classes.UP);
+            }
+            if(first == last) {
+              element.addClass(classes.CENTER);
+            }
           }  
         }
       });
-
-      scope.isCompare = function(first, last) {
-        if(first < last) {
-          element.addClass(classes.DOWN);
-        }
-        if(first > last) {
-          element.addClass(classes.UP);
-        }
-        if(first == last) {
-          element.addClass(classes.CENTER);
-        }  
-      }
     }
   }
 })

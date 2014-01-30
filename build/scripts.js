@@ -3007,7 +3007,142 @@ pgrModule.directive('backImg', function() {
   }
 })
 
+// директива сравнения need для пользователей
+pgrModule.directive('needComparator', function($rootScope) {
+  return {
+    scope: true,
+    link: function(scope, element, attrs) {
+      var lastUser = 'user2';
+      var firstUser = 'user1';
+      var classes = {
+        DOWN: 'down',
+        UP: 'up',
+        CENTER: 'same'
+      };
 
+      attrs.$observe('needs', function(data) {
+        scope.needsCurrentValues = JSON.parse(data);
+
+        if(scope.needsCurrentValues && scope.needItem.current_value && scope.route == lastUser)
+          scope.isCompare();
+      });
+
+      $rootScope.$on('closeUserPanel', function (event, message) {
+        element.removeClass(classes.DOWN);
+        element.removeClass(classes.UP);
+        element.removeClass(classes.CENTER);
+      });
+
+      scope.$watch("needItem.current_value", function (newVal, oldVal, scope) {
+        if(scope.needsCurrentValues && newVal && scope.route == lastUser)
+          scope.isCompare();
+      });
+
+      // функция сравнения
+      scope.isCompare = function() {
+        if(scope.needsCurrentValues[firstUser] && scope.needsCurrentValues[firstUser][scope.needItem.sguid]) {
+          if(scope.needsCurrentValues[firstUser][scope.needItem.sguid] > scope.needItem.current_value) {
+            element.addClass(classes.DOWN);
+          }
+          if(scope.needsCurrentValues[firstUser][scope.needItem.sguid] < scope.needItem.current_value) {
+            element.addClass(classes.UP);
+          }
+          if(scope.needsCurrentValues[firstUser][scope.needItem.sguid] == scope.needItem.current_value) {
+            element.addClass(classes.CENTER);
+          }
+        }
+      }
+    }
+  }
+})
+
+//
+pgrModule.directive('goalComparator', function($rootScope) {
+  return {
+    scope: true,
+    link: function(scope, element, attrs) {
+      var lastUser = 'user2';
+      var firstUser = 'user1';
+      var classes = {
+        DOWN: 'down',
+        UP: 'up',
+        CENTER: 'same'
+      };
+
+      attrs.$observe('goals', function(data) {
+        scope.goalsCurrentValues = JSON.parse(data);
+
+        if(scope.goalsCurrentValues && scope.goalItem.current_value && scope.route == lastUser)
+          scope.isCompare();
+      });
+
+      $rootScope.$on('closeUserPanel', function (event, message) {
+        element.removeClass(classes.DOWN);
+        element.removeClass(classes.UP);
+        element.removeClass(classes.CENTER);
+      });
+
+      scope.$watch("goalItem.current_value", function (newVal, oldVal, scope) {
+        if(scope.goalsCurrentValues && newVal && scope.route == lastUser)
+          scope.isCompare();
+      });
+
+      // функция сравнения
+      scope.isCompare = function() {
+        if(scope.goalsCurrentValues[firstUser] && scope.goalsCurrentValues[firstUser][scope.goalItem.sguid]) {
+          if(scope.goalsCurrentValues[firstUser][scope.goalItem.sguid] > scope.goalItem.current_value) {
+            element.addClass(classes.DOWN);
+          }
+          if(scope.goalsCurrentValues[firstUser][scope.goalItem.sguid] < scope.goalItem.current_value) {
+            element.addClass(classes.UP);
+          }
+          if(scope.goalsCurrentValues[firstUser][scope.goalItem.sguid] == scope.goalItem.current_value) {
+            element.addClass(classes.CENTER);
+          }
+        } else {
+          element.addClass(classes.CENTER);
+        }
+      }
+    }
+  }
+})
+
+//
+pgrModule.directive('criteriumComparator', function($rootScope) {
+  return {
+    scope: true,
+    link: function(scope, element, attrs) {
+      var lastUser = 'user2';
+      var firstUser = 'user1';
+      var classes = {
+        DOWN: 'down',
+        UP: 'up',
+        CENTER: 'same'
+      };
+
+      attrs.$observe('criterium', function(data) {
+        if(data && data.length > 0 && scope.route == lastUser) {
+          var values = JSON.parse(data);
+          if(values[lastUser] && values[firstUser]) {
+            scope.isCompare(values[lastUser], values[firstUser]);  
+          }  
+        }
+      });
+
+      scope.isCompare = function(first, last) {
+        if(first < last) {
+          element.addClass(classes.DOWN);
+        }
+        if(first > last) {
+          element.addClass(classes.UP);
+        }
+        if(first == last) {
+          element.addClass(classes.CENTER);
+        }  
+      }
+    }
+  }
+})
 
 pgrModule.directive('scroller', function($window) {
   return {
@@ -4112,6 +4247,13 @@ pgrModule.service('UserService', function (User) {
             callback(data);
         });
     }
+
+    // заюираем значения для колбас
+    this.getGoalsPointsById = function(id, callback) {
+        User.goals_points({id: id}, {}, function(goalsData) {
+            callback(goalsData);
+        });
+    }
 });
 
 /**
@@ -4163,6 +4305,12 @@ pgrModule.service('СareerService', function (Needs) {
     // id карьеры
     this.moneyId = '170689401829983233';
 
+    // название need карьеры
+    this.needItemName = 'Career';
+
+    // название goal money
+    this.moneyItemName = 'Money';
+
     // забираем пользователя из кеша
     this.getList = function(needs, callback) {
         var career = lscache.get(this.cacheName);
@@ -4191,9 +4339,39 @@ pgrModule.service('СareerService', function (Needs) {
         this.persist(careerList);
         callback(careerList);
     }
+
     // сохранение
     this.persist = function(data) {
         lscache.set(this.cacheName, JSON.stringify(data), this.cacheTime);
+    }
+
+    // считаем баллы карьеры по формуле
+    this.calculate = function(needItem) {
+        var max = 0;
+        var carreerMax = {};
+        var moneyPoints = 0;
+
+        angular.forEach(needItem.goals, function(goal) {
+            if (goal.current_value > max && goal.name != this.moneyItemName) {
+              max = goal.current_value;
+              carreerMax = {goal: goal.sguid, points: goal.current_value};
+            }
+            if(goal.name == this.moneyItemName) {
+              moneyPoints = goal.current_value;
+            }
+        });
+
+        return parseInt(carreerMax.points + moneyPoints);
+        needsData[needItem.sguid] = parseInt(carreerMax.points + moneyPoints);
+    }
+
+    // проверяет является ли указанный need карьерой или нет
+    this.isCareer = function(needItem) {
+        if(needItem.name == this.needItemName) {
+            return true;
+        } else {
+            return false;
+        }
     }
 });
 
@@ -4434,7 +4612,8 @@ $templateCache.put('partials/compare.html', "<div class=\"comp\" ng-include src=
 $templateCache.put('partials/follow.html', "<section ng-controller=\"FollowController\" >\n\t<div id=\"follow_tab\">\n\t\t<span class=\"icon star\"></span>\n\t\t<ul>\n\t\t\t<li \n\t\t\t\tng-click=\"openUser(userItem.user)\" \n\t\t\t\tng-repeat=\"userItem in workspace.friends\">\n\t\t\t\t<img \n\t\t\t\t\tng-src=\"{{userItem.user.avatar}}\" \n\t\t\t\t\talt=\"\" \n\t\t\t\t\terr-src=\"/images/unknown-person.png\" />\n\t\t\t</li>\n\t\t</ul>\n\t\t<a ng-click=\"onMoveToUser()\"></a>\n\t</div>\n</section>");
 $templateCache.put('partials/footer.html', "\n<!-- Футер -->\n<footer>\n\t<div id=\"footer\">\n\t\t<div class=\"sexual\" ng-include src=\"'partials/share.html'\"></div>\n\t\t\n\t\t<div ng-if=\"controller != '_compare'\">\n\t\t\t<div \n\t\t\t\tclass=\"lnbl\" \n\t\t\t\tng-include\n\t\t\t\tsrc=\"'partials/follow.html'\"  >\n\t\t\t</div>\t\n\t\t</div>\t\n\t</div>\n</footer>\n\n<section ng-include src=\"'partials/loader.html'\"></section>\n\n<div id=\"fb-root\"></div>\n\n<!-- Тенюшка -->\n<section ng-controller=\"ShadowCtrl\">\n\t<div id=\"shadow\" ng-class=\"{show: show}\" ng-click=\"onHideModal()\"></div>\n</section>\n\n<section ng-controller=\"ModalController\" id=\"modal\">\n\t<div ng-class=\"{show: show}\" class=\"body {{template}}\" ng-if=\"template\">\n\t\t<section ng-include src=\"'partials/'+template+'.html'\"></section>\n\t</div>\n</section>");
 $templateCache.put('partials/gallery.html', "<div class=\"galblo\">\n\t<div class=\"galblos isotope item\"\n\t\tng-repeat=\"userItem in users\"\n\t\tng-click=\"onUserPage(userItem)\">\n\t\t<div class=\"image\">\n\t\t\t<img ng-src=\"{{userItem.avatar}}\" alt=\"\" err-src=\"/images/unknown-person.png\" />\n\t\t\t<i>{{userItem.points}}</i>\n\t\t</div>\n\t\t<div class=\"text\">\n\t\t\t<p class=\"name\">{{userItem.name}}</p>\n\t\t\t<p class=\"birthday\">{{userItem.birthday}}</p>\n\t\t\t<p class=\"birthday gr\">{{userItem.state.name}}</p>\n\t\t\t<p class=\"profession gr\">{{userItem.profession.name}}</p>\n\t\t</div>\n\t\t<img class=\"sealin\" src=\"./images/i1l.png\" alt=\"\">\n\t\t<b></b>\n\t</div>\n</div>\n\n<sub ng-if=\"swipe > 0\" ng-click=\"onSwipeLeft()\"><img src=\"../images/left.png\"></sub>\n<sup ng-if=\"users.length > limit && swipe < swipeMax - 1\" ng-click=\"onSwipeRight()\"><img src=\"../images/right.png\"></sup>");
-$templateCache.put('partials/header.html', "<header>\n\t<div id=\"header\">\n\t\t<!-- Логотип -->\n\t\t<a href=\"#/\" class=\"logo\">\n\t\t\t<span class=\"logo icon\"></span>\n\t\t</a>\n\t\t<a href=\"http://improva.com\" class=\"imp\"></a>\n\n\t\t<div class=\"lnbl\" ng-include src=\"'partials/follow.html'\" ></div>\n\n\t\t<!-- Аватар -->\n\t\t<section id=\"avatar\" ng-cloak>\n\t\t    <p ng-if=\"!workspace.user\">\n\t\t        <img ng-click=\"onLogin()\" ng-src=\"/images/anon.png\" alt=\"\" />\n\t\t    </p>\n\t\t    <p ng-if=\"workspace.user\">\n\t\t        <img \n\t\t        \tng-click=\"onOpenProfileAuthUser()\" \n\t\t        \terr-src=\"/images/unknown-person.png\" \n\t\t        \tng-src=\"{{workspace.user.avatar}}\" \n\t\t        \tclass=\"current\" \n\t\t        \talt=\"{{workspace.user.name}}\" />\n\t\t    </p>\n\t\t</section>\n\n\t\t<!-- Поиск -->\n\t\t<div id=\"search\" ng-controller=\"SearchController\" ng-init=\"limit=5\">\n\t\t\t<input \n\t\t\t\ttype=\"text\" \n\t\t\t\tng-model=\"searchText\" \n\t\t\t\tplaceholder=\"Search people\" \n\t\t\t\tclass=\"search\"\n\t\t\t\tng-change=\"onSearch()\" />\n\t\t\t<input type=\"submit\" class=\"searcher\" ng-click=\"onAdvanceSearch()\" />\n\t\t\t<div ng-cloak class=\"searchResult\" ng-if=\"resultSearch.length > 0\">\n\t\t\t\t<div class=\"item\" ng-repeat=\"(userKey, userItem) in resultSearch | limitTo: limit\">\n\t\t\t\t\t<div class=\"image\" ng-click=\"onCompare(userItem)\">\n\t\t\t\t\t\t<img ng-src=\"{{userItem.avatar}}\" err-src=\"/images/unknown-person.png\" alt=\"\" />\n\t\t\t\t\t\t<i>{{userItem.points}}</i>\n\t\t\t\t\t</div>\n\t\t\t\t\t<div class=\"text\" ng-click=\"onCompare(userItem)\">\n\t\t\t\t\t\t<p class=\"name\">{{userItem.name}}</p>\n\t\t\t\t\t\t<p class=\"birthday\">{{userItem.birthday}}</p>\n\t\t\t\t\t\t<p class=\"birthday gr\">{{userItem.state.name}}</p>\n\t\t\t\t\t\t<p class=\"profession gr\">{{userItem.profession.name}}</p>\n\t\t\t\t\t\t<p class=\"league\">{{userItem.league.name}} league</p>\n\t\t\t\t\t</div>\n\t\t\t\t\t<img class=\"sealin\" src=\"./images/i1l.png\" alt=\"\" ng-click=\"onCompare(userItem)\">\n\t\t\t\t</div>\n\t\t\t\t<div class=\"all\" ng-if=\"resultSearch.length > limit\">\n\t\t\t\t\t<a ng-click=\"onAdvanceSearch()\">See all results</a>\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t</div>\n\n\t\t<!-- GRAPHS -->\n\t\t<a class=\"link\" ng-if=\"workspace.user\" ng-cloak ng-click=\"showModal('nsi')\">NSI</a>\n\t\t<a class=\"link\" ng-if=\"workspace.user\" ng-cloak href=\"#/graphs\">GRAPH</a>\n\t</div>\n</header>");
+$templateCache.put('partials/header.html', "<header>\n\t<div id=\"header\">\n\t\t<!-- Логотип -->\n\t\t<a href=\"#/\" class=\"logo\">\n\t\t\t<span class=\"logo icon\"></span>\n\t\t</a>\n\t\t<a href=\"http://improva.com\" class=\"imp\"></a>\n\n\t\t<div class=\"lnbl\" ng-include src=\"'partials/follow.html'\" ></div>\n\n\t\t<!-- Аватар -->\n\t\t<section id=\"avatar\" ng-cloak>\n\t\t    <p ng-if=\"!workspace.user\">\n\t\t        <img ng-click=\"onLogin()\" ng-src=\"/images/anon.png\" alt=\"\" />\n\t\t    </p>\n\t\t    <p ng-if=\"workspace.user\">\n\t\t        <img \n\t\t        \tng-click=\"onOpenProfileAuthUser()\" \n\t\t        \terr-src=\"/images/unknown-person.png\" \n\t\t        \tng-src=\"{{workspace.user.avatar}}\" \n\t\t        \tclass=\"current\" \n\t\t        \talt=\"{{workspace.user.name}}\" />\n\t\t    </p>\n\t\t</section>\n\n\t\t<!-- Поиск -->\n\t\t<div id=\"search\" ng-controller=\"SearchController\" ng-init=\"limit=5\">\n\t\t\t<input \n\t\t\t\ttype=\"text\" \n\t\t\t\tng-model=\"searchText\" \n\t\t\t\tplaceholder=\"Search people\" \n\t\t\t\tclass=\"search\"\n\t\t\t\tng-change=\"onSearch()\" />\n\t\t\t<input type=\"submit\" class=\"searcher\" ng-click=\"onAdvanceSearch()\" />\n\t\t\t<div ng-cloak class=\"searchResult\" ng-if=\"resultSearch.length > 0\">\n\t\t\t\t<div class=\"item\" ng-repeat=\"(userKey, userItem) in resultSearch | limitTo: limit\">\n\t\t\t\t\t<div class=\"image\" ng-click=\"onCompare(userItem)\">\n\t\t\t\t\t\t<img ng-src=\"{{userItem.avatar}}\" err-src=\"/images/unknown-person.png\" alt=\"\" />\n\t\t\t\t\t</div>\n\t\t\t\t\t<div class=\"text\" ng-click=\"onCompare(userItem)\">\n\t\t\t\t\t\t<p class=\"name\">{{userItem.name}}</p>\n\t\t\t\t\t\t<p class=\"league\">{{userItem.league.name}} league</p>\n\t\t\t\t\t\t<p>{{user.points}}</p>\n\t\t\t\t\t</div>\n\t\t\t\t\t<img class=\"sealin\" src=\"./images/i1l.png\" alt=\"\" ng-click=\"onCompare(userItem)\">\n\t\t\t\t</div>\n\t\t\t\t<div class=\"all\" ng-if=\"resultSearch.length > limit\">\n\t\t\t\t\t<a ng-click=\"onAdvanceSearch()\">See all the results</a>\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t</div>\n\n\t\t<!-- GRAPHS -->\n\t\t<a class=\"link\" ng-if=\"workspace.user\" ng-cloak ng-click=\"showModal('nsi')\">NSI</a>\n\t\t<a class=\"link\" ng-if=\"workspace.user\" ng-cloak href=\"#/graphs\">GRAPH</a>\n\t</div>\n</header>");
+$templateCache.put('partials/improva.html', "<h4 class=\"imprin\">Sign in with</h4>\n<h5><img src=\"../images/improva.png\"> improva</h5>\n<b ng-click=\"changeState(states.SIGNIN)\"></b>\n<div class=\"sign-in imprin\">\n  <ng-form \n    id=\"login_form\" \n    name=\"LoginForm\" \n    novalidate \n    class=\"css-form myForm\" >\n    <p>\n      <input \n        type=\"email\" \n        id=\"login_i\" \n        class=\"form-input\"\n        ng-model=\"login.email\"\n        name=\"Email\"\n        required \n        ng-minlength=\"6\"\n        placeholder=\"Email\"\n        ui-keypress=\"{13:'onKeyPress($event)'}\" />\n      <br />\n      <span \n      \tclass=\"errorss\" \n      \tng-show=\"LoginForm.Email.$dirty && (LoginForm.Email.$error.required || LoginForm.Email.$error.minlength || LoginForm.Email.$error.email)\">Incorrect email\n      </span>\n    </p>       \n    <p>\n      <input \n        type=\"password\" \n        id=\"pass_i\"\n        class=\"form-input\"\n        ng-model=\"login.password\"\n        required \n        name=\"Password\"\n        ng-minlength=\"6\"\n        placeholder=\"Password\"\n        ui-keypress=\"{13:'onKeyPress($event)'}\"\n        ng-trim=\"false\" /> \n      <br />\n      <span \n      \tclass=\"errorss rss\" \n      \tng-show=\"LoginForm.Password.$dirty && (LoginForm.Password.$error.required || LoginForm.Password.$error.minlength)\">Incorrect password\n      </span>\n    </p>\n    <div class=\"step\">\n      <p class=\"errors\" ng-show=\"error\">{{error}}</p>\n      <p class=\"singin-sub\">\n        <input \n          ng-disabled=\"LoginForm.$invalid\"\n          ng-click=\"onSingin()\" \n          type=\"button\" \n          value=\"Sign in\" />\n      </p>    \n    </div>\n  </ng-form>\n</div>");
 $templateCache.put('partials/leagues.html', "<section class=\"leaglist\">\n\t<a ng-click=\"onLeagUser(item)\" ng-class=\"{curleag:item.curleag}\" ng-repeat=\"(key, item) in leagues\">\n\t\t<img ng-if=\"key == 0\" src=\"/images/I.png\" />\n\t\t<img ng-if=\"key == 1\" src=\"/images/II.png\" />\n\t\t<img ng-if=\"key == 2\" src=\"/images/III.png\" />\n\t\t<img ng-if=\"key == 3\" src=\"/images/IV.png\" />\n\t\t<img ng-if=\"key == 4\" src=\"/images/V.png\" />\n\t\t<img ng-if=\"key == 5\" src=\"/images/VI.png\" />\n\t\t<img ng-if=\"key == 6\" src=\"/images/VII.png\" />\n\t\t<img ng-if=\"key == 7\" src=\"/images/VIII.png\" />\n\t\t<img ng-if=\"key == 8\" src=\"/images/IX.png\" />\n\t\t<img ng-if=\"key == 9\" src=\"/images/X.png\" />\n\t</a>\n</section>");
 $templateCache.put('partials/loader.html', "<div id=\"modal-shadow\" ng-controller=\"LoaderController\">\n\t<span id=\"loader\"></span>\n</div>");
 $templateCache.put('partials/main_user_item.html', "<div\n\tng-click=\"onUserClick(userItem, $event)\"\n\tng-class=\"{big: userItem.big}\"\n\tclass=\"item l_{userItem.league.name}\"\n\tng-repeat=\"(userKey, userItem) in users\"\n\tng-style=\"{width: userItem.size, height: userItem.size}\"\n\tmasonry-item>\n\t<div \t\n\t\tclass=\"wr\" \n\t\tng-style=\"{width: userItem.size, height: userItem.size}\" \n\t\tback-img=\"{{userItem.avatar}}\" \n\t\tng-class=\"{big: userItem.big}\"\n\t\tng-click=\"switchState(userItem)\"\n\t\tset-width >\n\t\t<i>{{userItem.points}}</i>\n\t\t<div class=\"sub\">\n\t\t\t<b>{{userItem.name}} <br /><s>{{userItem.league.name}} league</s></b>\n\t\t\t<ul>\n\t\t\t\t<li>\n\t\t\t\t\t<a ng-click=\"onMoveToProfile(userItem)\">\n\t\t\t\t\t\t<span class=\"icon profile navigate\"></span>\n\t\t\t\t\t</a>\n\t\t\t\t</li>\n\t\t\t\t<li>\n\t\t\t\t\t<a ng-click=\"onMoveToCompare(userItem)\">\n\t\t\t\t\t\t<span class=\"icon compare navigate\"></span>\n\t\t\t\t\t</a>\n\t\t\t\t</li>\n\t\t\t\t<li>\n\t\t\t\t\t<a ng-if=\"!userItem.isFrend\" ng-click=\"onFollow(userItem)\">\n\t\t\t\t\t\t<span class=\"icon follow navigate\"></span>\n\t\t\t\t\t</a>\n\t\t\t\t\t<a ng-if=\"userItem.isFrend\" ng-click=\"onUnFollow(userItem)\">\n\t\t\t\t\t\t<span class=\"icon unfollow navigate\"></span>\n\t\t\t\t\t</a>\n\t\t\t\t</li>\n\t\t\t</ul>\n\t\t</div>\n\t\t<em></em>\n\t</div>\n</div>");
@@ -4444,11 +4623,11 @@ $templateCache.put('partials/mysettings.html', "<div ng-controller=\"CropImageCo
 $templateCache.put('partials/neighbours.html', "<div class=\"nearblock\" ng-controller=\"NeighboursCtrl\">\n\t<div ng-controller=\"GalleryController\"  ng-init=\"id='top';title='_topL_'\">\n\t\t<div class=\"lnbl\" ng-include src=\"'partials/gallery.html'\"></div>\n\t</div>\n\t<i></i>\n\t<div ng-controller=\"GalleryController\"  ng-init=\"id='neigh';title='_neighL_'\">\n\t\t<div class=\"lnbl\" ng-include src=\"'partials/gallery.html'\"></div>\n\t</div>\n</div>");
 $templateCache.put('partials/nsi-add.html', "<div id=\"nsi_content\" ng-controller=\"NSIAddController\">\n\t<h2>Add league</h2>\n\t<table>\n\t\t<tr>\n\t\t\t<td>Name:</td>\n\t\t\t<td><input type=\"text\" ng-model=\"form.name\" /></td>\n\t\t</tr>\n\t\t<tr>\n\t\t\t<td>Min:</td>\n\t\t\t<td><input type=\"text\" ng-model=\"form.min_border\" /></td>\n\t\t</tr>\n\t\t<tr>\n\t\t\t<td>Max:</td>\n\t\t\t<td><input type=\"text\" ng-model=\"form.max_border\" /></td>\n\t\t</tr>\n\t\t<tr>\n\t\t\t<td>Size:</td>\n\t\t\t<td><input type=\"text\" ng-model=\"form.size\" /></td>\n\t\t</tr>\n\t\t<tr>\n\t\t\t<td></td>\n\t\t\t<td>\n\t\t\t\t<a class=\"buttons green\" ng-click=\"addLeague()\">Save</a>\n\t\t\t\t<a class=\"buttons red\" ng-click=\"close()\">Close</a>\n\t\t\t</td>\n\t\t</tr>\n\t</table>\n\t<div class=\"btns\">\n\t\t\n\t</div>\n</div>");
 $templateCache.put('partials/nsi.html', "<div id=\"nsi_content\" ng-controller=\"NSIController\">\n\t<h2>NSI</h2>\n\t<table>\n\t\t<thead>\n\t\t\t<tr>\n\t\t\t\t<th>Name</th>\n\t\t\t\t<th>Min</th>\n\t\t\t\t<th>Max</th>\n\t\t\t\t<th>Size</th>\n\t\t\t\t<th></th>\n\t\t\t</tr>\n\t\t</thead>\n\t\t<tbody>\n\t\t\t<tr ng-repeat=\"(key, value) in workspace.leagues | orderBy: 'position'\">\n\t\t\t\t<td width=\"20%\" class=\"editing_cell\">\n\t\t\t\t\t<input type=\"text\" ng-model=\"value.name\" ng-change=\"update(value)\" />\n\t\t\t\t</td>\n\t\t\t\t<td width=\"20%\" class=\"editing_cell\">\n\t\t\t\t\t<input type=\"text\" ng-model=\"value.min_border\" ng-change=\"update(value)\" />\n\t\t\t\t</td>\n\t\t\t\t<td width=\"20%\" class=\"editing_cell\">\n\t\t\t\t\t<input type=\"text\" ng-model=\"value.max_border\" ng-change=\"update(value)\" />\n\t\t\t\t</td>\n\t\t\t\t<td width=\"20%\" class=\"editing_cell\">\n\t\t\t\t\t<input type=\"text\" ng-model=\"value.size\" ng-change=\"update(value)\" />\n\t\t\t\t</td>\n\t\t\t\t<td width=\"40%\">\n\t\t\t\t\t<span class=\"icon delete\" ng-click=\"delete(value)\"></span>\n\t\t\t\t</td>\n\t\t\t</tr>\n\t\t</tbody>\n\t</table>\n\t<div class=\"btns\">\n\t\t<a class=\"buttons all\" ng-click=\"ok()\">Ok</a>\n\t\t<a class=\"buttons green\" ng-click=\"addLeague()\">Add league</a>\n\t\t<a class=\"buttons red\" ng-click=\"closeModal()\">Close</a>\n\t</div>\n</div>");
-$templateCache.put('partials/right.html', "<div id=\"signin_panel\" class=\"full_height\" ng-if=\"show\" >\n\t<div class=\"glass\">\n\t\t<div class=\"full_height\" ng-if=\"!signup\" ng-include ng-controller=\"SigninController\" src=\"'partials/signin.html'\"></div>\n\t\t<div class=\"full_height\" ng-if=\"signup\" ng-include ng-controller=\"SignupController\" src=\"'partials/signup.html'\"></div>\n\t</div>\n</div>");
+$templateCache.put('partials/right.html', "<div id=\"signin_panel\" class=\"full_height\" ng-if=\"show\" >\n\t<div class=\"glass\">\n\t\t<div class=\"full_height\" ng-if=\"state == 0\" ng-include ng-controller=\"SigninController\" src=\"'partials/signin.html'\"></div>\n\t\t<div class=\"full_height\" ng-if=\"state == 1\" ng-include ng-controller=\"SignupController\" src=\"'partials/signup.html'\"></div>\n\t\t<div class=\"full_height\" ng-if=\"state == 2\" ng-include ng-controller=\"ImprovaLoginController\" src=\"'partials/improva.html'\"></div>\n\t</div>\n</div>");
 $templateCache.put('partials/share.html', "<div ng-controller=\"ShareController\">\n\t<a \n\t\thref=\"https://twitter.com/intent/tweet?text=iRate&url=http://www.irate.com\" \n\t\ttarget=\"_blank\"></a>\n\t<a \n\t\tng-click=\"shareFacebook('http://www.irate.com', 'iRate', '', 'http://www.improva.com/src/assets/images/icons/improva_icon.png')\" class=\"facebook\"></a>\n\t<a \n\t\tng-click=\"shareGoogle('http://www.irate.com')\" \n\t\tclass=\"google\"></a>\t\n</div>");
-$templateCache.put('partials/signin.html', "<h4>Sign in</h4>\n<div class=\"sign-in\">\n   <ng-form \n     id=\"login_form\" \n     name=\"LoginForm\" \n     novalidate \n     class=\"css-form myForm\" >\n     <p>\n        <input \n           type=\"email\" \n           id=\"login_i\" \n           class=\"form-input\"\n           ng-model=\"login.email\"\n           name=\"Email\"\n           required \n           ng-minlength=\"6\"\n           placeholder=\"Email\"\n           ui-keypress=\"{13:'onKeyPress($event)'}\" />\n           <br />\n           <span \n           \tclass=\"errorss\" \n           \tng-show=\"LoginForm.Email.$dirty && (LoginForm.Email.$error.required || LoginForm.Email.$error.minlength || LoginForm.Email.$error.email)\">Incorrect email</span>\n     </p>\n       \n     <p>\n        <input \n           type=\"password\" \n           id=\"pass_i\"\n           class=\"form-input\"\n           ng-model=\"login.password\"\n           required \n           name=\"Password\"\n           ng-minlength=\"6\"\n           placeholder=\"Password\"\n           ui-keypress=\"{13:'onKeyPress($event)'}\"\n           ng-trim=\"false\" /> \n           <br />\n           <span \n           \tclass=\"errorss rss\" \n           \tng-show=\"LoginForm.Password.$dirty && (LoginForm.Password.$error.required || LoginForm.Password.$error.minlength)\">Incorrect password</span>\n     </p>\n     <div class=\"step\">\n       <p>\n          <a href=\"#/change_password\">Forgot your password?</a>\n       </p>\n       <p>\n          <input type=\"checkbox\"  />\n          <label>Keep me signed in</label>\n       </p>\n       <p class=\"errors\" ng-show=\"error\">{{error}}</p>\n       <p class=\"singin-sub\">\n          <input \n             ng-disabled=\"LoginForm.$invalid\"\n             ng-click=\"onSingin()\" \n             type=\"button\" \n             value=\"Sign in\" />\n       </p>    \n     </div>\n     <div class=\"rere\">\n       <p>Don’t have an iRate account yet?</p>\t\n       <p class=\"singin-sub\">\n          <input \n             ng-click=\"signupChange(true)\" \n             type=\"button\" \n             value=\"Sign up\" />\n       </p>          \n     </div>\n  </ng-form>\n</div>");
-$templateCache.put('partials/signup.html', "<h4>Sign up</h4>\n<div class=\"sign-up\">\n  <ng-form name=\"RegForm\" novalidate class=\"css-form myForm\" >\n    <p>\n      <input \n        type=\"email\" \n        id=\"email_i\" \n        class=\"form-input\"\n        ng-model=\"user.email\" \n        required\n        ng-minlength=\"6\"\n        placeholder=\"Email\"\n        name=\"NewEmail\"\n        ui-keypress=\"{13:'onKeyPressReg($event)'}\"  />\n      <br />\n      <span \n        class=\"errorss\" \n        ng-show=\"RegForm.NewEmail.$dirty && (RegForm.NewEmail.$error.required || RegForm.NewEmail.$error.minlength || RegForm.NewEmail.$error.email)\">Incorrect email</span>\n    </p>\n    <p class=\"errors\" ng-if=\"errorEmail\">{{errorEmail}}</p>\n    <p>\n      <input \n        type=\"email\" \n        id=\"name_i\" \n        class=\"form-input\"\n        ng-model=\"user.reemail\" \n        required \n        ng-minlength=\"6\"\n        placeholder=\"Confirm email\"\n        disable-paste\n        onpaste=\"return false;\"\n        name=\"NewMassEmail\"\n        ui-keypress=\"{13:'onKeyPressReg($event)'}\" />\n      <br />\n      <span \n        class=\"errorss rss\" \n        ng-show=\"RegForm.NewMassEmail.$dirty && (RegForm.NewMassEmail.$error.required || RegForm.NewMassEmail.$error.minlength || RegForm.NewEmail.$error.email)\">Incorrect mismatch</span> \n    </p>\n    <p>\n      <input \n        type=\"password\" \n        id=\"name_i\" \n        class=\"form-input\"\n        ng-model=\"user.password\" \n        required \n        ng-minlength=\"6\"\n        placeholder=\"Password\"\n        name=\"NewPassword\"\n        ui-keypress=\"{13:'onKeyPressReg($event)'}\" /> \n      <br />\n      <span \n        class=\"errorss rrss\" \n        ng-show=\"RegForm.NewPassword.$dirty && (RegForm.NewPassword.$error.required || RegForm.NewPassword.$error.minlength)\">Incorrect password</span>\n    </p>\n    <div\n      vc-recaptcha\n      theme=\"blackglass\"\n      lang=\"en\"\n      ng-model=\"captha\"\n      key=\"6Lf1Z-oSAAAAAEkk7m5n6cGiwgqeMya21UetPbIO\">\n    </div>\n\n    <p class=\"errors\" ng-if=\"errorValidate\"><br />{{errorValidate}}</p><br />\n\n    <p class=\"acknowledge\">\n      <input type=\"checkbox\"  required=\"required\" ng-model=\"acknowledge\" class=\"icheckbox_minimal\" />\n      <label>I acknowledge I have read and accept the<a href=\"/views/terms.html\" class=\"notdark\">Terms of use Agreement</a> and consent to the <a href=\"/views/terms.html\" class=\"notdark\">Privacy Policy</a>.</label>\n    </p>\n\n    <p class=\"signup-submit\">\n      <input \n        type=\"button\" \n        value=\"Sign up\"\n        ng-disabled=\"RegForm.$invalid\"\n        ng-click=\"addUser()\" />\n    </p>\n  </ng-form>\n</div>");
-$templateCache.put('partials/user.html', "<div ng-if=\"user\" class=\"sam\">\n\t<!-- Поиск -->\n\t<div id=\"search\" class=\"search\" ng-if=\"compare\">\n\t\t<div ng-controller=\"SearchController\">\n\t\t\t<input \n\t\t\t\ttype=\"text\" \n\t\t\t\tng-model=\"searchText\" \n\t\t\t\tplaceholder=\"Search people\" \n\t\t\t\tclass=\"search\"\n\t\t\t\tng-change=\"onSearch()\"\n\t\t\t\tui-keypress=\"{13:'onSearch()'}\" />\n\t\t\t<input type=\"button\" class=\"searcher\" ng-click=\"onSearch()\" />\n\t\t\t<div ng-cloak class=\"searchResult\" ng-if=\"resultSearch.length > 0\">\n\t\t\t\t<div class=\"item\" ng-repeat=\"(userKey, userItem) in resultSearch\" ng-click=\"changeUser(userItem)\">\n\t\t\t\t\t<div class=\"image\">\n\t\t\t\t\t\t<img ng-src=\"{{userItem.avatar}}\" alt=\"\">\n\t\t\t\t\t\t<i ng-if=\"userItem.points\">{{userItem.points}}</i>\n\t\t\t\t\t</div>\n\t\t\t\t\t<div class=\"text\">\n\t\t\t\t\t\t<p class=\"name\">{{userItem.name}}</p>\n\t\t\t\t\t\t<p class=\"birthday\">{{userItem.birthday}}</p>\n\t\t\t\t\t\t<p class=\"birthday\">{{userItem.state.name}}</p>\n\t\t\t\t\t\t<p class=\"profession\">{{userItem.profession.name}}</p>\n\t\t\t\t\t\t<p class=\"league\">{{userItem.league.name}} league</p>\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t</div>\t\n\t\t</div>\n\t</div>\n\t<div class=\"pmain pro\" >\n\t\t<div class=\"block\" ng-if=\"user\">\n\t\t\t<div class=\"image_box\" ng-class=\"{updated: user.sguid == authUserId && isEdit, big: user.hover}\" \n\t\t\t\tng-click=\"onUserClick(user, $event)\" >\n\t\t\t\t<img class=\"pp\" ng-src=\"{{user.avatar}}\" err-src=\"/images/unknown-person.png\" />\n\t\t\t\t<a ng-click=\"onUpdateFile()\" title=\"\">Update image</a>\n\t\t\t\t<span></span>\t\n\t\t\t\t<s ng-if=\"user.artificial\">profile is created by experts based on available public info</s>\t\n\t\t\t\t<div class=\"sub\">\n\t\t\t\t\t<b>{{user.name}} <br /><s>{{user.league.name}} league</s></b>\n\t\t\t\t\t<ul>\n\t\t\t\t\t\t<li>\n\t\t\t\t\t\t\t<a ng-click=\"onMoveToProfile(user)\">\n\t\t\t\t\t\t\t\t<span class=\"icon profile navigate\"></span>\n\t\t\t\t\t\t\t</a>\n\t\t\t\t\t\t</li>\n\t\t\t\t\t\t<li>\n\t\t\t\t\t\t\t<a ng-if=\"user && !user.isFollow\" ng-click=\"onFollow()\">\n\t\t\t\t\t\t\t\t<span class=\"icon follow navigate\"></span>\n\t\t\t\t\t\t\t</a>\n\t\t\t\t\t\t\t<a ng-if=\"user && user.isFollow\" ng-click=\"onUnFollow()\">\n\t\t\t\t\t\t\t\t<span class=\"icon unfollow navigate\"></span>\n\t\t\t\t\t\t\t</a>\n\t\t\t\t\t\t</li>\n\t\t\t\t\t</ul>\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t</div>\n\t\t<div class=\"pmpar\" ng-if=\"user\">\n\t\t\t<p>\n\t\t\t\t<label for=\"name_i\">{{'_NameL_' | i18n}}:</label> \n\t\t\t\t<input \n\t\t\t\t\ttype=\"text\" \n\t\t\t\t\tid=\"name_i\" \n\t\t\t\t\tclass=\"clean form-control\" \n\t\t\t\t\tng-model=\"user.name\"\n\t\t\t\t\treadonly=\"readonly\"\n\t\t\t\t\trequired\n\t\t\t\t\tng-minlength=\"6\"\n\t\t\t\t\tng-click=\"onElementClick($event)\"\n\t\t\t\t\tng-if=\"isEdit && user.sguid == authUserId\" />\n\t\t\t\t<i ng-if=\"!isEdit || user.sguid != authUserId\">{{user.name}}</i>\n\t\t\t</p>\n\t\t\t<p>\n\t\t\t\t<label for=\"age_i\">{{'_BirthdayL_' | i18n}}:</label>\n\t\t\t\t<input \n\t\t\t\t\ttype=\"text\" \n\t\t\t\t\tng-model=\"user.birthday\" \n\t\t\t\t\tdata-date-format=\"dd/mm/yyyy\" \n\t\t\t\t\tbs-datepicker\n\t\t\t\t\treadonly=\"readonly\"\n\t\t\t\t\tclass=\"clean form-control\" \n\t\t\t\t\tid=\"age_i\"\n\t\t\t\t\tng-click=\"onElementClick($event)\"\n\t\t\t\t\tng-if=\"isEdit && user.sguid == authUserId\" />\n\t\t\t\t<i ng-if=\"!isEdit || user.sguid != authUserId\">{{user.birthday}}</i>\n\t\t\t</p>\n\t\t\t<p>\n\t\t\t\t<label for=\"loc_i\">{{'_LocL_' | i18n}}:</label>\n\t\t\t\t<select \n\t\t\t\t\tng-options=\"item.sguid as item.name for item in states\" \n\t\t\t\t\tng-model=\"user.state.sguid\" \n\t\t\t\t\treadonly=\"readonly\" \n\t\t\t\t\tid=\"loc_i\"\n\t\t\t\t\tng-click=\"onElementClick($event)\"\n\t\t\t\t\tng-if=\"isEdit && user.sguid == authUserId\">\n\t\t\t\t</select>\n\t\t\t\t<i ng-if=\"!isEdit || user.sguid != authUserId\">\n\t\t\t\t\t<span ng-if=\"user.state.name\">{{user.state.name}}</span>\n\t\t\t\t\t<span ng-if=\"user.city.name\">\n\t\t\t\t\t\t<span ng-if=\"user.state.name\">,</span> \n\t\t\t\t\t\t{{user.city.name}}\n\t\t\t\t\t</span>\n\t\t\t\t</i>\n\t\t\t<p>\n\t\t\t\t<label for=\"pro_i\">{{'_ProfL_' | i18n}}:</label>\n\t\t\t\t<input \n\t\t\t\t\tid=\"pro_i\" \n\t\t\t\t\tng-if=\"isEdit && user.sguid == authUserId\" \n\t\t\t\t\tng-model=\"user.profession.name\" \n\t\t\t\t\ttype=\"text\" \n\t\t\t\t\tbs-typeahead=\"professionFn\"\n\t\t\t\t\treadonly=\"readonly\"\n\t\t\t\t\tng-click=\"onElementClick($event)\" />\n\t\t\t\t<i ng-if=\"!isEdit || user.sguid != authUserId\">{{user.profession.name}}<span ng-if=\"user.goal_name\">, {{user.goal_name}}</span></i>\n\t\t\t</p>\n\n\t\t\t<p>\n\t\t\t\t<label for=\"pro_i\">{{'_LEAGUES_' | i18n}}:</label>\n\t\t\t\t<i>{{user.league.name}}</i>\n\t\t\t</p>\n\t\t\t<p>\n\t\t\t\t<label for=\"pro_i\">Score:</label>\n\t\t\t\t<i>{{user.points}}</i>\n\t\t\t</p>\n\t\t</div>\n\n\t\t<a class=\"il\" ng-if=\"user && !isFriend && !compare\" ng-click=\"onFollow()\"><img src=\"../images/i3.png\"></a>\n\t\t<a class=\"il\" ng-if=\"user && isFriend && !compare\" ng-click=\"onUnFollow()\"><img src=\"../images/i3i.png\"></a>\n\n\t\t<!-- кнопочка закрытия -->\n\t\t<a class=\"il\" ng-if=\"user && !compare && user.sguid != workspace.user.sguid\" ng-click=\"close()\">\n\t\t\t<img src=\"../images/cl.png\">\n\t\t</a> \n\t</div>\n\n\t<div \n\t\tclass=\"crits\" \n\t\tng-controller=\"NeedsAndGoalsController\" \n\t\tng-init=\"openFirst = false; allOpen = false; persistState = false;\">\n\t\t<ul> \n\t\t\t<li \n\t\t\t\tng-class=\"{current: needItem.current}\"\n\t\t\t\tclass=\"{{needItem.name}}\" \n\t\t\t\tng-repeat=\"(needKey, needItem) in needs | orderBy:'position'\" \n\t\t\t\tdata-needId=\"{{needItem.sguid}}\">\n\t\t\t\t<div class=\"cr\" ng-click=\"onShowGoals($event, needItem)\">\n\t\t\t\t\t<p>{{needItem.name}}</p>\n\t\t\t\t\t<div class=\"right\">\n\t\t\t\t\t\t<strong>\n\t\t\t\t\t\t\t<span \n\t\t\t\t\t\t\t\tclass=\"current_position\"\n\t\t\t\t\t\t\t\tposition-need>\n\t\t\t\t\t\t\t</span>\n\t\t\t\t\t\t</strong>\t\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t\t<ul ng-class=\"{current: needItem.current}\">\n\t\t\t\t\t<li ng-repeat=\"(goalKey,goalItem) in needItem.goals | orderBy:'position'\" data-goalid=\"{{goalItem.sguid}}\" user-id=\"{{user.sguid}}\" >\n\t\t\t\t\t\t<h5 ng-click=\"openCriteriumList($event, needItem, goalItem, needs)\">\n\t\t\t\t\t\t\t<a \n\t\t\t\t\t\t\t\tng-class=\"{current: goalItem.current}\"\n\t\t\t\t\t\t\t\tdata-goalid=\"{{goalItem.sguid}}\" user-id=\"{{user.sguid}}\">\n\t\t\t\t\t\t\t\t<span><img ng-src=\"{{goalItem.icon}}\" alt=\"\" title=\"{{goalItem.name}}\" /></span>\n\t\t\t\t\t\t\t\t{{goalItem.name}}\n\t\t\t\t\t\t\t\t<s></s>\n\t\t\t\t\t\t\t</a>\t\n\t\t\t\t\t\t\t<div class=\"right\">\n\t\t\t\t\t\t\t\t<strong>\n\t\t\t\t\t\t\t\t\t<span position-goal class=\"current_position\" ></span>\n\t\t\t\t\t\t\t\t</strong>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t<i ng-if=\"!goalItem.current\"><em></em></i>\n\t\t\t\t\t\t</h5>\n\t\t\t\t\t\t<ul class=\"criterion\" ng-class=\"{current: goalItem.current}\">\n\t\t\t\t\t\t\t<li \n\t\t\t\t\t\t\t\tdata-id=\"{{crItem.sguid}}\" \n\t\t\t\t\t\t\t\tng-repeat=\"crItem in goalItem.criteriums | orderBy:'position'\" >\n\t\t\t\t\t\t\t\t<p>{{crItem.name}}</p>\n\t\t\t\t\t\t\t\t<div class=\"bord\">\n\t\t\t\t\t\t\t\t\t<ul class=\"crp\">\n\t\t\t\t\t\t\t\t\t\t<div class=\"tab\">\n\t\t\t\t\t\t\t\t\t\t\t<li data-id=\"{{value.sguid}}\"  \n\t\t\t\t\t\t\t\t\t\t\t\tng-repeat=\"value in crItem.criteria_values | orderBy:'position'\"  \n\t\t\t\t\t\t\t\t\t\t\t\tclass=\"{{value.user_criteria}} position_{{value.position}}\" \n\t\t\t\t\t\t\t\t\t\t\t\tng-click=\"onCriteriaSelect(value, crItem, $event, needItem, goalItem)\">\n\t\t\t\t\t\t\t\t\t\t\t\t<i ng-if=\"value.sguid != 'none'\">{{value.name}}</i>\n\t\t\t\t\t\t\t\t\t\t\t\t<i ng-if=\"value.sguid == 'none'\" class=\"null_criteria\"></i>\n\t\t\t\t\t\t\t\t\t\t\t</li>\n\t\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t\t<span>\n\t\t\t\t\t\t\t\t\t\t\t<img src=\"../images/ar.png\">\n\t\t\t\t\t\t\t\t\t\t</span>\n\t\t\t\t\t\t\t\t\t</ul>\n\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t</li>\n\t\t\t\t\t\t</ul>\n\t\t\t\t\t</li>\n\t\t\t\t\t\n\t\t\t\t</ul>\n\t\t\t</li>\n\t\t</ul>\n\t</div>\n</div>");
+$templateCache.put('partials/signin.html', "<h4>Sign in</h4>\n<div class=\"sign-in\">\n  <ng-form \n    id=\"login_form\" \n    name=\"LoginForm\" \n    novalidate \n    class=\"css-form myForm\" >\n    <p>\n      <input \n        type=\"email\" \n        id=\"login_i\" \n        class=\"form-input\"\n        ng-model=\"login.email\"\n        name=\"Email\"\n        required \n        ng-minlength=\"6\"\n        placeholder=\"Email\"\n        ui-keypress=\"{13:'onKeyPress($event)'}\" />\n      <br />\n      <span \n      \tclass=\"errorss\" \n      \tng-show=\"LoginForm.Email.$dirty && (LoginForm.Email.$error.required || LoginForm.Email.$error.minlength || LoginForm.Email.$error.email)\">Incorrect email\n      </span>\n    </p>       \n    <p>\n      <input \n        type=\"password\" \n        id=\"pass_i\"\n        class=\"form-input\"\n        ng-model=\"login.password\"\n        required \n        name=\"Password\"\n        ng-minlength=\"6\"\n        placeholder=\"Password\"\n        ui-keypress=\"{13:'onKeyPress($event)'}\"\n        ng-trim=\"false\" /> \n      <br />\n      <span \n      \tclass=\"errorss rss\" \n      \tng-show=\"LoginForm.Password.$dirty && (LoginForm.Password.$error.required || LoginForm.Password.$error.minlength)\">Incorrect password\n      </span>\n    </p>\n    <div class=\"step\">\n      <p>\n        <a href=\"#/change_password\">Forgot your password?</a>\n      </p>\n      <p>\n        <input type=\"checkbox\"  />\n        <label>Keep me signed in</label>\n      </p>\n      <p class=\"errors\" ng-show=\"error\">{{error}}</p>\n      <p class=\"singin-sub\">\n        <input \n          ng-disabled=\"LoginForm.$invalid\"\n          ng-click=\"onSingin()\" \n          type=\"button\" \n          value=\"Sign in\" />\n      </p>    \n    </div>\n    <div class=\"rere\">\n      <p>Don’t have an iRate account yet?</p>\t\n      <p class=\"singin-sub\">\n        <input \n          ng-click=\"changeState(states.SIGNUP)\" \n          type=\"button\" \n          value=\"Sign up\" />\n      </p>          \n    </div>\n    <i>Use Facebook, LiveID, Google+, Improva or your email to sign in.</i>    \n    <ul>\n      <li>\n        <a ng-click=\"socialFacebookLogin()\">\n          <img src=\"/images/facebook.png\" alt=\"\" />\n        </a>\n      </li>\n      <li>\n        <a ng-click=\"socialGooglePlusLogin()\">\n          <img src=\"/images/google.png\" alt=\"\" />\n        </a>\n      </li>\n      <li>\n        <a ng-click=\"socialMicrosoftLiveLogin()\">\n          <img src=\"/images/live.png\" alt=\"\" />\n        </a>\n      </li>\n      <li>\n        <a ng-click=\"improvaLogin()\">\n          <img src=\"/images/improva.png\" ng-click=\"changeState(states.IMPROVA)\"  alt=\"\" />\n        </a>\n      </li>\n    </ul>\n  </ng-form>\n</div>");
+$templateCache.put('partials/signup.html', "<h4>Sign up</h4>\n<b ng-click=\"changeState(states.SIGNIN)\"></b>\n<div class=\"sign-up\">\n  <ng-form name=\"RegForm\" novalidate class=\"css-form myForm\" >\n    <p>\n      <input \n        type=\"email\" \n        id=\"email_i\" \n        class=\"form-input\"\n        ng-model=\"user.email\" \n        required\n        ng-minlength=\"6\"\n        placeholder=\"Email\"\n        name=\"NewEmail\"\n        ui-keypress=\"{13:'onKeyPressReg($event)'}\"  />\n      <br />\n      <span \n        class=\"errorss\" \n        ng-show=\"RegForm.NewEmail.$dirty && (RegForm.NewEmail.$error.required || RegForm.NewEmail.$error.minlength || RegForm.NewEmail.$error.email)\">Incorrect email</span>\n    </p>\n    <p class=\"errors\" ng-if=\"errorEmail\">{{errorEmail}}</p>\n    <p>\n      <input \n        type=\"email\" \n        id=\"name_i\" \n        class=\"form-input\"\n        ng-model=\"user.reemail\" \n        required \n        ng-minlength=\"6\"\n        placeholder=\"Confirm email\"\n        disable-paste\n        onpaste=\"return false;\"\n        name=\"NewMassEmail\"\n        ui-keypress=\"{13:'onKeyPressReg($event)'}\" />\n      <br />\n      <span \n        class=\"errorss rss\" \n        ng-show=\"RegForm.NewMassEmail.$dirty && (RegForm.NewMassEmail.$error.required || RegForm.NewMassEmail.$error.minlength || RegForm.NewEmail.$error.email)\">Incorrect mismatch</span> \n    </p>\n    <p>\n      <input \n        type=\"password\" \n        id=\"name_i\" \n        class=\"form-input\"\n        ng-model=\"user.password\" \n        required \n        ng-minlength=\"6\"\n        placeholder=\"Password\"\n        name=\"NewPassword\"\n        ui-keypress=\"{13:'onKeyPressReg($event)'}\" /> \n      <br />\n      <span \n        class=\"errorss rrss\" \n        ng-show=\"RegForm.NewPassword.$dirty && (RegForm.NewPassword.$error.required || RegForm.NewPassword.$error.minlength)\">Incorrect password</span>\n    </p>\n    <div\n      vc-recaptcha\n      theme=\"blackglass\"\n      lang=\"en\"\n      ng-model=\"captha\"\n      key=\"6Lf1Z-oSAAAAAEkk7m5n6cGiwgqeMya21UetPbIO\">\n    </div>\n\n    <p class=\"errors\" ng-if=\"errorValidate\"><br />{{errorValidate}}</p><br />\n\n    <p class=\"acknowledge\">\n      <input type=\"checkbox\"  required=\"required\" ng-model=\"acknowledge\" class=\"icheckbox_minimal\" />\n      <label>I acknowledge I have read and accept the<a href=\"/views/terms.html\" class=\"notdark\">Terms of use Agreement</a> and consent to the <a href=\"/views/terms.html\" class=\"notdark\">Privacy Policy</a>.</label>\n    </p>\n\n    <p class=\"signup-submit\">\n      <input \n        type=\"button\" \n        value=\"Sign up\"\n        ng-disabled=\"RegForm.$invalid\"\n        ng-click=\"addUser()\" />\n    </p>\n  </ng-form>\n</div>");
+$templateCache.put('partials/user.html', "<div ng-if=\"user\" class=\"sam\">\n\t<!-- Поиск -->\n\t<div id=\"search\" class=\"search\" ng-if=\"compare\">\n\t\t<div ng-controller=\"SearchController\">\n\t\t\t<input \n\t\t\t\ttype=\"text\" \n\t\t\t\tng-model=\"searchText\" \n\t\t\t\tplaceholder=\"Search people\" \n\t\t\t\tclass=\"search\"\n\t\t\t\tng-change=\"onSearch()\"\n\t\t\t\tui-keypress=\"{13:'onSearch()'}\" />\n\t\t\t<input type=\"button\" class=\"searcher\" ng-click=\"onSearch()\" />\n\t\t\t<div ng-cloak class=\"searchResult\" ng-if=\"resultSearch.length > 0\">\n\t\t\t\t<div class=\"item\" ng-repeat=\"(userKey, userItem) in resultSearch\" ng-click=\"changeUser(userItem)\">\n\t\t\t\t\t<div class=\"image\">\n\t\t\t\t\t\t<img ng-src=\"{{userItem.avatar}}\" alt=\"\">\n\t\t\t\t\t\t<i ng-if=\"userItem.points\">{{userItem.points}}</i>\n\t\t\t\t\t</div>\n\t\t\t\t\t<div class=\"text\">\n\t\t\t\t\t\t<p class=\"name\">{{userItem.name}}</p>\n\t\t\t\t\t\t<p class=\"birthday\">{{userItem.birthday}}</p>\n\t\t\t\t\t\t<p class=\"birthday\">{{userItem.state.name}}</p>\n\t\t\t\t\t\t<p class=\"profession\">{{userItem.profession.name}}</p>\n\t\t\t\t\t\t<p class=\"league\">{{userItem.league.name}} league</p>\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t</div>\t\n\t\t</div>\n\t</div>\n\t<div class=\"pmain pro\" >\n\t\t<div class=\"block\" ng-if=\"user\">\n\t\t\t<div class=\"image_box\" ng-class=\"{updated: user.sguid == authUserId && isEdit, big: user.hover}\" \n\t\t\t\tng-click=\"onUserClick(user, $event)\" >\n\t\t\t\t<img class=\"pp\" ng-src=\"{{user.avatar}}\" err-src=\"/images/unknown-person.png\" />\n\t\t\t\t<a ng-click=\"onUpdateFile()\" title=\"\">Update image</a>\n\t\t\t\t<span></span>\t\n\t\t\t\t<s ng-if=\"user.artificial\">profile is created by experts based on available public info</s>\t\n\t\t\t\t<div class=\"sub\">\n\t\t\t\t\t<b>{{user.name}} <br /><s>{{user.league.name}} league</s></b>\n\t\t\t\t\t<ul>\n\t\t\t\t\t\t<li>\n\t\t\t\t\t\t\t<a ng-click=\"onMoveToProfile(user)\">\n\t\t\t\t\t\t\t\t<span class=\"icon profile navigate\"></span>\n\t\t\t\t\t\t\t</a>\n\t\t\t\t\t\t</li>\n\t\t\t\t\t\t<li>\n\t\t\t\t\t\t\t<a ng-if=\"user && !user.isFollow\" ng-click=\"onFollow()\">\n\t\t\t\t\t\t\t\t<span class=\"icon follow navigate\"></span>\n\t\t\t\t\t\t\t</a>\n\t\t\t\t\t\t\t<a ng-if=\"user && user.isFollow\" ng-click=\"onUnFollow()\">\n\t\t\t\t\t\t\t\t<span class=\"icon unfollow navigate\"></span>\n\t\t\t\t\t\t\t</a>\n\t\t\t\t\t\t</li>\n\t\t\t\t\t</ul>\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t</div>\n\t\t<div class=\"pmpar\" ng-if=\"user\">\n\t\t\t<p>\n\t\t\t\t<label for=\"name_i\">{{'_NameL_' | i18n}}:</label> \n\t\t\t\t<input \n\t\t\t\t\ttype=\"text\" \n\t\t\t\t\tid=\"name_i\" \n\t\t\t\t\tclass=\"clean form-control\" \n\t\t\t\t\tng-model=\"user.name\"\n\t\t\t\t\treadonly=\"readonly\"\n\t\t\t\t\trequired\n\t\t\t\t\tng-minlength=\"6\"\n\t\t\t\t\tng-click=\"onElementClick($event)\"\n\t\t\t\t\tng-if=\"isEdit && user.sguid == authUserId\" />\n\t\t\t\t<i ng-if=\"!isEdit || user.sguid != authUserId\">{{user.name}}</i>\n\t\t\t</p>\n\t\t\t<p>\n\t\t\t\t<label for=\"age_i\">{{'_BirthdayL_' | i18n}}:</label>\n\t\t\t\t<input \n\t\t\t\t\ttype=\"text\" \n\t\t\t\t\tng-model=\"user.birthday\" \n\t\t\t\t\tdata-date-format=\"dd/mm/yyyy\" \n\t\t\t\t\tbs-datepicker\n\t\t\t\t\treadonly=\"readonly\"\n\t\t\t\t\tclass=\"clean form-control\" \n\t\t\t\t\tid=\"age_i\"\n\t\t\t\t\tng-click=\"onElementClick($event)\"\n\t\t\t\t\tng-if=\"isEdit && user.sguid == authUserId\" />\n\t\t\t\t<i ng-if=\"!isEdit || user.sguid != authUserId\">{{user.birthday}}</i>\n\t\t\t</p>\n\t\t\t<p>\n\t\t\t\t<label for=\"loc_i\">{{'_LocL_' | i18n}}:</label>\n\t\t\t\t<select \n\t\t\t\t\tng-options=\"item.sguid as item.name for item in states\" \n\t\t\t\t\tng-model=\"user.state.sguid\" \n\t\t\t\t\treadonly=\"readonly\" \n\t\t\t\t\tid=\"loc_i\"\n\t\t\t\t\tng-click=\"onElementClick($event)\"\n\t\t\t\t\tng-if=\"isEdit && user.sguid == authUserId\">\n\t\t\t\t</select>\n\t\t\t\t<i ng-if=\"!isEdit || user.sguid != authUserId\">\n\t\t\t\t\t<span ng-if=\"user.state.name\">{{user.state.name}}</span>\n\t\t\t\t\t<span ng-if=\"user.city.name\">\n\t\t\t\t\t\t<span ng-if=\"user.state.name\">,</span> \n\t\t\t\t\t\t{{user.city.name}}\n\t\t\t\t\t</span>\n\t\t\t\t</i>\n\t\t\t<p>\n\t\t\t\t<label for=\"pro_i\">{{'_ProfL_' | i18n}}:</label>\n\t\t\t\t<input \n\t\t\t\t\tid=\"pro_i\" \n\t\t\t\t\tng-if=\"isEdit && user.sguid == authUserId\" \n\t\t\t\t\tng-model=\"user.profession.name\" \n\t\t\t\t\ttype=\"text\" \n\t\t\t\t\tbs-typeahead=\"professionFn\"\n\t\t\t\t\treadonly=\"readonly\"\n\t\t\t\t\tng-click=\"onElementClick($event)\" />\n\t\t\t\t<i ng-if=\"!isEdit || user.sguid != authUserId\">{{user.profession.name}}<span ng-if=\"user.goal_name\">, {{user.goal_name}}</span></i>\n\t\t\t</p>\n\n\t\t\t<p>\n\t\t\t\t<label for=\"pro_i\">{{'_LEAGUES_' | i18n}}:</label>\n\t\t\t\t<i>{{user.league.name}}</i>\n\t\t\t</p>\n\t\t\t<p>\n\t\t\t\t<label for=\"pro_i\">Score:</label>\n\t\t\t\t<i>{{user.points}}</i>\n\t\t\t</p>\n\t\t</div>\n\n\t\t<a class=\"il\" ng-if=\"user && !isFriend && !compare\" ng-click=\"onFollow()\"><img src=\"../images/i3.png\"></a>\n\t\t<a class=\"il\" ng-if=\"user && isFriend && !compare\" ng-click=\"onUnFollow()\"><img src=\"../images/i3i.png\"></a>\n\n\t\t<!-- кнопочка закрытия -->\n\t\t<a class=\"il\" ng-if=\"user && !compare && user.sguid != workspace.user.sguid\" ng-click=\"close()\">\n\t\t\t<img src=\"../images/cl.png\">\n\t\t</a> \n\t</div>\n\n\t<div \n\t\tclass=\"crits\" \n\t\tng-controller=\"NeedsAndGoalsController\" \n\t\tng-init=\"openFirst = false; allOpen = false; persistState = false;\">\n\t\t<ul> \n\t\t\t<li \n\t\t\t\tng-class=\"{current: needItem.current}\"\n\t\t\t\tclass=\"{{needItem.name}}\" \n\t\t\t\tng-repeat=\"(needKey, needItem) in needs | orderBy:'position'\" \n\t\t\t\tdata-needId=\"{{needItem.sguid}}\">\n\t\t\t\t<div class=\"cr\" ng-click=\"onShowGoals($event, needItem)\">\n\t\t\t\t\t<p>{{needItem.name}}</p>\n\t\t\t\t\t<div class=\"right\">\n\t\t\t\t\t\t<strong>\n\t\t\t\t\t\t\t<span \n\t\t\t\t\t\t\t\tclass=\"current_position\"\n\t\t\t\t\t\t\t\tposition-need>\n\t\t\t\t\t\t\t</span>\n\t\t\t\t\t\t</strong>\t\n\t\t\t\t\t</div>\n\t\t\t\t\t<sup class=\"compare\" need-comparator needs=\"{{needsValues}}\"></sup>\n\t\t\t\t</div>\n\t\t\t\t<ul ng-class=\"{current: needItem.current}\">\n\t\t\t\t\t<li ng-repeat=\"(goalKey,goalItem) in needItem.goals | orderBy:'position'\" data-goalid=\"{{goalItem.sguid}}\" user-id=\"{{user.sguid}}\" >\n\t\t\t\t\t\t<h5 ng-click=\"openCriteriumList($event, needItem, goalItem, needs)\">\n\t\t\t\t\t\t\t<a \n\t\t\t\t\t\t\t\tng-class=\"{current: goalItem.current}\"\n\t\t\t\t\t\t\t\tdata-goalid=\"{{goalItem.sguid}}\" user-id=\"{{user.sguid}}\">\n\t\t\t\t\t\t\t\t<span><img ng-src=\"{{goalItem.icon}}\" alt=\"\" title=\"{{goalItem.name}}\" /></span>\n\t\t\t\t\t\t\t\t{{goalItem.name}}\n\t\t\t\t\t\t\t\t<s></s>\n\t\t\t\t\t\t\t</a>\t\n\t\t\t\t\t\t\t<div class=\"right\">\n\t\t\t\t\t\t\t\t<strong>\n\t\t\t\t\t\t\t\t\t<span position-goal class=\"current_position\" ></span>\n\t\t\t\t\t\t\t\t</strong>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t<i ng-if=\"!goalItem.current\"><em></em></i>\n\t\t\t\t\t\t\t<sup class=\"compare goal\" goal-comparator goals=\"{{goalsValues}}\" ></sup>\n\t\t\t\t\t\t</h5>\n\t\t\t\t\t\t<ul class=\"criterion\" ng-class=\"{current: goalItem.current}\">\n\t\t\t\t\t\t\t<li \n\t\t\t\t\t\t\t\tdata-id=\"{{crItem.sguid}}\" \n\t\t\t\t\t\t\t\tng-repeat=\"crItem in goalItem.criteriums | orderBy:'position'\" >\n\t\t\t\t\t\t\t\t<p>{{crItem.name}}</p>\n\t\t\t\t\t\t\t\t<div class=\"bord\">\n\t\t\t\t\t\t\t\t\t<ul class=\"crp\">\n\t\t\t\t\t\t\t\t\t\t<div class=\"tab\">\n\t\t\t\t\t\t\t\t\t\t\t<li data-id=\"{{value.sguid}}\"  \n\t\t\t\t\t\t\t\t\t\t\t\tng-repeat=\"value in crItem.criteria_values | orderBy:'position'\"  \n\t\t\t\t\t\t\t\t\t\t\t\tclass=\"{{value.user_criteria}} position_{{value.position}}\" \n\t\t\t\t\t\t\t\t\t\t\t\tng-click=\"onCriteriaSelect(value, crItem, $event, needItem, goalItem)\">\n\t\t\t\t\t\t\t\t\t\t\t\t<i ng-if=\"value.sguid != 'none'\">{{value.name}}</i>\n\t\t\t\t\t\t\t\t\t\t\t\t<i ng-if=\"value.sguid == 'none'\" class=\"null_criteria\"></i>\n\t\t\t\t\t\t\t\t\t\t\t</li>\n\t\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t\t<span>\n\t\t\t\t\t\t\t\t\t\t\t<img src=\"../images/ar.png\">\n\t\t\t\t\t\t\t\t\t\t</span>\n\t\t\t\t\t\t\t\t\t</ul>\n\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t<sup class=\"compare criterium\" criterium-comparator criterium=\"{{criteriumsValues[crItem.sguid]}}\"></sup>\n\t\t\t\t\t\t\t</li>\n\t\t\t\t\t\t</ul>\n\t\t\t\t\t</li>\n\t\t\t\t\t\n\t\t\t\t</ul>\n\t\t\t</li>\n\t\t</ul>\n\t</div>\n</div>");
 $templateCache.put('partials/users.html', "<div id=\"users\" class=\"full_height\" ng-if=\"show\" >\n\t<div class=\"center\">\n\t\t<div \n\t\t\tclass=\"full_height user sha\" \n\t\t\tng-controller=\"UserController\" \n\t\t\tng-include\n\t\t\tng-init=\"init('user1')\"\n\t\t\tsrc=\"'partials/user.html'\">\n\t\t</div>\n\t\t<div \n\t\t\tclass=\"full_height user\" \n\t\t\tng-controller=\"UserController\" \n\t\t\tng-include\n\t\t\tng-init=\"init('user2')\"\n\t\t\tsrc=\"'partials/user.html'\">\n\t\t</div>\t\n\t</div>\n</div>");
 $templateCache.put('views/profile/many.html', "<div ng-include src=\"'partials/user.html'\" ng-controller=\"UserController\" ng-init=\"currentUserId=userId2;isEdit=fase;id='rightUser'\"></div>");
 $templateCache.put('views/profile/one.html', "<div class=\"nearblock\" ng-controller=\"NeighboursCtrl\" ng-scroll-event=\"updateOnScrollEvents($event, isEndEvent)\">\n\t<div ng-controller=\"TopGalleryController\">\n\t\t<div ng-controller=\"GalleryController\">\n\t\t\t<div class=\"lnbl\">\n\t\t\t\t<div class=\"gallery\" ng-if=\"users.length > 0\">\n\t\t\t\t\t<div class=\"lnbl\" ng-include src=\"'partials/gallery.html'\"></div>\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t</div>\n\t</div>\n</div>");
@@ -5103,6 +5282,12 @@ function GalleryController($scope, localize, Leagues, User, AuthUser, $element, 
             $scope.testFollow();
         }
     });
+}
+/**
+ * 
+ */
+function ImprovaLoginController($scope) {
+
 }
 function LoaderController($scope) {
     var opts = {
@@ -6006,31 +6191,45 @@ function MyProfileController($scope, $rootScope, User, $location, $cookieStore, 
  * @param {[type]} Goals
  * @param {[type]} Criterion
  */
-function NeedsAndGoalsController($scope, Goals, Criterion, AuthUser, UserCriteriaValue, $rootScope, CriterionByGoal, UserCriteriaValueByUser, $routeParams, Needs, User, $element, $cookieStore) {
+function NeedsAndGoalsController($scope, СareerService, UserService, Goals, Criterion, UserCriteriaValue, $rootScope, CriterionByGoal, UserCriteriaValueByUser, $routeParams, Needs, User, $element, $cookieStore) {
+    // список needs-сов
     $scope.needs = [];
+
+    // хрен знает что такое. не помню.
     $scope.currentGoal = null;
 
-
+    // событие изенения workspace.needs
     $scope.$watch('workspace.needs', function (newVal, oldVal, scope) {
         if($scope.workspace.needs) {
+            // делаем локальную копию нидсов
             $scope.needs = JSON.parse(JSON.stringify($scope.workspace.needs));
+
+            // нифига не помню зачем.
             angular.forEach($scope.needs, function(value, key){
                 value.current = true;
             });
+
+            // забираем пользовательские данные.
             $scope.loadUserData_();
+
+            // тоже не помню зачем
             if($scope.allOpen) {
                 $scope.openAllNeeds($scope.needs);
             }
         }
     });
 
+    // когда получаем данные пользователя
     $scope.$watch('user', function (newVal, oldVal, scope) {
         $scope.loadUserData_();
     });
 
+    // забираем пользовательские данные для колбас
     $scope.loadUserData_ = function() {
         if($scope.user && $scope.user.sguid) {
+            // данные для needs
             $scope.bindUserNeedsValues();
+
             angular.forEach($scope.needs, function(value, key){
                 angular.forEach(value.goals, function(v2, k2) {
                     if(v2.current) {
@@ -6040,84 +6239,75 @@ function NeedsAndGoalsController($scope, Goals, Criterion, AuthUser, UserCriteri
             });
         }
     }
-    
-    /**
-     * Подставляем баллы пользоватля
-     * @return {[type]} [description]
-     */
-    $scope.bindUserNeedsValues = function() {
-        User.goals_points({id: $scope.user.sguid}, {}, function(goalsData) {
-            var needsData = {};
-            angular.forEach($scope.needs, function(needItem, needKey) {
-                needsData[needItem.sguid] = 0;
 
-                angular.forEach(needItem.goals, function(goalItem, goalKey) {
-                    goalItem.current_value = parseInt(goalsData[goalItem.sguid]);
-                    if(goalsData[goalItem.sguid]) {
-                        needsData[needItem.sguid] += parseInt(goalsData[goalItem.sguid]);
-                    }
-                });
-                
-                if(needItem.name == "Career") {
-                    var max = 0;
-                    var carreerMax = {};
-                    var moneyPoints = 0;
+    // забрали данные колбас
+    $scope.bindUserNeedsValuesCallback_ = function(goalsData) {
+        // массив данных кобас
+        var needsData = {};
 
-                    angular.forEach(needItem.goals, function(goal) {
-                        if (goal.current_value > max && goal.name != "Money") {
-                          max = goal.current_value;
-                          carreerMax = {goal: goal.sguid, points: goal.current_value};
-                        }
-                        if(goal.name == "Money") {
-                          moneyPoints = goal.current_value;
-                        }
-                    });
-                    needsData[needItem.sguid] = parseInt(carreerMax.points + moneyPoints);
+        angular.forEach($scope.needs, function(needItem, needKey) {
+            needsData[needItem.sguid] = 0;
+
+            angular.forEach(needItem.goals, function(goalItem, goalKey) {
+                goalItem.current_value = parseInt(goalsData[goalItem.sguid]);
+                if(goalsData[goalItem.sguid]) {
+                    needsData[needItem.sguid] += parseInt(goalsData[goalItem.sguid]);
                 }
-
-                needItem.current_value = needsData[needItem.sguid];
-            });
-            $rootScope.$broadcast('needUserValueLoaded', {
-                needsValues: needsData,
-                userId: $scope.user.sguid
-            });
-            $rootScope.$broadcast('goalUserValueLoaded', {
-                goalsValues: goalsData,
-                userId: $scope.user.sguid
             });
 
-            $rootScope.$broadcast('loaderHide');
+            if(СareerService.isCareer(needItem))
+                needsData[needItem.sguid] = СareerService.calculate(needItem);
 
-            var openGoal = $cookieStore.get("openGoal");
-            if(!$scope.persistState) {
-                openGoal = null;
-            }
-
-            if($scope.openFirst && !openGoal) {
-                $scope.openCriteriumList({}, $scope.needs[0], $scope.needs[0].goals[0], $scope.needs);
-            }
-
-            if(openGoal && $scope.persistState) {
-                var openNeed = $cookieStore.get("openNeed");
-
-                var need = $scope.needs.filter(function(value) {
-                    if(value.sguid == openNeed) {
-                        return value;
-                    }
-                })[0];
-
-                var goal = need.goals.filter(function(value) {
-                    if(value.sguid == openGoal) {
-                        return value;
-                    }
-                })[0];
-
-                $scope.openCriteriumList({}, need, goal, $scope.needs);
-                setTimeout(function() {
-                    $("#content .tab .mypro.acrd").scrollTop($("#content .tab .mypro.acrd .crits ul li h5.current").offset().top - 200); 
-                }, 0);
-            }
+            needItem.current_value = needsData[needItem.sguid];
         });
+        $rootScope.$broadcast('needUserValueLoaded', {
+            needsValues: needsData,
+            userId: $scope.user.sguid,
+            route: $scope.route
+        });
+        $rootScope.$broadcast('goalUserValueLoaded', {
+            goalsValues: goalsData,
+            userId: $scope.user.sguid,
+            route: $scope.route
+        });
+
+        /*
+
+        var openGoal = $cookieStore.get("openGoal");
+        if(!$scope.persistState) {
+            openGoal = null;
+        }
+
+        if($scope.openFirst && !openGoal) {
+            $scope.openCriteriumList({}, $scope.needs[0], $scope.needs[0].goals[0], $scope.needs);
+        }
+
+        if(openGoal && $scope.persistState) {
+            var openNeed = $cookieStore.get("openNeed");
+
+            var need = $scope.needs.filter(function(value) {
+                if(value.sguid == openNeed) {
+                    return value;
+                }
+            })[0];
+
+            var goal = need.goals.filter(function(value) {
+                if(value.sguid == openGoal) {
+                    return value;
+                }
+            })[0];
+
+            $scope.openCriteriumList({}, need, goal, $scope.needs);
+            setTimeout(function() {
+                $("#content .tab .mypro.acrd").scrollTop($("#content .tab .mypro.acrd .crits ul li h5.current").offset().top - 200); 
+            }, 0);
+        }
+        */
+    }
+    
+    // забираем данные колбас
+    $scope.bindUserNeedsValues = function() {
+        UserService.getGoalsPointsById($scope.user.sguid, $scope.bindUserNeedsValuesCallback_);;
     }
 
     $scope.addEmptyElement = function(goal) {
@@ -6189,7 +6379,8 @@ function NeedsAndGoalsController($scope, Goals, Criterion, AuthUser, UserCriteri
 
                     $rootScope.$broadcast('criteriaUserValueLoaded', {
                         fCriteria: fCriteria,
-                        userId: $scope.user.sguid
+                        userId: $scope.user.sguid,
+                        route: $scope.route
                     });
 
                     var currentElement = $('li[data-id="'+fCriteria.sguid+'"] li[data-id="'+userCriteriaItem.criteria_value_sguid+'"]', $($element));
@@ -6312,16 +6503,16 @@ function NeedsAndGoalsController($scope, Goals, Criterion, AuthUser, UserCriteri
      * @return {[type]}          [description]
      */
     $scope.onCriteriaSelect = function(criteriaValue, criteria, $event, needItem, goalItem) {
-        if(!$($event.target).hasClass("current") && $scope.user.sguid == AuthUser.get()) {
+        if(!$($event.target).hasClass("current")) {
             if(criteriaValue.sguid !== "none") {
-                UserCriteriaValue.create({}, $.param({
+                /*UserCriteriaValue.create({}, $.param({
                     "user_guid": AuthUser.get(),
                     "criteria_guid": criteria.sguid,
                     "criteria_value_guid": criteriaValue.sguid
                 }), function(data) {
                     criteria.user_criteria_id = data.message.sguid;
                     $rootScope.$broadcast('userCriteriaUpdate');
-                });
+                });*/
             } else {
                 if(criteria.user_criteria_id) {
                     UserCriteriaValue.del({id: criteria.user_criteria_id}, {}, function(data) {
@@ -6740,11 +6931,15 @@ function QuickUserChangeCtrl($scope, User, AuthUser, $rootScope, $location, $rou
  * Контроллер правой панели
  */
 function RightController($scope) {
-	// определяет показывается ли блок или нет
-	$scope.show = true;
-    
-    // определяет в каком состоянии находится signup или нет
-    $scope.signup = false;
+	// состояние блоков
+	$scope.state = 0;
+
+    // существующие состояния
+    $scope.states = {
+        SIGNIN: 0,
+        SIGNUP: 1,
+        IMPROVA: 2 
+    }
 
     // событие убираня этого блока со страницы
     $scope.$on('hideRightPanel', function() {
@@ -6757,8 +6952,8 @@ function RightController($scope) {
     });
 
     // переключаем состояние панели
-    $scope.signupChange = function(state) {
-        $scope.signup = state;
+    $scope.changeState = function(state) {
+        $scope.state = state;
     }
 }
 /**
@@ -7674,6 +7869,9 @@ function UserController($scope, FriendsService, UserService, $element, $route, $
     $scope.userServiceGetByIdCallback_ = function(data) {
         $scope.user = data;
 
+        // отправляем полученные данные в событие
+        $rootScope.$broadcast('userGetById', { user: data, route: $scope.route });
+
         // определяем друг пользователь или нет
         $scope.isFriend = FriendsService.isFriend($scope.user, $scope.workspace.friends);
     }
@@ -7681,6 +7879,7 @@ function UserController($scope, FriendsService, UserService, $element, $route, $
     // закрывает плашку с текущим пользователем
     $scope.close = function() {
         $location.search($scope.route, null);
+        $rootScope.$broadcast('closeUserPanel');
     }
 
     // инициализация контрллера
@@ -7948,6 +8147,15 @@ function UserController($scope, FriendsService, UserService, $element, $route, $
 }
 // контролле панели пользователей
 function UsersController($scope, $location, $rootScope, $timeout) {
+    // список значений нидсов для пользователя
+    $scope.needsValues = {};
+
+    // список значений голсов для пользователя
+    $scope.goalsValues = {};
+
+    // значения критериев
+    $scope.criteriumsValues = {};
+
 	// определяем показываем ли мы панель или нет
 	$scope.show = $location.search().user1 || $location.search().user2 ? true : false;
 
@@ -7957,6 +8165,29 @@ function UsersController($scope, $location, $rootScope, $timeout) {
 			$rootScope.$broadcast('hideRightPanel');
 		}, 0);
 	}
+
+    // событие загрузки цифр для колбас для needs
+    $scope.$on('needUserValueLoaded', function (event, message) {
+    	$scope.needsValues[message.route] = message.needsValues;
+    });
+
+    // событие загрузки цифр для колбас для needs
+    $scope.$on('goalUserValueLoaded', function (event, message) {
+        $scope.goalsValues[message.route] = message.goalsValues;
+    });
+
+    // событие загрузки цифр для колбас для needs
+    $scope.$on('criteriaUserValueLoaded', function (event, message) {
+        if(!$scope.criteriumsValues[message.fCriteria.sguid]) {
+            $scope.criteriumsValues[message.fCriteria.sguid] = {};
+        }
+
+        var fCriteriumValue = message.fCriteria.criteria_values.filter(function(value) {
+            return value.sguid == message.fCriteria.user_criteria_sguid;
+        })[0];
+
+        $scope.criteriumsValues[message.fCriteria.sguid][message.route] = fCriteriumValue.value;
+    });
 
 	// событие показа панели с пользователем
 	$scope.$on('showUserProfile', function(event, message) {
