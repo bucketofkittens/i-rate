@@ -68,17 +68,20 @@ function NeedsAndGoalsController($scope, СareerService, UserService, Goals, Cri
                 }
             });
 
-            needsData[needItem.sguid] = СareerService.calculate(needItem);
+            if(СareerService.isCareer(needItem))
+                needsData[needItem.sguid] = СareerService.calculate(needItem);
 
             needItem.current_value = needsData[needItem.sguid];
         });
         $rootScope.$broadcast('needUserValueLoaded', {
             needsValues: needsData,
-            userId: $scope.user.sguid
+            userId: $scope.user.sguid,
+            route: $scope.route
         });
         $rootScope.$broadcast('goalUserValueLoaded', {
             goalsValues: goalsData,
-            userId: $scope.user.sguid
+            userId: $scope.user.sguid,
+            route: $scope.route
         });
 
         /*
@@ -189,7 +192,8 @@ function NeedsAndGoalsController($scope, СareerService, UserService, Goals, Cri
 
                     $rootScope.$broadcast('criteriaUserValueLoaded', {
                         fCriteria: fCriteria,
-                        userId: $scope.user.sguid
+                        userId: $scope.user.sguid,
+                        route: $scope.route
                     });
 
                     var currentElement = $('li[data-id="'+fCriteria.sguid+'"] li[data-id="'+userCriteriaItem.criteria_value_sguid+'"]', $($element));

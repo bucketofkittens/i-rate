@@ -52,7 +52,173 @@ pgrModule.directive('backImg', function() {
   }
 })
 
+// директива сравнения need для пользователей
+pgrModule.directive('needComparator', function($rootScope) {
+  return {
+    scope: true,
+    link: function(scope, element, attrs) {
+      var lastUser = 'user2';
+      var firstUser = 'user1';
+      var classes = {
+        DOWN: 'down',
+        UP: 'up',
+        CENTER: 'same'
+      };
 
+      attrs.$observe('needs', function(data) {
+        scope.needsCurrentValues = JSON.parse(data);
+
+        if(scope.needsCurrentValues && scope.needItem.current_value && scope.route == lastUser)
+          scope.isCompare();
+      });
+
+      $rootScope.$on('closeUserPanel', function (event, message) {
+        element.removeClass(classes.DOWN);
+        element.removeClass(classes.UP);
+        element.removeClass(classes.CENTER);
+      });
+
+      scope.$watch("needItem.current_value", function (newVal, oldVal, scope) {
+        if(scope.needsCurrentValues && newVal && scope.route == lastUser)
+          scope.isCompare();
+      });
+
+      // функция сравнения
+      scope.isCompare = function() {
+        if(scope.needsCurrentValues[firstUser] && scope.needsCurrentValues[firstUser][scope.needItem.sguid]) {
+          if(scope.needsCurrentValues[firstUser][scope.needItem.sguid] > scope.needItem.current_value) {
+            element.addClass(classes.DOWN);
+          }
+          if(scope.needsCurrentValues[firstUser][scope.needItem.sguid] < scope.needItem.current_value) {
+            element.addClass(classes.UP);
+          }
+          if(scope.needsCurrentValues[firstUser][scope.needItem.sguid] == scope.needItem.current_value) {
+            element.addClass(classes.CENTER);
+          }
+        }
+      }
+    }
+  }
+})
+
+//
+pgrModule.directive('goalComparator', function($rootScope) {
+  return {
+    scope: true,
+    link: function(scope, element, attrs) {
+      var lastUser = 'user2';
+      var firstUser = 'user1';
+      var classes = {
+        DOWN: 'down',
+        UP: 'up',
+        CENTER: 'same'
+      };
+
+      attrs.$observe('goals', function(data) {
+        scope.goalsCurrentValues = JSON.parse(data);
+
+        if(scope.goalsCurrentValues && scope.goalItem.current_value && scope.route == lastUser)
+          scope.isCompare();
+      });
+
+      $rootScope.$on('closeUserPanel', function (event, message) {
+        element.removeClass(classes.DOWN);
+        element.removeClass(classes.UP);
+        element.removeClass(classes.CENTER);
+      });
+
+      scope.$watch("goalItem.current_value", function (newVal, oldVal, scope) {
+        if(scope.goalsCurrentValues && newVal && scope.route == lastUser)
+          scope.isCompare();
+      });
+
+      // функция сравнения
+      scope.isCompare = function() {
+        if(scope.goalsCurrentValues[firstUser] && scope.goalsCurrentValues[firstUser][scope.goalItem.sguid]) {
+          if(scope.goalsCurrentValues[firstUser][scope.goalItem.sguid] > scope.goalItem.current_value) {
+            element.addClass(classes.DOWN);
+          }
+          if(scope.goalsCurrentValues[firstUser][scope.goalItem.sguid] < scope.goalItem.current_value) {
+            element.addClass(classes.UP);
+          }
+          if(scope.goalsCurrentValues[firstUser][scope.goalItem.sguid] == scope.goalItem.current_value) {
+            element.addClass(classes.CENTER);
+          }
+        } else {
+          element.addClass(classes.CENTER);
+        }
+      }
+    }
+  }
+})
+
+//
+pgrModule.directive('criteriumComparator', function($rootScope) {
+  return {
+    scope: true,
+    link: function(scope, element, attrs) {
+      var lastUser = 'user2';
+      var firstUser = 'user1';
+      var classes = {
+        DOWN: 'down',
+        UP: 'up',
+        CENTER: 'same'
+      };
+      /*
+
+      attrs.$observe('criteriums', function(data) {
+        scope.criteriumsCurrentValues = JSON.parse(data);
+        if(scope.currentValues && scope.criteriumsCurrentValues) {
+          scope.isCompare();
+        }
+        //console.log(scope.crItem);
+        //if(scope.criteriumsCurrentValues && scope.goalItem.current_value)
+        //  scope.isCompare();
+      });
+
+      scope.getValueById = function(id, values) {
+        var item = null;
+        angular.forEach(values, function(value, key){
+          if(value.sguid == id) {
+            item = value
+          }
+        });
+
+        return item;
+      }
+
+      $rootScope.$on('closeUserPanel', function (event, message) {
+        element.removeClass(classes.DOWN);
+        element.removeClass(classes.UP);
+        element.removeClass(classes.CENTER);
+      });
+
+      /*scope.$watch("goalItem.current_value", function (newVal, oldVal, scope) {
+        if(scope.goalsCurrentValues && newVal)
+          scope.isCompare();
+      });
+
+      // функция сравнения
+      scope.isCompare = function() {
+        var fCriterium = scope.criteriumsCurrentValues[firstUser][scope.crItem.sguid];
+        var fCriteriumValue = fCriterium.criteria_values.filter(function(value) {
+            return value.sguid == fCriterium.user_criteria_sguid;
+        })[0];
+
+        if(scope.goalsCurrentValues[firstUser][scope.goalItem.sguid] > scope.goalItem.current_value) {
+          element.addClass(classes.DOWN);
+        }
+        if(scope.goalsCurrentValues[firstUser][scope.goalItem.sguid] < scope.goalItem.current_value) {
+          element.addClass(classes.UP);
+        }
+        if(scope.goalsCurrentValues[firstUser][scope.goalItem.sguid] == scope.goalItem.current_value) {
+          element.addClass(classes.CENTER);
+        }
+      }
+      */
+    }
+  }
+})
 
 pgrModule.directive('scroller', function($window) {
   return {

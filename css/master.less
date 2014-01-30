@@ -3693,9 +3693,9 @@ table#graphs {
     position: absolute;
     left: 0px;
     top: 0px;
-    width: 100%;
+    width: 100%; 
     height: 100%;
-    overflow-y: scroll;
+    overflow-y: scroll; 
     &::-webkit-scrollbar {
         width: 0px;
         height: 0px; 
@@ -3723,5 +3723,28 @@ table#graphs {
                 z-index: 5 !important;
             }
         }
+    }
+}
+
+.compare {
+    position: absolute;
+    z-index: 10;
+    left: 0px;
+    top: 0px;
+    display: block;
+    &.up {
+        width: 50px;
+        height: 70px;
+        background: url("../images/sub.png") left top no-repeat;
+    }
+    &.down {
+        width: 50px;
+        height: 70px;
+        background: url("../images/sup.png") left top no-repeat;
+    }
+    &.same {
+        width: 50px;
+        height: 70px;
+        background: url("../images/sss.png") left top no-repeat;
     }
 }

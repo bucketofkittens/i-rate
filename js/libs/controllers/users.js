@@ -1,7 +1,13 @@
 // контролле панели пользователей
 function UsersController($scope, $location, $rootScope, $timeout) {
-	// список пользователей
-	$scope.users = {};
+    // список значений нидсов для пользователя
+    $scope.needsValues = {};
+
+    // список значений голсов для пользователя
+    $scope.goalsValues = {};
+
+    // значения критериев
+    $scope.criteriumsValues = {};
 
 	// определяем показываем ли мы панель или нет
 	$scope.show = $location.search().user1 || $location.search().user2 ? true : false;
@@ -13,24 +19,24 @@ function UsersController($scope, $location, $rootScope, $timeout) {
 		}, 0);
 	}
 
-	// событие срабаывает когда забираются данные с плашки пользователя
-    $scope.$on('userGetById', function (event, message) {
-    	$scope.users[message.route] = message.user;
+    // событие загрузки цифр для колбас для needs
+    $scope.$on('needUserValueLoaded', function (event, message) {
+    	$scope.needsValues[message.route] = message.needsValues;
     });
 
     // событие загрузки цифр для колбас для needs
-    $scope.$on('needUserValueLoaded', function (event, message) {
-    	$scope.getUserById(message.userId).needs_values = message.needsValues;
+    $scope.$on('goalUserValueLoaded', function (event, message) {
+        $scope.goalsValues[message.route] = message.goalsValues;
     });
 
-    // ищет вхождение в массив пользователей по id
-    $scope.getUserById = function(id) {
-    	return angular.forEach($scope.users, function(value, key){
-    		if(value.sguid == id) {
-    			return value;
-    		}
-    	});
-    }
+    // событие загрузки цифр для колбас для needs
+    $scope.$on('criteriaUserValueLoaded', function (event, message) {
+        if(!$scope.criteriumsValues[message.route]) {
+            $scope.criteriumsValues[message.route] = {};
+        }
+        $scope.criteriumsValues[message.route][message.fCriteria.sguid] = message.fCriteria;
+        console.log($scope.criteriumsValues);
+    });
 
 	// событие показа панели с пользователем
 	$scope.$on('showUserProfile', function(event, message) {

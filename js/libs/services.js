@@ -597,24 +597,32 @@ pgrModule.service('СareerService', function (Needs) {
         lscache.set(this.cacheName, JSON.stringify(data), this.cacheTime);
     }
 
+    // считаем баллы карьеры по формуле
     this.calculate = function(needItem) {
+        var max = 0;
+        var carreerMax = {};
+        var moneyPoints = 0;
+
+        angular.forEach(needItem.goals, function(goal) {
+            if (goal.current_value > max && goal.name != this.moneyItemName) {
+              max = goal.current_value;
+              carreerMax = {goal: goal.sguid, points: goal.current_value};
+            }
+            if(goal.name == this.moneyItemName) {
+              moneyPoints = goal.current_value;
+            }
+        });
+
+        return parseInt(carreerMax.points + moneyPoints);
+        needsData[needItem.sguid] = parseInt(carreerMax.points + moneyPoints);
+    }
+
+    // проверяет является ли указанный need карьерой или нет
+    this.isCareer = function(needItem) {
         if(needItem.name == this.needItemName) {
-            var max = 0;
-            var carreerMax = {};
-            var moneyPoints = 0;
-
-            angular.forEach(needItem.goals, function(goal) {
-                if (goal.current_value > max && goal.name != this.moneyItemName) {
-                  max = goal.current_value;
-                  carreerMax = {goal: goal.sguid, points: goal.current_value};
-                }
-                if(goal.name == this.moneyItemName) {
-                  moneyPoints = goal.current_value;
-                }
-            });
-
-            return parseInt(carreerMax.points + moneyPoints);
-            needsData[needItem.sguid] = parseInt(carreerMax.points + moneyPoints);
+            return true;
+        } else {
+            return false;
         }
     }
 });
