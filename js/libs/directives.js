@@ -52,108 +52,8 @@ pgrModule.directive('backImg', function() {
   }
 })
 
-// директива сравнения need для пользователей
-pgrModule.directive('needComparator', function($rootScope) {
-  return {
-    scope: true,
-    link: function(scope, element, attrs) {
-      var lastUser = 'user2';
-      var firstUser = 'user1';
-      var classes = {
-        DOWN: 'down',
-        UP: 'up',
-        CENTER: 'same'
-      };
-
-      attrs.$observe('needs', function(data) {
-        scope.needsCurrentValues = JSON.parse(data);
-
-        if(scope.needsCurrentValues && scope.needItem.current_value && scope.route == lastUser)
-          scope.isCompare();
-      });
-
-      $rootScope.$on('closeUserPanel', function (event, message) {
-        element.removeClass(classes.DOWN);
-        element.removeClass(classes.UP);
-        element.removeClass(classes.CENTER);
-      });
-
-      scope.$watch("needItem.current_value", function (newVal, oldVal, scope) {
-        if(scope.needsCurrentValues && newVal && scope.route == lastUser)
-          scope.isCompare();
-      });
-
-      // функция сравнения
-      scope.isCompare = function() {
-        if(scope.needsCurrentValues[firstUser] && scope.needsCurrentValues[firstUser][scope.needItem.sguid]) {
-          if(scope.needsCurrentValues[firstUser][scope.needItem.sguid] > scope.needItem.current_value) {
-            element.addClass(classes.DOWN);
-          }
-          if(scope.needsCurrentValues[firstUser][scope.needItem.sguid] < scope.needItem.current_value) {
-            element.addClass(classes.UP);
-          }
-          if(scope.needsCurrentValues[firstUser][scope.needItem.sguid] == scope.needItem.current_value) {
-            element.addClass(classes.CENTER);
-          }
-        }
-      }
-    }
-  }
-})
-
 //
-pgrModule.directive('goalComparator', function($rootScope) {
-  return {
-    scope: true,
-    link: function(scope, element, attrs) {
-      var lastUser = 'user2';
-      var firstUser = 'user1';
-      var classes = {
-        DOWN: 'down',
-        UP: 'up',
-        CENTER: 'same'
-      };
-
-      attrs.$observe('goals', function(data) {
-        scope.goalsCurrentValues = JSON.parse(data);
-
-        if(scope.goalsCurrentValues && scope.goalItem.current_value && scope.route == lastUser)
-          scope.isCompare();
-      });
-
-      $rootScope.$on('closeUserPanel', function (event, message) {
-        element.removeClass(classes.DOWN);
-        element.removeClass(classes.UP);
-        element.removeClass(classes.CENTER);
-      });
-
-      scope.$watch("goalItem.current_value", function (newVal, oldVal, scope) {
-        if(scope.goalsCurrentValues && newVal && scope.route == lastUser)
-          scope.isCompare();
-      });
-
-      // функция сравнения
-      scope.isCompare = function() {
-        if(scope.goalsCurrentValues[firstUser] && scope.goalsCurrentValues[firstUser][scope.goalItem.sguid]) {
-          if(scope.goalsCurrentValues[firstUser][scope.goalItem.sguid] > scope.goalItem.current_value) {
-            element.addClass(classes.DOWN);
-          }
-          if(scope.goalsCurrentValues[firstUser][scope.goalItem.sguid] < scope.goalItem.current_value) {
-            element.addClass(classes.UP);
-          }
-          if(scope.goalsCurrentValues[firstUser][scope.goalItem.sguid] == scope.goalItem.current_value) {
-            element.addClass(classes.CENTER);
-          }
-        } else {
-          element.addClass(classes.CENTER);
-        }
-      }
-    }
-  }
-})
-
-//
-pgrModule.directive('criteriumComparator', function() {
+pgrModule.directive('comparator', function() {
   return {
     scope: {
     },
@@ -166,17 +66,21 @@ pgrModule.directive('criteriumComparator', function() {
         CENTER: 'same'
       };
 
-      attrs.$observe('criterium', function(data) {
+      attrs.$observe('values', function(data) {
         if(data && data.length > 0 && attrs.route == lastUser) {
           var values = JSON.parse(data);
           if(values[lastUser] && values[firstUser]) {
             var first = values[firstUser];
             var last = values[lastUser];
 
-            if(first < last) {
+            element.removeClass(classes.DOWN);
+            element.removeClass(classes.UP);
+            element.removeClass(classes.CENTER);
+
+            if(first > last) {
               element.addClass(classes.DOWN);
             }
-            if(first > last) {
+            if(first < last) {
               element.addClass(classes.UP);
             }
             if(first == last) {

@@ -21,12 +21,12 @@ function UsersController($scope, $location, $rootScope, $timeout) {
 
     // событие загрузки цифр для колбас для needs
     $scope.$on('needUserValueLoaded', function (event, message) {
-    	$scope.needsValues[message.route] = message.needsValues;
+        $scope.needsValues = $scope.calculateValue(message.needsValues, $scope.needsValues, message.route);
     });
 
     // событие загрузки цифр для колбас для needs
     $scope.$on('goalUserValueLoaded', function (event, message) {
-        $scope.goalsValues[message.route] = message.goalsValues;
+        $scope.goalsValues = $scope.calculateValue(message.goalsValues, $scope.goalsValues, message.route);
     });
 
     // событие загрузки цифр для колбас для needs
@@ -41,6 +41,17 @@ function UsersController($scope, $location, $rootScope, $timeout) {
 
         $scope.criteriumsValues[message.fCriteria.sguid][message.route] = fCriteriumValue.value;
     });
+
+    $scope.calculateValue = function(data, beginData, route) {
+        angular.forEach(data, function(value, key){
+            if(!beginData[key]) {
+                beginData[key] = {};
+            }
+            beginData[key][route] = value;
+        });
+
+        return beginData;
+    }
 
 	// событие показа панели с пользователем
 	$scope.$on('showUserProfile', function(event, message) {
@@ -58,6 +69,8 @@ function UsersController($scope, $location, $rootScope, $timeout) {
         	$location.search({user1: message.user.sguid, user2: $location.search().user2});
 		}
     });
+
+    
 
     // событие переключчения состояния страницы.
     $scope.$on('$locationChangeSuccess', function () {

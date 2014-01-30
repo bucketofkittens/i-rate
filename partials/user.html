@@ -153,7 +153,7 @@
 							</span>
 						</strong>	
 					</div>
-					<sup class="compare" need-comparator needs="{{needsValues}}"></sup>
+					<sup class="compare" route="{{route}}" comparator values="{{needsValues[needItem.sguid]}}"></sup>
 				</div>
 				<ul ng-class="{current: needItem.current}">
 					<li ng-repeat="(goalKey,goalItem) in needItem.goals | orderBy:'position'" data-goalid="{{goalItem.sguid}}" user-id="{{user.sguid}}" >
@@ -171,7 +171,7 @@
 								</strong>
 							</div>
 							<i ng-if="!goalItem.current"><em></em></i>
-							<sup class="compare goal" goal-comparator goals="{{goalsValues}}" ></sup>
+							<sup class="compare goal" route="{{route}}" comparator values="{{goalsValues[goalItem.sguid]}}" ></sup>
 						</h5>
 						<ul class="criterion" ng-class="{current: goalItem.current}">
 							<li 
@@ -194,7 +194,7 @@
 										</span>
 									</ul>
 								</div>
-								<sup class="compare criterium" route="{{route}}" criterium-comparator criterium="{{criteriumsValues[crItem.sguid]}}"></sup>
+								<sup class="compare criterium" route="{{route}}" comparator values="{{criteriumsValues[crItem.sguid]}}"></sup>
 							</li>
 						</ul>
 					</li>
