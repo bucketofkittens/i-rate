@@ -1,5 +1,8 @@
 // контролле панели пользователей
 function UsersController($scope, $location, $rootScope, $timeout) {
+	// список пользователей
+	$scope.users = {};
+
 	// определяем показываем ли мы панель или нет
 	$scope.show = $location.search().user1 || $location.search().user2 ? true : false;
 
@@ -9,6 +12,25 @@ function UsersController($scope, $location, $rootScope, $timeout) {
 			$rootScope.$broadcast('hideRightPanel');
 		}, 0);
 	}
+
+	// событие срабаывает когда забираются данные с плашки пользователя
+    $scope.$on('userGetById', function (event, message) {
+    	$scope.users[message.route] = message.user;
+    });
+
+    // событие загрузки цифр для колбас для needs
+    $scope.$on('needUserValueLoaded', function (event, message) {
+    	$scope.getUserById(message.userId).needs_values = message.needsValues;
+    });
+
+    // ищет вхождение в массив пользователей по id
+    $scope.getUserById = function(id) {
+    	return angular.forEach($scope.users, function(value, key){
+    		if(value.sguid == id) {
+    			return value;
+    		}
+    	});
+    }
 
 	// событие показа панели с пользователем
 	$scope.$on('showUserProfile', function(event, message) {

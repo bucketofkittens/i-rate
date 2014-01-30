@@ -499,6 +499,13 @@ pgrModule.service('UserService', function (User) {
             callback(data);
         });
     }
+
+    // заюираем значения для колбас
+    this.getGoalsPointsById = function(id, callback) {
+        User.goals_points({id: id}, {}, function(goalsData) {
+            callback(goalsData);
+        });
+    }
 });
 
 /**
@@ -550,6 +557,12 @@ pgrModule.service('СareerService', function (Needs) {
     // id карьеры
     this.moneyId = '170689401829983233';
 
+    // название need карьеры
+    this.needItemName = 'Career';
+
+    // название goal money
+    this.moneyItemName = 'Money';
+
     // забираем пользователя из кеша
     this.getList = function(needs, callback) {
         var career = lscache.get(this.cacheName);
@@ -578,9 +591,31 @@ pgrModule.service('СareerService', function (Needs) {
         this.persist(careerList);
         callback(careerList);
     }
+
     // сохранение
     this.persist = function(data) {
         lscache.set(this.cacheName, JSON.stringify(data), this.cacheTime);
+    }
+
+    this.calculate = function(needItem) {
+        if(needItem.name == this.needItemName) {
+            var max = 0;
+            var carreerMax = {};
+            var moneyPoints = 0;
+
+            angular.forEach(needItem.goals, function(goal) {
+                if (goal.current_value > max && goal.name != this.moneyItemName) {
+                  max = goal.current_value;
+                  carreerMax = {goal: goal.sguid, points: goal.current_value};
+                }
+                if(goal.name == this.moneyItemName) {
+                  moneyPoints = goal.current_value;
+                }
+            });
+
+            return parseInt(carreerMax.points + moneyPoints);
+            needsData[needItem.sguid] = parseInt(carreerMax.points + moneyPoints);
+        }
     }
 });
 

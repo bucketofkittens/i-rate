@@ -4,31 +4,45 @@
  * @param {[type]} Goals
  * @param {[type]} Criterion
  */
-function NeedsAndGoalsController($scope, Goals, Criterion, AuthUser, UserCriteriaValue, $rootScope, CriterionByGoal, UserCriteriaValueByUser, $routeParams, Needs, User, $element, $cookieStore) {
+function NeedsAndGoalsController($scope, СareerService, UserService, Goals, Criterion, UserCriteriaValue, $rootScope, CriterionByGoal, UserCriteriaValueByUser, $routeParams, Needs, User, $element, $cookieStore) {
+    // список needs-сов
     $scope.needs = [];
+
+    // хрен знает что такое. не помню.
     $scope.currentGoal = null;
 
-
+    // событие изенения workspace.needs
     $scope.$watch('workspace.needs', function (newVal, oldVal, scope) {
         if($scope.workspace.needs) {
+            // делаем локальную копию нидсов
             $scope.needs = JSON.parse(JSON.stringify($scope.workspace.needs));
+
+            // нифига не помню зачем.
             angular.forEach($scope.needs, function(value, key){
                 value.current = true;
             });
+
+            // забираем пользовательские данные.
             $scope.loadUserData_();
+
+            // тоже не помню зачем
             if($scope.allOpen) {
                 $scope.openAllNeeds($scope.needs);
             }
         }
     });
 
+    // когда получаем данные пользователя
     $scope.$watch('user', function (newVal, oldVal, scope) {
         $scope.loadUserData_();
     });
 
+    // забираем пользовательские данные для колбас
     $scope.loadUserData_ = function() {
         if($scope.user && $scope.user.sguid) {
+            // данные для needs
             $scope.bindUserNeedsValues();
+
             angular.forEach($scope.needs, function(value, key){
                 angular.forEach(value.goals, function(v2, k2) {
                     if(v2.current) {
@@ -38,84 +52,72 @@ function NeedsAndGoalsController($scope, Goals, Criterion, AuthUser, UserCriteri
             });
         }
     }
-    
-    /**
-     * Подставляем баллы пользоватля
-     * @return {[type]} [description]
-     */
-    $scope.bindUserNeedsValues = function() {
-        User.goals_points({id: $scope.user.sguid}, {}, function(goalsData) {
-            var needsData = {};
-            angular.forEach($scope.needs, function(needItem, needKey) {
-                needsData[needItem.sguid] = 0;
 
-                angular.forEach(needItem.goals, function(goalItem, goalKey) {
-                    goalItem.current_value = parseInt(goalsData[goalItem.sguid]);
-                    if(goalsData[goalItem.sguid]) {
-                        needsData[needItem.sguid] += parseInt(goalsData[goalItem.sguid]);
-                    }
-                });
-                
-                if(needItem.name == "Career") {
-                    var max = 0;
-                    var carreerMax = {};
-                    var moneyPoints = 0;
+    // забрали данные колбас
+    $scope.bindUserNeedsValuesCallback_ = function(goalsData) {
+        // массив данных кобас
+        var needsData = {};
 
-                    angular.forEach(needItem.goals, function(goal) {
-                        if (goal.current_value > max && goal.name != "Money") {
-                          max = goal.current_value;
-                          carreerMax = {goal: goal.sguid, points: goal.current_value};
-                        }
-                        if(goal.name == "Money") {
-                          moneyPoints = goal.current_value;
-                        }
-                    });
-                    needsData[needItem.sguid] = parseInt(carreerMax.points + moneyPoints);
+        angular.forEach($scope.needs, function(needItem, needKey) {
+            needsData[needItem.sguid] = 0;
+
+            angular.forEach(needItem.goals, function(goalItem, goalKey) {
+                goalItem.current_value = parseInt(goalsData[goalItem.sguid]);
+                if(goalsData[goalItem.sguid]) {
+                    needsData[needItem.sguid] += parseInt(goalsData[goalItem.sguid]);
                 }
-
-                needItem.current_value = needsData[needItem.sguid];
-            });
-            $rootScope.$broadcast('needUserValueLoaded', {
-                needsValues: needsData,
-                userId: $scope.user.sguid
-            });
-            $rootScope.$broadcast('goalUserValueLoaded', {
-                goalsValues: goalsData,
-                userId: $scope.user.sguid
             });
 
-            $rootScope.$broadcast('loaderHide');
+            needsData[needItem.sguid] = СareerService.calculate(needItem);
 
-            var openGoal = $cookieStore.get("openGoal");
-            if(!$scope.persistState) {
-                openGoal = null;
-            }
-
-            if($scope.openFirst && !openGoal) {
-                $scope.openCriteriumList({}, $scope.needs[0], $scope.needs[0].goals[0], $scope.needs);
-            }
-
-            if(openGoal && $scope.persistState) {
-                var openNeed = $cookieStore.get("openNeed");
-
-                var need = $scope.needs.filter(function(value) {
-                    if(value.sguid == openNeed) {
-                        return value;
-                    }
-                })[0];
-
-                var goal = need.goals.filter(function(value) {
-                    if(value.sguid == openGoal) {
-                        return value;
-                    }
-                })[0];
-
-                $scope.openCriteriumList({}, need, goal, $scope.needs);
-                setTimeout(function() {
-                    $("#content .tab .mypro.acrd").scrollTop($("#content .tab .mypro.acrd .crits ul li h5.current").offset().top - 200); 
-                }, 0);
-            }
+            needItem.current_value = needsData[needItem.sguid];
         });
+        $rootScope.$broadcast('needUserValueLoaded', {
+            needsValues: needsData,
+            userId: $scope.user.sguid
+        });
+        $rootScope.$broadcast('goalUserValueLoaded', {
+            goalsValues: goalsData,
+            userId: $scope.user.sguid
+        });
+
+        /*
+
+        var openGoal = $cookieStore.get("openGoal");
+        if(!$scope.persistState) {
+            openGoal = null;
+        }
+
+        if($scope.openFirst && !openGoal) {
+            $scope.openCriteriumList({}, $scope.needs[0], $scope.needs[0].goals[0], $scope.needs);
+        }
+
+        if(openGoal && $scope.persistState) {
+            var openNeed = $cookieStore.get("openNeed");
+
+            var need = $scope.needs.filter(function(value) {
+                if(value.sguid == openNeed) {
+                    return value;
+                }
+            })[0];
+
+            var goal = need.goals.filter(function(value) {
+                if(value.sguid == openGoal) {
+                    return value;
+                }
+            })[0];
+
+            $scope.openCriteriumList({}, need, goal, $scope.needs);
+            setTimeout(function() {
+                $("#content .tab .mypro.acrd").scrollTop($("#content .tab .mypro.acrd .crits ul li h5.current").offset().top - 200); 
+            }, 0);
+        }
+        */
+    }
+    
+    // забираем данные колбас
+    $scope.bindUserNeedsValues = function() {
+        UserService.getGoalsPointsById($scope.user.sguid, $scope.bindUserNeedsValuesCallback_);;
     }
 
     $scope.addEmptyElement = function(goal) {
@@ -310,16 +312,16 @@ function NeedsAndGoalsController($scope, Goals, Criterion, AuthUser, UserCriteri
      * @return {[type]}          [description]
      */
     $scope.onCriteriaSelect = function(criteriaValue, criteria, $event, needItem, goalItem) {
-        if(!$($event.target).hasClass("current") && $scope.user.sguid == AuthUser.get()) {
+        if(!$($event.target).hasClass("current")) {
             if(criteriaValue.sguid !== "none") {
-                UserCriteriaValue.create({}, $.param({
+                /*UserCriteriaValue.create({}, $.param({
                     "user_guid": AuthUser.get(),
                     "criteria_guid": criteria.sguid,
                     "criteria_value_guid": criteriaValue.sguid
                 }), function(data) {
                     criteria.user_criteria_id = data.message.sguid;
                     $rootScope.$broadcast('userCriteriaUpdate');
-                });
+                });*/
             } else {
                 if(criteria.user_criteria_id) {
                     UserCriteriaValue.del({id: criteria.user_criteria_id}, {}, function(data) {

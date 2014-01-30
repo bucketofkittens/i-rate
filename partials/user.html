@@ -153,6 +153,7 @@
 							</span>
 						</strong>	
 					</div>
+					<sup class="compare"></sup>
 				</div>
 				<ul ng-class="{current: needItem.current}">
 					<li ng-repeat="(goalKey,goalItem) in needItem.goals | orderBy:'position'" data-goalid="{{goalItem.sguid}}" user-id="{{user.sguid}}" >
@@ -170,6 +171,7 @@
 								</strong>
 							</div>
 							<i ng-if="!goalItem.current"><em></em></i>
+							<sup class="compare"></sup>
 						</h5>
 						<ul class="criterion" ng-class="{current: goalItem.current}">
 							<li 
@@ -190,6 +192,7 @@
 										<span>
 											<img src="../images/ar.png">
 										</span>
+										<sup class="compare"></sup>
 									</ul>
 								</div>
 							</li>
