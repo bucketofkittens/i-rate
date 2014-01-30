@@ -44,11 +44,11 @@ var pgrModule = angular.module(
 		'ngTouch', 
 		'ngFacebook',
 		"localization", 
-        'ui.date',
-        'ui.autocomplete',
+        //'ui.date',
+        //'ui.autocomplete',
         'ui.keypress',
         'vcRecaptcha',
-        'rzModule'
+        //'rzModule'
 		]
 	);
 
@@ -85,42 +85,40 @@ pgrModule.factory('httpRequestInterceptor', function () {
   };
 });
 
-pgrModule.config(function($facebookProvider) {
-	$facebookProvider.setPermissions("email,user_birthday,user_location,user_about_me");
-	$facebookProvider.setAppId(socialsAccess.facebook.applicationId[window.location.hostname]);
-});
+
 
 pgrModule.config(['$httpProvider', function($httpProvider) {
     $httpProvider.interceptors.push('httpRequestInterceptor');
 }]);
 
+Array.prototype.shuffle = function(b) {
+    var i = this.length, j, t;
+    while(i) {
+        j = Math.floor( ( i-- ) * Math.random() );
+        t = b && typeof this[i].shuffle!=='undefined' ? this[i].shuffle() : this[i];
+        this[i] = this[j];
+        this[j] = t;
+    }
 
-pgrModule.run(function() {
-	(function(d, s, id){
-	 var js, fjs = d.getElementsByTagName(s)[0];
-	 if (d.getElementById(id)) {return;}
-	 js = d.createElement(s); js.id = id;
-	 js.src = "//connect.facebook.net/en_US/all.js";
-	 fjs.parentNode.insertBefore(js, fjs);
-	}(document, 'script', 'facebook-jssdk'));
+    return this;
+};
 
-	(function() {
-	  var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
-	  po.src = 'https://apis.google.com/js/client:plusone.js';
-	  var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
-	})();
+Array.prototype.remove = function(from, to) {
+    var rest = this.slice((to || from) + 1 || this.length);
+      this.length = from < 0 ? this.length + from : from;
+      return this.push.apply(this, rest);
+};
 
-	WL.init({
-	    client_id: "000000004410A030",
-	    redirect_uri: "http://i-rate.com/",
-	    scope: "wl.signin", 
-	    response_type: "token"
-	});
+function degToRad (deg) { return deg / 180 * Math.PI; }
+function radToDeg (rad) { return rad / Math.PI * 180; }
 
-	!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="https://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");
-})
+function randomRange(l,h){
+  var range = (h-l);
+  var random = Math.floor(Math.random()*range);
+  if (random === 0){random+=1;}
+  return l+random;
+}
 
-// возвращает cookie если есть или undefined
 function getCookie(name) {
 	var matches = document.cookie.match(new RegExp(
 	  "(?:^|; )" + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + "=([^;]*)"
@@ -154,6 +152,41 @@ function setCookie(name, value, props) {
 function deleteCookie(name) {
 	setCookie(name, null, { expires: -1 })
 }
+
+/*
+pgrModule.config(function($facebookProvider) {
+	$facebookProvider.setPermissions("email,user_birthday,user_location,user_about_me");
+	$facebookProvider.setAppId(socialsAccess.facebook.applicationId[window.location.hostname]);
+});
+
+
+pgrModule.run(function() {
+	(function(d, s, id){
+	 var js, fjs = d.getElementsByTagName(s)[0];
+	 if (d.getElementById(id)) {return;}
+	 js = d.createElement(s); js.id = id;
+	 js.src = "//connect.facebook.net/en_US/all.js";
+	 fjs.parentNode.insertBefore(js, fjs);
+	}(document, 'script', 'facebook-jssdk'));
+
+	(function() {
+	  var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+	  po.src = 'https://apis.google.com/js/client:plusone.js';
+	  var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+	})();
+
+	WL.init({
+	    client_id: "000000004410A030",
+	    redirect_uri: "http://i-rate.com/",
+	    scope: "wl.signin", 
+	    response_type: "token"
+	});
+
+	!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="https://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");
+})
+
+// возвращает cookie если есть или undefined
+
 
 
 
@@ -211,30 +244,5 @@ function makeApiCall() {
 	});
 }
 
-Array.prototype.shuffle = function(b) {
-    var i = this.length, j, t;
-    while(i) {
-        j = Math.floor( ( i-- ) * Math.random() );
-        t = b && typeof this[i].shuffle!=='undefined' ? this[i].shuffle() : this[i];
-        this[i] = this[j];
-        this[j] = t;
-    }
 
-    return this;
-};
-
-Array.prototype.remove = function(from, to) {
-    var rest = this.slice((to || from) + 1 || this.length);
-      this.length = from < 0 ? this.length + from : from;
-      return this.push.apply(this, rest);
-};
-
-function degToRad (deg) { return deg / 180 * Math.PI; }
-function radToDeg (rad) { return rad / Math.PI * 180; }
-
-function randomRange(l,h){
-  var range = (h-l);
-  var random = Math.floor(Math.random()*range);
-  if (random === 0){random+=1;}
-  return l+random;
-}
+*/
