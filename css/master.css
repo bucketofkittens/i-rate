@@ -352,6 +352,6 @@ table#graphs tr:last-child td{border-top:none}
 #users .center{margin:0 auto;width:1000px}#users .center .user{width:500px;float:right;position:relative;z-index:10}#users .center .user:first-child{float:left}
 #users .center .user .sam{width:500px;position:relative;margin-top:60px;background:url("../images/glass.png") left top no-repeat;background-size:100% 100%;z-index:3;box-shadow:-2px 0 20px 0 #000,inset 2px 3px 15px 0 rgba(0,0,0,0.7);min-height:100%}
 #users .center .user.sha .sam{z-index:5 !important}
-.compare{position:absolute;z-index:10;left:-40px;top:3px;width:35px;height:48px;background-size:100%}.compare.up{background-image:url("../images/sub.png")}
+.compare{position:absolute;z-index:10;left:-37px;top:-4px;width:35px;height:65px;background-size:100% 100%}.compare.goal{top:-13px}
+.compare.up{background-image:url("../images/sub.png")}
 .compare.down{background-image:url("../images/sup.png");left:-28px}
-.compare.same{background-image:url("../images/sss.png")}
