@@ -3007,41 +3007,44 @@ pgrModule.directive('backImg', function() {
   }
 })
 
-//
+// сравнение пользователей
 pgrModule.directive('comparator', function() {
   return {
     scope: {
     },
     link: function(scope, element, attrs) {
-      var lastUser = 'user2';
-      var firstUser = 'user1';
+      // название роутингов пользователей
+      var usersName = {
+        USER1: "user1",
+        USER2: "user2"
+      }
+
+      // название подставляемых классов
       var classes = {
         DOWN: 'down',
         UP: 'up',
         CENTER: 'same'
       };
 
+      // событие изменения значений
       attrs.$observe('values', function(data) {
-        if(data && data.length > 0 && attrs.route == lastUser) {
+        if(data && data.length > 0 && attrs.route == usersName.USER2) {
           var values = JSON.parse(data);
-          if(values[lastUser] && values[firstUser]) {
-            var first = values[firstUser];
-            var last = values[lastUser];
-
-            element.removeClass(classes.DOWN);
-            element.removeClass(classes.UP);
-            element.removeClass(classes.CENTER);
-
-            if(first > last) {
+          if(values[usersName.USER1] && values[usersName.USER2]) {
+            if(values[usersName.USER1] > values[usersName.USER2]) {
               element.addClass(classes.DOWN);
             }
-            if(first < last) {
+            if(values[usersName.USER1] < values[usersName.USER2]) {
               element.addClass(classes.UP);
             }
-            if(first == last) {
+            if(values[usersName.USER1] == values[usersName.USER2]) {
               element.addClass(classes.CENTER);
             }
-          }  
+          } else {
+            element.removeClass(classes.DOWN).removeClass(classes.UP).removeClass(classes.CENTER);
+          }
+        } else {
+          element.removeClass(classes.DOWN).removeClass(classes.UP).removeClass(classes.CENTER);
         }
       });
     }
@@ -7438,10 +7441,6 @@ function SearchAdvanceController($scope, $location, $rootScope, User, Profession
 }
 /**
  * Конроллер поиска
- * @param {[type]} $scope     [description]
- * @param {[type]} User       [description]
- * @param {[type]} $rootScope [description]
- * @param {[type]} $location  [description]
  */
 function SearchController($scope, User, $rootScope, $location) {
     /**
@@ -7495,6 +7494,7 @@ function SearchController($scope, User, $rootScope, $location) {
             $scope.$apply(function() {
                 $scope.resultSearch = [];
                 $scope.searchText = "";
+                $rootScope.$broadcast('showRightPanel');
             });    
         }
     });
@@ -7522,12 +7522,10 @@ function SearchController($scope, User, $rootScope, $location) {
                 }
             }
         });
-        $rootScope.$broadcast('loaderHide');
     }
 
     $scope.onSearch = function() {
         if($scope.searchText.length > 0) {
-            $rootScope.$broadcast('loaderShow');
             $rootScope.$broadcast('updateSearchText', {text: $scope.searchText});
             $scope.resultSearch = [];
             if($scope.usersCollections.length == 0) {
@@ -7538,9 +7536,10 @@ function SearchController($scope, User, $rootScope, $location) {
             } else {
                 $scope.test_();
             }
+            $rootScope.$broadcast('hideRightPanel');
         } else {
             $scope.resultSearch = [];
-            $rootScope.$broadcast('loaderHide');
+            $rootScope.$broadcast('showRightPanel');
         }
     }
 
@@ -7783,7 +7782,7 @@ function UserController($scope, FriendsService, UserService, $element, $route, $
     // закрывает плашку с текущим пользователем
     $scope.close = function() {
         $location.search($scope.route, null);
-        $rootScope.$broadcast('closeUserPanel');
+        $rootScope.$broadcast('closeUserPanel', {route: $scope.route});
     }
 
     // инициализация контрллера
@@ -8093,12 +8092,31 @@ function UsersController($scope, $location, $rootScope, $timeout) {
         $scope.criteriumsValues[message.fCriteria.sguid][message.route] = fCriteriumValue.value;
     });
 
+    // событие закрытия панели с пользователем
+    $scope.$on('closeUserPanel', function (event, message) {
+        $scope.needsValues = $scope.clearRoute($scope.needsValues, message.route);
+        $scope.goalsValues = $scope.clearRoute($scope.goalsValues, message.route);
+        $scope.criteriumsValues = $scope.clearRoute($scope.criteriumsValues, message.route);
+    });
+
+    // строим массив значений
     $scope.calculateValue = function(data, beginData, route) {
         angular.forEach(data, function(value, key){
             if(!beginData[key]) {
                 beginData[key] = {};
             }
             beginData[key][route] = value;
+        });
+
+        return beginData;
+    }
+
+    // удаляем из массива значений значения для указанного роутинга
+    $scope.clearRoute = function(beginData, route) {
+        angular.forEach(beginData, function(value, key){
+            if(value[route]) {
+                delete value[route];
+            }
         });
 
         return beginData;
