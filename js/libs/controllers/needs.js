@@ -280,7 +280,7 @@ function NeedsAndGoalsController($scope, Goals, Criterion, AuthUser, UserCriteri
     };
 
     $scope.syncOpenAndClose = function($event, goal) {
-        var element = $($event.currentTarget);
+        var element = $($event.currentTarget).find("a");
         var id = element.attr("data-goalid");
         var items = $("a[data-goalid='"+id+"']");
         var hasCurrent = $(element).hasClass("current");
@@ -497,7 +497,7 @@ function NeedsAndGoalsController($scope, Goals, Criterion, AuthUser, UserCriteri
         parentUl.find("li").removeClass("current");
         parentLi.addClass("current");
 
-        if(parentLi.index() != 0) {
+        if($(parentLi).size() > 0 && parentLi.index() != 0) {
             var size = parentLi.get(0).offsetLeft + parentLi.get(0).clientWidth;
             if (size <  15) {
                 size = 0;
