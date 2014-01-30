@@ -1,9 +1,5 @@
 /**
  * Конроллер поиска
- * @param {[type]} $scope     [description]
- * @param {[type]} User       [description]
- * @param {[type]} $rootScope [description]
- * @param {[type]} $location  [description]
  */
 function SearchController($scope, User, $rootScope, $location) {
     /**
@@ -57,6 +53,7 @@ function SearchController($scope, User, $rootScope, $location) {
             $scope.$apply(function() {
                 $scope.resultSearch = [];
                 $scope.searchText = "";
+                $rootScope.$broadcast('showRightPanel');
             });    
         }
     });
@@ -84,12 +81,10 @@ function SearchController($scope, User, $rootScope, $location) {
                 }
             }
         });
-        $rootScope.$broadcast('loaderHide');
     }
 
     $scope.onSearch = function() {
         if($scope.searchText.length > 0) {
-            $rootScope.$broadcast('loaderShow');
             $rootScope.$broadcast('updateSearchText', {text: $scope.searchText});
             $scope.resultSearch = [];
             if($scope.usersCollections.length == 0) {
@@ -100,9 +95,10 @@ function SearchController($scope, User, $rootScope, $location) {
             } else {
                 $scope.test_();
             }
+            $rootScope.$broadcast('hideRightPanel');
         } else {
             $scope.resultSearch = [];
-            $rootScope.$broadcast('loaderHide');
+            $rootScope.$broadcast('showRightPanel');
         }
     }
 
