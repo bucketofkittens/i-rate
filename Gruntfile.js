@@ -86,6 +86,16 @@ module.exports = function(grunt) {
                 maxImageSize: 999999
               }
             }
+        },
+        uglify: {
+            options: {
+              mangle: false
+            },
+            my_target: {
+              files: {
+                'build/scripts.min.js': ['build/scripts.js']
+              }
+            }
         }
     });
 
@@ -93,5 +103,5 @@ module.exports = function(grunt) {
     require('matchdep').filterDev('grunt-*').forEach(grunt.loadNpmTasks);
 
     // Задача по умолчанию
-    grunt.registerTask('default', ['prangler', 'concat', 'imageEmbed']);
+    grunt.registerTask('default', ['prangler', 'concat', 'imageEmbed', 'uglify']);
 };
