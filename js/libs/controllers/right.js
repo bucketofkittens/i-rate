@@ -2,11 +2,15 @@
  * Контроллер правой панели
  */
 function RightController($scope) {
-	// определяет показывается ли блок или нет
-	$scope.show = true;
-    
-    // определяет в каком состоянии находится signup или нет
-    $scope.signup = false;
+	// состояние блоков
+	$scope.state = 0;
+
+    // существующие состояния
+    $scope.states = {
+        SIGNIN: 0,
+        SIGNUP: 1,
+        IMPROVA: 2 
+    }
 
     // событие убираня этого блока со страницы
     $scope.$on('hideRightPanel', function() {
@@ -19,7 +23,7 @@ function RightController($scope) {
     });
 
     // переключаем состояние панели
-    $scope.signupChange = function(state) {
-        $scope.signup = state;
+    $scope.changeState = function(state) {
+        $scope.state = state;
     }
 }

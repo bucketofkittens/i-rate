@@ -61,7 +61,7 @@
       <p>Don’t have an iRate account yet?</p>	
       <p class="singin-sub">
         <input 
-          ng-click="signupChange(true)" 
+          ng-click="changeState(states.SIGNUP)" 
           type="button" 
           value="Sign up" />
       </p>          
@@ -85,7 +85,7 @@
       </li>
       <li>
         <a ng-click="improvaLogin()">
-          <img src="/images/improva.png" alt="" />
+          <img src="/images/improva.png" ng-click="changeState(states.IMPROVA)"  alt="" />
         </a>
       </li>
     </ul>

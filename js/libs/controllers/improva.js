@@ -1,0 +1,6 @@
+/**
+ * 
+ */
+function ImprovaLoginController($scope) {
+
+}
