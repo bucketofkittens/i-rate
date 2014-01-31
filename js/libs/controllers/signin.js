@@ -1,7 +1,7 @@
 /**
  * форма модального окна авторизации
  */
-function SigninController($scope, SessionsService, UserService) {
+function SigninController($scope, SessionsService, UserService, FacebookService, SocialService, UserService) {
     // сообщение об ошибке
     $scope.error = null;
 
@@ -44,4 +44,29 @@ function SigninController($scope, SessionsService, UserService) {
             $scope.onSigninFailCallback_
         );
     }
+
+    // забираем данные о себе из i-rate
+    $scope.socialLoginSuccess_ = function(data) {
+        UserService.getById(data.guid, $scope.onSigninSuccessCallback_);
+    }
+
+    // авторизиуемся в facebook
+    $scope.facebookLoginSuccess_ = function(data) {
+        FacebookService.getUserData($scope.facebookGetUserDataSuccess_);
+    }
+
+    // забираем данные о себе из фейсубка
+    $scope.facebookGetUserDataSuccess_ = function(data) {
+        SocialService.login(data.email, $scope.socialLoginSuccess_);
+    }
+
+    // инициализация сервисов facebook
+    FacebookService.init($scope.facebookLoginSuccess_);
+
+    // авторизация в facebook
+    $scope.socialFacebookLogin = function() {
+        FacebookService.login($scope.facebookLoginSuccess_);
+    }
+
+    
 }

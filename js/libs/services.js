@@ -437,12 +437,7 @@ pgrModule.service('SessionsService', function (Sessions, User) {
     }
     this.signinSuccess_ = function(sguid, callback) {
         User.query({id: sguid}, function(data) {
-            
-
             callback(data);
-
-
-            
         });
     }
 });
@@ -771,13 +766,15 @@ pgrModule.service('FriendsService', function (UserService, User, $rootScope) {
     }
 });
 
+// список констрант для социальных сетей
 pgrModule.constant('SocialConfig', {
   facebook: {
         applicationId: {
             "localhost": "205232122986999",
             "xmpp.dev.improva.com": "173391222849160",
             "i-rate.com": "181043732091838"
-        }
+        },
+        perms: "email,user_birthday,user_location,user_about_me"
     },
     googlePlus: {
         applicationId: {
@@ -797,12 +794,52 @@ pgrModule.constant('SocialConfig', {
     }
 });
 
-pgrModule.service('Facebook', function($window, SocialConfig) {
-    var FB = $window.FB;
+// сервис авторизации в facebook
+pgrModule.service('FacebookService', function($window, SocialConfig, SocialService) {
+    this.init = function(authCallback) {
+        window.fbAsyncInit = function() {
+            FB.init({
+                appId: SocialConfig.facebook.applicationId[window.location.hostname],
+                cookie: true, 
+                xfbml: true,
+                oauth: true
+            });
 
-    this.init = function() {
-        FB.init({
-           appId: SocialConfig.applicationId[window.location.hostname]
+            //FB.getLoginStatus(authCallback);
+
+            FB.Event.subscribe('auth.authResponseChange', authCallback);
+        };
+    },
+    this.getUserData = function(callback) {
+        FB.api('/me', {fields: 'name,id,location,birthday,email'}, function(response) {
+            callback(response);
+        });
+    }
+    this.login = function(success, fail) {
+        $window.FB.login(function(response) {
+            if (response.session) {
+                if (response.scope) {
+                    if(success) {
+                        success(response);
+                    }
+                } else {
+                    if(fail) {
+                        fail(response);
+                    }
+                }
+            } else {
+                if(fail) {
+                    fail(response);
+                }
+            }
+        }, {scope: SocialConfig.facebook.perms});
+    }
+});
+
+pgrModule.service('SocialService', function($window, Social) {
+    this.login = function(email, callback) {
+        Social.login({}, {email: email}, function(data) {
+            callback(data);
         });
     }
 });

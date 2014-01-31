@@ -13,7 +13,6 @@ var pgrModule = angular.module(
 		"ngAnimate",
 		"ngSanitize",
 		'ngTouch', 
-		'ngFacebook',
 		"localization", 
         //'ui.date',
         //'ui.autocomplete',
@@ -63,6 +62,16 @@ pgrModule.config(['$httpProvider', function($httpProvider) {
     $httpProvider.interceptors.push('httpRequestInterceptor');
 }]);
 
+
+pgrModule.run(function() {
+	(function(d, s, id){
+	 var js, fjs = d.getElementsByTagName(s)[0];
+	 if (d.getElementById(id)) {return;}
+	 js = d.createElement(s); js.id = id;
+	 js.src = "//connect.facebook.net/en_US/all.js";
+	 fjs.parentNode.insertBefore(js, fjs);
+	}(document, 'script', 'facebook-jssdk'));
+})
 
 /*
 pgrModule.config(function($facebookProvider) {

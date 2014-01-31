@@ -201,12 +201,14 @@ pgrModule.directive('masonry', function(User, $rootScope) {
       /** забираем список пользователей из backend-а **/
       this.getUsersFromBackend = function(limit, skip, total_count, view_count) {
         User.for_main_from_limit({limit: limit, skip: skip}, {}, function(data) {
-            $rootScope.users = $rootScope.users.concat(data);
+            if(!$rootScope.users)
+              $rootScope.users = [];
 
+            $rootScope.users = $rootScope.users.concat(data);
             view_count += limit;
 
             // выглядит дико, знаю
-            total_count = $scope.users[0] ? $scope.users[0].total_count : total_count;
+            total_count = $rootScope.users[0] ? $rootScope.users[0].total_count : total_count;
 
             if(view_count < total_count) {
               skip += limit;
@@ -214,7 +216,7 @@ pgrModule.directive('masonry', function(User, $rootScope) {
               this.getUsersFromBackend(limit, skip, total_count, view_count);
             } else {
               // отправляем данные в кеш
-              lscache.set('masonry', JSON.stringify($scope.users), cacheTime);
+              lscache.set('masonry', JSON.stringify($rootScope.users), cacheTime);
             }
         });
       }
