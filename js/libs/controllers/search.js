@@ -53,7 +53,6 @@ function SearchController($scope, User, $rootScope, $location) {
             $scope.$apply(function() {
                 $scope.resultSearch = [];
                 $scope.searchText = "";
-                $rootScope.$broadcast('showRightPanel');
             });    
         }
     });

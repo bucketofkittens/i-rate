@@ -2,6 +2,9 @@
  * Контроллер правой панели
  */
 function RightController($scope) {
+    // показываем блок или нет
+    $scope.showPanel = true;
+
 	// состояние блоков
 	$scope.state = 0;
 
@@ -14,12 +17,12 @@ function RightController($scope) {
 
     // событие убираня этого блока со страницы
     $scope.$on('hideRightPanel', function() {
-    	$scope.show = false;
+    	$scope.showPanel = false;
     });
 
     // показываем плашку
     $scope.$on('showRightPanel', function() {
-        $scope.show = true;
+        $scope.showPanel = true;
     });
 
     // переключаем состояние панели
