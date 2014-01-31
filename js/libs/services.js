@@ -771,6 +771,42 @@ pgrModule.service('FriendsService', function (UserService, User, $rootScope) {
     }
 });
 
+pgrModule.constant('SocialConfig', {
+  facebook: {
+        applicationId: {
+            "localhost": "205232122986999",
+            "xmpp.dev.improva.com": "173391222849160",
+            "i-rate.com": "181043732091838"
+        }
+    },
+    googlePlus: {
+        applicationId: {
+            "localhost": '339940198985.apps.googleusercontent.com', 
+            "xmpp.dev.improva.com": "339940198985-h79e4hvjp9b2658og8o849u3blaootub.apps.googleusercontent.com",
+            "i-rate.com": "339940198985-c9idb0ng4letjpfnhsm4l7jci1uh7t6c.apps.googleusercontent.com"
+        },
+        apiKey: 'AIzaSyBUJ3rialFIcJ5QvuWFkvPqmFbTBIZ2Kmo',
+        scopes: [
+            'https://www.googleapis.com/auth/plus.me',
+            'https://www.googleapis.com/auth/userinfo.email',
+            'https://www.googleapis.com/auth/userinfo.profile'
+        ]
+    },
+    live: {
+        
+    }
+});
+
+pgrModule.service('Facebook', function($window, SocialConfig) {
+    var FB = $window.FB;
+
+    this.init = function() {
+        FB.init({
+           appId: SocialConfig.applicationId[window.location.hostname]
+        });
+    }
+});
+
 pgrModule.service('AuthUser', function () {
 });
 
