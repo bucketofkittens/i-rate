@@ -1,72 +1,31 @@
-<div ng-controller="NeedsAndGoalsController" class="tab" ng-init="user = workspace.user; openFirst = true; allOpen = true; persistState = true;">
-	<b id="bridge" bridge></b>
-	<section class="mypro acrd" scroller>
-		<div class="crits">
-			<ul> 
-				<li 
-					ng-repeat="(needKey, needItem) in needs | orderBy:'position'" 
-					data-needId="{{needItem.sguid}}"
-					class="{{needItem.name}}">
-					<div class="cr" >
-						<p>{{needItem.name}}</p>
-					</div>
-					<ul ng-class="{current: needItem.current}">
-						<li ng-repeat="(goalKey,goalItem) in needItem.goals | orderBy:'position'" data-goalid="{{goalItem.sguid}}" >
-							<h5 ng-class="{current: goalItem.current}">
-								<a ng-click="openCriteriumList($event, needItem, goalItem, needs)">
-									<span><img ng-src="{{goalItem.icon}}" alt="" title="{{goalItem.name}}" /></span>
-									{{goalItem.name}}
-								</a>	
-								<div class="right">
-									<strong>
-										<span class="current_position" style="width: {{(goalItem.current_value / (goalItem.points_summary ))*100}}%;"></span>
-									</strong>
-								</div>
-							</h5>
-							
-						</li>
-					</ul>
+<div class="full_height" ng-if="showProfile" id="myprofile">
+	<div class="center">
+		<div class="mynav">
+			<ul>
+				<li ng-repeat="(navKey, navValue) in nav">
+					<a ng-click="changeState(navValue)">
+						{{navValue.name}}
+					</a>
 				</li>
 			</ul>
+			<h2>
+				{{currentNav.name}}
+			</h2>
 		</div>
-	</section>
 
-	<div class="mypro_wr">
-		<section class="mypro">
-			<div class="crits {{currentNeed.name}}" ng-if="currentGoal">
-				<h5>
-					<a>
-						<span><img ng-src="{{currentGoal.icon}}" alt="" title="{{currentGoal.name}}" /></span>
-						{{currentGoal.name}}
-					</a>	
-					<div class="right">
-						<b>{{currentGoal.current_value}} / {{currentGoal.points_summary}}</b>
-						<strong>
-							<span class="current_position" style="width: {{(currentGoal.current_value / (currentGoal.points_summary ))*100}}%;"></span>
-						</strong>
-					</div>
-				</h5>
-				<ul class="criterion">
-					<li data-id="{{crItem.sguid}}" ng-repeat="crItem in currentGoal.criteriums | orderBy:'position'" class="animate-list" >
-						<p>{{crItem.name}}</p>
-						<div class="bord">
-							<ul class="crp">
-								<div class="tab">
-									<li data-id="{{value.sguid}}"  
-										ng-repeat="value in crItem.criteria_values | orderBy:'position'"  
-										class="{{value.user_criteria}} position_{{value.position}}" ng-click="onCriteriaSelect(value, crItem, $event, currentNeed, currentGoal)">
-										<i ng-if="value.sguid != 'none'">{{value.name}}</i>
-										<i ng-if="value.sguid == 'none'" class="null_criteria"></i>
-									</li>
-								</div>
-								<span>
-									<img src="../images/ar.png" alt="" />
-								</span>
-							</ul>
-						</div>
-					</li>
-				</ul>
-			</div>
-		</section>
+		<p id="setting_info">
+			<span class="icon league"></span>
+			{{workspace.user.league.name}} league   Score: {{workspace.user.points}}
+		</p>
+
+		<div ng-if="currentNav.index == indexes.PROFILE && workspace.user" class="tab">
+			<section class="tab" ng-controller="MyProfileProfileController" ng-include src="'partials/profile.html'" ></section>
+		</div>
+		<div ng-show="currentNav.index == indexes.DASHBOARD && workspace.user" class="tab">
+			<!--<section class="tab" ng-controller="MyProfileProfileController" ng-include src="'partials/mydash.html'" ></section> -->
+		</div>
+		<div ng-if="currentNav.index == indexes.SETTINGS && workspace.user" class="tab">
+			<section class="tab" ng-controller="MyProfileProfileController" ng-include src="'partials/mysettings.html'" ></section>
+		</div>
 	</div>
 </div>

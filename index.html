@@ -26,6 +26,7 @@
         <div class="content_wrap" ng-view></div>
 
         <div class="full_height" ng-controller="UsersController" ng-include src="'partials/users.html'"></div>
+        <div class="full_height" ng-controller="MyProfileController" ng-include src="'partials/myprofile.html'"></div>
         <div class="full_height" ng-controller="RightController" ng-include ng-if="!workspace.user" src="'partials/right.html'"></div>
     </div>
 
@@ -85,13 +86,15 @@
     <script src="/js/libs/controllers/users.js"></script>
     <script src="/js/libs/controllers/improva.js"></script>
 
+    <script src="/js/libs/controllers/myprofile.js"></script>
+    <script src="/js/libs/controllers/myprofile_profile.js"></script>
+
     <script src="/js/libs/controllers/crop-image.js"></script>
     <script src="/js/libs/controllers/share.js"></script>
     <script src="/js/libs/controllers/comments.js"></script>
     <script src="/js/libs/controllers/change-password.js"></script>
     
     <script src="/js/libs/controllers/search-advance.js"></script>
-    <script src="/js/libs/controllers/my-profile.js"></script>
     
     <script src="/js/libs/controllers/gallery.js"></script>
     
