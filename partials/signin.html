@@ -66,8 +66,13 @@
           value="Sign up" />
       </p>          
     </div>
-    <i>Use Facebook, LiveID, Google+, Improva or your email to sign in.</i>    
+    <i>Use Improva, Facebook, LiveID, Google+ or your email to sign in.</i>    
     <ul>
+      <li>
+        <a ng-click="improvaLogin()">
+          <img src="/images/improva.png" ng-click="changeState(states.IMPROVA)"  alt="" />
+        </a>
+      </li>
       <li>
         <a ng-click="socialFacebookLogin()">
           <img src="/images/facebook.png" alt="" />
@@ -81,11 +86,6 @@
       <li>
         <a ng-click="socialMicrosoftLiveLogin()">
           <img src="/images/live.png" alt="" />
-        </a>
-      </li>
-      <li>
-        <a ng-click="improvaLogin()">
-          <img src="/images/improva.png" ng-click="changeState(states.IMPROVA)"  alt="" />
         </a>
       </li>
     </ul>
