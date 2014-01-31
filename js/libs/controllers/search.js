@@ -26,10 +26,8 @@ function SearchController($scope, User, $rootScope, $location) {
      * @param  {[type]} userItem [description]
      * @return {[type]}          [description]
      */
-    $scope.onCompare = function(userItem) {
-        $scope.resultSearch = [];
-        $scope.searchText = "";
-        $location.path("/profile/").search({user: userItem.sguid});
+    $scope.userClick = function(userItem) {
+        $rootScope.$broadcast('showUserProfile', { user: userItem });
     }
 
     /**

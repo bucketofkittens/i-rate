@@ -74,6 +74,12 @@ function UsersController($scope, $location, $rootScope, $timeout) {
 
 	// событие показа панели с пользователем
 	$scope.$on('showUserProfile', function(event, message) {
+        // скрываем правую панель
+        $rootScope.$broadcast('hideRightPanel');
+
+        // скрываем список голсов
+        $rootScope.$broadcast('closeAllGoals');
+
 		// позываем пользователя
 		$scope.show = true;
 

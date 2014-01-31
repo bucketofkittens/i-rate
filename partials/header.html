@@ -34,15 +34,15 @@
 			<input type="submit" class="searcher" ng-click="onAdvanceSearch()" />
 			<div ng-cloak class="searchResult" ng-if="resultSearch.length > 0">
 				<div class="item" ng-repeat="(userKey, userItem) in resultSearch | limitTo: limit">
-					<div class="image" ng-click="onCompare(userItem)">
+					<div class="image" ng-click="userClick(userItem)">
 						<img ng-src="{{userItem.avatar}}" err-src="/images/unknown-person.png" alt="" />
 					</div>
-					<div class="text" ng-click="onCompare(userItem)">
+					<div class="text" ng-click="userClick(userItem)">
 						<p class="name">{{userItem.name}}</p>
 						<p class="league">{{userItem.league.name}} league</p>
 						<p>{{user.points}}</p>
 					</div>
-					<img class="sealin" src="./images/i1l.png" alt="" ng-click="onCompare(userItem)">
+					<img class="sealin" src="./images/i1l.png" alt="" ng-click="userClick(userItem)">
 				</div>
 				<div class="all" ng-if="resultSearch.length > limit">
 					<a ng-click="onAdvanceSearch()">See all the results</a>
