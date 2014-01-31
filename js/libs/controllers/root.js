@@ -25,6 +25,16 @@ function RootController($scope, FacebookService, СareerService, LeagueService, 
      */
     $scope.workspace.user = UserService.getAuthData();
 
+    // забираем список друзей
+    $scope.getFriendsCallback_ = function(data) {
+        $scope.workspace.friends = data;
+    }
+
+    // если пользователь есть в кеше забираем список его друзей с сервера
+    if($scope.workspace.user) {
+        UserService.getFriends($scope.workspace.user.sguid, $scope.getFriendsCallback_);
+    }
+
     /**
      * Массив хренения списка друзей для не авторизованного пользователя
      * @type {[type]}
@@ -45,7 +55,7 @@ function RootController($scope, FacebookService, СareerService, LeagueService, 
     }
 
     this.leagueServiceCallback_ = function(data) {
-        $scope.workspace.country = data;
+        $scope.workspace.leagues = data;
     }
     
     // список нидсов

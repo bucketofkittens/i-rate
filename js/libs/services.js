@@ -716,7 +716,7 @@ pgrModule.service('FriendsService', function (UserService, User, $rootScope) {
                 friend_guid: user.sguid
             }, function(response) {     
                 if(response.success) {
-                    friends.push({sguid: response.message.guid, user: message.user});
+                    friends.push({sguid: response.message.guid, user: friend});
                     callback(friends);
                 }
             });
