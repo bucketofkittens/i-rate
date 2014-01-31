@@ -31,6 +31,11 @@ function MyProfileController($scope) {
 		$scope.currentNav = state;
 	}
 
+	// закрываем плашку
+	$scope.close = function() {
+		$scope.showProfile = false;
+	}
+
 	// открываем эту плашку
 	$scope.$on('openProfile', function(event, message) {
         $scope.showProfile = true;

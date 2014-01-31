@@ -5,13 +5,13 @@
 			<ul>
 				<li ng-repeat="(navKey, navValue) in navItems">
 					<a ng-click="changeState(navValue)">
-						<span><img ng-src="{{goalItem.icon}}" alt="" title="{{goalItem.name}}" /></span>
+						<span class="icon {{navValue.name}}"></span>
 						{{navValue.name}}
 					</a>
 				</li>
 			</ul>
 			<h2>{{currentNav.name}}</h2>
-			<em></em>
+			<span class="close" ng-click="close()"></span>
 		</div>
 
 		<p id="setting_info">
