@@ -737,7 +737,7 @@ pgrModule.service('FriendsService', function (UserService, User, $rootScope) {
         if(user) {
             User.destroy_friendship({id: user.sguid, friendId: friend.sguid}, { }, function() {
                 var frend = friends.filter(function(data) {
-                    if(data.user.sguid === message.frendId) {
+                    if(data.user.sguid === friend.sguid) {
                         return data;
                     }
                 })[0];
