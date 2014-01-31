@@ -35,19 +35,22 @@ function SearchController($scope, User, $rootScope, $location) {
         $scope.searchText = "";
     }
 
-    /**
-     * Скрывать поиск при клике вне него
-     * @todo по хорошему надо переписать!
-     * @return {[type]} [description]
-     */
-    $("body").on("click", function() {
-        if($scope.id != "adv") {
+    // calback для скрытия поиска
+    this.windowClickCallback_ = function(event) {
+        if(event.target.tagName != "IMG") {
             $scope.$apply(function() {
                 $scope.resultSearch = [];
                 $scope.searchText = "";
-            });    
+                $rootScope.$broadcast('showRightPanel');
+            });
         }
-    });
+    }
+
+    /**
+     * Скрывать поиск при клике вне него
+     */
+    window.onclick = this.windowClickCallback_;
+
 
     // проверяем вхождения пользователей
     $scope.test_ = function() {
