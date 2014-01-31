@@ -162,7 +162,12 @@
 							<a 
 								ng-class="{current: goalItem.current}"
 								data-goalid="{{goalItem.sguid}}" user-id="{{user.sguid}}">
-								<span><img ng-src="{{goalItem.icon}}" alt="" title="{{goalItem.name}}" /></span>
+								<span>
+									<img 
+										ng-src="/images/goals/{{goalItem.name | removewhite}}.png" 
+										alt="" 
+										title="{{goalItem.name}}" />
+								</span>
 								{{goalItem.name}}
 								<s></s>
 							</a>	
@@ -172,7 +177,12 @@
 								</strong>
 							</div>
 							<i ng-if="!goalItem.current"><em></em></i>
-							<sup class="compare goal" route="{{route}}" comparator values="{{goalsValues[goalItem.sguid]}}" ></sup>
+							<sup 
+								class="compare goal" 
+								route="{{route}}" 
+								comparator 
+								values="{{goalsValues[goalItem.sguid]}}" >
+							</sup>
 						</h5>
 						<ul class="criterion" ng-class="{current: goalItem.current}">
 							<li 
@@ -195,7 +205,12 @@
 										</span>
 									</ul>
 								</div>
-								<sup class="compare criterium" route="{{route}}" comparator values="{{criteriumsValues[crItem.sguid]}}"></sup>
+								<sup 
+									class="compare criterium" 
+									route="{{route}}" 
+									comparator 
+									values="{{criteriumsValues[crItem.sguid]}}">
+								</sup>
 							</li>
 						</ul>
 					</li>
