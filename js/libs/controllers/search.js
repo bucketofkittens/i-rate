@@ -37,11 +37,13 @@ function SearchController($scope, User, $rootScope, $location) {
 
     // calback для скрытия поиска
     this.windowClickCallback_ = function(event) {
-        if(event.target.tagName != "IMG") {
+        if(event.target.tagName != "IMG" && event.target.tagName != "INPUT") {
             $scope.$apply(function() {
                 $scope.resultSearch = [];
                 $scope.searchText = "";
-                $rootScope.$broadcast('showRightPanel');
+                if($(event.target).parents("#search").length == 0) {
+                    $rootScope.$broadcast('showRightPanel');    
+                }
             });
         }
     }
