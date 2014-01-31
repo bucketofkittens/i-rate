@@ -15,12 +15,6 @@ function SearchController($scope, User, $rootScope, $location) {
     $scope.resultSearch = [];
 
     /**
-     * Не отфильтрованный список всех пользователей
-     * @type {Array}
-     */
-    $scope.usersCollections = [];
-
-    /**
      * Переход на страницу профиля пользователя
      * @todo переменовать в toLocationProfile например
      * @param  {[type]} userItem [description]
@@ -55,15 +49,11 @@ function SearchController($scope, User, $rootScope, $location) {
         }
     });
 
-    $scope.$on('updatePubliched', function($event) {
-       $scope.usersCollections = [];
-    });
-
+    // проверяем вхождения пользователей
     $scope.test_ = function() {
-        angular.forEach($scope.usersCollections, function(value, key) {
+        angular.forEach($rootScope.users, function(value, key) {
             var reg = new RegExp($scope.searchText.replace("[", "\\[").replace("]", "\\]"), "i");
             if(value.name && value.name != null && value.name != "null" && reg.test(value.name)) {
-                value.points = parseInt(value.points);
                 if(!value.league) {
                     value.league = {name: "10"};
                 }
@@ -80,21 +70,20 @@ function SearchController($scope, User, $rootScope, $location) {
         });
     }
 
+    // ищем в списке пользователей
     $scope.onSearch = function() {
+        // очищаем результат поиска
+        $scope.resultSearch = [];
+
+        // проверяем сколько символов в строке поиска
         if($scope.searchText.length > 0) {
-            $rootScope.$broadcast('updateSearchText', {text: $scope.searchText});
-            $scope.resultSearch = [];
-            if($scope.usersCollections.length == 0) {
-                User.for_main({}, {}, function(data) {
-                    $scope.usersCollections = data;
-                    $scope.test_();
-                });  
-            } else {
-                $scope.test_();
-            }
+            // проверяем вхождение
+            $scope.test_();
+
+            // скрываем правую панель
             $rootScope.$broadcast('hideRightPanel');
         } else {
-            $scope.resultSearch = [];
+            // показываем правую панель
             $rootScope.$broadcast('showRightPanel');
         }
     }
@@ -107,13 +96,6 @@ function SearchController($scope, User, $rootScope, $location) {
     $scope.$on('updateSearchList', function($event, message) {
         if($scope.id == message.id) {
             $scope.resultSearch = message.data;    
-        }
-    });
-
-    $scope.$watch("id", function (newVal, oldVal, scope) {
-        if(newVal == "adv" && $location.search().text) {
-            $scope.searchText = $location.search().text;
-            $scope.onSearch();
         }
     });
 }

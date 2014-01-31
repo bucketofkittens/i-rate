@@ -177,7 +177,7 @@ pgrModule.directive('masonry', function(User, $rootScope) {
       var cacheTime = 1440;
       
       /** забираем список пользователей из кеша **/
-      $scope.users = lscache.get("masonry");
+      $rootScope.users = lscache.get("masonry");
 
       /** открываем всплывающее окно пользователя **/
       $scope.openUserInfo = function(userItem, $event) {
@@ -201,7 +201,7 @@ pgrModule.directive('masonry', function(User, $rootScope) {
       /** забираем список пользователей из backend-а **/
       this.getUsersFromBackend = function(limit, skip, total_count, view_count) {
         User.for_main_from_limit({limit: limit, skip: skip}, {}, function(data) {
-            $scope.users = $scope.users.concat(data);
+            $rootScope.users = $rootScope.users.concat(data);
 
             view_count += limit;
 
