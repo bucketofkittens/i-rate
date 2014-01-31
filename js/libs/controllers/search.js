@@ -90,15 +90,4 @@ function SearchController($scope, User, $rootScope, $location) {
             $rootScope.$broadcast('showRightPanel');
         }
     }
-
-    $scope.$on('hideSearch', function($event) {
-       $scope.resultSearch = [];
-       $scope.searchText = "";
-    });
-
-    $scope.$on('updateSearchList', function($event, message) {
-        if($scope.id == message.id) {
-            $scope.resultSearch = message.data;    
-        }
-    });
 }
