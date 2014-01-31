@@ -898,24 +898,34 @@ body {
 
     /** NAV ON MY PAGES **/
     .mynav {
-        margin: 70px 0px 20px 20px;
+        margin: 60px 0px 20px 20px;
         vertical-align: middle;
         width: 100%;
-        height: 50px;
+        height: 70px;
+        position: relative;
+        em {
+            position: absolute;
+            right: 30px;
+            top: 10px;
+            background: url("../images/cl.png") left top no-repeat;
+            background-size: 25px 25px;
+            height: 25px;
+            width: 25px;
+        }
         ul {
             display: inline-block;
-            vertical-align: middle;
-            width: 265px;
+            vertical-align: bottom;
+            width: 480px;
             margin: 0px 50px 0px 0px;
-            height: 50px;
+            height: 30px;
             li {
                 display: inline-block;
                 border: 1px solid #cccccc;
                 margin-left: -5px;
                 padding: 3px 5px;
                 cursor: pointer;
-                height: 40px;
-                width: 70px;
+                height: 30px;
+                width: 150px;
                 &.current {
                     background: #36374b;
                     cursor: default;
@@ -924,6 +934,8 @@ body {
                     vertical-align: middle;
                     text-align: center;
                     display: block;
+                    color: #ffffff;
+                    font-size: 20px;
                     span {
                         display: inline-block;
                         height: 30px;
@@ -934,10 +946,10 @@ body {
             }
         }
         h2 {
-            font-size: 23px;
-            color: #000000;
+            font-size: 25px;
+            color: #ffffff;
             display: inline-block;
-            margin-top: 20px;
+            margin-top: 35px;
         }
     }
 
@@ -1217,10 +1229,10 @@ body {
     
         /** MY DASHBOARD **/
         .mydash {
-            width: 990px;
+            width: 1000px;
             display: block;
             position: relative;
-            margin: 0px 15px;    
+            margin: 0px;    
             vertical-align: top;
             text-align: center;
             height: 90%;
@@ -1239,10 +1251,10 @@ body {
         
         /** MY SETTINGS **/
         .myset {
-            width: 990px;
+            width: 10000px;
             display: block;
             position: relative;
-            margin: 0px 15px;    
+            margin: 0px;    
             vertical-align: top;
             height: 90%;
             min-height: 550px;
@@ -2470,11 +2482,12 @@ sup.bidubi {
 
 #setting_info {
     position: absolute;
-    top: 12px;
-    right: 315px;
-    font-size: 17px;
+    top: 100px;
+    right: 520px;
+    font-size: 18px;
     font-family: 'Helvetica Neue Light';
     vertical-align: middle;
+    color: #ffffff;
     * {
         vertical-align: middle;
     }
@@ -3821,7 +3834,8 @@ table#graphs {
     .center {
         margin: 0px auto;
         width: 1000px;
-        background: #ffffff;
+        background: rgba(0, 0, 0, 0.7);
+        box-shadow:inset 3px 0px 20px 1px #000000;
     }
     &::-webkit-scrollbar {
         width: 0px;

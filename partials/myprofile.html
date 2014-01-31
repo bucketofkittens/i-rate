@@ -5,15 +5,16 @@
 			<ul>
 				<li ng-repeat="(navKey, navValue) in navItems">
 					<a ng-click="changeState(navValue)">
+						<span><img ng-src="{{goalItem.icon}}" alt="" title="{{goalItem.name}}" /></span>
 						{{navValue.name}}
 					</a>
 				</li>
 			</ul>
 			<h2>{{currentNav.name}}</h2>
+			<em></em>
 		</div>
 
 		<p id="setting_info">
-			<span class="icon league"></span>
 			{{workspace.user.league.name}} league   Score: {{workspace.user.points}}
 		</p>
 
