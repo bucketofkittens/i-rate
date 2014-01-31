@@ -37,11 +37,19 @@ function SearchController($scope, User, $rootScope, $location) {
 
     // calback для скрытия поиска
     this.windowClickCallback_ = function(event) {
-        if(event.target.tagName != "IMG" && event.target.tagName != "INPUT") {
+        // id блока поиска
+        var searchId = "#search";
+
+        // список тегов
+        var tags = {
+            IMG: "IMG",
+            INPUT: "INPUT"
+        }
+        if(event.target.tagName != tags.IMG && event.target.tagName != tags.INPUT) {
             $scope.$apply(function() {
                 $scope.resultSearch = [];
                 $scope.searchText = "";
-                if($(event.target).parents("#search").length == 0) {
+                if($(event.target).parents(searchId).length == 0 && !$location.search().user1 && !$location.search().user2) {
                     $rootScope.$broadcast('showRightPanel');    
                 }
             });
@@ -51,7 +59,7 @@ function SearchController($scope, User, $rootScope, $location) {
     /**
      * Скрывать поиск при клике вне него
      */
-    window.onclick = this.windowClickCallback_;
+    document.getElementsByTagName("header")[0].onclick = this.windowClickCallback_;
 
 
     // проверяем вхождения пользователей
