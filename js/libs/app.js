@@ -64,6 +64,7 @@ pgrModule.config(['$httpProvider', function($httpProvider) {
 
 
 pgrModule.run(function() {
+	// facebook
 	(function(d, s, id){
 	 var js, fjs = d.getElementsByTagName(s)[0];
 	 if (d.getElementById(id)) {return;}
@@ -71,6 +72,14 @@ pgrModule.run(function() {
 	 js.src = "//connect.facebook.net/en_US/all.js";
 	 fjs.parentNode.insertBefore(js, fjs);
 	}(document, 'script', 'facebook-jssdk'));
+
+
+	// google plus
+	(function() {
+	  var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+	  po.src = 'https://apis.google.com/js/client:plusone.js';
+	  var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+	})();
 })
 
 /*

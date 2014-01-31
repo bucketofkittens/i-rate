@@ -140,9 +140,10 @@ body header #header #follow_tab a{position:absolute;top:17px;right:5px;cursor:po
 #content .nearblock .lnbl .galblo .galblos .text{float:left;width:170px;padding:0 0 0 10px;line-height:140%;cursor:pointer;text-align:left}#content .nearblock .lnbl .galblo .galblos .text p{font-size:15px;color:#333}#content .nearblock .lnbl .galblo .galblos .text p:first-child{font-size:17px;color:#000}
 #content .nearblock .lnbl .galblo .galblos .text p.gr{color:#666}
 #content .nearblock .lnbl .galblo .galblos .sealin{position:absolute;width:40px;height:40px;top:50%;margin-top:-20px;right:15px;cursor:pointer;background:url("../images/i1l.png") left top no-repeat}
-#content .mynav{margin:70px 0 20px 20px;vertical-align:middle;width:100%;height:50px}#content .mynav ul{display:inline-block;vertical-align:middle;width:265px;margin:0 50px 0 0;height:50px}#content .mynav ul li{display:inline-block;border:1px solid #ccc;margin-left:-5px;padding:3px 5px;cursor:pointer;height:40px;width:70px}#content .mynav ul li.current{background:#36374b;cursor:default}
-#content .mynav ul li a{vertical-align:middle;text-align:center;display:block}#content .mynav ul li a span{display:inline-block;height:30px;width:30px;margin-top:5px}
-#content .mynav h2{font-size:23px;color:#000;display:inline-block;margin-top:20px}
+#content .mynav{margin:60px 0 20px 20px;vertical-align:middle;width:100%;height:70px;position:relative}#content .mynav .close{position:absolute;right:30px;top:10px;background:url("../images/cl.png") left top no-repeat;background-size:25px 25px;height:25px;width:25px;cursor:pointer}
+#content .mynav ul{display:inline-block;vertical-align:bottom;width:480px;margin:0 50px 0 0;height:30px}#content .mynav ul li{display:inline-block;border:1px solid #ccc;margin-left:-5px;padding:3px 5px;cursor:pointer;height:30px;width:150px}#content .mynav ul li.current{background:#36374b;cursor:default}
+#content .mynav ul li a{vertical-align:middle;text-align:center;display:block;color:#fff;font-size:20px}#content .mynav ul li a span{display:inline-block;height:30px;width:30px;margin-top:5px}
+#content .mynav h2{font-size:25px;color:#fff;display:inline-block;margin-top:35px}
 #content .tab{height:100%;}#content .tab .mypro_wr{float:right;margin-left:-295px;width:1024px;height:100%}
 #content .tab .mypro{margin-left:295px !important;display:inline-block;position:relative;margin:0 15px;vertical-align:top;height:100%;background:#fff;border:1px solid #ddd;box-shadow:0 0 20px 1px rgba(0,0,0,0.2);z-index:3;padding:15px;overflow-y:scroll;overflow-x:hidden;width:685px}#content .tab .mypro::-webkit-scrollbar{width:0;height:0}
 #content .tab .mypro.acrd{width:215px;min-width:215px;float:left;margin-left:15px !important;position:relative;z-index:10}#content .tab .mypro.acrd .crits{height:100%;margin-bottom:1000px;width:250px}#content .tab .mypro.acrd .crits .cr{width:255px;padding-left:15px;line-height:45px;margin:1px auto 0 auto}
@@ -159,8 +160,8 @@ body header #header #follow_tab a{position:absolute;top:17px;right:5px;cursor:po
 #content .tab .mypro .crits .criterion li .bord .crp .tab li:first-child{width:5px}
 #content .tab .mypro .crits .criterion li .bord .crp .tab li:last-child i{word-break:break-all}
 #content .tab .mypro .crits .criterion li .bord .crp span{position:absolute;top:0;height:100%;width:95%;right:-1%;display:block;background:#fff;cursor:pointer}#content .tab .mypro .crits .criterion li .bord .crp span img{position:absolute;right:-15px;top:0;height:90%;width:15px}
-#content .tab .mydash{width:990px;display:block;position:relative;margin:0 15px;vertical-align:top;text-align:center;height:90%;min-height:550px;background:#fff;border:1px solid #ddd;box-shadow:0 0 20px 1px rgba(0,0,0,0.2);z-index:3;overflow-y:scroll;overflow-x:visible}#content .tab .mydash::-webkit-scrollbar{width:0;height:0}
-#content .tab .myset{width:990px;display:block;position:relative;margin:0 15px;vertical-align:top;height:90%;min-height:550px;background:#fff;border:1px solid #ddd;box-shadow:0 0 20px 1px rgba(0,0,0,0.2);z-index:3;overflow-y:scroll;overflow-x:visible}#content .tab .myset::-webkit-scrollbar{width:0;height:0}
+#content .tab .mydash{width:1000px;display:block;position:relative;margin:0;vertical-align:top;text-align:center;height:90%;min-height:550px;background:#fff;border:1px solid #ddd;box-shadow:0 0 20px 1px rgba(0,0,0,0.2);z-index:3;overflow-y:scroll;overflow-x:visible}#content .tab .mydash::-webkit-scrollbar{width:0;height:0}
+#content .tab .myset{width:1000px;display:block;position:relative;margin:0;vertical-align:top;height:90%;min-height:550px;background:#fff;border:1px solid #ddd;box-shadow:0 0 20px 1px rgba(0,0,0,0.2);z-index:3;overflow-y:scroll;overflow-x:visible}#content .tab .myset::-webkit-scrollbar{width:0;height:0}
 #content .tab .myset .promy .block{width:200px;margin-right:25px}
 #content .tab .myset .promy .publish{display:block;text-align:center;position:relative;width:172px}#content .tab .myset .promy .publish strong{font-size:15px;color:#000;margin-top:15px;display:block}#content .tab .myset .promy .publish strong b{font-size:11px;color:#666;display:block;margin:5px 0}
 #content .tab .myset .promy .publish button{width:120px;height:100%;font-size:16px;font-family:'Helvetica Neue Light';line-height:16px;padding:10px 5px !important;vertical-align:middle !important;display:inline-block;cursor:pointer;background:none;border:1px solid #ccc;margin-top:15px}
@@ -265,6 +266,9 @@ ng-form:not(.ng-pristine) input.ng-invalid:not(.ng-pristine){border-color:rgba(2
 .icon.facebook{background:url("../images/facebook.png") left top no-repeat;width:70px;height:70px;background-size:100% 100%}
 .icon.google{background:url("../images/google.png") left top no-repeat;width:70px;height:70px;background-size:100% 100%}
 .icon.live{background:url("../images/live.png") left top no-repeat;width:70px;height:70px;background-size:100% 100%}
+.icon.Profile{background:url("../images/pro2.png") left top no-repeat;width:43px;height:43px;background-size:100% 100%}
+.icon.Dashboard{background:url("../images/dash2.png") left top no-repeat;width:43px;height:43px;background-size:100% 100%}
+.icon.Settings{background:url("../images/set2.png") left top no-repeat;width:43px;height:43px;background-size:100% 100%}
 #bridge{position:absolute;width:32px;left:0;top:0;background:#fff;height:57px !important;display:none;border-top:1px solid #ddd;border-bottom:1px solid #ddd;z-index:200;box-shadow:0 20px 30px -20px rgba(0,0,0,0.5),0 -20px 30px -20px rgba(0,0,0,0.5)}
 #crop_modal{background:#fff;padding:20px;position:absolute;top:0;left:50%;width:500px;margin-left:-250px;z-index:1199;display:none;box-shadow:0 0 20px 1px rgba(0,0,0,0.2)}#crop_modal.show{display:block}
 #crop_modal #cropContainer{width:460px}
@@ -300,7 +304,7 @@ sub.dubidu{top:0 !important;border-width:27px 15px 27px 0}
 sup.dubidu{top:0 !important;border-width:27px 0 27px 15px}
 sub.bidubi{top:13px !important;border-width:23px 15px 23px 0}
 sup.bidubi{top:13px !important;border-width:23px 0 23px 15px}
-#setting_info{position:absolute;top:12px;right:315px;font-size:17px;font-family:'Helvetica Neue Light';vertical-align:middle}#setting_info *{vertical-align:middle}
+#setting_info{position:absolute;top:100px;right:520px;font-size:18px;font-family:'Helvetica Neue Light';vertical-align:middle;color:#fff}#setting_info *{vertical-align:middle}
 #setting_info .league{width:43px;height:35px}
 .imp-link{position:absolute;top:5px;right:15px;background:url("../images/imp.png") center center no-repeat;width:230px;height:50px}
 .controller__ .content_wrap,.controller__graphs .content_wrap{width:100% !important}
@@ -436,5 +440,5 @@ table#graphs tr:last-child td{border-top:none}
 .compare.criterium{top:5px;height:65px}
 .compare.up{background-image:url("../images/sub.png")}
 .compare.down{background-image:url("../images/sup.png");left:-28px}
-#myprofile{position:absolute;left:0;top:0;width:100%;height:100%;overflow-y:scroll;z-index:100}#myprofile .center{margin:0 auto;width:1000px;background:#fff}
+#myprofile{position:absolute;left:0;top:0;width:100%;height:100%;overflow-y:scroll;z-index:100}#myprofile .center{margin:0 auto;width:1000px;background:rgba(0,0,0,0.7);box-shadow:inset 3px 0 20px 1px #000}
 #myprofile::-webkit-scrollbar{width:0;height:0}

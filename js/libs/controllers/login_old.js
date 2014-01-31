@@ -179,7 +179,7 @@ function LoginController($scope, Sessions, $rootScope, User, Social, $facebook, 
         gapi.auth.authorize({
             client_id: socialsAccess.googlePlus.applicationId[window.location.hostname], 
             scope: socialsAccess.googlePlus.scopes, 
-            immediate: false
+            immediate: true
         }, handleAuthResult);
     };
 
