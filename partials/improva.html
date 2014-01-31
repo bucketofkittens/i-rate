@@ -1,10 +1,10 @@
 <h4 class="imprin">Sign in with</h4>
-<h5><img src="../images/improva.png"> improva</h5>
+<h5><span class="icon  improva"></span> improva</h5>
 <b ng-click="changeState(states.SIGNIN)"></b>
 <div class="sign-in imprin">
   <ng-form 
     id="login_form" 
-    name="LoginForm" 
+    name="ImprovaForm" 
     novalidate 
     class="css-form myForm" >
     <p>
@@ -12,7 +12,7 @@
         type="email" 
         id="login_i" 
         class="form-input"
-        ng-model="login.email"
+        ng-model="improvaForm.email"
         name="Email"
         required 
         ng-minlength="6"
@@ -21,7 +21,7 @@
       <br />
       <span 
       	class="errorss" 
-      	ng-show="LoginForm.Email.$dirty && (LoginForm.Email.$error.required || LoginForm.Email.$error.minlength || LoginForm.Email.$error.email)">Incorrect email
+      	ng-show="ImprovaForm.Email.$dirty && (ImprovaForm.Email.$error.required || ImprovaForm.Email.$error.minlength || ImprovaForm.Email.$error.email)">Incorrect email
       </span>
     </p>       
     <p>
@@ -29,7 +29,7 @@
         type="password" 
         id="pass_i"
         class="form-input"
-        ng-model="login.password"
+        ng-model="ImprovaForm.password"
         required 
         name="Password"
         placeholder="Password"
@@ -38,15 +38,15 @@
       <br />
       <span 
       	class="errorss rss" 
-      	ng-show="LoginForm.Password.$dirty && (LoginForm.Password.$error.required || LoginForm.Password.$error.minlength)">Incorrect password
+      	ng-show="ImprovaForm.Password.$dirty && (ImprovaForm.Password.$error.required || ImprovaForm.Password.$error.minlength)">Incorrect password
       </span>
     </p>
     <div class="step">
-      <p class="errors" ng-show="error">{{error}}</p>
+      <p class="errors" ng-show="improvaError">{{improvaError}}</p>
       <p class="singin-sub">
         <input 
           ng-disabled="LoginForm.$invalid"
-          ng-click="onSingin()" 
+          ng-click="improvaLogin()" 
           type="button" 
           value="Sign in" />
       </p>    

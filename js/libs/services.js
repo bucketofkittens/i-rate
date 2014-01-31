@@ -421,12 +421,9 @@ pgrModule.factory('Sessions', function ($resource) {
 pgrModule.service('SessionsService', function (Sessions, User) {
 
     // забираем пользователя из кеша
-    this.signin = function(login, password, callback, fail) {
+    this.signin = function(params, callback, fail) {
         var self = this;
-        Sessions.signin({}, $.param({
-            "email": login,
-            "password": password
-        }), function(data) {
+        Sessions.signin({}, $.param(params), function(data) {
             if(data.success) {
                 self.signinSuccess_(data.guid, callback);
                 
@@ -486,6 +483,13 @@ pgrModule.service('UserService', function (User) {
                 }
             }
         );
+    }
+
+    // создание обновление пользователя
+    this.update = function(sguid, params, callback) {
+        User.updateUser({"id": data.message.guid},  {user: JSON.stringify(params)}, function(data) {
+            callback(data);
+        });
     }
 
     // получаем данные по указанному пользователю с указанным id
@@ -790,7 +794,9 @@ pgrModule.constant('SocialConfig', {
         ]
     },
     live: {
-        
+        redirect_uri: "http://i-rate.com/",
+        client_id: "000000004410A030",
+        scope: ["wl.signin", "wl.basic", "wl.emails", "wl.birthday"]
     }
 });
 
@@ -836,10 +842,56 @@ pgrModule.service('FacebookService', function($window, SocialConfig, SocialServi
     }
 });
 
+// сервис авторизации в MSLiveService
+pgrModule.service('MSLiveService', function($window, SocialConfig, SocialService) {
+    this.init = function(authCallback) {
+        WL.init({
+            client_id: SocialConfig.live.client_id,
+            redirect_uri: SocialConfig.live.redirect_uri,
+            scope: "wl.signin", 
+            response_type: "token"
+        });
+
+        WL.Event.subscribe("auth.login", authCallback);
+    },
+    this.getUserData = function(callback) {
+        WL.api({
+            path: "me",
+            method: "GET"
+        }, function(dataWL) {
+            callback(dataWL);
+        });
+    }
+    this.login = function(success, fail) {
+        WL.login({
+            scope: SocialConfig.live.scope
+        }).then(
+            function (session) {
+                success(session);
+            },
+            function (sessionError) {
+                fail(sessionError);
+            }
+        );
+    }
+});
+
 pgrModule.service('SocialService', function($window, Social) {
     this.login = function(email, callback) {
         Social.login({}, {email: email}, function(data) {
             callback(data);
+        });
+    }
+});
+
+pgrModule.service('ImprovaService', function(ImprovaLogin) {
+    this.login = function(email, password, callback, fail) {
+        Social.login({}, {email: email}, function(data) {
+            if(!dataImprova.authorized) {
+                fail(data);
+            } else {
+                callback(data);
+            }
         });
     }
 });

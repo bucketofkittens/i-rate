@@ -95,12 +95,7 @@ pgrModule.run(function() {
 	  var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
 	})();
 
-	WL.init({
-	    client_id: "000000004410A030",
-	    redirect_uri: "http://i-rate.com/",
-	    scope: "wl.signin", 
-	    response_type: "token"
-	});
+	
 
 	!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="https://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");
 })

@@ -1,7 +1,7 @@
 /**
  * форма модального окна авторизации
  */
-function SigninController($scope, SessionsService, UserService, FacebookService, SocialService, UserService) {
+function SigninController($scope, SessionsService, UserService, FacebookService, SocialService, UserService, MSLiveService) {
     // сообщение об ошибке
     $scope.error = null;
 
@@ -37,9 +37,10 @@ function SigninController($scope, SessionsService, UserService, FacebookService,
     * получение данных пользователя
     */
     $scope.onSingin = function(data) {
-        SessionsService.signin(
-            $scope.login.email, 
-            $scope.login.password, 
+        SessionsService.signin({
+                "email": $scope.login.email, 
+                "password": $scope.login.password
+            },
             $scope.onSigninSuccessCallback_,
             $scope.onSigninFailCallback_
         );
@@ -60,13 +61,32 @@ function SigninController($scope, SessionsService, UserService, FacebookService,
         SocialService.login(data.email, $scope.socialLoginSuccess_);
     }
 
-    // инициализация сервисов facebook
-    FacebookService.init($scope.facebookLoginSuccess_);
-
     // авторизация в facebook
     $scope.socialFacebookLogin = function() {
         FacebookService.login($scope.facebookLoginSuccess_);
     }
 
-    
+    $scope.MSLiveLoginSuccess_ = function(session) {
+        MSLiveService.getUserData($scope.MSLiveLoginGetUserDataSuccess_);
+    }
+
+    $scope.MSLiveLoginFail_ = function(data) {
+    }
+
+    $scope.MSLiveLoginGetUserDataSuccess_ = function(data) {
+        SocialService.login(data.emails.account, $scope.socialLoginSuccess_);
+    }
+
+    $scope.MSLiveLoginCompleteSuccess_ = function() {
+        MSLiveService.getUserData($scope.MSLiveLoginGetUserDataSuccess_);
+    }
+
+    $scope.socialMicrosoftLiveLogin = function() {
+        MSLiveService.login($scope.MSLiveLoginSuccess_, $scope.MSLiveLoginFail_);
+    };
+
+    // инициализация сервисов facebook
+    FacebookService.init($scope.facebookLoginSuccess_);
+
+    MSLiveService.init($scope.MSLiveLoginCompleteSuccess_);
 }
