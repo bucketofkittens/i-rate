@@ -1,0 +1,3 @@
+function MyProfileSettingsController($scope) {
+	
+}
