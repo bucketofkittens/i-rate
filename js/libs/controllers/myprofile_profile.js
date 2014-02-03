@@ -8,16 +8,15 @@ function MyProfileProfileController($scope, $rootScope, $location, LocationServi
 
 	// открываем список голсов справа
 	$scope.goalClick = function($event, needItem, goalItem, needs) {
-		$scope.persistState(needItem, goalItem);
-
 		$rootScope.$broadcast('openCriteriumList', {need: needItem, goal: goalItem, needs: needs});
-
+        $scope.pesistState(goalItem.name);
+        
 		LocationService.update("goal", goalItem.name);
 	}
 
-	$scope.persistState = function(needItem, goalItem) {
-		lscache.set($scope.cacheName, JSON.stringify({need: needItem, goal: goalItem}), $scope.cacheTime);
-	}
+    $scope.pesistState = function(goalName) {
+        lscache.set($scope.cacheName, goalName, $scope.cacheTime);
+    }
 
 	// событие переключчения состояния страницы.
     $scope.$on('$locationChangeSuccess', function (event) {
@@ -37,7 +36,7 @@ function MyProfileProfileController($scope, $rootScope, $location, LocationServi
     }
 
     // выбираем первый элемент
-    $scope.moveToFirstGoal = function(goalName) {
+    $scope.moveToFirstGoal = function() {
     	var needItem = $scope.workspace.needs[0];
     	var goalItem = needItem.goals[0];
 
@@ -49,12 +48,18 @@ function MyProfileProfileController($scope, $rootScope, $location, LocationServi
     $scope.selectGoal = function() {
 	    if($location.search().goal) {
 	    	$scope.moveToGoal($location.search().goal);
+            $scope.pesistState($location.search().goal);
 	    } else {
-	    	$scope.moveToFirstGoal($location.search().goal);
+	    	var goalName = lscache.get($scope.cacheName);
+	    	if(goalName) {
+	    		$scope.moveToGoal(goalName);
+	    	} else {
+	    		$scope.moveToFirstGoal();
+	    	}
+            LocationService.update("goal", goalName);
 	    }
     }
 
     // выбираем location
     $scope.selectGoal();
-    
 }
