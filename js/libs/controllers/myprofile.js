@@ -1,5 +1,5 @@
 // контроллер вкладок своего профиля
-function MyProfileController($scope) {
+function MyProfileController($scope, $location) {
 	// показываем плашку или нет
 	$scope.showProfile = false;
 
@@ -23,12 +23,32 @@ function MyProfileController($scope) {
 		SETTINGS: 'Settings'
 	}
 
+	// название кеша
+   	$scope.cacheName = 'myprofiletab';
+
+    // время кеширования
+    $scope.cacheTime = 1440;
+
 	// устанавливаем текущий пункт навигации
 	$scope.setCurrentNav = function(index) {
 		$scope.clearNav();
 
 		$scope.navItems[index].current = true;
 		$scope.currentNav = $scope.navItems[index];
+
+		$location.search({myprofile: true, nav: $scope.currentNav.name});
+	}
+
+	// забираем индекс эелмента по полю name
+	$scope.getIndexByName = function(name) {
+		var idx = 0;
+		angular.forEach($scope.navItems, function(value, key){
+			if(value.name == name) {
+				idx = key
+			}
+		});
+
+		return idx;
 	}
 
 	// очищаем все пункты навигации от current
@@ -50,9 +70,25 @@ function MyProfileController($scope) {
 
 	// открываем эту плашку
 	$scope.$on('openProfile', function(event, message) {
+		$scope.getPersistTab();
+
         $scope.showProfile = true;
     });
 
-	// вначале выбираем первый пункт меню
-    $scope.setCurrentNav(0);
+	// По указанному пути выбираем нужный элемент меню
+   	$scope.setCurrentNavByLocation = function() {
+   		var nav = $location.search().nav ? $location.search().nav : $scope.indexes.PROFILE;
+
+   		$scope.setCurrentNav($scope.getIndexByName(nav));
+   	}
+
+    // событие переключчения состояния страницы.
+    $scope.$on('$locationChangeSuccess', function () {
+        if($location.search().myprofile) {
+        	$scope.showProfile = true;
+        	$scope.setCurrentNavByLocation();
+        } else {
+        	$scope.showProfile = false;
+        }
+    });
 }
