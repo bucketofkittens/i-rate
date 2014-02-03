@@ -65,28 +65,27 @@ function MyProfileController($scope, $location) {
 
 	// закрываем плашку
 	$scope.close = function() {
-		$scope.showProfile = false;
+		$location.search({});
 	}
 
 	// открываем эту плашку
 	$scope.$on('openProfile', function(event, message) {
-		$scope.getPersistTab();
-
-        $scope.showProfile = true;
+		$location.search({ myprofile: true});
     });
 
-	// По указанному пути выбираем нужный элемент меню
-   	$scope.setCurrentNavByLocation = function() {
-   		var nav = $location.search().nav ? $location.search().nav : $scope.indexes.PROFILE;
-
-   		$scope.setCurrentNav($scope.getIndexByName(nav));
-   	}
-
     // событие переключчения состояния страницы.
-    $scope.$on('$locationChangeSuccess', function () {
+    $scope.$on('$locationChangeSuccess', function (event) {
         if($location.search().myprofile) {
         	$scope.showProfile = true;
-        	$scope.setCurrentNavByLocation();
+
+        	if(!$location.search().nav) {
+				var cacheNav = lscache.get($scope.cacheName) ? lscache.get($scope.cacheName) : $scope.indexes.PROFILE;
+				$location.search({ myprofile: true, nav: cacheNav});
+			} else {
+				$scope.setCurrentNav($scope.getIndexByName($location.search().nav));
+
+				lscache.set($scope.cacheName, $scope.currentNav.name, $scope.cacheTime);	
+			}
         } else {
         	$scope.showProfile = false;
         }
