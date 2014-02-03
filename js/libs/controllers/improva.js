@@ -1,6 +1,6 @@
 // контроллер авторизации через импрувы
-function ImprovaLoginController($scope, ImprovaService) {
-	$scope.ImprovaForm = {
+function ImprovaLoginController($scope, ImprovaService, SessionsService, UserService) {
+	$scope.improvaForm = {
 		email: "",
 		password: ""
 	}
@@ -28,9 +28,9 @@ function ImprovaLoginController($scope, ImprovaService) {
 
 	$scope.onSigninFailCallback_ = function(data) {
 		UserService.create({
-            "login": $scope.ImprovaForm.email,
-            "email": $scope.ImprovaForm.email,
-            "name": $scope.ImprovaForm.email,
+            "login": $scope.improvaForm.email,
+            "email": $scope.improvaForm.email,
+            "name": $scope.improvaForm.email,
             "password": "",
             "confirmed": "1"
         }, $scope.onUserCreateSuccess_, $scope.onUserCreateFail_);
@@ -45,7 +45,7 @@ function ImprovaLoginController($scope, ImprovaService) {
 
 	$scope.improvaLoginSuccess_ = function(data) {
 		SessionsService.signin({
-                "email": $scope.ImprovaForm.email, 
+                "email": $scope.improvaForm.email, 
                 "password": "",
                 "from_improva": "1"
             },
@@ -59,6 +59,11 @@ function ImprovaLoginController($scope, ImprovaService) {
 	}
 
 	$scope.improvaLogin = function() {
-		ImprovaService.login($scope.improvaForm.email, $scope.improvaForm.password, $scope.improvaLoginFail_);
+		ImprovaService.login(
+            $scope.improvaForm.email, 
+            $scope.improvaForm.password,
+            $scope.improvaLoginSuccess_,
+            $scope.improvaLoginFail_
+        );
 	}
 }

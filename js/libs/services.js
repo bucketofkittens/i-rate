@@ -872,11 +872,11 @@ pgrModule.service('SocialService', function($window, Social) {
 
 pgrModule.service('ImprovaService', function(ImprovaLogin) {
     this.login = function(email, password, callback, fail) {
-        Social.login({}, {email: email}, function(data) {
+        ImprovaLogin.isset({}, {email: email, password: password}, function(dataImprova) {
             if(!dataImprova.authorized) {
-                fail(data);
+                fail(dataImprova);
             } else {
-                callback(data);
+                callback(dataImprova);
             }
         });
     }
