@@ -43,7 +43,7 @@ body {
             .logo { 
                 width: 140px;
                 height: 60px;
-                margin-left: 20px;
+                margin-left: 10px;
                 position: relative;
                 display: inline-block;
                 float: left;
@@ -898,11 +898,13 @@ body {
 
     /** NAV ON MY PAGES **/
     .mynav {
-        margin: 60px 0px 0px 5px;
+        margin: 60px 0px 0px 0px;
         vertical-align: middle;
         width: 100%;
         height: 70px;
         position: relative;
+        background: rgba(0, 0, 0, 0.3);
+        box-shadow: inset 3px 5px 20px 1px #000000;
         .close {
             position: absolute;
             right: 30px;
@@ -921,7 +923,7 @@ body {
             height: 35px;
             li {
                 display: inline-block;
-                background: rgba(63, 63, 63, 0.9);
+                background: rgba(63, 63, 63, 0.8);
                 box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.3);
                 margin: 0px 10px;
                 padding: 5px 0px;
@@ -929,9 +931,8 @@ body {
                 height: 30px;
                 width: 150px;
                 &.current {
-                    background: rgba(99,99,99,0.8);
-                    padding: 10px;
-                    box-shadow: none;
+                    background: rgba(99,99,99,0.7);
+                    padding: 10px 10px 5px 10px;
                     cursor: default;
                 }
                 a {
@@ -966,30 +967,31 @@ body {
         /** MY PROFILE **/
         .mypro_wr {
             float: right;
-            margin-left: -295px;
-            width: 1024px;
+            width: 700px;
             height: 100%;
         }
         .mypro {
-            margin-left: 295px !important;
             display: inline-block;
             position: relative;
-            margin: 0px 15px;    
+            margin-left: -65px;    
             vertical-align: top;
             height: 100%;
-            background: #ffffff;
-            border: 1px solid #dddddd;
-            box-shadow: 0px 0px 20px 1px rgba(0, 0, 0, 0.2);
+            background: url("../images/myglass.png") left top no-repeat;
+            border-top: 1px solid #878787;
+            box-shadow: inset 0px 0px 20px 0px rgba(0, 0, 0, 0.2);
             z-index: 3;
-            padding: 15px;
             overflow-y: scroll;
             overflow-x: hidden;
-            width: 685px;
+            width: 760px;
             &::-webkit-scrollbar {
                 width: 0px;
                 height: 0px; 
             }   
             &.acrd {
+                background: url("../images/myglass.png") left top no-repeat;
+                border-top: none;
+                border-right: 1px solid #000000;
+                box-shadow: inset 0px -10px 20px 0px rgba(0, 0, 0, 0.3);
                 width: 215px;
                 min-width: 215px;
                 float: left;
@@ -1024,7 +1026,7 @@ body {
                                     width: 220px;
                                     margin-left: 30px;
                                     line-height: 35px;
-                                    color: #000000;
+                                    color: #ffffff;
                                     cursor: pointer;                                    
                                     max-width: 200px;
                                     text-overflow: ellipsis;
@@ -1142,7 +1144,7 @@ body {
                         width: 102%;
                         margin-left: 0px;
                         p {
-                            color: #000000;
+                            color: #ffffff;
                             font-size: 14px;
                             display: block;
                             width: 600px;
@@ -1178,7 +1180,7 @@ body {
                                     table-layout: fixed;
                                     li {
                                         display: table-cell;
-                                        color: #000000;
+                                        color: #ffffff;
                                         font-size: 12px;
                                         width: auto;
                                         margin: 0px auto;
@@ -1243,9 +1245,7 @@ body {
             text-align: center;
             height: 90%;
             min-height: 550px;
-            background: #ffffff;
-            border: 1px solid #dddddd;
-            box-shadow: 0px 0px 20px 1px rgba(0, 0, 0, 0.2);
+            background: url("../images/myglass.png") left top no-repeat;
             z-index: 3;
             overflow-y: scroll;
             overflow-x: visible;
@@ -1264,9 +1264,7 @@ body {
             vertical-align: top;
             height: 90%;
             min-height: 550px;
-            background: #ffffff;
-            border: 1px solid #dddddd;
-            box-shadow: 0px 0px 20px 1px rgba(0, 0, 0, 0.2);
+            background: url("../images/myglass.png") left top no-repeat;
             z-index: 3;
             overflow-y: scroll;
             overflow-x: visible;
