@@ -545,6 +545,16 @@ pgrModule.service('NeedsService', function (Needs) {
     }
 });
 
+pgrModule.service('LocationService', function ($location) {
+
+    // забираем пользователя из кеша
+    this.update = function(param, value) {
+        var locations = $location.search();
+        locations[param] = value;
+        $location.search(locations);
+    }
+});
+
 /**
  * Сервис списка карьер
  */

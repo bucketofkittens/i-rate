@@ -1,5 +1,5 @@
 // контроллер вкладок своего профиля
-function MyProfileController($scope, $location) {
+function MyProfileController($scope, $location, LocationService) {
 	// показываем плашку или нет
 	$scope.showProfile = false;
 
@@ -30,13 +30,13 @@ function MyProfileController($scope, $location) {
     $scope.cacheTime = 1440;
 
 	// устанавливаем текущий пункт навигации
-	$scope.setCurrentNav = function(index) {
+	$scope.setCurrentNav = function(index, move) {
 		$scope.clearNav();
 
 		$scope.navItems[index].current = true;
 		$scope.currentNav = $scope.navItems[index];
 
-		$location.search({myprofile: true, nav: $scope.currentNav.name});
+		LocationService.update("nav", $scope.currentNav.name);
 	}
 
 	// забираем индекс эелмента по полю name
@@ -61,6 +61,7 @@ function MyProfileController($scope, $location) {
 	// выбираем другое состояние
 	$scope.changeState = function(state) {
 		$scope.setCurrentNav(state);
+		$location.search({ myprofile: true, nav: $scope.currentNav.name});
 	}
 
 	// закрываем плашку
@@ -78,13 +79,16 @@ function MyProfileController($scope, $location) {
         if($location.search().myprofile) {
         	$scope.showProfile = true;
 
+        	// проверяем существование nav в location
         	if(!$location.search().nav) {
+
+        		// если его нет, берем его из кеша и переходим на нужный таб
 				var cacheNav = lscache.get($scope.cacheName) ? lscache.get($scope.cacheName) : $scope.indexes.PROFILE;
 				$location.search({ myprofile: true, nav: cacheNav});
 			} else {
+				// если есть переходим на таб и записываем в кеш новое состояниеы
 				$scope.setCurrentNav($scope.getIndexByName($location.search().nav));
-
-				lscache.set($scope.cacheName, $scope.currentNav.name, $scope.cacheTime);	
+				lscache.set($scope.cacheName, $scope.currentNav.name, $scope.cacheTime);
 			}
         } else {
         	$scope.showProfile = false;
