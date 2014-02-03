@@ -3,8 +3,9 @@
 		<!-- навигация -->
 		<div class="mynav">
 			<ul>
-				<li ng-repeat="(navKey, navValue) in navItems">
-					<a ng-click="changeState(navValue)">
+				<li ng-repeat="(navKey, navValue) in navItems"
+					ng-class="{current: navValue.current}">
+					<a ng-click="changeState(navKey)">
 						<span class="icon {{navValue.name}}"></span>
 						{{navValue.name}}
 					</a>

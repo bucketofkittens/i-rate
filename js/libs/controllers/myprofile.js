@@ -23,12 +23,24 @@ function MyProfileController($scope) {
 		SETTINGS: 'Settings'
 	}
 
-	// текущий выбранный элемент
-	$scope.currentNav = $scope.navItems[0];
+	// устанавливаем текущий пункт навигации
+	$scope.setCurrentNav = function(index) {
+		$scope.clearNav();
 
+		$scope.navItems[index].current = true;
+		$scope.currentNav = $scope.navItems[index];
+	}
+
+	// очищаем все пункты навигации от current
+	$scope.clearNav = function() {
+		angular.forEach($scope.navItems, function(value, key){
+			value.current = false;
+		});
+	}
+	
 	// выбираем другое состояние
 	$scope.changeState = function(state) {
-		$scope.currentNav = state;
+		$scope.setCurrentNav(state);
 	}
 
 	// закрываем плашку
@@ -40,4 +52,7 @@ function MyProfileController($scope) {
 	$scope.$on('openProfile', function(event, message) {
         $scope.showProfile = true;
     });
+
+	// вначале выбираем первый пункт меню
+    $scope.setCurrentNav(0);
 }
