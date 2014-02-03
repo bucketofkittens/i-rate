@@ -505,6 +505,11 @@ pgrModule.service('UserService', function (User) {
             callback(goalsData);
         });
     }
+
+    // очищаем пользователя в кеше
+    this.clearAuthData = function() {
+        lscache.remove(this.cacheName);
+    }
 });
 
 /**
@@ -771,7 +776,7 @@ pgrModule.service('FriendsService', function (UserService, User, $rootScope) {
 });
 
 // сервис авторизации в facebook
-pgrModule.service('FacebookService', function($window, SocialService) {
+pgrModule.service('FacebookService', function($window) {
     this.init = function(authCallback) {
         window.fbAsyncInit = function() {
             FB.init({
@@ -809,6 +814,9 @@ pgrModule.service('FacebookService', function($window, SocialService) {
                 }
             }
         }, {scope: SocialConfig.facebook.perms});
+    },
+    this.logout = function() {
+        FB.logout();
     }
 });
 
@@ -860,13 +868,37 @@ pgrModule.service('GooglePlusService', function($window, GooglePlus) {
     }
 });
 
+pgrModule.service('SocialService', function($window, Social, FacebookService) {
+    // название кеша
+    this.cacheName = 'social';
 
+    // время кеширования
+    this.cacheTime = 1440;
 
-pgrModule.service('SocialService', function($window, Social) {
-    this.login = function(email, callback) {
+    this.login = function(email, callback, socialName) {
         Social.login({}, {email: email}, function(data) {
-            callback(data);
+            callback(data, socialName);
         });
+    }
+
+    // передаем данные в кеш
+    this.persist = function(socialName) {
+        lscache.set(this.cacheName, socialName, this.cacheTime);
+    }
+
+    this.getCurrentSocial = function() {
+        return lscache.get(this.cacheName);
+    }
+
+    // передаем данные в кеш
+    this.clear = function(socialName) {
+        var currentSocial = this.getCurrentSocial();
+
+        if(currentSocial == SocialNames.FACEBOOK) {
+            FacebookService.logout();
+        }
+
+        lscache.remove(this.cacheName);
     }
 });
 

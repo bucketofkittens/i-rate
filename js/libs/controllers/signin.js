@@ -38,7 +38,7 @@ function SigninController($scope, SessionsService, UserService, FacebookService,
     */
     $scope.onSingin = function(data) {
         SessionsService.signin({
-                "email": $scope.login.email, 
+                "email": $scope.login.email,
                 "password": $scope.login.password
             },
             $scope.onSigninSuccessCallback_,
@@ -47,7 +47,11 @@ function SigninController($scope, SessionsService, UserService, FacebookService,
     }
 
     // забираем данные о себе из i-rate
-    $scope.socialLoginSuccess_ = function(data) {
+    $scope.socialLoginSuccess_ = function(data, socialName) {
+        // сохраняем имя социалки через какую вошли
+        SocialService.persist(socialName);
+
+        // забираем данные пользователя
         UserService.getById(data.guid, $scope.onSigninSuccessCallback_);
     }
 
@@ -58,7 +62,7 @@ function SigninController($scope, SessionsService, UserService, FacebookService,
 
     // забираем данные о себе из фейсубка
     $scope.facebookGetUserDataSuccess_ = function(data) {
-        SocialService.login(data.email, $scope.socialLoginSuccess_);
+        SocialService.login(data.email, $scope.socialLoginSuccess_, SocialNames.FACEBOOK);
     }
 
     // авторизация в facebook
@@ -74,7 +78,7 @@ function SigninController($scope, SessionsService, UserService, FacebookService,
     }
 
     $scope.MSLiveLoginGetUserDataSuccess_ = function(data) {
-        SocialService.login(data.emails.account, $scope.socialLoginSuccess_);
+        SocialService.login(data.emails.account, $scope.socialLoginSuccess_, SocialNames.MSLIVE);
     }
 
     $scope.MSLiveLoginCompleteSuccess_ = function() {
@@ -90,7 +94,7 @@ function SigninController($scope, SessionsService, UserService, FacebookService,
     }
 
     $scope.gogglePlustLoginSuccess_ = function(data) {
-        SocialService.login(data.email, $scope.socialLoginSuccess_);
+        SocialService.login(data.email, $scope.socialLoginSuccess_, SocialNames.GOOGLE_PLUS);
     }
 
     $scope.socialGooglePlusLogin = function() {

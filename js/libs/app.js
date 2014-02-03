@@ -29,6 +29,11 @@ var SocialConfig = {
     }
 }
 
+var SocialNames = {
+    FACEBOOK: "facebook",
+    GOOGLE_PLUS: "google_plus",
+    MSLIVE: "mslive"
+}
 
 
 /**
@@ -89,8 +94,6 @@ pgrModule.factory('httpRequestInterceptor', function() {
   };
 });
 
-
-
 pgrModule.config(['$httpProvider', function($httpProvider) {
     $httpProvider.interceptors.push('httpRequestInterceptor');
 }]);
@@ -101,89 +104,3 @@ pgrModule.config(function(GooglePlusProvider) {
        apiKey: SocialConfig.googlePlus.apiKey
      });
 });
-
-/*
-
-
-
-pgrModule.run(function() {
-	(function(d, s, id){
-	 var js, fjs = d.getElementsByTagName(s)[0];
-	 if (d.getElementById(id)) {return;}
-	 js = d.createElement(s); js.id = id;
-	 js.src = "//connect.facebook.net/en_US/all.js";
-	 fjs.parentNode.insertBefore(js, fjs);
-	}(document, 'script', 'facebook-jssdk'));
-
-	(function() {
-	  var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
-	  po.src = 'https://apis.google.com/js/client:plusone.js';
-	  var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
-	})();
-
-	
-
-	!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="https://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");
-})
-
-// возвращает cookie если есть или undefined
-
-
-
-
-function onSignInCallback(authResult) {
-    if (authResult['access_token']) {
-      	gapi.client.load('oauth2', 'v2', function() {
-		  gapi.client.oauth2.userinfo.get().execute(function(resp) {
-		  	console.log(resp);
-		    var scope = angular.element($("body")).scope();
-
-		    scope.gplusAuth(resp.email, resp.name);
-		  })
-		});
-    }
-}
-
-function handleClientLoad() {
-	gapi.client.setApiKey(apiKey);
-	window.setTimeout(checkAuth,1);
-}
-
-function checkAuth() {
-	gapi.auth.authorize({
-		client_id: socialsAccess.googlePlus.applicationId[window.location.hostname], 
-		scope: socialsAccess.googlePlus.scopes, 
-		immediate: true
-	}, handleAuthResult);
-}
-
-function handleAuthResult(authResult) {
-	if (authResult && !authResult.error) {
-	  makeApiCall();
-	} else {
-		var scope = angular.element($("body")).scope();
-	    scope.gplusFalse();
-	}
-}
-
-function handleAuthClick(event) {
-	gapi.auth.authorize({
-		client_id: socialsAccess.googlePlus.applicationId[window.location.hostname], 
-		scope: socialsAccess.googlePlus.scopes, 
-		immediate: true
-	}, handleAuthResult);
-	return false;
-}
-
-function makeApiCall() {
-	gapi.client.load('oauth2', 'v2', function() {
-	  gapi.client.oauth2.userinfo.get().execute(function(resp) {
-	    var scope = angular.element($("body")).scope();
-	    scope.gplusAuth(resp.email, resp.name);
-	    socialsAccess.googlePlus.isLoggined = true;
-	  })
-	});
-}
-
-
-*/
