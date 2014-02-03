@@ -1,5 +1,36 @@
 'use strict';
 
+var SocialConfig = {
+	facebook: {
+        applicationId: {
+            "localhost": "205232122986999",
+            "xmpp.dev.improva.com": "173391222849160",
+            "i-rate.com": "181043732091838"
+        },
+        perms: "email,user_birthday,user_location,user_about_me"
+    },
+    googlePlus: {
+        applicationId: {
+            "localhost": '339940198985.apps.googleusercontent.com', 
+            "xmpp.dev.improva.com": "339940198985-h79e4hvjp9b2658og8o849u3blaootub.apps.googleusercontent.com",
+            "i-rate.com": "339940198985-c9idb0ng4letjpfnhsm4l7jci1uh7t6c.apps.googleusercontent.com"
+        },
+        apiKey: 'AIzaSyBUJ3rialFIcJ5QvuWFkvPqmFbTBIZ2Kmo',
+        scopes: [
+            'https://www.googleapis.com/auth/plus.me',
+            'https://www.googleapis.com/auth/userinfo.email',
+            'https://www.googleapis.com/auth/userinfo.profile'
+        ]
+    },
+    live: {
+        redirect_uri: "http://i-rate.com/",
+        client_id: "000000004410A030",
+        scope: ["wl.signin", "wl.basic", "wl.emails", "wl.birthday"]
+    }
+}
+
+
+
 /**
  * Основной модуль приложения
  * @type {[type]}
@@ -13,7 +44,9 @@ var pgrModule = angular.module(
 		"ngAnimate",
 		"ngSanitize",
 		'ngTouch', 
-		"localization", 
+		"localization",
+		"googleplus",
+		"facebook",
         //'ui.date',
         //'ui.autocomplete',
         'ui.keypress',
@@ -62,31 +95,15 @@ pgrModule.config(['$httpProvider', function($httpProvider) {
     $httpProvider.interceptors.push('httpRequestInterceptor');
 }]);
 
-
-pgrModule.run(function() {
-	// facebook
-	(function(d, s, id){
-	 var js, fjs = d.getElementsByTagName(s)[0];
-	 if (d.getElementById(id)) {return;}
-	 js = d.createElement(s); js.id = id;
-	 js.src = "//connect.facebook.net/en_US/all.js";
-	 fjs.parentNode.insertBefore(js, fjs);
-	}(document, 'script', 'facebook-jssdk'));
-
-
-	// google plus
-	(function() {
-	  var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
-	  po.src = 'https://apis.google.com/js/client:plusone.js';
-	  var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
-	})();
-})
+pgrModule.config(function(GooglePlusProvider) {
+     GooglePlusProvider.init({
+       clientId: SocialConfig.googlePlus.applicationId[window.location.hostname],
+       apiKey: SocialConfig.googlePlus.apiKey
+     });
+});
 
 /*
-pgrModule.config(function($facebookProvider) {
-	$facebookProvider.setPermissions("email,user_birthday,user_location,user_about_me");
-	$facebookProvider.setAppId(socialsAccess.facebook.applicationId[window.location.hostname]);
-});
+
 
 
 pgrModule.run(function() {

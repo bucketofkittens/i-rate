@@ -770,38 +770,8 @@ pgrModule.service('FriendsService', function (UserService, User, $rootScope) {
     }
 });
 
-// список констрант для социальных сетей
-pgrModule.constant('SocialConfig', {
-  facebook: {
-        applicationId: {
-            "localhost": "205232122986999",
-            "xmpp.dev.improva.com": "173391222849160",
-            "i-rate.com": "181043732091838"
-        },
-        perms: "email,user_birthday,user_location,user_about_me"
-    },
-    googlePlus: {
-        applicationId: {
-            "localhost": '339940198985.apps.googleusercontent.com', 
-            "xmpp.dev.improva.com": "339940198985-h79e4hvjp9b2658og8o849u3blaootub.apps.googleusercontent.com",
-            "i-rate.com": "339940198985-c9idb0ng4letjpfnhsm4l7jci1uh7t6c.apps.googleusercontent.com"
-        },
-        apiKey: 'AIzaSyBUJ3rialFIcJ5QvuWFkvPqmFbTBIZ2Kmo',
-        scopes: [
-            'https://www.googleapis.com/auth/plus.me',
-            'https://www.googleapis.com/auth/userinfo.email',
-            'https://www.googleapis.com/auth/userinfo.profile'
-        ]
-    },
-    live: {
-        redirect_uri: "http://i-rate.com/",
-        client_id: "000000004410A030",
-        scope: ["wl.signin", "wl.basic", "wl.emails", "wl.birthday"]
-    }
-});
-
 // сервис авторизации в facebook
-pgrModule.service('FacebookService', function($window, SocialConfig, SocialService) {
+pgrModule.service('FacebookService', function($window, SocialService) {
     this.init = function(authCallback) {
         window.fbAsyncInit = function() {
             FB.init({
@@ -843,7 +813,7 @@ pgrModule.service('FacebookService', function($window, SocialConfig, SocialServi
 });
 
 // сервис авторизации в MSLiveService
-pgrModule.service('MSLiveService', function($window, SocialConfig, SocialService) {
+pgrModule.service('MSLiveService', function($window, SocialService) {
     this.init = function(authCallback) {
         WL.init({
             client_id: SocialConfig.live.client_id,
@@ -875,6 +845,22 @@ pgrModule.service('MSLiveService', function($window, SocialConfig, SocialService
         );
     }
 });
+
+// сервис авторизации в MSLiveService
+pgrModule.service('GooglePlusService', function($window, GooglePlus) {
+    this.getUserData = function(callback) {
+        
+    }
+    this.login = function(success, fail) {
+        GooglePlus.login().then(function(data) {
+            success(data);
+        }, function (err) {
+            fail(err);
+        });
+    }
+});
+
+
 
 pgrModule.service('SocialService', function($window, Social) {
     this.login = function(email, callback) {

@@ -1,7 +1,7 @@
 /**
  * форма модального окна авторизации
  */
-function SigninController($scope, SessionsService, UserService, FacebookService, SocialService, UserService, MSLiveService) {
+function SigninController($scope, SessionsService, UserService, FacebookService, SocialService, UserService, MSLiveService, GooglePlusService) {
     // сообщение об ошибке
     $scope.error = null;
 
@@ -84,6 +84,18 @@ function SigninController($scope, SessionsService, UserService, FacebookService,
     $scope.socialMicrosoftLiveLogin = function() {
         MSLiveService.login($scope.MSLiveLoginSuccess_, $scope.MSLiveLoginFail_);
     };
+
+    $scope.googlePlusLoginFail_ = function() {
+
+    }
+
+    $scope.gogglePlustLoginSuccess_ = function(data) {
+        SocialService.login(data.email, $scope.socialLoginSuccess_);
+    }
+
+    $scope.socialGooglePlusLogin = function() {
+        GooglePlusService.login($scope.gogglePlustLoginSuccess_, $scope.googlePlusLoginFail_);
+    }
 
     // инициализация сервисов facebook
     FacebookService.init($scope.facebookLoginSuccess_);
