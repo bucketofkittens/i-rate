@@ -1989,10 +1989,11 @@ ng-form:not(.ng-pristine) {
 }
 .errorss {
     color: rgba(252, 79, 60, 1) !important;
-    padding-left: 3px !important;
     position: absolute;
     font-size: 14px;
     padding-top: 1px;
+    left: 23px;
+    bottom: 2px;
 }
 .isotope,
 .isotope .isotope-item {
@@ -3672,17 +3673,6 @@ table#graphs {
                 border: none;
                 color: #898989;
             }
-            .errorss {
-                top: 85px;
-                left: 30px;
-                font-size: 15px;
-                &.rss {
-                    top: 145px;
-                }
-                &.rrss {
-                    top: 205px;
-                }
-            }
             a {
                 font-family: 'Helvetica Neue Light';
                 color: #b7b7b7;
@@ -3861,5 +3851,11 @@ table#graphs {
     &::-webkit-scrollbar {
         width: 0px;
         height: 0px; 
+    }
+}
+
+.css-form {
+    p {
+        position: relative;
     }
 }

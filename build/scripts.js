@@ -308,6 +308,150 @@ window.angular);
 **/
 
 !function(a){"use strict";a.module("vcRecaptcha",[])}(angular),function(a,b){"use strict";var c=a.module("vcRecaptcha");c.service("vcRecaptchaService",["$timeout","$log",function(a){var c;return{create:function(a,d,e,f){c=e,f.callback=e,b.create(d,a,f)},reload:function(d){b.reload(d&&"t"),a(c,1e3)},data:function(){return{response:b.get_response(),challenge:b.get_challenge()}},destroy:function(){b.destroy()}}}])}(angular,Recaptcha),function(a,b){"use strict";var c=a.module("vcRecaptcha");c.directive("vcRecaptcha",["$log","$timeout","vcRecaptchaService",function(a,c,d){return{restrict:"A",require:"?ngModel",link:function(a,e,f,g){if(!f.hasOwnProperty("key")||40!==f.key.length)throw'You need to set the "key" attribute to your public reCaptcha key. If you don\'t have a key, please get one from https://www.google.com/recaptcha/admin/create';var h,i,j=function(){g&&g.$setViewValue({response:h.val(),challenge:i.val()})},k=function(){var a=e.find("input");i=angular.element(a[0]),h=angular.element(a[1]),j()},l=function(){k(),h.bind("keyup",function(){a.$apply(j)}),g&&(g.$render=function(){h.val(g.$viewValue.response),i.val(g.$viewValue.challenge)}),e.bind("click",function(){c(function(){a.$apply(k)},1e3)})};b.reload,d.create(e[0],f.key,l,{tabindex:f.tabindex,theme:f.theme,lang:f.lang||null})}}}])}(angular,Recaptcha);
+/*! angular-google-plus - v0.1.0 2013-10-31 */
+/**
+ * Options object available for module
+ * options/services definition.
+ * @type {Object}
+ */
+var options = {};
+
+/**
+ * googleplus module
+ */
+angular.module("googleplus", []).provider("GooglePlus", [ function() {
+    /**
+     * clientId
+     * @type {Number}
+     */
+    options.clientId = null;
+    this.setClientId = function(a) {
+        options.clientId = a;
+        return this;
+    };
+    this.getClientId = function() {
+        return options.clientId;
+    };
+    /**
+     * apiKey
+     * @type {String}
+     */
+    options.apiKey = null;
+    this.setApiKey = function(a) {
+        options.apiKey = a;
+        return this;
+    };
+    this.getApiKey = function() {
+        return options.apiKey;
+    };
+    /**
+     * Scopes
+     * @default 'https://www.googleapis.com/auth/plus.login'
+     * @type {Boolean}
+     */
+    options.scopes = "https://www.googleapis.com/auth/plus.login";
+    this.setScopes = function(a) {
+        options.scopes = a;
+        return this;
+    };
+    this.getScopes = function() {
+        return options.scopes;
+    };
+    /**
+     * Init Google Plus API
+     */
+    this.init = function(a) {
+        angular.extend(options, a);
+    };
+    /**
+     * This defines the Google Plus Service on run.
+     */
+    this.$get = [ "$q", "$rootScope", "$timeout", function(a, b, c) {
+        /**
+       * Create a deferred instance to implement asynchronous calls
+       * @type {Object}
+       */
+        var d = a.defer();
+        /**
+       * NgGooglePlus Class
+       * @type {Class}
+       */
+        var e = function() {};
+        e.prototype.login = function() {
+            gapi.auth.authorize({
+                client_id: options.clientId,
+                scope: options.scopes,
+                immediate: false
+            }, this.handleAuthResult);
+            return d.promise;
+        };
+        e.prototype.checkAuth = function() {
+            gapi.auth.authorize({
+                client_id: options.clientId,
+                scope: options.scopes,
+                immediate: true
+            }, this.handleAuthResult);
+        };
+        e.prototype.handleClientLoad = function() {
+            gapi.client.setApiKey(options.apiKey);
+            gapi.auth.init(function() {});
+            c(this.checkAuth, 1);
+        };
+        e.prototype.handleAuthResult = function(a) {
+            if (a && !a.error) {
+                var c = {};
+                gapi.client.load("oauth2", "v2", function() {
+                    var a = gapi.client.oauth2.userinfo.get();
+                    a.execute(function(a) {
+                        c.email = a.email;
+                        c.uid = a.id;
+                        d.resolve(c);
+                        b.$apply();
+                    });
+                });
+            } else {
+                d.reject("error");
+            }
+        };
+        e.prototype.getToken = function() {
+            return gapi.auth.getToken();
+        };
+        e.prototype.setToken = function(a) {
+            return gapi.auth.setToken(a);
+        };
+        return new e();
+    } ];
+} ]).run([ function() {
+    var a = document.createElement("script");
+    a.type = "text/javascript";
+    a.async = true;
+    a.src = "https://apis.google.com/js/client.js";
+    var b = document.getElementsByTagName("script")[0];
+    b.parentNode.insertBefore(a, b);
+} ]);
+var options = {};
+
+/**
+ * googleplus module
+ */
+angular.module("facebook", []).provider("Facebook", [ function() {
+    this.init = function(params) {
+    };
+    
+    this.$get = [ "$q", "$rootScope", "$timeout", function(a, b, c) {
+        var d = a.defer();
+        var e = function() {};
+        return new e();
+    } ];
+} ]).run([ function() {
+    (function(d, s, id){
+     var js, fjs = d.getElementsByTagName(s)[0];
+     if (d.getElementById(id)) {return;}
+     js = d.createElement(s); js.id = id;
+     js.src = "//connect.facebook.net/en_US/all.js";
+     fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));
+} ]);
 /**
  * Isotope v1.5.25
  * An exquisite jQuery plugin for magical layouts
@@ -725,218 +869,6 @@ angular.module('ui.date', [])
   return directive;
 }]);
 
-/**
- * Angular Facebook service
- * ---------------------------
- *
- * Authored by  AlmogBaku (GoDisco)
- *              almog@GoDisco.net
- *              http://www.GoDisco.net/
- *
- * 9/8/13 10:25 PM
- */
-
-angular.module('ngFacebook', [])
-  .provider('$facebook', function() {
-    var config = {
-      permissions:    'email',
-      appId:          null,
-      customInit:     {}
-    };
-
-
-    this.setAppId = function(appId) {
-      config.appId=appId;
-      return this;
-    };
-    this.getAppId = function() {
-      return config.appId;
-    };
-    this.setPermissions = function(permissions) {
-      config.permissions=permissions;
-      return this;
-    };
-    this.getPermissions = function() {
-      return config.permissions;
-    };
-    this.setCustomInit = function(customInit) {
-      config.customInit=customInit;
-      return this;
-    };
-    this.getCustomInit = function() {
-      return config.customInit;
-    };
-
-    this.$get = ['$q', '$rootScope', '$window', function($q, $rootScope, $window) {
-      var $facebook=$q.defer();
-      $facebook.config=function(property) {
-        return config[property];
-      }
-
-      //Initialization
-      $facebook.init = function() {
-        if($facebook.config('appId')==null)
-          throw "$facebookProvider: `appId` cannot be null";
-
-        $window.FB.init(
-          angular.extend({ appId: $facebook.config('appId') }, $facebook.config("customInit"))
-        );
-        $rootScope.$broadcast("fb.load", $window.FB);
-      };
-
-      $rootScope.$on("fb.load", function(e, FB) {
-        $facebook.resolve(FB);
-
-        //Define action events
-        angular.forEach([
-          'auth.login', 'auth.logout', 'auth.prompt',
-          'auth.sessionChange', 'auth.statusChange', 'auth.authResponseChange',
-          'xfbml.render', 'edge.create', 'edge.remove', 'comment.create',
-          'comment.remove', 'message.send'
-        ],function(event) {
-          FB.Event.subscribe(event, function(response) {
-            $rootScope.$broadcast("fb."+event, response, FB);
-          });
-        });
-      });
-
-      /**
-       * Internal cache
-       */
-      $facebook._cache={};
-      $facebook.setCache = function(attr,val) {
-        $facebook._cache[attr]=val;
-      };
-      $facebook.getCache = function(attr) {
-        if(angular.isUndefined($facebook._cache[attr])) return false;
-        return $facebook._cache[attr];
-      };
-      $facebook.clearCache = function() {
-        $facebook._cache = {};
-      };
-
-      /**
-       * Authentication
-       */
-
-      var login_deferred=$q.defer();
-      var login_deferred_id=0;
-      login_deferred.id=0;
-      $facebook._reset_login_deferred = function() {
-        $facebook.clearCache();
-        login_deferred=$q.defer();
-        login_deferred.id=login_deferred_id++;
-      };
-
-      $facebook.setCache("connected", null);
-      $facebook.isConnected = function() {
-        return $facebook.getCache("connected");
-      };
-      $rootScope.$on("fb.auth.authResponseChange", function(event, response, FB) {
-        $facebook.clearCache();
-
-        if(response.status=="connected") {
-          $facebook.setCache("connected", true);
-          login_deferred.resolve(FB);
-        } else {
-          $facebook.setCache("connected", false);
-          login_deferred.reject(response.status);
-        }
-      });
-
-      $rootScope.$on("fb.auth.login", $facebook._reset_login_deferred);
-      $rootScope.$on("fb.auth.logout", $facebook._reset_login_deferred);
-
-      $facebook.getAuthResponse = function () {
-        return FB.getAuthResponse();
-      };
-      $facebook.getLoginStatus = function (force) {
-        var deferred=$q.defer();
-
-        return $facebook.promise.then(function(FB) {
-          FB.getLoginStatus(function(response) {
-            if(response.error)  deferred.reject(response.error)
-            else                deferred.resolve(response);
-            $rootScope.$broadcast("fb.auth.authResponseChange", response, FB);
-          }, force);
-          return deferred.promise;
-        });
-      };
-      $facebook.login = function () {
-        var deferred=$q.defer();
-
-        return $facebook.promise.then(function(FB) {
-          FB.login(function(response) {
-            if(response.error)  deferred.reject(response.error)
-            else                deferred.resolve(response);
-          }, { scope: $facebook.config("permissions") });
-          return deferred.promise;
-        });
-      };
-      $facebook.logout = function () {
-        var deferred=$q.defer();
-
-        return $facebook.promise.then(function(FB) {
-          FB.logout(function(response) {
-            if(response.error)  deferred.reject(response.error)
-            else                deferred.resolve(response);
-          });
-          return deferred.promise;
-        });
-      };
-      $facebook.ui = function (params) {
-        var deferred=$q.defer();
-
-        return $facebook.promise.then(function(FB) {
-          FB.ui(params, function(response) {
-            if(response.error)  deferred.reject(response.error)
-            else                deferred.resolve(response);
-          });
-          return deferred.promise;
-        });
-      };
-      $facebook.api = function () {
-        var deferred=$q.defer();
-        var args=arguments;
-        args[args.length++] = function(response) {
-          if(response.error)  deferred.reject(response.error)
-          else                deferred.resolve(response);
-        };
-
-        return login_deferred.promise.then(function(FB) {
-          FB.api.apply(FB, args);
-          return deferred.promise;
-        });
-      };
-
-      /**
-       * API cached request - cached request api with promise
-       *
-       * @param path
-       * @returns $q.defer.promise
-       */
-      $facebook.cachedApi = function() {
-        if(typeof arguments[0] !== 'string')
-          throw "$facebook.cacheApi can works only with graph requests!";
-
-        var promise = $facebook.getCache(arguments[0]);
-        if(promise) return promise;
-
-        var result = $facebook.api.apply($facebook, arguments);
-        $facebook.setCache(arguments[0], result);
-
-        return result;
-      };
-
-      return $facebook;
-    }];
-  })
-  .run(['$rootScope', '$window', '$facebook', function($rootScope, $window, $facebook) {
-    $window.fbAsyncInit = function() {
-      $facebook.init();
-    };
-  }])
-;
 angular.module('ui.keypress',[]).
 factory('keypressHelper', ['$parse', function keypress($parse){
   var keysByCode = {
@@ -1531,6 +1463,37 @@ var lscache = function() {
 
 'use strict';
 
+var SocialConfig = {
+	facebook: {
+        applicationId: {
+            "localhost": "205232122986999",
+            "xmpp.dev.improva.com": "173391222849160",
+            "i-rate.com": "181043732091838"
+        },
+        perms: "email,user_birthday,user_location,user_about_me"
+    },
+    googlePlus: {
+        applicationId: {
+            "localhost": '339940198985.apps.googleusercontent.com', 
+            "xmpp.dev.improva.com": "339940198985-h79e4hvjp9b2658og8o849u3blaootub.apps.googleusercontent.com",
+            "i-rate.com": "339940198985-c9idb0ng4letjpfnhsm4l7jci1uh7t6c.apps.googleusercontent.com"
+        },
+        apiKey: 'AIzaSyBUJ3rialFIcJ5QvuWFkvPqmFbTBIZ2Kmo',
+        scopes: [
+            'https://www.googleapis.com/auth/plus.me',
+            'https://www.googleapis.com/auth/userinfo.email',
+            'https://www.googleapis.com/auth/userinfo.profile'
+        ]
+    },
+    live: {
+        redirect_uri: "http://i-rate.com/",
+        client_id: "000000004410A030",
+        scope: ["wl.signin", "wl.basic", "wl.emails", "wl.birthday"]
+    }
+}
+
+
+
 /**
  * Основной модуль приложения
  * @type {[type]}
@@ -1544,7 +1507,9 @@ var pgrModule = angular.module(
 		"ngAnimate",
 		"ngSanitize",
 		'ngTouch', 
-		"localization", 
+		"localization",
+		"googleplus",
+		"facebook",
         //'ui.date',
         //'ui.autocomplete',
         'ui.keypress',
@@ -1593,31 +1558,15 @@ pgrModule.config(['$httpProvider', function($httpProvider) {
     $httpProvider.interceptors.push('httpRequestInterceptor');
 }]);
 
-
-pgrModule.run(function() {
-	// facebook
-	(function(d, s, id){
-	 var js, fjs = d.getElementsByTagName(s)[0];
-	 if (d.getElementById(id)) {return;}
-	 js = d.createElement(s); js.id = id;
-	 js.src = "//connect.facebook.net/en_US/all.js";
-	 fjs.parentNode.insertBefore(js, fjs);
-	}(document, 'script', 'facebook-jssdk'));
-
-
-	// google plus
-	(function() {
-	  var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
-	  po.src = 'https://apis.google.com/js/client:plusone.js';
-	  var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
-	})();
-})
+pgrModule.config(function(GooglePlusProvider) {
+     GooglePlusProvider.init({
+       clientId: SocialConfig.googlePlus.applicationId[window.location.hostname],
+       apiKey: SocialConfig.googlePlus.apiKey
+     });
+});
 
 /*
-pgrModule.config(function($facebookProvider) {
-	$facebookProvider.setPermissions("email,user_birthday,user_location,user_about_me");
-	$facebookProvider.setAppId(socialsAccess.facebook.applicationId[window.location.hostname]);
-});
+
 
 
 pgrModule.run(function() {
@@ -3422,38 +3371,8 @@ pgrModule.service('FriendsService', function (UserService, User, $rootScope) {
     }
 });
 
-// список констрант для социальных сетей
-pgrModule.constant('SocialConfig', {
-  facebook: {
-        applicationId: {
-            "localhost": "205232122986999",
-            "xmpp.dev.improva.com": "173391222849160",
-            "i-rate.com": "181043732091838"
-        },
-        perms: "email,user_birthday,user_location,user_about_me"
-    },
-    googlePlus: {
-        applicationId: {
-            "localhost": '339940198985.apps.googleusercontent.com', 
-            "xmpp.dev.improva.com": "339940198985-h79e4hvjp9b2658og8o849u3blaootub.apps.googleusercontent.com",
-            "i-rate.com": "339940198985-c9idb0ng4letjpfnhsm4l7jci1uh7t6c.apps.googleusercontent.com"
-        },
-        apiKey: 'AIzaSyBUJ3rialFIcJ5QvuWFkvPqmFbTBIZ2Kmo',
-        scopes: [
-            'https://www.googleapis.com/auth/plus.me',
-            'https://www.googleapis.com/auth/userinfo.email',
-            'https://www.googleapis.com/auth/userinfo.profile'
-        ]
-    },
-    live: {
-        redirect_uri: "http://i-rate.com/",
-        client_id: "000000004410A030",
-        scope: ["wl.signin", "wl.basic", "wl.emails", "wl.birthday"]
-    }
-});
-
 // сервис авторизации в facebook
-pgrModule.service('FacebookService', function($window, SocialConfig, SocialService) {
+pgrModule.service('FacebookService', function($window, SocialService) {
     this.init = function(authCallback) {
         window.fbAsyncInit = function() {
             FB.init({
@@ -3495,7 +3414,7 @@ pgrModule.service('FacebookService', function($window, SocialConfig, SocialServi
 });
 
 // сервис авторизации в MSLiveService
-pgrModule.service('MSLiveService', function($window, SocialConfig, SocialService) {
+pgrModule.service('MSLiveService', function($window, SocialService) {
     this.init = function(authCallback) {
         WL.init({
             client_id: SocialConfig.live.client_id,
@@ -3527,6 +3446,22 @@ pgrModule.service('MSLiveService', function($window, SocialConfig, SocialService
         );
     }
 });
+
+// сервис авторизации в MSLiveService
+pgrModule.service('GooglePlusService', function($window, GooglePlus) {
+    this.getUserData = function(callback) {
+        
+    }
+    this.login = function(success, fail) {
+        GooglePlus.login().then(function(data) {
+            success(data);
+        }, function (err) {
+            fail(err);
+        });
+    }
+});
+
+
 
 pgrModule.service('SocialService', function($window, Social) {
     this.login = function(email, callback) {
@@ -6856,7 +6791,7 @@ function ShareController($scope) {
 /**
  * форма модального окна авторизации
  */
-function SigninController($scope, SessionsService, UserService, FacebookService, SocialService, UserService, MSLiveService) {
+function SigninController($scope, SessionsService, UserService, FacebookService, SocialService, UserService, MSLiveService, GooglePlusService) {
     // сообщение об ошибке
     $scope.error = null;
 
@@ -6939,6 +6874,18 @@ function SigninController($scope, SessionsService, UserService, FacebookService,
     $scope.socialMicrosoftLiveLogin = function() {
         MSLiveService.login($scope.MSLiveLoginSuccess_, $scope.MSLiveLoginFail_);
     };
+
+    $scope.googlePlusLoginFail_ = function() {
+
+    }
+
+    $scope.gogglePlustLoginSuccess_ = function(data) {
+        SocialService.login(data.email, $scope.socialLoginSuccess_);
+    }
+
+    $scope.socialGooglePlusLogin = function() {
+        GooglePlusService.login($scope.gogglePlustLoginSuccess_, $scope.googlePlusLoginFail_);
+    }
 
     // инициализация сервисов facebook
     FacebookService.init($scope.facebookLoginSuccess_);

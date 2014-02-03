@@ -16,7 +16,7 @@ module.exports = function(grunt) {
                 	'js/angular-cookies.min.js',
                 	'js/angular-touch.min.js',
                     'js/angular-recaptcha.min.js',
-                    'js/google-plus-signin.js',
+                    'js/angular-google-plus.js',
                     'js/facebook.js',
                     'js/jquery.isotope.min.js',
                     'js/jquery.isotope.perfectmasonry.js',

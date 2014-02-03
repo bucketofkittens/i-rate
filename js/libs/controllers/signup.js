@@ -20,9 +20,10 @@ function SignupController($scope, UserService, Recaptha) {
                 response: Recaptcha.get_response()
             }, 
             function(data) {
-                Recaptcha.reload();
+                
+
                 if(data.success) {
-                    $scope.errorValidate = null;
+                    $scope.clearErrors();
 
                     // если капча верна создаем нового пользователя
                     UserService.create({
@@ -30,8 +31,10 @@ function SignupController($scope, UserService, Recaptha) {
                         "login": $scope.user.email,
                         "email": $scope.user.email,
                         "password": $scope.user.password
-                    }, null, $scope.onAddUserSuccessCallback_);
+                    }, $scope.onAddUserSuccessCallback_, $scope.onAddUserFailCallback_);
                 } else {
+                    $scope.clearErrors();
+
                     $scope.errorValidate = "Text invalid";
                 }
             }
@@ -39,14 +42,33 @@ function SignupController($scope, UserService, Recaptha) {
         
     }
 
-    // приводим текст ошибок в порядок
+    // событие если пользователь создался
     $scope.onAddUserSuccessCallback_ = function(data) {
-        $scope.errors = "";
-        $scope.errorEmail = "";
+        $scope.clearErrors();
+
+        $scope.changeState(states.SIGNIN);
+    }
+
+    // приводим текст ошибок в порядок
+    $scope.onAddUserFailCallback_ = function(data) {
+        $scope.clearErrors();
+
         angular.forEach(data.errors, function(value, key) {
             if(value && value == 'login: ["is already taken"]') {
                 $scope.errorEmail = "Exists specified email.";
             }
+            if(value && value == 'name: ["is already taken"]') {
+                $scope.errorEmail = "Exists specified name.";
+            }
         });
+    }
+
+    $scope.clearErrors = function() {
+        Recaptcha.reload();
+
+        $scope.errorValidate = null;
+        $scope.errors = "";
+        $scope.errorEmail = "";
+        $scope.errorName = "";
     }
 }

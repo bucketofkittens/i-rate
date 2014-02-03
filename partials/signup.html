@@ -1,7 +1,10 @@
 <h4>Sign up</h4>
 <b ng-click="changeState(states.SIGNIN)"></b>
 <div class="sign-up">
-  <ng-form name="RegForm" novalidate class="css-form myForm" >
+  <ng-form 
+    novalidate 
+    class="css-form myForm"
+    name="RegForm" >
     <p>
       <input 
         type="email" 
@@ -17,8 +20,8 @@
       <span 
         class="errorss" 
         ng-show="RegForm.NewEmail.$dirty && (RegForm.NewEmail.$error.required || RegForm.NewEmail.$error.minlength || RegForm.NewEmail.$error.email)">Incorrect email</span>
+      <span class="errorss" ng-if="errorEmail">{{errorEmail}}</span>
     </p>
-    <p class="errors" ng-if="errorEmail">{{errorEmail}}</p>
     <p>
       <input 
         type="email" 
@@ -35,7 +38,8 @@
       <br />
       <span 
         class="errorss rss" 
-        ng-show="RegForm.NewMassEmail.$dirty && (RegForm.NewMassEmail.$error.required || RegForm.NewMassEmail.$error.minlength || RegForm.NewEmail.$error.email)">Incorrect mismatch</span> 
+        ng-show="RegForm.NewMassEmail.$dirty && (RegForm.NewMassEmail.$error.required || RegForm.NewMassEmail.$error.minlength || RegForm.NewEmail.$error.email)"> Incorrect mismatch</span> 
+      <span class="errorss" ng-if="errorName">{{errorName}}</span>
     </p>
     <p>
       <input 
