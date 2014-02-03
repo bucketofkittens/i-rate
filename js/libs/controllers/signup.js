@@ -45,8 +45,7 @@ function SignupController($scope, UserService, Recaptha, $rootScope) {
         $scope.clearErrors();
         $scope.changeState($scope.states.SIGNIN);
         
-        $rootScope.$broadcast('openModal', {template: "signup-success"});
-        
+        $rootScope.$broadcast('openModal', {name: "signup-success"});
     }
 
     // приводим текст ошибок в порядок
