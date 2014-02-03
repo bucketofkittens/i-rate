@@ -984,6 +984,7 @@ body {
             overflow-y: scroll;
             overflow-x: hidden;
             width: 760px;
+            background-size: 100% 100%;
             &::-webkit-scrollbar {
                 width: 0px;
                 height: 0px; 
@@ -999,6 +1000,7 @@ body {
                 margin-left: 10px !important;
                 position: relative;
                 z-index: 10;
+                background-size: 100% 100%;
                 .crits {
                     height: 100%;
                     margin-bottom: 1000px;
@@ -1263,12 +1265,13 @@ body {
             position: relative;
             margin: 0px;    
             vertical-align: top;
-            height: 90%;
+            height: 100%;
             min-height: 550px;
             background: url("../images/myglass.png") left top no-repeat;
             z-index: 3;
             overflow-y: scroll;
             overflow-x: visible;
+            background-size: 100% 100%;
             &::-webkit-scrollbar {
                 width: 0px;
                 height: 0px; 
@@ -2522,7 +2525,7 @@ sup.bidubi {
 #setting_info {
     position: absolute;
     top: 100px;
-    right: 520px;
+    right: 75px;
     font-size: 18px;
     font-family: 'Helvetica Neue Light';
     vertical-align: middle;
@@ -3857,15 +3860,30 @@ table#graphs {
     top: 0px;
     width: 100%; 
     height: 100%;
-    overflow-y: scroll;
-    z-index: 100;
+    z-index: 20;
     .center {
         margin: 0px auto;
         width: 1000px;
+        position: relative;
+        height: 100%;
     }
-    &::-webkit-scrollbar {
-        width: 0px;
-        height: 0px; 
+    
+    #profile_header {
+        position: absolute;
+        height: 70px;
+        left: 0px;
+        top: 0px;
+        width: 100%;
+    }
+    .tabs {
+        padding-top: 130px;
+        width: 100%;
+        overflow-y: scroll;
+        z-index: 100;
+        &::-webkit-scrollbar {
+            width: 0px;
+            height: 0px; 
+        }
     }
 }
 
@@ -3904,3 +3922,4 @@ table#graphs {
         margin: 0px auto;
     }
 }
+
