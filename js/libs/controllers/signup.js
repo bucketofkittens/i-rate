@@ -1,7 +1,7 @@
 /**
  * Форма создания нового пользователя
  */
-function SignupController($scope, UserService, Recaptha) {
+function SignupController($scope, UserService, Recaptha, $rootScope) {
     // модель формы
     $scope.user = {
         email: "",
@@ -20,8 +20,6 @@ function SignupController($scope, UserService, Recaptha) {
                 response: Recaptcha.get_response()
             }, 
             function(data) {
-                
-
                 if(data.success) {
                     $scope.clearErrors();
 
@@ -45,8 +43,10 @@ function SignupController($scope, UserService, Recaptha) {
     // событие если пользователь создался
     $scope.onAddUserSuccessCallback_ = function(data) {
         $scope.clearErrors();
-
-        $scope.changeState(states.SIGNIN);
+        $scope.changeState($scope.states.SIGNIN);
+        
+        $rootScope.$broadcast('openModal', {template: "signup-success"});
+        
     }
 
     // приводим текст ошибок в порядок
