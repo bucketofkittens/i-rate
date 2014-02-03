@@ -21,13 +21,10 @@ function MyProfileProfileController($scope, $rootScope, $location, LocationServi
 
 	// событие переключчения состояния страницы.
     $scope.$on('$locationChangeSuccess', function (event) {
-        if($location.search().goal) {
-        	$scope.moveToGoal($location.search().goal);
-        } else {
-        	$scope.moveToFirstGoal($location.search().goal);
-        }
+        $scope.selectGoal();
     });
 
+    // переход по goal по указанному location
     $scope.moveToGoal = function(goalName) {
     	angular.forEach($scope.workspace.needs, function(value, key){
     		angular.forEach(value.goals, function(goalItem, goalKey){
@@ -39,15 +36,25 @@ function MyProfileProfileController($scope, $rootScope, $location, LocationServi
     	});
     }
 
+    // выбираем первый элемент
     $scope.moveToFirstGoal = function(goalName) {
-    	var goalItem = $scope.workspace.needs[0].goals[0];
+    	var needItem = $scope.workspace.needs[0];
+    	var goalItem = needItem.goals[0];
+
     	goalItem.current = true;
     	$scope.goalClick({}, $scope.workspace.needs[0], goalItem, $scope.needs);
     }
 
-    if($location.search().goal) {
-    	$scope.moveToGoal($location.search().goal);
-    } else {
-    	$scope.moveToFirstGoal($location.search().goal);
+    // выбираем нружный goal по текущему location
+    $scope.selectGoal = function() {
+	    if($location.search().goal) {
+	    	$scope.moveToGoal($location.search().goal);
+	    } else {
+	    	$scope.moveToFirstGoal($location.search().goal);
+	    }
     }
+
+    // выбираем location
+    $scope.selectGoal();
+    
 }
