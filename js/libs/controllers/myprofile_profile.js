@@ -8,12 +8,15 @@ function MyProfileProfileController($scope, $rootScope, $location, LocationServi
 
 	// открываем список голсов справа
 	$scope.goalClick = function($event, needItem, goalItem, needs) {
-		$rootScope.$broadcast('openCriteriumList', {need: needItem, goal: goalItem, needs: needs});
-        $scope.pesistState(goalItem.name);
+        if(!goalItem.current) {
+            $rootScope.$broadcast('openCriteriumList', {need: needItem, goal: goalItem, needs: needs});
+            $scope.pesistState(goalItem.name);
         
-		LocationService.update("goal", goalItem.name);
+            LocationService.update("goal", goalItem.name);    
+        }
 	}
 
+    // сохраняем состояние goal в кеш
     $scope.pesistState = function(goalName) {
         lscache.set($scope.cacheName, goalName, $scope.cacheTime);
     }
@@ -25,12 +28,15 @@ function MyProfileProfileController($scope, $rootScope, $location, LocationServi
 
     // переход по goal по указанному location
     $scope.moveToGoal = function(goalName) {
+        // перебираем все нидсы и голсы в поисках нужного
     	angular.forEach($scope.workspace.needs, function(value, key){
     		angular.forEach(value.goals, function(goalItem, goalKey){
     			if(goalItem.name == goalName) {
     				goalItem.current = true;
     				$rootScope.$broadcast('openCriteriumList', {need: value, goal: goalItem, needs: $scope.needs});
-    			}
+    			} else {
+                    goalItem.current = false;
+                }
     		});
     	});
     }
