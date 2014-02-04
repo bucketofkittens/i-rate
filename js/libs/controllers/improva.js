@@ -1,5 +1,5 @@
 // контроллер авторизации через импрувы
-function ImprovaLoginController($scope, ImprovaService, SessionsService, UserService, $timeout, $rootScope) {
+function ImprovaLoginController($scope, ImprovaService, SessionsService, UserService, $timeout, $rootScope, SocialService) {
 	$scope.improvaForm = {
 		email: "",
 		password: ""
