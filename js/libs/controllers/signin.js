@@ -1,7 +1,7 @@
 /**
  * форма модального окна авторизации
  */
-function SigninController($scope, SessionsService, UserService, FacebookService, SocialService, UserService, MSLiveService, GooglePlusService) {
+function SigninController($scope, $rootScope, $timeout, SessionsService, UserService, FacebookService, SocialService, UserService, MSLiveService, GooglePlusService) {
     // сообщение об ошибке
     $scope.error = null;
 
@@ -31,6 +31,13 @@ function SigninController($scope, SessionsService, UserService, FacebookService,
         UserService.getFriends(data.sguid, $scope.getFriendsCallback_);
 
         $scope.workspace.user = data;
+
+        // если у пользователя нет баллов переходим сразу на колбасы
+        if(data.points == 0) {
+            $timeout(function() {
+                $rootScope.$broadcast('openProfile');
+            }, 0)
+        }
     }
 
     /**
