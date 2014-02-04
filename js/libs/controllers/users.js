@@ -95,13 +95,18 @@ function UsersController($scope, $location, $rootScope, $timeout) {
 		}
     });
 
-    
-
     // событие переключчения состояния страницы.
     $scope.$on('$locationChangeSuccess', function () {
     	// если нет пользователей возвращаем плашку срава
         if(!$location.search().user1 && !$location.search().user2) {
         	$rootScope.$broadcast('showRightPanel');
+        }
+
+        // показываем или скрываем подложку над главным экраном
+        if($location.search().user1 && $location.search().user2) {
+            $rootScope.$broadcast('showShadow');
+        } else {
+            $rootScope.$broadcast('hideShadow');
         }
     });
 }

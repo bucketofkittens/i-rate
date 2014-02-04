@@ -2,7 +2,7 @@
  * Контроллер определяет показывать ли теневую подгрузку или нет
  * @param {[type]} $scope [description]
  */
-function ShadowCtrl($scope, $rootScope) {
+function ShadowController($scope, $rootScope) {
 
     /**
      * При клике на тенюшку, убрием modal окно
