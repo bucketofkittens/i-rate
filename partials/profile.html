@@ -1,7 +1,7 @@
 <div 
 	ng-controller="NeedsAndGoalsController" 
 	class="tab" 
-	ng-init="user = workspace.user; openFirst = true; allOpen = true; persistState = true;">
+	ng-init="user = workspace.user;">
 	<section class="mypro acrd">
 		<div class="crits">
 			<ul> 
@@ -23,7 +23,7 @@
 										title="{{goalItem.name}}" />
 									</span>
 									<h6>{{goalItem.name}}</h6>
-									<em></em>
+									<em ng-if="!goalItem.current"></em>
 								</a>	
 								<div class="right">
 									<strong>
