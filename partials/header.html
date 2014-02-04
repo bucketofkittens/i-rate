@@ -18,9 +18,6 @@
 
 		<!-- Аватар -->
 		<section id="avatar" ng-cloak>
-		    <p ng-if="!workspace.user">
-		        <img ng-click="onLogin()" ng-src="/images/anon.png" alt="" />
-		    </p>
 		    <p ng-if="workspace.user">
 		        <img 
 		        	ng-click="openProfile()" 
