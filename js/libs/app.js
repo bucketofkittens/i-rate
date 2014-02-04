@@ -1,5 +1,9 @@
 'use strict';
 
+/**
+ * Параметры для социальных сетей
+ * @type {Object}
+ */
 var SocialConfig = {
 	facebook: {
         applicationId: {
@@ -29,6 +33,7 @@ var SocialConfig = {
     }
 }
 
+// Название социальных сетей
 var SocialNames = {
     FACEBOOK: "facebook",
     GOOGLE_PLUS: "google_plus",
@@ -79,8 +84,8 @@ pgrModule.config(['$routeProvider',
 pgrModule.factory('httpRequestInterceptor', function() {
   return {
     request: function (config) {
-    	var token = getCookie('token') ? getCookie('token') : "";
-    	var user = getCookie('user') ? getCookie('user') : "";
+    	var token = lscache.get("token") ? lscache.get("token") : "";
+    	var user = lscache.get("user") ? lscache.get("user").sguid : "";
 
     	if(!config.headers) {
     		config.headers = {};

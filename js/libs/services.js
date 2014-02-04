@@ -418,15 +418,15 @@ pgrModule.factory('Sessions', function ($resource) {
 /**
  * Сервис авторизации
  */
-pgrModule.service('SessionsService', function (Sessions, User) {
+pgrModule.service('SessionsService', function (Sessions, User, TokenService) {
 
     // забираем пользователя из кеша
     this.signin = function(params, callback, fail) {
         var self = this;
         Sessions.signin({}, $.param(params), function(data) {
             if(data.success) {
+                TokenService.set(data.token);
                 self.signinSuccess_(data.guid, callback);
-                
             } else {
                 fail(data);
             }
@@ -864,6 +864,25 @@ pgrModule.service('MSLiveService', function($window, SocialService) {
     }
 });
 
+// сервис управления токеном
+pgrModule.service('TokenService', function($window, GooglePlus) {
+    // название кеша
+    this.cacheName = 'token';
+
+    // время кеширования
+    this.cacheTime = 1440;
+
+    this.get = function() {
+        return lscache.get(this.cacheName);
+    }
+    this.remove = function() {
+        lscache.remove(this.cacheName);
+    }
+    this.set = function(token) {
+        lscache.set(this.cacheName, token, this.cacheTime);
+    }
+});
+
 // сервис авторизации в MSLiveService
 pgrModule.service('GooglePlusService', function($window, GooglePlus) {
     this.getUserData = function(callback) {
@@ -878,7 +897,7 @@ pgrModule.service('GooglePlusService', function($window, GooglePlus) {
     }
 });
 
-pgrModule.service('SocialService', function($window, Social, FacebookService) {
+pgrModule.service('SocialService', function($window, Social, FacebookService, TokenService) {
     // название кеша
     this.cacheName = 'social';
 
@@ -887,7 +906,10 @@ pgrModule.service('SocialService', function($window, Social, FacebookService) {
 
     this.login = function(email, callback, socialName) {
         Social.login({}, {email: email}, function(data) {
-            callback(data, socialName);
+            if(data.success) {
+                TokenService.set(data.token);
+                callback(data, socialName);
+            }
         });
     }
 

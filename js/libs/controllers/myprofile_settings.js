@@ -1,5 +1,6 @@
-function MyProfileSettingsController($scope, UserService, SocialService, FriendsService) {
+function MyProfileSettingsController($scope, UserService, SocialService, FriendsService, TokenService) {
 	$scope.onLogout = function() {
+		TokenService.remove();
 		UserService.clearAuthData();
 		SocialService.clear();
 
