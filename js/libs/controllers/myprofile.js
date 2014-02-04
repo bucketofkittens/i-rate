@@ -1,5 +1,5 @@
 // контроллер вкладок своего профиля
-function MyProfileController($scope, $location, LocationService, $rootScope) {
+function MyProfileController($scope, $location, LocationService, $rootScope, $timeout) {
 	// показываем плашку или нет
 	$scope.showProfile = false;
 
@@ -96,9 +96,12 @@ function MyProfileController($scope, $location, LocationService, $rootScope) {
 				lscache.set($scope.cacheName, $scope.currentNav.name, $scope.cacheTime);
 			}
 
-			$rootScope.$broadcast('showShadow');
+			$timeout(function() {
+                $rootScope.$broadcast('showShadow');
+            }, 0);
         } else {
         	$scope.showProfile = false;
+        	$rootScope.$broadcast('hideShadow');
         }
     });
 }

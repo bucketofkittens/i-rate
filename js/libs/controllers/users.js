@@ -104,11 +104,24 @@ function UsersController($scope, $location, $rootScope, $timeout) {
         	$rootScope.$broadcast('showRightPanel');
         }
 
+        $scope.checkShadow();
+    });
+
+    // проверяем указывать затенение или нет
+    $scope.checkShadow = function() {
         // показываем или скрываем подложку над главным экраном
         if($location.search().user1 && $location.search().user2) {
-            $rootScope.$broadcast('showShadow');
-        } else {
+            $timeout(function() {
+                $rootScope.$broadcast('showShadow');
+            }, 0);
+        }
+        if(
+            (!$location.search().user1 && $location.search().user2) || 
+            ($location.search().user1 && !$location.search().user2)) {
+
             $rootScope.$broadcast('hideShadow');
         }
-    });
+    }
+
+    $scope.checkShadow();
 }

@@ -141,7 +141,7 @@ body header #header #follow_tab a{position:absolute;top:17px;right:5px;cursor:po
 #content .nearblock .lnbl .galblo .galblos .text{float:left;width:170px;padding:0 0 0 10px;line-height:140%;cursor:pointer;text-align:left}#content .nearblock .lnbl .galblo .galblos .text p{font-size:15px;color:#333}#content .nearblock .lnbl .galblo .galblos .text p:first-child{font-size:17px;color:#000}
 #content .nearblock .lnbl .galblo .galblos .text p.gr{color:#666}
 #content .nearblock .lnbl .galblo .galblos .sealin{position:absolute;width:40px;height:40px;top:50%;margin-top:-20px;right:15px;cursor:pointer;background:url("../images/i1l.png") left top no-repeat}
-#content .mynav{margin:60px 0 0 0;vertical-align:middle;width:100%;height:70px;position:relative;background:rgba(0,0,0,0.7);box-shadow:inset 3px 10px 20px 1px #000}#content .mynav .close{position:absolute;right:30px;top:10px;background:url("../images/cl.png") left top no-repeat;background-size:25px 25px;height:25px;width:25px;cursor:pointer}
+#content .mynav{margin:60px 0 0 0;vertical-align:middle;width:100%;height:70px;position:relative;background:rgba(0,0,0,0.3);box-shadow:inset 3px 10px 20px 1px #000}#content .mynav .close{position:absolute;right:30px;top:10px;background:url("../images/cl.png") left top no-repeat;background-size:25px 25px;height:25px;width:25px;cursor:pointer}
 #content .mynav ul{display:inline-block;vertical-align:bottom;width:530px;margin:0 30px 0 0;height:35px}#content .mynav ul li{display:inline-block;background:rgba(63,63,63,0.8);box-shadow:0 0 20px 0 rgba(0,0,0,0.3);margin:0 10px;padding:5px 0;cursor:pointer;height:30px;width:150px}#content .mynav ul li.current{background:rgba(99,99,99,0.7);padding:10px 10px 4px 10px;cursor:default;border-top:1px solid rgba(135,135,135,0.7)}
 #content .mynav ul li a{vertical-align:middle;text-align:center;display:block;color:#fff;font-size:20px}#content .mynav ul li a span{display:inline-block;height:25px;width:25px;margin-top:2px;padding-top:5px;vertical-align:middle}
 #content .mynav h2{font-size:25px;color:#fff;display:inline-block;margin-top:35px}
@@ -448,4 +448,4 @@ table#graphs tr:last-child td{border-top:none}
 .small-message{padding:10px}.small-message h2{color:#000;font-size:26px;margin-bottom:15px;font-family:'Helvetica Neue Light';text-align:center}
 .small-message p{text-align:center;padding-bottom:10px}
 .small-message .close{color:#000;font-family:'Helvetica Neue Light';background:transparent;border:1px solid #ddd;font-size:115%;display:block;margin-right:7%;cursor:pointer;max-width:60px;padding:3px 0;text-align:center;margin:0 auto}
-#shadow{position:absolute;left:0;top:0;width:100%;height:100%;background:rgba(0,0,0,0.5);z-index:10}
+#shadow{position:absolute;left:0;top:0;width:100%;height:100%;background:rgba(0,0,0,0.7);z-index:10}
