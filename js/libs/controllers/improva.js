@@ -1,5 +1,5 @@
 // контроллер авторизации через импрувы
-function ImprovaLoginController($scope, ImprovaService, SessionsService, UserService) {
+function ImprovaLoginController($scope, ImprovaService, SessionsService, UserService, $timeout, $rootScope) {
 	$scope.improvaForm = {
 		email: "",
 		password: ""
@@ -41,6 +41,13 @@ function ImprovaLoginController($scope, ImprovaService, SessionsService, UserSer
         UserService.getFriends(data.sguid, $scope.getFriendsCallback_);
 
         $scope.workspace.user = data;
+
+        // если у пользователя нет баллов переходим сразу на колбасы
+        if(data.points == 0) {
+            $timeout(function() {
+                $rootScope.$broadcast('openProfile');
+            }, 0);
+        }
     }
 
 	$scope.improvaLoginSuccess_ = function(data) {

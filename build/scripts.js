@@ -4707,6 +4707,8 @@ function ModalController($scope, $rootScope) {
     $scope.closeModal = function() {
     	$scope.template = null;
         $scope.show = false;
+
+        $rootScope.$broadcast('hideShadow');
     }
 }
 function MyProfileController($scope, $rootScope, User, $location, $cookieStore, Professions, ProfessionCreate, City, States, CityByState) {
@@ -6880,10 +6882,6 @@ function UserController($scope, FriendsService, UserService, $element, $route, $
     // является ли пользователь другом
     $scope.isFriend = false;
 
-    $scope.newImage = null;
-    $scope.bindIn = "";
-    $scope.hidden = false;
-
     // событие переключчения состояния страницы.
     $scope.$on('$locationChangeSuccess', function () {
         $scope.setCurrentUser();
@@ -7224,7 +7222,7 @@ function UserController($scope, FriendsService, UserService, $element, $route, $
     }*/
 }
 // контролле панели пользователей
-function UsersController($scope, $location, $rootScope, $timeout) {
+function UsersController($scope, $location, $rootScope, $timeout, NeedsService) {
     // список значений нидсов для пользователя
     $scope.needsValues = {};
 
@@ -7319,7 +7317,8 @@ function UsersController($scope, $location, $rootScope, $timeout) {
         	$location.search({user1: message.user.sguid, user2: $location.search().user2});
 		}
 
-
+        // скрываем гоалсы если они открыты
+        $scope.workspace.needs = NeedsService.closeAllGoals($scope.workspace.needs);
     });
 
     // событие переключчения состояния страницы.

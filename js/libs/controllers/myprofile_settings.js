@@ -1,5 +1,5 @@
 // контроллер вкладки настроки своего профиля
-function MyProfileSettingsController($scope, UserService, SocialService, FriendsService, TokenService, $rootScope, $location) {
+function MyProfileSettingsController($scope, UserService, SocialService, FriendsService, TokenService, $rootScope, $location, SocialService) {
 
 	// выходим из пользователя
 	$scope.onLogout = function() {
@@ -20,6 +20,9 @@ function MyProfileSettingsController($scope, UserService, SocialService, Friends
 
 		// скрываем окошко профиля
 		$rootScope.$broadcast('closeProfile');
+
+		// скрываем подложную тенюшку
+		$rootScope.$broadcast('hideShadow');
 	}
 
 	// открываем модальное окно манипуляций с картинками
@@ -31,4 +34,7 @@ function MyProfileSettingsController($scope, UserService, SocialService, Friends
     $scope.onChangePassword = function() {
         $location.search({ change_password: true });
     }
+
+    // определяем заходили ли мы через социальную сеть
+    $scope.social = SocialService.getCurrentSocial();
 }
