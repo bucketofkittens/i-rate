@@ -18,5 +18,7 @@ function ModalController($scope, $rootScope) {
     $scope.closeModal = function() {
     	$scope.template = null;
         $scope.show = false;
+
+        $rootScope.$broadcast('hideShadow');
     }
 }

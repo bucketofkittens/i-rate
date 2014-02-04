@@ -1,5 +1,5 @@
 // контролле панели пользователей
-function UsersController($scope, $location, $rootScope, $timeout) {
+function UsersController($scope, $location, $rootScope, $timeout, NeedsService) {
     // список значений нидсов для пользователя
     $scope.needsValues = {};
 
@@ -94,7 +94,8 @@ function UsersController($scope, $location, $rootScope, $timeout) {
         	$location.search({user1: message.user.sguid, user2: $location.search().user2});
 		}
 
-
+        // скрываем гоалсы если они открыты
+        $scope.workspace.needs = NeedsService.closeAllGoals($scope.workspace.needs);
     });
 
     // событие переключчения состояния страницы.

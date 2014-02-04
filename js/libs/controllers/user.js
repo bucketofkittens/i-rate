@@ -11,10 +11,6 @@ function UserController($scope, FriendsService, UserService, $element, $route, $
     // является ли пользователь другом
     $scope.isFriend = false;
 
-    $scope.newImage = null;
-    $scope.bindIn = "";
-    $scope.hidden = false;
-
     // событие переключчения состояния страницы.
     $scope.$on('$locationChangeSuccess', function () {
         $scope.setCurrentUser();
