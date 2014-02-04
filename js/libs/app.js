@@ -37,7 +37,8 @@ var SocialConfig = {
 var SocialNames = {
     FACEBOOK: "facebook",
     GOOGLE_PLUS: "google_plus",
-    MSLIVE: "mslive"
+    MSLIVE: "mslive",
+    IMPROVA: "improva"
 }
 
 

@@ -36,7 +36,7 @@ function SigninController($scope, $rootScope, $timeout, SessionsService, UserSer
         if(data.points == 0) {
             $timeout(function() {
                 $rootScope.$broadcast('openProfile');
-            }, 0)
+            }, 0);
         }
     }
 

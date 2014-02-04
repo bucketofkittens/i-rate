@@ -37,6 +37,8 @@ function ImprovaLoginController($scope, ImprovaService, SessionsService, UserSer
     }
 
     $scope.onSigninSuccessCallback_ = function(data) {
+        SocialService.persist(SocialNames.IMPROVA);
+
         UserService.setAuthData(data);
         UserService.getFriends(data.sguid, $scope.getFriendsCallback_);
 
