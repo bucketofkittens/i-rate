@@ -83,39 +83,6 @@ function NeedsAndGoalsController($scope, СareerService, UserService, Goals, Cri
             userId: $scope.user.sguid,
             route: $scope.route
         });
-
-        /*
-
-        var openGoal = $cookieStore.get("openGoal");
-        if(!$scope.persistState) {
-            openGoal = null;
-        }
-
-        if($scope.openFirst && !openGoal) {
-            $scope.openCriteriumList({}, $scope.needs[0], $scope.needs[0].goals[0], $scope.needs);
-        }
-
-        if(openGoal && $scope.persistState) {
-            var openNeed = $cookieStore.get("openNeed");
-
-            var need = $scope.needs.filter(function(value) {
-                if(value.sguid == openNeed) {
-                    return value;
-                }
-            })[0];
-
-            var goal = need.goals.filter(function(value) {
-                if(value.sguid == openGoal) {
-                    return value;
-                }
-            })[0];
-
-            $scope.openCriteriumList({}, need, goal, $scope.needs);
-            setTimeout(function() {
-                $("#content .tab .mypro.acrd").scrollTop($("#content .tab .mypro.acrd .crits ul li h5.current").offset().top - 200); 
-            }, 0);
-        }
-        */
     }
     
     // забираем данные колбас
@@ -313,14 +280,14 @@ function NeedsAndGoalsController($scope, СareerService, UserService, Goals, Cri
     $scope.onCriteriaSelect = function(criteriaValue, criteria, $event, needItem, goalItem) {
         if(!$($event.target).hasClass("current")) {
             if(criteriaValue.sguid !== "none") {
-                /*UserCriteriaValue.create({}, $.param({
-                    "user_guid": AuthUser.get(),
+                UserCriteriaValue.create({}, $.param({
+                    "user_guid": $scope.workspace.user.sguid,
                     "criteria_guid": criteria.sguid,
                     "criteria_value_guid": criteriaValue.sguid
                 }), function(data) {
                     criteria.user_criteria_id = data.message.sguid;
                     $rootScope.$broadcast('userCriteriaUpdate');
-                });*/
+                });
             } else {
                 if(criteria.user_criteria_id) {
                     UserCriteriaValue.del({id: criteria.user_criteria_id}, {}, function(data) {
