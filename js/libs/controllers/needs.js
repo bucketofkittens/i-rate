@@ -470,9 +470,9 @@ function NeedsAndGoalsController($scope, СareerService, UserService, Goals, Cri
             if (size <  15) {
                 size = 0;
             }
-            slider.css("width", size + "px").css("left", "-15px");
+            slider.css("width", size + "px");
         } else {
-            slider.css("width", "95%").css("left", "-1%");
+            slider.css("width", "10px");
         }
         
         var isCurrent = false;
