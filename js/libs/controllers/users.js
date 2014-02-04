@@ -93,6 +93,8 @@ function UsersController($scope, $location, $rootScope, $timeout) {
 		if(!$location.search().user1 && $location.search().user2 && $location.search().user2 != message.user.sguid) {
         	$location.search({user1: message.user.sguid, user2: $location.search().user2});
 		}
+
+
     });
 
     // событие переключчения состояния страницы.

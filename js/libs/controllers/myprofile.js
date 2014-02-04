@@ -99,7 +99,6 @@ function MyProfileController($scope, $location, LocationService, $rootScope) {
 			$rootScope.$broadcast('showShadow');
         } else {
         	$scope.showProfile = false;
-        	$rootScope.$broadcast('hideShadow');
         }
     });
 }

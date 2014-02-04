@@ -3,6 +3,7 @@
  * @param {[type]} $scope [description]
  */
 function ShadowController($scope, $rootScope) {
+    $scope.showShadow = false;
 
     /**
      * При клике на тенюшку, убрием modal окно
@@ -10,7 +11,6 @@ function ShadowController($scope, $rootScope) {
      * @return {[type]}        [description]
      */
     $scope.onHideModal = function() {
-        $rootScope.$broadcast('hideShadow');
         $rootScope.$broadcast('hideModal');
     }
 
@@ -19,7 +19,7 @@ function ShadowController($scope, $rootScope) {
      * @return {undefined} 
      */
     $scope.$on('showShadow', function() {
-        $scope.show = true;
+        $scope.showShadow = true;
     });
 
     /**
@@ -27,6 +27,6 @@ function ShadowController($scope, $rootScope) {
      * @return {undefined} 
      */
     $scope.$on('hideShadow', function() {
-        $scope.show = false;
+        $scope.showShadow = false;
     });
 }
