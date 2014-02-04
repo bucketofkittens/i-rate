@@ -3,7 +3,7 @@
  * @param {[type]} $scope     [description]
  * @param {[type]} $rootScope [description]
  */
-function CropImageController($scope, $rootScope) {
+function CropImageController($scope, $rootScope, TokenService, UserService) {
     $scope.user = [];
     $scope.positions = [];
     $scope.imageData = '';
@@ -56,8 +56,8 @@ function CropImageController($scope, $rootScope) {
             data.append("picture", img);
             data.append("owner_type", 0);
 
-            var token = getCookie('token') ? getCookie('token') : "";
-            var user = getCookie('user') ? getCookie('user') : "";
+            var token = TokenService.get() ? TokenService.get() : "";
+            var user = $scope.workspace.user.sguid ? $scope.workspace.user.sguid : "";
 
             $.ajax({
                 beforeSend: function(xhrObj){
@@ -75,6 +75,8 @@ function CropImageController($scope, $rootScope) {
                     if(data.success) {
                         $scope.workspace.user.avatar = data.message.scheme+"://"+data.message.host+data.message.path;
                         $scope.close();
+
+                        UserService.setAuthData($scope.workspace.user);
                     }
                     $rootScope.$broadcast('loaderHide');
                     $scope.shouldBeOpen = false; 

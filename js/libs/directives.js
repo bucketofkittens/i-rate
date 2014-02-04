@@ -10,6 +10,16 @@ pgrModule.directive('errSrc', function() {
   }
 });
 
+pgrModule.directive('cropClick', function() {
+  return {
+    link: function(scope, element, attrs) {
+      $(element).on("click", function() {
+        $("#photo_crop").click();
+      });
+    }
+  }
+});
+
 
 pgrModule.directive('positionGoal', function() {
   return {

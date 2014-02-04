@@ -270,18 +270,14 @@ function UserController($scope, FriendsService, UserService, $element, $route, $
      * @param  {[type]} $event
      * @return {[type]}
 
-    $scope.onReadFile = function($event) {
-        $rootScope.$broadcast('cropImage');
-    }
+    
      */
     /**
      * 
      * @param  {[type]} $event
      * @return {[type]}
      
-    $scope.onUpdateFile = function($event) {
-        $("#photo_crop").click();
-    }
+    
 
     $scope.onUpdateGoalImage = function($event) {
         $("#goal_done").html("");

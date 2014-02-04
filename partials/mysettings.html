@@ -1,33 +1,23 @@
-<div ng-controller="CropImageController"  >
-	<div ng-class="{show: show}" id="crop_modal">
-		<div class="modal-body">
-			<form action="" method="get" accept-charset="utf-8">
-				<div id='cropContainer'>
-			      <div class="cropper">
-			         <div class="preview-container">
-			         	<img src="" id="crop_img" alt="" />
-		        		<canvas id="image_canvas"></canvas>
-			         </div>
-			      </div>
-			   </div>
-		   </form>
-		</div>
-		<div class="buttons">
-			<button ng-click="close()">Cancel</button>
-			<button class="apply" ng-click="onSend()">Apply</button>
-		</div>
-	</div>
-</div>
+<div ng-controller="CropImageController" ng-include src="'partials/crop-image.html'"></div>
+
 <section class="myset">
 	<div 
-		class="pmain pro promy" 
-		ng-controller="UserController" >
+		class="pmain pro promy" >
 		<div class="block">
-			<input class="hidden" id="photo_crop" onchange="angular.element(this).scope().onReadFile()" capture="camera" type="file" accept="image/*" />
+			<input 
+				class="hidden" 
+				id="photo_crop" 
+				onchange="angular.element(this).scope().onReadFile()" 
+				capture="camera" 
+				type="file" 
+				accept="image/*" />
 			
-			<div class="image_box" ng-click="onUpdateFile()">
-				<img class="pp" ng-src="{{workspace.user.avatar}}" ng-if="workspace.user.avatar" err-src="/images/unknown-person.png" />
-				<img class="pp" ng-src="/images/unknown-person.png" ng-if="!workspace.user.avatar" />
+			<div class="image_box" crop-click ng-click="onUpdateFile()">
+				<img 
+					class="pp" 
+					ng-src="{{workspace.user.avatar}}" 
+					ng-if="workspace.user.avatar" 
+					err-src="/images/unknown-person.png" />
 			</div>
 			
 			<div class="publish" ng-if="workspace.user.published == 0">
