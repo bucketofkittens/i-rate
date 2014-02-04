@@ -44,7 +44,12 @@
 			<div class="crits {{currentNeed.name}}" ng-if="currentGoal">
 				<h5>
 					<a>
-						<span><img ng-src="{{currentGoal.icon}}" alt="" title="{{currentGoal.name}}" /></span>
+						<span>
+							<img 
+								ng-src="/images/goals/{{currentNeed.name | removewhite}}/{{currentGoal.name | removewhite}}.png"
+								alt="" 
+								title="{{currentGoal.name}}" />
+						</span>
 						{{currentGoal.name}}
 					</a>	
 					<div class="right">

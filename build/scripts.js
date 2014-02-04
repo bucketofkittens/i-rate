@@ -1500,7 +1500,8 @@ var SocialConfig = {
 var SocialNames = {
     FACEBOOK: "facebook",
     GOOGLE_PLUS: "google_plus",
-    MSLIVE: "mslive"
+    MSLIVE: "mslive",
+    IMPROVA: "improva"
 }
 
 
@@ -4335,7 +4336,7 @@ function GalleryController($scope, localize, Leagues, User, AuthUser, $element, 
     });
 }
 // контроллер авторизации через импрувы
-function ImprovaLoginController($scope, ImprovaService, SessionsService, UserService, $timeout, $rootScope) {
+function ImprovaLoginController($scope, ImprovaService, SessionsService, UserService, $timeout, $rootScope, SocialService) {
 	$scope.improvaForm = {
 		email: "",
 		password: ""
@@ -4373,6 +4374,8 @@ function ImprovaLoginController($scope, ImprovaService, SessionsService, UserSer
     }
 
     $scope.onSigninSuccessCallback_ = function(data) {
+        SocialService.persist(SocialNames.IMPROVA);
+
         UserService.setAuthData(data);
         UserService.getFriends(data.sguid, $scope.getFriendsCallback_);
 
