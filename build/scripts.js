@@ -1463,6 +1463,10 @@ var lscache = function() {
 
 'use strict';
 
+/**
+ * Параметры для социальных сетей
+ * @type {Object}
+ */
 var SocialConfig = {
 	facebook: {
         applicationId: {
@@ -1492,6 +1496,7 @@ var SocialConfig = {
     }
 }
 
+// Название социальных сетей
 var SocialNames = {
     FACEBOOK: "facebook",
     GOOGLE_PLUS: "google_plus",
@@ -1542,8 +1547,8 @@ pgrModule.config(['$routeProvider',
 pgrModule.factory('httpRequestInterceptor', function() {
   return {
     request: function (config) {
-    	var token = getCookie('token') ? getCookie('token') : "";
-    	var user = getCookie('user') ? getCookie('user') : "";
+    	var token = lscache.get("token") ? lscache.get("token") : "";
+    	var user = lscache.get("user") ? lscache.get("user").sguid : "";
 
     	if(!config.headers) {
     		config.headers = {};
@@ -1818,6 +1823,16 @@ pgrModule.directive('errSrc', function() {
         if(!attrs.src) {
           element.attr('src', attrs.errSrc);
         }
+      });
+    }
+  }
+});
+
+pgrModule.directive('cropClick', function() {
+  return {
+    link: function(scope, element, attrs) {
+      $(element).on("click", function() {
+        $("#photo_crop").click();
       });
     }
   }
@@ -2935,15 +2950,15 @@ pgrModule.factory('Sessions', function ($resource) {
 /**
  * Сервис авторизации
  */
-pgrModule.service('SessionsService', function (Sessions, User) {
+pgrModule.service('SessionsService', function (Sessions, User, TokenService) {
 
     // забираем пользователя из кеша
     this.signin = function(params, callback, fail) {
         var self = this;
         Sessions.signin({}, $.param(params), function(data) {
             if(data.success) {
+                TokenService.set(data.token);
                 self.signinSuccess_(data.guid, callback);
-                
             } else {
                 fail(data);
             }
@@ -3381,6 +3396,25 @@ pgrModule.service('MSLiveService', function($window, SocialService) {
     }
 });
 
+// сервис управления токеном
+pgrModule.service('TokenService', function($window, GooglePlus) {
+    // название кеша
+    this.cacheName = 'token';
+
+    // время кеширования
+    this.cacheTime = 1440;
+
+    this.get = function() {
+        return lscache.get(this.cacheName);
+    }
+    this.remove = function() {
+        lscache.remove(this.cacheName);
+    }
+    this.set = function(token) {
+        lscache.set(this.cacheName, token, this.cacheTime);
+    }
+});
+
 // сервис авторизации в MSLiveService
 pgrModule.service('GooglePlusService', function($window, GooglePlus) {
     this.getUserData = function(callback) {
@@ -3395,7 +3429,7 @@ pgrModule.service('GooglePlusService', function($window, GooglePlus) {
     }
 });
 
-pgrModule.service('SocialService', function($window, Social, FacebookService) {
+pgrModule.service('SocialService', function($window, Social, FacebookService, TokenService) {
     // название кеша
     this.cacheName = 'social';
 
@@ -3404,7 +3438,10 @@ pgrModule.service('SocialService', function($window, Social, FacebookService) {
 
     this.login = function(email, callback, socialName) {
         Social.login({}, {email: email}, function(data) {
-            callback(data, socialName);
+            if(data.success) {
+                TokenService.set(data.token);
+                callback(data, socialName);
+            }
         });
     }
 
@@ -3531,6 +3568,7 @@ $templateCache.put('views/search.html', "<section class=\"searchfull\">\n\t<div 
 $templateCache.put('views/terms.html', "<h1>TERMS OF USE and PRIVACY POLICY</h1>\n<p>terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use</p>");
 $templateCache.put('partials/comments.html', "<div class=\"comm\">\n\t<div class=\"cmnt\" ng-repeat=\"comment in commentsList | orderBy:'post_date'\"  >\n\t\t<strong>{{comment.user.name}}</strong>\n\t\t<i>{{comment.post_date}}</i>\n\t\t<br />\n\t\t<p>{{comment.message}}</p>\n\t</div>\n</div>\n<div class=\"butcomm\">\n\t<ng-form>\n\t\t<textarea ng-model=\"form.message\" id=\"comment_message\" name=\"comment\" placeholder=\"Enter your comment here\"></textarea>\n\t\t<button ng-click=\"onSendMessage()\">Send</button>\n\t</ng-form>\n</div>\n");
 $templateCache.put('partials/compare.html', "<div class=\"comp\" ng-include src=\"'partials/user.html'\" ng-controller=\"UserController\" ng-init=\"currentUserId=routeUserId;allUser=false;isEdit=false;\"></div>");
+$templateCache.put('partials/crop-image.html', "<div ng-class=\"{show: show}\" id=\"crop_modal\">\n\t<div class=\"modal-body\">\n\t\t<form action=\"\" method=\"get\" accept-charset=\"utf-8\">\n\t\t\t<div id='cropContainer'>\n\t\t      <div class=\"cropper\">\n\t\t         <div class=\"preview-container\">\n\t\t         \t<img src=\"\" id=\"crop_img\" alt=\"\" />\n\t        \t\t<canvas id=\"image_canvas\"></canvas>\n\t\t         </div>\n\t\t      </div>\n\t\t   </div>\n\t   </form>\n\t</div>\n\t<div class=\"buttons\">\n\t\t<button ng-click=\"close()\">Cancel</button>\n\t\t<button class=\"apply\" ng-click=\"onSend()\">Apply</button>\n\t</div>\n</div>\n");
 $templateCache.put('partials/follow.html', "<section ng-controller=\"FollowController\" >\n\t<div id=\"follow_tab\">\n\t\t<span class=\"icon star\"></span>\n\t\t<ul>\n\t\t\t<li \n\t\t\t\tng-click=\"openUser(userItem.user)\" \n\t\t\t\tng-repeat=\"userItem in workspace.friends\">\n\t\t\t\t<img \n\t\t\t\t\tng-src=\"{{userItem.user.avatar}}\" \n\t\t\t\t\talt=\"\" \n\t\t\t\t\terr-src=\"/images/unknown-person.png\" />\n\t\t\t</li>\n\t\t</ul>\n\t\t<a ng-click=\"onMoveToUser()\"></a>\n\t</div>\n</section>");
 $templateCache.put('partials/footer.html', "\n<!-- Футер -->\n<footer>\n\t<div id=\"footer\">\n\t\t<div class=\"sexual\" ng-include src=\"'partials/share.html'\"></div>\n\t\t\n\t\t<div ng-if=\"controller != '_compare'\">\n\t\t\t<div \n\t\t\t\tclass=\"lnbl\" \n\t\t\t\tng-include\n\t\t\t\tsrc=\"'partials/follow.html'\"  >\n\t\t\t</div>\t\n\t\t</div>\t\n\t</div>\n</footer>\n\n<section ng-include src=\"'partials/loader.html'\"></section>\n\n<div id=\"fb-root\"></div>\n\n<!-- Тенюшка -->\n<section ng-controller=\"ShadowCtrl\">\n\t<div id=\"shadow\" ng-class=\"{show: show}\" ng-click=\"onHideModal()\"></div>\n</section>\n\n");
 $templateCache.put('partials/gallery.html', "<div class=\"galblo\">\n\t<div class=\"galblos isotope item\"\n\t\tng-repeat=\"userItem in users\"\n\t\tng-click=\"onUserPage(userItem)\">\n\t\t<div class=\"image\">\n\t\t\t<img ng-src=\"{{userItem.avatar}}\" alt=\"\" err-src=\"/images/unknown-person.png\" />\n\t\t\t<i>{{userItem.points}}</i>\n\t\t</div>\n\t\t<div class=\"text\">\n\t\t\t<p class=\"name\">{{userItem.name}}</p>\n\t\t\t<p class=\"birthday\">{{userItem.birthday}}</p>\n\t\t\t<p class=\"birthday gr\">{{userItem.state.name}}</p>\n\t\t\t<p class=\"profession gr\">{{userItem.profession.name}}</p>\n\t\t</div>\n\t\t<img class=\"sealin\" src=\"./images/i1l.png\" alt=\"\">\n\t\t<b></b>\n\t</div>\n</div>\n\n<sub ng-if=\"swipe > 0\" ng-click=\"onSwipeLeft()\"><img src=\"../images/left.png\"></sub>\n<sup ng-if=\"users.length > limit && swipe < swipeMax - 1\" ng-click=\"onSwipeRight()\"><img src=\"../images/right.png\"></sup>");
@@ -3541,11 +3579,11 @@ $templateCache.put('partials/loader.html', "<div id=\"modal-shadow\" ng-controll
 $templateCache.put('partials/main_user_item.html', "<div\n\tng-click=\"onUserClick(userItem, $event)\"\n\tng-class=\"{big: userItem.big}\"\n\tclass=\"item l_{userItem.league.name}\"\n\tng-repeat=\"(userKey, userItem) in users\"\n\tng-style=\"{width: userItem.size, height: userItem.size}\"\n\tmasonry-item>\n\t<div \t\n\t\tclass=\"wr\" \n\t\tng-style=\"{width: userItem.size, height: userItem.size}\" \n\t\tback-img=\"{{userItem.avatar}}\" \n\t\tng-class=\"{big: userItem.big}\"\n\t\tng-click=\"switchState(userItem)\"\n\t\tset-width >\n\t\t<i>{{userItem.points}}</i>\n\t\t<div class=\"sub\">\n\t\t\t<b>{{userItem.name}} <br /><s>{{userItem.league.name}} league</s></b>\n\t\t\t<ul>\n\t\t\t\t<li>\n\t\t\t\t\t<a ng-click=\"onMoveToProfile(userItem)\">\n\t\t\t\t\t\t<span class=\"icon profile navigate\"></span>\n\t\t\t\t\t</a>\n\t\t\t\t</li>\n\t\t\t\t<li>\n\t\t\t\t\t<a ng-click=\"onMoveToCompare(userItem)\">\n\t\t\t\t\t\t<span class=\"icon compare navigate\"></span>\n\t\t\t\t\t</a>\n\t\t\t\t</li>\n\t\t\t\t<li>\n\t\t\t\t\t<a ng-if=\"!userItem.isFrend\" ng-click=\"onFollow(userItem)\">\n\t\t\t\t\t\t<span class=\"icon follow navigate\"></span>\n\t\t\t\t\t</a>\n\t\t\t\t\t<a ng-if=\"userItem.isFrend\" ng-click=\"onUnFollow(userItem)\">\n\t\t\t\t\t\t<span class=\"icon unfollow navigate\"></span>\n\t\t\t\t\t</a>\n\t\t\t\t</li>\n\t\t\t</ul>\n\t\t</div>\n\t\t<em></em>\n\t</div>\n</div>");
 $templateCache.put('partials/mydash.html', "<section class=\"mydash\">\n\t<div id=\"mydash_draw\" mydash></div>\n</section>");
 $templateCache.put('partials/myprofile.html', "<div class=\"full_height\" ng-if=\"showProfile\" id=\"myprofile\">\n\t<div class=\"center\">\n\t\t<div id=\"profile_header\">\n\t\t\t<!-- навигация -->\n\t\t\t<div class=\"mynav\">\n\t\t\t\t<ul>\n\t\t\t\t\t<li ng-repeat=\"(navKey, navValue) in navItems\"\n\t\t\t\t\t\tng-class=\"{current: navValue.current}\">\n\t\t\t\t\t\t<a ng-click=\"changeState(navKey)\">\n\t\t\t\t\t\t\t<span class=\"icon {{navValue.name}}\"></span>\n\t\t\t\t\t\t\t{{navValue.name}}\n\t\t\t\t\t\t</a>\n\t\t\t\t\t</li>\n\t\t\t\t</ul>\n\t\t\t\t<h2>{{currentNav.name}}</h2>\n\t\t\t\t<span class=\"close\" ng-click=\"close()\"></span>\n\t\t\t</div>\n\n\t\t\t<p id=\"setting_info\">\n\t\t\t\t{{workspace.user.league.name}} league   Score: {{workspace.user.points}}\n\t\t\t</p>\n\t\t</div>\n\t\t\n\n\t\t<div class=\"tabs full_height\">\n\t\t\t<div ng-if=\"currentNav.name == indexes.PROFILE && workspace.user\" class=\"tab\">\n\t\t\t\t<section \n\t\t\t\t\tclass=\"tab\" \n\t\t\t\t\tng-controller=\"MyProfileProfileController\" \n\t\t\t\t\tng-include \n\t\t\t\t\tsrc=\"'partials/profile.html'\" >\n\t\t\t\t</section>\n\t\t\t</div>\n\t\t\t<div ng-show=\"currentNav.name == indexes.DASHBOARD && workspace.user\" class=\"tab\">\n\t\t\t\t<!--<section class=\"tab\" ng-controller=\"MyProfileProfileController\" ng-include src=\"'partials/mydash.html'\" ></section> -->\n\t\t\t</div>\n\t\t\t<div ng-if=\"currentNav.name == indexes.SETTINGS && workspace.user\" class=\"tab\">\n\t\t\t\t<section \n\t\t\t\t\tclass=\"tab\" \n\t\t\t\t\tng-controller=\"MyProfileSettingsController\" \n\t\t\t\t\tng-include \n\t\t\t\t\tsrc=\"'partials/mysettings.html'\" >\n\t\t\t\t</section>\n\t\t\t</div>\t\n\t\t</div>\n\t</div>\n</div>");
-$templateCache.put('partials/mysettings.html', "<div ng-controller=\"CropImageController\"  >\n\t<div ng-class=\"{show: show}\" id=\"crop_modal\">\n\t\t<div class=\"modal-body\">\n\t\t\t<form action=\"\" method=\"get\" accept-charset=\"utf-8\">\n\t\t\t\t<div id='cropContainer'>\n\t\t\t      <div class=\"cropper\">\n\t\t\t         <div class=\"preview-container\">\n\t\t\t         \t<img src=\"\" id=\"crop_img\" alt=\"\" />\n\t\t        \t\t<canvas id=\"image_canvas\"></canvas>\n\t\t\t         </div>\n\t\t\t      </div>\n\t\t\t   </div>\n\t\t   </form>\n\t\t</div>\n\t\t<div class=\"buttons\">\n\t\t\t<button ng-click=\"close()\">Cancel</button>\n\t\t\t<button class=\"apply\" ng-click=\"onSend()\">Apply</button>\n\t\t</div>\n\t</div>\n</div>\n<section class=\"myset\">\n\t<div \n\t\tclass=\"pmain pro promy\" \n\t\tng-controller=\"UserController\" >\n\t\t<div class=\"block\">\n\t\t\t<input class=\"hidden\" id=\"photo_crop\" onchange=\"angular.element(this).scope().onReadFile()\" capture=\"camera\" type=\"file\" accept=\"image/*\" />\n\t\t\t\n\t\t\t<div class=\"image_box\" ng-click=\"onUpdateFile()\">\n\t\t\t\t<img class=\"pp\" ng-src=\"{{workspace.user.avatar}}\" ng-if=\"workspace.user.avatar\" err-src=\"/images/unknown-person.png\" />\n\t\t\t\t<img class=\"pp\" ng-src=\"/images/unknown-person.png\" ng-if=\"!workspace.user.avatar\" />\n\t\t\t</div>\n\t\t\t\n\t\t\t<div class=\"publish\" ng-if=\"workspace.user.published == 0\">\n\t\t\t\t<p>\n\t\t\t\t\t<strong>Your account is private.<b>Only you can see your profile.</b></strong>\n\t\t\t\t\t<button ng-click=\"onOnPublish()\">{{'_PublishL_' | i18n}}</button>\n\t\t\t\t</p>\n\t\t\t</div>\n\t\t\t<div class=\"publish\" ng-if=\"workspace.user.published == 1\">\n\t\t\t\t<p>\n\t\t\t\t\t<strong>Your account is public.<b>Everybody can see you profile.</b></strong>\n\t\t\t\t\t<button ng-click=\"onUnPublish()\">Make it private</button>\n\t\t\t\t</p>\n\t\t\t</div>\n\t\t\t<div class=\"publish\">\n\t\t\t\t<button ng-click=\"onLogout()\">Sign out</button>\n\t\t\t</div>\n\t\t</div>\n\n\t\t<div class=\"pmpar\">\n\t\t\t<p>\n\t\t\t\t<label for=\"name_i\">{{'_NameL_' | i18n}}:</label> \n\t\t\t\t<input \n\t\t\t\t\ttype=\"text\" \n\t\t\t\t\tid=\"name_i\" \n\t\t\t\t\tng-model=\"workspace.user.name\"\n\t\t\t\t\trequired />\n\t\t\t</p>\n\t\t\t<div class=\"proffesion_list\" ng-if=\"showedNames.length > 0\">\n\t\t\t\t<ul>\n\t\t\t\t\t<li ng-repeat=\"(nameKey, nameItem) in showedNames\">\n\t\t\t\t\t\t<a>{{nameItem}}</a>\n\t\t\t\t\t</li>\n\t\t\t\t</ul>\n\t\t\t</div>\n\t\t\t<p class=\"errors\" ng-if=\"nameIsError\">Name already user.</p>\n\t\t\t<p>\n\t\t\t\t<label for=\"age_i\">{{'_BirthdayL_' | i18n}}:</label>\n\t\t\t\t<input \n\t\t\t\t\ttype=\"datetime\"\n\t\t\t\t\tng-model=\"workspace.user.birthdayDate\"\n\t\t\t\t\tui-date=\"dateOptions\"\n\t\t\t\t\tid=\"age_i\" />\n\t\t\t</p>\n\t\t\t<p>\n\t\t\t\t<label for=\"areapro2_i\">Сountry:</label>\n\t\t\t\t<select \n\t\t\t\t\tid=\"areapro2_i\"\n\t\t\t\t\tng-options=\"item.name for item in states\" \n\t\t\t\t\tng-model=\"state\"\n\t\t\t\t\tng-change=\"selectCityByState($event, state)\">\n\t\t\t\t</select>\n\t\t\t</p>\n\t\t\t<p>\n\t\t\t\t<label for=\"loc_i\">City:</label>\n\t\t\t\t<input \n\t\t\t\t\tid=\"loc_i\" \n\t\t\t\t\tng-model=\"workspace.user.city.name\"\n\t\t\t\t\ttype=\"text\"\n\t\t\t\t\tng-change=\"testCity($event)\" />\n\t\t\t\t\t<img src=\"/images/7.jpg\" ng-if=\"isAddState\" class=\"cursor\" ng-click=\"addCity($event)\" width=\"40px\" alt=\"\" />\n\t\t\t</p>\n\t\t\t<div class=\"proffesion_list\" ng-if=\"curState && showState && showState2\">\n\t\t\t\t<ul>\n\t\t\t\t\t<li ng-if=\"stateItem.show\" ng-repeat=\"(stateKey, stateItem) in curState\">\n\t\t\t\t\t\t<a ng-click=\"selectCurrentCity($event, stateItem, stateKey)\">{{stateItem.name}}</a>\n\t\t\t\t\t\t<span class=\"close icon\" ng-click=\"deleteCityItem($event, stateItem, stateKey)\"></span>\n\t\t\t\t\t</li>\n\t\t\t\t</ul>\n\t\t\t</div>\n\t\t\t<p>\n\t\t\t\t<label for=\"areapro_i\">Career:</label>\n\t\t\t\t<select \n\t\t\t\t\tid=\"areapro_i\"\n\t\t\t\t\tng-options=\"item.name for item in curNeed.goals\" \n\t\t\t\t\tng-model=\"career\"\n\t\t\t\t\tng-change=\"selectCareer($event, career)\">\n\t\t\t\t</select>\n\t\t\t</p>\n\t\t\t<p>\n\t\t\t\t<label for=\"pro_i\">{{'_ProfL_' | i18n}}:</label>\n\t\t\t\t<input \n\t\t\t\t\tid=\"pro_i\" \n\t\t\t\t\tng-model=\"workspace.user.profession.name\"\n\t\t\t\t\ttype=\"text\"\n\t\t\t\t\tng-change=\"selectProfession($event, career)\"  />\n\t\t\t\t\t<img src=\"/images/7.jpg\" ng-if=\"isAddProff\" class=\"cursor\" ng-click=\"addProfession($event)\" width=\"40px\" alt=\"\" />\n\t\t\t</p>\n\t\t\t<div class=\"proffesion_list\" ng-if=\"curProff && showProf && showProf2\">\n\t\t\t\t<ul>\n\t\t\t\t\t<li ng-if=\"profItem.show\" ng-repeat=\"(profKey, profItem) in curProff\">\n\t\t\t\t\t\t<a ng-click=\"selectCurrentProfession($event, profItem, profKey)\">{{profItem.name}}</a>\n\t\t\t\t\t\t<span class=\"close icon\" ng-click=\"deleteItem($event, profItem, profKey)\"></span>\n\t\t\t\t\t</li>\n\t\t\t\t</ul>\n\t\t\t</div>\n\t\t\t<p>\n\t\t\t\t<label for=\"email_i\">{{'_EmaiL_' | i18n}}:</label> \n\t\t\t\t<input \n\t\t\t\t\ttype=\"email\" \n\t\t\t\t\tid=\"email_i\" \n\t\t\t\t\tng-model=\"workspace.user.email\"\n\t\t\t\t\treadonly=\"readonly\"\n\t\t\t\t\trequired />\n\t\t\t</p>\n\t\t\t<p ng-controller=\"QuickUserChangeCtrl\">\n\t\t\t\t<label for=\"username_i\">{{'_UserName_' | i18n}}:</label>\n\t\t\t\t<span ng-if=\"users.length == 0\">Users loading...</span>\n\t\t\t\t<select\n\t\t\t\t\t ng-if=\"users.length > 0\"\n\t\t\t\t\tid=\"acc_i\"\n\t\t\t\t\tng-options=\"item.fullname for item in users\" \n\t\t\t\t\tng-model=\"nextUser\" \n\t\t\t\t\tng-change=\"onMoveUserClick($event, nextUser)\">\n\t\t\t\t\t<option value=\"\">{{workspace.user.login}}, {{workspace.user.name}}</option>\n\n\t\t\t\t</select>\n\t\t\t</p>\n\t\t\t<p ng-if=\"!workspace.user.isSocial && !workspace.user.improva\">\n\t\t\t\t<button class=\"reset\" ng-click=\"onChangePassword()\">Reset password</button>\n\t\t\t</p>\n\t\t</div>\n\t</div>\n</section>");
+$templateCache.put('partials/mysettings.html', "<div ng-controller=\"CropImageController\" ng-include src=\"'partials/crop-image.html'\"></div>\n\n<section class=\"myset\">\n\t<div \n\t\tclass=\"pmain pro promy\" >\n\t\t<div class=\"block\">\n\t\t\t<input \n\t\t\t\tclass=\"hidden\" \n\t\t\t\tid=\"photo_crop\" \n\t\t\t\tonchange=\"angular.element(this).scope().onReadFile()\" \n\t\t\t\tcapture=\"camera\" \n\t\t\t\ttype=\"file\" \n\t\t\t\taccept=\"image/*\" />\n\t\t\t\n\t\t\t<div class=\"image_box\" crop-click ng-click=\"onUpdateFile()\">\n\t\t\t\t<img \n\t\t\t\t\tclass=\"pp\" \n\t\t\t\t\tng-src=\"{{workspace.user.avatar}}\" \n\t\t\t\t\tng-if=\"workspace.user.avatar\" \n\t\t\t\t\terr-src=\"/images/unknown-person.png\" />\n\t\t\t</div>\n\t\t\t\n\t\t\t<div class=\"publish\" ng-if=\"workspace.user.published == 0\">\n\t\t\t\t<p>\n\t\t\t\t\t<strong>Your account is private.<b>Only you can see your profile.</b></strong>\n\t\t\t\t\t<button ng-click=\"onOnPublish()\">{{'_PublishL_' | i18n}}</button>\n\t\t\t\t</p>\n\t\t\t</div>\n\t\t\t<div class=\"publish\" ng-if=\"workspace.user.published == 1\">\n\t\t\t\t<p>\n\t\t\t\t\t<strong>Your account is public.<b>Everybody can see you profile.</b></strong>\n\t\t\t\t\t<button ng-click=\"onUnPublish()\">Make it private</button>\n\t\t\t\t</p>\n\t\t\t</div>\n\t\t\t<div class=\"publish\">\n\t\t\t\t<button ng-click=\"onLogout()\">Sign out</button>\n\t\t\t</div>\n\t\t</div>\n\n\t\t<div class=\"pmpar\">\n\t\t\t<p>\n\t\t\t\t<label for=\"name_i\">{{'_NameL_' | i18n}}:</label> \n\t\t\t\t<input \n\t\t\t\t\ttype=\"text\" \n\t\t\t\t\tid=\"name_i\" \n\t\t\t\t\tng-model=\"workspace.user.name\"\n\t\t\t\t\trequired />\n\t\t\t</p>\n\t\t\t<div class=\"proffesion_list\" ng-if=\"showedNames.length > 0\">\n\t\t\t\t<ul>\n\t\t\t\t\t<li ng-repeat=\"(nameKey, nameItem) in showedNames\">\n\t\t\t\t\t\t<a>{{nameItem}}</a>\n\t\t\t\t\t</li>\n\t\t\t\t</ul>\n\t\t\t</div>\n\t\t\t<p class=\"errors\" ng-if=\"nameIsError\">Name already user.</p>\n\t\t\t<p>\n\t\t\t\t<label for=\"age_i\">{{'_BirthdayL_' | i18n}}:</label>\n\t\t\t\t<input \n\t\t\t\t\ttype=\"datetime\"\n\t\t\t\t\tng-model=\"workspace.user.birthdayDate\"\n\t\t\t\t\tui-date=\"dateOptions\"\n\t\t\t\t\tid=\"age_i\" />\n\t\t\t</p>\n\t\t\t<p>\n\t\t\t\t<label for=\"areapro2_i\">Сountry:</label>\n\t\t\t\t<select \n\t\t\t\t\tid=\"areapro2_i\"\n\t\t\t\t\tng-options=\"item.name for item in states\" \n\t\t\t\t\tng-model=\"state\"\n\t\t\t\t\tng-change=\"selectCityByState($event, state)\">\n\t\t\t\t</select>\n\t\t\t</p>\n\t\t\t<p>\n\t\t\t\t<label for=\"loc_i\">City:</label>\n\t\t\t\t<input \n\t\t\t\t\tid=\"loc_i\" \n\t\t\t\t\tng-model=\"workspace.user.city.name\"\n\t\t\t\t\ttype=\"text\"\n\t\t\t\t\tng-change=\"testCity($event)\" />\n\t\t\t\t\t<img src=\"/images/7.jpg\" ng-if=\"isAddState\" class=\"cursor\" ng-click=\"addCity($event)\" width=\"40px\" alt=\"\" />\n\t\t\t</p>\n\t\t\t<div class=\"proffesion_list\" ng-if=\"curState && showState && showState2\">\n\t\t\t\t<ul>\n\t\t\t\t\t<li ng-if=\"stateItem.show\" ng-repeat=\"(stateKey, stateItem) in curState\">\n\t\t\t\t\t\t<a ng-click=\"selectCurrentCity($event, stateItem, stateKey)\">{{stateItem.name}}</a>\n\t\t\t\t\t\t<span class=\"close icon\" ng-click=\"deleteCityItem($event, stateItem, stateKey)\"></span>\n\t\t\t\t\t</li>\n\t\t\t\t</ul>\n\t\t\t</div>\n\t\t\t<p>\n\t\t\t\t<label for=\"areapro_i\">Career:</label>\n\t\t\t\t<select \n\t\t\t\t\tid=\"areapro_i\"\n\t\t\t\t\tng-options=\"item.name for item in curNeed.goals\" \n\t\t\t\t\tng-model=\"career\"\n\t\t\t\t\tng-change=\"selectCareer($event, career)\">\n\t\t\t\t</select>\n\t\t\t</p>\n\t\t\t<p>\n\t\t\t\t<label for=\"pro_i\">{{'_ProfL_' | i18n}}:</label>\n\t\t\t\t<input \n\t\t\t\t\tid=\"pro_i\" \n\t\t\t\t\tng-model=\"workspace.user.profession.name\"\n\t\t\t\t\ttype=\"text\"\n\t\t\t\t\tng-change=\"selectProfession($event, career)\"  />\n\t\t\t\t\t<img src=\"/images/7.jpg\" ng-if=\"isAddProff\" class=\"cursor\" ng-click=\"addProfession($event)\" width=\"40px\" alt=\"\" />\n\t\t\t</p>\n\t\t\t<div class=\"proffesion_list\" ng-if=\"curProff && showProf && showProf2\">\n\t\t\t\t<ul>\n\t\t\t\t\t<li ng-if=\"profItem.show\" ng-repeat=\"(profKey, profItem) in curProff\">\n\t\t\t\t\t\t<a ng-click=\"selectCurrentProfession($event, profItem, profKey)\">{{profItem.name}}</a>\n\t\t\t\t\t\t<span class=\"close icon\" ng-click=\"deleteItem($event, profItem, profKey)\"></span>\n\t\t\t\t\t</li>\n\t\t\t\t</ul>\n\t\t\t</div>\n\t\t\t<p>\n\t\t\t\t<label for=\"email_i\">{{'_EmaiL_' | i18n}}:</label> \n\t\t\t\t<input \n\t\t\t\t\ttype=\"email\" \n\t\t\t\t\tid=\"email_i\" \n\t\t\t\t\tng-model=\"workspace.user.email\"\n\t\t\t\t\treadonly=\"readonly\"\n\t\t\t\t\trequired />\n\t\t\t</p>\n\t\t\t<p ng-controller=\"QuickUserChangeCtrl\">\n\t\t\t\t<label for=\"username_i\">{{'_UserName_' | i18n}}:</label>\n\t\t\t\t<span ng-if=\"users.length == 0\">Users loading...</span>\n\t\t\t\t<select\n\t\t\t\t\t ng-if=\"users.length > 0\"\n\t\t\t\t\tid=\"acc_i\"\n\t\t\t\t\tng-options=\"item.fullname for item in users\" \n\t\t\t\t\tng-model=\"nextUser\" \n\t\t\t\t\tng-change=\"onMoveUserClick($event, nextUser)\">\n\t\t\t\t\t<option value=\"\">{{workspace.user.login}}, {{workspace.user.name}}</option>\n\n\t\t\t\t</select>\n\t\t\t</p>\n\t\t\t<p ng-if=\"!workspace.user.isSocial && !workspace.user.improva\">\n\t\t\t\t<button class=\"reset\" ng-click=\"onChangePassword()\">Reset password</button>\n\t\t\t</p>\n\t\t</div>\n\t</div>\n</section>");
 $templateCache.put('partials/neighbours.html', "<div class=\"nearblock\" ng-controller=\"NeighboursCtrl\">\n\t<div ng-controller=\"GalleryController\"  ng-init=\"id='top';title='_topL_'\">\n\t\t<div class=\"lnbl\" ng-include src=\"'partials/gallery.html'\"></div>\n\t</div>\n\t<i></i>\n\t<div ng-controller=\"GalleryController\"  ng-init=\"id='neigh';title='_neighL_'\">\n\t\t<div class=\"lnbl\" ng-include src=\"'partials/gallery.html'\"></div>\n\t</div>\n</div>");
 $templateCache.put('partials/nsi-add.html', "<div id=\"nsi_content\" ng-controller=\"NSIAddController\">\n\t<h2>Add league</h2>\n\t<table>\n\t\t<tr>\n\t\t\t<td>Name:</td>\n\t\t\t<td><input type=\"text\" ng-model=\"form.name\" /></td>\n\t\t</tr>\n\t\t<tr>\n\t\t\t<td>Min:</td>\n\t\t\t<td><input type=\"text\" ng-model=\"form.min_border\" /></td>\n\t\t</tr>\n\t\t<tr>\n\t\t\t<td>Max:</td>\n\t\t\t<td><input type=\"text\" ng-model=\"form.max_border\" /></td>\n\t\t</tr>\n\t\t<tr>\n\t\t\t<td>Size:</td>\n\t\t\t<td><input type=\"text\" ng-model=\"form.size\" /></td>\n\t\t</tr>\n\t\t<tr>\n\t\t\t<td></td>\n\t\t\t<td>\n\t\t\t\t<a class=\"buttons green\" ng-click=\"addLeague()\">Save</a>\n\t\t\t\t<a class=\"buttons red\" ng-click=\"close()\">Close</a>\n\t\t\t</td>\n\t\t</tr>\n\t</table>\n\t<div class=\"btns\">\n\t\t\n\t</div>\n</div>");
 $templateCache.put('partials/nsi.html', "<div id=\"nsi_content\" ng-controller=\"NSIController\">\n\t<h2>NSI</h2>\n\t<table>\n\t\t<thead>\n\t\t\t<tr>\n\t\t\t\t<th>Name</th>\n\t\t\t\t<th>Min</th>\n\t\t\t\t<th>Max</th>\n\t\t\t\t<th>Size</th>\n\t\t\t\t<th></th>\n\t\t\t</tr>\n\t\t</thead>\n\t\t<tbody>\n\t\t\t<tr ng-repeat=\"(key, value) in workspace.leagues | orderBy: 'position'\">\n\t\t\t\t<td width=\"20%\" class=\"editing_cell\">\n\t\t\t\t\t<input type=\"text\" ng-model=\"value.name\" ng-change=\"update(value)\" />\n\t\t\t\t</td>\n\t\t\t\t<td width=\"20%\" class=\"editing_cell\">\n\t\t\t\t\t<input type=\"text\" ng-model=\"value.min_border\" ng-change=\"update(value)\" />\n\t\t\t\t</td>\n\t\t\t\t<td width=\"20%\" class=\"editing_cell\">\n\t\t\t\t\t<input type=\"text\" ng-model=\"value.max_border\" ng-change=\"update(value)\" />\n\t\t\t\t</td>\n\t\t\t\t<td width=\"20%\" class=\"editing_cell\">\n\t\t\t\t\t<input type=\"text\" ng-model=\"value.size\" ng-change=\"update(value)\" />\n\t\t\t\t</td>\n\t\t\t\t<td width=\"40%\">\n\t\t\t\t\t<span class=\"icon delete\" ng-click=\"delete(value)\"></span>\n\t\t\t\t</td>\n\t\t\t</tr>\n\t\t</tbody>\n\t</table>\n\t<div class=\"btns\">\n\t\t<a class=\"buttons all\" ng-click=\"ok()\">Ok</a>\n\t\t<a class=\"buttons green\" ng-click=\"addLeague()\">Add league</a>\n\t\t<a class=\"buttons red\" ng-click=\"closeModal()\">Close</a>\n\t</div>\n</div>");
-$templateCache.put('partials/profile.html', "<div \n\tng-controller=\"NeedsAndGoalsController\" \n\tclass=\"tab\" \n\tng-init=\"user = workspace.user; openFirst = true; allOpen = true; persistState = true;\">\n\t<section class=\"mypro acrd\">\n\t\t<div class=\"crits\">\n\t\t\t<ul> \n\t\t\t\t<li \n\t\t\t\t\tng-repeat=\"(needKey, needItem) in needs | orderBy:'position'\" \n\t\t\t\t\tdata-needId=\"{{needItem.sguid}}\"\n\t\t\t\t\tclass=\"{{needItem.name}}\">\n\t\t\t\t\t<div class=\"cr\" >\n\t\t\t\t\t\t<p>{{needItem.name}}</p>\n\t\t\t\t\t</div>\n\t\t\t\t\t<ul ng-class=\"{current: needItem.current}\">\n\t\t\t\t\t\t<li ng-repeat=\"(goalKey,goalItem) in needItem.goals | orderBy:'position'\" data-goalid=\"{{goalItem.sguid}}\" >\n\t\t\t\t\t\t\t<h5 ng-class=\"{current: goalItem.current}\">\n\t\t\t\t\t\t\t\t<a ng-click=\"goalClick($event, needItem, goalItem, needs)\">\n\t\t\t\t\t\t\t\t\t<span>\n\t\t\t\t\t\t\t\t\t\t<img \n\t\t\t\t\t\t\t\t\t\tng-src=\"/images/goals/{{needItem.name | removewhite}}/{{goalItem.name | removewhite}}.png\"\n\t\t\t\t\t\t\t\t\t\talt=\"\" \n\t\t\t\t\t\t\t\t\t\ttitle=\"{{goalItem.name}}\" />\n\t\t\t\t\t\t\t\t\t</span>\n\t\t\t\t\t\t\t\t\t{{goalItem.name}}\n\t\t\t\t\t\t\t\t</a>\t\n\t\t\t\t\t\t\t\t<div class=\"right\">\n\t\t\t\t\t\t\t\t\t<strong>\n\t\t\t\t\t\t\t\t\t\t<span class=\"current_position\" style=\"width: {{(goalItem.current_value / (goalItem.points_summary ))*100}}%;\"></span>\n\t\t\t\t\t\t\t\t\t</strong>\n\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t</h5>\n\t\t\t\t\t\t\t\n\t\t\t\t\t\t</li>\n\t\t\t\t\t</ul>\n\t\t\t\t</li>\n\t\t\t</ul>\n\t\t</div>\n\t</section>\n\n\t<div class=\"mypro_wr\">\n\t\t<section class=\"mypro\">\n\t\t\t<div class=\"crits {{currentNeed.name}}\" ng-if=\"currentGoal\">\n\t\t\t\t<h5>\n\t\t\t\t\t<a>\n\t\t\t\t\t\t<span><img ng-src=\"{{currentGoal.icon}}\" alt=\"\" title=\"{{currentGoal.name}}\" /></span>\n\t\t\t\t\t\t{{currentGoal.name}}\n\t\t\t\t\t</a>\t\n\t\t\t\t\t<div class=\"right\">\n\t\t\t\t\t\t<b>{{currentGoal.current_value}} / {{currentGoal.points_summary}}</b>\n\t\t\t\t\t\t<strong>\n\t\t\t\t\t\t\t<span class=\"current_position\" style=\"width: {{(currentGoal.current_value / (currentGoal.points_summary ))*100}}%;\"></span>\n\t\t\t\t\t\t</strong>\n\t\t\t\t\t</div>\n\t\t\t\t</h5>\n\t\t\t\t<ul class=\"criterion\">\n\t\t\t\t\t<li data-id=\"{{crItem.sguid}}\" ng-repeat=\"crItem in currentGoal.criteriums | orderBy:'position'\" class=\"animate-list\" >\n\t\t\t\t\t\t<p>{{crItem.name}}</p>\n\t\t\t\t\t\t<div class=\"bord\">\n\t\t\t\t\t\t\t<ul class=\"crp\">\n\t\t\t\t\t\t\t\t<div class=\"tab\">\n\t\t\t\t\t\t\t\t\t<li data-id=\"{{value.sguid}}\"  \n\t\t\t\t\t\t\t\t\t\tng-repeat=\"value in crItem.criteria_values | orderBy:'position'\"  \n\t\t\t\t\t\t\t\t\t\tclass=\"{{value.user_criteria}} position_{{value.position}}\" ng-click=\"onCriteriaSelect(value, crItem, $event, currentNeed, currentGoal)\">\n\t\t\t\t\t\t\t\t\t\t<i ng-if=\"value.sguid != 'none'\">{{value.name}}</i>\n\t\t\t\t\t\t\t\t\t\t<i ng-if=\"value.sguid == 'none'\" class=\"null_criteria\"></i>\n\t\t\t\t\t\t\t\t\t</li>\n\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t<span>\n\t\t\t\t\t\t\t\t\t<img src=\"../images/ar.png\" alt=\"\" />\n\t\t\t\t\t\t\t\t</span>\n\t\t\t\t\t\t\t</ul>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</li>\n\t\t\t\t</ul>\n\t\t\t</div>\n\t\t</section>\n\t</div>\n</div>");
+$templateCache.put('partials/profile.html', "<div \n\tng-controller=\"NeedsAndGoalsController\" \n\tclass=\"tab\" \n\tng-init=\"user = workspace.user; openFirst = true; allOpen = true; persistState = true;\">\n\t<section class=\"mypro acrd\">\n\t\t<div class=\"crits\">\n\t\t\t<ul> \n\t\t\t\t<li \n\t\t\t\t\tng-repeat=\"(needKey, needItem) in needs | orderBy:'position'\" \n\t\t\t\t\tdata-needId=\"{{needItem.sguid}}\"\n\t\t\t\t\tclass=\"{{needItem.name}}\">\n\t\t\t\t\t<div class=\"cr\" >\n\t\t\t\t\t\t<p>{{needItem.name}}</p>\n\t\t\t\t\t</div>\n\t\t\t\t\t<ul ng-class=\"{current: needItem.current}\">\n\t\t\t\t\t\t<li ng-repeat=\"(goalKey,goalItem) in needItem.goals | orderBy:'position'\" data-goalid=\"{{goalItem.sguid}}\" >\n\t\t\t\t\t\t\t<h5 ng-class=\"{current: goalItem.current}\">\n\t\t\t\t\t\t\t\t<a ng-click=\"goalClick($event, needItem, goalItem, needs)\">\n\t\t\t\t\t\t\t\t\t<span>\n\t\t\t\t\t\t\t\t\t\t<img \n\t\t\t\t\t\t\t\t\t\tng-src=\"/images/goals/{{needItem.name | removewhite}}/{{goalItem.name | removewhite}}.png\"\n\t\t\t\t\t\t\t\t\t\talt=\"\" \n\t\t\t\t\t\t\t\t\t\ttitle=\"{{goalItem.name}}\" />\n\t\t\t\t\t\t\t\t\t</span>\n\t\t\t\t\t\t\t\t\t<h6>{{goalItem.name}}</h6>\n\t\t\t\t\t\t\t\t\t<em></em>\n\t\t\t\t\t\t\t\t</a>\t\n\t\t\t\t\t\t\t\t<div class=\"right\">\n\t\t\t\t\t\t\t\t\t<strong>\n\t\t\t\t\t\t\t\t\t\t<span class=\"current_position\" style=\"width: {{(goalItem.current_value / (goalItem.points_summary ))*100}}%;\"></span>\n\t\t\t\t\t\t\t\t\t</strong>\n\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t</h5>\n\t\t\t\t\t\t\t\n\t\t\t\t\t\t</li>\n\t\t\t\t\t</ul>\n\t\t\t\t</li>\n\t\t\t</ul>\n\t\t</div>\n\t</section>\n\n\t<div class=\"mypro_wr\">\n\t\t<section class=\"mypro\">\n\t\t\t<div class=\"crits {{currentNeed.name}}\" ng-if=\"currentGoal\">\n\t\t\t\t<h5>\n\t\t\t\t\t<a>\n\t\t\t\t\t\t<span><img ng-src=\"{{currentGoal.icon}}\" alt=\"\" title=\"{{currentGoal.name}}\" /></span>\n\t\t\t\t\t\t{{currentGoal.name}}\n\t\t\t\t\t</a>\t\n\t\t\t\t\t<div class=\"right\">\n\t\t\t\t\t\t<b>{{currentGoal.current_value}} / {{currentGoal.points_summary}}</b>\n\t\t\t\t\t\t<strong>\n\t\t\t\t\t\t\t<span class=\"current_position\" style=\"width: {{(currentGoal.current_value / (currentGoal.points_summary ))*100}}%;\"></span>\n\t\t\t\t\t\t</strong>\n\t\t\t\t\t</div>\n\t\t\t\t</h5>\n\t\t\t\t<ul class=\"criterion\">\n\t\t\t\t\t<li data-id=\"{{crItem.sguid}}\" ng-repeat=\"crItem in currentGoal.criteriums | orderBy:'position'\" class=\"animate-list\" >\n\t\t\t\t\t\t<p>{{crItem.name}}</p>\n\t\t\t\t\t\t<div class=\"bord\">\n\t\t\t\t\t\t\t<ul class=\"crp\">\n\t\t\t\t\t\t\t\t<div class=\"tab\">\n\t\t\t\t\t\t\t\t\t<li data-id=\"{{value.sguid}}\"  \n\t\t\t\t\t\t\t\t\t\tng-repeat=\"value in crItem.criteria_values | orderBy:'position'\"  \n\t\t\t\t\t\t\t\t\t\tclass=\"{{value.user_criteria}} position_{{value.position}}\" \n\t\t\t\t\t\t\t\t\t\tng-click=\"onCriteriaSelect(value, crItem, $event, currentNeed, currentGoal)\">\n\t\t\t\t\t\t\t\t\t\t<i ng-if=\"value.sguid != 'none'\">{{value.name}}</i>\n\t\t\t\t\t\t\t\t\t\t<i ng-if=\"value.sguid == 'none'\" class=\"null_criteria\"></i>\n\t\t\t\t\t\t\t\t\t</li>\n\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t<span>\n\t\t\t\t\t\t\t\t\t<img src=\"../images/ar.png\" alt=\"\" />\n\t\t\t\t\t\t\t\t</span>\n\t\t\t\t\t\t\t</ul>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</li>\n\t\t\t\t</ul>\n\t\t\t</div>\n\t\t</section>\n\t</div>\n</div>");
 $templateCache.put('partials/right.html', "<div id=\"signin_panel\" class=\"full_height\" ng-if=\"showPanel\" >\n\t<div class=\"glass\">\n\t\t<div class=\"full_height\" ng-if=\"state == 0\" ng-include ng-controller=\"SigninController\" src=\"'partials/signin.html'\"></div>\n\t\t<div class=\"full_height\" ng-if=\"state == 1\" ng-include ng-controller=\"SignupController\" src=\"'partials/signup.html'\"></div>\n\t\t<div class=\"full_height\" ng-if=\"state == 2\" ng-include ng-controller=\"ImprovaLoginController\" src=\"'partials/improva.html'\"></div>\n\t</div>\n</div>");
 $templateCache.put('partials/share.html', "<div ng-controller=\"ShareController\">\n\t<a \n\t\thref=\"https://twitter.com/intent/tweet?text=iRate&url=http://www.irate.com\" \n\t\ttarget=\"_blank\"></a>\n\t<a \n\t\tng-click=\"shareFacebook('http://www.irate.com', 'iRate', '', 'http://www.improva.com/src/assets/images/icons/improva_icon.png')\" class=\"facebook\"></a>\n\t<a \n\t\tng-click=\"shareGoogle('http://www.irate.com')\" \n\t\tclass=\"google\"></a>\t\n</div>");
 $templateCache.put('partials/signin.html', "<h4>Sign in</h4>\n<div class=\"sign-in\">\n  <ng-form \n    id=\"login_form\" \n    name=\"LoginForm\" \n    novalidate \n    class=\"css-form myForm\" >\n    <p>\n      <input \n        type=\"email\" \n        id=\"login_i\" \n        class=\"form-input\"\n        ng-model=\"login.email\"\n        name=\"Email\"\n        required \n        ng-minlength=\"6\"\n        placeholder=\"Email\"\n        ui-keypress=\"{13:'onKeyPress($event)'}\" />\n      <br />\n      <span \n      \tclass=\"errorss\" \n      \tng-show=\"LoginForm.Email.$dirty && (LoginForm.Email.$error.required || LoginForm.Email.$error.minlength || LoginForm.Email.$error.email)\">Incorrect email\n      </span>\n    </p>       \n    <p>\n      <input \n        type=\"password\" \n        id=\"pass_i\"\n        class=\"form-input\"\n        ng-model=\"login.password\"\n        required \n        name=\"Password\"\n        ng-minlength=\"6\"\n        placeholder=\"Password\"\n        ui-keypress=\"{13:'onKeyPress($event)'}\"\n        ng-trim=\"false\" /> \n      <br />\n      <span \n      \tclass=\"errorss rss\" \n      \tng-show=\"LoginForm.Password.$dirty && (LoginForm.Password.$error.required || LoginForm.Password.$error.minlength)\">Incorrect password\n      </span>\n    </p>\n    <div class=\"step\">\n      <p>\n        <a href=\"#/change_password\">Forgot your password?</a>\n      </p>\n      <p>\n        <input type=\"checkbox\"  />\n        <label>Keep me signed in</label>\n      </p>\n      <p class=\"errors\" ng-show=\"error\">{{error}}</p>\n      <p class=\"singin-sub\">\n        <input \n          ng-disabled=\"LoginForm.$invalid\"\n          ng-click=\"onSingin()\" \n          type=\"button\" \n          value=\"Sign in\" />\n      </p>    \n    </div>\n    <div class=\"rere\">\n      <p>Don’t have an iRate account yet?</p>\t\n      <p class=\"singin-sub\">\n        <input \n          ng-click=\"changeState(states.SIGNUP)\" \n          type=\"button\" \n          value=\"Sign up\" />\n      </p>          \n    </div>\n\n    <!-- social link -->\n    <i>Use Improva, Facebook, Google+, LiveID or your email to sign in.</i>    \n    <ul>\n      <li>\n        <a ng-click=\"improvaLogin()\">\n          <span class=\"icon improva\" ng-click=\"changeState(states.IMPROVA)\"></span>\n        </a>\n      </li>\n      <li>\n        <a ng-click=\"socialFacebookLogin()\">\n          <span class=\"icon facebook\"></span>\n        </a>\n      </li>\n      <li>\n        <a ng-click=\"socialGooglePlusLogin()\">\n          <span class=\"icon google\"></span>\n        </a>\n      </li>\n      <li>\n        <a ng-click=\"socialMicrosoftLiveLogin()\">\n          <span class=\"icon live\"></span>\n        </a>\n      </li>\n    </ul>\n    \n  </ng-form>\n</div>");
@@ -3852,7 +3890,7 @@ function CompareController($scope, $location) {
  * @param {[type]} $scope     [description]
  * @param {[type]} $rootScope [description]
  */
-function CropImageController($scope, $rootScope) {
+function CropImageController($scope, $rootScope, TokenService, UserService) {
     $scope.user = [];
     $scope.positions = [];
     $scope.imageData = '';
@@ -3905,8 +3943,8 @@ function CropImageController($scope, $rootScope) {
             data.append("picture", img);
             data.append("owner_type", 0);
 
-            var token = getCookie('token') ? getCookie('token') : "";
-            var user = getCookie('user') ? getCookie('user') : "";
+            var token = TokenService.get() ? TokenService.get() : "";
+            var user = $scope.workspace.user.sguid ? $scope.workspace.user.sguid : "";
 
             $.ajax({
                 beforeSend: function(xhrObj){
@@ -3924,6 +3962,8 @@ function CropImageController($scope, $rootScope) {
                     if(data.success) {
                         $scope.workspace.user.avatar = data.message.scheme+"://"+data.message.host+data.message.path;
                         $scope.close();
+
+                        UserService.setAuthData($scope.workspace.user);
                     }
                     $rootScope.$broadcast('loaderHide');
                     $scope.shouldBeOpen = false; 
@@ -5326,14 +5366,31 @@ function MyProfileProfileController($scope, $rootScope, $location, LocationServi
     // выбираем location
     $scope.selectGoal();
 }
-function MyProfileSettingsController($scope, UserService, SocialService, FriendsService) {
+// контроллер вкладки настроки своего профиля
+function MyProfileSettingsController($scope, UserService, SocialService, FriendsService, TokenService, $rootScope) {
+
+	// выходим из пользователя
 	$scope.onLogout = function() {
+		// убиваем токен
+		TokenService.remove();
+
+		// убираем данные о пользователе из кеша
 		UserService.clearAuthData();
+
+		// убираем зписить из кеша о социалках
 		SocialService.clear();
 
+		// удаляем пользователя из scope
 		$scope.workspace.user = null;
+
+		// забираем список друзей для не авторизованного пользователя
 		$scope.workspace.friends = FriendsService.getList();
 	}
+
+	// открываем модальное окно манипуляций с картинками
+	$scope.onReadFile = function($event) {
+        $rootScope.$broadcast('cropImage');
+    }
 }
 /**
  * 
@@ -5420,39 +5477,6 @@ function NeedsAndGoalsController($scope, СareerService, UserService, Goals, Cri
             userId: $scope.user.sguid,
             route: $scope.route
         });
-
-        /*
-
-        var openGoal = $cookieStore.get("openGoal");
-        if(!$scope.persistState) {
-            openGoal = null;
-        }
-
-        if($scope.openFirst && !openGoal) {
-            $scope.openCriteriumList({}, $scope.needs[0], $scope.needs[0].goals[0], $scope.needs);
-        }
-
-        if(openGoal && $scope.persistState) {
-            var openNeed = $cookieStore.get("openNeed");
-
-            var need = $scope.needs.filter(function(value) {
-                if(value.sguid == openNeed) {
-                    return value;
-                }
-            })[0];
-
-            var goal = need.goals.filter(function(value) {
-                if(value.sguid == openGoal) {
-                    return value;
-                }
-            })[0];
-
-            $scope.openCriteriumList({}, need, goal, $scope.needs);
-            setTimeout(function() {
-                $("#content .tab .mypro.acrd").scrollTop($("#content .tab .mypro.acrd .crits ul li h5.current").offset().top - 200); 
-            }, 0);
-        }
-        */
     }
     
     // забираем данные колбас
@@ -5650,14 +5674,14 @@ function NeedsAndGoalsController($scope, СareerService, UserService, Goals, Cri
     $scope.onCriteriaSelect = function(criteriaValue, criteria, $event, needItem, goalItem) {
         if(!$($event.target).hasClass("current")) {
             if(criteriaValue.sguid !== "none") {
-                /*UserCriteriaValue.create({}, $.param({
-                    "user_guid": AuthUser.get(),
+                UserCriteriaValue.create({}, $.param({
+                    "user_guid": $scope.workspace.user.sguid,
                     "criteria_guid": criteria.sguid,
                     "criteria_value_guid": criteriaValue.sguid
                 }), function(data) {
                     criteria.user_criteria_id = data.message.sguid;
                     $rootScope.$broadcast('userCriteriaUpdate');
-                });*/
+                });
             } else {
                 if(criteria.user_criteria_id) {
                     UserCriteriaValue.del({id: criteria.user_criteria_id}, {}, function(data) {
@@ -5840,9 +5864,9 @@ function NeedsAndGoalsController($scope, СareerService, UserService, Goals, Cri
             if (size <  15) {
                 size = 0;
             }
-            slider.css("width", size + "px").css("left", "-15px");
+            slider.css("width", size + "px");
         } else {
-            slider.css("width", "95%").css("left", "-1%");
+            slider.css("width", "10px");
         }
         
         var isCurrent = false;
@@ -6108,7 +6132,7 @@ function RightController($scope) {
  * Основной контроллер.
  * В нем используются данные которые нужны на всех страницах.
  */
-function RootController($scope, FacebookService, СareerService, LeagueService, CountryService, NeedsService, FriendsService, UserService, User, $rootScope, Needs, Social, $cookieStore, States, Professions, $location, $timeout, Leagues) {
+function RootController($scope, FacebookService, СareerService, LeagueService, CountryService, NeedsService, FriendsService, UserService, User, $rootScope, Needs, Social, $location, UserService) {
     
     /**
      * Открывает модальное окно
@@ -7198,18 +7222,14 @@ function UserController($scope, FriendsService, UserService, $element, $route, $
      * @param  {[type]} $event
      * @return {[type]}
 
-    $scope.onReadFile = function($event) {
-        $rootScope.$broadcast('cropImage');
-    }
+    
      */
     /**
      * 
      * @param  {[type]} $event
      * @return {[type]}
      
-    $scope.onUpdateFile = function($event) {
-        $("#photo_crop").click();
-    }
+    
 
     $scope.onUpdateGoalImage = function($event) {
         $("#goal_done").html("");

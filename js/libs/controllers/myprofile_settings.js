@@ -1,5 +1,5 @@
 // контроллер вкладки настроки своего профиля
-function MyProfileSettingsController($scope, UserService, SocialService, FriendsService, TokenService, $rootScope) {
+function MyProfileSettingsController($scope, UserService, SocialService, FriendsService, TokenService, $rootScope, $location) {
 
 	// выходим из пользователя
 	$scope.onLogout = function() {
@@ -22,5 +22,10 @@ function MyProfileSettingsController($scope, UserService, SocialService, Friends
 	// открываем модальное окно манипуляций с картинками
 	$scope.onReadFile = function($event) {
         $rootScope.$broadcast('cropImage');
+    }
+
+    // переход на страницу смены пароля
+    $scope.onChangePassword = function() {
+        $location.search({ change_password: true });
     }
 }

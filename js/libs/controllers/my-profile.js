@@ -491,10 +491,7 @@ function MyProfileController($scope, $rootScope, User, $location, $cookieStore, 
         $location.path("/change_email"); 
     }
 
-    $scope.onChangePassword = function() {
-        $cookieStore.put("changePasswordOnUser", "1");
-        $location.path("/change_password");
-    }
+    
 
     $scope.$watch("workspace.user.points", function (newVal, oldVal, scope) {
         if($scope.workspace.user && $scope.workspace.user.sguid && !$scope.workspace.user.league) {
