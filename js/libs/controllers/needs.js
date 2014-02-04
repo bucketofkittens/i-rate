@@ -4,7 +4,7 @@
  * @param {[type]} Goals
  * @param {[type]} Criterion
  */
-function NeedsAndGoalsController($scope, СareerService, UserService, Goals, Criterion, UserCriteriaValue, $rootScope, CriterionByGoal, UserCriteriaValueByUser, $routeParams, Needs, User, $element, $cookieStore) {
+function NeedsAndGoalsController($scope, СareerService, UserService, Goals, Criterion, UserCriteriaValue, $rootScope, CriterionByGoal, UserCriteriaValueByUser, $routeParams, Needs, User, $element, NeedsService) {
     // список needs-сов
     $scope.needs = [];
 
@@ -160,15 +160,15 @@ function NeedsAndGoalsController($scope, СareerService, UserService, Goals, Cri
         });
     }
 
-    
+    $scope.$on('closeAllGoals', function($event, message) {
+        $scope.needs = NeedsService.closeAllGoals($scope.needs);
+    });
 
     /**
      * Открываем все needs
      * @param  {object} массив всех needs
      * @return {object}
      */
-    
-
     $scope.$on('criteriaOpen', function($event, message) {
         if(message.user.sguid != $scope.user.ssguid) {
             var goal = {};
@@ -186,21 +186,8 @@ function NeedsAndGoalsController($scope, СareerService, UserService, Goals, Cri
         }
     });
 
-    /**
-     * 
-     * @param  {[type]} goalId [description]
-     * @return {[type]}        [description]
-     */
-    $scope.openCriteriumList = function ($event, need, goal, needs, noEvent) {
-        if(!goal.current) {
-            $scope.getCriteriumByGoal(goal, need);
-            
-            $rootScope.$broadcast('criteriaOpened');
-        }
-    };
-
     $scope.$on('openCriteriumList', function($event, message) {
-        $scope.openCriteriumList(message.event, message.need, message.goal, message.needs);
+        $scope.getCriteriumByGoal(message.goal, message.need);
     });
 
     /**

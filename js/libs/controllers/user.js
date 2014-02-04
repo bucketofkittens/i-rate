@@ -124,7 +124,7 @@ function UserController($scope, FriendsService, UserService, $element, $route, $
             }   
         }
     }
-    
+
 
     /**Событие клика на пользователе в сравнении 
     $scope.onUserClick = function(user, $event) {
