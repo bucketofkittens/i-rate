@@ -1,4 +1,4 @@
-function MyProfileProfileController($scope, $rootScope, $location, LocationService) {
+function MyProfileProfileController($scope, $rootScope, $location, LocationService, NeedsService) {
 
 	// название кеша
    	$scope.cacheName = 'myprofilecurrentgoal';
@@ -9,10 +9,14 @@ function MyProfileProfileController($scope, $rootScope, $location, LocationServi
 	// открываем список голсов справа
 	$scope.goalClick = function($event, needItem, goalItem, needs) {
         if(!goalItem.current) {
+            // закрываем все нидсы
+            needs = NeedsService.closeAllGoals(needs);
+            
             $rootScope.$broadcast('openCriteriumList', {need: needItem, goal: goalItem, needs: needs});
             $scope.pesistState(goalItem.name);
         
-            LocationService.update("goal", goalItem.name);    
+            LocationService.update("goal", goalItem.name);
+            goalItem.current = true;
         }
 	}
 
@@ -29,11 +33,10 @@ function MyProfileProfileController($scope, $rootScope, $location, LocationServi
     // переход по goal по указанному location
     $scope.moveToGoal = function(goalName) {
         // перебираем все нидсы и голсы в поисках нужного
-    	angular.forEach($scope.workspace.needs, function(value, key){
-    		angular.forEach(value.goals, function(goalItem, goalKey){
+    	angular.forEach($scope.workspace.needs, function(value, key) {
+    		angular.forEach(value.goals, function(goalItem, goalKey) {
     			if(goalItem.name == goalName) {
     				goalItem.current = true;
-    				$rootScope.$broadcast('openCriteriumList', {need: value, goal: goalItem, needs: $scope.needs});
     			} else {
                     goalItem.current = false;
                 }
@@ -58,7 +61,6 @@ function MyProfileProfileController($scope, $rootScope, $location, LocationServi
 	    } else {
 	    	var goalName = lscache.get($scope.cacheName);
 	    	if(goalName) {
-	    		$scope.moveToGoal(goalName);
 	    	} else {
 	    		$scope.moveToFirstGoal();
 	    	}

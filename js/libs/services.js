@@ -543,6 +543,33 @@ pgrModule.service('NeedsService', function (Needs) {
     this.persist = function(data) {
         lscache.set(this.cacheName, JSON.stringify(data), this.cacheTime);
     }
+
+    // делаем все гоалсы не активными
+    this.closeAllGoals = function(needs) {
+        angular.forEach(needs, function(value, key){
+            angular.forEach(value.goals, function(v2, k2) {
+                v2.current = false;
+            });
+        });
+
+        return needs;
+    }
+
+    this.closeAllNeeds = function(needs) {
+        angular.forEach(needs, function(value, key){
+            value.current = false;
+        });
+
+        return needs;
+    }
+
+    this.openAllNeeds = function(needs) {
+        angular.forEach(needs, function(value, key){
+            value.current = true;   
+        });
+
+        return needs;
+    }
 });
 
 pgrModule.service('LocationService', function ($location) {

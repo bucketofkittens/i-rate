@@ -17,18 +17,8 @@ function NeedsAndGoalsController($scope, СareerService, UserService, Goals, Cri
             // делаем локальную копию нидсов
             $scope.needs = JSON.parse(JSON.stringify($scope.workspace.needs));
 
-            // нифига не помню зачем.
-            angular.forEach($scope.needs, function(value, key){
-                value.current = true;
-            });
-
             // забираем пользовательские данные.
             $scope.loadUserData_();
-
-            // тоже не помню зачем
-            if($scope.allOpen) {
-                $scope.openAllNeeds($scope.needs);
-            }
         }
     });
 
@@ -134,7 +124,7 @@ function NeedsAndGoalsController($scope, СareerService, UserService, Goals, Cri
 
                     setTimeout(function() {
                         $("#content .crits ul li ul li .criterion li .bord .crp .tab").css("height", $("#content .crits ul li .cr").height());
-                    });    
+                    }, 0);    
                 }
             });
         });
@@ -170,35 +160,14 @@ function NeedsAndGoalsController($scope, СareerService, UserService, Goals, Cri
         });
     }
 
-    /**
-     * Скрываем все goals
-     * @param  {object} массив всех needs
-     * @return {object} 
-     */
-    $scope.closeAllGoals = function(needs) {
-        angular.forEach(needs, function(value, key){
-            angular.forEach(value.goals, function(v2, k2) {
-                v2.current = false;
-            });
-        });
-    }
-
-    $scope.closeAllNeeds = function(needs) {
-        angular.forEach(needs, function(value, key){
-            value.current = false;
-        });
-    }
+    
 
     /**
      * Открываем все needs
      * @param  {object} массив всех needs
      * @return {object}
      */
-    $scope.openAllNeeds = function(needs) {
-        angular.forEach(needs, function(value, key){
-            value.current = true;   
-        });
-    }
+    
 
     $scope.$on('criteriaOpen', function($event, message) {
         if(message.user.sguid != $scope.user.ssguid) {
@@ -217,10 +186,6 @@ function NeedsAndGoalsController($scope, СareerService, UserService, Goals, Cri
         }
     });
 
-    $scope.$on('closeAllGoals', function($event, message) {
-        $scope.closeAllGoals($scope.needs);
-    });
-
     /**
      * 
      * @param  {[type]} goalId [description]
@@ -228,45 +193,11 @@ function NeedsAndGoalsController($scope, СareerService, UserService, Goals, Cri
      */
     $scope.openCriteriumList = function ($event, need, goal, needs, noEvent) {
         if(!goal.current) {
-            $scope.closeAllGoals(needs);
-        
-            goal.current = true;
-
-            $scope.syncOpenAndClose($event, goal);
             $scope.getCriteriumByGoal(goal, need);
             
             $rootScope.$broadcast('criteriaOpened');
-        } else {
-            $scope.closeAllGoals(needs);
-            $scope.syncOpenAndClose($event, goal);
-
-            goal.current = false;
         }
     };
-
-    $scope.syncOpenAndClose = function($event, goal) {
-        if($event) {
-            var element = $($event.currentTarget).find("a");
-                if(element) {
-                    var id = element.attr("data-goalid");
-                    var items = $("a[data-goalid='"+id+"']");
-                    var hasCurrent = $(element).hasClass("current");
-
-                    $.each(items, function(key, value) {
-                        if($(value).attr("user-id") != $scope.user.sguid) {
-                            if(
-                                goal.current && !$(value).hasClass("current") ||
-                                !goal.current && $(value).hasClass("current")) {
-                                setTimeout(function() {
-                                    $(value).click();
-                                }, 0);    
-                            }
-                        }
-                    }
-                );
-            }   
-        }
-    }
 
     $scope.$on('openCriteriumList', function($event, message) {
         $scope.openCriteriumList(message.event, message.need, message.goal, message.needs);
@@ -504,22 +435,4 @@ function NeedsAndGoalsController($scope, СareerService, UserService, Goals, Cri
 
         slider.css("width", "5%");
     }
-
-    $scope.onShowGoals = function($event, needItem, sendEvent) {
-        needItem.current = needItem.current ? false : true;
-        if(sendEvent !== false) {
-            $rootScope.$broadcast('showGoals', {user: $scope.user, needItem: needItem});
-        }
-    }
-
-    $scope.$on('showGoals', function($event, message) {
-        if(message.user.sguid != $scope.user.sguid) {
-            var need = $scope.needs.filter(function(item) {
-                if(item.sguid == message.needItem.sguid) {
-                    return item;
-                }
-            })[0];
-            $scope.onShowGoals({}, need, false);
-        }
-    });
 }

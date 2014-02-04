@@ -74,6 +74,11 @@ function MyProfileController($scope, $location, LocationService) {
 		$location.search({ myprofile: true});
     });
 
+    // скрываем эту плашку
+	$scope.$on('closeProfile', function(event, message) {
+		$location.search({ });
+    });
+
     // событие переключчения состояния страницы.
     $scope.$on('$locationChangeSuccess', function (event) {
         if($location.search().myprofile) {

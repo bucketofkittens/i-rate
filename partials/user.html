@@ -135,11 +135,9 @@
 
 	<div 
 		class="crits" 
-		ng-controller="NeedsAndGoalsController" 
-		ng-init="openFirst = false; allOpen = false; persistState = false;">
+		ng-controller="NeedsAndGoalsController" >
 		<ul> 
 			<li 
-				ng-class="{current: needItem.current}"
 				class="{{needItem.name}}" 
 				ng-repeat="(needKey, needItem) in needs | orderBy:'position'" 
 				data-needId="{{needItem.sguid}}">
@@ -156,12 +154,13 @@
 					</div>
 					<sup class="compare" route="{{route}}" comparator values="{{needsValues[needItem.sguid]}}"></sup>
 				</div>
-				<ul ng-class="{current: needItem.current}">
+				<ul ng-class="{hidden: needItem.hidden}">
 					<li ng-repeat="(goalKey,goalItem) in needItem.goals | orderBy:'position'" data-goalid="{{goalItem.sguid}}" user-id="{{user.sguid}}" >
-						<h5 ng-click="openCriteriumList($event, needItem, goalItem, needs)">
+						<h5 ng-click="showCriterias($event, needItem, goalItem, needs)">
 							<a 
 								ng-class="{current: goalItem.current}"
-								data-goalid="{{goalItem.sguid}}" user-id="{{user.sguid}}">
+								data-goalid="{{goalItem.sguid}}" 
+								user-id="{{user.sguid}}">
 								<span>
 									<img 
 										ng-src="/images/goals/{{needItem.name | removewhite}}/{{goalItem.name | removewhite}}.png"
@@ -194,8 +193,7 @@
 										<div class="tab">
 											<li data-id="{{value.sguid}}"  
 												ng-repeat="value in crItem.criteria_values | orderBy:'position'"  
-												class="{{value.user_criteria}} position_{{value.position}}" 
-												ng-click="onCriteriaSelect(value, crItem, $event, needItem, goalItem)">
+												class="{{value.user_criteria}} position_{{value.position}}" >
 												<i ng-if="value.sguid != 'none'">{{value.name}}</i>
 												<i ng-if="value.sguid == 'none'" class="null_criteria"></i>
 											</li>
