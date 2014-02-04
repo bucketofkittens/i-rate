@@ -35,11 +35,7 @@ function MyProfileProfileController($scope, $rootScope, $location, LocationServi
         // перебираем все нидсы и голсы в поисках нужного
     	angular.forEach($scope.workspace.needs, function(value, key) {
     		angular.forEach(value.goals, function(goalItem, goalKey) {
-    			if(goalItem.name == goalName) {
-    				goalItem.current = true;
-    			} else {
-                    goalItem.current = false;
-                }
+                goalItem.current = goalItem.name == goalName ? true : false;
     		});
     	});
     }
