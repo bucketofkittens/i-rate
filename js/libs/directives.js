@@ -506,7 +506,7 @@ pgrModule.directive('mydash', function(User) {
             text: '',
             fontSize: 25,
             fontFamily: 'Helvetica Neue Light',
-            fill: '#000000',
+            fill: '#ffffff',
             x: scope.dashboard_size.width/2
           });
 
