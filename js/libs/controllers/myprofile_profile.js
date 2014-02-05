@@ -6,19 +6,11 @@ function MyProfileProfileController($scope, $rootScope, $location, LocationServi
     // время кеширования
     $scope.cacheTime = 1440;
 
-	// открываем список голсов справа
-	$scope.goalClick = function($event, needItem, goalItem, needs) {
-        if(!goalItem.current) {
-            // закрываем все нидсы
-            needs = NeedsService.closeAllGoals(needs);
-            
-            $rootScope.$broadcast('openCriteriumList', {need: needItem, goal: goalItem, needs: needs});
-            $scope.pesistState(goalItem.name);
-        
-            LocationService.update("goal", goalItem.name);
-            goalItem.current = true;
-        }
-	}
+    // выбранный нид
+    $scope.selectedNeed = null;
+
+    // выбранный гоалс
+    $scope.selectedGoal = null;
 
     // сохраняем состояние goal в кеш
     $scope.pesistState = function(goalName) {
@@ -27,43 +19,61 @@ function MyProfileProfileController($scope, $rootScope, $location, LocationServi
 
 	// событие переключчения состояния страницы.
     $scope.$on('$locationChangeSuccess', function (event) {
-        $scope.selectGoal();
+        //$scope.selectGoal();
     });
 
     // переход по goal по указанному location
     $scope.moveToGoal = function(goalName) {
         // перебираем все нидсы и голсы в поисках нужного
-    	angular.forEach($scope.workspace.needs, function(value, key) {
+    	angular.forEach($scope.needs, function(value, key) {
     		angular.forEach(value.goals, function(goalItem, goalKey) {
-                goalItem.current = goalItem.name == goalName ? true : false;
+                if(goalItem.name == goalName) {
+                    goalItem.current = true;
+                    $scope.$parent.getCriteriumByGoal(goalItem);
+
+                    $scope.selectedNeed = value;
+                    $scope.selectedGoal = goalItem;
+                    
+                } else {
+                    goalItem.current = false;
+                }
     		});
     	});
-    }
-
-    // выбираем первый элемент
-    $scope.moveToFirstGoal = function() {
-    	var needItem = $scope.workspace.needs[0];
-    	var goalItem = needItem.goals[0];
-
-    	goalItem.current = true;
-    	$scope.goalClick({}, $scope.workspace.needs[0], goalItem, $scope.needs);
     }
 
     // выбираем нружный goal по текущему location
     $scope.selectGoal = function() {
 	    if($location.search().goal) {
-	    	$scope.moveToGoal($location.search().goal);
-            $scope.pesistState($location.search().goal);
+	    	$scope.moveToGoal($location.search().goal)
 	    } else {
 	    	var goalName = lscache.get($scope.cacheName);
-	    	if(goalName) {
-	    	} else {
-	    		$scope.moveToFirstGoal();
+	    	if(!goalName) {
+                //$scope.moveToFirstGoal();
 	    	}
             LocationService.update("goal", goalName);
 	    }
     }
 
-    // выбираем location
-    $scope.selectGoal();
+    // открываем список голсов справа
+    $scope.goalClick = function($event, goalItem, needs, need) {
+        if(!goalItem.current) {
+            // закрываем все нидсы
+            needs = NeedsService.closeAllGoals(needs);
+
+            $scope.$parent.getCriteriumByGoal(goalItem);
+            $scope.pesistState(goalItem.name);
+        
+            LocationService.update("goal", goalItem.name);
+            goalItem.current = true;
+
+            $scope.selectedNeed = need;
+            $scope.selectedGoal = goalItem;
+        }
+    }
+
+    $scope.$watch('needs', function (newVal, oldVal, scope) {
+        if(newVal) {
+            $scope.selectGoal();
+        }
+    });
 }

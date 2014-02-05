@@ -21,26 +21,32 @@ function UsersController($scope, $location, $rootScope, $timeout, NeedsService) 
 
     // событие загрузки цифр для колбас для needs
     $scope.$on('needUserValueLoaded', function (event, message) {
-        $scope.needsValues = $scope.calculateValue(message.needsValues, $scope.needsValues, message.route);
+        if($location.search().user1 || !$location.search().user2) {
+            $scope.needsValues = $scope.calculateValue(message.needsValues, $scope.needsValues, message.route);
+        }
     });
 
     // событие загрузки цифр для колбас для needs
     $scope.$on('goalUserValueLoaded', function (event, message) {
-        $scope.goalsValues = $scope.calculateValue(message.goalsValues, $scope.goalsValues, message.route);
+        if($location.search().user1 || !$location.search().user2) {
+            $scope.goalsValues = $scope.calculateValue(message.goalsValues, $scope.goalsValues, message.route);
+        }
     });
 
     // событие загрузки цифр для колбас для needs
     $scope.$on('criteriaUserValueLoaded', function (event, message) {
-        if(!$scope.criteriumsValues[message.fCriteria.sguid]) {
-            $scope.criteriumsValues[message.fCriteria.sguid] = {};
-        }
+        if($location.search().user1 || !$location.search().user2) {
+            if(!$scope.criteriumsValues[message.fCriteria.sguid]) {
+                $scope.criteriumsValues[message.fCriteria.sguid] = {};
+            }
 
-        var fCriteriumValue = message.fCriteria.criteria_values.filter(function(value) {
-            return value.sguid == message.fCriteria.user_criteria_sguid;
-        })[0];
+            var fCriteriumValue = message.fCriteria.criteria_values.filter(function(value) {
+                return value.sguid == message.fCriteria.user_criteria_sguid;
+            })[0];
 
-        if(fCriteriumValue) {
-            $scope.criteriumsValues[message.fCriteria.sguid][message.route] = fCriteriumValue.value;     
+            if(fCriteriumValue) {
+                $scope.criteriumsValues[message.fCriteria.sguid][message.route] = fCriteriumValue.value;     
+            }
         }
     });
 

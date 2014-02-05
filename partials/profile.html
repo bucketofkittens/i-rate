@@ -2,85 +2,94 @@
 	ng-controller="NeedsAndGoalsController" 
 	class="tab" 
 	ng-init="user = workspace.user;">
-	<section class="mypro acrd">
-		<div class="crits">
-			<ul> 
-				<li 
-					ng-repeat="(needKey, needItem) in needs | orderBy:'position'" 
-					data-needId="{{needItem.sguid}}"
-					class="{{needItem.name}}">
-					<div class="cr" >
-						<p>{{needItem.name}}</p>
-					</div>
-					<ul ng-class="{current: needItem.current}">
-						<li ng-repeat="(goalKey,goalItem) in needItem.goals | orderBy:'position'" data-goalid="{{goalItem.sguid}}" >
-							<h5 ng-class="{current: goalItem.current}">
-								<a ng-click="goalClick($event, needItem, goalItem, needs)">
-									<span>
-										<img 
-										ng-src="/images/goals/{{needItem.name | removewhite}}/{{goalItem.name | removewhite}}.png"
-										alt="" 
-										title="{{goalItem.name}}" />
-									</span>
-									<h6>{{goalItem.name}}</h6>
-									<em ng-if="!goalItem.current"></em>
-								</a>	
-								<div class="right">
-									<strong>
-										<span class="current_position" style="width: {{(goalItem.current_value / (goalItem.points_summary ))*100}}%;"></span>
-									</strong>
-								</div>
-							</h5>
-							
-						</li>
-					</ul>
-				</li>
-			</ul>
-		</div>
-	</section>
-
-	<div class="mypro_wr">
-		<section class="mypro">
-			<div class="crits {{currentNeed.name}}" ng-if="currentGoal">
-				<h5>
-					<a>
-						<span>
-							<img 
-								ng-src="/images/goals/{{currentNeed.name | removewhite}}/{{currentGoal.name | removewhite}}.png"
-								alt="" 
-								title="{{currentGoal.name}}" />
-						</span>
-						{{currentGoal.name}}
-					</a>	
-					<div class="right">
-						<b>{{currentGoal.current_value}} / {{currentGoal.points_summary}}</b>
-						<strong>
-							<span class="current_position" style="width: {{(currentGoal.current_value / (currentGoal.points_summary ))*100}}%;"></span>
-						</strong>
-					</div>
-				</h5>
-				<ul class="criterion">
-					<li data-id="{{crItem.sguid}}" ng-repeat="crItem in currentGoal.criteriums | orderBy:'position'" class="animate-list" >
-						<p>{{crItem.name}}</p>
-						<div class="bord">
-							<ul class="crp">
-								<div class="tab">
-									<li data-id="{{value.sguid}}"  
-										ng-repeat="value in crItem.criteria_values | orderBy:'position'"  
-										class="{{value.user_criteria}} position_{{value.position}}" 
-										ng-click="onCriteriaSelect(value, crItem, $event, currentNeed, currentGoal)">
-										<i ng-if="value.sguid != 'none'">{{value.name}}</i>
-										<i ng-if="value.sguid == 'none'" class="null_criteria"></i>
-									</li>
-								</div>
-								<span>
-									<img src="../images/ar.png" alt="" />
-								</span>
-							</ul>
+	<div class="tab" ng-controller="MyProfileProfileController">
+		<section class="mypro acrd">
+			<div class="crits">
+				<ul> 
+					<li 
+						ng-repeat="(needKey, needItem) in needs | orderBy:'position'" 
+						data-needId="{{needItem.sguid}}"
+						class="{{needItem.name}}">
+						<div class="cr" >
+							<p>{{needItem.name}}</p>
 						</div>
+						<ul ng-class="{current: needItem.current}">
+							<li 
+								ng-repeat="(goalKey,goalItem) in needItem.goals | orderBy:'position'" 
+								data-goalid="{{goalItem.sguid}}" >
+								<h5 ng-class="{current: goalItem.current}">
+									<a ng-click="goalClick($event, goalItem, needs, needItem);">
+										<span>
+											<img 
+											ng-src="/images/goals/{{needItem.name | removewhite}}/{{goalItem.name | removewhite}}.png"
+											alt="" 
+											title="{{goalItem.name}}" />
+										</span>
+										<h6>{{goalItem.name}}</h6>
+										<em ng-if="!goalItem.current"></em>
+									</a>	
+									<div class="right">
+										<strong>
+											<span 
+											class="current_position" 
+											style="width: {{(goalItem.current_value / (goalItem.points_summary ))*100}}%;"></span>
+										</strong>
+									</div>
+								</h5>
+								
+							</li>
+						</ul>
 					</li>
 				</ul>
 			</div>
 		</section>
+
+		<div class="mypro_wr" >
+			<section class="mypro">
+				<div class="crits {{selectedNeed.name}}" ng-if="selectedGoal">
+					<h5>
+						<a>
+							<span>
+								<img 
+									ng-src="/images/goals/{{selectedNeed.name | removewhite}}/{{selectedGoal.name | removewhite}}.png"
+									alt="" 
+									title="{{selectedGoal.name}}" />
+							</span>
+							{{selectedGoal.name}}
+						</a>	
+						<div class="right">
+							<b>{{selectedGoal.current_value}} / {{selectedGoal.points_summary}}</b>
+							<strong>
+								<span class="current_position" style="width: {{(selectedGoal.current_value / (selectedGoal.points_summary ))*100}}%;"></span>
+							</strong>
+						</div>
+					</h5>
+					<ul class="criterion">
+						<li 
+						data-id="{{crItem.sguid}}" 
+						ng-repeat="crItem in selectedGoal.criteriums | orderBy:'position'" 
+						class="animate-list" >
+							<p>{{crItem.name}}</p>
+							<div class="bord">
+								<ul class="crp">
+									<div class="tab">
+										<li data-id="{{value.sguid}}"  
+											ng-repeat="value in crItem.criteria_values | orderBy:'position'"  
+											class="{{value.user_criteria}} position_{{value.position}}" 
+											ng-click="onCriteriaSelect(value, crItem, $event, selectedNeed, selectedGoal)">
+											<i ng-if="value.sguid != 'none'">{{value.name}}</i>
+											<i ng-if="value.sguid == 'none'" class="null_criteria"></i>
+										</li>
+									</div>
+									<span>
+										<img src="../images/ar.png" alt="" />
+									</span>
+								</ul>
+							</div>
+						</li>
+					</ul>
+				</div>
+			</section>
+		</div>
 	</div>
 </div>

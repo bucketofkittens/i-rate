@@ -8,9 +8,6 @@ function NeedsAndGoalsController($scope, СareerService, UserService, Goals, Cri
     // список needs-сов
     $scope.needs = [];
 
-    // хрен знает что такое. не помню.
-    $scope.currentGoal = null;
-
     // событие изенения workspace.needs
     $scope.$watch('workspace.needs', function (newVal, oldVal, scope) {
         if($scope.workspace.needs) {
@@ -29,18 +26,7 @@ function NeedsAndGoalsController($scope, СareerService, UserService, Goals, Cri
 
     // забираем пользовательские данные для колбас
     $scope.loadUserData_ = function() {
-        if($scope.user && $scope.user.sguid) {
-            // данные для needs
-            $scope.bindUserNeedsValues();
-
-            angular.forEach($scope.needs, function(value, key){
-                angular.forEach(value.goals, function(v2, k2) {
-                    if(v2.current) {
-                        $scope.getCriteriumByGoal(v2, value); 
-                    }
-                });
-            });
-        }
+        $scope.bindUserNeedsValues();
     }
 
     // забрали данные колбас
@@ -95,23 +81,23 @@ function NeedsAndGoalsController($scope, СareerService, UserService, Goals, Cri
 
     /**
      * Забираем список критериев для goals
-     * @param  {[type]} goal [description]
-     * @return {[type]}      [description]
      */
-    $scope.getCriteriumByGoal = function(goal, need) {
-        $scope.currentGoal = goal;
-        $scope.currentNeed = need;
-
+    $scope.getCriteriumByGoal = function(goal) {
+        // создаем массив критериев
         goal.criteriums = [];
 
-        $scope.countLoad_ = 0;
+        // количество загруженных критериев
+        var countLoad_ = 0;
 
-        angular.forEach($scope.currentGoal.criterion_guids, function(value, key){
+        // всего критериев
+        var maxCount_ = goal.criterion_guids.length;
+
+        angular.forEach(goal.criterion_guids, function(value, key){
             CriterionByGoal.by_guid({criteria_sguid: value}, function(data) {
                 goal.criteriums.push(data[0]);
-                $scope.countLoad_ += 1;
-                
-                if($scope.countLoad_ == $scope.currentGoal.criterion_guids.length) {
+                countLoad_ += 1;
+
+                if(countLoad_ == maxCount_) {
                     /**
                      * добавляем пустой элемент
                      */
@@ -121,10 +107,6 @@ function NeedsAndGoalsController($scope, СareerService, UserService, Goals, Cri
                      * забираем значения для текущего пользователя
                      */
                     $scope.getCriteriumValueByUser(goal);
-
-                    setTimeout(function() {
-                        $("#content .crits ul li ul li .criterion li .bord .crp .tab").css("height", $("#content .crits ul li .cr").height());
-                    }, 0);    
                 }
             });
         });
@@ -164,30 +146,8 @@ function NeedsAndGoalsController($scope, СareerService, UserService, Goals, Cri
         $scope.needs = NeedsService.closeAllGoals($scope.needs);
     });
 
-    /**
-     * Открываем все needs
-     * @param  {object} массив всех needs
-     * @return {object}
-     */
-    $scope.$on('criteriaOpen', function($event, message) {
-        if(message.user.sguid != $scope.user.ssguid) {
-            var goal = {};
-            var need = {};
-            angular.forEach($scope.needs, function(value, key) {
-                angular.forEach(value.goals, function(value2, key2){
-                    if(value2.sguid == message.goalId) {
-                        goal = value2;
-                        need = value;
-                    }
-                });
-            });
-
-            $scope.openCriteriumList({}, need, goal, $scope.needs, false);
-        }
-    });
-
     $scope.$on('openCriteriumList', function($event, message) {
-        $scope.getCriteriumByGoal(message.goal, message.need);
+        $scope.getCriteriumByGoal(message.goal);
     });
 
     /**
