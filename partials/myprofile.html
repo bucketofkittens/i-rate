@@ -31,7 +31,11 @@
 				</section>
 			</div>
 			<div ng-show="currentNav.name == indexes.DASHBOARD && workspace.user" class="tab">
-				<!--<section class="tab" ng-controller="MyProfileProfileController" ng-include src="'partials/mydash.html'" ></section> -->
+				<section 
+					class="tab" 
+					ng-include 
+					src="'partials/mydash.html'" >
+				</section> 
 			</div>
 			<div ng-show="currentNav.name == indexes.SETTINGS && workspace.user" class="tab">
 				<section 
