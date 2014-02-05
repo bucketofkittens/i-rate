@@ -2,7 +2,7 @@
  * Контроллер определяет показывать ли теневую подгрузку или нет
  * @param {[type]} $scope [description]
  */
-function ShadowController($scope, $rootScope) {
+function ShadowController($scope, $rootScope, $location) {
     $scope.showShadow = false;
 
     /**
@@ -29,4 +29,29 @@ function ShadowController($scope, $rootScope) {
     $scope.$on('hideShadow', function() {
         $scope.showShadow = false;
     });
+
+    // проверяем роутинги на которых у нас будет тенюшка
+    $scope.$on('$locationChangeSuccess', function () {
+        $scope.isShadow();
+    });
+
+    // затеняет страницу по указанным роутингам
+    $scope.isShadow = function() {
+        var shadow = false;
+
+        // затенение для страницы сравнения
+        if($location.search().user1 && $location.search().user2) {
+            shadow = true;
+        }
+
+        // затеняем страницу своего профиля
+        if($location.search().myprofile) {
+            shadow = true;
+        }
+
+        // затенять или нет
+        $scope.showShadow = shadow ? true : false;
+    }
+
+    $scope.isShadow();
 }

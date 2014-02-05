@@ -95,13 +95,8 @@ function MyProfileController($scope, $location, LocationService, $rootScope, $ti
 				$scope.setCurrentNav($scope.getIndexByName($location.search().nav));
 				lscache.set($scope.cacheName, $scope.currentNav.name, $scope.cacheTime);
 			}
-
-			$timeout(function() {
-                $rootScope.$broadcast('showShadow');
-            }, 0);
         } else {
         	$scope.showProfile = false;
-        	$rootScope.$broadcast('hideShadow');
         }
     });
 }

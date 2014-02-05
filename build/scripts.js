@@ -1538,6 +1538,11 @@ pgrModule.config(['$routeProvider',
             controller: 'MainController',
             reloadOnSearch: false
           }).
+          when('/graphs', {
+            templateUrl: 'views/graphs.html',
+            controller: 'GraphsController',
+            reloadOnSearch: false
+          }).
           otherwise({
             redirectTo: '/'
           });
