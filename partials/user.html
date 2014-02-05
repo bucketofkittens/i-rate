@@ -155,7 +155,9 @@
 					<sup class="compare" route="{{route}}" comparator values="{{needsValues[needItem.sguid]}}"></sup>
 				</div>
 				<ul ng-class="{hidden: needItem.hidden}">
-					<li ng-repeat="(goalKey,goalItem) in needItem.goals | orderBy:'position'" data-goalid="{{goalItem.sguid}}" user-id="{{user.sguid}}" >
+					<li ng-repeat="(goalKey,goalItem) in needItem.goals | orderBy:'position'" 
+						data-goalid="{{goalItem.sguid}}" 
+						user-id="{{user.sguid}}" >
 						<h5 ng-click="showCriterias($event, needItem, goalItem, needs)">
 							<a 
 								ng-class="{current: goalItem.current}"

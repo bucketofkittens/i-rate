@@ -524,7 +524,7 @@ pgrModule.service('NeedsService', function (Needs) {
 
     // забираем нидсы из кеша
     this.getList = function(callback) {
-        var needs = lscache.get(this.cacheName);
+        var needs = this.listPrepare_(lscache.get(this.cacheName));
         if(!needs) {
             this.getNeedsOnServer_(callback);
         } else {
@@ -535,15 +535,29 @@ pgrModule.service('NeedsService', function (Needs) {
     this.getNeedsOnServer_ = function(callback) {
         var self = this;
         Needs.query({}, {}, function(data) {
-            self.persist(data);
-            callback(data);
+            var needs = self.listPrepare_(data);
+            self.persist(needs);
+            callback(needs);
         });
     }
     //Сохраняем
     this.persist = function(data) {
         lscache.set(this.cacheName, JSON.stringify(data), this.cacheTime);
     }
+    // удаляем Spirituality
+    this.listPrepare_ = function(data) {
+        if(data) {
+            var spirityalityName = "Spirituality";
 
+            angular.forEach(data, function(value, key){
+                if(value.name == spirityalityName) {
+                    data.splice(key, 1);
+                }
+            });    
+        }
+
+        return data;
+    }
     // делаем все гоалсы не активными
     this.closeAllGoals = function(needs) {
         angular.forEach(needs, function(value, key){

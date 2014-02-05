@@ -39,7 +39,9 @@ function UsersController($scope, $location, $rootScope, $timeout, NeedsService) 
             return value.sguid == message.fCriteria.user_criteria_sguid;
         })[0];
 
-        $scope.criteriumsValues[message.fCriteria.sguid][message.route] = fCriteriumValue.value;
+        if(fCriteriumValue) {
+            $scope.criteriumsValues[message.fCriteria.sguid][message.route] = fCriteriumValue.value;     
+        }
     });
 
     // событие закрытия панели с пользователем

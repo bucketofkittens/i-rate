@@ -5336,13 +5336,8 @@ function MyProfileController($scope, $location, LocationService, $rootScope, $ti
 				$scope.setCurrentNav($scope.getIndexByName($location.search().nav));
 				lscache.set($scope.cacheName, $scope.currentNav.name, $scope.cacheTime);
 			}
-
-			$timeout(function() {
-                $rootScope.$broadcast('showShadow');
-            }, 0);
         } else {
         	$scope.showProfile = false;
-        	$rootScope.$broadcast('hideShadow');
         }
     });
 }
@@ -6636,7 +6631,7 @@ function SearchController($scope, User, $rootScope, $location) {
  * Контроллер определяет показывать ли теневую подгрузку или нет
  * @param {[type]} $scope [description]
  */
-function ShadowController($scope, $rootScope) {
+function ShadowController($scope, $rootScope, $location) {
     $scope.showShadow = false;
 
     /**
@@ -6663,6 +6658,31 @@ function ShadowController($scope, $rootScope) {
     $scope.$on('hideShadow', function() {
         $scope.showShadow = false;
     });
+
+    // проверяем роутинги на которых у нас будет тенюшка
+    $scope.$on('$locationChangeSuccess', function () {
+        $scope.isShadow();
+    });
+
+    // затеняет страницу по указанным роутингам
+    $scope.isShadow = function() {
+        var shadow = false;
+
+        // затенение для страницы сравнения
+        if($location.search().user1 && $location.search().user2) {
+            shadow = true;
+        }
+
+        // затеняем страницу своего профиля
+        if($location.search().myprofile) {
+            shadow = true;
+        }
+
+        // затенять или нет
+        $scope.showShadow = shadow ? true : false;
+    }
+
+    $scope.isShadow();
 }
 /**
  * Share в социальных сетях
@@ -7348,25 +7368,5 @@ function UsersController($scope, $location, $rootScope, $timeout, NeedsService) 
         if(!$location.search().user1 && !$location.search().user2) {
         	$rootScope.$broadcast('showRightPanel');
         }
-
-        $scope.checkShadow();
     });
-
-    // проверяем указывать затенение или нет
-    $scope.checkShadow = function() {
-        // показываем или скрываем подложку над главным экраном
-        if($location.search().user1 && $location.search().user2) {
-            $timeout(function() {
-                $rootScope.$broadcast('showShadow');
-            }, 0);
-        }
-        if(
-            (!$location.search().user1 && $location.search().user2) || 
-            ($location.search().user1 && !$location.search().user2)) {
-
-            $rootScope.$broadcast('hideShadow');
-        }
-    }
-
-    $scope.checkShadow();
 }
