@@ -67,7 +67,6 @@ function RootController($scope, FacebookService, СareerService, LeagueService, 
     // список лиг
     LeagueService.getList(this.leagueServiceCallback_);
 
-
     $scope.openProfile = function() {
         $rootScope.$broadcast('openProfile');
     }

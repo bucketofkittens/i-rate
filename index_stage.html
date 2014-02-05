@@ -17,11 +17,14 @@
 	        <div class="content_wrap" ng-view></div>
 
 	        <div class="full_height" ng-controller="UsersController" ng-include src="'partials/users.html'"></div>
-	        <div class="full_height" ng-controller="MyProfileController" ng-include src="'partials/myprofile.html'"></div>
+	        <div class="full_height" ng-controller="SearchAdvanceController" ng-include src="'partials/search.html'"></div>
+	        <div class="full_height" ng-controller="MyProfileController" ng-include ng-if="workspace.user" src="'partials/myprofile.html'"></div>
 	        <div class="full_height" ng-controller="RightController" ng-include ng-if="!workspace.user" src="'partials/right.html'"></div>
 	    </div>
 
 		<script src="//js.live.net/v5.0/wl.js"></script>
+		<script src="/js/preloadjs-0.4.1.min.js"></script>
+    	<script src="/js/kinetic-v5.0.0.min.js"></script>
 		<script type="text/javascript" src="http://www.google.com/recaptcha/api/js/recaptcha_ajax.js"></script>
 		
 		<script src="/build/scripts.min.js"></script>

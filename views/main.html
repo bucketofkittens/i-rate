@@ -9,7 +9,7 @@
     <div 
     	ng-click="openUserInfo(userItem, $event)" 
     	class="item isotope-item" 
-    	ng-repeat="(userKey, userItem) in $root.users" 
+    	ng-repeat="(userKey, userItem) in $root.users track by $index" 
     	masonry-item>
       <div class="wr">
         <img 

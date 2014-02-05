@@ -415,13 +415,30 @@ pgrModule.factory('Sessions', function ($resource) {
     );
 });
 
-pgrModule.service('CityService', function (CityByState) {
+pgrModule.service('CityService', function (CityByState, City) {
     this.getCityByState = function(sguid, callback) {
         CityByState.query({ id: sguid }, {}, function(data) {
             callback(data);
         });
     }
+    this.remove = function(sguid, key, callback) {
+        City.del({id: sguid}, {}, function(data) {
+            callback(data, key);
+        });
+    }
 });
+
+pgrModule.service('ProfessionsService', function (Professions) {
+    this.getProfessionsByCareer = function(sguid, callback) {
+        Professions.query({ id: sguid }, {}, function(data) {
+            callback(data);
+        });
+    }
+    this.remove = function(sguid, key, callback) {
+    }
+});
+
+
 
 /**
  * Сервис авторизации
@@ -495,7 +512,7 @@ pgrModule.service('UserService', function (User) {
 
     // создание обновление пользователя
     this.update = function(sguid, params, callback) {
-        User.updateUser({"id": data.message.guid},  {user: JSON.stringify(params)}, function(data) {
+        User.updateUser({id: sguid},  {user: JSON.stringify(params)}, function(data) {
             callback(data);
         });
     }
