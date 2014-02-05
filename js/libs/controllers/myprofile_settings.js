@@ -1,5 +1,6 @@
 // контроллер вкладки настроки своего профиля
-function MyProfileSettingsController($scope, UserService, SocialService, FriendsService, TokenService, $rootScope, $location, SocialService) {
+function MyProfileSettingsController($scope, UserService, SocialService, FriendsService, TokenService, $rootScope, $location, SocialService, CityService) {
+	$scope.city = [];
 
 	// выходим из пользователя
 	$scope.onLogout = function() {
@@ -33,6 +34,14 @@ function MyProfileSettingsController($scope, UserService, SocialService, Friends
     // переход на страницу смены пароля
     $scope.onChangePassword = function() {
         $location.search({ change_password: true });
+    }
+
+    $scope.cityByState = function($event, state) {
+    	CityService.getCityByState(state.sguid, $scope.cityByStateCallback_);
+    }
+
+    $scope.cityByStateCallback_ = function(data) {
+    	$scope.city = data;
     }
 
     // определяем заходили ли мы через социальную сеть

@@ -29,7 +29,7 @@ function SearchController($scope, User, $rootScope, $location) {
      * @return {[type]} [description]
      */
     $scope.onAdvanceSearch = function() {
-        $location.path("/search").search({text: $scope.searchText});
+        $location.search({search: true, text: $scope.searchText});
 
         $scope.resultSearch = [];
         $scope.searchText = "";

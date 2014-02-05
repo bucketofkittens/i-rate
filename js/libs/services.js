@@ -415,6 +415,14 @@ pgrModule.factory('Sessions', function ($resource) {
     );
 });
 
+pgrModule.service('CityService', function (CityByState) {
+    this.getCityByState = function(sguid, callback) {
+        CityByState.query({ id: sguid }, {}, function(data) {
+            callback(data);
+        });
+    }
+});
+
 /**
  * Сервис авторизации
  */

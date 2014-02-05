@@ -38,14 +38,14 @@
 
 		<div class="pmpar">
 			<p>
-				<label for="name_i">Name:</label> 
+				<label for="i1_i">Name:</label> 
 				<input 
 					type="text" 
-					id="name_i" 
+					id="i1_i" 
 					ng-model="workspace.user.name"
 					required />
 			</p>
-			<div class="proffesion_list" ng-if="showedNames.length > 0">
+			<div class="popup_list" ng-if="showedNames.length > 0">
 				<ul>
 					<li ng-repeat="(nameKey, nameItem) in showedNames">
 						<a>{{nameItem}}</a>
@@ -54,57 +54,57 @@
 			</div>
 			<p class="errors" ng-if="nameIsError">Name already user.</p>
 			<p>
-				<label for="age_i">Birthday:</label>
+				<label for="i2_i">Birthday:</label>
 				<input 
 					type="date"
 					ng-model="workspace.user.birthdayDate"
-					id="age_i" />
+					id="i2_i" />
 			</p>
 			<p>
-				<label for="areapro2_i">Сountry:</label>
+				<label for="i3_i">Сountry:</label>
 				<select 
-					id="areapro2_i"
-					ng-options="item.name for item in states" 
+					id="i3_i"
+					ng-options="item.name for item in workspace.country" 
 					ng-model="state"
-					ng-change="selectCityByState($event, state)">
+					ng-change="cityByState($event, state)">
 				</select>
 			</p>
 			<p>
-				<label for="loc_i">City:</label>
+				<label for="i4_i">City:</label>
 				<input 
-					id="loc_i" 
+					id="i4_i" 
 					ng-model="workspace.user.city.name"
 					type="text"
 					ng-change="testCity($event)" />
 					<img src="/images/7.jpg" ng-if="isAddState" class="cursor" ng-click="addCity($event)" width="40px" alt="" />
 			</p>
-			<div class="proffesion_list" ng-if="curState && showState && showState2">
+			<div class="popup_list">
 				<ul>
-					<li ng-if="stateItem.show" ng-repeat="(stateKey, stateItem) in curState">
+					<li ng-if="stateItem.show" ng-repeat="(stateKey, stateItem) in city">
 						<a ng-click="selectCurrentCity($event, stateItem, stateKey)">{{stateItem.name}}</a>
 						<span class="close icon" ng-click="deleteCityItem($event, stateItem, stateKey)"></span>
 					</li>
 				</ul>
 			</div>
 			<p>
-				<label for="areapro_i">Career:</label>
+				<label for="i5_i">Career:</label>
 				<select 
-					id="areapro_i"
+					id="i5_i"
 					ng-options="item.name for item in curNeed.goals" 
 					ng-model="career"
 					ng-change="selectCareer($event, career)">
 				</select>
 			</p>
 			<p>
-				<label for="pro_i">{{'_ProfL_' | i18n}}:</label>
+				<label for="i6_i">{{'_ProfL_' | i18n}}:</label>
 				<input 
-					id="pro_i" 
+					id="i6_i" 
 					ng-model="workspace.user.profession.name"
 					type="text"
 					ng-change="selectProfession($event, career)"  />
 					<img src="/images/7.jpg" ng-if="isAddProff" class="cursor" ng-click="addProfession($event)" width="40px" alt="" />
 			</p>
-			<div class="proffesion_list" ng-if="curProff && showProf && showProf2">
+			<div class="popup_list" ng-if="curProff && showProf && showProf2">
 				<ul>
 					<li ng-if="profItem.show" ng-repeat="(profKey, profItem) in curProff">
 						<a ng-click="selectCurrentProfession($event, profItem, profKey)">{{profItem.name}}</a>
@@ -113,10 +113,10 @@
 				</ul>
 			</div>
 			<p>
-				<label for="email_i">{{'_EmaiL_' | i18n}}:</label> 
+				<label for="i7_i">{{'_EmaiL_' | i18n}}:</label> 
 				<input 
 					type="email" 
-					id="email_i" 
+					id="i7_i" 
 					ng-model="workspace.user.email"
 					readonly="readonly"
 					required />

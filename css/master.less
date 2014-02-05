@@ -2594,7 +2594,7 @@ sup.bidubi {
     margin: 40px 17px 0px 0px;
 }
 
-.proffesion_list {
+.popup_list {
     position: absolute;
     margin: -10px 0px 0px 135px;
     border: 1px solid #cccccc;
@@ -2835,40 +2835,48 @@ sup.bidubi {
 
 
 /** FULL SEARCH **/
-.searchfull {
-    position: relative;
-    top: 80px;
-    margin-left: 20px;
-    width: 380px;
-    height: 90%;
-    min-height: 550px;
-    background: #ffffff;
-    border: 1px solid #dddddd;
-    box-shadow: 0px 0px 20px 1px rgba(0, 0, 0, 0.2);
-    z-index: 3;
-    display: inline-block;
-    overflow-y: scroll;
-    overflow-x: hidden;
-    &::-webkit-scrollbar {
-        width: 0px;
-        height: 0px; 
-    }
-    .fullsearch {
-        input[type="text"] {
-            left: 0px;
-            width: 379px; 
+#searchfull {
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    z-index: 10px;
+    height: 100%;
+    width: 100%;
+    .searchfull {
+        position: relative;
+        top: 80px;
+        margin-left: 20px;
+        width: 380px;
+        height: 90%;
+        min-height: 550px;
+        background: #ffffff;
+        border: 1px solid #dddddd;
+        box-shadow: 0px 0px 20px 1px rgba(0, 0, 0, 0.2);
+        z-index: 3;
+        display: inline-block;
+        overflow-y: scroll;
+        overflow-x: hidden;
+        &::-webkit-scrollbar {
+            width: 0px;
+            height: 0px; 
         }
-        .searchResult {
-            width: 490px;
-            right: 0px;
-            min-height: 2000px;
-            position: relative;
-            top: 0px;
-            img {
-                cursor: pointer;
+        .fullsearch {
+            input[type="text"] {
+                left: 0px;
+                width: 379px; 
             }
-        }
-    }    
+            .searchResult {
+                width: 490px;
+                right: 0px;
+                min-height: 2000px;
+                position: relative;
+                top: 0px;
+                img {
+                    cursor: pointer;
+                }
+            }
+        }    
+    }
 }
 .fusepar {
     display: inline-block;

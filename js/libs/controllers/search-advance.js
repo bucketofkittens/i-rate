@@ -12,6 +12,14 @@ function SearchAdvanceController($scope, $location, $rootScope, User, Profession
      */
     $scope.searchText = $location.search().text;
 
+    // определяем показываем ли мы панель или нет
+    $scope.show = $location.search().search  ? true : false;
+
+    // событие показа панелии
+    $scope.$on('$locationChangeSuccess', function () {
+        $scope.show = $location.search().search  ? true : false;
+    });
+
     /**
      * Модель данных расширенного поиска
      * @type {Object}
