@@ -5400,7 +5400,7 @@ function MyProfileProfileController($scope, $rootScope, $location, LocationServi
 
     // выбираем нружный goal по текущему location
     $scope.selectGoal = function() {
-	    if($location.search().goal) {
+	    if($location.search().goal && $scope.needs) {
 	    	$scope.moveToGoal($location.search().goal)
 	    } else {
 	    	var goalName = lscache.get($scope.cacheName);
@@ -5433,6 +5433,8 @@ function MyProfileProfileController($scope, $rootScope, $location, LocationServi
             $scope.selectGoal();
         }
     });
+
+    $scope.selectGoal();
 }
 // контроллер вкладки настроки своего профиля
 function MyProfileSettingsController($scope, UserService, SocialService, FriendsService, TokenService, $rootScope, $location, SocialService) {

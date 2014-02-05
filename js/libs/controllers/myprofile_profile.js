@@ -17,11 +17,6 @@ function MyProfileProfileController($scope, $rootScope, $location, LocationServi
         lscache.set($scope.cacheName, goalName, $scope.cacheTime);
     }
 
-	// событие переключчения состояния страницы.
-    $scope.$on('$locationChangeSuccess', function (event) {
-        //$scope.selectGoal();
-    });
-
     // переход по goal по указанному location
     $scope.moveToGoal = function(goalName) {
         // перебираем все нидсы и голсы в поисках нужного
@@ -71,11 +66,13 @@ function MyProfileProfileController($scope, $rootScope, $location, LocationServi
         }
     }
 
+    // когда приходит массив с нидсами открываем вкладку нидса
     $scope.$watch('needs', function (newVal, oldVal, scope) {
         if(newVal) {
             $scope.selectGoal();
         }
     });
 
+    // проверяет окрывать ли вкладку или нет   
     $scope.selectGoal();
 }
