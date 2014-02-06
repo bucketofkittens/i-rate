@@ -136,7 +136,7 @@
 	<div 
 		class="crits" 
 		ng-controller="NeedsAndGoalsController" >
-		<ul> 
+		<ul ng-controller="UserNeedsController"> 
 			<li 
 				class="{{needItem.name}}" 
 				ng-repeat="(needKey, needItem) in needs | orderBy:'position'" 
