@@ -44,7 +44,7 @@
 					id="i1_i" 
 					ng-model="workspace.user.name"
 					required
-					ng-change="updateUserByParam('name', workspace.user.name)" />
+					ng-change="updateUserParamByValue('name', workspace.user.name)" />
 			</p>
 			<div class="popup_list" ng-if="showedNames.length > 0">
 				<ul>
@@ -58,8 +58,9 @@
 				<label for="i2_i">Birthday:</label>
 				<input 
 					type="date"
-					ng-model="workspace.user.birthdayDate"
-					id="i2_i" />
+					ng-model="workspace.user.birthday"
+					id="i2_i"
+					ng-change="updateBirthday()" />
 			</p>
 			<p>
 				<label for="i3_i">Сountry:</label>

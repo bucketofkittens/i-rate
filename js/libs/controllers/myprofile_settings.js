@@ -58,12 +58,18 @@ function MyProfileSettingsController($scope, UserService, SocialService, Friends
     	$scope.profession = data;
     }
 
+    $scope.updateBirthday = function() {
+    	var newBirthday = moment($scope.workspace.user.birthday).format("DD/MM/YYYY");
+
+    	$scope.updateUserParamByValue('birthday', newBirthday);
+    }
+
     $scope.selectCurrentCity = function($event, item, key) {
         $scope.workspace.user.city = {
         	sguid: item.sguid,
         	name: item.name
         };
-        $scope.updateUser();  
+        //$scope.updateUserParamByValue("city", $scope.workspace.user.city);  
     }
 
     $scope.selectCareer = function($event, career) {
@@ -89,7 +95,8 @@ function MyProfileSettingsController($scope, UserService, SocialService, Friends
         }
     }
 
-    $scope.updateUserByParam = function(name, value) {
+    // 
+    $scope.updateUserParamByValue = function(name, value) {
     	var user = {};
     	user[name] = value;
     	UserService.update($scope.workspace.user.sguid, user, $scope.updateUserCallback_);

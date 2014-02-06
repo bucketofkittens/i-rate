@@ -30,7 +30,7 @@ pgrModule.factory('User', function ($resource) {
                          * Указваем формат дня рождения
                          */
                         if(user.birthday) {
-                            user.birthday = moment(user.birthday).format("DD/MM/YYYY");
+                            user.birthday = moment(user.birthday).format("DD.MM.YYYY");
                         }
 
                         return user;    
