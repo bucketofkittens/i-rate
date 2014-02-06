@@ -1,8 +1,22 @@
 // контроллер вкладки настроки своего профиля
 function MyProfileSettingsController($scope, UserService, SocialService, FriendsService, TokenService, $rootScope, $location, SocialService, CityService, ProfessionsService) {
+	// список городов
 	$scope.city = [];
 
+	// спиосок профессий
 	$scope.profession = [];
+
+	// показывать или нет список городов
+	$scope.showCityList = false;
+
+	// показывать или нет список профессий
+	$scope.showProfessionList = false;
+
+	// показывать или нет кнопку добавления города
+	$scope.showCityAddButton = false;
+
+	// показывать или нет кнопку добавления профессии
+	$scope.showProfessionAddButton = false;
 
 	// выходим из пользователя
 	$scope.onLogout = function() {
@@ -38,44 +52,92 @@ function MyProfileSettingsController($scope, UserService, SocialService, Friends
         $location.search({ change_password: true });
     }
 
-    $scope.cityByState = function($event, state) {
-    	CityService.getCityByState(state.sguid, $scope.cityByStateCallback_);
+    // забираем список городов для выбранной страны
+    $scope.cityByState = function($event) {
+
+    	$scope.workspace.user.city = {};
+    	
+    	// забираем список
+    	CityService.getCityByState($scope.workspace.user.state.sguid, $scope.cityByStateCallback_);
+
+    	// сохраняем
+    	$scope.updateUserParamByValue('state', $scope.workspace.user.state.sguid);
     }
 
+    // callback для загрузки списка городов для выбранной страны
     $scope.cityByStateCallback_ = function(data, key) {
     	$scope.city = data;
     }
 
+    // callback удаления города
     $scope.deleteCityItemCallback_ = function(data, key) {
     	$scope.city.splice(key, 1);
     }
 
+    // событие удаления города
     $scope.deleteCityItem = function($event, item, key) {
         CityService.remove(item.sguid, key, $scope.deleteCityItemCallback_);
     }
 
+    // callback забора списка профессий по выбранной карьере
     $scope.getProfessionsByCareerCallback_ = function(data) {
     	$scope.profession = data;
     }
 
+    // обновление даты рождения
     $scope.updateBirthday = function() {
+    	// подготовка даты в нужном формате
     	var newBirthday = moment($scope.workspace.user.birthday).format("DD/MM/YYYY");
 
+    	// сохраняем
     	$scope.updateUserParamByValue('birthday', newBirthday);
     }
 
-    $scope.selectCurrentCity = function($event, item, key) {
+    // событие выбора города из списка городов
+    $scope.selectCity = function($event, item, key) {
+    	// подготавливаем массив данных по городу
         $scope.workspace.user.city = {
         	sguid: item.sguid,
         	name: item.name
         };
-        //$scope.updateUserParamByValue("city", $scope.workspace.user.city);  
+        
+        // сохраняем
+        $scope.updateUserParamByValue("city", $scope.workspace.user.city);
+
+        $scope.showCityList = false;
     }
 
-    $scope.selectCareer = function($event, career) {
-    	ProfessionsService.getProfessionsByCareer(career.sguid, $scope.getProfessionsByCareerCallback_);
+    $scope.selectProfession = function($event, item, key) {
+    	$scope.workspace.user.profession = {
+        	sguid: item.sguid,
+        	name: item.name,
+        	goal_sguid: $scope.workspace.user.profession.goal_sguid
+        };
+        
+        // сохраняем
+        $scope.updateUserParamByValue("profession", $scope.workspace.user.profession);
+
+        $scope.showProfessionList = false;
     }
 
+    // событие выбора карьеры
+    $scope.selectCareer = function($event) {
+    	ProfessionsService.getProfessionsByCareer(
+    		$scope.workspace.user.profession.goal_sguid, 
+    		$scope.getProfessionsByCareerCallback_
+    	);
+
+    	$scope.workspace.user.profession.sguid = "";
+    	$scope.workspace.user.profession.name = "";
+
+    	// сохраняем
+        $scope.updateUserParamByValue("profession.goal_sguid", $scope.workspace.user.profession.goal_sguid);
+
+        $scope.showProfessionList = false;
+        $scope.showProfessionAddButton = false;
+    }
+
+    // событие после обновления пользьвательских данных на сервере
     $scope.updateUserCallback_ = function(data) {
     	if(data.success) {
             $scope.nameIsError = false;
@@ -95,13 +157,144 @@ function MyProfileSettingsController($scope, UserService, SocialService, Friends
         }
     }
 
-    // 
+    // обновление одного параметра пользователя
     $scope.updateUserParamByValue = function(name, value) {
     	var user = {};
-    	user[name] = value;
+    	var nameArray = name.split(".");
+
+    	if(nameArray.length == 0) {
+    		user[name] = value;
+    	} else {
+    		if(!user[nameArray[0]]) {
+    			user[nameArray[0]] = {};
+    		}
+    		user[nameArray[0]][nameArray[1]] = value;
+    	}
+    	
     	UserService.update($scope.workspace.user.sguid, user, $scope.updateUserCallback_);
+    }
+
+    // событие изменения города в поле ввода. 
+    $scope.changeCity = function($event) {
+    	var countView = 0;
+
+    	if($scope.workspace.user.city.name.length > 0) {
+            angular.forEach($scope.city, function(value, key) {
+                var reg = new RegExp($scope.workspace.user.city.name, "i");
+                if(reg.test(value.name)) {
+                	value.show = true;
+                	countView += 1;
+                } else {
+                	value.show = false;
+                }
+            });
+            $scope.showCityList = countView == 0 ? false : true;
+            $scope.showCityAddButton = countView == 0 ? true : false;
+        } else {
+        	$scope.showCityList = false;
+        	$scope.showCityAddButton = false;
+        }
+    }
+
+    // событие изменения профессии в поле ввода
+    $scope.changeProfession = function($event) {
+    	var countView = 0;
+
+    	if($scope.workspace.user.profession.name.length > 0) {
+            angular.forEach($scope.profession, function(value, key) {
+                var reg = new RegExp($scope.workspace.user.profession.name, "i");
+                if(reg.test(value.name)) {
+                	value.show = true;
+                	countView += 1;
+                } else {
+                	value.show = false;
+                }
+            });
+            $scope.showProfessionList = countView == 0 ? false : true;
+            $scope.showProfessionAddButton = countView == 0 ? true : false;
+        } else {
+        	$scope.showProfessionList = false;
+        	$scope.showProfessionAddButton = false;
+        }
+    }
+
+    // добавляем новую профессию
+    $scope.addProfession = function($event) {
+    	ProfessionsService.add(
+    		{ 
+                name: $scope.workspace.user.profession.name,
+            },
+            $scope.workspace.user.profession.goal_sguid,
+            $scope.addProfessionCallback_ 
+    	);
+    }
+
+    // callback добавления новой профессии
+    $scope.addProfessionCallback_ = function(data) {
+    	// подготавливаем массив данных по профессии
+        $scope.workspace.user.profession = {
+        	sguid: data.message.guid,
+        	name: data.message.name,
+        	goal_sguid: $scope.workspace.user.profession.goal_sguid
+        };
+        
+        // сохраняем
+        $scope.updateUserParamByValue("profession", $scope.workspace.user.profession);
+
+        $scope.showProfessionList = false;
+        $scope.showProfessionAddButton = false;
+
+        $scope.profession.push({
+        	sguid: data.message.guid,
+        	name: data.message.name,
+        	goal_sguid: $scope.workspace.user.profession.goal_sguid
+        });
+    }
+
+    // callback добавление нового города
+    $scope.addCityCallback_ = function(data) {
+    	// подготавливаем массив данных по городу
+        $scope.workspace.user.city = {
+        	sguid: data.message.guid,
+        	name: data.message.name
+        };
+        
+        // сохраняем
+        $scope.updateUserParamByValue("city", $scope.workspace.user.city);
+
+        $scope.showCityList = false;
+        $scope.showCityAddButton = false;
+
+        $scope.city.push({
+        	sguid: data.message.guid,
+        	name: data.message.name
+        });
+    }
+
+    // добавление нового города
+    $scope.addCity = function($event) {
+    	CityService.add(
+    		{
+    			name: $scope.workspace.user.city.name
+    		}, 
+    		$scope.workspace.user.state.sguid,
+    		$scope.addCityCallback_
+    	);
     }
 
     // определяем заходили ли мы через социальную сеть
     $scope.social = SocialService.getCurrentSocial();
+
+    // показываем список городов
+    if($scope.workspace.user.state) {
+    	CityService.getCityByState($scope.workspace.user.state.sguid, $scope.cityByStateCallback_);
+    }
+
+    // показываем список профессий
+    if($scope.workspace.user.profession) {
+    	ProfessionsService.getProfessionsByCareer(
+    		$scope.workspace.user.profession.goal_sguid, 
+    		$scope.getProfessionsByCareerCallback_
+    	);
+    }
 }

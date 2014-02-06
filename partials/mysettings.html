@@ -68,7 +68,7 @@
 					id="i3_i"
 					ng-options="item.sguid as item.name for item in workspace.country" 
 					ng-model="workspace.user.state.sguid"
-					ng-change="cityByState($event, state)">
+					ng-change="cityByState($event)">
 				</select>
 			</p>
 			<p>
@@ -77,18 +77,19 @@
 					id="i4_i" 
 					ng-model="workspace.user.city.name"
 					type="text"
-					ng-change="testCity($event)" />
+					ng-change="changeCity($event)" />
 					<img 
 						src="/images/7.jpg" 
 						class="cursor" 
 						ng-click="addCity($event)" 
 						width="40px" 
-						alt="" />
+						alt=""
+						ng-if="showCityAddButton" />
 			</p>
-			<div class="popup_list">
+			<div class="popup_list" ng-if="showCityList">
 				<ul>
-					<li ng-repeat="(cityKey, cityItem) in city">
-						<a ng-click="selectCurrentCity($event, cityItem, cityKey)">{{cityItem.name}}</a>
+					<li ng-if="cityItem.show" ng-repeat="(cityKey, cityItem) in city">
+						<a ng-click="selectCity($event, cityItem, cityKey)">{{cityItem.name}}</a>
 						<span class="close icon" ng-click="deleteCityItem($event, cityItem, cityKey)"></span>
 					</li>
 				</ul>
@@ -108,15 +109,16 @@
 					id="i6_i" 
 					ng-model="workspace.user.profession.name"
 					type="text"
-					ng-change="selectProfession($event, career)"  />
+					ng-change="changeProfession($event)"  />
 					<img 
 						src="/images/7.jpg" 
 						class="cursor" 
 						ng-click="addProfession($event)" 
 						width="40px" 
-						alt="" />
+						alt=""
+						ng-if="showProfessionAddButton" />
 			</p>
-			<div class="popup_list">
+			<div class="popup_list" ng-if="showProfessionList">
 				<ul>
 					<li ng-repeat="(profKey, profItem) in profession">
 						<a ng-click="selectProfession($event, profItem, profKey)">{{profItem.name}}</a>

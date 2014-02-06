@@ -426,15 +426,31 @@ pgrModule.service('CityService', function (CityByState, City) {
             callback(data, key);
         });
     }
+    this.add = function(city, state_guid, callback) {
+        City.create({}, {
+            "city": city,
+            "state_guid": state_guid
+        }, function(data) {
+            callback(data);
+        });
+    }
 });
 
-pgrModule.service('ProfessionsService', function (Professions) {
+pgrModule.service('ProfessionsService', function (Professions, ProfessionCreate) {
     this.getProfessionsByCareer = function(sguid, callback) {
         Professions.query({ id: sguid }, {}, function(data) {
             callback(data);
         });
     }
     this.remove = function(sguid, key, callback) {
+    }
+    this.add = function(profession, goal_guid, callback) {
+        ProfessionCreate.create({}, {
+            "profession": profession,
+            "goal_guid": goal_guid
+        }, function(data) {
+            callback(data);
+        });
     }
 });
 
