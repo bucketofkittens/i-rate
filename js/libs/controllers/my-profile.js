@@ -201,7 +201,6 @@ function MyProfileController($scope, $rootScope, User, $location, $cookieStore, 
             $scope.showState2 = false;
         }
         
-
         if(!proffisset) {
             $scope.isAddState = true;
         }

@@ -77,7 +77,8 @@
 					id="i4_i" 
 					ng-model="workspace.user.city.name"
 					type="text"
-					ng-change="changeCity($event)" />
+					ng-change="changeCity($event)"
+					ng-blur="blurCity()" />
 					<img 
 						src="/images/7.jpg" 
 						class="cursor" 
@@ -109,7 +110,8 @@
 					id="i6_i" 
 					ng-model="workspace.user.profession.name"
 					type="text"
-					ng-change="changeProfession($event)"  />
+					ng-change="changeProfession($event)" 
+					ng-blur="blurProfession()" />
 					<img 
 						src="/images/7.jpg" 
 						class="cursor" 

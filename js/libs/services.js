@@ -454,8 +454,6 @@ pgrModule.service('ProfessionsService', function (Professions, ProfessionCreate)
     }
 });
 
-
-
 /**
  * Сервис авторизации
  */

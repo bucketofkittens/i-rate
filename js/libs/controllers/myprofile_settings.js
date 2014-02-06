@@ -56,7 +56,7 @@ function MyProfileSettingsController($scope, UserService, SocialService, Friends
     $scope.cityByState = function($event) {
 
     	$scope.workspace.user.city = {};
-    	
+
     	// забираем список
     	CityService.getCityByState($scope.workspace.user.state.sguid, $scope.cityByStateCallback_);
 
@@ -162,7 +162,7 @@ function MyProfileSettingsController($scope, UserService, SocialService, Friends
     	var user = {};
     	var nameArray = name.split(".");
 
-    	if(nameArray.length == 0) {
+    	if(nameArray.length == 1) {
     		user[name] = value;
     	} else {
     		if(!user[nameArray[0]]) {
@@ -194,6 +194,16 @@ function MyProfileSettingsController($scope, UserService, SocialService, Friends
         	$scope.showCityList = false;
         	$scope.showCityAddButton = false;
         }
+    }
+
+    // скрываем список городов
+    $scope.blurCity = function() {
+    	$scope.showCityList = false;
+    }
+
+    // скрываем список профессий
+    $scope.blurProfession = function() {
+    	$scope.showProfessionList = false;
     }
 
     // событие изменения профессии в поле ввода
