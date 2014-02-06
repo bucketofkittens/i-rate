@@ -1329,7 +1329,7 @@ body {
                         display: block;
                         b {
                             font-size: 12px;
-                            color: #e1e1e1;
+                            color: #888888;
                             display: block;
                             margin: 5px 0px;
                         }
@@ -1348,6 +1348,40 @@ body {
                         margin-top: 15px;
                         color: #ffffff;
                         border: none;
+                    }
+                    .pubut {
+                        margin-top: 15px;
+                        i {
+                            display: inline-block;
+                            font-size: 15px;
+                            color: #888888;
+                            vertical-align: middle;
+                            &.current {
+                                color: #ffffff;
+                            }
+                        }
+                        span {
+                            display: inline-block;
+                            background: url("../images/priv.png") left top no-repeat;
+                            background-size: 50px 25px;
+                            width: 50px;
+                            height: 25px;
+                            vertical-align: middle;
+                            position: relative;
+                            margin: 0px 5px;
+                            img {
+                                display: block;
+                                width: 30px;
+                                height: 30px;
+                                position: absolute;
+                                top: -2px;
+                                left: -2px;
+                                cursor: pointer;
+                                &.butpab {
+                                    left: 22px;
+                                }
+                            }
+                        }
                     }
                 }
                 .pmpar {
@@ -2613,8 +2647,8 @@ sup.bidubi {
 .popup_list {
     position: absolute;
     margin: -10px 0px 0px 135px;
-    border: 1px solid #cccccc;
-    background: #ffffff;
+    background: usl("../images/glass.ong") left top no-repeat;
+    box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.5);
     z-index: 9999;
     max-height: 220px;
     overflow-y: auto;

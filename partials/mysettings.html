@@ -20,16 +20,20 @@
 			</div>
 			
 			<div class="publish" ng-if="workspace.user.published == 0">
-				<p>
 					<strong>Your account is private.<b>Only you can see your profile.</b></strong>
-					<button ng-click="onOnPublish()">{{'_PublishL_' | i18n}}</button>
-				</p>
+					<div class="pubut">
+						<i>Public</i>
+						<span><img class="butpub" src="../images/pub.png"></span>
+						<i class="current">Private</i>
+					</div>
 			</div>
 			<div class="publish" ng-if="workspace.user.published == 1">
-				<p>
-					<strong>Your account is public.<b>Everybody can see you profile.</b></strong>
-					<button ng-click="onUnPublish()">Make it private</button>
-				</p>
+					<strong>Your account is public.<b>Everybody can see you profile.</b></strong>					
+					<div class="pubut">
+						<i class="current">Public</i>
+						<span><img src="../images/pub.png"></span>
+						<i>Private</i>
+					</div>
 			</div>
 			<div class="publish">
 				<button ng-click="onLogout()">Sign out</button>
