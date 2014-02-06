@@ -1,5 +1,5 @@
 // контроллер вкладки настроки своего профиля
-function MyProfileSettingsController($scope, UserService, SocialService, FriendsService, TokenService, $rootScope, $location, SocialService, CityService, ProfessionsService) {
+function MyProfileSettingsController($scope, UserService, SocialService, FriendsService, TokenService, $rootScope, $location, SocialService, CityService, ProfessionsService, $timeout) {
 	// список городов
 	$scope.city = [];
 
@@ -197,13 +197,17 @@ function MyProfileSettingsController($scope, UserService, SocialService, Friends
     }
 
     // скрываем список городов
-    $scope.blurCity = function() {
-    	$scope.showCityList = false;
+    $scope.blurCity = function($event) {
+        $timeout(function() {
+            $scope.showCityList = false;
+        }, 0);
     }
 
     // скрываем список профессий
-    $scope.blurProfession = function() {
-    	$scope.showProfessionList = false;
+    $scope.blurProfession = function($event) {
+        $timeout(function() {
+            $scope.showProfessionList = false;
+        }, 0);
     }
 
     // событие изменения профессии в поле ввода

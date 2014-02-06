@@ -83,10 +83,7 @@ function UserController($scope, FriendsService, UserService, $element, $route, $
     $scope.onShowGoals = function($event, needItem) {
         needItem.hidden = needItem.hidden ? false : true;
     }
-
-    
 }
-
 
 function UserNeedsController($scope) {
     // открываем критерий

@@ -67,9 +67,9 @@
 				<select
 					ui-select2="{ width: 230 }"
 					id="i3_i"
-					ng-options="item.sguid as item.name for item in workspace.country" 
 					ng-model="workspace.user.state.sguid"
 					ng-change="cityByState($event)">
+					<option ng-repeat="(key, value) in workspace.country" value="{{value.sguid}}" >{{value.name}}</option>
 				</select>
 			</p>
 			<p>
@@ -79,7 +79,7 @@
 					ng-model="workspace.user.city.name"
 					type="text"
 					ng-change="changeCity($event)"
-					ng-blur="blurCity()" />
+					ng-blur="blurCity($event)" />
 					<img 
 						src="/images/7.jpg" 
 						class="cursor" 
@@ -98,11 +98,12 @@
 			</div>
 			<p>
 				<label for="i5_i">Career:</label>
-				<select 
+				<select
+					ui-select2="{ width: 230 }"
 					id="i5_i"
-					ng-options="item.sguid as item.name for item in workspace.careers" 
 					ng-model="workspace.user.profession.goal_sguid"
-					ng-change="selectCareer($event, career)">
+					ng-change="selectCareer($event)">
+					<option ng-repeat="(key, value) in workspace.careers" value="{{value.sguid}}" >{{value.name}}</option>
 				</select>
 			</p>
 			<p>
@@ -112,7 +113,7 @@
 					ng-model="workspace.user.profession.name"
 					type="text"
 					ng-change="changeProfession($event)" 
-					ng-blur="blurProfession()" />
+					ng-blur="blurProfession($event)" />
 					<img 
 						src="/images/7.jpg" 
 						class="cursor" 

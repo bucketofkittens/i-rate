@@ -94,7 +94,6 @@ function NeedsAndGoalsController($scope, СareerService, UserService, Goals, Cri
 
         angular.forEach(goal.criterion_guids, function(value, key){
             CriterionByGoal.by_guid({criteria_sguid: value}, function(data) {
-                console.log(data[0]);
                 goal.criteriums.push(data[0]);
                 countLoad_ += 1;
 
