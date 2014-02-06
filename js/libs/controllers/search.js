@@ -35,6 +35,11 @@ function SearchController($scope, User, $rootScope, $location) {
         $scope.searchText = "";
     }
 
+    $scope.close = function() {
+        $scope.resultSearch = [];
+        $scope.searchText = "";
+    }
+
     // calback для скрытия поиска
     this.windowClickCallback_ = function(event) {
         // id блока поиска

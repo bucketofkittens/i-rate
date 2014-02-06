@@ -390,4 +390,8 @@ function SearchAdvanceController($scope, $location, $rootScope, User, Profession
             $scope.disableShowState(showParam);
         }
     }
+
+    $scope.close = function() {
+        $location.search({});
+    }
 }
