@@ -310,7 +310,7 @@ body {
             height: 0px; 
         }
         .searchResult {
-            width: 490px;
+            width: 400px;
             right: 0px;
             min-height: 2000px;
             img {
@@ -2491,8 +2491,8 @@ input[type="checkbox"] {
         }
         .sealin {
             position: absolute;
-            width: 35px;
-            height: 35px;
+            width: 35px !important;
+            height: 35px !important;
             top: 18px;
             right: 15px;
             cursor: pointer;
@@ -2874,13 +2874,29 @@ sup.bidubi {
                 color: #ffffff;
             }
             .searchResult {
-                width: 490px;
+                width: 400px;
                 right: 0px;
                 min-height: 2000px;
                 position: relative;
                 top: 0px;
+                padding-top: 0px;
+                background: none;
                 img {
                     cursor: pointer;
+                }
+                .item {
+                    width: 380px;
+                    img {
+                        width: 80px;
+                        margin-right: 10px;
+                    }
+                    .sealin {
+                        background: none;
+                        top: 20px;
+                    }
+                    .text {
+                        padding-left: 25px;
+                    }
                 }
             }
         }    
