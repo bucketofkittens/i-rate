@@ -229,16 +229,8 @@ function FollowCaruselController($scope) {
 
 
 
-function ConfirmController($scope, ConfirmSignup, $routeParams, $location) {
+function ConfirmController($scope, ConfirmSignup, $routeParams, $rootScope) {
     ConfirmSignup.test({hash: $routeParams.hash}, {}, function(data) {
-        if(data) {
-            $location.path("/login/").search({ onSuccess: true});
-        } else {
-            $location.path("/login/").search({ onSuccess: true});
-        }
+        $rootScope.$broadcast('openModal', {name: "confirm-success"});
     });
-}
-
-function NeighboursGalleryController($scope) {
-
 }

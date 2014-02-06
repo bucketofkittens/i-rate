@@ -80,6 +80,11 @@ pgrModule.config(['$routeProvider',
             controller: 'GraphsController',
             reloadOnSearch: false
           }).
+          when('/confirm_signup/:hash', {
+            templateUrl: 'views/confirm.html',
+            controller: 'ConfirmController',
+            reloadOnSearch: false
+          }).
           otherwise({
             redirectTo: '/'
           });
