@@ -2425,13 +2425,13 @@ input[type="checkbox"] {
     }
     input[type="button"] {
         display: block;
-        width: 14px !important;
-        height: 14px !important;
+        width: 20px !important;
+        height: 20px !important;
         background: url(../images/s1.png) no-repeat;
         cursor: pointer;
         position: absolute;
-        right: 16px !important;
-        top: 13px !important;
+        right: 15px !important;
+        top: 10px !important;
         border: 0px !important;
         background-size: 100% !important;
         padding: 0px !important;
@@ -2839,25 +2839,26 @@ sup.bidubi {
 /** FULL SEARCH **/
 #searchfull {
     position: absolute;
-    left: 0px;
+    left: 50%;
     top: 0px;
+    margin-left: -500px;
     z-index: 10px;
     height: 100%;
-    width: 100%;
+    width: 1000px;
     .searchfull {
-        position: relative;
-        top: 80px;
-        margin-left: 20px;
-        width: 380px;
-        height: 90%;
+        position: absolute;
+        top: 60px;
+        left: 0px;
+        width: 400px;
+        height: 100%;
         min-height: 550px;
-        background: #ffffff;
-        border: 1px solid #dddddd;
-        box-shadow: 0px 0px 20px 1px rgba(0, 0, 0, 0.2);
+        box-shadow: inset -5px 0px 20px 1px rgba(0, 0, 0, 0.5);
         z-index: 3;
         display: inline-block;
         overflow-y: scroll;
         overflow-x: hidden;
+        background: url("../images/glass.png") left top no-repeat;
+        background-size: 100% 100%;
         &::-webkit-scrollbar {
             width: 0px;
             height: 0px; 
@@ -2865,7 +2866,12 @@ sup.bidubi {
         .fullsearch {
             input[type="text"] {
                 left: 0px;
-                width: 379px; 
+                width: 398px; 
+                height: 40px;
+                background: url("../images/sbg.png") -3px top no-repeat;
+                background-size: 403px 40px;
+                border: none;
+                color: #ffffff;
             }
             .searchResult {
                 width: 490px;
@@ -2882,28 +2888,29 @@ sup.bidubi {
 }
 .fusepar {
     display: inline-block;
-    position: relative;
-    margin: 50px 20px 0px 0px;
-    float: right;
+    position: absolute;
+    top: 60px;
+    right: 0px;
     vertical-align: top;
-    width: 580px;
+    width: 600px;
     height: 90%;
     min-height: 550px;
     z-index: 3;
     overflow: hidden;
     overflow-y: scroll;
     padding-bottom: 500px;
+    background: url("../images/glass.png") left top no-repeat;
+    background-size: 100% 100%;
+    box-shadow: inset 5px 0px 20px 1px rgba(0, 0, 0, 0.7);
     &::-webkit-scrollbar {
         width: 0px;
         height: 0px; 
     }
     .fsp {    
-        background: #ffffff;
-        border: 1px solid #dddddd;
-        box-shadow: 0px 0px 20px 1px rgba(0, 0, 0, 0.2);
-        margin: 30px auto;
-        width: 525px;
-        padding: 15px;
+        margin: 0px auto;
+        width: 550px;
+        padding: 30px 15px 30px 30px;
+        position: relative;
         &:after {
             content: ".";
             display: block;
@@ -2911,41 +2918,56 @@ sup.bidubi {
             clear: both;
             visibility: hidden;
         }
+        em {
+            width: 530px;
+            text-align: center;
+            border-top: 1px solid #666666;
+            border-bottom: 1px solid #333333;
+            display: block;
+            position: absolute;
+            bottom: 0px;
+        }
         div {
-            float: left;
+            float: right;
             width: 250px;
             position: relative;
+            margin-right: 10px;
+            &:first-child {
+                float: left !important;
+            }
             h6 {
                 font-size: 20px;
                 margin-bottom: 7px;
+                color: #ffffff;
             }
             input[type="text"] {
                 font-size: 18px;
                 line-height: 20px;
                 vertical-align: middle;
                 padding: 5px 36px 5px 10px !important;
-                border: 1px solid #aaaaaa !important;
+                border: none;
                 font-family: 'Helvetica Neue Light';
                 width: 155px;
+                background: url("../images/sbg.png") left top no-repeat;
+                background-size: 200px 30px;
+                color: #ffffff;
             }
             input[type="button"], .ui-datepicker-trigger {
                 color: #000000;
                 font-family: 'Helvetica Neue Light';
                 cursor: pointer;
                 background: transparent;
-                border: 1px solid #dddddd;
                 font-size: 115%;
-                padding: 4% 7% 3% 7% !important;
+                padding: 0px !important;
                 float: right;
-                margin-right: 7%;
-                width: 30px !important;
-                height: 30px !important;
-                background: url(../images/fullsearch.png) 2px -4px no-repeat;
+                width: 33px !important;
+                height: 33px !important;
+                background: url(../images/fullsearch.png) center center no-repeat;
+                background-size: 33px 33px;
                 position: absolute;
                 right: 30px !important;
-                top: 30px !important;
+                top: 27px !important;
                 border: none;
-                border-left: 1px solid #aaaaaa !important;
                 vertical-align: middle;
                 display: block;
                 text-indent: -999px;
@@ -2953,10 +2975,9 @@ sup.bidubi {
             img {
                 cursor: pointer;
                 vertical-align: middle;
-                width: 30px;
-                height: 30px;
-                border: 1px solid #aaaaaa !important;
-                margin-left: 10px;
+                width: 35px;
+                height: 35px;
+                margin: -1px 0px 0px 5px;
             }
         }
         div:last-child {

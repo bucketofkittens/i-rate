@@ -54,6 +54,7 @@
 					<li ng-if="value.show" ng-repeat="(key, value) in professionList" ng-click="selectParam('profession', value)">{{value.name}}</li>
 				</ul>
 			</div>
+			<em></em>
 		</div>
 		<div class="fsp">
 			<div>
@@ -82,6 +83,7 @@
 					<li ng-if="value.show" ng-repeat="(key, value) in cityList" ng-click="selectParam('city', value)">{{value.name}}</li>
 				</ul>
 			</div>
+			<em></em>
 		</div>
 		<div class="fsp">
 			<div>
@@ -104,6 +106,7 @@
 					id="dTill" />
 				<img src="./images/fusedel.png" ng-click="selectParam('birthday_till', '', true)">
 			</div>
+			<em></em>
 		</div>
 		<div class="fsp">
 			<div>
@@ -128,6 +131,7 @@
 					rz-slider-high="search.maxScore">
 				</rzslider>
 			</div>
+			<em></em>
 		</div>
 		<div class="fsp fspb">
 			<button ng-click="clearAll()">Clear all</button>
