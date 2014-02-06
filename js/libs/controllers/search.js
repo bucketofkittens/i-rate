@@ -68,9 +68,9 @@ function SearchController($scope, User, $rootScope, $location) {
 
 
     // проверяем вхождения пользователей
-    $scope.test_ = function() {
+    $scope.test_ = function(text, callback) {
         angular.forEach($rootScope.users, function(value, key) {
-            var reg = new RegExp($scope.searchText.replace("[", "\\[").replace("]", "\\]"), "i");
+            var reg = new RegExp(text.replace("[", "\\[").replace("]", "\\]"), "i");
             if(value.name && value.name != null && value.name != "null" && reg.test(value.name)) {
                 if(!value.league) {
                     value.league = {name: "10"};
@@ -96,7 +96,7 @@ function SearchController($scope, User, $rootScope, $location) {
         // проверяем сколько символов в строке поиска
         if($scope.searchText.length > 0) {
             // проверяем вхождение
-            $scope.test_();
+            $scope.test_($scope.searchText);
 
             // скрываем правую панель
             $rootScope.$broadcast('hideRightPanel');
@@ -105,4 +105,12 @@ function SearchController($scope, User, $rootScope, $location) {
             $rootScope.$broadcast('showRightPanel');
         }
     }
+}
+
+function SearchLeftController($scope, $location) {
+    $scope.searchText = $location.search().text;
+
+    $scope.test_($scope.searchText);
+
+    console.log($scope.resultSearch);
 }

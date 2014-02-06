@@ -17,6 +17,8 @@ module.exports = function(grunt) {
                 	'js/angular-touch.min.js',
                     'js/angular-recaptcha.min.js',
                     'js/angular-google-plus.js',
+                    'js/select2.min.js',
+                    'js/angular-select2.js',
                     'js/facebook.js',
                     'js/jquery.isotope.min.js',
                     'js/jquery.isotope.perfectmasonry.js',

@@ -58,10 +58,10 @@ var pgrModule = angular.module(
 		"localization",
 		"googleplus",
 		"facebook",
-    "datePicker",
-    'rzModule',
+    //'rzModule',
     'ui.keypress',
-    'vcRecaptcha'
+    'vcRecaptcha',
+    'ui.select2'
 	]
 );
 

@@ -64,7 +64,8 @@
 			</p>
 			<p>
 				<label for="i3_i">Сountry:</label>
-				<select 
+				<select
+					ui-select2="{ width: 230 }"
 					id="i3_i"
 					ng-options="item.sguid as item.name for item in workspace.country" 
 					ng-model="workspace.user.state.sguid"
