@@ -58,13 +58,12 @@ var pgrModule = angular.module(
 		"localization",
 		"googleplus",
 		"facebook",
-        //'ui.date',
-        //'ui.autocomplete',
-        'ui.keypress',
-        'vcRecaptcha',
-        //'rzModule'
-		]
-	);
+    "datePicker",
+    'rzModule',
+    'ui.keypress',
+    'vcRecaptcha'
+	]
+);
 
 /** Роутинг **/
 pgrModule.config(['$routeProvider',

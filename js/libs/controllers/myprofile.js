@@ -71,12 +71,12 @@ function MyProfileController($scope, $location, LocationService, $rootScope, $ti
 
 	// открываем эту плашку
 	$scope.$on('openProfile', function(event, message) {
-		$location.search({ myprofile: true});
+		$location.search({ myprofile: true });
     });
 
     // скрываем эту плашку
 	$scope.$on('closeProfile', function(event, message) {
-		$location.search({ });
+		$location.search({});
     });
 
     // событие переключчения состояния страницы.
