@@ -37,7 +37,6 @@ function RootController($scope, FacebookService, СareerService, LeagueService, 
 
     /**
      * Массив хренения списка друзей для не авторизованного пользователя
-     * @type {[type]}
      */
     $scope.workspace.friends = $scope.workspace.user && $scope.workspace.user.friends ? $scope.workspace.user.friends : FriendsService.getList();
 

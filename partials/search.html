@@ -34,7 +34,7 @@
 					ng-change="filteredList('careerList', search.career.name, 'career')" />
 				<input type="button" class="searcher" ng-click="toggleShowState('career')" />
 				<img src="./images/fusedel.png" ng-click="selectParam('career', '', true)">
-				<ul class="proffesion_list" ng-class="{show: shows.career}">
+				<ul class="popup_list" ng-if="shows.career">
 					<li ng-if="value.show" ng-repeat="(key, value) in careerList" ng-click="selectCareerParam('career', value)">{{value.name}}</li>
 				</ul>
 			</div>
@@ -47,7 +47,7 @@
 					ng-change="filteredList('professionList', search.profession.name, 'profession')" />
 				<input type="button" class="searcher" ng-click="toggleShowState('profession')" />
 				<img src="./images/fusedel.png" ng-click="selectParam('profession', '', true)">
-				<ul class="proffesion_list" ng-class="{show: shows.profession}">
+				<ul class="popup_list" ng-if="shows.profession">
 					<li ng-if="value.show" ng-repeat="(key, value) in professionList" ng-click="selectParam('profession', value)">{{value.name}}</li>
 				</ul>
 			</div>
@@ -63,7 +63,7 @@
 					ng-change="filteredList('countriesList', search.country.name, 'country')" />
 				<input type="button" class="searcher" ng-click="toggleShowState('country')" />
 				<img src="./images/fusedel.png" ng-click="selectParam('country', '', true)">
-				<ul class="proffesion_list" ng-class="{show: shows.country}">
+				<ul class="popup_list" ng-if="shows.country">
 					<li ng-if="value.show" ng-repeat="(key, value) in countriesList" ng-click="selectContryParam('country', value)">{{value.name}}</li>
 				</ul>
 			</div>
@@ -76,7 +76,7 @@
 					ng-change="filteredList('cityList', search.city.name, 'city')" />
 				<input type="button" class="searcher" ng-click="toggleShowState('city')" />
 				<img src="./images/fusedel.png" ng-click="selectParam('city', '', true)">
-				<ul class="proffesion_list" ng-class="{show: shows.city}">
+				<ul class="popup_list" ng-if="shows.city">
 					<li ng-if="value.show" ng-repeat="(key, value) in cityList" ng-click="selectParam('city', value)">{{value.name}}</li>
 				</ul>
 			</div>
@@ -114,7 +114,7 @@
 					class="search" />
 				<input type="button" class="searcher" ng-click="toggleShowState('league')" />
 				<img src="./images/fusedel.png" ng-click="selectParam('league', '', true)">
-				<ul class="proffesion_list" ng-class="{show: shows.league}">
+				<ul class="popup_list" ng-if="shows.league">
 					<li ng-repeat="(key, value) in workspace.leagues" ng-click="selectLeagueParam('league', value)">{{value.name}}</li>
 				</ul>
 				

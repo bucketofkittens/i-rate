@@ -20,6 +20,8 @@ function SearchAdvanceController($scope, $location, $rootScope, User, Profession
         $scope.show = $location.search().search  ? true : false;
     });
 
+    $scope.careerList = $scope.workspace.careers;
+
     /**
      * Модель данных расширенного поиска
      * @type {Object}
@@ -96,19 +98,8 @@ function SearchAdvanceController($scope, $location, $rootScope, User, Profession
         });
     }
 
-    /**
-     * Забираем список стран в переменную когда он загрузится в другом контроллере
-     * @param  {[type]} newVal [description]
-     * @param  {[type]} oldVal [description]
-     * @param  {[type]} scope  [description]
-     * @return {[type]}        [description]
-     */
-    $scope.$watch("workspace.countries", function (newVal, oldVal, scope) {
-        if(newVal) {
-            $scope.countriesList = newVal;
-            $scope.showAllListElement('countriesList');
-        }
-    });
+    $scope.countriesList = $scope.workspace.country;
+    $scope.showAllListElement('countriesList');
 
     /**
      * Событие изменения maxScore
