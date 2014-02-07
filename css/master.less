@@ -1302,6 +1302,24 @@ body {
                 width: 0px;
                 height: 0px; 
             }   
+            .select2-container .select2-choice {
+                border: none;                
+                background-color: none;
+                background-image: none;
+                color: #ffffff;
+                background: url("../images/sbg.png") left top no-repeat;
+                span {
+                    background: none;
+                    border: none;
+                }
+                b {
+                    background: url("../images/fullsearch.png") left top no-repeat;
+                    background-size: 32px 32px;
+                    height: 32px;
+                    width: 32px;
+                    margin: -3px 0px 0px -12px;
+                }
+            }
             .promy {
                 .block {
                     width: 200px;
@@ -2652,15 +2670,27 @@ sup.bidubi {
 
 .popup_list {
     position: absolute;
-    margin: -10px 0px 0px 135px;
-    background: usl("../images/glass.ong") left top no-repeat;
+    margin: -10px 0px 0px 133px;
+    background: url("../images/glass.png") left top no-repeat;
+    background-size: 100% 110%;
+    background-color: rgba(255, 255, 255, 0.8);
     box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.5);
     z-index: 9999;
     max-height: 220px;
+    width: 230px;
     overflow-y: auto;
+    color: #ffffff;    
+    &::-webkit-scrollbar {
+        width: 0px;
+        height: 0px; 
+    }
     li {
-        padding: 10px;
+        padding: 10px 0px;
+        margin: 0px auto;
         position: relative;
+        border-top: 1px solid #777777;
+        border-bottom: 1px solid #333333;
+        width: 200px;
         a {
             cursor: pointer;
             display: block;
@@ -2668,9 +2698,14 @@ sup.bidubi {
         }
         span {
             cursor: pointer;
+            background: url("../images/fusedel.png") left top no-repeat !important;
+            background-size: 25px 25px !important;
+            width: 25px !important;
+            height: 25px !important;
+            top: 5px !important;
         }
         &:hover {
-            background: #cccccc;
+            background: rgba(0, 0, 0, 0.1);
 
         }
     }
@@ -4281,7 +4316,7 @@ Version: 3.4.5 Timestamp: Mon Nov  4 08:22:42 PST 2013
 }
 
 .select2-search {
-    display: inline-block;
+    display: none;
     width: 100%;
     min-height: 26px;
     margin: 0;
@@ -4378,13 +4413,17 @@ Version: 3.4.5 Timestamp: Mon Nov  4 08:22:42 PST 2013
 
 /* results */
 .select2-results {
-    max-height: 200px;
-    padding: 0 0 0 4px;
-    margin: 4px 4px 4px 0;
+    max-height: 230px;
+    padding: 0px;
+    margin: 0px 0px 0px 13px;
     position: relative;
     overflow-x: hidden;
     overflow-y: auto;
     -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+    &::-webkit-scrollbar {
+        width: 0px;
+        height: 0px; 
+    }
 }
 
 .select2-results ul.select2-result-sub {
@@ -4404,6 +4443,10 @@ Version: 3.4.5 Timestamp: Mon Nov  4 08:22:42 PST 2013
     list-style: none;
     display: list-item;
     background-image: none;
+    padding: 7px 0px;
+    border-top: 1px solid #777777;
+    border-bottom: 1px solid #333333;
+    width: 200px;
 }
 
 .select2-results li.select2-result-with-children > .select2-result-label {
@@ -4425,7 +4468,7 @@ Version: 3.4.5 Timestamp: Mon Nov  4 08:22:42 PST 2013
 }
 
 .select2-results .select2-highlighted {
-    background: #3875d7;
+    background: rgba(0, 0, 0, 0.1);
     color: #fff;
 }
 
@@ -4690,4 +4733,16 @@ disabled look for disabled choices in the results dropdown
   .select2-search input {
       background-position: 100% -21px !important;
   }
+}
+
+
+
+.select2-drop {
+    border: none !important;
+    background: url("http://localhost:8000/images/glass.png") left top no-repeat;
+    background-size: 100% 110%;
+    color: #ffffff;
+    background-color: rgba(255, 255, 255, 0.9);
+    border-radius: 0px;
+    box-shadow: 0px 0px 30px 0px rgba(0, 0, 0, 0.7);
 }
