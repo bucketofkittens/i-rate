@@ -35,10 +35,6 @@ module.exports = function(grunt) {
             css: {
                 src: [
                     "css/reset.css",
-                    //"css/jquery-ui-1.10.3.custom.min.css",
-                    //"css/jquery.Jcrop.min.css",
-                    //"css/rzslider.min.css",
-                    "css/fonts.css",
                     "css/master.css"
                 ],
                 dest: "build/style.css"
