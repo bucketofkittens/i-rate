@@ -12,6 +12,9 @@ function MyProfileProfileController($scope, $rootScope, $location, LocationServi
     // выбранный гоалс
     $scope.selectedGoal = null;
 
+    // дефолтный goal
+    $scope.defaultGoalName = "Well being";
+
     // сохраняем состояние goal в кеш
     $scope.pesistState = function(goalName) {
         lscache.set($scope.cacheName, goalName, $scope.cacheTime);
@@ -43,9 +46,10 @@ function MyProfileProfileController($scope, $rootScope, $location, LocationServi
 	    } else {
 	    	var goalName = lscache.get($scope.cacheName);
 	    	if(!goalName) {
-                //$scope.moveToFirstGoal();
-	    	}
-            LocationService.update("goal", goalName);
+                $scope.moveToGoal($scope.defaultGoalName);
+	    	} else {
+                LocationService.update("goal", goalName);
+            }
 	    }
     }
 
