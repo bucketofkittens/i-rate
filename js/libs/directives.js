@@ -333,38 +333,20 @@ pgrModule.directive('mydash', function(User) {
                 var radius = 149;
                 var startAngle = baseAngle;
                 var endAngle = newAngle;
-
-                var gradient = context.createLinearGradient(
-                  endX, 
-                  endY,
-                  scope.dashboard.getWidth()/2-316,
-                  scope.dashboard.getHeight()/2-167
-                );
-                gradient.addColorStop(0, '#3e445c');
-                gradient.addColorStop(1, '#c1d3ea');
+                var colorString = "rgba(170, 200, 255, 0.7)";
 
                 ctx.beginPath();
                 ctx.arc(x, y, radius, startAngle, endAngle, false);
-                ctx.strokeStyle = gradient;
+                ctx.strokeStyle = colorString;
                 ctx.lineWidth = 61;
                 ctx.stroke();
                 ctx.closePath();
                 ctx.beginPath();
-                ctx.moveTo(centerRX + Math.cos(newAngle-0.02) * 149, centerRY + Math.sin(newAngle-0.02) * 149);
-                ctx.lineTo(centerRX + Math.cos(newAngle+0.1) * 149,centerRY + Math.sin(newAngle+0.1) * 149);
-                ctx.lineTo(centerRX + Math.cos(newAngle) * 180,centerRY + Math.sin(newAngle) * 180);
-                ctx.fillStyle = gradient;
-                ctx.strokeStyle = gradient;
-                ctx.lineWidth = 2;
-                ctx.stroke();
-                ctx.fill();
-                ctx.closePath();
-                ctx.beginPath();
-                ctx.moveTo(centerRX + Math.cos(newAngle-0.02) * 149, centerRY + Math.sin(newAngle-0.02) * 149);
+                ctx.moveTo(centerRX + Math.cos(newAngle) * 180,centerRY + Math.sin(newAngle) * 180);
                 ctx.lineTo(centerRX + Math.cos(newAngle+0.1) * 149,centerRY + Math.sin(newAngle+0.1) * 149);
                 ctx.lineTo(centerRX + Math.cos(newAngle) * 120,centerRY + Math.sin(newAngle) * 120);
-                ctx.fillStyle = gradient;
-                ctx.strokeStyle = gradient;
+                ctx.fillStyle = colorString;
+                ctx.strokeStyle = colorString;
                 ctx.lineWidth = 2;
                 ctx.stroke();
                 ctx.fill();
@@ -401,44 +383,25 @@ pgrModule.directive('mydash', function(User) {
                 var y = centerRY;
                 var startAngle = baseAngle;
                 var endAngle = newAngle;
-                var gradient = context.createLinearGradient(
-                  centerRX + Math.cos(newAngle) * radius-params.gradientX, 
-                  centerRY + Math.sin(newAngle) * radius-params.gradientY,
-                  endX,
-                  endY
-                );
-
-                gradient.addColorStop(0, '#c1d3ea');
-                gradient.addColorStop(1, '#3e445c');
+                var colorString = "rgba(170, 200, 255, 0.7)";
 
                 ctx.beginPath();
                 ctx.rotate(degToRad(-1.5));
                 ctx.arc(x, y, radius, startAngle, endAngle, false);
-                ctx.strokeStyle = gradient;
+                ctx.strokeStyle = colorString;
                 ctx.lineWidth = 61;
                 ctx.stroke();
                 ctx.closePath();
 
                 if(params.need_max - params.need_value > 500) {
                   ctx.beginPath();
-                  ctx.moveTo(centerRX + Math.cos(newAngle-0.02) * radius, centerRY + Math.sin(newAngle-0.02) * radius);
-                  ctx.lineTo(centerRX + Math.cos(newAngle+0.1) * radius,centerRY + Math.sin(newAngle+0.1) * radius);
-                  ctx.lineTo(centerRX + Math.cos(newAngle) * (radius+30),centerRY + Math.sin(newAngle) * (radius+30));
-                  ctx.fillStyle = gradient;
-                  ctx.strokeStyle = gradient;
-                  ctx.lineWidth = 2;
-                  ctx.stroke();
-                  ctx.fill();
-                  ctx.closePath();
-                  ctx.beginPath();
-                  ctx.moveTo(centerRX + Math.cos(newAngle-0.02) * radius, centerRY + Math.sin(newAngle-0.02) * radius);
+                  ctx.moveTo(centerRX + Math.cos(newAngle) * (radius+30),centerRY + Math.sin(newAngle) * (radius+30));
                   ctx.lineTo(centerRX + Math.cos(newAngle+0.1) * radius,centerRY + Math.sin(newAngle+0.1) * radius);
                   ctx.lineTo(centerRX + Math.cos(newAngle) * (radius-30),centerRY + Math.sin(newAngle) * (radius-30));
-                  ctx.fillStyle = gradient;
-                  ctx.strokeStyle = gradient;
-                  ctx.lineWidth = 2;
-                  ctx.stroke();
+                  ctx.fillStyle = colorString;
+                  ctx.lineWidth = 1;
                   ctx.fill();
+
                   ctx.closePath();
                 }
 
