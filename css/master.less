@@ -369,7 +369,7 @@ body {
                 p {
                     font-size: 18px;
                     color: #969696;
-                    line-height: 23px;
+                    line-height: 21px;
                 }
                 label {
                     display: inline-block;
@@ -1352,8 +1352,19 @@ body {
                             font-size: 15px;
                             color: #888888;
                             vertical-align: middle;
-                            &.current {
+                        }
+                        i:last-child {
+                            color: #ffffff;
+                        }
+                        &.published {
+                            i:first-child {
                                 color: #ffffff;
+                            }
+                            i:last-child {
+                                color: #888888;
+                            }
+                            em {
+                                right: 22px;
                             }
                         }
                         span {
@@ -1365,14 +1376,18 @@ body {
                             vertical-align: middle;
                             position: relative;
                             margin: 0px 5px;
-                            img {
+                            em {
                                 display: block;
                                 width: 30px;
                                 height: 30px;
                                 position: absolute;
                                 top: -2px;
-                                left: -2px;
+                                right: -2px;
                                 cursor: pointer;
+                                background: url("../images/pub.png") left top no-repeat;
+                                background-size: 100% 100%;
+                                transition: all 0.3s linear;
+                                -webkit-transition: all 0.3s linear;
                                 &.butpab {
                                     left: 22px;
                                 }
@@ -1668,7 +1683,7 @@ body {
         position: absolute;
         bottom: -20px;
         left: 0px;
-        width: 300px;
+        white-space: nowrap;
         z-index: 10;
         text-decoration: none;
         font-size: 12px;

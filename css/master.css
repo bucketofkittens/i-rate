@@ -28,7 +28,7 @@ body header #header #follow_tab a{position:absolute;top:17px;right:5px;cursor:po
 #content .pmain{display:inline-block;vertical-align:top}#content .pmain .du{left:0 !important;right:auto !important}
 #content .pmain .image_box{width:140px;height:140px;box-shadow:0 0 30px 1px rgba(1,161,201,0.5)}
 #content .pmain.pro{padding:15px;margin-bottom:5px}#content .pmain.pro .block{display:inline-block;width:140px;vertical-align:middle;margin-right:15px}#content .pmain.pro .block .pp{width:100%;background:#fff;height:auto}#content .pmain.pro .block .pp.edit{cursor:pointer}
-#content .pmain.pro .pmpar{display:inline-block;vertical-align:top;width:auto}#content .pmain.pro .pmpar p{font-size:18px;color:#969696;line-height:23px}
+#content .pmain.pro .pmpar{display:inline-block;vertical-align:top;width:auto}#content .pmain.pro .pmpar p{font-size:18px;color:#969696;line-height:21px}
 #content .pmain.pro .pmpar label{display:inline-block;width:100px;vertical-align:middle;cursor:pointer;color:#b7b7b7;font-size:14px;line-height:110%}
 #content .pmain.pro .pmpar input{width:200px;height:30px;line-height:100%;margin:0;vertical-align:middle !important;display:inline-block;padding-bottom:5px !important;cursor:pointer;vertical-align:bottom;font-size:16px}
 #content .pmain.pro .pmpar .form-control{display:inline-block;width:200px;vertical-align:bottom;font-size:16px}
@@ -100,8 +100,12 @@ body header #header #follow_tab a{position:absolute;top:17px;right:5px;cursor:po
 #content .tab .myset .promy .block{width:200px;margin-right:25px}#content .tab .myset .promy .block .image_box{width:160px;height:160px}
 #content .tab .myset .promy .publish{display:block;text-align:center;position:relative;width:160px}#content .tab .myset .promy .publish strong{font-size:15px;color:#e1e1e1;margin-top:15px;display:block}#content .tab .myset .promy .publish strong b{font-size:12px;color:#888;display:block;margin:5px 0}
 #content .tab .myset .promy .publish button{width:160px;height:100%;font-size:16px;font-family:'Lato',sans-serif;line-height:16px;padding:10px 5px !important;vertical-align:middle !important;display:inline-block;cursor:pointer;background:url("../images/ssbg.png") center center no-repeat;margin-top:15px;color:#fff;border:none}
-#content .tab .myset .promy .publish .pubut{margin-top:15px}#content .tab .myset .promy .publish .pubut i{display:inline-block;font-size:15px;color:#888;vertical-align:middle}#content .tab .myset .promy .publish .pubut i.current{color:#fff}
-#content .tab .myset .promy .publish .pubut span{display:inline-block;background:url("../images/priv.png") left top no-repeat;background-size:50px 25px;width:50px;height:25px;vertical-align:middle;position:relative;margin:0 5px}#content .tab .myset .promy .publish .pubut span img{display:block;width:30px;height:30px;position:absolute;top:-2px;left:-2px;cursor:pointer}#content .tab .myset .promy .publish .pubut span img.butpab{left:22px}
+#content .tab .myset .promy .publish .pubut{margin-top:15px}#content .tab .myset .promy .publish .pubut i{display:inline-block;font-size:15px;color:#888;vertical-align:middle}
+#content .tab .myset .promy .publish .pubut i:last-child{color:#fff}
+#content .tab .myset .promy .publish .pubut.published i:first-child{color:#fff}
+#content .tab .myset .promy .publish .pubut.published i:last-child{color:#888}
+#content .tab .myset .promy .publish .pubut.published em{right:22px}
+#content .tab .myset .promy .publish .pubut span{display:inline-block;background:url("../images/priv.png") left top no-repeat;background-size:50px 25px;width:50px;height:25px;vertical-align:middle;position:relative;margin:0 5px}#content .tab .myset .promy .publish .pubut span em{display:block;width:30px;height:30px;position:absolute;top:-2px;right:-2px;cursor:pointer;background:url("../images/pub.png") left top no-repeat;background-size:100% 100%;transition:all .3s linear;-webkit-transition:all .3s linear}#content .tab .myset .promy .publish .pubut span em.butpab{left:22px}
 #content .tab .myset .promy .pmpar{width:600px;height:100%;padding-bottom:300px}#content .tab .myset .promy .pmpar p{padding-bottom:10px}
 #content .tab .myset .promy .pmpar label{width:130px;font-size:17px}
 #content .tab .myset .promy .pmpar select,#content .tab .myset .promy .pmpar input{width:220px;height:30px !important;padding:2px 5px !important;border:none;font-family:'Lato',sans-serif;color:#e1e1e1;box-shadow:none;height:20px;background:none;font-size:18px;background:url("../images/sbg.png") center center no-repeat;background-size:230px 30px}
@@ -129,7 +133,7 @@ body header #header #follow_tab a{position:absolute;top:17px;right:5px;cursor:po
 .gallery .big b{font-size:24px !important}
 .gallery .big em{display:block;position:absolute;bottom:0;left:-5px;background:url("../images/league.png") left bottom no-repeat;background-size:40px 30px;width:40px;height:30px;z-index:5}
 .image_box{position:relative;cursor:pointer;width:250px;height:250px}.image_box sup{display:block;position:absolute;top:0;right:0;background:url("../images/asterisk2.png") right top no-repeat;width:50px;height:50px;z-index:10}
-.image_box s{display:block;position:absolute;bottom:-20px;left:0;width:300px;z-index:10;text-decoration:none;font-size:12px;color:#e1e1e1}
+.image_box s{display:block;position:absolute;bottom:-20px;left:0;white-space:nowrap;z-index:10;text-decoration:none;font-size:12px;color:#e1e1e1}
 .image_box .sub{position:absolute;z-index:10;width:100%;height:0;opacity:0;top:0;left:0;overflow:hidden;transition:all .3s linear;-webkit-transition:all .3s linear;text-align:center;background:rgba(0,0,0,0.45)}.image_box .sub ul{padding-top:10%;text-align:center;height:20%;margin-left:-35px}.image_box .sub ul li{display:inline-block;width:25%;height:100%;margin:0 15px}.image_box .sub ul li img,.image_box .sub ul li span{width:100%;height:100%;display:inline-block;background-size:100%}
 .image_box .sub ul li a{width:20%;height:35%;display:inline-block;cursor:pointer}
 .image_box .sub b{font-family:'Lato',sans-serif;color:#fff;font-size:100%;display:block;text-align:center;padding:20% 5% 0 5%;transition:all .3s linear;-webkit-transition:all .3s linear}.image_box .sub b s{font-size:90%;padding-top:5%;display:block;text-decoration:none}

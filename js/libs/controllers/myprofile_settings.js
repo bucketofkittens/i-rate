@@ -42,6 +42,13 @@ function MyProfileSettingsController($scope, UserService, SocialService, Friends
 		$rootScope.$broadcast('hideShadow');
 	}
 
+    // изменение состояния публикации профигя
+    $scope.changePublish = function() {
+        $scope.workspace.user.published = !$scope.workspace.user.published;
+        // сохраняем
+        $scope.updateUserParamByValue('published', $scope.workspace.user.published);
+    }
+
 	// открываем модальное окно манипуляций с картинками
 	$scope.onReadFile = function($event) {
         $rootScope.$broadcast('cropImage');
