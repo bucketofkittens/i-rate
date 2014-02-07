@@ -7056,10 +7056,11 @@ function SearchAdvanceController($scope, $location, $rootScope, User, Profession
 function SearchLeftController($scope, $location, $rootScope) {
 	// забираем текст поиска из location
     $scope.searchText = $location.search().text;
+    $scope.resultSearch = $scope.test_($scope.searchText);
 
     // проверяем загрузку всех по
     $rootScope.$watch('users', function() {
-		$scope.test_($scope.searchText);
+		$scope.resultSearch = $scope.test_($scope.searchText);
 	});
 
 	// ловим собыития с данными из расширенного поиска
@@ -7144,13 +7145,14 @@ function SearchController($scope, User, $rootScope, $location) {
     /**
      * Скрывать поиск при клике вне него
      */
-    document.getElementsByTagName("header")[0].onclick = this.windowClickCallback_;
-
+    if(document.getElementsByTagName("header")[0]) {
+        document.getElementsByTagName("header")[0].onclick = this.windowClickCallback_;
+    }
 
     // проверяем вхождения пользователей
     $scope.test_ = function(text, callback) {
         $scope.resultSearch = [];
-        
+
         angular.forEach($rootScope.users, function(value, key) {
             var reg = new RegExp(text.replace("[", "\\[").replace("]", "\\]"), "i");
             if(value.name && value.name != null && value.name != "null" && reg.test(value.name)) {
