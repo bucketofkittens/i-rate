@@ -2327,22 +2327,6 @@ pgrModule.directive('mydash', function(User) {
         }
       }
 
-      scope.$watch("workspace.user.points", function (newVal, oldVal, scope) {
-        if(newVal && newVal > 0) {
-          if(scope.centerTextDraw) {
-            scope.updatePointText_();
-          } else {
-            scope.drawFullDashboard_();
-          }
-          
-          scope.drawCenterArc_(scope.db2Draw);
-
-          if(scope.workspace.user && scope.workspace.needs && scope.workspace.needs.length > 0) {
-            scope.setNeeds();
-          }
-        }
-      });
-
       scope.drawSegmentPoints_ = function(positions, images, specialPosition, dotCorruptions) {
           var containerParams = {
             x: specialPosition ? specialPosition.x : scope.dashboard_size.width/2-images[0].width/2,
@@ -2388,8 +2372,8 @@ pgrModule.directive('mydash', function(User) {
 
           var centerImgContainer =  new Kinetic.Image({
               image: image,
-              x: 3,
-              y: -30,
+              x: 0,
+              y: -45,
               name: "image4"
           });
 
@@ -2565,18 +2549,6 @@ pgrModule.directive('mydash', function(User) {
           scope.updatePointText_();
       }
 
-      scope.$watch("workspace.needs", function (newVal, oldVal, scope) {
-        if(newVal && newVal.length > 0 && scope.workspace.user && scope.workspace.user.sguid) {
-          scope.setNeeds();
-        }
-      });
-
-      scope.$watch("workspace.user", function (newVal, oldVal, scope) {
-        if(newVal && newVal.sguid > 0 && scope.workspace.needs && scope.workspace.needs.length > 0) {
-          scope.setNeeds();
-        }
-      });
-
       scope.setNeeds = function() {
           if(scope.db3Draw) {
             scope.clearNeeds();
@@ -2692,10 +2664,8 @@ pgrModule.directive('mydash', function(User) {
 
       scope.drawDashboard_ = function() {
             var manifest = [
-                {src:"db22.png", id:"db2"},
-                {src:"db22p.png", id:"db2p"},
+                {src:"db2.png", id:"db2"},
                 {src:"db3.png", id:"db3"},
-                {src:"db3p.png", id:"db3p"},
                 {src:"db-t.png", id:"dbt"},
                 {src:"db1.png", id:"db"}
             ];
@@ -2721,6 +2691,7 @@ pgrModule.directive('mydash', function(User) {
 
                 scope.drawText_(preload.getResult("dbt"));
                 scope.drawCenterArc_(cont);
+                scope.setNeeds();
             });
 
             preload.loadManifest(manifest);
@@ -2757,9 +2728,8 @@ pgrModule.filter('removewhite', function () {
 })
 
 pgrModule.filter('notnull', function () {
-    return function(text) {
-    	text = !text ? 0 : text;
-        return text;
+    return function(text) {	
+        return !text ? 0 : text;
     }
 })
 
@@ -3892,8 +3862,8 @@ $templateCache.put('partials/improva.html', "<h4 class=\"imprin\">Sign in with</
 $templateCache.put('partials/leagues.html', "<section class=\"leaglist\">\n\t<a ng-click=\"onLeagUser(item)\" ng-class=\"{curleag:item.curleag}\" ng-repeat=\"(key, item) in leagues\">\n\t\t<img ng-if=\"key == 0\" src=\"/images/I.png\" />\n\t\t<img ng-if=\"key == 1\" src=\"/images/II.png\" />\n\t\t<img ng-if=\"key == 2\" src=\"/images/III.png\" />\n\t\t<img ng-if=\"key == 3\" src=\"/images/IV.png\" />\n\t\t<img ng-if=\"key == 4\" src=\"/images/V.png\" />\n\t\t<img ng-if=\"key == 5\" src=\"/images/VI.png\" />\n\t\t<img ng-if=\"key == 6\" src=\"/images/VII.png\" />\n\t\t<img ng-if=\"key == 7\" src=\"/images/VIII.png\" />\n\t\t<img ng-if=\"key == 8\" src=\"/images/IX.png\" />\n\t\t<img ng-if=\"key == 9\" src=\"/images/X.png\" />\n\t</a>\n</section>");
 $templateCache.put('partials/loader.html', "<div id=\"modal-shadow\" ng-controller=\"LoaderController\">\n\t<span id=\"loader\"></span>\n</div>");
 $templateCache.put('partials/main_user_item.html', "<div\n\tng-click=\"onUserClick(userItem, $event)\"\n\tng-class=\"{big: userItem.big}\"\n\tclass=\"item l_{userItem.league.name}\"\n\tng-repeat=\"(userKey, userItem) in users\"\n\tng-style=\"{width: userItem.size, height: userItem.size}\"\n\tmasonry-item>\n\t<div \t\n\t\tclass=\"wr\" \n\t\tng-style=\"{width: userItem.size, height: userItem.size}\" \n\t\tback-img=\"{{userItem.avatar}}\" \n\t\tng-class=\"{big: userItem.big}\"\n\t\tng-click=\"switchState(userItem)\"\n\t\tset-width >\n\t\t<i>{{userItem.points}}</i>\n\t\t<div class=\"sub\">\n\t\t\t<b>{{userItem.name}} <br /><s>{{userItem.league.name}} league</s></b>\n\t\t\t<ul>\n\t\t\t\t<li>\n\t\t\t\t\t<a ng-click=\"onMoveToProfile(userItem)\">\n\t\t\t\t\t\t<span class=\"icon profile navigate\"></span>\n\t\t\t\t\t</a>\n\t\t\t\t</li>\n\t\t\t\t<li>\n\t\t\t\t\t<a ng-click=\"onMoveToCompare(userItem)\">\n\t\t\t\t\t\t<span class=\"icon compare navigate\"></span>\n\t\t\t\t\t</a>\n\t\t\t\t</li>\n\t\t\t\t<li>\n\t\t\t\t\t<a ng-if=\"!userItem.isFrend\" ng-click=\"onFollow(userItem)\">\n\t\t\t\t\t\t<span class=\"icon follow navigate\"></span>\n\t\t\t\t\t</a>\n\t\t\t\t\t<a ng-if=\"userItem.isFrend\" ng-click=\"onUnFollow(userItem)\">\n\t\t\t\t\t\t<span class=\"icon unfollow navigate\"></span>\n\t\t\t\t\t</a>\n\t\t\t\t</li>\n\t\t\t</ul>\n\t\t</div>\n\t\t<em></em>\n\t</div>\n</div>");
-$templateCache.put('partials/mydash.html', "<section class=\"mydash\">\n\t<div id=\"mydash_draw\" mydash></div>\n</section>");
-$templateCache.put('partials/myprofile.html', "<div class=\"full_height\" ng-if=\"showProfile\" id=\"myprofile\">\n\t<div class=\"center\">\n\t\t<div id=\"profile_header\">\n\t\t\t<!-- навигация -->\n\t\t\t<div class=\"mynav\">\n\t\t\t\t<ul>\n\t\t\t\t\t<li ng-repeat=\"(navKey, navValue) in navItems\"\n\t\t\t\t\t\tng-class=\"{current: navValue.current}\">\n\t\t\t\t\t\t<a ng-click=\"changeState(navKey)\">\n\t\t\t\t\t\t\t<span class=\"icon {{navValue.name}}\"></span>\n\t\t\t\t\t\t\t{{navValue.name}}\n\t\t\t\t\t\t</a>\n\t\t\t\t\t</li>\n\t\t\t\t</ul>\n\t\t\t\t<h2>{{currentNav.name}}</h2>\n\t\t\t\t<span class=\"close\" ng-click=\"close()\"></span>\n\t\t\t</div>\n\n\t\t\t<p id=\"setting_info\">\n\t\t\t\t{{workspace.user.league.name}} league   Score: {{workspace.user.points}}\n\t\t\t</p>\n\t\t</div>\n\t\t\n\t\t<div class=\"tabs full_height\">\n\t\t\t<div ng-if=\"currentNav.name == indexes.PROFILE && workspace.user\" class=\"tab\">\n\t\t\t\t<section \n\t\t\t\t\tclass=\"tab\" \n\t\t\t\t\tng-include \n\t\t\t\t\tsrc=\"'partials/profile.html'\" >\n\t\t\t\t</section>\n\t\t\t</div>\n\t\t\t<div ng-show=\"currentNav.name == indexes.DASHBOARD && workspace.user\" class=\"tab\">\n\t\t\t\t<section \n\t\t\t\t\tclass=\"tab\" \n\t\t\t\t\tng-include \n\t\t\t\t\tsrc=\"'partials/mydash.html'\" >\n\t\t\t\t</section> \n\t\t\t</div>\n\t\t\t<div ng-if=\"currentNav.name == indexes.SETTINGS && workspace.user\" class=\"tab\">\n\t\t\t\t<section \n\t\t\t\t\tclass=\"tab\" \n\t\t\t\t\tng-controller=\"MyProfileSettingsController\" \n\t\t\t\t\tng-include \n\t\t\t\t\tsrc=\"'partials/mysettings.html'\" >\n\t\t\t\t</section>\n\t\t\t</div>\t\n\t\t</div>\n\t</div>\n</div>");
+$templateCache.put('partials/mydash.html', "<section class=\"mydash tab\">\n\t<div id=\"mydash_draw\" mydash></div>\n</section>");
+$templateCache.put('partials/myprofile.html', "<div class=\"full_height\" ng-if=\"showProfile\" id=\"myprofile\">\n\t<div class=\"center\">\n\t\t<div id=\"profile_header\">\n\t\t\t<!-- навигация -->\n\t\t\t<div class=\"mynav\">\n\t\t\t\t<ul>\n\t\t\t\t\t<li ng-repeat=\"(navKey, navValue) in navItems\"\n\t\t\t\t\t\tng-class=\"{current: navValue.current}\">\n\t\t\t\t\t\t<a ng-click=\"changeState(navKey)\">\n\t\t\t\t\t\t\t<span class=\"icon {{navValue.name}}\"></span>\n\t\t\t\t\t\t\t{{navValue.name}}\n\t\t\t\t\t\t</a>\n\t\t\t\t\t</li>\n\t\t\t\t</ul>\n\t\t\t\t<h2>{{currentNav.name}}</h2>\n\t\t\t\t<span class=\"close\" ng-click=\"close()\"></span>\n\t\t\t</div>\n\n\t\t\t<p id=\"setting_info\">\n\t\t\t\t{{workspace.user.league.name}} league   Score: {{workspace.user.points}}\n\t\t\t</p>\n\t\t</div>\n\t\t\n\t\t<div class=\"tabs full_height\">\n\t\t\t<div ng-if=\"currentNav.name == indexes.PROFILE && workspace.user\" class=\"tab\">\n\t\t\t\t<section \n\t\t\t\t\tclass=\"tab\" \n\t\t\t\t\tng-include \n\t\t\t\t\tsrc=\"'partials/profile.html'\" >\n\t\t\t\t</section>\n\t\t\t</div>\n\t\t\t<div ng-if=\"currentNav.name == indexes.DASHBOARD && workspace.user\" class=\"tab\">\n\t\t\t\t<section \n\t\t\t\t\tclass=\"tab\" \n\t\t\t\t\tng-include \n\t\t\t\t\tsrc=\"'partials/mydash.html'\" >\n\t\t\t\t</section> \n\t\t\t</div>\n\t\t\t<div ng-if=\"currentNav.name == indexes.SETTINGS && workspace.user\" class=\"tab\">\n\t\t\t\t<section \n\t\t\t\t\tclass=\"tab\" \n\t\t\t\t\tng-controller=\"MyProfileSettingsController\" \n\t\t\t\t\tng-include \n\t\t\t\t\tsrc=\"'partials/mysettings.html'\" >\n\t\t\t\t</section>\n\t\t\t</div>\t\n\t\t</div>\n\t</div>\n</div>");
 $templateCache.put('partials/mysettings.html', "<div ng-controller=\"CropImageController\" ng-include src=\"'partials/crop-image.html'\"></div>\n\n<section class=\"myset\">\n\t<div \n\t\tclass=\"pmain pro promy\" >\n\t\t<div class=\"block\">\n\t\t\t<input \n\t\t\t\tclass=\"hidden\" \n\t\t\t\tid=\"photo_crop\" \n\t\t\t\tonchange=\"angular.element(this).scope().onReadFile()\" \n\t\t\t\tcapture=\"camera\" \n\t\t\t\ttype=\"file\" \n\t\t\t\taccept=\"image/*\" />\n\t\t\t\n\t\t\t<div class=\"image_box\" crop-click ng-click=\"onUpdateFile()\">\n\t\t\t\t<img \n\t\t\t\t\tclass=\"pp\" \n\t\t\t\t\tng-src=\"{{workspace.user.avatar}}\" \n\t\t\t\t\terr-src=\"/images/unknown-person.png\" />\n\t\t\t</div>\n\t\t\t\n\t\t\t<div class=\"publish\" >\n\t\t\t\t\t<strong ng-if=\"workspace.user.published == 0\">\n\t\t\t\t\t\tYour account is private.<b>Only you can see your profile.</b>\n\t\t\t\t\t</strong>\n\t\t\t\t\t<strong ng-if=\"workspace.user.published == 1\">\n\t\t\t\t\t\tYour account is public.<b>Everybody can see you profile.</b>\n\t\t\t\t\t</strong>\n\t\t\t\t\t<div class=\"pubut\" ng-class=\"{ published: workspace.user.published }\">\n\t\t\t\t\t\t<i>Public</i>\n\t\t\t\t\t\t<span ng-click=\"changePublish()\">\n\t\t\t\t\t\t\t<em class=\"icon pub\"></em>\n\t\t\t\t\t\t</span>\n\t\t\t\t\t\t<i>Private</i>\n\t\t\t\t\t</div>\n\t\t\t</div>\n\t\t\t<div class=\"publish\">\n\t\t\t\t<button ng-click=\"onLogout()\">Sign out</button>\n\t\t\t</div>\n\t\t</div>\n\n\t\t<div class=\"pmpar\">\n\t\t\t<p>\n\t\t\t\t<label for=\"i1_i\">Name:</label> \n\t\t\t\t<input \n\t\t\t\t\ttype=\"text\" \n\t\t\t\t\tid=\"i1_i\" \n\t\t\t\t\tng-model=\"workspace.user.name\"\n\t\t\t\t\trequired\n\t\t\t\t\tng-change=\"updateUserParamByValue('name', workspace.user.name)\" />\n\t\t\t</p>\n\t\t\t<div class=\"popup_list\" ng-if=\"showedNames.length > 0\">\n\t\t\t\t<ul>\n\t\t\t\t\t<li ng-repeat=\"(nameKey, nameItem) in showedNames\">\n\t\t\t\t\t\t<a>{{nameItem}}</a>\n\t\t\t\t\t</li>\n\t\t\t\t</ul>\n\t\t\t</div>\n\t\t\t<p class=\"errors\" ng-if=\"nameIsError\">Name already user.</p>\n\t\t\t<p>\n\t\t\t\t<label for=\"i2_i\">Birthday:</label>\n\t\t\t\t<input \n\t\t\t\t\ttype=\"date\"\n\t\t\t\t\tng-model=\"workspace.user.birthday\"\n\t\t\t\t\tid=\"i2_i\"\n\t\t\t\t\tng-change=\"updateBirthday()\" />\n\t\t\t</p>\n\t\t\t<p>\n\t\t\t\t<label for=\"i3_i\">Сountry:</label>\n\t\t\t\t<select\n\t\t\t\t\tui-select2=\"{ width: 230 }\"\n\t\t\t\t\tid=\"i3_i\"\n\t\t\t\t\tng-model=\"workspace.user.state.sguid\"\n\t\t\t\t\tng-change=\"cityByState($event)\">\n\t\t\t\t\t<option ng-repeat=\"(key, value) in workspace.country\" value=\"{{value.sguid}}\" >{{value.name}}</option>\n\t\t\t\t</select>\n\t\t\t</p>\n\t\t\t<p>\n\t\t\t\t<label for=\"i4_i\">City:</label>\n\t\t\t\t<input \n\t\t\t\t\tid=\"i4_i\" \n\t\t\t\t\tng-model=\"workspace.user.city.name\"\n\t\t\t\t\ttype=\"text\"\n\t\t\t\t\tng-change=\"changeCity($event)\"\n\t\t\t\t\tng-blur=\"blurCity($event)\" />\n\t\t\t\t\t<img \n\t\t\t\t\t\tsrc=\"/images/7.jpg\" \n\t\t\t\t\t\tclass=\"cursor\" \n\t\t\t\t\t\tng-click=\"addCity($event)\" \n\t\t\t\t\t\twidth=\"40px\" \n\t\t\t\t\t\talt=\"\"\n\t\t\t\t\t\tng-if=\"showCityAddButton\" />\n\t\t\t</p>\n\t\t\t<div class=\"popup_list\" ng-if=\"showCityList\">\n\t\t\t\t<ul>\n\t\t\t\t\t<li ng-if=\"cityItem.show\" ng-repeat=\"(cityKey, cityItem) in city\">\n\t\t\t\t\t\t<a ng-click=\"selectCity($event, cityItem, cityKey)\">{{cityItem.name}}</a>\n\t\t\t\t\t\t<span class=\"close icon\" ng-click=\"deleteCityItem($event, cityItem, cityKey)\"></span>\n\t\t\t\t\t</li>\n\t\t\t\t</ul>\n\t\t\t</div>\n\t\t\t<p>\n\t\t\t\t<label for=\"i5_i\">Career:</label>\n\t\t\t\t<select\n\t\t\t\t\tui-select2=\"{ width: 230 }\"\n\t\t\t\t\tid=\"i5_i\"\n\t\t\t\t\tng-model=\"workspace.user.profession.goal_sguid\"\n\t\t\t\t\tng-change=\"selectCareer($event)\">\n\t\t\t\t\t<option ng-repeat=\"(key, value) in workspace.careers\" value=\"{{value.sguid}}\" >{{value.name}}</option>\n\t\t\t\t</select>\n\t\t\t</p>\n\t\t\t<p>\n\t\t\t\t<label for=\"i6_i\">Profession:</label>\n\t\t\t\t<input \n\t\t\t\t\tid=\"i6_i\" \n\t\t\t\t\tng-model=\"workspace.user.profession.name\"\n\t\t\t\t\ttype=\"text\"\n\t\t\t\t\tng-change=\"changeProfession($event)\" \n\t\t\t\t\tng-blur=\"blurProfession($event)\" />\n\t\t\t\t\t<img \n\t\t\t\t\t\tsrc=\"/images/7.jpg\" \n\t\t\t\t\t\tclass=\"cursor\" \n\t\t\t\t\t\tng-click=\"addProfession($event)\" \n\t\t\t\t\t\twidth=\"40px\" \n\t\t\t\t\t\talt=\"\"\n\t\t\t\t\t\tng-if=\"showProfessionAddButton\" />\n\t\t\t</p>\n\t\t\t<div class=\"popup_list\" ng-if=\"showProfessionList\">\n\t\t\t\t<ul>\n\t\t\t\t\t<li ng-if=\"profItem.show\" ng-repeat=\"(profKey, profItem) in profession\">\n\t\t\t\t\t\t<a ng-click=\"selectProfession($event, profItem, profKey)\">{{profItem.name}}</a>\n\t\t\t\t\t\t<span class=\"close icon\" ng-click=\"deleteItem($event, profItem, profKey)\"></span>\n\t\t\t\t\t</li>\n\t\t\t\t</ul>\n\t\t\t</div>\n\t\t\t<p>\n\t\t\t\t<label for=\"i7_i\">E-mail:</label> \n\t\t\t\t<input \n\t\t\t\t\ttype=\"email\" \n\t\t\t\t\tid=\"i7_i\" \n\t\t\t\t\tng-model=\"workspace.user.email\"\n\t\t\t\t\treadonly=\"readonly\"\n\t\t\t\t\trequired />\n\t\t\t</p>\n\t\t\t<p ng-controller=\"QuickUserChangeCtrl\">\n\t\t\t\t<label for=\"username_i\">Username:</label>\n\t\t\t\t<select\n\t\t\t\t\tui-select2=\"{ width: 230 }\"\n\t\t\t\t\tid=\"acc_i\"\n\t\t\t\t\tng-model=\"nextUser\" \n\t\t\t\t\tng-change=\"onMoveUserClick($event, nextUser)\">\n\t\t\t\t\t<option ng-repeat=\"(key, value) in users\" value=\"{{value.sguid}}\" >{{value.name}}</option>\n\t\t\t\t</select>\n\t\t\t</p>\n\t\t\t<p ng-if=\"!social\">\n\t\t\t\t<button class=\"reset\" ng-click=\"onChangePassword()\">Reset password</button>\n\t\t\t</p>\n\t\t</div>\n\t</div>\n</section>");
 $templateCache.put('partials/neighbours.html', "<div class=\"nearblock\" ng-controller=\"NeighboursCtrl\">\n\t<div ng-controller=\"GalleryController\"  ng-init=\"id='top';title='_topL_'\">\n\t\t<div class=\"lnbl\" ng-include src=\"'partials/gallery.html'\"></div>\n\t</div>\n\t<i></i>\n\t<div ng-controller=\"GalleryController\"  ng-init=\"id='neigh';title='_neighL_'\">\n\t\t<div class=\"lnbl\" ng-include src=\"'partials/gallery.html'\"></div>\n\t</div>\n</div>");
 $templateCache.put('partials/nsi-add.html', "<div id=\"nsi_content\" ng-controller=\"NSIAddController\">\n\t<h2>Add league</h2>\n\t<table>\n\t\t<tr>\n\t\t\t<td>Name:</td>\n\t\t\t<td><input type=\"text\" ng-model=\"form.name\" /></td>\n\t\t</tr>\n\t\t<tr>\n\t\t\t<td>Min:</td>\n\t\t\t<td><input type=\"text\" ng-model=\"form.min_border\" /></td>\n\t\t</tr>\n\t\t<tr>\n\t\t\t<td>Max:</td>\n\t\t\t<td><input type=\"text\" ng-model=\"form.max_border\" /></td>\n\t\t</tr>\n\t\t<tr>\n\t\t\t<td>Size:</td>\n\t\t\t<td><input type=\"text\" ng-model=\"form.size\" /></td>\n\t\t</tr>\n\t\t<tr>\n\t\t\t<td></td>\n\t\t\t<td>\n\t\t\t\t<a class=\"buttons green\" ng-click=\"addLeague()\">Save</a>\n\t\t\t\t<a class=\"buttons red\" ng-click=\"close()\">Close</a>\n\t\t\t</td>\n\t\t</tr>\n\t</table>\n\t<div class=\"btns\">\n\t\t\n\t</div>\n</div>");
