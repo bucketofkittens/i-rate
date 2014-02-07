@@ -6370,14 +6370,14 @@ function NeedsAndGoalsController($scope, СareerService, UserService, Goals, Cri
         
         var isCurrent = false;
         $.each(parentUl.find("li"), function(key, value) {
-            if(value == parentLi.get(0)) {
-                isCurrent = true;
-            }
-
             if(!isCurrent) {
                 $(value).addClass("white-text");
             } else {
                 $(value).removeClass("white-text");
+            }
+            
+            if(value == parentLi.get(0)) {
+                isCurrent = true;
             }
             
         });

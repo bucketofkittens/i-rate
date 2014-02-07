@@ -1,39 +1,38 @@
 // контроллер работы с колбасами в чужом профиле
-function UserNeedsController($scope) {
+function UserNeedsController($scope, $rootScope) {
     // открываем критерий
     $scope.showCriterias = function($event, needItem, goalItem, needs) {
-        if(!goalItem.current) {
-            $scope.$parent.getCriteriumByGoal(goalItem); 
+        $rootScope.$broadcast('toggleCriteria', {
+                goalItem: goalItem,
+                state: goalItem.current ? false : true
+            }
+        );
+    }
+
+    // меняем состояние критерия
+    $scope.$on('toggleCriteria', function(event, message) {
+        var currentGoal = null;
+        angular.forEach($scope.needs, function(value, key){
+            angular.forEach(value.goals, function(gValue, gKey){
+                if(gValue.sguid == message.goalItem.sguid) {
+                    currentGoal = gValue;
+                }
+            });
+        });
+
+        if(!currentGoal.current) {
+            $scope.$parent.getCriteriumByGoal(currentGoal); 
         } 
 
-        goalItem.current = goalItem.current ? false : true;
-        $scope.syncOpenAndClose($event, goalItem);
-    }
+        currentGoal.current = currentGoal.current ? false : true;
+    });
 
-    // синхронно открываем два одинаковых критерия
-    $scope.syncOpenAndClose = function($event, goal) {
-        if($event) {
-            var element = $($event.currentTarget).find("a");
-
-                if(element) {
-                    var id = element.attr("data-goalid");
-                    var items = $("a[data-goalid='"+id+"']");
-                    var hasCurrent = $(element).hasClass("current");
-                    
-                    $.each(items, function(key, value) {
-                        if($(value).attr("user-id") != $scope.user.sguid) {
-                            if(
-                                goal.current && !$(value).hasClass("current") ||
-                                !goal.current && $(value).hasClass("current")) {
-
-                                setTimeout(function() {
-                                    $(value).parent().click();
-                                }, 0);    
-                            }
-                        }
-                    }
-                );
-            }   
-        }
-    }
+    // меняем состояние показа нидсов
+    $scope.$on('toggleNeed', function(event, message) {
+        angular.forEach($scope.needs, function(value, key){
+            if(value.sguid == message.needItem.sguid) {
+                value.hidden = message.state;
+            }
+        });
+    });
 }

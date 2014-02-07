@@ -81,6 +81,6 @@ function UserController($scope, FriendsService, UserService, $element, $route, $
 
     // показываем или скрываем список голов
     $scope.onShowGoals = function($event, needItem) {
-        needItem.hidden = needItem.hidden ? false : true;
+        $rootScope.$broadcast('toggleNeed', {needItem: needItem, state: needItem.hidden ? false : true});
     }
 }
