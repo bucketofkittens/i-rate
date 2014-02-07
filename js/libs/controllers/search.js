@@ -64,13 +64,14 @@ function SearchController($scope, User, $rootScope, $location) {
     /**
      * Скрывать поиск при клике вне него
      */
-    document.getElementsByTagName("header")[0].onclick = this.windowClickCallback_;
-
+    if(document.getElementsByTagName("header")[0]) {
+        document.getElementsByTagName("header")[0].onclick = this.windowClickCallback_;
+    }
 
     // проверяем вхождения пользователей
     $scope.test_ = function(text, callback) {
         $scope.resultSearch = [];
-        
+
         angular.forEach($rootScope.users, function(value, key) {
             var reg = new RegExp(text.replace("[", "\\[").replace("]", "\\]"), "i");
             if(value.name && value.name != null && value.name != "null" && reg.test(value.name)) {

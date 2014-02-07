@@ -2,10 +2,11 @@
 function SearchLeftController($scope, $location, $rootScope) {
 	// забираем текст поиска из location
     $scope.searchText = $location.search().text;
+    $scope.resultSearch = $scope.test_($scope.searchText);
 
     // проверяем загрузку всех по
     $rootScope.$watch('users', function() {
-		$scope.test_($scope.searchText);
+		$scope.resultSearch = $scope.test_($scope.searchText);
 	});
 
 	// ловим собыития с данными из расширенного поиска
