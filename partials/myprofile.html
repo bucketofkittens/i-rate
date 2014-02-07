@@ -29,7 +29,7 @@
 					src="'partials/profile.html'" >
 				</section>
 			</div>
-			<div ng-show="currentNav.name == indexes.DASHBOARD && workspace.user" class="tab">
+			<div ng-if="currentNav.name == indexes.DASHBOARD && workspace.user" class="tab">
 				<section 
 					class="tab" 
 					ng-include 

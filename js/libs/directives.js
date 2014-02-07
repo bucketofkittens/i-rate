@@ -259,22 +259,6 @@ pgrModule.directive('mydash', function(User) {
         }
       }
 
-      scope.$watch("workspace.user.points", function (newVal, oldVal, scope) {
-        if(newVal && newVal > 0) {
-          if(scope.centerTextDraw) {
-            scope.updatePointText_();
-          } else {
-            scope.drawFullDashboard_();
-          }
-          
-          scope.drawCenterArc_(scope.db2Draw);
-
-          if(scope.workspace.user && scope.workspace.needs && scope.workspace.needs.length > 0) {
-            scope.setNeeds();
-          }
-        }
-      });
-
       scope.drawSegmentPoints_ = function(positions, images, specialPosition, dotCorruptions) {
           var containerParams = {
             x: specialPosition ? specialPosition.x : scope.dashboard_size.width/2-images[0].width/2,
@@ -320,8 +304,8 @@ pgrModule.directive('mydash', function(User) {
 
           var centerImgContainer =  new Kinetic.Image({
               image: image,
-              x: 3,
-              y: -30,
+              x: 0,
+              y: -45,
               name: "image4"
           });
 
@@ -497,18 +481,6 @@ pgrModule.directive('mydash', function(User) {
           scope.updatePointText_();
       }
 
-      scope.$watch("workspace.needs", function (newVal, oldVal, scope) {
-        if(newVal && newVal.length > 0 && scope.workspace.user && scope.workspace.user.sguid) {
-          scope.setNeeds();
-        }
-      });
-
-      scope.$watch("workspace.user", function (newVal, oldVal, scope) {
-        if(newVal && newVal.sguid > 0 && scope.workspace.needs && scope.workspace.needs.length > 0) {
-          scope.setNeeds();
-        }
-      });
-
       scope.setNeeds = function() {
           if(scope.db3Draw) {
             scope.clearNeeds();
@@ -624,10 +596,8 @@ pgrModule.directive('mydash', function(User) {
 
       scope.drawDashboard_ = function() {
             var manifest = [
-                {src:"db22.png", id:"db2"},
-                {src:"db22p.png", id:"db2p"},
+                {src:"db2.png", id:"db2"},
                 {src:"db3.png", id:"db3"},
-                {src:"db3p.png", id:"db3p"},
                 {src:"db-t.png", id:"dbt"},
                 {src:"db1.png", id:"db"}
             ];
@@ -653,6 +623,7 @@ pgrModule.directive('mydash', function(User) {
 
                 scope.drawText_(preload.getResult("dbt"));
                 scope.drawCenterArc_(cont);
+                scope.setNeeds();
             });
 
             preload.loadManifest(manifest);

@@ -5,9 +5,8 @@ pgrModule.filter('removewhite', function () {
 })
 
 pgrModule.filter('notnull', function () {
-    return function(text) {
-    	text = !text ? 0 : text;
-        return text;
+    return function(text) {	
+        return !text ? 0 : text;
     }
 })
 
