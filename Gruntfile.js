@@ -26,6 +26,7 @@ module.exports = function(grunt) {
                     'js/keypress.js',
                     'js/moment+langs.min.js',
                 	'js/localize.js',
+                    'js/rzslider.min.js',
                     'js/lscache.js',
                     'js/libs/*.js',
                     'js/libs/controllers/*.js'
@@ -35,6 +36,7 @@ module.exports = function(grunt) {
             css: {
                 src: [
                     "css/reset.css",
+                    "css/rzslider.min.css",
                     "css/master.css"
                 ],
                 dest: "build/style.css"

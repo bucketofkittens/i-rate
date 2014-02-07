@@ -50,6 +50,8 @@ table {
 * {
   outline: none;
 }
+/*! angularjs-slider - v0.1.2 - (c) Rafal Zajac <rzajac@gmail.com>, https://github.com/rzajac/angularjs-slider.git - 2013-12-16 */
+rzslider{position:relative;display:inline-block;width:100%;height:2px;margin:30px 0 15px 0;vertical-align:middle}rzslider span{position:absolute;display:inline-block;white-space:nowrap}rzslider span.base{width:100%;height:100%;padding:0}rzslider span.bar{z-index:0;width:100%;height:100%;background:#fff}rzslider span.bar.selection{z-index:1;width:0;background:#67b700}rzslider span.pointer{top:-15px;z-index:2;width:32px;height:32px;cursor:pointer;background-color:#fff;-webkit-border-radius:16px;-moz-border-radius:16px;border-radius:16px}rzslider span.pointer:after{position:absolute;top:12px;left:12px;width:8px;height:8px;background:#71818e;-webkit-border-radius:4px;-moz-border-radius:4px;border-radius:4px;content:''}rzslider span.pointer:hover:after{background-color:#67b700}rzslider span.pointer.active:after{background-color:#67b700}rzslider span.bubble{top:-32px;padding:1px 3px 1px 3px;color:#67b700;cursor:default}rzslider span.bubble.selection{top:15px}rzslider span.bubble.limit{color:#67b700}
 @import url(http://fonts.googleapis.com/css?family=Lato:100,300,400,700);
 select,textarea,input{padding:0 !important}
 img{image-rendering:optimizeQuality;-ms-interpolation-mode:bicubic}
@@ -149,6 +151,8 @@ body header #header #follow_tab a{position:absolute;top:17px;right:5px;cursor:po
 #content .tab .mypro .crits .criterion li .bord .crp span{position:absolute;top:0;height:100%;width:0;left:0;display:block;background:rgba(170,200,255,0.7);cursor:pointer}#content .tab .mypro .crits .criterion li .bord .crp span img{position:absolute;right:-15px;top:0;height:90%;width:15px}
 #content .tab .mydash{width:1000px;display:block;position:relative;margin:0;vertical-align:top;text-align:center;height:90%;min-height:550px;background:url("../images/myglass.png") left top no-repeat;z-index:3;overflow-y:scroll;overflow-x:visible}#content .tab .mydash::-webkit-scrollbar{width:0;height:0}
 #content .tab .myset{width:1000px;display:block;position:relative;margin:0;vertical-align:top;height:100%;min-height:550px;background:url("../images/myglass.png") left top no-repeat;z-index:3;overflow-y:scroll;overflow-x:visible;background-size:100% 100%}#content .tab .myset::-webkit-scrollbar{width:0;height:0}
+#content .tab .myset .select2-container .select2-choice{border:none;background-color:none;background-image:none;color:#fff;background:url("../images/sbg.png") left top no-repeat}#content .tab .myset .select2-container .select2-choice span{background:none;border:none}
+#content .tab .myset .select2-container .select2-choice b{background:url("../images/fullsearch.png") left top no-repeat;background-size:32px 32px;height:32px;width:32px;margin:-3px 0 0 -12px}
 #content .tab .myset .promy .block{width:200px;margin-right:25px}#content .tab .myset .promy .block .image_box{width:160px;height:160px}
 #content .tab .myset .promy .publish{display:block;text-align:center;position:relative;width:160px}#content .tab .myset .promy .publish strong{font-size:15px;color:#e1e1e1;margin-top:15px;display:block}#content .tab .myset .promy .publish strong b{font-size:12px;color:#888;display:block;margin:5px 0}
 #content .tab .myset .promy .publish button{width:160px;height:100%;font-size:16px;font-family:'Lato',sans-serif;line-height:16px;padding:10px 5px !important;vertical-align:middle !important;display:inline-block;cursor:pointer;background:url("../images/ssbg.png") center center no-repeat;margin-top:15px;color:#fff;border:none}
@@ -157,7 +161,7 @@ body header #header #follow_tab a{position:absolute;top:17px;right:5px;cursor:po
 #content .tab .myset .promy .publish .pubut.published i:first-child{color:#fff}
 #content .tab .myset .promy .publish .pubut.published i:last-child{color:#888}
 #content .tab .myset .promy .publish .pubut.published em{right:22px}
-#content .tab .myset .promy .publish .pubut span{display:inline-block;background:url("../images/priv.png") left top no-repeat;background-size:50px 25px;width:50px;height:25px;vertical-align:middle;position:relative;margin:0 5px}#content .tab .myset .promy .publish .pubut span em{display:block;width:30px;height:30px;position:absolute;top:-2px;right:-2px;cursor:pointer;background:url("../images/pub.png") left top no-repeat;background-size:100% 100%;transition:all .3s linear;-webkit-transition:all .3s linear}#content .tab .myset .promy .publish .pubut span em.butpab{left:22px}
+#content .tab .myset .promy .publish .pubut span{display:inline-block;background:url("../images/priv.png") left top no-repeat;background-size:50px 25px;width:50px;height:25px;vertical-align:middle;position:relative;margin:0 5px;cursor:pointer}#content .tab .myset .promy .publish .pubut span em{display:block;width:30px;height:30px;position:absolute;top:-2px;right:-2px;cursor:pointer;background:url("../images/pub.png") left top no-repeat;background-size:100% 100%;transition:all .3s linear;-webkit-transition:all .3s linear}#content .tab .myset .promy .publish .pubut span em.butpab{left:22px}
 #content .tab .myset .promy .pmpar{width:600px;height:100%;padding-bottom:300px}#content .tab .myset .promy .pmpar p{padding-bottom:10px}
 #content .tab .myset .promy .pmpar label{width:130px;font-size:17px}
 #content .tab .myset .promy .pmpar select,#content .tab .myset .promy .pmpar input{width:220px;height:30px !important;padding:2px 5px !important;border:none;font-family:'Lato',sans-serif;color:#e1e1e1;box-shadow:none;height:20px;background:none;font-size:18px;background:url("../images/sbg.png") center center no-repeat;background-size:230px 30px}
@@ -306,9 +310,10 @@ sup.bidubi{top:13px !important;border-width:23px 0 23px 15px}
 .ui-menu-item:hover .close{display:block;right:-30px}
 .ui-menu .ui-menu-item a{margin-right:30px}
 .singin-sub{margin:40px 17px 0 0}
-.popup_list{position:absolute;margin:-10px 0 0 135px;background:usl("../images/glass.ong") left top no-repeat;box-shadow:0 0 20px 0 rgba(0,0,0,0.5);z-index:9999;max-height:220px;overflow-y:auto}.popup_list li{padding:10px;position:relative}.popup_list li a{cursor:pointer;display:block;margin-right:15px}
-.popup_list li span{cursor:pointer}
-.popup_list li:hover{background:#ccc}
+.popup_list{position:absolute;margin:-10px 0 0 133px;background:url("../images/glass.png") left top no-repeat;background-size:100% 110%;background-color:rgba(255,255,255,0.8);box-shadow:0 0 20px 0 rgba(0,0,0,0.5);z-index:9999;max-height:220px;width:230px;overflow-y:auto;color:#fff}.popup_list::-webkit-scrollbar{width:0;height:0}
+.popup_list li{padding:10px 0;margin:0 auto;position:relative;border-top:1px solid #777;border-bottom:1px solid #333;width:200px}.popup_list li a{cursor:pointer;display:block;margin-right:15px}
+.popup_list li span{cursor:pointer;background:url("../images/fusedel.png") left top no-repeat !important;background-size:25px 25px !important;width:25px !important;height:25px !important;top:5px !important}
+.popup_list li:hover{background:rgba(0,0,0,0.1)}
 .form-show{position:fixed;left:50%;top:50%;z-index:99999;background:#fff;text-align:center;width:300px;margin-left:-150px;box-shadow:0 0 20px 1px rgba(0,0,0,0.2);padding:30px;margin-top:-150px}.form-show p{font-size:16px}
 .form-show input{float:none}
 .improva{width:400px;margin-left:-200px;z-index:2000}.improva h2{color:#000;font-size:22px;margin-bottom:15px;font-family:'Lato',sans-serif}
@@ -463,7 +468,7 @@ table#graphs tr:last-child td{border-top:none}
 .select2-drop.select2-drop-above.select2-drop-active{border-top:1px solid #5897fb}
 .select2-container .select2-choice .select2-arrow{display:inline-block;width:18px;height:100%;position:absolute;right:0;top:0;border-left:1px solid #aaa;border-radius:0 4px 4px 0;background-clip:padding-box;background:#ccc;background-image:-webkit-gradient(linear, left bottom, left top, color-stop(0, #ccc), color-stop(.6, #eee));background-image:-webkit-linear-gradient(center bottom, #ccc 0, #eee 60%);background-image:-moz-linear-gradient(center bottom, #ccc 0, #eee 60%);filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#eeeeee', endColorstr='#cccccc', GradientType=0);background-image:linear-gradient(top, #ccc 0, #eee 60%)}
 .select2-container .select2-choice .select2-arrow b{display:block;width:100%;height:100%;background:url('../images/select2.png') no-repeat 0 1px}
-.select2-search{display:inline-block;width:100%;min-height:26px;margin:0;padding-left:4px;padding-right:4px;position:relative;z-index:10000;white-space:nowrap}
+.select2-search{display:none;width:100%;min-height:26px;margin:0;padding-left:4px;padding-right:4px;position:relative;z-index:10000;white-space:nowrap}
 .select2-search input{width:100%;height:auto !important;min-height:26px;padding:4px 20px 4px 5px;margin:0;outline:0;font-family:sans-serif;font-size:1em;border:1px solid #aaa;border-radius:0;-webkit-box-shadow:none;box-shadow:none;background:#fff url('../images/select2.png') no-repeat 100% -22px;background:url('../images/select2.png') no-repeat 100% -22px,-webkit-gradient(linear, left bottom, left top, color-stop(.85, #fff), color-stop(.99, #eee));background:url('../images/select2.png') no-repeat 100% -22px,-webkit-linear-gradient(center bottom, #fff 85%, #eee 99%);background:url('../images/select2.png') no-repeat 100% -22px,-moz-linear-gradient(center bottom, #fff 85%, #eee 99%);background:url('../images/select2.png') no-repeat 100% -22px,linear-gradient(top, #fff 85%, #eee 99%)}
 .select2-drop.select2-drop-above .select2-search input{margin-top:4px}
 .select2-search input.select2-active{background:#fff url('../images/select2-spinner.gif') no-repeat 100%;background:url('../images/select2-spinner.gif') no-repeat 100%,-webkit-gradient(linear, left bottom, left top, color-stop(.85, #fff), color-stop(.99, #eee));background:url('../images/select2-spinner.gif') no-repeat 100%,-webkit-linear-gradient(center bottom, #fff 85%, #eee 99%);background:url('../images/select2-spinner.gif') no-repeat 100%,-moz-linear-gradient(center bottom, #fff 85%, #eee 99%);background:url('../images/select2-spinner.gif') no-repeat 100%,linear-gradient(top, #fff 85%, #eee 99%)}
@@ -472,7 +477,7 @@ table#graphs tr:last-child td{border-top:none}
 .select2-dropdown-open.select2-drop-above .select2-choice,.select2-dropdown-open.select2-drop-above .select2-choices{border:1px solid #5897fb;border-top-color:transparent;background-image:-webkit-gradient(linear, left top, left bottom, color-stop(0, #fff), color-stop(.5, #eee));background-image:-webkit-linear-gradient(center top, #fff 0, #eee 50%);background-image:-moz-linear-gradient(center top, #fff 0, #eee 50%);filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#eeeeee', endColorstr='#ffffff', GradientType=0);background-image:linear-gradient(bottom, #fff 0, #eee 50%)}
 .select2-dropdown-open .select2-choice .select2-arrow{background:transparent;border-left:none;filter:none}
 .select2-dropdown-open .select2-choice .select2-arrow b{background-position:-18px 1px}
-.select2-results{max-height:200px;padding:0 0 0 4px;margin:4px 4px 4px 0;position:relative;overflow-x:hidden;overflow-y:auto;-webkit-tap-highlight-color:rgba(0,0,0,0)}
+.select2-results{max-height:230px;padding:0;margin:0 0 0 13px;position:relative;overflow-x:hidden;overflow-y:auto;-webkit-tap-highlight-color:rgba(0,0,0,0)}.select2-results::-webkit-scrollbar{width:0;height:0}
 .select2-results ul.select2-result-sub{margin:0;padding-left:0}
 .select2-results ul.select2-result-sub>li .select2-result-label{padding-left:20px}
 .select2-results ul.select2-result-sub ul.select2-result-sub>li .select2-result-label{padding-left:40px}
@@ -481,10 +486,10 @@ table#graphs tr:last-child td{border-top:none}
 .select2-results ul.select2-result-sub ul.select2-result-sub ul.select2-result-sub ul.select2-result-sub ul.select2-result-sub>li .select2-result-label{padding-left:100px}
 .select2-results ul.select2-result-sub ul.select2-result-sub ul.select2-result-sub ul.select2-result-sub ul.select2-result-sub ul.select2-result-sub>li .select2-result-label{padding-left:110px}
 .select2-results ul.select2-result-sub ul.select2-result-sub ul.select2-result-sub ul.select2-result-sub ul.select2-result-sub ul.select2-result-sub ul.select2-result-sub>li .select2-result-label{padding-left:120px}
-.select2-results li{list-style:none;display:list-item;background-image:none}
+.select2-results li{list-style:none;display:list-item;background-image:none;padding:7px 0;border-top:1px solid #777;border-bottom:1px solid #333;width:200px}
 .select2-results li.select2-result-with-children>.select2-result-label{font-weight:bold}
 .select2-results .select2-result-label{padding:3px 7px 4px;margin:0;cursor:pointer;min-height:1em;-webkit-touch-callout:none;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}
-.select2-results .select2-highlighted{background:#3875d7;color:#fff}
+.select2-results .select2-highlighted{background:rgba(0,0,0,0.1);color:#fff}
 .select2-results li em{background:#feffde;font-style:normal}
 .select2-results .select2-highlighted em{background:transparent}
 .select2-results .select2-highlighted ul{background:#fff;color:#000}
@@ -520,4 +525,4 @@ table#graphs tr:last-child td{border-top:none}
 .select2-offscreen,.select2-offscreen:focus{clip:rect(0 0 0 0) !important;width:1px !important;height:1px !important;border:0 !important;margin:0 !important;padding:0 !important;overflow:hidden !important;position:absolute !important;outline:0 !important;left:0 !important;top:0 !important}
 .select2-display-none{display:none}
 .select2-measure-scrollbar{position:absolute;top:-10000px;left:-10000px;width:100px;height:100px;overflow:scroll}
-@media only screen and (-webkit-min-device-pixel-ratio:1.5),only screen and (min-resolution:144dpi){.select2-search input,.select2-search-choice-close,.select2-container .select2-choice abbr,.select2-container .select2-choice .select2-arrow b{background-image:url('../images/select2x2.png') !important;background-repeat:no-repeat !important;background-size:60px 40px !important} .select2-search input{background-position:100% -21px !important}}
+@media only screen and (-webkit-min-device-pixel-ratio:1.5),only screen and (min-resolution:144dpi){.select2-search input,.select2-search-choice-close,.select2-container .select2-choice abbr,.select2-container .select2-choice .select2-arrow b{background-image:url('../images/select2x2.png') !important;background-repeat:no-repeat !important;background-size:60px 40px !important} .select2-search input{background-position:100% -21px !important}}.select2-drop{border:none !important;background:url("http://localhost:8000/images/glass.png") left top no-repeat;background-size:100% 110%;color:#fff;background-color:rgba(255,255,255,0.9);border-radius:0;box-shadow:0 0 30px 0 rgba(0,0,0,0.7)}
