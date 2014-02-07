@@ -41,7 +41,10 @@
 				<input type="button" class="searcher" ng-click="toggleShowState('career')" />
 				<img src="./images/fusedel.png" ng-click="selectParam('career', '', true)">
 				<ul class="popup_list" ng-if="shows.career">
-					<li ng-if="value.show" ng-repeat="(key, value) in careerList" ng-click="selectCareerParam('career', value)">{{value.name}}</li>
+					<li 
+						ng-if="value.show" 
+						ng-repeat="(key, value) in careerList" 
+						ng-click="selectCareerParam('career', value)">{{value.name}}</li>
 				</ul>
 			</div>
 			<div>

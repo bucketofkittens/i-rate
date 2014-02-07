@@ -20,7 +20,16 @@ function SearchAdvanceController($scope, $location, $rootScope, User, Profession
         $scope.show = $location.search().search  ? true : false;
     });
 
-    $scope.careerList = $scope.workspace.careers;
+    // показываем все елементы в списке
+    $scope.showAll = function(list) {
+        angular.forEach(list, function(value, key){
+            value.show = true;
+        });
+
+        return list;
+    }
+
+    $scope.careerList = $scope.showAll($scope.workspace.careers);
 
     /**
      * Модель данных расширенного поиска
@@ -327,8 +336,6 @@ function SearchAdvanceController($scope, $location, $rootScope, User, Profession
      * @return {[type]} [description]
      */
     $scope.advanceSearch = function() {
-        $rootScope.$broadcast('loaderShow');
-
         User.search({}, $scope.translateParamsToServer_(), $scope.advanceSearchCallback_);
     }
 
@@ -338,8 +345,7 @@ function SearchAdvanceController($scope, $location, $rootScope, User, Profession
      * @return {[type]}      [description]
      */
     $scope.advanceSearchCallback_ = function(data) {
-        $rootScope.$broadcast('loaderHide');
-        $rootScope.$broadcast('updateSearchList', {id: "adv", data: data});
+        $rootScope.$broadcast('updateLeftSearchList', {data: data});
     }
 
     /**

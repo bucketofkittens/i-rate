@@ -69,6 +69,8 @@ function SearchController($scope, User, $rootScope, $location) {
 
     // проверяем вхождения пользователей
     $scope.test_ = function(text, callback) {
+        $scope.resultSearch = [];
+        
         angular.forEach($rootScope.users, function(value, key) {
             var reg = new RegExp(text.replace("[", "\\[").replace("]", "\\]"), "i");
             if(value.name && value.name != null && value.name != "null" && reg.test(value.name)) {
@@ -86,6 +88,7 @@ function SearchController($scope, User, $rootScope, $location) {
                 }
             }
         });
+        return $scope.resultSearch;
     }
 
     // ищем в списке пользователей
@@ -107,10 +110,3 @@ function SearchController($scope, User, $rootScope, $location) {
     }
 }
 
-function SearchLeftController($scope, $location) {
-    $scope.searchText = $location.search().text;
-
-    $scope.test_($scope.searchText);
-
-    console.log($scope.resultSearch);
-}

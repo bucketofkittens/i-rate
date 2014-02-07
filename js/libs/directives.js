@@ -118,30 +118,6 @@ pgrModule.directive('scroller', function($window) {
   }
 })
 
-pgrModule.directive('bridge', function($window) {
-  return {
-    link: function(scope, element, attrs) {
-      setInterval(function() {
-        var currentItem = $("#content .tab .mypro.acrd .crits ul li h5.current");
-
-        if(currentItem.size() > 0) {
-          $(element).show();
-          $(element).css("top",$(currentItem).offset().top-71);
-          $(element).css("height",58);
-          $(element).css("left", 260);
-          if($(currentItem).offset().top < 120) {
-            $(element).hide();
-          } else {
-            $(element).show();
-          }
-        } else {
-          $(element).hide();
-        }
-      }, 10);
-    }
-  }
-})
-
 pgrModule.directive('caruselPosition', function($window) {
   return {
     link: function(scope, element, attrs) {
