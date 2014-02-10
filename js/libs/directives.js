@@ -320,8 +320,8 @@ pgrModule.directive('mydash', function(User) {
           var newAngle = degToRad(scope.workspace.user.points/oneStep+corruption);
           var baseAngle = degToRad(corruption);
 
-          var centerRX = scope.dashboard.getWidth()/2-316;
-          var centerRY = scope.dashboard.getHeight()/2-167;
+          var centerRX = scope.dashboard.getWidth()/2-315;
+          var centerRY = scope.dashboard.getHeight()/2-166;
           var endX = centerRX + Math.cos(newAngle) * 149;
           var endY = centerRY + Math.sin(newAngle) * 149;
 
@@ -330,15 +330,15 @@ pgrModule.directive('mydash', function(User) {
                 var ctx = context.canvas.getContext()._context;
                 var x = centerRX;
                 var y = centerRY;
-                var radius = 149;
+                var radius = 152;
                 var startAngle = baseAngle;
                 var endAngle = newAngle;
-                var colorString = "rgba(170, 200, 255, 0.7)";
+                var colorString = "rgba(170, 200, 255, 0.5)";
 
                 ctx.beginPath();
                 ctx.arc(x, y, radius, startAngle, endAngle, false);
                 ctx.strokeStyle = colorString;
-                ctx.lineWidth = 61;
+                ctx.lineWidth = 63;
                 ctx.stroke();
                 ctx.closePath();
                 ctx.beginPath();
@@ -383,7 +383,7 @@ pgrModule.directive('mydash', function(User) {
                 var y = centerRY;
                 var startAngle = baseAngle;
                 var endAngle = newAngle;
-                var colorString = "rgba(170, 200, 255, 0.7)";
+                var colorString = "rgba(170, 200, 255, 0.5)";
 
                 ctx.beginPath();
                 ctx.rotate(degToRad(-1.5));
@@ -489,56 +489,56 @@ pgrModule.directive('mydash', function(User) {
             });
 
             scope.drawNeed_(scope.db3Draw, {
-                corruption: 358,
-                radius: 253,
+                corruption: 359,
+                radius: 248,
                 need_max: scope.findNeedBySguid("169990243011789824").points_summary,
                 need_value: needsData["169990243011789824"],
-                centerX: 205,
+                centerX: 198,
                 centerY: 97,
                 segment: 33,
                 gradientX: 50,
                 gradientY: 150,
                 zIndex: 1,
-                segmentMax: 46
+                segmentMax: 38
              });
             scope.drawNeed_(scope.db3Draw, {
-                corruption: 303,
-                radius: 260,
+                corruption: 305,
+                radius: 250,
                 need_max: scope.carreeMax,
                 need_value: needsData["169990243011789827"],
-                centerX: 210,
-                centerY: 92,
+                centerX: 198,
+                centerY: 107,
                 segment: 33,
                 gradientX: 120,
                 gradientY: 100,
                 zIndex: 2,
-                segmentMax: 45
+                segmentMax: 48
              });
             scope.drawNeed_(scope.db3Draw, {
                 corruption: 190,
-                radius: 245,
+                radius: 250,
                 need_max: scope.findNeedBySguid("169990243011789825").points_summary,
                 need_value: needsData["169990243011789825"],
-                centerX: 228,
-                centerY: 102,
+                centerX: 224,
+                centerY: 107,
                 segment: 41,
                 gradientX: -10,
                 gradientY: -110,
                 zIndex: 3,
-                segmentMax: 48
+                segmentMax: 46
              });
             scope.drawNeed_(scope.db3Draw, {
-                corruption: 134.5,
-                radius: 245,
+                corruption: 135,
+                radius: 250,
                 need_max: scope.findNeedBySguid("169990243011789826").points_summary,
                 need_value: needsData["169990243011789826"],
-                centerX: 227,
-                centerY: 100,
+                centerX: 222.5,
+                centerY: 104,
                 segment: 40,
                 gradientX: -100,
                 gradientY: -100,
                 zIndex: 4,
-                segmentMax: 48
+                segmentMax: 37.5
              });
           });
       }
