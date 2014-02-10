@@ -59,11 +59,15 @@
 			<p class="errors" ng-if="nameIsError">Name already user.</p>
 			<p>
 				<label for="i2_i">Birthday:</label>
-				<input 
-					type="date"
-					ng-model="workspace.user.birthday"
-					id="i2_i"
-					ng-change="updateBirthday()" />
+				<datepicker 
+					ng-model="workspace.user.birthday" 
+					ng-model='myDate' 
+					on-change="updateBirthday()"
+					disable-timepicker='true'
+					label-format="dd.MM.yyyy"
+					date-format="dd.MM.yyyy"
+					placeholder="">
+				</datepicker>
 			</p>
 			<p>
 				<label for="i3_i">Сountry:</label>
