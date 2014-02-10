@@ -33,7 +33,7 @@ function SigninController($scope, $rootScope, $timeout, SessionsService, UserSer
         $scope.workspace.user = data;
 
         // если у пользователя нет баллов переходим сразу на колбасы
-        if(data.points == 0) {
+        if(data.points == 0 || !data.points) {
             $timeout(function() {
                 $rootScope.$broadcast('openProfile');
             }, 0);
