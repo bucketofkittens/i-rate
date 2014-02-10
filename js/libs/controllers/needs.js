@@ -4,7 +4,7 @@
  * @param {[type]} Goals
  * @param {[type]} Criterion
  */
-function NeedsAndGoalsController($scope, СareerService, UserService, Goals, Criterion, UserCriteriaValue, $rootScope, CriterionByGoal, UserCriteriaValueByUser, $routeParams, Needs, User, $element, NeedsService) {
+function NeedsAndGoalsController($scope, СareerService, UserService, Goals, Criterion, UserCriteriaValue, $rootScope, CriterionByGoal, UserCriteriaValueByUser, $routeParams, Needs, User, $element, NeedsService, UserService) {
     // список needs-сов
     $scope.needs = [];
 
@@ -219,6 +219,7 @@ function NeedsAndGoalsController($scope, СareerService, UserService, Goals, Cri
             });
 
             $scope.workspace.user.points = newPoints;
+            UserService.setAuthData($scope.workspace.user);
 
             User.update_legue({id: $scope.workspace.user.sguid}, function(data) {
                 $scope.workspace.user.league = data.message;
