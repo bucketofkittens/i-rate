@@ -31,7 +31,7 @@
 	<section class="fusepar" scroller>
 		<i ng-click="close()"></i>
 		<div class="fsp">
-			<div>
+			<div class="ri">
 				<h6>Career</h6>
 				<input 
 					type="text" 
@@ -47,7 +47,7 @@
 						ng-click="selectCareerParam('career', value)">{{value.name}}</li>
 				</ul>
 			</div>
-			<div>
+			<div class="ri">
 				<h6>Profession</h6>
 				<input 
 					type="text" 
@@ -63,7 +63,7 @@
 			<em></em>
 		</div>
 		<div class="fsp">
-			<div>
+			<div class="ri">
 				<h6>Country</h6>
 				<input 
 					type="text" 
@@ -76,7 +76,7 @@
 					<li ng-if="value.show" ng-repeat="(key, value) in countriesList" ng-click="selectContryParam('country', value)">{{value.name}}</li>
 				</ul>
 			</div>
-			<div>
+			<div class="ri">
 				<h6>City</h6>
 				<input 
 					type="text" 
@@ -92,7 +92,7 @@
 			<em></em>
 		</div>
 		<div class="fsp">
-			<div>
+			<div class="ri">
 				<h6>Birthday from</h6>
 				<datepicker 
 					ng-model="search.birthday_from" 
@@ -103,7 +103,7 @@
 				</datepicker>
 				<img src="./images/fusedel.png" ng-click="selectParam('birthday_from', '', true)">
 			</div>
-			<div>
+			<div class="ri">
 				<h6>Birthday till</h6>
 				<datepicker 
 					ng-model="search.birthday_till" 
@@ -117,7 +117,7 @@
 			<em></em>
 		</div>
 		<div class="fsp">
-			<div>
+			<div class="ri">
 				<h6>League</h6>
 				<input 
 					type="text" 
@@ -130,7 +130,7 @@
 				</ul>
 				
 			</div>
-			<div>
+			<div class="ri">
 				<h6>Score</h6>
 				<rzslider 
 					rz-slider-floor="0" 
