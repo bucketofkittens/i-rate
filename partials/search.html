@@ -94,22 +94,24 @@
 		<div class="fsp">
 			<div>
 				<h6>Birthday from</h6>
-				<input 
-					type="text" 
+				<datepicker 
 					ng-model="search.birthday_from" 
-					class="search"
-					ui-date="dateOptions"
-					id="dFrom" />
+					disable-timepicker='true'
+					label-format="dd.MM.yyyy"
+					date-format="dd.MM.yyyy"
+					id="dFrom">
+				</datepicker>
 				<img src="./images/fusedel.png" ng-click="selectParam('birthday_from', '', true)">
 			</div>
 			<div>
 				<h6>Birthday till</h6>
-				<input 
-					type="text" 
+				<datepicker 
 					ng-model="search.birthday_till" 
-					class="search"
-					ui-date="dateOptions"
-					id="dTill" />
+					disable-timepicker='true'
+					label-format="dd.MM.yyyy"
+					date-format="dd.MM.yyyy"
+					id="dTill">
+				</datepicker>
 				<img src="./images/fusedel.png" ng-click="selectParam('birthday_till', '', true)">
 			</div>
 			<em></em>
