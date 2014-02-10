@@ -4925,27 +4925,29 @@ img.jcrop-preview {
 
 .quickdate{display:inline-block;position:relative}
 .quickdate-button div,.quickdate-action-link div{display:inline}
-.quickdate-popup{z-index:10;background-color:#fff;border:solid 1px #000;text-align:center;width:250px;display:none;position:absolute;padding:5px;}
+.quickdate-popup{z-index:10;border:none !important;background: url("http://localhost:8000/images/glass.png") left top no-repeat !important;background-size: 100% 110%;color: #ffffff !important;background-color: rgba(255, 255, 255, 0.5) !important;text-align:center;width:250px;display:none;position:absolute;}
 .quickdate-popup.open{display:block}
-.quickdate-close{position:absolute;top:5px;right:5px;color:#333;}
+.quickdate-close{position:absolute;top:5px;right:5px;color:#333;display:none}
 .quickdate-close:hover,.quickdate-close:visited{color:#333}
-.quickdate-calendar-header{display:block;padding:2px 0;margin-bottom:5px;text-align:center}
-.quickdate-month{display:inline-block}
-a.quickdate-prev-month{float:left}
-a.quickdate-next-month{float:right}
-.quickdate-text-inputs{text-align:left;margin-bottom:5px}
+.quickdate-calendar-header{display:block;box-shadow: 0px 5px 10px 0px rgba(0, 0, 0, 0.5);margin-bottom:5px;text-align:center;background-color: rgba(255, 255, 255, 0.1);padding:5px;}
+.quickdate-month{display:inline-block;vertical-align:middle; color: #ffffff;font-size:17px}
+a.quickdate-prev-month{float:left;vertical-align:middle;background: url("../images/prev.png") left top no-repeat !important;background-size:25px 25px !important;height:25px;width:25px}
+a.quickdate-next-month{float:right;vertical-align:middle;background: url("../images/next.png") left top no-repeat !important;background-size:25px 25px !important;height:25px;width:25px}
+.quickdate-text-inputs{text-align:left;margin-bottom:5px; display: none}
 .quickdate-input-wrapper{width:48%;display:inline-block}
 input.quickdate-date-input,input.quickdate-time-input{width:100px;margin:0;height:auto;padding:2px 3px}
-table.quickdate-calendar{border-collapse:collapse;border-spacing:0;width:100%;margin-top:5px;}
-table.quickdate-calendar th,table.quickdate-calendar td{padding:5px}
+table.quickdate-calendar{border-collapse:collapse;border-spacing:0;width:240px;margin:5px;}
+table.quickdate-calendar th,table.quickdate-calendar td{padding:3px; border-radius: 1px;}
 table.quickdate-calendar td:hover{cursor:pointer}
-.quickdate-popup-footer{text-align:right;display:block}
+table.quickdate-calendar thead th{border: none !important;font-size: 12px;}
+table.quickdate-calendar tbody{border:solid 1px #ccc; td{background: url("../images/ssbg.png") left -2px no-repeat !important;background-size:35px 33px !important;height:23px;width:35px}}
+.quickdate-popup-footer{text-align:right;display:none}
 .quickdate-error{border:1px solid #dd3b30 !important}
 .quickdate-error:focus{outline-color:#dd3b30 !important}
 
-.quickdate{display:inline-block;vertical-align:bottom;font-size:15px;font-family:'Helvetica Neue',Helvetica,Ariel,sans-serif;}
+.quickdate{display:inline-block;vertical-align:middle;font-size:15px;font-family:'Helvetica Neue',Helvetica,Ariel,sans-serif;}
 .quickdate input,.quickdate select{font-size:13px}
-.quickdate-button{background:#fff;color:#333;border:solid 1px #ccc;box-shadow:outset 0 1px 1px rgba(0,0,0,0.075);border-radius:4px;padding:4px 8px;display:inline-block;text-decoration:none;}
+.quickdate-button{background:url("../images/sbg.png") left top no-repeat;background-size: 230px 30px;width: 230px;height: 30px;color:#ffffff;display:inline-block;text-decoration:none;}
 .quickdate-button:hover{text-decoration:underline;}
 .quickdate-button:hover i{text-decoration:none}
 .quickdate-button i{padding-right:4px}
@@ -4953,13 +4955,13 @@ table.quickdate-calendar td:hover{cursor:pointer}
 .quickdate-action-link:visited,.quickdate-action-link:hover{color:#333}
 .quickdate-next-month i{padding-left:10px}
 .quickdate-prev-month i{padding-right:10px}
-table.quickdate-calendar{border:solid 1px #ccc;background-color:#fff;}
+table.quickdate-calendar{}
 table.quickdate-calendar th,table.quickdate-calendar td{border-right:1px solid #ccc;border-bottom:1px solid #ccc}
 table.quickdate-calendar td:hover{background-color:#e6e6e6}
 table.quickdate-calendar td.other-month{background-color:#dcdcdc;color:#707070;}
 table.quickdate-calendar td.other-month:hover{background-color:#c8c8c8}
-table.quickdate-calendar td.selected{background-color:#b0ccde;font-weight:bold}
-table.quickdate-calendar td.is-today{color:#b58922;font-weight:bold}
+table.quickdate-calendar td.selected{color:#759fd2;font-weight:bold;box-shadow: inset 0px 0px 15px 0px rgba(255, 255, 255, 0.5);}
+table.quickdate-calendar td.is-today{font-weight:bold;background: url("../images/sbg.png") left -2px no-repeat !important;background-size:35px 31px;box-shadow: inset 0px -5px 10px 0px rgba(200,200,200,0.5);}
 .quickdate-popup-footer{margin:3px 1px 0}
 .quickdate-clear{display:inline-block;padding:2px 4px;background-color:#fff;color:#333;border:solid 1px #ccc;box-shadow:outset 0 1px 1px rgba(0,0,0,0.075);border-radius:4px;text-decoration:none;}
 .quickdate-clear:hover{background-color:#f2f2f2}
