@@ -57,15 +57,12 @@
 		</div>
 		<div class="pmpar" ng-if="user">
 			<p>
-				<label for="name_i">{{'_NameL_' | i18n}}:</label> 
-				<i >{{user.name}}</i>
+				<i>{{user.name}}</i>
 			</p>
 			<p>
-				<label for="age_i">{{'_BirthdayL_' | i18n}}:</label>
 				<i>{{user.birthday}}</i>
 			</p>
 			<p>
-				<label for="loc_i">{{'_LocL_' | i18n}}:</label>
 				<i>
 					<span ng-if="user.state.name">{{user.state.name}}</span>
 					<span ng-if="user.city.name">
@@ -74,16 +71,13 @@
 					</span>
 				</i>
 			<p>
-				<label for="pro_i">{{'_ProfL_' | i18n}}:</label>
 				<i>{{user.profession.name}}<span ng-if="user.goal_name">, {{user.goal_name}}</span></i>
 			</p>
 
 			<p>
-				<label for="pro_i">{{'_LEAGUES_' | i18n}}:</label>
 				<i>{{user.league.name}}</i>
 			</p>
 			<p>
-				<label for="pro_i">Score:</label>
 				<i>{{user.points}}</i>
 			</p>
 		</div>
