@@ -538,6 +538,48 @@ pgrModule.service('UserService', function (User) {
         });
     }
 
+    this.persistUsersList = function(users) {
+        // отправляем данные в кеш
+        lscache.set('masonry', JSON.stringify(users), this.cacheTime);
+    }
+
+    // обновляем пользователя в кеше
+    this.updateUserFromCache = function(users, user) {
+        var keyUser = this.isUserFromCache(users, user);
+        
+        if(!keyUser && user.published) {
+            users.push(user);
+        }
+        if(keyUser && !user.published) {
+            users.splice(keyUser, 1);
+        }
+
+        if(keyUser && user.published) {
+            angular.forEach(users, function(value, key){
+                if(value.sguid == user.sguid) {
+                    value = user;
+                }
+            });
+        }
+
+        this.persistUsersList(users);
+
+        return users;
+    }
+
+    // проверяем есть ли пользователь в списке
+    this.isUserFromCache = function(users, user) {
+        var flag = false;
+
+        angular.forEach(users, function(value, key){
+            if(value.sguid == user.sguid) {
+                flag = key;
+            }
+        });
+
+        return flag;
+    }
+
     // заюираем значения для колбас
     this.getGoalsPointsById = function(id, callback) {
         User.goals_points({id: id}, {}, function(goalsData) {

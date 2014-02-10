@@ -148,7 +148,14 @@ function MyProfileSettingsController($scope, UserService, SocialService, Friends
     $scope.updateUserCallback_ = function(data) {
     	if(data.success) {
             $scope.nameIsError = false;
+
             UserService.setAuthData($scope.workspace.user);
+
+            // обновляем пользователя в списке пользователей
+            $rootScope.users= UserService.updateUserFromCache($rootScope.users, $scope.workspace.user);
+
+            // скрываем поиск
+            $rootScope.$broadcast('closeSearch');
         } else {
             var isName = false;
             angular.forEach(data.errors, function(value, key){
