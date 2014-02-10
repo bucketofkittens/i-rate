@@ -13,14 +13,14 @@
 					ng-change="onSearch()" />
 				<input type="button" class="searcher" ng-click="onSearch()" />
 				<div ng-cloak class="searchResult" ng-if="resultSearch.length > 0">
-					<div class="item" ng-repeat="(userKey, userItem) in resultSearch">
+					<div class="item" ng-repeat="(userKey, userItem) in resultSearch | orderBy:'points':true">
 						<div class="image" ng-click="onCompare(userItem)">
 							<img ng-src="{{userItem.avatar}}" alt="" err-src="/images/unknown-person.png" />
 						</div>
 						<div class="text" ng-click="onCompare(userItem)">
 							<p class="name">{{userItem.name}}</p>
 							<p class="league">{{userItem.league.name}} league</p>
-							<p class="points">{{userItem.points}}</p>
+							<p class="points">{{userItem.points | int}}</p>
 						</div>
 						<img class="sealin" src="./images/i1l.png" alt="">
 					</div>

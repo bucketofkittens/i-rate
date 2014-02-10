@@ -10,3 +10,10 @@ pgrModule.filter('notnull', function () {
     }
 })
 
+
+pgrModule.filter('int', function () {
+    return function(text) {	
+        return parseInt(text);
+    }
+})
+
