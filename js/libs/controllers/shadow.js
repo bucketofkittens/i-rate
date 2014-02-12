@@ -49,6 +49,11 @@ function ShadowController($scope, $rootScope, $location) {
             shadow = true;
         }
 
+        // затенение для страницы сброса пароля
+        if($location.search().change_password) {
+            shadow = true;
+        }
+
         // затенять или нет
         $scope.showShadow = shadow ? true : false;
     }

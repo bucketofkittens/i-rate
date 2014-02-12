@@ -1,4 +1,6 @@
 function ChangePasswordController($scope, Sessions, User, $location, $rootScope, MailHash, $routeParams, Password, $window, $cookieStore) {
+    $scope.show = false;
+
     $scope.form = {
         oldPassword: "",
         newPassword: "",
@@ -81,4 +83,11 @@ function ChangePasswordController($scope, Sessions, User, $location, $rootScope,
             }
         );
     }
+
+    // событие переключчения состояния страницы.
+    $scope.$on('$locationChangeSuccess', function () {
+        $scope.show = $location.search().change_password ? true : false;
+    });
+
+    $scope.show = $location.search().change_password ? true : false;
 }

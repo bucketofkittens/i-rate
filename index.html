@@ -22,6 +22,7 @@
     <div id="content" class="my-slide-container">
         <div class="content_wrap" ng-view></div>
 
+        <div class="full_height" ng-controller="ChangePasswordController" ng-include src="'partials/changePassword.html'"></div>
         <div class="full_height" ng-controller="UsersController" ng-include src="'partials/users.html'"></div>
         <div class="full_height" ng-controller="SearchAdvanceController" ng-include src="'partials/search.html'"></div>
         <div class="full_height" ng-controller="MyProfileController" ng-include ng-if="workspace.user" src="'partials/myprofile.html'"></div>

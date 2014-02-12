@@ -1931,9 +1931,10 @@ footer {
 .login {
     width: 100%;
     height: 100%;
-    background: #ffffff;
     overflow-y: scroll;
     overflow-x: visible;
+    background: url("http://localhost:8000/images/glass.png") left top no-repeat;
+    background-size: 100% 100%;
     &::-webkit-scrollbar {
         width: 0px;
         height: 0px; 
@@ -4003,10 +4004,6 @@ table#graphs {
     width: 100%; 
     height: 100%;
     overflow-y: scroll; 
-    &::-webkit-scrollbar {
-        width: 0px;
-        height: 0px; 
-    }
     .center {
         margin: 0px auto;
         width: 1000px;
@@ -4993,3 +4990,18 @@ table.quickdate-calendar td.is-today{font-weight:bold;background: url("../images
 .quickdate-popup-footer{margin:3px 1px 0}
 .quickdate-clear{display:inline-block;padding:2px 4px;background-color:#fff;color:#333;border:solid 1px #ccc;box-shadow:outset 0 1px 1px rgba(0,0,0,0.075);border-radius:4px;text-decoration:none;}
 .quickdate-clear:hover{background-color:#f2f2f2}
+
+#reset_password {
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    width: 100%;
+    height: 100%;
+    z-index: 20;
+    .center {
+        margin: 0px auto;
+        width: 1000px;
+        position: relative;
+        height: 100%;
+    }
+}
