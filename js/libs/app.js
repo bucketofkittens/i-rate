@@ -62,7 +62,8 @@ var pgrModule = angular.module(
     'rzModule',
     'ui.keypress',
     'vcRecaptcha',
-    'ui.select2'
+    'ui.select2',
+    'angular-google-analytics'
 	]
 );
 
@@ -120,3 +121,13 @@ pgrModule.config(function(GooglePlusProvider) {
        apiKey: SocialConfig.googlePlus.apiKey
      });
 });
+
+pgrModule.config(function(AnalyticsProvider) {
+    AnalyticsProvider.setAccount('UA-45318170-2');
+    AnalyticsProvider.trackPages(true);
+    AnalyticsProvider.trackPrefix('i-rate');
+    AnalyticsProvider.useAnalytics(true);
+    AnalyticsProvider.useEnhancedLinkAttribution(true);
+    AnalyticsProvider.setPageEvent('$stateChangeSuccess');
+  }
+);
