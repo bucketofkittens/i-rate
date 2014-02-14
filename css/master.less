@@ -1951,13 +1951,13 @@ footer {
             width: 100%;
             text-align: center;
             h4 {
-                color: #000000;
+                color: #ffffff;
                 font-size: 22px;
                 margin-bottom: 30px;
                 font-family: 'Lato', sans-serif;
             }
             p {
-                color: #000000;
+                color: #ffffff;
                 font-size: 15px;
                 font-family: 'Lato', sans-serif;
                 line-height: 20px;
@@ -1975,6 +1975,40 @@ footer {
             margin: 40px auto;
             position: relative;
             left: -10px;
+            input[type="text"], input[type="email"], input[type="password"] {
+                width: 220px;
+                height: 30px !important;
+                padding: 2px 5px !important;
+                border: none;
+                color: #e1e1e1;
+                box-shadow: none;
+                height: 20px;
+                background: none;
+                font-size: 18px;
+                background: url("../images/sbg.png") center center no-repeat;
+                background-size: 230px 30px;
+            }
+            input[type="button"] {
+                width: 100px;
+                height: 100%;
+                font-size: 16px;
+                font-family: 'Lato', sans-serif;
+                line-height: 16px;
+                padding: 10px 5px !important;
+                vertical-align: middle !important;
+                display: inline-block;
+                cursor: pointer;
+                background: url("../images/ssbg.png") center center no-repeat;
+                margin-top: 15px;
+                color: #ffffff;
+                border: none;
+                &:last-child {
+                    float: right;
+                }
+            }
+            p {
+                width: 220px;
+            }
             .step {
                 margin-top: 8px;
             }
