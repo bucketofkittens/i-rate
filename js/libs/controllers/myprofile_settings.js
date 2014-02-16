@@ -259,6 +259,13 @@ function MyProfileSettingsController($scope, UserService, SocialService, Friends
         }, 0);
     }
 
+    // скрываем список городов
+    $scope.blurUser = function($event) {
+        $timeout(function() {
+            $scope.showUsersList = false;
+        }, 0);
+    }
+
     // событие изменения профессии в поле ввода
     $scope.changeProfession = function($event) {
     	var countView = 0;

@@ -47,7 +47,8 @@
 					id="i1_i" 
 					ng-model="workspace.user.name"
 					required
-					ng-change="updateName()" />
+					ng-change="updateName()"
+					ng-blur="blurUser($event)" />
 			</p>
 			<div class="popup_list" ng-if="showUsersList">
 				<ul>
