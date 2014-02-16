@@ -50,13 +50,6 @@
 					ng-change="updateName()"
 					ng-blur="blurUser($event)" />
 			</p>
-			<div class="popup_list" ng-if="showUsersList">
-				<ul>
-					<li ng-if="userItem.show" ng-repeat="(userKey, userItem) in workspace.users">
-						<a ng-click="selectUser($event, userItem, userKey)">{{userItem.name}}</a>
-					</li>
-				</ul>
-			</div>
 			<p class="errors" ng-if="nameIsError">Name already user.</p>
 			<p>
 				<label for="i2_i">Birthday:</label>
