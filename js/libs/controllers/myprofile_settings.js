@@ -1,5 +1,5 @@
 // контроллер вкладки настроки своего профиля
-function MyProfileSettingsController($scope, UserService, SocialService, FriendsService, TokenService, $rootScope, $location, SocialService, CityService, ProfessionsService, $timeout) {
+function MyProfileSettingsController($scope, UserService, SocialService, FriendsService, TokenService, $rootScope, $location, SocialService, CityService, ProfessionsService, $timeout, AllUserService) {
 	// список городов
 	$scope.city = [];
 
@@ -17,6 +17,8 @@ function MyProfileSettingsController($scope, UserService, SocialService, Friends
 
 	// показывать или нет кнопку добавления профессии
 	$scope.showProfessionAddButton = false;
+
+    $scope.showUsersList = false;
 
 	// выходим из пользователя
 	$scope.onLogout = function() {
@@ -42,9 +44,31 @@ function MyProfileSettingsController($scope, UserService, SocialService, Friends
 		$rootScope.$broadcast('hideShadow');
 	}
 
+    $scope.updateName = function() {
+        var countView = 0;
+        console.log($scope.workspace.user.name);
+        if($scope.workspace.user.name.length > 0) {
+            angular.forEach($scope.workspace.users, function(value, key) {
+                var reg = new RegExp($scope.workspace.user.name, "i");
+                if(reg.test(value.name)) {
+                    value.show = true;
+                    countView += 1;
+                } else {
+                    value.show = false;
+                }
+            });
+            $scope.showUsersList = countView == 0 ? false : true;
+        } else {
+            $scope.showUsersList = false;
+        }
+
+        this.updateUserParamByValue('name', $scope.workspace.user.name)
+    }
+
     // изменение состояния публикации профигя
     $scope.changePublish = function() {
         $scope.workspace.user.published = !$scope.workspace.user.published;
+
         // сохраняем
         $scope.updateUserParamByValue('published', $scope.workspace.user.published);
     }
@@ -127,6 +151,15 @@ function MyProfileSettingsController($scope, UserService, SocialService, Friends
         $scope.showProfessionList = false;
     }
 
+    $scope.selectUser = function($event, item, key) {
+        $scope.workspace.user.name = item.name;
+
+        // сохраняем
+        $scope.updateUserParamByValue("name", $scope.workspace.user.name);
+
+        $scope.showUsersList = false;
+    }
+
     // событие выбора карьеры
     $scope.selectCareer = function($event) {
     	ProfessionsService.getProfessionsByCareer(
@@ -184,6 +217,8 @@ function MyProfileSettingsController($scope, UserService, SocialService, Friends
     		}
     		user[nameArray[0]][nameArray[1]] = value;
     	}
+
+        $scope.workspace.users = AllUserService.updateUser($scope.workspace.user, $scope.workspace.users);
     	
     	UserService.update($scope.workspace.user.sguid, user, $scope.updateUserCallback_);
     }

@@ -481,7 +481,7 @@ pgrModule.service('SessionsService', function (Sessions, User, TokenService) {
 /**
  * Сервис сохранения пользователя в кеше
  */
-pgrModule.service('UserService', function (User) {
+pgrModule.service('UserService', function (User, AllUserService) {
     // название кеша
     this.cacheName = 'user';
 
@@ -538,6 +538,23 @@ pgrModule.service('UserService', function (User) {
         });
     }
 
+    this.getUsersOnServer_ = function(callback) {
+        User.get_all({}, {}, function(data) {
+            AllUserService.set(data);
+            callback(data);
+        });
+    }
+
+    this.getAll = function(callback) {
+        var data = AllUserService.get();
+        if(!data) {
+            this.getUsersOnServer_(callback);
+        } else {
+            callback(data);
+        }
+    }
+
+
     this.persistUsersList = function(users) {
         // отправляем данные в кеш
         lscache.set('masonry', JSON.stringify(users), this.cacheTime);
@@ -589,6 +606,53 @@ pgrModule.service('UserService', function (User) {
 
     // очищаем пользователя в кеше
     this.clearAuthData = function() {
+        lscache.remove(this.cacheName);
+    }
+});
+
+
+pgrModule.service('AllUserService', function (User) {
+    // название кеша
+    this.cacheName = 'all_user';
+
+    // время кеширования
+    this.cacheTime = 1440;
+
+    // забираем пользователя из кеша
+    this.get = function() {
+        return lscache.get(this.cacheName);
+    }
+
+    this.getUserBySguid = function(sguid, list) {
+        var user = null;
+        angular.forEach(list, function(value, key){
+            if(value.sguid == sguid) {
+                user = value;
+            }
+        });
+
+        return user;
+    }
+
+    this.updateUser = function(user, list) {
+        angular.forEach(list, function(value, key){
+            if(value.sguid == user.sguid) {
+                value = user;
+            }
+        });
+
+        this.set(list);
+
+        return list;
+    }
+
+    // передаем данные в кеш
+    this.set = function(users) {
+        lscache.set(this.cacheName, JSON.stringify(users), this.cacheTime);
+    }
+
+    // удаляем пользователя из кеша
+    this.remove = function() {
         lscache.remove(this.cacheName);
     }
 });

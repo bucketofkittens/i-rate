@@ -17,3 +17,10 @@ pgrModule.filter('int', function () {
     }
 })
 
+pgrModule.filter('title', function () {
+    return function(value) {	
+        return value.name ? value.login + ", " + value.name : value.login;
+    }
+})
+
+

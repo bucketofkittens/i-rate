@@ -2,7 +2,7 @@
  * Основной контроллер.
  * В нем используются данные которые нужны на всех страницах.
  */
-function RootController($scope, FacebookService, СareerService, LeagueService, CountryService, NeedsService, FriendsService, UserService, User, $rootScope, Needs, Social, $location, UserService) {
+function RootController($scope, FacebookService, СareerService, LeagueService, CountryService, NeedsService, FriendsService, UserService, User, $rootScope, Needs, Social, $location, UserService, AllUserService) {
     
     /**
      * Открывает модальное окно
@@ -24,6 +24,8 @@ function RootController($scope, FacebookService, СareerService, LeagueService, 
      * @type {[type]}
      */
     $scope.workspace.user = UserService.getAuthData();
+
+    $scope.workspace.users = {};
 
     // забираем список друзей
     $scope.getFriendsCallback_ = function(data) {
@@ -56,6 +58,10 @@ function RootController($scope, FacebookService, СareerService, LeagueService, 
     this.leagueServiceCallback_ = function(data) {
         $scope.workspace.leagues = data;
     }
+
+    this.userServiceCallback_ = function(data) {
+        $scope.workspace.users = data;
+    }
     
     // список нидсов
     NeedsService.getList((this.needsServiceCallback_).bind(this));
@@ -65,6 +71,9 @@ function RootController($scope, FacebookService, СareerService, LeagueService, 
     
     // список лиг
     LeagueService.getList(this.leagueServiceCallback_);
+
+    // список стран
+    UserService.getAll(this.userServiceCallback_);
 
     $scope.openProfile = function() {
         $rootScope.$broadcast('openProfile');

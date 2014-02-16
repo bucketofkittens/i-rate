@@ -47,12 +47,12 @@
 					id="i1_i" 
 					ng-model="workspace.user.name"
 					required
-					ng-change="updateUserParamByValue('name', workspace.user.name)" />
+					ng-change="updateName()" />
 			</p>
-			<div class="popup_list" ng-if="showedNames.length > 0">
+			<div class="popup_list" ng-if="showUsersList">
 				<ul>
-					<li ng-repeat="(nameKey, nameItem) in showedNames">
-						<a>{{nameItem}}</a>
+					<li ng-if="userItem.show" ng-repeat="(userKey, userItem) in workspace.users">
+						<a ng-click="selectUser($event, userItem, userKey)">{{userItem.name}}</a>
 					</li>
 				</ul>
 			</div>
@@ -146,14 +146,14 @@
 			</p>
 			<p ng-controller="QuickUserChangeCtrl">
 				<label for="username_i">Username:</label>
-				<span ng-show="usersList.length == 0">Loading...</span>
+				<span ng-show="workspace.users.length == 0">Loading...</span>
 				<select
 					ui-select2="{ width: 230, allowClear:true }"
 					id="acc_i"
 					ng-model="nextUser"
 					ng-change="onMoveUserClick($event)"
-					ng-show="usersList.length > 0">
-					<option ng-repeat="(key, value) in usersList" value="{{value.sguid}}" >{{value.title}}</option>
+					ng-show="workspace.users.length > 0">
+					<option ng-repeat="(key, value) in workspace.users" value="{{value.sguid}}" >{{value | title}}</option>
 				</select>
 			</p>
 			<p ng-if="!social">
