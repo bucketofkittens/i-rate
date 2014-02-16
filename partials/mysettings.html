@@ -146,12 +146,14 @@
 			</p>
 			<p ng-controller="QuickUserChangeCtrl">
 				<label for="username_i">Username:</label>
+				<span ng-show="usersList.length == 0">Loading...</span>
 				<select
-					ui-select2="{ width: 230 }"
+					ui-select2="{ width: 230, allowClear:true }"
 					id="acc_i"
-					ng-model="nextUser" 
-					ng-change="onMoveUserClick($event, nextUser)">
-					<option ng-repeat="(key, value) in users" value="{{value.sguid}}" >{{value.name}}</option>
+					ng-model="nextUser"
+					ng-change="onMoveUserClick($event)"
+					ng-show="usersList.length > 0">
+					<option ng-repeat="(key, value) in usersList" value="{{value.sguid}}" >{{value.title}}</option>
 				</select>
 			</p>
 			<p ng-if="!social">
