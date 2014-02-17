@@ -406,8 +406,8 @@ function SearchAdvanceController($scope, $location, $rootScope, User, Profession
     // открываем профиль
     $scope.openProfile = function(sguid) {
         $scope.showRight = false;
-        
-        $rootScope.$broadcast('showFixUserProfile', {userId: sguid, fix: PanelsConst.RIGHT});
+
+        $rootScope.$broadcast('showUserProfile', {userId: sguid, fix: PanelsConst.RIGHT});
         $timeout(function() {
             $rootScope.$broadcast('setBigUser', {panel: PanelsConst.RIGHT, big: true});
         }, 0);
@@ -422,4 +422,7 @@ function SearchAdvanceController($scope, $location, $rootScope, User, Profession
     $scope.$on('closeUserPanel', function () {
         $scope.showRight = true;
     });
+
+    // скрываем правую панель
+    $rootScope.$broadcast('hideRightPanel');
 }
