@@ -358,5 +358,8 @@ function MyProfileSettingsController($scope, UserService, SocialService, Friends
 
     // загружаем список стран
     $rootScope.$broadcast('countryLoad');
+
+    // загружаем список нидсов
+    $rootScope.$broadcast('needsLoad');
     
 }
