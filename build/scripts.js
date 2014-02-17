@@ -6490,6 +6490,9 @@ function MyProfileProfileController($scope, $rootScope, $location, LocationServi
 
     // проверяет окрывать ли вкладку или нет   
     $scope.selectGoal();
+
+    // загружаем список нидсов
+    $rootScope.$broadcast('needsLoad');
 }
 // контроллер вкладки настроки своего профиля
 function MyProfileSettingsController($scope, UserService, SocialService, FriendsService, TokenService, $rootScope, $location, SocialService, CityService, ProfessionsService, $timeout, AllUserService) {
@@ -6860,6 +6863,11 @@ function MyProfileSettingsController($scope, UserService, SocialService, Friends
     		$scope.getProfessionsByCareerCallback_
     	);
     }
+
+
+    // загружаем список стран
+    $rootScope.$broadcast('countryLoad');
+    
 }
 /**
  * 
@@ -7389,7 +7397,7 @@ function ProfileController($scope, $routeParams, AuthUser, $route, $rootScope, $
 /**
  *  плашка быстрой смены пользователей
  */
-function QuickUserChangeCtrl($scope, UserService, User) {
+function QuickUserChangeCtrl($scope, UserService, User, $rootScope) {
 	$scope.nextUser = null;
 
 	// переход на другого пользователя
@@ -7401,6 +7409,9 @@ function QuickUserChangeCtrl($scope, UserService, User) {
         UserService.setAuthData(data);
         window.location.reload();
     }
+
+    // загружаем список пользователей
+    $rootScope.$broadcast('usersLoad');
 }
 /**
  * Контроллер правой панели
@@ -7478,42 +7489,54 @@ function RootController($scope, FacebookService, СareerService, LeagueService, 
      */
     $scope.workspace.friends = $scope.workspace.user && $scope.workspace.user.friends ? $scope.workspace.user.friends : FriendsService.getList();
 
-    this.needsServiceCallback_ = function(data) {
+    $scope.needsServiceCallback_ = function(data) {
         $scope.workspace.needs = data;
-        СareerService.getList($scope.workspace.needs, this.careerServiceCallback_);
+        СareerService.getList($scope.workspace.needs, $scope.careerServiceCallback_);
     }
 
-    this.careerServiceCallback_ = function(data) {
+    $scope.careerServiceCallback_ = function(data) {
         $scope.workspace.careers = data;
     }
 
-    this.countryServiceCallback_ = function(data) {
+    $scope.countryServiceCallback_ = function(data) {
         $scope.workspace.country = data;
     }
 
-    this.leagueServiceCallback_ = function(data) {
+    $scope.leagueServiceCallback_ = function(data) {
         $scope.workspace.leagues = data;
     }
 
-    this.userServiceCallback_ = function(data) {
+    $scope.userServiceCallback_ = function(data) {
         $scope.workspace.users = data;
     }
-    
-    // список нидсов
-    NeedsService.getList((this.needsServiceCallback_).bind(this));
-    
-    // список стран
-    CountryService.getList(this.countryServiceCallback_);
-    
-    // список лиг
-    LeagueService.getList(this.leagueServiceCallback_);
-
-    // список стран
-    UserService.getAll(this.userServiceCallback_);
 
     $scope.openProfile = function() {
         $rootScope.$broadcast('openProfile');
     }
+
+    // событие загрузки списка нидсов
+    $scope.$on('needsLoad', function(event) {
+        // список нидсов
+        NeedsService.getList($scope.needsServiceCallback_);
+    });
+
+    // событие загрузки списка стран
+    $scope.$on('countryLoad', function(event) {
+        // список стран
+        CountryService.getList($scope.countryServiceCallback_);
+    });
+
+    // событие загрузки списка лиг
+    $scope.$on('countryLoad', function(event) {
+        // список лиг
+        LeagueService.getList($scope.leagueServiceCallback_);
+    });
+
+    // событие загрузки пользвателей
+    $scope.$on('usersLoad', function(event) {
+        // список пользвателей
+        UserService.getAll($scope.userServiceCallback_);
+    });
 }
 /**
  * Контроллер страницы расширенного поиска
@@ -7942,6 +7965,9 @@ function SearchAdvanceController($scope, $location, $rootScope, User, Profession
 
     // скрываем правую панель
     $rootScope.$broadcast('hideRightPanel');
+
+    // загружаем список стран
+    $rootScope.$broadcast('countryLoad');
 }
 // контроллер формы поиска слева в расширенном поиске
 function SearchLeftController($scope, $location, $rootScope) {
@@ -8515,6 +8541,9 @@ function UserController($scope, FriendsService, UserService, $element, $route, $
             $scope.big = message.big;
         }
     });
+
+    // загружаем список нидсов
+    $rootScope.$broadcast('needsLoad');
 }
 // контролле панели пользователей
 function UsersController($scope, $location, $rootScope, $timeout, NeedsService, LocationService) {
