@@ -54,6 +54,11 @@ function ShadowController($scope, $rootScope, $location) {
             shadow = true;
         }
 
+        // затенение для страницы расширенного поиска
+        if($location.search().search) {
+            shadow = true;
+        }
+
         // затенять или нет
         $scope.showShadow = shadow ? true : false;
     }

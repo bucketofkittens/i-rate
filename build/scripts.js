@@ -7917,8 +7917,8 @@ function SearchAdvanceController($scope, $location, $rootScope, User, Profession
     // открываем профиль
     $scope.openProfile = function(sguid) {
         $scope.showRight = false;
-        
-        $rootScope.$broadcast('showFixUserProfile', {userId: sguid, fix: PanelsConst.RIGHT});
+
+        $rootScope.$broadcast('showUserProfile', {userId: sguid, fix: PanelsConst.RIGHT});
         $timeout(function() {
             $rootScope.$broadcast('setBigUser', {panel: PanelsConst.RIGHT, big: true});
         }, 0);
@@ -7933,6 +7933,9 @@ function SearchAdvanceController($scope, $location, $rootScope, User, Profession
     $scope.$on('closeUserPanel', function () {
         $scope.showRight = true;
     });
+
+    // скрываем правую панель
+    $rootScope.$broadcast('hideRightPanel');
 }
 // контроллер формы поиска слева в расширенном поиске
 function SearchLeftController($scope, $location, $rootScope) {
@@ -8594,33 +8597,30 @@ function UsersController($scope, $location, $rootScope, $timeout, NeedsService, 
 		// позываем пользователя
 		$scope.show = true;
 
-		// указываем переданного пользователя
-		if($location.search().user1 && !$location.search().user2 && $location.search().user1 != message.user.sguid) {
-        	$location.search({user1: $location.search().user1, user2: message.user.sguid});
-		}
-		if(!$location.search().user1 && !$location.search().user2) {
-        	$location.search({user1: message.user.sguid});
-		}
-		if(!$location.search().user1 && $location.search().user2 && $location.search().user2 != message.user.sguid) {
-        	$location.search({user1: message.user.sguid, user2: $location.search().user2});
-		}
-
+        // если нет фиксированного определения позиции панели пользователя
+        if(!message.fix) {
+            // указываем переданного пользователя
+            if($location.search().user1 && !$location.search().user2 && $location.search().user1 != message.user.sguid) {
+                $location.search({user1: $location.search().user1, user2: message.user.sguid});
+            }
+            if(!$location.search().user1 && !$location.search().user2) {
+                $location.search({user1: message.user.sguid});
+            }
+            if(!$location.search().user1 && $location.search().user2 && $location.search().user2 != message.user.sguid) {
+                $location.search({user1: message.user.sguid, user2: $location.search().user2});
+            }
+        } else {
+            // указываем переданного пользователя
+            if(message.fix == PanelsConst.RIGHT) {
+                LocationService.update("user2", message.userId);
+            }
+            if(message.fix == PanelsConst.LEFT) {
+                LocationService.update("user1", message.userId);
+            }    
+        }
+		
         // скрываем гоалсы если они открыты
         $scope.workspace.needs = NeedsService.closeAllGoals($scope.workspace.needs);
-    });
-
-    // показываем пользователя фиксированно 
-    $scope.$on('showFixUserProfile', function(event, message) {
-        // позываем пользователя
-        $scope.show = true;
-
-        // указываем переданного пользователя
-        if(message.fix == PanelsConst.RIGHT) {
-            LocationService.update("user2", message.userId);
-        }
-        if(message.fix == PanelsConst.LEFT) {
-            LocationService.update("user1", message.userId);
-        }
     });
 
     // событие переключчения состояния страницы.
