@@ -5,7 +5,7 @@
  * @param {[type]} $rootScope [description]
  * @param {[type]} User       [description]
  */
-function SearchAdvanceController($scope, $location, $rootScope, User, Professions, CityByState, Leagues, $timeout) {
+function SearchAdvanceController($scope, $location, $rootScope, User, Professions, CityByState, Leagues, $timeout, LocationService) {
     /**
      * Тект поиска
      * @type {[type]}
@@ -30,6 +30,8 @@ function SearchAdvanceController($scope, $location, $rootScope, User, Profession
     }
 
     $scope.careerList = $scope.showAll($scope.workspace.careers);
+
+    $scope.showRight = true;
 
     /**
      * Модель данных расширенного поиска
@@ -400,4 +402,24 @@ function SearchAdvanceController($scope, $location, $rootScope, User, Profession
     $scope.close = function() {
         $location.search({});
     }
+
+    // открываем профиль
+    $scope.openProfile = function(sguid) {
+        $scope.showRight = false;
+        
+        $rootScope.$broadcast('showFixUserProfile', {userId: sguid, fix: PanelsConst.RIGHT});
+        $timeout(function() {
+            $rootScope.$broadcast('setBigUser', {panel: PanelsConst.RIGHT, big: true});
+        }, 0);
+    }
+
+    // если есть user2 в location тогда открывает его профиль
+    if($location.search().user2) {
+        $scope.openProfile($location.search().user2);
+    }
+
+    // если закрываем панель пользователя тогда показываем панель справа в поиске
+    $scope.$on('closeUserPanel', function () {
+        $scope.showRight = true;
+    });
 }

@@ -2,6 +2,11 @@ var host = "http://dev.sir.improva.com/api/v1";
 var debugHost = "http://192.168.1.116:3000/api/v1"; 
 var hostShort = host.replace("/api/v1", "");
 
+var PanelsConst = {
+    RIGHT: "user2",
+    LEFT: "user1"
+}
+
 /**
  * Модель пользователя
  * @param  {[type]} $resource [description]

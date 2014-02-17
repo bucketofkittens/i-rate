@@ -1,5 +1,5 @@
 // контролле панели пользователей
-function UsersController($scope, $location, $rootScope, $timeout, NeedsService) {
+function UsersController($scope, $location, $rootScope, $timeout, NeedsService, LocationService) {
     // список значений нидсов для пользователя
     $scope.needsValues = {};
 
@@ -104,6 +104,20 @@ function UsersController($scope, $location, $rootScope, $timeout, NeedsService) 
 
         // скрываем гоалсы если они открыты
         $scope.workspace.needs = NeedsService.closeAllGoals($scope.workspace.needs);
+    });
+
+    // показываем пользователя фиксированно 
+    $scope.$on('showFixUserProfile', function(event, message) {
+        // позываем пользователя
+        $scope.show = true;
+
+        // указываем переданного пользователя
+        if(message.fix == PanelsConst.RIGHT) {
+            LocationService.update("user2", message.userId);
+        }
+        if(message.fix == PanelsConst.LEFT) {
+            LocationService.update("user1", message.userId);
+        }
     });
 
     // событие переключчения состояния страницы.

@@ -11,6 +11,9 @@ function UserController($scope, FriendsService, UserService, $element, $route, $
     // является ли пользователь другом
     $scope.isFriend = false;
 
+    // открывать большую карточку или нет
+    $scope.big = false;
+
     // событие переключчения состояния страницы.
     $scope.$on('$locationChangeSuccess', function () {
         $scope.setCurrentUser();
@@ -83,4 +86,11 @@ function UserController($scope, FriendsService, UserService, $element, $route, $
     $scope.onShowGoals = function($event, needItem) {
         $rootScope.$broadcast('toggleNeed', {needItem: needItem, state: needItem.hidden ? false : true});
     }
+
+    // событие указывающее состояние big для панели. панель определяется через параметр panel в message
+    $scope.$on('setBigUser', function(event, message) {
+        if(message.panel == $scope.route) {
+            $scope.big = message.big;
+        }
+    });
 }
