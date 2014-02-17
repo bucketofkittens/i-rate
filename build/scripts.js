@@ -8138,6 +8138,11 @@ function ShadowController($scope, $rootScope, $location) {
             shadow = true;
         }
 
+        // затенение для страницы расширенного поиска
+        if($location.search().search) {
+            shadow = true;
+        }
+
         // затенять или нет
         $scope.showShadow = shadow ? true : false;
     }
@@ -8458,6 +8463,7 @@ function UserController($scope, FriendsService, UserService, $element, $route, $
 
     // закрывает плашку с текущим пользователем
     $scope.close = function() {
+        $scope.big = false;
         $location.search($scope.route, null);
         $rootScope.$broadcast('closeUserPanel', {route: $scope.route});
     }

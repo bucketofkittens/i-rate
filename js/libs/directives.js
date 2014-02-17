@@ -218,6 +218,12 @@ pgrModule.directive('masonry', function(User, $rootScope) {
       
       // инициизируем masonry
       this.initIso();
+
+      // хак для isotope который падает при удалении пользователя из коллекции
+      $rootScope.$watch('users', function() {
+        $(element).isotope('reloadItems').isotope();
+      }, true);
+      
     }
   }
 })
