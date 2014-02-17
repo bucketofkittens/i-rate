@@ -42,40 +42,52 @@ function RootController($scope, FacebookService, СareerService, LeagueService, 
      */
     $scope.workspace.friends = $scope.workspace.user && $scope.workspace.user.friends ? $scope.workspace.user.friends : FriendsService.getList();
 
-    this.needsServiceCallback_ = function(data) {
+    $scope.needsServiceCallback_ = function(data) {
         $scope.workspace.needs = data;
-        СareerService.getList($scope.workspace.needs, this.careerServiceCallback_);
+        СareerService.getList($scope.workspace.needs, $scope.careerServiceCallback_);
     }
 
-    this.careerServiceCallback_ = function(data) {
+    $scope.careerServiceCallback_ = function(data) {
         $scope.workspace.careers = data;
     }
 
-    this.countryServiceCallback_ = function(data) {
+    $scope.countryServiceCallback_ = function(data) {
         $scope.workspace.country = data;
     }
 
-    this.leagueServiceCallback_ = function(data) {
+    $scope.leagueServiceCallback_ = function(data) {
         $scope.workspace.leagues = data;
     }
 
-    this.userServiceCallback_ = function(data) {
+    $scope.userServiceCallback_ = function(data) {
         $scope.workspace.users = data;
     }
-    
-    // список нидсов
-    NeedsService.getList((this.needsServiceCallback_).bind(this));
-    
-    // список стран
-    CountryService.getList(this.countryServiceCallback_);
-    
-    // список лиг
-    LeagueService.getList(this.leagueServiceCallback_);
-
-    // список стран
-    UserService.getAll(this.userServiceCallback_);
 
     $scope.openProfile = function() {
         $rootScope.$broadcast('openProfile');
     }
+
+    // событие загрузки списка нидсов
+    $scope.$on('needsLoad', function(event) {
+        // список нидсов
+        NeedsService.getList($scope.needsServiceCallback_);
+    });
+
+    // событие загрузки списка стран
+    $scope.$on('countryLoad', function(event) {
+        // список стран
+        CountryService.getList($scope.countryServiceCallback_);
+    });
+
+    // событие загрузки списка лиг
+    $scope.$on('countryLoad', function(event) {
+        // список лиг
+        LeagueService.getList($scope.leagueServiceCallback_);
+    });
+
+    // событие загрузки пользвателей
+    $scope.$on('usersLoad', function(event) {
+        // список пользвателей
+        UserService.getAll($scope.userServiceCallback_);
+    });
 }

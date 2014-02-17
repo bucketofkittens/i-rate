@@ -79,4 +79,7 @@ function MyProfileProfileController($scope, $rootScope, $location, LocationServi
 
     // проверяет окрывать ли вкладку или нет   
     $scope.selectGoal();
+
+    // загружаем список нидсов
+    $rootScope.$broadcast('needsLoad');
 }

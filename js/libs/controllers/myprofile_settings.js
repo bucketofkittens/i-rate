@@ -367,4 +367,9 @@ function MyProfileSettingsController($scope, UserService, SocialService, Friends
     		$scope.getProfessionsByCareerCallback_
     	);
     }
+
+
+    // загружаем список стран
+    $rootScope.$broadcast('countryLoad');
+    
 }

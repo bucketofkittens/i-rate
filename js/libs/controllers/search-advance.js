@@ -425,4 +425,7 @@ function SearchAdvanceController($scope, $location, $rootScope, User, Profession
 
     // скрываем правую панель
     $rootScope.$broadcast('hideRightPanel');
+
+    // загружаем список стран
+    $rootScope.$broadcast('countryLoad');
 }

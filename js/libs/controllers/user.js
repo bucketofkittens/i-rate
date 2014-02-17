@@ -94,4 +94,7 @@ function UserController($scope, FriendsService, UserService, $element, $route, $
             $scope.big = message.big;
         }
     });
+
+    // загружаем список нидсов
+    $rootScope.$broadcast('needsLoad');
 }

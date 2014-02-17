@@ -1,7 +1,7 @@
 /**
  *  плашка быстрой смены пользователей
  */
-function QuickUserChangeCtrl($scope, UserService, User) {
+function QuickUserChangeCtrl($scope, UserService, User, $rootScope) {
 	$scope.nextUser = null;
 
 	// переход на другого пользователя
@@ -13,4 +13,7 @@ function QuickUserChangeCtrl($scope, UserService, User) {
         UserService.setAuthData(data);
         window.location.reload();
     }
+
+    // загружаем список пользователей
+    $rootScope.$broadcast('usersLoad');
 }
