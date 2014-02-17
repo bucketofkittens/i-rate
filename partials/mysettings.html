@@ -1,6 +1,6 @@
 <div ng-controller="CropImageController" ng-include src="'partials/crop-image.html'"></div>
 
-<section class="myset">
+<section class="myset" ng-click="onClose($event)">
 	<div 
 		class="pmain pro promy" >
 		<div class="block">
@@ -47,8 +47,7 @@
 					id="i1_i" 
 					ng-model="workspace.user.name"
 					required
-					ng-change="updateName()"
-					ng-blur="blurUser($event)" />
+					ng-change="updateName()" />
 			</p>
 			<p class="errors" ng-if="nameIsError">Name already user.</p>
 			<p>
@@ -77,8 +76,7 @@
 					id="i4_i" 
 					ng-model="workspace.user.city.name"
 					type="text"
-					ng-change="changeCity($event)"
-					ng-blur="blurCity($event)" />
+					ng-change="changeCity($event)" />
 					<img 
 						src="/images/7.jpg" 
 						class="cursor" 
@@ -111,8 +109,7 @@
 					id="i6_i" 
 					ng-model="workspace.user.profession.name"
 					type="text"
-					ng-change="changeProfession($event)" 
-					ng-blur="blurProfession($event)" />
+					ng-change="changeProfession($event)" />
 					<img 
 						src="/images/7.jpg" 
 						class="cursor" 

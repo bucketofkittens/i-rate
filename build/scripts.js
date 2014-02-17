@@ -8669,6 +8669,7 @@ function UsersController($scope, $location, $rootScope, $timeout, NeedsService, 
     	// если нет пользователей возвращаем плашку срава
         if(!$location.search().user1 && !$location.search().user2) {
         	$rootScope.$broadcast('showRightPanel');
+            $scope.show = false;
         }
     });
 }

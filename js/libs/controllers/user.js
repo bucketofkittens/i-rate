@@ -1,7 +1,7 @@
 /**
  * Контроллер  профиля
  */
-function UserController($scope, FriendsService, UserService, $element, $route, $routeParams, User, Needs, Professions, States, $http, NeedsByUser, $rootScope, GoalsByUser, AuthUser, Leagues, $location, $window) {
+function UserController($scope, FriendsService, UserService, $element, $route, $routeParams, User, Needs, Professions, States, $http, NeedsByUser, $rootScope, GoalsByUser, AuthUser, Leagues, $location, $window, LocationService) {
     // данные пользователя
     $scope.user = null;
 
@@ -33,6 +33,8 @@ function UserController($scope, FriendsService, UserService, $element, $route, $
         if(!newId) {
             $scope.user = null;
         }
+
+        $scope.big = $location.search().big == $scope.route ? true : false;
     }
 
     // callback получения данных пользователя
@@ -51,6 +53,7 @@ function UserController($scope, FriendsService, UserService, $element, $route, $
         $scope.big = false;
         $location.search($scope.route, null);
         $rootScope.$broadcast('closeUserPanel', {route: $scope.route});
+        LocationService.update("big", false);
     }
 
     // инициализация контрллера
@@ -87,13 +90,6 @@ function UserController($scope, FriendsService, UserService, $element, $route, $
     $scope.onShowGoals = function($event, needItem) {
         $rootScope.$broadcast('toggleNeed', {needItem: needItem, state: needItem.hidden ? false : true});
     }
-
-    // событие указывающее состояние big для панели. панель определяется через параметр panel в message
-    $scope.$on('setBigUser', function(event, message) {
-        if(message.panel == $scope.route) {
-            $scope.big = message.big;
-        }
-    });
 
     // загружаем список нидсов
     $rootScope.$broadcast('needsLoad');

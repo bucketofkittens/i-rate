@@ -1,9 +1,5 @@
 /**
  * Контроллер страницы расширенного поиска
- * @param {[type]} $scope     [description]
- * @param {[type]} $location  [description]
- * @param {[type]} $rootScope [description]
- * @param {[type]} User       [description]
  */
 function SearchAdvanceController($scope, $location, $rootScope, User, Professions, CityByState, Leagues, $timeout, LocationService) {
     /**
@@ -406,11 +402,10 @@ function SearchAdvanceController($scope, $location, $rootScope, User, Profession
     // открываем профиль
     $scope.openProfile = function(sguid) {
         $scope.showRight = false;
+        LocationService.update("big", PanelsConst.RIGHT);
 
         $rootScope.$broadcast('showUserProfile', {userId: sguid, fix: PanelsConst.RIGHT});
-        $timeout(function() {
-            $rootScope.$broadcast('setBigUser', {panel: PanelsConst.RIGHT, big: true});
-        }, 0);
+
     }
 
     // если есть user2 в location тогда открывает его профиль

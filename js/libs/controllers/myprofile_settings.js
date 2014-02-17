@@ -245,25 +245,12 @@ function MyProfileSettingsController($scope, UserService, SocialService, Friends
         }
     }
 
-    // скрываем список городов
-    $scope.blurCity = function($event) {
-        $timeout(function() {
+    $scope.onClose = function($event) {
+        if($event.target.nodeName != "A" && $event.target.nodeName != "SPAN") {
             $scope.showCityList = false;
-        }, 0);
-    }
-
-    // скрываем список профессий
-    $scope.blurProfession = function($event) {
-        $timeout(function() {
             $scope.showProfessionList = false;
-        }, 0);
-    }
-
-    // скрываем список городов
-    $scope.blurUser = function($event) {
-        $timeout(function() {
             $scope.showUsersList = false;
-        }, 0);
+        }
     }
 
     // событие изменения профессии в поле ввода

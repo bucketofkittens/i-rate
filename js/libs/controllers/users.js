@@ -105,12 +105,7 @@ function UsersController($scope, $location, $rootScope, $timeout, NeedsService, 
             }
         } else {
             // указываем переданного пользователя
-            if(message.fix == PanelsConst.RIGHT) {
-                LocationService.update("user2", message.userId);
-            }
-            if(message.fix == PanelsConst.LEFT) {
-                LocationService.update("user1", message.userId);
-            }    
+            LocationService.update(message.fix, message.userId);
         }
 		
         // скрываем гоалсы если они открыты
