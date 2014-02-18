@@ -40,7 +40,6 @@ function UserController($scope, FriendsService, UserService, $element, $route, $
     // callback получения данных пользователя
     $scope.userServiceGetByIdCallback_ = function(data) {
         $scope.user = data;
-
         // отправляем полученные данные в событие
         $rootScope.$broadcast('userGetById', { user: data, route: $scope.route });
 
