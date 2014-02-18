@@ -3982,6 +3982,7 @@ pgrModule.service('UserService', function (User, AllUserService) {
 
     this.getAll = function(callback) {
         var data = AllUserService.get();
+
         if(!data) {
             this.getUsersOnServer_(callback);
         } else {
@@ -4083,6 +4084,7 @@ pgrModule.service('AllUserService', function (User) {
 
     // передаем данные в кеш
     this.set = function(users) {
+        console.log(users);
         lscache.set(this.cacheName, JSON.stringify(users), this.cacheTime);
     }
 
@@ -4485,31 +4487,6 @@ pgrModule.service('MSLiveService', function($window, SocialService) {
     }
 });
 
-pgrModule.service('SocialDataService', function($window, SocialService) {
-    this.mutable = function(data, socialName) {
-        if(data.was_created) {
-            var newData = {};
-
-            if(data.birth_day && data.birth_month && data.birth_year && socialName == SocialNames.MSLIVE ) {
-                newData["brithday"] = brithdayArray[1]+"/"+brithdayArray[0]+"/"+brithdayArray[2];
-            }
-
-            if(data.birthday && socialName == SocialNames.FACEBOOK) {
-                var brithdayArray = data.birthday.split("/");
-                newData["brithday"] = brithdayArray[1]+"/"+brithdayArray[0]+"/"+brithdayArray[2];
-            }
-
-            if(data.name) {
-                newData["name"] = data.name;
-            }
-
-            return newData;
-        } else {
-            return null;
-        }
-    }
-});
-
 // сервис управления токеном
 pgrModule.service('TokenService', function($window, GooglePlus) {
     // название кеша
@@ -4553,20 +4530,39 @@ pgrModule.service('SocialService', function($window, Social, FacebookService, To
     // время кеширования
     this.cacheTime = 1440;
 
+    this.mutable = function(data, socialName) {
+        var newData = {};
+
+        if(data.birth_day && data.birth_month && data.birth_year && socialName == SocialNames.MSLIVE ) {
+            newData["brithday"] = brithdayArray[1]+"/"+brithdayArray[0]+"/"+brithdayArray[2];
+        }
+
+        if(data.birthday && socialName == SocialNames.FACEBOOK) {
+            var brithdayArray = data.birthday.split("/");
+            newData["brithday"] = brithdayArray[1]+"/"+brithdayArray[0]+"/"+brithdayArray[2];
+        }
+
+        if(data.name) {
+            newData["name"] = data.name;
+        }
+
+        return newData;
+        
+    }
+
     this.login = function(email, callback, socialName, updateParams) {
+        var self = this;
         Social.login({}, {email: email}, function(data) {
             if(data.success) {
-                if(updateParams) {
-                    UserService.update(data.guid, updateParams, function() {
-                        TokenService.set(data.token);
-
+                TokenService.set(data.token);
+                var updateData = self.mutable(updateParams, socialName);
+                if(updateData && data.was_created) {
+                    UserService.update(data.guid, updateData, function() {
                         if(callback) {
                             callback(data, socialName);
                         }
-                    });    
+                    }); 
                 } else {
-                    TokenService.set(data.token);
-
                     if(callback) {
                         callback(data, socialName);
                     }
@@ -7508,7 +7504,7 @@ function RightController($scope) {
  * Основной контроллер.
  * В нем используются данные которые нужны на всех страницах.
  */
-function RootController($scope, FacebookService, СareerService, LeagueService, CountryService, NeedsService, FriendsService, UserService, User, $rootScope, Needs, Social, $location, UserService, AllUserService) {
+function RootController($scope, FacebookService, СareerService, LeagueService, CountryService, NeedsService, FriendsService, UserService, User, $rootScope, Needs, Social, $location, UserService, AllUserService, SocialService, FacebookService) {
     
     /**
      * Открывает модальное окно
@@ -8276,7 +8272,7 @@ function ShareController($scope) {
 /**
  * форма модального окна авторизации
  */
-function SigninController($scope, $rootScope, $timeout, SessionsService, UserService, FacebookService, SocialService, UserService, MSLiveService, GooglePlusService, SocialDataService) {
+function SigninController($scope, $rootScope, $timeout, SessionsService, UserService, FacebookService, SocialService, UserService, MSLiveService, GooglePlusService) {
     // сообщение об ошибке
     $scope.error = null;
 
@@ -8344,8 +8340,8 @@ function SigninController($scope, $rootScope, $timeout, SessionsService, UserSer
 
     // забираем данные о себе из фейсубка
     $scope.facebookGetUserDataSuccess_ = function(data) {
-
-        SocialService.login(data.email, $scope.socialLoginSuccess_, SocialNames.FACEBOOK, SocialDataService.mutable(data, SocialNames.FACEBOOK));
+        console.log(data);
+        SocialService.login(data.email, $scope.socialLoginSuccess_, SocialNames.FACEBOOK, data);
     }
 
     // авторизация в facebook
@@ -8361,7 +8357,7 @@ function SigninController($scope, $rootScope, $timeout, SessionsService, UserSer
     }
 
     $scope.MSLiveLoginGetUserDataSuccess_ = function(data) {
-        SocialService.login(data.emails.account, $scope.socialLoginSuccess_, SocialNames.MSLIVE, SocialDataService.mutable(data, SocialNames.MSLIVE));
+        SocialService.login(data.emails.account, $scope.socialLoginSuccess_, SocialNames.MSLIVE, data);
     }
 
     $scope.MSLiveLoginCompleteSuccess_ = function() {
@@ -8377,7 +8373,7 @@ function SigninController($scope, $rootScope, $timeout, SessionsService, UserSer
     }
 
     $scope.googleUserDataCallback_ = function(data) {
-        SocialService.login(data.email, $scope.socialLoginSuccess_, SocialNames.GOOGLE_PLUS, SocialDataService.mutable(data, SocialNames.GOOGLE_PLUS));
+        SocialService.login(data.email, $scope.socialLoginSuccess_, SocialNames.GOOGLE_PLUS, data);
     }
 
     $scope.gogglePlustLoginSuccess_ = function(data) {
