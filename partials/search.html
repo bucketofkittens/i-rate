@@ -31,6 +31,25 @@
 		<i ng-click="close()"></i>
 		<div class="fsp">
 			<div class="ri">
+				<h6>Top</h6>
+				<input 
+					type="text" 
+					ng-model="search.top.name" 
+					class="search"
+					ng-change="filteredList('topList', search.top.name, 'top')" />
+				<input type="button" class="searcher" ng-click="toggleShowState('top')" />
+				<img src="./images/fusedel.png" ng-click="selectParam('top', '', true)">
+				<ul class="popup_list" ng-if="shows.top">
+					<li 
+						ng-if="value.show" 
+						ng-repeat="(key, value) in topList" 
+						ng-click="selectTopParam('top', value)">{{value.name}}</li>
+				</ul>
+			</div>
+			<em></em>
+		</div>
+		<div class="fsp">
+			<div class="ri">
 				<h6>Career</h6>
 				<input 
 					type="text" 
