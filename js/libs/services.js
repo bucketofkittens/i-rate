@@ -1057,6 +1057,31 @@ pgrModule.service('MSLiveService', function($window, SocialService) {
     }
 });
 
+pgrModule.service('SocialDataService', function($window, SocialService) {
+    this.mutable = function(data, socialName) {
+        if(data.was_created) {
+            var newData = {};
+
+            if(data.birth_day && data.birth_month && data.birth_year && socialName == SocialNames.MSLIVE ) {
+                newData["brithday"] = brithdayArray[1]+"/"+brithdayArray[0]+"/"+brithdayArray[2];
+            }
+
+            if(data.birthday && socialName == SocialNames.FACEBOOK) {
+                var brithdayArray = data.birthday.split("/");
+                newData["brithday"] = brithdayArray[1]+"/"+brithdayArray[0]+"/"+brithdayArray[2];
+            }
+
+            if(data.name) {
+                newData["name"] = data.name;
+            }
+
+            return newData;
+        } else {
+            return null;
+        }
+    }
+});
+
 // сервис управления токеном
 pgrModule.service('TokenService', function($window, GooglePlus) {
     // название кеша
@@ -1106,7 +1131,7 @@ pgrModule.service('SocialService', function($window, Social, FacebookService, To
                 if(updateParams) {
                     UserService.update(data.guid, updateParams, function() {
                         TokenService.set(data.token);
-                        
+
                         if(callback) {
                             callback(data, socialName);
                         }

@@ -2407,11 +2407,7 @@ var SocialConfig = {
             "i-rate.com": "339940198985-c9idb0ng4letjpfnhsm4l7jci1uh7t6c.apps.googleusercontent.com"
         },
         apiKey: 'AIzaSyBUJ3rialFIcJ5QvuWFkvPqmFbTBIZ2Kmo',
-        scopes: [
-            'https://www.googleapis.com/auth/plus.me',
-            'https://www.googleapis.com/auth/userinfo.email',
-            'https://www.googleapis.com/auth/userinfo.profile'
-        ]
+        scopes: "https://www.googleapis.com/auth/plus.me https://www.googleapis.com/auth/userinfo.profile"
     },
     live: {
         redirect_uri: "http://i-rate.com/",
@@ -2505,7 +2501,8 @@ pgrModule.config(['$httpProvider', function($httpProvider) {
 pgrModule.config(function(GooglePlusProvider) {
      GooglePlusProvider.init({
        clientId: SocialConfig.googlePlus.applicationId[window.location.hostname],
-       apiKey: SocialConfig.googlePlus.apiKey
+       apiKey: SocialConfig.googlePlus.apiKey,
+       scopes: SocialConfig.googlePlus.scopes
      });
 });
 
@@ -3964,7 +3961,9 @@ pgrModule.service('UserService', function (User, AllUserService) {
     // создание обновление пользователя
     this.update = function(sguid, params, callback) {
         User.updateUser({id: sguid},  {user: JSON.stringify(params)}, function(data) {
-            callback(data);
+            if(callback) {
+                callback(data);    
+            }
         });
     }
 
@@ -4509,7 +4508,10 @@ pgrModule.service('TokenService', function($window, GooglePlus) {
 // сервис авторизации в MSLiveService
 pgrModule.service('GooglePlusService', function($window, GooglePlus) {
     this.getUserData = function(callback) {
-        
+        gapi.client.load('oauth2', 'v2', function() {
+          var request = gapi.client.oauth2.userinfo.get();
+          request.execute(callback);
+        });
     }
     this.login = function(success, fail) {
         GooglePlus.login().then(function(data) {
@@ -4520,18 +4522,31 @@ pgrModule.service('GooglePlusService', function($window, GooglePlus) {
     }
 });
 
-pgrModule.service('SocialService', function($window, Social, FacebookService, TokenService) {
+pgrModule.service('SocialService', function($window, Social, FacebookService, TokenService, UserService) {
     // название кеша
     this.cacheName = 'social';
 
     // время кеширования
     this.cacheTime = 1440;
 
-    this.login = function(email, callback, socialName) {
+    this.login = function(email, callback, socialName, updateParams) {
         Social.login({}, {email: email}, function(data) {
             if(data.success) {
-                TokenService.set(data.token);
-                callback(data, socialName);
+                if(updateParams) {
+                    UserService.update(data.guid, updateParams, function() {
+                        TokenService.set(data.token);
+                        
+                        if(callback) {
+                            callback(data, socialName);
+                        }
+                    });    
+                } else {
+                    TokenService.set(data.token);
+
+                    if(callback) {
+                        callback(data, socialName);
+                    }
+                }
             }
         });
     }
@@ -8275,7 +8290,21 @@ function SigninController($scope, $rootScope, $timeout, SessionsService, UserSer
 
     // забираем данные о себе из фейсубка
     $scope.facebookGetUserDataSuccess_ = function(data) {
-        SocialService.login(data.email, $scope.socialLoginSuccess_, SocialNames.FACEBOOK);
+        if(data.was_created) {
+            var newData = {};
+
+            if(data.birthday) {
+                var brithdayArray = data.birthday.split("/");
+                newData["brithday"] = brithdayArray[1]+"/"+brithdayArray[0]+"/"+brithdayArray[2];
+            }
+
+            if(data.name) {
+                newData["name"] = data.name;
+            }
+        }
+
+
+        SocialService.login(data.email, $scope.socialLoginSuccess_, SocialNames.FACEBOOK, newData);
     }
 
     // авторизация в facebook
@@ -8284,14 +8313,17 @@ function SigninController($scope, $rootScope, $timeout, SessionsService, UserSer
     }
 
     $scope.MSLiveLoginSuccess_ = function(session) {
+        console.log(session);
         MSLiveService.getUserData($scope.MSLiveLoginGetUserDataSuccess_);
     }
 
     $scope.MSLiveLoginFail_ = function(data) {
+        console.log(data);
     }
 
     $scope.MSLiveLoginGetUserDataSuccess_ = function(data) {
-        SocialService.login(data.emails.account, $scope.socialLoginSuccess_, SocialNames.MSLIVE);
+        console.log(data);
+        //SocialService.login(data.emails.account, $scope.socialLoginSuccess_, SocialNames.MSLIVE);
     }
 
     $scope.MSLiveLoginCompleteSuccess_ = function() {
@@ -8306,8 +8338,21 @@ function SigninController($scope, $rootScope, $timeout, SessionsService, UserSer
 
     }
 
+    $scope.googleUserDataCallback_ = function(data) {
+        if(data.was_created) {
+            var newData = {};
+
+            if(data.name) {
+                newData["name"] = data.name;
+            }
+        }
+
+        SocialService.login(data.email, $scope.socialLoginSuccess_, SocialNames.GOOGLE_PLUS, newData);
+    }
+
     $scope.gogglePlustLoginSuccess_ = function(data) {
-        SocialService.login(data.email, $scope.socialLoginSuccess_, SocialNames.GOOGLE_PLUS);
+        GooglePlusService.getUserData($scope.googleUserDataCallback_);
+        //SocialService.login(data.email, $scope.socialLoginSuccess_, SocialNames.GOOGLE_PLUS);
     }
 
     $scope.socialGooglePlusLogin = function() {

@@ -1,7 +1,7 @@
 /**
  * форма модального окна авторизации
  */
-function SigninController($scope, $rootScope, $timeout, SessionsService, UserService, FacebookService, SocialService, UserService, MSLiveService, GooglePlusService) {
+function SigninController($scope, $rootScope, $timeout, SessionsService, UserService, FacebookService, SocialService, UserService, MSLiveService, GooglePlusService, SocialDataService) {
     // сообщение об ошибке
     $scope.error = null;
 
@@ -69,21 +69,8 @@ function SigninController($scope, $rootScope, $timeout, SessionsService, UserSer
 
     // забираем данные о себе из фейсубка
     $scope.facebookGetUserDataSuccess_ = function(data) {
-        if(data.was_created) {
-            var newData = {};
 
-            if(data.birthday) {
-                var brithdayArray = data.birthday.split("/");
-                newData["brithday"] = brithdayArray[1]+"/"+brithdayArray[0]+"/"+brithdayArray[2];
-            }
-
-            if(data.name) {
-                newData["name"] = data.name;
-            }
-        }
-
-
-        SocialService.login(data.email, $scope.socialLoginSuccess_, SocialNames.FACEBOOK, newData);
+        SocialService.login(data.email, $scope.socialLoginSuccess_, SocialNames.FACEBOOK, SocialDataService.mutable(data, SocialNames.FACEBOOK));
     }
 
     // авторизация в facebook
@@ -99,8 +86,7 @@ function SigninController($scope, $rootScope, $timeout, SessionsService, UserSer
     }
 
     $scope.MSLiveLoginGetUserDataSuccess_ = function(data) {
-        console.log(data);
-        SocialService.login(data.emails.account, $scope.socialLoginSuccess_, SocialNames.MSLIVE);
+        SocialService.login(data.emails.account, $scope.socialLoginSuccess_, SocialNames.MSLIVE, SocialDataService.mutable(data, SocialNames.MSLIVE));
     }
 
     $scope.MSLiveLoginCompleteSuccess_ = function() {
@@ -116,20 +102,11 @@ function SigninController($scope, $rootScope, $timeout, SessionsService, UserSer
     }
 
     $scope.googleUserDataCallback_ = function(data) {
-        if(data.was_created) {
-            var newData = {};
-
-            if(data.name) {
-                newData["name"] = data.name;
-            }
-        }
-
-        SocialService.login(data.email, $scope.socialLoginSuccess_, SocialNames.GOOGLE_PLUS, newData);
+        SocialService.login(data.email, $scope.socialLoginSuccess_, SocialNames.GOOGLE_PLUS, SocialDataService.mutable(data, SocialNames.GOOGLE_PLUS));
     }
 
     $scope.gogglePlustLoginSuccess_ = function(data) {
         GooglePlusService.getUserData($scope.googleUserDataCallback_);
-        //SocialService.login(data.email, $scope.socialLoginSuccess_, SocialNames.GOOGLE_PLUS);
     }
 
     $scope.socialGooglePlusLogin = function() {
