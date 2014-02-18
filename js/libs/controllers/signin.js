@@ -1,7 +1,7 @@
 /**
  * форма модального окна авторизации
  */
-function SigninController($scope, $rootScope, $timeout, SessionsService, UserService, FacebookService, SocialService, UserService, MSLiveService, GooglePlusService, SocialDataService) {
+function SigninController($scope, $rootScope, $timeout, SessionsService, UserService, FacebookService, SocialService, UserService, MSLiveService, GooglePlusService) {
     // сообщение об ошибке
     $scope.error = null;
 
@@ -69,8 +69,8 @@ function SigninController($scope, $rootScope, $timeout, SessionsService, UserSer
 
     // забираем данные о себе из фейсубка
     $scope.facebookGetUserDataSuccess_ = function(data) {
-
-        SocialService.login(data.email, $scope.socialLoginSuccess_, SocialNames.FACEBOOK, SocialDataService.mutable(data, SocialNames.FACEBOOK));
+        console.log(data);
+        SocialService.login(data.email, $scope.socialLoginSuccess_, SocialNames.FACEBOOK, data);
     }
 
     // авторизация в facebook
@@ -86,7 +86,7 @@ function SigninController($scope, $rootScope, $timeout, SessionsService, UserSer
     }
 
     $scope.MSLiveLoginGetUserDataSuccess_ = function(data) {
-        SocialService.login(data.emails.account, $scope.socialLoginSuccess_, SocialNames.MSLIVE, SocialDataService.mutable(data, SocialNames.MSLIVE));
+        SocialService.login(data.emails.account, $scope.socialLoginSuccess_, SocialNames.MSLIVE, data);
     }
 
     $scope.MSLiveLoginCompleteSuccess_ = function() {
@@ -102,7 +102,7 @@ function SigninController($scope, $rootScope, $timeout, SessionsService, UserSer
     }
 
     $scope.googleUserDataCallback_ = function(data) {
-        SocialService.login(data.email, $scope.socialLoginSuccess_, SocialNames.GOOGLE_PLUS, SocialDataService.mutable(data, SocialNames.GOOGLE_PLUS));
+        SocialService.login(data.email, $scope.socialLoginSuccess_, SocialNames.GOOGLE_PLUS, data);
     }
 
     $scope.gogglePlustLoginSuccess_ = function(data) {

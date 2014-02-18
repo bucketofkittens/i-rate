@@ -554,6 +554,7 @@ pgrModule.service('UserService', function (User, AllUserService) {
 
     this.getAll = function(callback) {
         var data = AllUserService.get();
+
         if(!data) {
             this.getUsersOnServer_(callback);
         } else {
@@ -655,6 +656,7 @@ pgrModule.service('AllUserService', function (User) {
 
     // передаем данные в кеш
     this.set = function(users) {
+        console.log(users);
         lscache.set(this.cacheName, JSON.stringify(users), this.cacheTime);
     }
 
@@ -1057,31 +1059,6 @@ pgrModule.service('MSLiveService', function($window, SocialService) {
     }
 });
 
-pgrModule.service('SocialDataService', function($window, SocialService) {
-    this.mutable = function(data, socialName) {
-        if(data.was_created) {
-            var newData = {};
-
-            if(data.birth_day && data.birth_month && data.birth_year && socialName == SocialNames.MSLIVE ) {
-                newData["brithday"] = brithdayArray[1]+"/"+brithdayArray[0]+"/"+brithdayArray[2];
-            }
-
-            if(data.birthday && socialName == SocialNames.FACEBOOK) {
-                var brithdayArray = data.birthday.split("/");
-                newData["brithday"] = brithdayArray[1]+"/"+brithdayArray[0]+"/"+brithdayArray[2];
-            }
-
-            if(data.name) {
-                newData["name"] = data.name;
-            }
-
-            return newData;
-        } else {
-            return null;
-        }
-    }
-});
-
 // сервис управления токеном
 pgrModule.service('TokenService', function($window, GooglePlus) {
     // название кеша
@@ -1125,20 +1102,39 @@ pgrModule.service('SocialService', function($window, Social, FacebookService, To
     // время кеширования
     this.cacheTime = 1440;
 
+    this.mutable = function(data, socialName) {
+        var newData = {};
+
+        if(data.birth_day && data.birth_month && data.birth_year && socialName == SocialNames.MSLIVE ) {
+            newData["brithday"] = brithdayArray[1]+"/"+brithdayArray[0]+"/"+brithdayArray[2];
+        }
+
+        if(data.birthday && socialName == SocialNames.FACEBOOK) {
+            var brithdayArray = data.birthday.split("/");
+            newData["brithday"] = brithdayArray[1]+"/"+brithdayArray[0]+"/"+brithdayArray[2];
+        }
+
+        if(data.name) {
+            newData["name"] = data.name;
+        }
+
+        return newData;
+        
+    }
+
     this.login = function(email, callback, socialName, updateParams) {
+        var self = this;
         Social.login({}, {email: email}, function(data) {
             if(data.success) {
-                if(updateParams) {
-                    UserService.update(data.guid, updateParams, function() {
-                        TokenService.set(data.token);
-
+                TokenService.set(data.token);
+                var updateData = self.mutable(updateParams, socialName);
+                if(updateData && data.was_created) {
+                    UserService.update(data.guid, updateData, function() {
                         if(callback) {
                             callback(data, socialName);
                         }
-                    });    
+                    }); 
                 } else {
-                    TokenService.set(data.token);
-
                     if(callback) {
                         callback(data, socialName);
                     }

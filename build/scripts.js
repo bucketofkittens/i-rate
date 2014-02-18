@@ -3893,7 +3893,7 @@ pgrModule.service('ProfessionsService', function (Professions, ProfessionCreate)
 pgrModule.service('SessionsService', function (Sessions, User, TokenService) {
 
     // забираем пользователя из кеша
-    this.signin = function(params, callback, fail) {
+    this.signin = function(params, callback, fail, improvaData) {
         var self = this;
         Sessions.signin({}, $.param(params), function(data) {
             if(data.success) {
@@ -4596,7 +4596,7 @@ pgrModule.service('SocialService', function($window, Social, FacebookService, To
     }
 });
 
-pgrModule.service('ImprovaService', function(ImprovaLogin) {
+pgrModule.service('ImprovaService', function(ImprovaLogin, UserService, SessionsService) {
     this.login = function(email, password, callback, fail) {
         ImprovaLogin.isset({}, {email: email, password: password}, function(dataImprova) {
             if(!dataImprova.authorized) {
@@ -4605,6 +4605,62 @@ pgrModule.service('ImprovaService', function(ImprovaLogin) {
                 callback(dataImprova);
             }
         });
+    }
+
+    this.createDublicate = function(improvaForm, improvaData, callback, fails) {
+        UserService.create({
+            "login": improvaForm.email,
+            "email": improvaForm.email,
+            "name": improvaForm.email,
+            "password": "",
+            "confirmed": "1"
+        }, function(data) {
+            var user = {};
+
+            if(improvaData.name) {
+                user["name"] = improvaData.name;
+            }
+            if(improvaData.login && !improvaData.name) {
+                user["name"] = improvaData.login;
+            }
+            if(improvaData.birthday) {
+                user["birthday"] = improvaData.birthday;
+            }
+
+            UserService.update(data.message.guid, user, function() {
+                SessionsService.signin({
+                    "email": improvaForm.email, 
+                    "password": "",
+                    "from_improva": "1"
+                }, function(data) {
+                    if(callback) {
+                        callback(data);
+                    }
+                });
+            });
+        }, function() {
+            if(fails) {
+                fails();
+            }
+        });
+    }
+
+    this.improvaToIRateMigrate = function(form, improvaData, callback, fail) {
+        var self = this;
+        SessionsService.signin({
+                "email": form.email, 
+                "password": "",
+                "from_improva": "1"
+            },
+            function(data) {
+                if(callback) {
+                    callback(data);
+                }
+            },
+            function(data) {
+                self.createDublicate(form, improvaData, callback, fail);
+            }
+        );
     }
 });
 
@@ -5463,32 +5519,9 @@ function ImprovaLoginController($scope, ImprovaService, SessionsService, UserSer
 		
 	}
 
-	$scope.onUserCreateSuccess_ = function(data) {
-		var user = {}
-
-        if(dataImprova.name) {
-            user["name"] = dataImprova.name;
-        }
-        if(dataImprova.birthday) {
-            user["birthday"] = dataImprova.birthday;
-        }
-
-        UserService.update(data.sguid, user, $scope.onUserUpdateSuccess_);
-	}
-
 	$scope.onUserCreateFail_ = function(data) {
 
 	}
-
-	$scope.onSigninFailCallback_ = function(data) {
-		UserService.create({
-            "login": $scope.improvaForm.email,
-            "email": $scope.improvaForm.email,
-            "name": $scope.improvaForm.email,
-            "password": "",
-            "confirmed": "1"
-        }, $scope.onUserCreateSuccess_, $scope.onUserCreateFail_);
-    }
 
     $scope.onSigninSuccessCallback_ = function(data) {
         SocialService.persist(SocialNames.IMPROVA);
@@ -5507,14 +5540,7 @@ function ImprovaLoginController($scope, ImprovaService, SessionsService, UserSer
     }
 
 	$scope.improvaLoginSuccess_ = function(data) {
-		SessionsService.signin({
-                "email": $scope.improvaForm.email, 
-                "password": "",
-                "from_improva": "1"
-            },
-            $scope.onSigninSuccessCallback_,
-            $scope.onSigninFailCallback_
-        );
+       ImprovaService.improvaToIRateMigrate($scope.improvaForm, data, $scope.onSigninSuccessCallback_, $scope.onUserCreateFail_);
 	}
 
 	$scope.improvaLoginFail_ = function(data) {
