@@ -20,11 +20,7 @@ var SocialConfig = {
             "i-rate.com": "339940198985-c9idb0ng4letjpfnhsm4l7jci1uh7t6c.apps.googleusercontent.com"
         },
         apiKey: 'AIzaSyBUJ3rialFIcJ5QvuWFkvPqmFbTBIZ2Kmo',
-        scopes: [
-            'https://www.googleapis.com/auth/plus.me',
-            'https://www.googleapis.com/auth/userinfo.email',
-            'https://www.googleapis.com/auth/userinfo.profile'
-        ]
+        scopes: "https://www.googleapis.com/auth/plus.me https://www.googleapis.com/auth/userinfo.profile"
     },
     live: {
         redirect_uri: "http://i-rate.com/",
@@ -118,7 +114,8 @@ pgrModule.config(['$httpProvider', function($httpProvider) {
 pgrModule.config(function(GooglePlusProvider) {
      GooglePlusProvider.init({
        clientId: SocialConfig.googlePlus.applicationId[window.location.hostname],
-       apiKey: SocialConfig.googlePlus.apiKey
+       apiKey: SocialConfig.googlePlus.apiKey,
+       scopes: SocialConfig.googlePlus.scopes
      });
 });
 

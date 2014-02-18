@@ -69,7 +69,21 @@ function SigninController($scope, $rootScope, $timeout, SessionsService, UserSer
 
     // забираем данные о себе из фейсубка
     $scope.facebookGetUserDataSuccess_ = function(data) {
-        SocialService.login(data.email, $scope.socialLoginSuccess_, SocialNames.FACEBOOK);
+        if(data.was_created) {
+            var newData = {};
+
+            if(data.birthday) {
+                var brithdayArray = data.birthday.split("/");
+                newData["brithday"] = brithdayArray[1]+"/"+brithdayArray[0]+"/"+brithdayArray[2];
+            }
+
+            if(data.name) {
+                newData["name"] = data.name;
+            }
+        }
+
+
+        SocialService.login(data.email, $scope.socialLoginSuccess_, SocialNames.FACEBOOK, newData);
     }
 
     // авторизация в facebook
@@ -85,6 +99,7 @@ function SigninController($scope, $rootScope, $timeout, SessionsService, UserSer
     }
 
     $scope.MSLiveLoginGetUserDataSuccess_ = function(data) {
+        console.log(data);
         SocialService.login(data.emails.account, $scope.socialLoginSuccess_, SocialNames.MSLIVE);
     }
 
@@ -100,8 +115,21 @@ function SigninController($scope, $rootScope, $timeout, SessionsService, UserSer
 
     }
 
+    $scope.googleUserDataCallback_ = function(data) {
+        if(data.was_created) {
+            var newData = {};
+
+            if(data.name) {
+                newData["name"] = data.name;
+            }
+        }
+
+        SocialService.login(data.email, $scope.socialLoginSuccess_, SocialNames.GOOGLE_PLUS, newData);
+    }
+
     $scope.gogglePlustLoginSuccess_ = function(data) {
-        SocialService.login(data.email, $scope.socialLoginSuccess_, SocialNames.GOOGLE_PLUS);
+        GooglePlusService.getUserData($scope.googleUserDataCallback_);
+        //SocialService.login(data.email, $scope.socialLoginSuccess_, SocialNames.GOOGLE_PLUS);
     }
 
     $scope.socialGooglePlusLogin = function() {

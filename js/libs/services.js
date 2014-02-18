@@ -532,7 +532,9 @@ pgrModule.service('UserService', function (User, AllUserService) {
     // создание обновление пользователя
     this.update = function(sguid, params, callback) {
         User.updateUser({id: sguid},  {user: JSON.stringify(params)}, function(data) {
-            callback(data);
+            if(callback) {
+                callback(data);    
+            }
         });
     }
 
@@ -1077,7 +1079,10 @@ pgrModule.service('TokenService', function($window, GooglePlus) {
 // сервис авторизации в MSLiveService
 pgrModule.service('GooglePlusService', function($window, GooglePlus) {
     this.getUserData = function(callback) {
-        
+        gapi.client.load('oauth2', 'v2', function() {
+          var request = gapi.client.oauth2.userinfo.get();
+          request.execute(callback);
+        });
     }
     this.login = function(success, fail) {
         GooglePlus.login().then(function(data) {
@@ -1088,18 +1093,31 @@ pgrModule.service('GooglePlusService', function($window, GooglePlus) {
     }
 });
 
-pgrModule.service('SocialService', function($window, Social, FacebookService, TokenService) {
+pgrModule.service('SocialService', function($window, Social, FacebookService, TokenService, UserService) {
     // название кеша
     this.cacheName = 'social';
 
     // время кеширования
     this.cacheTime = 1440;
 
-    this.login = function(email, callback, socialName) {
+    this.login = function(email, callback, socialName, updateParams) {
         Social.login({}, {email: email}, function(data) {
             if(data.success) {
-                TokenService.set(data.token);
-                callback(data, socialName);
+                if(updateParams) {
+                    UserService.update(data.guid, updateParams, function() {
+                        TokenService.set(data.token);
+                        
+                        if(callback) {
+                            callback(data, socialName);
+                        }
+                    });    
+                } else {
+                    TokenService.set(data.token);
+
+                    if(callback) {
+                        callback(data, socialName);
+                    }
+                }
             }
         });
     }
