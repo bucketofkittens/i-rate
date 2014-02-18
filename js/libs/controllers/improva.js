@@ -9,32 +9,9 @@ function ImprovaLoginController($scope, ImprovaService, SessionsService, UserSer
 		
 	}
 
-	$scope.onUserCreateSuccess_ = function(data) {
-		var user = {}
-
-        if(dataImprova.name) {
-            user["name"] = dataImprova.name;
-        }
-        if(dataImprova.birthday) {
-            user["birthday"] = dataImprova.birthday;
-        }
-
-        UserService.update(data.sguid, user, $scope.onUserUpdateSuccess_);
-	}
-
 	$scope.onUserCreateFail_ = function(data) {
 
 	}
-
-	$scope.onSigninFailCallback_ = function(data) {
-		UserService.create({
-            "login": $scope.improvaForm.email,
-            "email": $scope.improvaForm.email,
-            "name": $scope.improvaForm.email,
-            "password": "",
-            "confirmed": "1"
-        }, $scope.onUserCreateSuccess_, $scope.onUserCreateFail_);
-    }
 
     $scope.onSigninSuccessCallback_ = function(data) {
         SocialService.persist(SocialNames.IMPROVA);
@@ -53,14 +30,7 @@ function ImprovaLoginController($scope, ImprovaService, SessionsService, UserSer
     }
 
 	$scope.improvaLoginSuccess_ = function(data) {
-		SessionsService.signin({
-                "email": $scope.improvaForm.email, 
-                "password": "",
-                "from_improva": "1"
-            },
-            $scope.onSigninSuccessCallback_,
-            $scope.onSigninFailCallback_
-        );
+       ImprovaService.improvaToIRateMigrate($scope.improvaForm, data, $scope.onSigninSuccessCallback_, $scope.onUserCreateFail_);
 	}
 
 	$scope.improvaLoginFail_ = function(data) {

@@ -465,7 +465,7 @@ pgrModule.service('ProfessionsService', function (Professions, ProfessionCreate)
 pgrModule.service('SessionsService', function (Sessions, User, TokenService) {
 
     // забираем пользователя из кеша
-    this.signin = function(params, callback, fail) {
+    this.signin = function(params, callback, fail, improvaData) {
         var self = this;
         Sessions.signin({}, $.param(params), function(data) {
             if(data.success) {
@@ -1168,7 +1168,7 @@ pgrModule.service('SocialService', function($window, Social, FacebookService, To
     }
 });
 
-pgrModule.service('ImprovaService', function(ImprovaLogin) {
+pgrModule.service('ImprovaService', function(ImprovaLogin, UserService, SessionsService) {
     this.login = function(email, password, callback, fail) {
         ImprovaLogin.isset({}, {email: email, password: password}, function(dataImprova) {
             if(!dataImprova.authorized) {
@@ -1177,6 +1177,62 @@ pgrModule.service('ImprovaService', function(ImprovaLogin) {
                 callback(dataImprova);
             }
         });
+    }
+
+    this.createDublicate = function(improvaForm, improvaData, callback, fails) {
+        UserService.create({
+            "login": improvaForm.email,
+            "email": improvaForm.email,
+            "name": improvaForm.email,
+            "password": "",
+            "confirmed": "1"
+        }, function(data) {
+            var user = {};
+
+            if(improvaData.name) {
+                user["name"] = improvaData.name;
+            }
+            if(improvaData.login && !improvaData.name) {
+                user["name"] = improvaData.login;
+            }
+            if(improvaData.birthday) {
+                user["birthday"] = improvaData.birthday;
+            }
+
+            UserService.update(data.message.guid, user, function() {
+                SessionsService.signin({
+                    "email": improvaForm.email, 
+                    "password": "",
+                    "from_improva": "1"
+                }, function(data) {
+                    if(callback) {
+                        callback(data);
+                    }
+                });
+            });
+        }, function() {
+            if(fails) {
+                fails();
+            }
+        });
+    }
+
+    this.improvaToIRateMigrate = function(form, improvaData, callback, fail) {
+        var self = this;
+        SessionsService.signin({
+                "email": form.email, 
+                "password": "",
+                "from_improva": "1"
+            },
+            function(data) {
+                if(callback) {
+                    callback(data);
+                }
+            },
+            function(data) {
+                self.createDublicate(form, improvaData, callback, fail);
+            }
+        );
     }
 });
 

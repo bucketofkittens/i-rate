@@ -2763,7 +2763,6 @@ pgrModule.directive('cropClick', function() {
   }
 });
 
-
 pgrModule.directive('positionGoal', function() {
   return {
     link: function(scope, element, attrs) {
@@ -2982,10 +2981,10 @@ pgrModule.directive('masonryItem', function() {
       setTimeout(function() {
         $(element).addClass("iso-item");
         parentElement.isotope("insert", $(element));
-      }, randomRange(1000, 3000));
+      }, 0);
       setTimeout(function() {
         $(element).addClass("all");
-      }, 5000); 
+      }, 10); 
     }
   }
 })
@@ -4786,6 +4785,10 @@ function setCookie(name, value, props) {
 // удаляет cookie
 function deleteCookie(name) {
 	setCookie(name, null, { expires: -1 })
+}
+
+function base64encode(binary) {
+    return btoa(unescape(encodeURIComponent(binary)));
 }
 function ChangePasswordController($scope, Sessions, User, $location, $rootScope, MailHash, $routeParams, Password, $window, $cookieStore) {
     $scope.show = false;
