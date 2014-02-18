@@ -3334,7 +3334,9 @@ pgrModule.directive('mydash', function(User) {
 
                 scope.drawText_(preload.getResult("dbt"));
                 scope.drawCenterArc_(cont);
-                scope.setNeeds();
+                if(scope.workspace.needs) {
+                  scope.setNeeds();  
+                }
             });
 
             preload.loadManifest(manifest);
@@ -3359,6 +3361,12 @@ pgrModule.directive('mydash', function(User) {
       $(document).ready(function() {
         if(!scope.dashboard) {
           scope.drawFullDashboard_(); 
+        }
+      });
+
+      scope.$watch("workspace.needs", function (newValue) {
+        if(newValue) {
+          scope.setNeeds();
         }
       });
     }
@@ -4747,7 +4755,7 @@ $templateCache.put('views/my_profile.html', "<div class=\"mynav\" ng-if=\"worksp
 $templateCache.put('views/nsi.html', "<div id=\"nsi_content\">\n\tnsi\n</div>");
 $templateCache.put('views/profile.html', "<section class=\"promain\" scroller ng-include src=\"'partials/user.html'\" ></section>\n\n<div class=\"user_right\">\n\t<ul id=\"nav2\">\n\t\t<li><a ng-click=\"closeComments()\" ng-class=\"{current: !comments}\">Top of the league</a></li>\n\t\t<li ng-if=\"workspace.user\"><a ng-click=\"onShowComments()\" ng-class=\"{current: comments}\">Comments</a></li>\n\t</ul>\n\n\t<section class=\"pronear\" ng-show=\"!comments\" app-view-segment=\"1\"></section>\n\t<section ng-controller=\"CommentsController\" id=\"comments\" ng-show=\"comments\" class=\"pronear\" ng-include src=\"'partials/comments.html'\" ></section>\t\n</div>");
 $templateCache.put('views/terms.html', "<h1>TERMS OF USE and PRIVACY POLICY</h1>\n<p>terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use</p>");
-$templateCache.put('partials/changePassword.html', "<div class=\"full_height\" ng-if=\"show\">\n    <div id=\"reset_password\">\n        <div class=\"center\">\n            <div class=\"email login\">\n                <div class=\"modal\">\n                    <div class=\"modal_wrapper\">\n                        <div class=\"header\">\n                           <br /><br /><br /><br /><br /><br />\n                           <h4 ng-if=\"message == 0\">Reset password</h4>\n                        </div>\n                        <div class=\"body\">\n                            <div class=\"form-show\" ng-if=\"message == 1\">\n                                <p>Message with code was sent to your email</p>\n                                <input \n                                        ng-click=\"onChangePasswordOk()\" \n                                        type=\"button\" \n                                        value=\"OK\" />\n                            </div>\n                            <div class=\"form-show\" ng-if=\"message == 3\">\n                                <p>Password changed</p>\n                                <input \n                                        ng-click=\"onChangePasswordChanged()\" \n                                        type=\"button\" \n                                        value=\"OK\" />\n                            </div>\n                            <ng-form  \n                                ng-if=\"message == 0\"\n                                id=\"RepasswordForm\" \n                                name=\"RepasswordForm\" \n                                novalidate \n                                class=\"css-form myForm\" >\n                                <p ng-if=\"state == 1\">\n                                    <input \n                                        id=\"login_i\" \n                                        class=\"form-input\"\n                                        ng-model=\"form.email\"\n                                        required \n                                        placeholder=\"Email\"\n                                        required\n                                        type=\"email\" />\n                                    <p class=\"errors\" ng-if=\"isEmailNotFound\">Email not found.</p>\n                                </p>\n                                <p ng-if=\"state == 2\">\n                                    <input \n                                        id=\"login_i\" \n                                        class=\"form-input\"\n                                        ng-model=\"form.code\"\n                                        required \n                                        placeholder=\"Current code\"\n                                        type=\"text\" />\n                                </p>\n                                <p ng-if=\"state == 2\">\n                                    <input \n                                        type=\"password\" \n                                        id=\"pass_i\"\n                                        class=\"form-input\"\n                                        ng-model=\"form.newPassword\"\n                                        placeholder=\"New password\"\n                                        required\n                                        ng-minlength=\"6\" /> \n                                </p>\n                                <p ng-if=\"state == 2\">\n                                    <input \n                                        type=\"password\" \n                                        id=\"pass_i\"\n                                        class=\"form-input\"\n                                        ng-model=\"form.confirmPassword\"\n                                        placeholder=\"Confirm password\"\n                                        required\n                                        ng-minlength=\"6\" /> \n                                </p>\n                                <p class=\"errors\" ng-if=\"error\">{{error}}</p>\n                                <p ng-if=\"state == 1\">\n                                    <input \n                                        ng-click=\"onChangePasswordCancel()\" \n                                        type=\"button\" \n                                        value=\"Cancel\"\n                                        class=\"cancel\" />\n                                    <input \n                                        ng-disabled=\"RepasswordForm.$invalid\"\n                                        ng-click=\"onChangePassword()\" \n                                        type=\"button\" \n                                        value=\"Send code\" />\n                                </p>\n                                <p ng-if=\"state == 2\">\n                                    <input \n                                        ng-click=\"onChangePasswordCancel2()\" \n                                        type=\"button\" \n                                        value=\"Cancel\"\n                                        class=\"cancel\" />\n                                    <input \n                                        ng-disabled=\"RepasswordForm.$invalid\"\n                                        ng-click=\"onChangePasswordBegin()\" \n                                        type=\"button\" \n                                        value=\"Save\" />\n                                </p>\n                            </ng-form>\n                        </div>\n                    </div>\n                </div>\n            </div>    \n        </div>\n    </div>\n</div>");
+$templateCache.put('partials/changePassword.html', "<div class=\"full_height\" ng-if=\"show\">\n    <div id=\"reset_password\">\n        <div class=\"center\">\n            <div class=\"email login chepas\">\n                <div class=\"modal\">\n                    <div class=\"modal_wrapper\">\n                        <div class=\"header\">\n                           <h4 ng-if=\"message == 0\">Reset password</h4>\n                        </div>\n                        <div class=\"body\">\n                            <div class=\"form-show\" ng-if=\"message == 1\">\n                                <p>Message with code was sent to your email</p>\n                                <input \n                                        ng-click=\"onChangePasswordOk()\" \n                                        type=\"button\" \n                                        value=\"OK\" />\n                            </div>\n                            <div class=\"form-show\" ng-if=\"message == 3\">\n                                <p>Password changed</p>\n                                <input \n                                        ng-click=\"onChangePasswordChanged()\" \n                                        type=\"button\" \n                                        value=\"OK\" />\n                            </div>\n                            <ng-form  \n                                ng-if=\"message == 0\"\n                                id=\"RepasswordForm\" \n                                name=\"RepasswordForm\" \n                                novalidate \n                                class=\"css-form myForm\" >\n                                <p ng-if=\"state == 1\">\n                                    <input \n                                        id=\"login_i\" \n                                        class=\"form-input\"\n                                        ng-model=\"form.email\"\n                                        required \n                                        placeholder=\"Email\"\n                                        required\n                                        type=\"email\" />\n                                    <p class=\"errors\" ng-if=\"isEmailNotFound\">Email not found.</p>\n                                </p>\n                                <p ng-if=\"state == 2\">\n                                    <input \n                                        id=\"login_i\" \n                                        class=\"form-input\"\n                                        ng-model=\"form.code\"\n                                        required \n                                        placeholder=\"Current code\"\n                                        type=\"text\" />\n                                </p>\n                                <p ng-if=\"state == 2\">\n                                    <input \n                                        type=\"password\" \n                                        id=\"pass_i\"\n                                        class=\"form-input\"\n                                        ng-model=\"form.newPassword\"\n                                        placeholder=\"New password\"\n                                        required\n                                        ng-minlength=\"6\" /> \n                                </p>\n                                <p ng-if=\"state == 2\">\n                                    <input \n                                        type=\"password\" \n                                        id=\"pass_i\"\n                                        class=\"form-input\"\n                                        ng-model=\"form.confirmPassword\"\n                                        placeholder=\"Confirm password\"\n                                        required\n                                        ng-minlength=\"6\" /> \n                                </p>\n                                <p class=\"errors\" ng-if=\"error\">{{error}}</p>\n                                <p ng-if=\"state == 1\">\n                                    <input \n                                        ng-click=\"onChangePasswordCancel()\" \n                                        type=\"button\" \n                                        value=\"Cancel\"\n                                        class=\"cancel\" />\n                                    <input \n                                        ng-disabled=\"RepasswordForm.$invalid\"\n                                        ng-click=\"onChangePassword()\" \n                                        type=\"button\" \n                                        value=\"Send code\" />\n                                </p>\n                                <p ng-if=\"state == 2\">\n                                    <input \n                                        ng-click=\"onChangePasswordCancel2()\" \n                                        type=\"button\" \n                                        value=\"Cancel\"\n                                        class=\"cancel\" />\n                                    <input \n                                        ng-disabled=\"RepasswordForm.$invalid\"\n                                        ng-click=\"onChangePasswordBegin()\" \n                                        type=\"button\" \n                                        value=\"Save\" />\n                                </p>\n                            </ng-form>\n                        </div>\n                    </div>\n                </div>\n            </div>    \n        </div>\n    </div>\n</div>");
 $templateCache.put('partials/comments.html', "<div class=\"comm\">\n\t<div class=\"cmnt\" ng-repeat=\"comment in commentsList | orderBy:'post_date'\"  >\n\t\t<strong>{{comment.user.name}}</strong>\n\t\t<i>{{comment.post_date}}</i>\n\t\t<br />\n\t\t<p>{{comment.message}}</p>\n\t</div>\n</div>\n<div class=\"butcomm\">\n\t<ng-form>\n\t\t<textarea ng-model=\"form.message\" id=\"comment_message\" name=\"comment\" placeholder=\"Enter your comment here\"></textarea>\n\t\t<button ng-click=\"onSendMessage()\">Send</button>\n\t</ng-form>\n</div>\n");
 $templateCache.put('partials/compare.html', "<div class=\"comp\" ng-include src=\"'partials/user.html'\" ng-controller=\"UserController\" ng-init=\"currentUserId=routeUserId;allUser=false;isEdit=false;\"></div>");
 $templateCache.put('partials/confirm-success.html', "<div class=\"small-message\">\n\t<h2>Successful confirm!</h2>\n\t<p></p>\n\t<a ng-click=\"closeModal()\" class=\"close\">Ok</a>\n</div>");
@@ -5187,7 +5195,7 @@ function CropImageController($scope, $rootScope, TokenService, UserService) {
             if($scope.jcrop) {
                 $scope.jcrop.data('Jcrop').destroy();
             }
-            $scope.jcrop = crop_img.Jcrop({boxWidth: 500, boxHeight: 500 , minSize: [200, 200], aspectRatio: 1, setSelect: [0, 0, 200, 200], onChange: function(data) {
+            $scope.jcrop = crop_img.Jcrop({boxWidth: 500, boxHeight: 500, maxSize: [600, 600], minSize: [200, 200], aspectRatio: 1, setSelect: [0, 0, 200, 200], onChange: function(data) {
                 $scope.positions = data;
             }}); 
         };
@@ -5205,71 +5213,6 @@ function FollowController($scope, $rootScope) {
         $rootScope.$broadcast('closeAllGoals');
         $rootScope.$broadcast('showUserProfile', { user: userItem });
     }
-    /*
-    $scope.compareState = 1;
-    
-    $scope.onCompare = function(user) {
-        var noCl = false;
-        if($location.search().user1) {
-            if($scope.compareState == 1) {
-                if($location.search().user2 != user.sguid && $location.search().user1 != user.sguid) {
-                    $scope.compareState = 2;
-                    $location.path("/compare").search(
-                        {
-                            user1: $location.search().user2, 
-                            user2: user.sguid
-                        }
-                    );
-                } else {
-                    noCl = true;
-                }
-            } else {
-                if($location.search().user1 != user.sguid && $location.search().user2 != user.sguid) {
-                    $scope.compareState = 1;
-                    $location.path("/compare").search(
-                        {
-                            user1: $location.search().user2, 
-                            user2: user.sguid
-                        }
-                    );
-                } else {
-                    noCl = true;
-                }
-            }
-        } else {
-            if($scope.workspace.user && $scope.workspace.user.sguid) {
-                if($scope.workspace.user.frends.length > 0) {
-                    $location.path("/compare").search(
-                        {
-                            user1: $scope.workspace.user.frends[0].user.sguid, 
-                            user2: user.sguid
-                        }
-                    );
-                } else {
-                    $location.path("/compare").search(
-                        {
-                            user1: $scope.workspace.user.sguid, 
-                            user2: user.sguid
-                        }
-                    );
-                }
-                    
-            } else {
-                if($scope.tmpFollows[0].user.sguid != user.sguid) {
-                    $location.path("/compare").search({user1: $scope.tmpFollows[0].user.sguid, user2: user.sguid});
-                } else {
-                    User.for_main({}, {}, function(data) {
-                        var index = getRandomInt(0, data.length-1);
-                        $location.path("/compare").search({user1: data[index].sguid, user2: user.sguid})
-                    });
-                }
-            }
-        }
-        if(!noCl) {
-            $rootScope.$broadcast('loaderShow');    
-        }
-    };
-    */
 }
 /**
  * Универсальная галлерея
@@ -6473,6 +6416,9 @@ function MyProfileController($scope, $location, LocationService, $rootScope, $ti
         	$scope.showProfile = false;
         }
     });
+
+    // загружаем список нидсов
+    $rootScope.$broadcast('needsLoad');
 }
 function MyProfileProfileController($scope, $rootScope, $location, LocationService, NeedsService) {
 
@@ -6920,8 +6866,7 @@ function MyProfileSettingsController($scope, UserService, SocialService, Friends
     // загружаем список стран
     $rootScope.$broadcast('countryLoad');
 
-    // загружаем список нидсов
-    $rootScope.$broadcast('needsLoad');
+    
     
 }
 /**

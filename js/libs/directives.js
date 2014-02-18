@@ -255,7 +255,7 @@ pgrModule.directive('mydash', function(User) {
       scope.carreeMax = 0;
 
       scope.updatePointText_ = function() {
-        if(scope.workspace.user && scope.workspace.user.points) {
+        if(scope.workspace.user) {
           scope.centerTextDraw.setText(scope.workspace.user.points);
           scope.centerTextDraw.offsetY("-"+(scope.dashboard_size.height/2-30));
           scope.centerTextDraw.offsetX(scope.centerTextDraw.width()/2);
@@ -319,7 +319,7 @@ pgrModule.directive('mydash', function(User) {
       } 
 
       scope.drawCenterArc_ = function(container) {
-        if(scope.workspace.user && scope.workspace.user.points && container) {
+        if(scope.workspace.user && container) {
           var corruption = 90;
           var oneStep = 100000/360;
           var newAngle = degToRad(scope.workspace.user.points/oneStep+corruption);
@@ -367,6 +367,7 @@ pgrModule.directive('mydash', function(User) {
 
       scope.drawNeed_ = function(container, params) {
         if(container) {
+          console.log(params);
           var corruption = params.corruption;
           var radius =  params.radius;
           var oneStep =  params.need_max/params.segment;
@@ -485,7 +486,7 @@ pgrModule.directive('mydash', function(User) {
                         }
 
                     });
-
+                    
                     scope.carreeMax = parseInt(carreerMax.max + moneyMax);
                     needsData[needItem.sguid] = parseInt(carreerMax.points + moneyPoints);
                 }
