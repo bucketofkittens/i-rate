@@ -99,4 +99,7 @@ function MyProfileController($scope, $location, LocationService, $rootScope, $ti
         	$scope.showProfile = false;
         }
     });
+
+    // загружаем список нидсов
+    $rootScope.$broadcast('needsLoad');
 }

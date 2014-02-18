@@ -591,7 +591,9 @@ pgrModule.directive('mydash', function(User) {
 
                 scope.drawText_(preload.getResult("dbt"));
                 scope.drawCenterArc_(cont);
-                scope.setNeeds();
+                if(scope.workspace.needs) {
+                  scope.setNeeds();  
+                }
             });
 
             preload.loadManifest(manifest);
@@ -616,6 +618,12 @@ pgrModule.directive('mydash', function(User) {
       $(document).ready(function() {
         if(!scope.dashboard) {
           scope.drawFullDashboard_(); 
+        }
+      });
+
+      scope.$watch("workspace.needs", function (newValue) {
+        if(newValue) {
+          scope.setNeeds();
         }
       });
     }
