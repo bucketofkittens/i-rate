@@ -20,7 +20,6 @@ pgrModule.directive('cropClick', function() {
   }
 });
 
-
 pgrModule.directive('positionGoal', function() {
   return {
     link: function(scope, element, attrs) {
@@ -239,10 +238,10 @@ pgrModule.directive('masonryItem', function() {
       setTimeout(function() {
         $(element).addClass("iso-item");
         parentElement.isotope("insert", $(element));
-      }, randomRange(1000, 3000));
+      }, 0);
       setTimeout(function() {
         $(element).addClass("all");
-      }, 5000); 
+      }, 10); 
     }
   }
 })

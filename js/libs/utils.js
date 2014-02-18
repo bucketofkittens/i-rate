@@ -60,3 +60,7 @@ function setCookie(name, value, props) {
 function deleteCookie(name) {
 	setCookie(name, null, { expires: -1 })
 }
+
+function base64encode(binary) {
+    return btoa(unescape(encodeURIComponent(binary)));
+}
