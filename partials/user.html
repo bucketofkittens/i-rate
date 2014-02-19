@@ -90,17 +90,24 @@
 			<img src="../images/cl.png">
 		</a> 
 	</div>
-		
+
 	<!-- переключатель колбасы/комментарии -->
 	<div class="mynav notmynav">
 		<ul>
-			<li ng-click="onChange(1)" ng-class="{current: tab == 1}">
+			<li ng-click="onChangeTab(1)" ng-class="{current: tab == 1}">
 				<a>Profile</a>
 			</li>
-			<li ng-click="onChange(2)" ng-class="{current: tab == 2}">
+			<li ng-click="onChangeTab(2)" ng-class="{current: tab == 2}">
 				<a>Comments</a>
 			</li>
 		</ul>
+	</div>
+
+	<div 
+		ng-controller="UserCommentsController" 
+		ng-show="tab == 2" 
+		class="comments">
+		UserCommentsController
 	</div>
 
 	<div 
@@ -108,7 +115,8 @@
 		ng-controller="NeedsAndGoalsController" 
 		scroller
 		scrolls
-		scrolls-class="crits">
+		scrolls-class="crits"
+		ng-show="tab == 1">
 		<ul ng-controller="UserNeedsController"> 
 			<li 
 				class="{{needItem.name}}" 

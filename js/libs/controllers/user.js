@@ -14,10 +14,18 @@ function UserController($scope, FriendsService, UserService, $element, $route, $
     // открывать большую карточку или нет
     $scope.big = false;
 
+    // текущий выбранный так
+    $scope.tab = 1;
+
     // событие переключчения состояния страницы.
     $scope.$on('$locationChangeSuccess', function () {
         $scope.setCurrentUser();
     });
+
+    // меняем таб на другой
+    $scope.onChangeTab = function(tab) {
+        $scope.tab = tab;
+    }
 
     // указываем текущего выбранного пользователя
     $scope.setCurrentUser = function() {
