@@ -474,6 +474,7 @@ pgrModule.directive('mydash', function(User) {
           User.goals_points({id: scope.workspace.user.sguid}, {}, function(goalsData) {
             var needsData = {};
             var needs = JSON.parse(JSON.stringify(scope.workspace.needs));
+
             angular.forEach(needs, function(needItem, needKey) {
                 needsData[needItem.sguid] = 0;
 
@@ -484,7 +485,7 @@ pgrModule.directive('mydash', function(User) {
                     }
                 });
                 
-                if(needItem.name == "Career") {
+                /*if(needItem.name == "Career") {
                     var max = 0;
                     var carreerMax = {};
                     var moneyPoints = 0;
@@ -504,7 +505,7 @@ pgrModule.directive('mydash', function(User) {
                     
                     scope.carreeMax = parseInt(carreerMax.max + moneyMax);
                     needsData[needItem.sguid] = parseInt(carreerMax.points + moneyPoints);
-                }
+                }*/
 
                 needItem.current_value = needsData[needItem.sguid];
             });
@@ -525,7 +526,7 @@ pgrModule.directive('mydash', function(User) {
             scope.drawNeed_(scope.db3Draw, {
                 corruption: 305,
                 radius: 250,
-                need_max: scope.carreeMax,
+                need_max: scope.findNeedBySguid("169990243011789827").points_summary,
                 need_value: needsData["169990243011789827"],
                 centerX: 198,
                 centerY: 107,

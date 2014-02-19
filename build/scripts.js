@@ -6931,8 +6931,9 @@ function NeedsAndGoalsController($scope, СareerService, UserService, Goals, Cri
                 }
             });
 
-            if(СareerService.isCareer(needItem))
-                needsData[needItem.sguid] = СareerService.calculate(needItem);
+
+            //if(СareerService.isCareer(needItem))
+                //needsData[needItem.sguid] = СareerService.calculate(needItem);
 
             needItem.current_value = needsData[needItem.sguid];
         });
@@ -7080,6 +7081,8 @@ function NeedsAndGoalsController($scope, СareerService, UserService, Goals, Cri
             var delta = parseInt(criteriaValue) - parseInt(currentValue);
             needItem.current_value = parseInt(needItem.current_value) + parseInt(delta);
             goalItem.current_value = parseInt(goalItem.current_value) + parseInt(delta);
+
+            /*
             if(needItem.name == "Career") {
                 var max = 0;
                 var carreerMax = {};
@@ -7097,6 +7100,7 @@ function NeedsAndGoalsController($scope, СareerService, UserService, Goals, Cri
 
                 needItem.current_value = parseInt(carreerMax.points + moneyPoints);
             }
+            */
 
             var newPoints = 0;
             angular.forEach($scope.needs, function(value, key){
