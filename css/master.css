@@ -38,7 +38,8 @@ body header #header #follow_tab a{position:absolute;top:17px;right:5px;cursor:po
 #content .pmain.pro .pmpar i{color:#ecf0f9;font-size:16px;max-width:280px;display:inline-block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;vertical-align:middle}
 #content .pmain.pro .il{position:absolute;right:20px;top:120px;cursor:pointer}#content .pmain.pro .il img{width:30px}
 #content .pmain.pro .il:last-child{top:30px;right:22px}#content .pmain.pro .il:last-child img{width:25px}
-#content .crits{display:block;width:100%;height:100%;position:relative;z-index:5;transition:all .5s ease-out;-webkit-transition:all .5s ease-out;cursor:default}#content .crits ul{text-align:center;position:relative;margin:0 auto;cursor:default}#content .crits ul li{margin:0 0 5px 15px;position:relative;cursor:default}#content .crits ul li.Spirituality{display:none}#content .crits ul li.Spirituality .cr{background:url("../images/needsbg.png") right top no-repeat}
+#content .crits{display:block;width:100%;height:100%;position:relative;z-index:5;transition:all .5s ease-out;-webkit-transition:all .5s ease-out;cursor:default;overflow-y:scroll;overflow-x:visible}#content .crits::-webkit-scrollbar{width:0;height:0}
+#content .crits ul{text-align:center;position:relative;margin:0 auto;cursor:default}#content .crits ul li{margin:0 0 5px 15px;position:relative;cursor:default}#content .crits ul li.Spirituality{display:none}#content .crits ul li.Spirituality .cr{background:url("../images/needsbg.png") right top no-repeat}
 #content .crits ul li.current .cr s{border-width:8px 7.5px 0 7.5px !important;border-color:#fff transparent transparent transparent !important;top:22px !important}
 #content .crits ul li .cr{background:url("../images/needsbg.png") right top no-repeat;line-height:50px;cursor:pointer;position:relative}#content .crits ul li .cr:after{content:".";display:block;height:0;clear:both;visibility:hidden}
 #content .crits ul li .cr p{font-size:20px;color:#fff;float:left;margin-top:3px;text-align:left;padding-left:15px}
@@ -391,8 +392,10 @@ table#graphs tr:last-child td{border-top:none}
 #signin_panel .glass .sign-in ul li a:active,#signin_panel .glass .sign-up ul li a:active{opacity:1}
 #signin_panel .glass .sign-in ul li a img,#signin_panel .glass .sign-up ul li a img{max-width:70px}
 .full_height{height:100%}
-#users{position:absolute;left:0;top:0;width:100%;height:100%;overflow-y:scroll}#users .center{margin:0 auto;width:1000px;overflow:hidden;position:relative}#users .center .user{width:500px;float:right;position:relative;z-index:11}#users .center .user:first-child{float:left}
-#users .center .user .sam{width:500px;position:relative;margin-top:60px;background:url("../images/glass.png") left top no-repeat;background-size:100% 100%;z-index:3;box-shadow:-5px 0 30px 0 #2b2b2b,inset 5px 2px 20px 1px #2b2b2b;min-height:100%}#users .center .user .sam.big{width:600px;right:94px}
+#users{position:absolute;left:0;top:0;width:100%;height:100%}#users .center{margin:0 auto;width:1000px;overflow:hidden;position:relative}#users .center .user{width:500px;float:right;position:relative;z-index:11}#users .center .user .compare.up{display:none}
+#users .center .user:first-child{float:left}#users .center .user:first-child .compare.down{display:none}
+#users .center .user:first-child .compare.up{display:block;right:-12px;left:auto}
+#users .center .user .sam{width:500px;position:relative;margin-top:60px;background:url("../images/glass.png") left top no-repeat;background-size:100% 100%;z-index:3;box-shadow:1px 0 30px 0 #2b2b2b,inset 5px 2px 20px 1px #2b2b2b;min-height:100%}#users .center .user .sam.big{width:600px;right:94px}
 #users .center .user.sha .sam{z-index:5 !important}
 .compare{position:absolute;z-index:10;left:-37px;top:-7px;width:35px;height:68px;background-size:100% 100%}.compare.goal{top:-12px;height:75px}
 .compare.criterium{top:5px;height:65px}

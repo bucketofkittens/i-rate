@@ -156,7 +156,6 @@ function NeedsAndGoalsController($scope, СareerService, UserService, Goals, Cri
      * @return {[type]}          [description]
      */
     $scope.onCriteriaSelect = function(criteriaValue, criteria, $event, needItem, goalItem) {
-        console.log(criteriaValue);
         if(!$($event.target).hasClass("current")) {
             if(criteriaValue.sguid !== "none") {
                 UserCriteriaValue.create({}, $.param({

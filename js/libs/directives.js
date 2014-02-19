@@ -61,6 +61,21 @@ pgrModule.directive('backImg', function() {
   }
 })
 
+pgrModule.directive('scrolls', function() {
+  return {
+    link: function(scope, element, attrs) {
+      $(element).scroll(function() {
+        var cls = attrs.scrollsClass;
+        var elements = $("."+cls);
+
+        elements.scrollTop($(element).scrollTop());
+      });
+    }
+  }
+})
+
+
+
 // сравнение пользователей
 pgrModule.directive('comparator', function() {
   return {
@@ -82,7 +97,7 @@ pgrModule.directive('comparator', function() {
 
       // событие изменения значений
       attrs.$observe('values', function(data) {
-        if(data && data.length > 0 && attrs.route == usersName.USER2) {
+        if(data && data.length > 0) {
           var values = JSON.parse(data);
           if(values[usersName.USER1] && values[usersName.USER2]) {
             if(values[usersName.USER1] > values[usersName.USER2]) {

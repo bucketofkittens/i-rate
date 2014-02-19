@@ -33,8 +33,7 @@ function UserController($scope, FriendsService, UserService, $element, $route, $
         if(!newId) {
             $scope.user = null;
         }
-
-        $scope.big = $location.search().big == $scope.route ? true : false;
+        //$scope.big = $location.search().big && $location.search().big == $scope.route ? true : false;
     }
 
     // callback получения данных пользователя
