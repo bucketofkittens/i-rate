@@ -400,7 +400,7 @@ function SearchAdvanceController($scope, $location, $rootScope, User, Profession
     }
 
     // открываем профиль
-    $scope.openProfile = function(sguid) {
+    $scope.openSearchProfile = function(sguid) {
         $scope.showRight = false;
         LocationService.update("big", PanelsConst.RIGHT);
 
