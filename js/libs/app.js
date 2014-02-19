@@ -59,7 +59,8 @@ var pgrModule = angular.module(
     'ui.keypress',
     'vcRecaptcha',
     'ui.select2',
-    'angular-google-analytics'
+    'angular-google-analytics',
+    'monospaced.elastic'
 	]
 );
 

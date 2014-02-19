@@ -32,6 +32,7 @@ module.exports = function(grunt) {
                 	'js/localize.js',
                     'js/rzslider.min.js',
                     'js/lscache.js',
+                    'js/elastic.js',
                     'js/libs/*.js',
                     'js/libs/controllers/*.js'
                 ],
