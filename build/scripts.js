@@ -2385,6 +2385,209 @@ var lscache = function() {
   };
 }();
 
+/*
+ * angular-elastic v2.3.1
+ * (c) 2013 Monospaced http://monospaced.com
+ * License: MIT
+ */
+
+angular.module('monospaced.elastic', [])
+
+  .constant('msdElasticConfig', {
+    append: ''
+  })
+
+  .directive('msdElastic', ['$timeout', '$window', 'msdElasticConfig', function($timeout, $window, config) {
+    'use strict';
+
+    return {
+      require: 'ngModel',
+      restrict: 'A, C',
+      link: function(scope, element, attrs, ngModel){
+
+        // cache a reference to the DOM element
+        var ta = element[0],
+            $ta = element;
+
+        // ensure the element is a textarea, and browser is capable
+        if (ta.nodeName !== 'TEXTAREA' || !$window.getComputedStyle) {
+          return;
+        }
+
+        // set these properties before measuring dimensions
+        $ta.css({
+          'overflow': 'hidden',
+          'overflow-y': 'hidden',
+          'word-wrap': 'break-word'
+        });
+
+        // force text reflow
+        var text = ta.value;
+        ta.value = '';
+        ta.value = text;
+
+        var appendText = attrs.msdElastic || config.append,
+            append = appendText === '\\n' ? '\n' : appendText,
+            $win = angular.element($window),
+            mirrorStyle = 'position: absolute; top: -999px; right: auto; bottom: auto; left: 0 ;' +
+                          'overflow: hidden; -webkit-box-sizing: content-box;' +
+                          '-moz-box-sizing: content-box; box-sizing: content-box;' +
+                          'min-height: 0 !important; height: 0 !important; padding: 0;' +
+                          'word-wrap: break-word; border: 0;',
+            $mirror = angular.element('<textarea tabindex="-1" ' +
+                                      'style="' + mirrorStyle + '"/>').data('elastic', true),
+            mirror = $mirror[0],
+            taStyle = getComputedStyle(ta),
+            resize = taStyle.getPropertyValue('resize'),
+            borderBox = taStyle.getPropertyValue('box-sizing') === 'border-box' ||
+                        taStyle.getPropertyValue('-moz-box-sizing') === 'border-box' ||
+                        taStyle.getPropertyValue('-webkit-box-sizing') === 'border-box',
+            boxOuter = !borderBox ? {width: 0, height: 0} : {
+                          width:  parseInt(taStyle.getPropertyValue('border-right-width'), 10) +
+                                  parseInt(taStyle.getPropertyValue('padding-right'), 10) +
+                                  parseInt(taStyle.getPropertyValue('padding-left'), 10) +
+                                  parseInt(taStyle.getPropertyValue('border-left-width'), 10),
+                          height: parseInt(taStyle.getPropertyValue('border-top-width'), 10) +
+                                  parseInt(taStyle.getPropertyValue('padding-top'), 10) +
+                                  parseInt(taStyle.getPropertyValue('padding-bottom'), 10) +
+                                  parseInt(taStyle.getPropertyValue('border-bottom-width'), 10)
+                        },
+            minHeightValue = parseInt(taStyle.getPropertyValue('min-height'), 10),
+            heightValue = parseInt(taStyle.getPropertyValue('height'), 10),
+            minHeight = Math.max(minHeightValue, heightValue) - boxOuter.height,
+            maxHeight = parseInt(taStyle.getPropertyValue('max-height'), 10),
+            mirrored,
+            active,
+            copyStyle = ['font-family',
+                         'font-size',
+                         'font-weight',
+                         'font-style',
+                         'letter-spacing',
+                         'line-height',
+                         'text-transform',
+                         'word-spacing',
+                         'text-indent'];
+
+        // exit if elastic already applied (or is the mirror element)
+        if ($ta.data('elastic')) {
+          return;
+        }
+
+        // Opera returns max-height of -1 if not set
+        maxHeight = maxHeight && maxHeight > 0 ? maxHeight : 9e4;
+
+        // append mirror to the DOM
+        if (mirror.parentNode !== document.body) {
+          angular.element(document.body).append(mirror);
+        }
+
+        // set resize and apply elastic
+        $ta.css({
+          'resize': (resize === 'none' || resize === 'vertical') ? 'none' : 'horizontal'
+        }).data('elastic', true);
+
+        /*
+         * methods
+         */
+
+        function initMirror(){
+          mirrored = ta;
+          // copy the essential styles from the textarea to the mirror
+          taStyle = getComputedStyle(ta);
+          angular.forEach(copyStyle, function(val){
+            mirrorStyle += val + ':' + taStyle.getPropertyValue(val) + ';';
+          });
+          mirror.setAttribute('style', mirrorStyle);
+        }
+
+        function adjust() {
+          var taHeight,
+              mirrorHeight,
+              width,
+              overflow;
+
+          if (mirrored !== ta) {
+            initMirror();
+          }
+
+          // active flag prevents actions in function from calling adjust again
+          if (!active) {
+            active = true;
+
+            mirror.value = ta.value + append; // optional whitespace to improve animation
+            mirror.style.overflowY = ta.style.overflowY;
+
+            taHeight = ta.style.height === '' ? 'auto' : parseInt(ta.style.height, 10);
+
+            // update mirror width in case the textarea width has changed
+            width = parseInt(getComputedStyle(ta).getPropertyValue('width'), 10) - boxOuter.width;
+            mirror.style.width = width + 'px';
+
+            mirrorHeight = mirror.scrollHeight;
+
+            if (mirrorHeight > maxHeight) {
+              mirrorHeight = maxHeight;
+              overflow = 'scroll';
+            } else if (mirrorHeight < minHeight) {
+              mirrorHeight = minHeight;
+            }
+            mirrorHeight += boxOuter.height;
+
+            ta.style.overflowY = overflow || 'hidden';
+
+            if (taHeight !== mirrorHeight) {
+              ta.style.height = mirrorHeight + 'px';
+              scope.$emit('elastic:resize', $ta);
+            }
+
+            // small delay to prevent an infinite loop
+            $timeout(function(){
+              active = false;
+            }, 1);
+
+          }
+        }
+
+        function forceAdjust(){
+          active = false;
+          adjust();
+        }
+
+        /*
+         * initialise
+         */
+
+        // listen
+        if ('onpropertychange' in ta && 'oninput' in ta) {
+          // IE9
+          ta['oninput'] = ta.onkeyup = adjust;
+        } else {
+          ta['oninput'] = adjust;
+        }
+
+        $win.bind('resize', forceAdjust);
+
+        scope.$watch(function(){
+          return ngModel.$modelValue;
+        }, function(newValue){
+          forceAdjust();
+        });
+
+        $timeout(adjust);
+
+        /*
+         * destroy
+         */
+
+        scope.$on('$destroy', function(){
+          $mirror.remove();
+          $win.unbind('resize', forceAdjust);
+        });
+      }
+    };
+
+  }]);
+
 'use strict';
 
 /**
@@ -2446,7 +2649,8 @@ var pgrModule = angular.module(
     'ui.keypress',
     'vcRecaptcha',
     'ui.select2',
-    'angular-google-analytics'
+    'angular-google-analytics',
+    'monospaced.elastic'
 	]
 );
 
@@ -4773,7 +4977,7 @@ $templateCache.put('views/nsi.html', "<div id=\"nsi_content\">\n\tnsi\n</div>");
 $templateCache.put('views/profile.html', "<section class=\"promain\" scroller ng-include src=\"'partials/user.html'\" ></section>\n\n<div class=\"user_right\">\n\t<ul id=\"nav2\">\n\t\t<li><a ng-click=\"closeComments()\" ng-class=\"{current: !comments}\">Top of the league</a></li>\n\t\t<li ng-if=\"workspace.user\"><a ng-click=\"onShowComments()\" ng-class=\"{current: comments}\">Comments</a></li>\n\t</ul>\n\n\t<section class=\"pronear\" ng-show=\"!comments\" app-view-segment=\"1\"></section>\n\t<section ng-controller=\"CommentsController\" id=\"comments\" ng-show=\"comments\" class=\"pronear\" ng-include src=\"'partials/comments.html'\" ></section>\t\n</div>");
 $templateCache.put('views/terms.html', "<h1>TERMS OF USE and PRIVACY POLICY</h1>\n<p>terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use</p>");
 $templateCache.put('partials/changePassword.html', "<div class=\"full_height\" ng-if=\"show\">\n    <div id=\"reset_password\">\n        <div class=\"center\">\n            <div class=\"email login chepas\">\n                <div class=\"modal\">\n                    <div class=\"modal_wrapper\">\n                        <div class=\"header\">\n                           <h4 ng-if=\"message == 0\">Reset password</h4>\n                        </div>\n                        <div class=\"body\">\n                            <div class=\"form-show\" ng-if=\"message == 1\">\n                                <p>Message with code was sent to your email</p>\n                                <input \n                                        ng-click=\"onChangePasswordOk()\" \n                                        type=\"button\" \n                                        value=\"OK\" />\n                            </div>\n                            <div class=\"form-show\" ng-if=\"message == 3\">\n                                <p>Password changed</p>\n                                <input \n                                        ng-click=\"onChangePasswordChanged()\" \n                                        type=\"button\" \n                                        value=\"OK\" />\n                            </div>\n                            <ng-form  \n                                ng-if=\"message == 0\"\n                                id=\"RepasswordForm\" \n                                name=\"RepasswordForm\" \n                                novalidate \n                                class=\"css-form myForm\" >\n                                <p ng-if=\"state == 1\">\n                                    <input \n                                        id=\"login_i\" \n                                        class=\"form-input\"\n                                        ng-model=\"form.email\"\n                                        required \n                                        placeholder=\"Email\"\n                                        required\n                                        type=\"email\" />\n                                    <p class=\"errors\" ng-if=\"isEmailNotFound\">Email not found.</p>\n                                </p>\n                                <p ng-if=\"state == 2\">\n                                    <input \n                                        id=\"login_i\" \n                                        class=\"form-input\"\n                                        ng-model=\"form.code\"\n                                        required \n                                        placeholder=\"Current code\"\n                                        type=\"text\" />\n                                </p>\n                                <p ng-if=\"state == 2\">\n                                    <input \n                                        type=\"password\" \n                                        id=\"pass_i\"\n                                        class=\"form-input\"\n                                        ng-model=\"form.newPassword\"\n                                        placeholder=\"New password\"\n                                        required\n                                        ng-minlength=\"6\" /> \n                                </p>\n                                <p ng-if=\"state == 2\">\n                                    <input \n                                        type=\"password\" \n                                        id=\"pass_i\"\n                                        class=\"form-input\"\n                                        ng-model=\"form.confirmPassword\"\n                                        placeholder=\"Confirm password\"\n                                        required\n                                        ng-minlength=\"6\" /> \n                                </p>\n                                <p class=\"errors\" ng-if=\"error\">{{error}}</p>\n                                <p ng-if=\"state == 1\">\n                                    <input \n                                        ng-click=\"onChangePasswordCancel()\" \n                                        type=\"button\" \n                                        value=\"Cancel\"\n                                        class=\"cancel\" />\n                                    <input \n                                        ng-disabled=\"RepasswordForm.$invalid\"\n                                        ng-click=\"onChangePassword()\" \n                                        type=\"button\" \n                                        value=\"Send code\" />\n                                </p>\n                                <p ng-if=\"state == 2\">\n                                    <input \n                                        ng-click=\"onChangePasswordCancel2()\" \n                                        type=\"button\" \n                                        value=\"Cancel\"\n                                        class=\"cancel\" />\n                                    <input \n                                        ng-disabled=\"RepasswordForm.$invalid\"\n                                        ng-click=\"onChangePasswordBegin()\" \n                                        type=\"button\" \n                                        value=\"Save\" />\n                                </p>\n                            </ng-form>\n                        </div>\n                    </div>\n                </div>\n            </div>    \n        </div>\n    </div>\n</div>");
-$templateCache.put('partials/comments.html', "<div class=\"comm\">\n\t<div class=\"cmnt\" ng-repeat=\"comment in commentsList | orderBy:'post_date'\"  >\n\t\t<strong>{{comment.user.name}}</strong>\n\t\t<i>{{comment.post_date}}</i>\n\t\t<br />\n\t\t<p>{{comment.message}}</p>\n\t</div>\n</div>\n<div class=\"butcomm\">\n\t<ng-form>\n\t\t<textarea ng-model=\"form.message\" id=\"comment_message\" name=\"comment\" placeholder=\"Enter your comment here\"></textarea>\n\t\t<button ng-click=\"onSendMessage()\">Send</button>\n\t</ng-form>\n</div>\n");
+$templateCache.put('partials/comments.html', "<div class=\"comments\">\n\t<div class=\"comm\">\n\t\t<div class=\"cmnt\" ng-repeat=\"comment in commentsList | orderBy:'post_date'\"  >\n\t\t\t<strong>{{comment.user.name}}</strong>\n\t\t\t<i>{{comment.post_date}}</i>\n\t\t\t<br />\n\t\t\t<p>{{comment.message}}</p>\n\t\t\t<em></em>\n\t\t</div>\n\t</div>\n\t<div class=\"butcomm\">\n\t\t<em></em>\n\t\t<ng-form>\n\t\t\t<textarea ng-model=\"form.message\" id=\"comment_message\" name=\"comment\" placeholder=\"Enter your comment here\"></textarea>\n\t\t\t<button ng-click=\"onSendMessage()\">Send</button>\n\t\t</ng-form>\n\t</div>\n</div>");
 $templateCache.put('partials/compare.html', "<div class=\"comp\" ng-include src=\"'partials/user.html'\" ng-controller=\"UserController\" ng-init=\"currentUserId=routeUserId;allUser=false;isEdit=false;\"></div>");
 $templateCache.put('partials/confirm-success.html', "<div class=\"small-message\">\n\t<h2>Successful confirm!</h2>\n\t<p></p>\n\t<a ng-click=\"closeModal()\" class=\"close\">Ok</a>\n</div>");
 $templateCache.put('partials/crop-image.html', "<div ng-class=\"{show: show}\" id=\"crop_modal\">\n\t<div class=\"modal-body\">\n\t\t<form action=\"\" method=\"get\" accept-charset=\"utf-8\">\n\t\t\t<div id='cropContainer'>\n\t\t      <div class=\"cropper\">\n\t\t         <div class=\"preview-container\">\n\t\t         \t<img src=\"\" id=\"crop_img\" alt=\"\" />\n\t        \t\t<canvas id=\"image_canvas\"></canvas>\n\t\t         </div>\n\t\t      </div>\n\t\t   </div>\n\t   </form>\n\t</div>\n\t<div class=\"buttons\">\n\t\t<button ng-click=\"close()\">Cancel</button>\n\t\t<button class=\"apply\" ng-click=\"onSend()\">Apply</button>\n\t</div>\n</div>\n");
@@ -4798,7 +5002,7 @@ $templateCache.put('partials/share.html', "<div ng-controller=\"ShareController\
 $templateCache.put('partials/signin.html', "<h4>Sign in</h4>\n<div class=\"sign-in\">\n  <ng-form \n    id=\"login_form\" \n    name=\"LoginForm\" \n    novalidate \n    class=\"css-form myForm\" >\n    <p>\n      <input \n        type=\"email\" \n        id=\"login_i\" \n        class=\"form-input\"\n        ng-model=\"login.email\"\n        name=\"Email\"\n        required \n        ng-minlength=\"6\"\n        placeholder=\"Email\"\n        ui-keypress=\"{13:'onKeyPress($event)'}\" />\n      <br />\n      <span \n      \tclass=\"errorss\" \n      \tng-show=\"LoginForm.Email.$dirty && (LoginForm.Email.$error.required || LoginForm.Email.$error.minlength || LoginForm.Email.$error.email)\">Incorrect email\n      </span>\n    </p>       \n    <p>\n      <input \n        type=\"password\" \n        id=\"pass_i\"\n        class=\"form-input\"\n        ng-model=\"login.password\"\n        required \n        name=\"Password\"\n        ng-minlength=\"6\"\n        placeholder=\"Password\"\n        ui-keypress=\"{13:'onKeyPress($event)'}\"\n        ng-trim=\"false\" /> \n      <br />\n      <span \n      \tclass=\"errorss rss\" \n      \tng-show=\"LoginForm.Password.$dirty && (LoginForm.Password.$error.required || LoginForm.Password.$error.minlength)\">Incorrect password\n      </span>\n    </p>\n    <div class=\"step\">\n      <p>\n        <a href=\"#/change_password\">Forgot your password?</a>\n      </p>\n      <p>\n        <input type=\"checkbox\"  />\n        <label>Keep me signed in</label>\n      </p>\n      <p class=\"errors\" ng-show=\"error\">{{error}}</p>\n      <p class=\"singin-sub\">\n        <input \n          ng-disabled=\"LoginForm.$invalid\"\n          ng-click=\"onSingin()\" \n          type=\"button\" \n          value=\"Sign in\" />\n      </p>    \n    </div>\n    <div class=\"rere\">\n      <p>Don’t have an iRate account yet?</p>\t\n      <p class=\"singin-sub\">\n        <input \n          ng-click=\"changeState(states.SIGNUP)\" \n          type=\"button\" \n          value=\"Sign up\" />\n      </p>          \n    </div>\n\n    <!-- social link -->\n    <i>Use Improva, Facebook, Google+, LiveID or your email to sign in.</i>    \n    <ul>\n      <li>\n        <a ng-click=\"improvaLogin()\">\n          <span class=\"icon improva\" ng-click=\"changeState(states.IMPROVA)\"></span>\n        </a>\n      </li>\n      <li>\n        <a ng-click=\"socialFacebookLogin()\">\n          <span class=\"icon facebook\"></span>\n        </a>\n      </li>\n      <li>\n        <a ng-click=\"socialGooglePlusLogin()\">\n          <span class=\"icon google\"></span>\n        </a>\n      </li>\n      <li>\n        <a ng-click=\"socialMicrosoftLiveLogin()\">\n          <span class=\"icon live\"></span>\n        </a>\n      </li>\n    </ul>\n    \n  </ng-form>\n</div>");
 $templateCache.put('partials/signup-success.html', "<div class=\"small-message\">\n\t<h2>Successful registration!</h2>\n\t<p>The message have been sent to your email. <br />Sign in by the inner link now.</p>\n\t<a ng-click=\"closeModal()\" class=\"close\">Ok</a>\n</div>");
 $templateCache.put('partials/signup.html', "<h4>Sign up</h4>\n<b class=\"close icon\" ng-click=\"changeState(states.SIGNIN)\"></b>\n<div class=\"sign-up\">\n  <ng-form \n    novalidate \n    class=\"css-form myForm\"\n    name=\"RegForm\" >\n    <p>\n      <input \n        type=\"email\" \n        id=\"email_1\" \n        class=\"form-input\"\n        ng-model=\"user.email\" \n        required\n        ng-minlength=\"6\"\n        placeholder=\"Email\"\n        name=\"NewEmail\"\n        ui-keypress=\"{13:'onKeyPressReg($event)'}\"  />\n      <br />\n      <span \n        class=\"errorss\" \n        ng-show=\"RegForm.NewEmail.$dirty && (RegForm.NewEmail.$error.required || RegForm.NewEmail.$error.minlength || RegForm.NewEmail.$error.email)\">Incorrect email</span>\n      <span class=\"errorss\" ng-if=\"errorEmail\">{{errorEmail}}</span>\n    </p>\n    <p>\n      <input \n        type=\"email\" \n        id=\"email_2\" \n        class=\"form-input\"\n        ng-model=\"user.reemail\" \n        required \n        ng-minlength=\"6\"\n        placeholder=\"Confirm email\"\n        disable-paste\n        onpaste=\"return false;\"\n        name=\"NewMassEmail\"\n        pw-check=\"email_2\"\n        equal='user.email'\n        ui-keypress=\"{13:'onKeyPressReg($event)'}\" />\n      <br />\n      <span \n        class=\"errorss rss\" \n        ng-show=\"RegForm.NewMassEmail.$dirty && (RegForm.NewMassEmail.$error.required || RegForm.NewMassEmail.$error.minlength || RegForm.NewEmail.$error.email)\"> Incorrect mismatch</span> \n      <span class=\"errorss\" ng-if=\"errorName\">{{errorName}}</span>\n    </p>\n    <p>\n      <input \n        type=\"password\" \n        id=\"name_i\" \n        class=\"form-input\"\n        ng-model=\"user.password\" \n        required \n        ng-minlength=\"6\"\n        placeholder=\"Password\"\n        name=\"NewPassword\"\n        ui-keypress=\"{13:'onKeyPressReg($event)'}\" /> \n      <br />\n      <span \n        class=\"errorss rrss\" \n        ng-show=\"RegForm.NewPassword.$dirty && (RegForm.NewPassword.$error.required || RegForm.NewPassword.$error.minlength)\">Incorrect password</span>\n    </p>\n    <div\n      vc-recaptcha\n      theme=\"blackglass\"\n      lang=\"en\"\n      ng-model=\"captha\"\n      key=\"6Lf1Z-oSAAAAAEkk7m5n6cGiwgqeMya21UetPbIO\">\n    </div>\n\n    <p class=\"errors\" ng-if=\"errorValidate\"><br />{{errorValidate}}</p><br />\n\n    <p class=\"acknowledge\">\n      <input type=\"checkbox\"  required=\"required\" ng-model=\"acknowledge\" class=\"icheckbox_minimal\" />\n      <label>I acknowledge I have read and accept the<a href=\"/views/terms.html\" class=\"notdark\">Terms of use Agreement</a> and consent to the <a href=\"/views/terms.html\" class=\"notdark\">Privacy Policy</a>.</label>\n    </p>\n\n    <p class=\"signup-submit\">\n      <input \n        type=\"button\" \n        value=\"Sign up\"\n        ng-disabled=\"RegForm.$invalid\"\n        ng-click=\"addUser()\" />\n    </p>\n  </ng-form>\n</div>");
-$templateCache.put('partials/user.html', "<div ng-if=\"user\" class=\"sam\" ng-class=\"{big: big}\">\n\t<!-- Поиск -->\n\t<div id=\"search\" class=\"search\" ng-if=\"compare\">\n\t\t<div ng-controller=\"SearchController\">\n\t\t\t<input \n\t\t\t\ttype=\"text\" \n\t\t\t\tng-model=\"searchText\" \n\t\t\t\tplaceholder=\"Search people\" \n\t\t\t\tclass=\"search\"\n\t\t\t\tng-change=\"onSearch()\"\n\t\t\t\tui-keypress=\"{13:'onSearch()'}\" />\n\t\t\t<input type=\"button\" class=\"searcher\" ng-click=\"onSearch()\" />\n\t\t\t<div ng-cloak class=\"searchResult\" ng-if=\"resultSearch.length > 0\">\n\t\t\t\t<div class=\"item\" ng-repeat=\"(userKey, userItem) in resultSearch\" ng-click=\"changeUser(userItem)\">\n\t\t\t\t\t<div class=\"image\">\n\t\t\t\t\t\t<img ng-src=\"{{userItem.avatar}}\" alt=\"\">\n\t\t\t\t\t\t<i ng-if=\"userItem.points\">{{userItem.points}}</i>\n\t\t\t\t\t</div>\n\t\t\t\t\t<div class=\"text\">\n\t\t\t\t\t\t<p class=\"name\">{{userItem.name}}</p>\n\t\t\t\t\t\t<p class=\"birthday\">{{userItem.birthday}}</p>\n\t\t\t\t\t\t<p class=\"birthday\">{{userItem.state.name}}</p>\n\t\t\t\t\t\t<p class=\"profession\">{{userItem.profession.name}}</p>\n\t\t\t\t\t\t<p class=\"league\">{{userItem.league.name}} league</p>\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t</div>\t\n\t\t</div>\n\t</div>\n\t<div class=\"pmain pro\" >\n\t\t<div class=\"block\" ng-if=\"user\">\n\t\t\t<div class=\"image_box\" ng-class=\"{updated: user.sguid == authUserId && isEdit, big: user.hover}\" \n\t\t\t\tng-click=\"onUserClick(user, $event)\" >\n\t\t\t\t<img class=\"pp\" ng-src=\"{{user.avatar}}\" err-src=\"/images/unknown-person.png\" />\n\t\t\t\t<a ng-click=\"onUpdateFile()\" title=\"\">Update image</a>\n\t\t\t\t<span></span>\t\n\t\t\t\t<s ng-if=\"user.artificial\">profile is created by experts based on available public info</s>\t\n\t\t\t\t<div class=\"sub\">\n\t\t\t\t\t<b>{{user.name}} <br /><s>{{user.league.name}} league</s></b>\n\t\t\t\t\t<ul>\n\t\t\t\t\t\t<li>\n\t\t\t\t\t\t\t<a ng-click=\"onMoveToProfile(user)\">\n\t\t\t\t\t\t\t\t<span class=\"icon profile navigate\"></span>\n\t\t\t\t\t\t\t</a>\n\t\t\t\t\t\t</li>\n\t\t\t\t\t\t<li>\n\t\t\t\t\t\t\t<a ng-if=\"user && !user.isFollow\" ng-click=\"onFollow()\">\n\t\t\t\t\t\t\t\t<span class=\"icon follow navigate\"></span>\n\t\t\t\t\t\t\t</a>\n\t\t\t\t\t\t\t<a ng-if=\"user && user.isFollow\" ng-click=\"onUnFollow()\">\n\t\t\t\t\t\t\t\t<span class=\"icon unfollow navigate\"></span>\n\t\t\t\t\t\t\t</a>\n\t\t\t\t\t\t</li>\n\t\t\t\t\t</ul>\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t</div>\n\t\t<div class=\"pmpar\" ng-if=\"user\">\n\t\t\t<p>\n\t\t\t\t<i>{{user.name}}</i>\n\t\t\t</p>\n\t\t\t<p>\n\t\t\t\t<i>{{user.birthday}}</i>\n\t\t\t</p>\n\t\t\t<p>\n\t\t\t\t<i>\n\t\t\t\t\t<span ng-if=\"user.state.name\">{{user.state.name}}</span>\n\t\t\t\t\t<span ng-if=\"user.city.name\">\n\t\t\t\t\t\t<span ng-if=\"user.state.name\">,</span> \n\t\t\t\t\t\t{{user.city.name}}\n\t\t\t\t\t</span>\n\t\t\t\t</i>\n\t\t\t<p>\n\t\t\t\t<i>{{user.profession.name}}<span ng-if=\"user.goal_name\">, {{user.goal_name}}</span></i>\n\t\t\t</p>\n\n\t\t\t<p>\n\t\t\t\t<i>{{user.league.name}}</i>\n\t\t\t</p>\n\t\t\t<p>\n\t\t\t\t<i>{{user.points}}</i>\n\t\t\t</p>\n\t\t</div>\n\n\t\t<a class=\"il\" ng-if=\"user && !isFriend && !compare\" ng-click=\"onFollow()\"><img src=\"../images/i3.png\"></a>\n\t\t<a class=\"il\" ng-if=\"user && isFriend && !compare\" ng-click=\"onUnFollow()\"><img src=\"../images/i3i.png\"></a>\n\n\t\t<!-- кнопочка закрытия -->\n\t\t<a class=\"il\" ng-if=\"user && !compare && user.sguid != workspace.user.sguid\" ng-click=\"close()\">\n\t\t\t<img src=\"../images/cl.png\">\n\t\t</a> \n\t</div>\n\n\t<!-- переключатель колбасы/комментарии -->\n\t<div class=\"mynav notmynav\">\n\t\t<ul>\n\t\t\t<li ng-click=\"onChangeTab(1)\" ng-class=\"{current: tab == 1}\">\n\t\t\t\t<a>Profile</a>\n\t\t\t</li>\n\t\t\t<li ng-click=\"onChangeTab(2)\" ng-class=\"{current: tab == 2}\">\n\t\t\t\t<a>Comments</a>\n\t\t\t</li>\n\t\t</ul>\n\t</div>\n\n\t<div \n\t\tclass=\"tab tabss\"\n\t\tscroller\n\t\tscrolls\n\t\tscrolls-class=\"tabss\">\n\t\t<div \n\t\tng-controller=\"UserCommentsController\" \n\t\tng-show=\"tab == 2\" \n\t\tclass=\"comments\">\n\t\t\tUserCommentsController\n\t\t</div>\n\n\t\t<div \n\t\t\tclass=\"crits\" \n\t\t\tng-controller=\"NeedsAndGoalsController\" \n\t\t\tng-show=\"tab == 1\">\n\t\t\t<ul ng-controller=\"UserNeedsController\"> \n\t\t\t\t<li \n\t\t\t\t\tclass=\"{{needItem.name}}\" \n\t\t\t\t\tng-repeat=\"(needKey, needItem) in needs | orderBy:'position'\" \n\t\t\t\t\tdata-needId=\"{{needItem.sguid}}\">\n\t\t\t\t\t<div class=\"cr\" ng-click=\"onShowGoals($event, needItem)\">\n\t\t\t\t\t\t<p>{{needItem.name}}</p>\n\t\t\t\t\t\t<div class=\"right\">\n\t\t\t\t\t\t\t<b>{{needItem.current_value | notnull}} / {{needItem.points_summary}}</b>\n\t\t\t\t\t\t\t<strong>\n\t\t\t\t\t\t\t\t<span \n\t\t\t\t\t\t\t\t\tclass=\"current_position\"\n\t\t\t\t\t\t\t\t\tposition-need>\n\t\t\t\t\t\t\t\t</span>\n\t\t\t\t\t\t\t</strong>\t\n\t\t\t\t\t\t</div>\n\t\t\t\t\t\t<sup class=\"compare\" route=\"{{route}}\" comparator values=\"{{needsValues[needItem.sguid]}}\"></sup>\n\t\t\t\t\t</div>\n\t\t\t\t\t<ul ng-class=\"{hidden: needItem.hidden}\">\n\t\t\t\t\t\t<li ng-repeat=\"(goalKey,goalItem) in needItem.goals | orderBy:'position'\" \n\t\t\t\t\t\t\tdata-goalid=\"{{goalItem.sguid}}\" \n\t\t\t\t\t\t\tuser-id=\"{{user.sguid}}\" >\n\t\t\t\t\t\t\t<h5 ng-click=\"showCriterias($event, needItem, goalItem, needs)\">\n\t\t\t\t\t\t\t\t<a \n\t\t\t\t\t\t\t\t\tng-class=\"{current: goalItem.current}\"\n\t\t\t\t\t\t\t\t\tdata-goalid=\"{{goalItem.sguid}}\" \n\t\t\t\t\t\t\t\t\tuser-id=\"{{user.sguid}}\">\n\t\t\t\t\t\t\t\t\t<span>\n\t\t\t\t\t\t\t\t\t\t<img \n\t\t\t\t\t\t\t\t\t\t\tng-src=\"/images/goals/{{needItem.name | removewhite}}/{{goalItem.name | removewhite}}.png\"\n\t\t\t\t\t\t\t\t\t\t\talt=\"\" \n\t\t\t\t\t\t\t\t\t\t\ttitle=\"{{goalItem.name}}\" />\n\t\t\t\t\t\t\t\t\t</span>\n\t\t\t\t\t\t\t\t\t<h6>{{goalItem.name}}</h6>\n\t\t\t\t\t\t\t\t\t<s></s>\n\t\t\t\t\t\t\t\t</a>\t\n\t\t\t\t\t\t\t\t<div class=\"right\">\n\t\t\t\t\t\t\t\t\t<strong>\n\t\t\t\t\t\t\t\t\t\t<span position-goal class=\"current_position\" ></span>\n\t\t\t\t\t\t\t\t\t</strong>\n\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t<i ng-if=\"!goalItem.current\"><em></em></i>\n\t\t\t\t\t\t\t\t<sup \n\t\t\t\t\t\t\t\t\tclass=\"compare goal\" \n\t\t\t\t\t\t\t\t\troute=\"{{route}}\" \n\t\t\t\t\t\t\t\t\tcomparator \n\t\t\t\t\t\t\t\t\tvalues=\"{{goalsValues[goalItem.sguid]}}\" >\n\t\t\t\t\t\t\t\t</sup>\n\t\t\t\t\t\t\t</h5>\n\t\t\t\t\t\t\t<ul class=\"criterion\" ng-class=\"{current: goalItem.current}\">\n\t\t\t\t\t\t\t\t<li \n\t\t\t\t\t\t\t\t\tdata-id=\"{{crItem.sguid}}\" \n\t\t\t\t\t\t\t\t\tng-repeat=\"crItem in goalItem.criteriums | orderBy:'position'\" >\n\t\t\t\t\t\t\t\t\t<p>{{crItem.name}}</p>\n\t\t\t\t\t\t\t\t\t<div class=\"bord\">\n\t\t\t\t\t\t\t\t\t\t<ul class=\"crp\">\n\t\t\t\t\t\t\t\t\t\t\t<div class=\"tab\">\n\t\t\t\t\t\t\t\t\t\t\t\t<li data-id=\"{{value.sguid}}\"  \n\t\t\t\t\t\t\t\t\t\t\t\t\tng-repeat=\"value in crItem.criteria_values | orderBy:'position'\"  \n\t\t\t\t\t\t\t\t\t\t\t\t\tclass=\"{{value.user_criteria}} position_{{value.position}}\" >\n\t\t\t\t\t\t\t\t\t\t\t\t\t<i ng-if=\"value.sguid != 'none'\">{{value.name}}</i>\n\t\t\t\t\t\t\t\t\t\t\t\t\t<i ng-if=\"value.sguid == 'none'\" class=\"null_criteria\"></i>\n\t\t\t\t\t\t\t\t\t\t\t\t</li>\n\t\t\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t\t\t<span>\n\t\t\t\t\t\t\t\t\t\t\t\t<sup></sup>\n\t\t\t\t\t\t\t\t\t\t\t</span>\n\t\t\t\t\t\t\t\t\t\t</ul>\n\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t<sup \n\t\t\t\t\t\t\t\t\t\tclass=\"compare criterium\" \n\t\t\t\t\t\t\t\t\t\troute=\"{{route}}\" \n\t\t\t\t\t\t\t\t\t\tcomparator \n\t\t\t\t\t\t\t\t\t\tvalues=\"{{criteriumsValues[crItem.sguid]}}\">\n\t\t\t\t\t\t\t\t\t</sup>\n\t\t\t\t\t\t\t\t</li>\n\t\t\t\t\t\t\t</ul>\n\t\t\t\t\t\t</li>\n\t\t\t\t\t\t\n\t\t\t\t\t</ul>\n\t\t\t\t</li>\n\t\t\t</ul>\n\t\t</div>\n\t</div>\n\t\n</div>");
+$templateCache.put('partials/user.html', "<div ng-if=\"user\" class=\"sam\" ng-class=\"{big: big}\">\n\t<!-- Поиск -->\n\t<div id=\"search\" class=\"search\" ng-if=\"compare\">\n\t\t<div ng-controller=\"SearchController\">\n\t\t\t<input \n\t\t\t\ttype=\"text\" \n\t\t\t\tng-model=\"searchText\" \n\t\t\t\tplaceholder=\"Search people\" \n\t\t\t\tclass=\"search\"\n\t\t\t\tng-change=\"onSearch()\"\n\t\t\t\tui-keypress=\"{13:'onSearch()'}\" />\n\t\t\t<input type=\"button\" class=\"searcher\" ng-click=\"onSearch()\" />\n\t\t\t<div ng-cloak class=\"searchResult\" ng-if=\"resultSearch.length > 0\">\n\t\t\t\t<div class=\"item\" ng-repeat=\"(userKey, userItem) in resultSearch\" ng-click=\"changeUser(userItem)\">\n\t\t\t\t\t<div class=\"image\">\n\t\t\t\t\t\t<img ng-src=\"{{userItem.avatar}}\" alt=\"\">\n\t\t\t\t\t\t<i ng-if=\"userItem.points\">{{userItem.points}}</i>\n\t\t\t\t\t</div>\n\t\t\t\t\t<div class=\"text\">\n\t\t\t\t\t\t<p class=\"name\">{{userItem.name}}</p>\n\t\t\t\t\t\t<p class=\"birthday\">{{userItem.birthday}}</p>\n\t\t\t\t\t\t<p class=\"birthday\">{{userItem.state.name}}</p>\n\t\t\t\t\t\t<p class=\"profession\">{{userItem.profession.name}}</p>\n\t\t\t\t\t\t<p class=\"league\">{{userItem.league.name}} league</p>\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t</div>\t\n\t\t</div>\n\t</div>\n\t<div class=\"pmain pro\" >\n\t\t<div class=\"block\" ng-if=\"user\">\n\t\t\t<div class=\"image_box\" ng-class=\"{updated: user.sguid == authUserId && isEdit, big: user.hover}\" \n\t\t\t\tng-click=\"onUserClick(user, $event)\" >\n\t\t\t\t<img class=\"pp\" ng-src=\"{{user.avatar}}\" err-src=\"/images/unknown-person.png\" />\n\t\t\t\t<a ng-click=\"onUpdateFile()\" title=\"\">Update image</a>\n\t\t\t\t<span></span>\t\n\t\t\t\t<s ng-if=\"user.artificial\">profile is created by experts based on available public info</s>\t\n\t\t\t\t<div class=\"sub\">\n\t\t\t\t\t<b>{{user.name}} <br /><s>{{user.league.name}} league</s></b>\n\t\t\t\t\t<ul>\n\t\t\t\t\t\t<li>\n\t\t\t\t\t\t\t<a ng-click=\"onMoveToProfile(user)\">\n\t\t\t\t\t\t\t\t<span class=\"icon profile navigate\"></span>\n\t\t\t\t\t\t\t</a>\n\t\t\t\t\t\t</li>\n\t\t\t\t\t\t<li>\n\t\t\t\t\t\t\t<a ng-if=\"user && !user.isFollow\" ng-click=\"onFollow()\">\n\t\t\t\t\t\t\t\t<span class=\"icon follow navigate\"></span>\n\t\t\t\t\t\t\t</a>\n\t\t\t\t\t\t\t<a ng-if=\"user && user.isFollow\" ng-click=\"onUnFollow()\">\n\t\t\t\t\t\t\t\t<span class=\"icon unfollow navigate\"></span>\n\t\t\t\t\t\t\t</a>\n\t\t\t\t\t\t</li>\n\t\t\t\t\t</ul>\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t</div>\n\t\t<div class=\"pmpar\" ng-if=\"user\">\n\t\t\t<p>\n\t\t\t\t<i>{{user.name}}</i>\n\t\t\t</p>\n\t\t\t<p>\n\t\t\t\t<i>{{user.birthday}}</i>\n\t\t\t</p>\n\t\t\t<p>\n\t\t\t\t<i>\n\t\t\t\t\t<span ng-if=\"user.state.name\">{{user.state.name}}</span>\n\t\t\t\t\t<span ng-if=\"user.city.name\">\n\t\t\t\t\t\t<span ng-if=\"user.state.name\">,</span> \n\t\t\t\t\t\t{{user.city.name}}\n\t\t\t\t\t</span>\n\t\t\t\t</i>\n\t\t\t<p>\n\t\t\t\t<i>{{user.profession.name}}<span ng-if=\"user.goal_name\">, {{user.goal_name}}</span></i>\n\t\t\t</p>\n\n\t\t\t<p>\n\t\t\t\t<i>{{user.league.name}}</i>\n\t\t\t</p>\n\t\t\t<p>\n\t\t\t\t<i>{{user.points}}</i>\n\t\t\t</p>\n\t\t</div>\n\n\t\t<a class=\"il\" ng-if=\"user && !isFriend && !compare\" ng-click=\"onFollow()\"><img src=\"../images/i3.png\"></a>\n\t\t<a class=\"il\" ng-if=\"user && isFriend && !compare\" ng-click=\"onUnFollow()\"><img src=\"../images/i3i.png\"></a>\n\n\t\t<!-- кнопочка закрытия -->\n\t\t<a class=\"il\" ng-if=\"user && !compare && user.sguid != workspace.user.sguid\" ng-click=\"close()\">\n\t\t\t<img src=\"../images/cl.png\">\n\t\t</a> \n\t</div>\n\n\t<!-- переключатель колбасы/комментарии -->\n\t<div class=\"mynav notmynav\">\n\t\t<ul>\n\t\t\t<li ng-click=\"onChangeTab(1)\" ng-class=\"{current: tab == 1}\">\n\t\t\t\t<a>Profile</a>\n\t\t\t</li>\n\t\t\t<li ng-click=\"onChangeTab(2)\" ng-class=\"{current: tab == 2}\">\n\t\t\t\t<a>Comments</a>\n\t\t\t</li>\n\t\t</ul>\n\t</div>\n\n\t<div \n\t\tclass=\"tab tabss\"\n\t\tscroller\n\t\tscrolls\n\t\tscrolls-class=\"tabss\">\n\t\t<div \n\t\tng-controller=\"UserCommentsController\" \n\t\tng-show=\"tab == 2\" \n\t\tclass=\"comments\">\n\t\t\t<div class=\"comm\">\n\t\t\t\t<div class=\"cmnt\" ng-repeat=\"comment in commentsList | orderBy:'post_date'\"  >\n\t\t\t\t\t<strong>{{comment.user.name}}</strong>\n\t\t\t\t\t<i>{{comment.post_date}}</i>\n\t\t\t\t\t<br />\n\t\t\t\t\t<p>{{comment.message}}</p>\n\t\t\t\t\t<em></em>\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t\t<div class=\"butcomm\">\n\t\t\t\t<em></em>\n\t\t\t\t<ng-form>\n\t\t\t\t\t<textarea ng-model=\"form.message\" msd-elastic id=\"comment_message\" name=\"comment\" placeholder=\"Enter your comment here\"></textarea>\n\t\t\t\t\t<button ng-click=\"onSendMessage()\">Send</button>\n\t\t\t\t</ng-form>\n\t\t\t</div>\n\t\t</div>\n\n\t\t<div \n\t\t\tclass=\"crits\" \n\t\t\tng-controller=\"NeedsAndGoalsController\" \n\t\t\tng-show=\"tab == 1\">\n\t\t\t<ul ng-controller=\"UserNeedsController\"> \n\t\t\t\t<li \n\t\t\t\t\tclass=\"{{needItem.name}}\" \n\t\t\t\t\tng-repeat=\"(needKey, needItem) in needs | orderBy:'position'\" \n\t\t\t\t\tdata-needId=\"{{needItem.sguid}}\">\n\t\t\t\t\t<div class=\"cr\" ng-click=\"onShowGoals($event, needItem)\">\n\t\t\t\t\t\t<p>{{needItem.name}}</p>\n\t\t\t\t\t\t<div class=\"right\">\n\t\t\t\t\t\t\t<b>{{needItem.current_value | notnull}} / {{needItem.points_summary}}</b>\n\t\t\t\t\t\t\t<strong>\n\t\t\t\t\t\t\t\t<span \n\t\t\t\t\t\t\t\t\tclass=\"current_position\"\n\t\t\t\t\t\t\t\t\tposition-need>\n\t\t\t\t\t\t\t\t</span>\n\t\t\t\t\t\t\t</strong>\t\n\t\t\t\t\t\t</div>\n\t\t\t\t\t\t<sup class=\"compare\" route=\"{{route}}\" comparator values=\"{{needsValues[needItem.sguid]}}\"></sup>\n\t\t\t\t\t</div>\n\t\t\t\t\t<ul ng-class=\"{hidden: needItem.hidden}\">\n\t\t\t\t\t\t<li ng-repeat=\"(goalKey,goalItem) in needItem.goals | orderBy:'position'\" \n\t\t\t\t\t\t\tdata-goalid=\"{{goalItem.sguid}}\" \n\t\t\t\t\t\t\tuser-id=\"{{user.sguid}}\" >\n\t\t\t\t\t\t\t<h5 ng-click=\"showCriterias($event, needItem, goalItem, needs)\">\n\t\t\t\t\t\t\t\t<a \n\t\t\t\t\t\t\t\t\tng-class=\"{current: goalItem.current}\"\n\t\t\t\t\t\t\t\t\tdata-goalid=\"{{goalItem.sguid}}\" \n\t\t\t\t\t\t\t\t\tuser-id=\"{{user.sguid}}\">\n\t\t\t\t\t\t\t\t\t<span>\n\t\t\t\t\t\t\t\t\t\t<img \n\t\t\t\t\t\t\t\t\t\t\tng-src=\"/images/goals/{{needItem.name | removewhite}}/{{goalItem.name | removewhite}}.png\"\n\t\t\t\t\t\t\t\t\t\t\talt=\"\" \n\t\t\t\t\t\t\t\t\t\t\ttitle=\"{{goalItem.name}}\" />\n\t\t\t\t\t\t\t\t\t</span>\n\t\t\t\t\t\t\t\t\t<h6>{{goalItem.name}}</h6>\n\t\t\t\t\t\t\t\t\t<s></s>\n\t\t\t\t\t\t\t\t</a>\t\n\t\t\t\t\t\t\t\t<div class=\"right\">\n\t\t\t\t\t\t\t\t\t<strong>\n\t\t\t\t\t\t\t\t\t\t<span position-goal class=\"current_position\" ></span>\n\t\t\t\t\t\t\t\t\t</strong>\n\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t<i ng-if=\"!goalItem.current\"><em></em></i>\n\t\t\t\t\t\t\t\t<sup \n\t\t\t\t\t\t\t\t\tclass=\"compare goal\" \n\t\t\t\t\t\t\t\t\troute=\"{{route}}\" \n\t\t\t\t\t\t\t\t\tcomparator \n\t\t\t\t\t\t\t\t\tvalues=\"{{goalsValues[goalItem.sguid]}}\" >\n\t\t\t\t\t\t\t\t</sup>\n\t\t\t\t\t\t\t</h5>\n\t\t\t\t\t\t\t<ul class=\"criterion\" ng-class=\"{current: goalItem.current}\">\n\t\t\t\t\t\t\t\t<li \n\t\t\t\t\t\t\t\t\tdata-id=\"{{crItem.sguid}}\" \n\t\t\t\t\t\t\t\t\tng-repeat=\"crItem in goalItem.criteriums | orderBy:'position'\" >\n\t\t\t\t\t\t\t\t\t<p>{{crItem.name}}</p>\n\t\t\t\t\t\t\t\t\t<div class=\"bord\">\n\t\t\t\t\t\t\t\t\t\t<ul class=\"crp\">\n\t\t\t\t\t\t\t\t\t\t\t<div class=\"tab\">\n\t\t\t\t\t\t\t\t\t\t\t\t<li data-id=\"{{value.sguid}}\"  \n\t\t\t\t\t\t\t\t\t\t\t\t\tng-repeat=\"value in crItem.criteria_values | orderBy:'position'\"  \n\t\t\t\t\t\t\t\t\t\t\t\t\tclass=\"{{value.user_criteria}} position_{{value.position}}\" >\n\t\t\t\t\t\t\t\t\t\t\t\t\t<i ng-if=\"value.sguid != 'none'\">{{value.name}}</i>\n\t\t\t\t\t\t\t\t\t\t\t\t\t<i ng-if=\"value.sguid == 'none'\" class=\"null_criteria\"></i>\n\t\t\t\t\t\t\t\t\t\t\t\t</li>\n\t\t\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t\t\t<span>\n\t\t\t\t\t\t\t\t\t\t\t\t<sup></sup>\n\t\t\t\t\t\t\t\t\t\t\t</span>\n\t\t\t\t\t\t\t\t\t\t</ul>\n\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t<sup \n\t\t\t\t\t\t\t\t\t\tclass=\"compare criterium\" \n\t\t\t\t\t\t\t\t\t\troute=\"{{route}}\" \n\t\t\t\t\t\t\t\t\t\tcomparator \n\t\t\t\t\t\t\t\t\t\tvalues=\"{{criteriumsValues[crItem.sguid]}}\">\n\t\t\t\t\t\t\t\t\t</sup>\n\t\t\t\t\t\t\t\t</li>\n\t\t\t\t\t\t\t</ul>\n\t\t\t\t\t\t</li>\n\t\t\t\t\t\t\n\t\t\t\t\t</ul>\n\t\t\t\t</li>\n\t\t\t</ul>\n\t\t</div>\n\t</div>\n</div>");
 $templateCache.put('partials/users.html', "<div id=\"users\" class=\"full_height\" ng-if=\"show\" >\n\t<div class=\"center\">\n\t\t<div \n\t\t\tclass=\"full_height user sha\" \n\t\t\tng-controller=\"UserController\" \n\t\t\tng-include\n\t\t\tng-init=\"init('user1')\"\n\t\t\tsrc=\"'partials/user.html'\">\n\t\t</div>\n\t\t<div \n\t\t\tclass=\"full_height user\" \n\t\t\tng-controller=\"UserController\" \n\t\t\tng-include\n\t\t\tng-init=\"init('user2')\"\n\t\t\tsrc=\"'partials/user.html'\">\n\t\t</div>\t\n\t</div>\n</div>");
 }]);
 
@@ -8427,8 +8631,49 @@ function SignupController($scope, UserService, Recaptha, $rootScope) {
         $scope.errorName = "";
     }
 }
-function UserCommentsController($scope) {
+function UserCommentsController($scope, Comments, $rootScope) {
+    $scope.form = {
+        message: ""
+    }
 
+    $scope.commentsList = [];
+    
+    $scope.onClose = function() {
+        $rootScope.$broadcast('closeComments');  
+    }
+
+    $scope.openComments = function() {
+    	$rootScope.$broadcast('loaderShow');
+        $scope.getMessages();
+    }
+
+    $scope.getMessages = function() {
+        Comments.get_by_user({owner_guid: $scope.user.sguid, owner_type: 0}, {}, function(data) {
+            angular.forEach(data, function(value, key){
+                value.post_date = moment(value.post_date).format("DD-MM-YYYY");
+            });
+            
+            $scope.commentsList = data;
+            $rootScope.$broadcast('loaderHide');
+        });
+    }
+
+    $scope.onSendMessage = function() {
+        $rootScope.$broadcast('loaderShow');
+        Comments.create({}, {
+            owner_type: 0,
+            author_guid: $scope.workspace.user.sguid,
+            post_date: moment().format("DD-MM-YYYY"),
+            message: $scope.form.message,
+            owner_guid: $scope.user.sguid
+        }, function(data) {
+            $rootScope.$broadcast('loaderHide');
+            $scope.getMessages();
+            $scope.form.message = "";
+        });
+    }
+
+    $scope.openComments();
 }
 // контроллер работы с колбасами в чужом профиле
 function UserNeedsController($scope, $rootScope) {

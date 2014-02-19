@@ -133,8 +133,8 @@ body header #header #follow_tab a{position:absolute;top:17px;right:5px;cursor:po
 #content .mynav ul{display:inline-block;vertical-align:bottom;width:530px;margin:0 30px 0 0;height:35px;position:relative;top:25px}#content .mynav ul li{display:inline-block;background:rgba(63,63,63,0.8);box-shadow:0 0 20px 0 rgba(0,0,0,0.3);margin:0 10px;padding:5px 0;cursor:pointer;height:30px;width:150px}#content .mynav ul li.current{background:rgba(99,99,99,0.7);padding:10px 10px 4px 10px;cursor:default;border-top:1px solid rgba(135,135,135,0.7)}
 #content .mynav ul li a{vertical-align:middle;text-align:center;display:block;color:#fff;font-size:20px}#content .mynav ul li a span{display:inline-block;height:25px;width:25px;margin-top:2px;padding-top:5px;vertical-align:middle}
 #content .mynav h2{font-size:25px;color:#fff;display:inline-block;margin-top:35px}
-#content .notmynav{margin-top:10px;height:230px;box-shadow:inset 0 0 20px 1px rgba(0,0,0,0.7);top:-10px;position:absolute}#content .notmynav ul{width:350px;margin:0 0 0 90px;top:auto;bottom:-190px}#content .notmynav ul li{box-shadow:inset 0 0 30px 0 rgba(0,0,0,0.3),0 0 20px 0 rgba(0,0,0,0.5);margin:0;padding:5px 0 10px 0;height:20px}#content .notmynav ul li a{color:#888}
-#content .notmynav ul li.current{background:rgba(100,100,100,0.5);padding:10px;border:none;box-shadow:inset 0 0 0 0}#content .notmynav ul li.current a{color:#fff}
+#content .notmynav{margin-top:10px;height:230px;box-shadow:inset 0 0 20px 1px rgba(0,0,0,0.7);top:-10px;position:absolute}#content .notmynav ul{width:350px;margin:0 0 0 90px;top:auto;bottom:-190px}#content .notmynav ul li{box-shadow:inset 0 0 30px 0 rgba(0,0,0,0.3),0 0 30px 0 rgba(0,0,0,0.5);margin:0 -1px;padding:5px 0 10px 0;height:20px}#content .notmynav ul li a{color:#888}
+#content .notmynav ul li.current{background:rgba(100,100,100,0.5);padding:10px;border:none;box-shadow:inset 0 0 0 0,0 0 20px 0 rgba(0,0,0,0.5)}#content .notmynav ul li.current a{color:#fff}
 #content .tab{height:100%;}#content .tab .mypro_wr{float:right;width:770px;height:100%;overflow-y:scroll;overflow-x:hidden;background:url("../images/myglass.png") left top no-repeat;background-size:100% 100%;border-top:1px solid rgba(135,135,135,0.7);box-shadow:inset 0 0 30px 5px rgba(0,0,0,0.8);position:relative;left:-5px}#content .tab .mypro_wr::-webkit-scrollbar{width:0;height:0}
 #content .tab .mypro{display:inline-block;position:relative;margin-left:-5px;vertical-align:top;z-index:3;width:780px}#content .tab .mypro.acrd{background:url("../images/myglass.png") left top no-repeat;border-top:none;box-shadow:inset 0 -10px 20px 0 rgba(0,0,0,0.3);width:225px;min-width:225px;float:left;margin-left:0 !important;position:relative;z-index:10;background-size:100% 100%;height:100%;overflow-y:scroll;overflow-x:hidden}#content .tab .mypro.acrd::-webkit-scrollbar{width:0;height:0}
 #content .tab .mypro.acrd .crits{height:100%;width:230px}#content .tab .mypro.acrd .crits .cr{width:200px;padding-left:15px;line-height:45px;margin:1px auto 0 auto}
@@ -347,15 +347,14 @@ sup.bidubi{top:13px !important;border-width:23px 0 23px 15px}
 .recaptchatable .recaptcha_image_cell{padding:0 !important}
 .recaptchatable .recaptcha_r4_c2{width:36px !important}
 #recaptcha_image img{width:218px !important;margin-left:-70px !important}
-#comments .topcomm{border-bottom:1px solid #d8d8d8;overflow:hidden;padding:15px;width:320px}#comments .topcomm h5{float:left;font-size:20px;max-width:260px}#comments .topcomm h5 s{font-size:20px;text-decoration:none}
-#comments .topcomm b{float:right;font-size:18px;cursor:pointer}
-#comments .comm{height:70%;overflow-y:scroll;overflow-x:visible}#comments .comm::-webkit-scrollbar{width:0;height:0}
-#comments .comm .cmnt{border-bottom:1px solid #aeaeae;overflow:hidden;padding:15px;width:320px}#comments .comm .cmnt strong{float:left;color:#636363;font-size:16px;max-width:170px}
-#comments .comm .cmnt i{float:right;color:#636363;font-size:16px}
-#comments .comm .cmnt br{clear:both}
-#comments .comm .cmnt p{font-size:16px;margin-top:15px}
-#comments .butcomm{overflow:hidden;padding:15px;width:320px;position:absolute;bottom:20%;left:0}#comments .butcomm textarea{float:left;border:1px solid #d8d8d8;font-size:18px;color:#666;line-height:20px;max-width:200px;height:20px;padding:10px !important;font-family:'Lato',sans-serif;vertical-align:middle;margin-top:7px}
-#comments .butcomm button{float:right;border:2px solid #d8d8d8;font-size:18px;color:#666;line-height:27px;padding:10px 15px;vertical-align:middle;font-family:'Lato',sans-serif;background:none;cursor:pointer}
+.comments{width:500px;height:100%;position:relative}.comments .comm{height:70%;overflow-y:scroll;overflow-x:visible;margin-top:10px}.comments .comm::-webkit-scrollbar{width:0;height:0}
+.comments .comm .cmnt{overflow:hidden;width:420px;margin:0 auto}.comments .comm .cmnt strong{float:left;color:#888;font-size:18px;max-width:170px}
+.comments .comm .cmnt i{float:right;color:#888;font-size:14px;line-height:18px}
+.comments .comm .cmnt br{clear:both}
+.comments .comm .cmnt p{font-size:16px;margin-top:15px;color:#fff}
+.comments .butcomm{overflow:hidden;padding:15px;width:420px;position:absolute;margin:0 auto;bottom:30px;left:25px}.comments .butcomm textarea{float:left;font-size:16px;color:#888;line-height:20px;width:280px;height:30px;padding:10px 0 0 10px !important;font-family:'Lato',sans-serif;vertical-align:middle;margin-top:2px;background:url("../images/sbg.png") left top no-repeat;background-size:290px 40px;display:inline-block;border:none;background-size:100% 100%}
+.comments .butcomm button{float:right;font-size:18px;color:#fff;line-height:20px;text-align:center;vertical-align:middle;font-family:'Lato',sans-serif;background:none;cursor:pointer;width:120px;height:40px;background:url("../images/ssbg.png") left top no-repeat;background-size:120px 45px;display:inline-block;border:none}
+.comments em{display:block;width:100%;border-top:1px solid #666;border-bottom:1px solid #333;margin:10px 0}
 #searchfull{position:absolute;left:50%;top:0;margin-left:-500px;z-index:10;height:100%;width:1000px}#searchfull .popup_list{margin-left:0;min-width:190px}
 #searchfull .searchfull{position:absolute;left:0;width:400px;height:100%;min-height:550px;box-shadow:inset -5px 0 20px 1px rgba(0,0,0,0.5);z-index:3;display:inline-block;overflow-y:scroll;overflow-x:hidden;background:url("../images/glass.png") left top no-repeat;background-size:100% 100%}#searchfull .searchfull::-webkit-scrollbar{width:0;height:0}
 #searchfull .searchfull .search{padding-top:60px}
