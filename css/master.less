@@ -445,6 +445,14 @@ body {
     }
 
     /** CRITERIA **/ 
+    .tabss {
+        overflow-y: scroll;
+        overflow-x: visible;
+        &::-webkit-scrollbar {
+            width: 0px;
+            height: 0px; 
+        }
+    }
     .crits {
         display: block;
         width: 100%;
@@ -454,12 +462,6 @@ body {
         transition: all 0.5s ease-out;
         -webkit-transition: all 0.5s ease-out;
         cursor: default;
-        overflow-y: scroll;
-        overflow-x: visible;
-        &::-webkit-scrollbar {
-            width: 0px;
-            height: 0px; 
-        }
         ul {
             text-align: center;
             position: relative;
