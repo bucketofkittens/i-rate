@@ -118,9 +118,11 @@
 					<i>{{comment.post_date}}</i>
 					<br />
 					<p>{{comment.message}}</p>
+					<em></em>
 				</div>
 			</div>
 			<div class="butcomm">
+				<em></em>
 				<ng-form>
 					<textarea ng-model="form.message" id="comment_message" name="comment" placeholder="Enter your comment here"></textarea>
 					<button ng-click="onSendMessage()">Send</button>

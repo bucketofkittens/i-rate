@@ -2960,50 +2960,34 @@ sup.bidubi {
 
 
 /** COMMENTS **/
-#comments {
-    .topcomm {
-        border-bottom: 1px solid #d8d8d8;
-        overflow: hidden;
-        padding: 15px;
-        width: 320px;
-        h5 {
-            float: left;
-            font-size: 20px;
-            max-width: 260px;
-            s {
-                font-size: 20px;
-                text-decoration: none;
-            }
-        }
-        b {
-            float: right;
-            font-size: 18px;
-            cursor: pointer;
-        }
-    }
+.comments {
+    width: 500px;
+    height: 100%;
+    position: relative;
     .comm {
         height: 70%;
         overflow-y: scroll;
         overflow-x: visible;
+        margin-top: 10px;
         &::-webkit-scrollbar {
             width: 0px;
             height: 0px; 
         }  
         .cmnt {
-            border-bottom: 1px solid #aeaeae;
             overflow: hidden;
-            padding: 15px;
-            width: 320px;
+            width: 420px;
+            margin: 0px auto;
             strong {
                 float: left;
-                color: #636363;
-                font-size: 16px;
+                color: #888888;
+                font-size: 18px;
                 max-width: 170px;
             }
             i {
                 float: right;
-                color: #636363;
-                font-size: 16px;
+                color: #888888;
+                font-size: 14px;
+                line-height: 18px;
             }
             br {
                 clear: both;
@@ -3011,42 +2995,59 @@ sup.bidubi {
             p {
                 font-size: 16px;
                 margin-top: 15px;
+                color: #ffffff;
             }
         }
     }
     .butcomm {
         overflow: hidden;
         padding: 15px;
-        width: 320px;
+        width: 420px;
         position: absolute;
-        bottom: 20%;
-        left: 0px;
+        margin: 0px auto;
+        bottom: 30px;
+        left: 25px;
         textarea {
             float: left;
-            border: 1px solid #d8d8d8;
-            font-size: 18px;
-            color: #666666;
+            font-size: 16px;
+            color: #888888;
             line-height: 20px;
-            max-width: 200px;
-            height: 20px;
-            padding: 10px !important;
+            width: 280px;
+            height: 30px;
+            padding: 10px 0px 0px 10px !important;
             font-family: 'Lato', sans-serif;
             vertical-align: middle;
-            margin-top: 7px;
+            margin-top: 2px;
+            background: url("../images/sbg.png") left top no-repeat;
+            background-size: 290px 40px;
+            display: inline-block;
+            border: none;
         }
         button {
             float: right;
-            border: 2px solid #d8d8d8;
             font-size: 18px;
-            color: #666666;
-            line-height: 27px;
-            padding: 10px 15px;
+            color: #ffffff;
+            line-height: 20px;
+            text-align: center;
             vertical-align: middle;
             font-family: 'Lato', sans-serif;
             background: none;
             cursor: pointer;
+            width: 120px;
+            height: 40px;
+            background: url("../images/ssbg.png") left top no-repeat;
+            background-size: 120px 45px;
+            display: inline-block;
+            border: none;
         } 
-    }
+    }  
+    em {
+        display: block;
+        width: 100%;
+        border-top: 1px solid #666666;
+        border-bottom: 1px solid #333333;
+        margin: 10px 0px;
+    }  
 }
 
 
