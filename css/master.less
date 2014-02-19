@@ -448,6 +448,7 @@ body {
     .tabss {
         overflow-y: scroll;
         overflow-x: visible;
+        position: relative;
         &::-webkit-scrollbar {
             width: 0px;
             height: 0px; 
@@ -2962,7 +2963,7 @@ sup.bidubi {
 /** COMMENTS **/
 .comments {
     width: 500px;
-    height: 78%;
+    height: 100%;
     position: relative;
     .comm {
         height: 70%;
@@ -3003,10 +3004,10 @@ sup.bidubi {
         overflow: hidden;
         padding: 15px;
         width: 420px;
-        position: absolute;
+        position: fixed;
         margin: 0px auto;
         bottom: 30px;
-        left: 25px;
+        margin-left: 25px;
         textarea {
             float: left;
             font-size: 16px;
