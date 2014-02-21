@@ -6,7 +6,7 @@
 </section>
 
 
-<section ng-controller="ModalController" id="modal">
+<section ng-controller="ModalController" id="modal" class="{{template}}-modal">
 	<div ng-class="{show: show}" class="body {{template}}" ng-if="template">
 		<section ng-include src="'partials/'+template+'.html'"></section>
 	</div>
