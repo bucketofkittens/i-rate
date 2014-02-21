@@ -59,6 +59,7 @@ function UserController($scope, FriendsService, UserService, $element, $route, $
         $scope.big = false;
         $location.search($scope.route, null);
         $rootScope.$broadcast('closeUserPanel', {route: $scope.route});
+
         LocationService.update("big", false);
     }
 
@@ -95,6 +96,11 @@ function UserController($scope, FriendsService, UserService, $element, $route, $
     // показываем или скрываем список голов
     $scope.onShowGoals = function($event, needItem) {
         $rootScope.$broadcast('toggleNeed', {needItem: needItem, state: needItem.hidden ? false : true});
+    }
+
+    // открываем модальное окно репорта
+    $scope.openReport = function() {
+        $rootScope.$broadcast('openModal', {name: "report"});
     }
 
     // загружаем список нидсов

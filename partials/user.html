@@ -76,7 +76,7 @@
 
 			<p>
 				<i>{{user.league.name}}</i>
-			</p>
+			</p>															
 			<p>
 				<i>{{user.points}}</i>
 			</p>
@@ -90,7 +90,7 @@
 		<a class="il" ng-if="user && isFriend && !compare" ng-click="onUnFollow()"><img src="../images/i3i.png"></a>
 
 		<!-- report button -->
-		<a class="il rep" >
+		<a class="il rep" ng-click="openReport()" >
 			<img src="../images/rep.png">
 		</a> 
 
