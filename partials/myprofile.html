@@ -21,21 +21,21 @@
 		</div>
 		
 		<div class="tabs full_height">
-			<div ng-if="currentNav.name == indexes.PROFILE && workspace.user" class="tab">
+			<div ng-show="currentNav.name == indexes.PROFILE && workspace.user" class="tab">
 				<section 
 					class="tab" 
 					ng-include 
 					src="'partials/profile.html'" >
 				</section>
 			</div>
-			<div ng-if="currentNav.name == indexes.DASHBOARD && workspace.user" class="tab">
+			<div ng-show="currentNav.name == indexes.DASHBOARD && workspace.user" class="tab">
 				<section 
 					class="tab" 
 					ng-include 
 					src="'partials/mydash.html'" >
 				</section> 
 			</div>
-			<div ng-if="currentNav.name == indexes.SETTINGS && workspace.user" class="tab">
+			<div ng-show="currentNav.name == indexes.SETTINGS && workspace.user" class="tab">
 				<section 
 					class="tab" 
 					ng-controller="MyProfileSettingsController" 

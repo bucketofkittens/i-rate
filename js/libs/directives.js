@@ -123,10 +123,11 @@ pgrModule.directive('comparator', function() {
 pgrModule.directive('scroller', function($window) {
   return {
     link: function(scope, element, attrs) {
-      var footerSize = 0;
-      $(element).height($(window).height()-$(element).offset().top-footerSize);
+      console.log($(element).offset().top);
+      $(element).height($(window).height()-$(element).offset().top);
+
       $(window).resize(function() {
-        $(element).height($(window).height()-$(element).offset().top-footerSize);
+        $(element).height($(window).height()-$(element).offset().top);
       });
     }
   }
