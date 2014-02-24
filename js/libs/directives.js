@@ -67,7 +67,6 @@ pgrModule.directive('scrolls', function() {
       $(element).scroll(function() {
         var cls = attrs.scrollsClass;
         var elements = $("."+cls);
-        console.log(elements);
         elements.scrollTop($(element).scrollTop());
       });
     }

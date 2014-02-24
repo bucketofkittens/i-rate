@@ -35,7 +35,7 @@ function SigninController($scope, $rootScope, $timeout, SessionsService, UserSer
         // если у пользователя нет баллов переходим сразу на колбасы
         if(data.points == 0 || !data.points) {
             $timeout(function() {
-                $rootScope.$broadcast('openProfile');
+                $rootScope.$broadcast('openProfile', { nav: "Profile" });
             }, 0);
         }
     }
@@ -69,7 +69,6 @@ function SigninController($scope, $rootScope, $timeout, SessionsService, UserSer
 
     // забираем данные о себе из фейсубка
     $scope.facebookGetUserDataSuccess_ = function(data) {
-        console.log(data);
         SocialService.login(data.email, $scope.socialLoginSuccess_, SocialNames.FACEBOOK, data);
     }
 

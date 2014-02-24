@@ -90,4 +90,6 @@ function RootController($scope, FacebookService, СareerService, LeagueService, 
         // список пользвателей
         UserService.getAll($scope.userServiceCallback_);
     });
+    
+
 }
