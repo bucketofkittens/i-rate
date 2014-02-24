@@ -18,7 +18,10 @@ function QuickUserChangeCtrl($scope, UserService, User, $rootScope, SessionsServ
     $scope.onSigninSuccessCallback_ = function(data) {
         UserService.setAuthData(data);
         UserService.getFriends(data.sguid, $scope.getFriendsCallback_);
+        
         $scope.workspace.user = data;
+
+        $rootScope.$broadcast('quckUpdateUser');
     }
 
     $scope.getFriendsCallback_ = function(data) {

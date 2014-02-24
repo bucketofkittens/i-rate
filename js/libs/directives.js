@@ -189,6 +189,7 @@ pgrModule.directive('masonry', function(User, $rootScope) {
           itemSelector: '.iso-item',
           rowHeight: 70,
           layoutMode: "perfectMasonry",
+          animationEngine: 'css',
           perfectMasonry: {
               layout: 'horizontal',
               columnWidth: 70,

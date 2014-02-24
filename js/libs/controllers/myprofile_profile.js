@@ -77,6 +77,8 @@ function MyProfileProfileController($scope, $rootScope, $location, LocationServi
         }
     });
 
+    
+
     // проверяет окрывать ли вкладку или нет   
     $scope.selectGoal();
 
