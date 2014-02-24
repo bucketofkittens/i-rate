@@ -645,7 +645,7 @@ pgrModule.service('AllUserService', function (User) {
     this.updateUser = function(user, list) {
         angular.forEach(list, function(value, key){
             if(value.sguid == user.sguid) {
-                value = user;
+                list[key] = user;
             }
         });
 
@@ -656,7 +656,6 @@ pgrModule.service('AllUserService', function (User) {
 
     // передаем данные в кеш
     this.set = function(users) {
-        console.log(users);
         lscache.set(this.cacheName, JSON.stringify(users), this.cacheTime);
     }
 

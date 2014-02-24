@@ -1,15 +1,22 @@
 /**
  *  плашка быстрой смены пользователей
  */
-function QuickUserChangeCtrl($scope, UserService, User, $rootScope) {
+function QuickUserChangeCtrl($scope, UserService, User, $rootScope, SessionsService, TokenService) {
 	$scope.nextUser = null;
 
 	// переход на другого пользователя
     $scope.onMoveUserClick = function($event) {
-        UserService.getById($scope.nextUser, $scope.onSigninSuccessCallback_);
+        SessionsService.signin({
+                "email": $scope.nextUser, 
+                "password": "",
+                "from_improva": "1"
+            },
+            $scope.onSigninSuccessCallback_
+        );
     }
 
     $scope.onSigninSuccessCallback_ = function(data) {
+        //console.log(data);
         UserService.setAuthData(data);
         window.location.reload();
     }

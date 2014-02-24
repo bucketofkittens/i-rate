@@ -117,11 +117,15 @@ function MyProfileSettingsController($scope, UserService, SocialService, Friends
 
     // обновление даты рождения
     $scope.updateBirthday = function() {
-    	// подготовка даты в нужном формате
-    	var newBirthday = moment($scope.workspace.user.birthday).format("DD/MM/YYYY");
+        $timeout(function() {
+            // подготовка даты в нужном формате
+            if(moment($scope.workspace.user.birthday)) {
+                var newBirthday = moment($scope.workspace.user.birthday).format("DD/MM/YYYY");
 
-    	// сохраняем
-    	$scope.updateUserParamByValue('birthday', newBirthday);
+                // сохраняем
+                $scope.updateUserParamByValue('birthday', newBirthday);    
+            } 
+        }, 0);
     }
 
     // событие выбора города из списка городов

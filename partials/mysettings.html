@@ -144,7 +144,7 @@
 					ng-model="nextUser"
 					ng-change="onMoveUserClick($event)"
 					ng-show="workspace.users.length > 0">
-					<option ng-repeat="(key, value) in workspace.users" value="{{value.sguid}}" >{{value | title}}</option>
+					<option ng-repeat="(key, value) in workspace.users track by $index" value="{{value.email}}" >{{value | title}}</option>
 				</select>
 			</p>
 			<p ng-if="!social">
