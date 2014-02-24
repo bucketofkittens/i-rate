@@ -3014,7 +3014,6 @@ pgrModule.directive('scrolls', function() {
       $(element).scroll(function() {
         var cls = attrs.scrollsClass;
         var elements = $("."+cls);
-        console.log(elements);
         elements.scrollTop($(element).scrollTop());
       });
     }
@@ -6608,7 +6607,11 @@ function MyProfileController($scope, $location, LocationService, $rootScope, $ti
 
 	// открываем эту плашку
 	$scope.$on('openProfile', function(event, message) {
-		$location.search({ myprofile: true });
+		if(message.nav) {
+			$location.search({ myprofile: true, nav: message.nav });
+		} else {
+			$location.search({ myprofile: true });
+		}
     });
 
     // скрываем эту плашку
@@ -7768,6 +7771,8 @@ function RootController($scope, FacebookService, СareerService, LeagueService, 
         // список пользвателей
         UserService.getAll($scope.userServiceCallback_);
     });
+    
+
 }
 /**
  * Контроллер страницы расширенного поиска
@@ -8482,7 +8487,7 @@ function SigninController($scope, $rootScope, $timeout, SessionsService, UserSer
         // если у пользователя нет баллов переходим сразу на колбасы
         if(data.points == 0 || !data.points) {
             $timeout(function() {
-                $rootScope.$broadcast('openProfile');
+                $rootScope.$broadcast('openProfile', { nav: "Profile" });
             }, 0);
         }
     }
@@ -8516,7 +8521,6 @@ function SigninController($scope, $rootScope, $timeout, SessionsService, UserSer
 
     // забираем данные о себе из фейсубка
     $scope.facebookGetUserDataSuccess_ = function(data) {
-        console.log(data);
         SocialService.login(data.email, $scope.socialLoginSuccess_, SocialNames.FACEBOOK, data);
     }
 
