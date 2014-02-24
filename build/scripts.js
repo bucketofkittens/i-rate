@@ -6607,7 +6607,7 @@ function MyProfileController($scope, $location, LocationService, $rootScope, $ti
 
 	// открываем эту плашку
 	$scope.$on('openProfile', function(event, message) {
-		if(message.nav) {
+		if(message && message.nav) {
 			$location.search({ myprofile: true, nav: message.nav });
 		} else {
 			$location.search({ myprofile: true });

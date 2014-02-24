@@ -116,7 +116,7 @@ body header #header #follow_tab a{position:absolute;top:17px;right:5px;cursor:po
 #content .tab .myset .promy .publish .pubut.published i:last-child{color:#888}
 #content .tab .myset .promy .publish .pubut.published em{right:22px}
 #content .tab .myset .promy .publish .pubut span{display:inline-block;background:url("../images/priv.png") left top no-repeat;background-size:50px 25px;width:50px;height:25px;vertical-align:middle;position:relative;margin:0 5px;cursor:pointer}#content .tab .myset .promy .publish .pubut span em{display:block;width:30px;height:30px;position:absolute;top:-2px;right:-2px;cursor:pointer;background:url("../images/pub.png") left top no-repeat;background-size:100% 100%;transition:all .3s linear;-webkit-transition:all .3s linear}#content .tab .myset .promy .publish .pubut span em.butpab{left:22px}
-#content .tab .myset .promy .pmpar{width:600px}#content .tab .myset .promy .pmpar p{padding-bottom:10px}
+#content .tab .myset .promy .pmpar{width:600px;height:550px}#content .tab .myset .promy .pmpar p{padding-bottom:10px}
 #content .tab .myset .promy .pmpar label{width:130px;font-size:17px}
 #content .tab .myset .promy .pmpar select,#content .tab .myset .promy .pmpar input{width:220px;height:30px !important;padding:2px 5px !important;border:none;font-family:'Lato',sans-serif;color:#e1e1e1;box-shadow:none;height:20px;background:none;font-size:18px;background:url("../images/sbg.png") center center no-repeat;background-size:230px 30px}
 #content .tab .myset .promy .pmpar select{width:233px;height:26px}
