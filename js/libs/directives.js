@@ -383,7 +383,6 @@ pgrModule.directive('mydash', function(User) {
 
       scope.drawNeed_ = function(container, params) {
         if(container) {
-          console.log(params);
           var corruption = params.corruption;
           var radius =  params.radius;
           var oneStep =  params.need_max/params.segment;

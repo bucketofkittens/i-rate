@@ -569,3 +569,4 @@ table.quickdate-calendar td.is-today{font-weight:bold;background:url("../images/
 .report-modal .fuckenmorda [placeholder]{font-size:14px}
 .report-modal .fuckenmorda button{font-size:16px;line-height:18px;color:#fff;background:url("../images/ssbg.png") left top no-repeat;background-size:120px 35px;width:100px;height:30px;padding:5px 10px;text-align:center;border:none;display:block;margin:10px 0}
 .report-modal .fuckenmorda ul li{list-style:square;font-size:14px;line-height:18px;color:#fff;margin-left:18px}
+#myprofile .ng-hide{display:block !important;position:absolute;left:-99999px}
