@@ -15,18 +15,30 @@ function NeedsAndGoalsController($scope, СareerService, UserService, Goals, Cri
             $scope.needs = JSON.parse(JSON.stringify($scope.workspace.needs));
 
             // забираем пользовательские данные.
-            $scope.loadUserData_();
+            $scope.bindUserNeedsValues();
         }
     });
 
     // когда получаем данные пользователя
     $scope.$watch('user', function (newVal, oldVal, scope) {
-        $scope.loadUserData_();
+        $scope.bindUserNeedsValues();
     });
 
-    // забираем пользовательские данные для колбас
-    $scope.loadUserData_ = function() {
-        $scope.bindUserNeedsValues();
+    // когда получаем данные пользователя
+    $scope.$watch('workspace.user', function (newVal, oldVal, scope) {
+        $scope.reopenCriterium();
+        $scope.user = newVal;
+    });
+
+    $scope.reopenCriterium = function () {
+        angular.forEach($scope.needs, function(need, key) {
+            angular.forEach(need.goals, function(goal, key) {
+                console.log(goal.criteriums);
+                if(goal.criteriums && goal.criteriums.length > 0) {
+                    $scope.getCriteriumByGoal(goal);
+                }
+            });
+        });
     }
 
     // забрали данные колбас
@@ -194,26 +206,6 @@ function NeedsAndGoalsController($scope, СareerService, UserService, Goals, Cri
             var delta = parseInt(criteriaValue) - parseInt(currentValue);
             needItem.current_value = parseInt(needItem.current_value) + parseInt(delta);
             goalItem.current_value = parseInt(goalItem.current_value) + parseInt(delta);
-
-            /*
-            if(needItem.name == "Career") {
-                var max = 0;
-                var carreerMax = {};
-                var moneyPoints = 0;
-
-                angular.forEach(needItem.goals, function(goal) {
-                    if (goal.current_value > max && goal.name != "Money") {
-                      max = goal.current_value;
-                      carreerMax = {goal: goal.sguid, points: goal.current_value};
-                    }
-                    if(goal.name == "Money") {
-                      moneyPoints = goal.current_value;
-                    }
-                });
-
-                needItem.current_value = parseInt(carreerMax.points + moneyPoints);
-            }
-            */
 
             var newPoints = 0;
             angular.forEach($scope.needs, function(value, key){

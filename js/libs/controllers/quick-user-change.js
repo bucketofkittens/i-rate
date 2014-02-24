@@ -16,9 +16,13 @@ function QuickUserChangeCtrl($scope, UserService, User, $rootScope, SessionsServ
     }
 
     $scope.onSigninSuccessCallback_ = function(data) {
-        //console.log(data);
         UserService.setAuthData(data);
-        window.location.reload();
+        UserService.getFriends(data.sguid, $scope.getFriendsCallback_);
+        $scope.workspace.user = data;
+    }
+
+    $scope.getFriendsCallback_ = function(data) {
+        $scope.workspace.friends = data;
     }
 
     // загружаем список пользователей
