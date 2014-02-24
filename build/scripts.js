@@ -3330,7 +3330,6 @@ pgrModule.directive('mydash', function(User) {
 
       scope.drawNeed_ = function(container, params) {
         if(container) {
-          console.log(params);
           var corruption = params.corruption;
           var radius =  params.radius;
           var oneStep =  params.need_max/params.segment;
@@ -7439,6 +7438,7 @@ function NeedsAndGoalsController($scope, СareerService, UserService, Goals, Cri
 
         if($(parentLi).size() > 0 && parentLi.index() != 0) {
             var size = parentLi.get(0).offsetLeft + parentLi.get(0).clientWidth;
+            console.log(size);
             if (size <  15) {
                 size = 0;
             }

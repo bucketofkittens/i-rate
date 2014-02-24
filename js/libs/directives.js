@@ -123,7 +123,6 @@ pgrModule.directive('comparator', function() {
 pgrModule.directive('scroller', function($window) {
   return {
     link: function(scope, element, attrs) {
-      console.log($(element).offset().top);
       $(element).height($(window).height()-$(element).offset().top);
 
       $(window).resize(function() {
