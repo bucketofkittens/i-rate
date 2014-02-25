@@ -205,8 +205,10 @@ pgrModule.directive('masonry', function(User, $rootScope) {
       this.getUsersFromBackend = function(limit, skip, total_count, view_count) {
         User.for_main_from_limit({limit: limit, skip: skip}, {}, function(data) {
             
-            $scope.users = $scope.users.concat(data);
+            $scope.users = $scope.users.concat(data).shuffle();
             var items = $scope.appendElements(data);
+
+            $rootScope.users = $scope.users;
 
             $(element).isotope("insert", $(items));
 
@@ -232,26 +234,28 @@ pgrModule.directive('masonry', function(User, $rootScope) {
         var items = "";
 
         angular.forEach(data, function(value, key) {
-          var newDiv = document.createElement('div');
-          newDiv.className = 'item isotope-item iso-item all';
-          newDiv.setAttribute("data-id", value.sguid);
-          
-          newDiv.style.width = value.league.size+"px";
-          newDiv.style.height = value.league.size+"px";
+          if(value.avatar) {
+            var newDiv = document.createElement('div');
+            newDiv.className = 'item isotope-item iso-item all';
+            newDiv.setAttribute("data-id", value.sguid);
+            
+            newDiv.style.width = value.league.size+"px";
+            newDiv.style.height = value.league.size+"px";
 
-          var newSubDiv = document.createElement('div');
-          newSubDiv.className = 'wr';
+            var newSubDiv = document.createElement('div');
+            newSubDiv.className = 'wr';
 
-          newDiv.appendChild(newSubDiv);
+            newDiv.appendChild(newSubDiv);
 
-          var img = document.createElement('img');
-          img.src = value.avatar;
-          img.width = value.league.size;
-          img.height = value.league.size;
+            var img = document.createElement('img');
+            img.src = value.avatar;
+            img.width = value.league.size;
+            img.height = value.league.size;
 
-          newSubDiv.appendChild(img);
+            newSubDiv.appendChild(img);
 
-          items += $scope.nodeToString(newDiv);
+            items += $scope.nodeToString(newDiv);  
+          }
         });
         return items;
       }
@@ -291,7 +295,7 @@ pgrModule.directive('mydash', function(User) {
       scope.carreeMax = 0;
 
       scope.updatePointText_ = function() {
-        if(scope.workspace.user) {
+        if(scope.workspace.user && scope.centerTextDraw) {
           scope.centerTextDraw.setText(scope.workspace.user.points);
           scope.centerTextDraw.offsetY("-"+(scope.dashboard_size.height/2-30));
           scope.centerTextDraw.offsetX(scope.centerTextDraw.width()/2);

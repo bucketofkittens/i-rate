@@ -180,7 +180,7 @@ body header #header #follow_tab a{position:absolute;top:17px;right:5px;cursor:po
 .gallery{height:100%;margin-top:60px;position:relative;overflow:visible !important}.gallery>div{cursor:pointer;overflow:visible !important;transition:all .1s linear;-webkit-transition:all .1s linear;left:0;height:100%}.gallery>div.rate-yourself{position:fixed !important;top:50%;left:50%;margin-top:-100px !important;margin-left:-100px !important;width:200px !important;height:200px !important;background:url("../images/unknown-person.png") left top no-repeat;background-size:200px 200px;z-index:999999 !important;cursor:pointer}.gallery>div.rate-yourself h2{color:#fff;font-size:25px;width:100%;text-align:center;top:5px;position:absolute}.gallery>div.rate-yourself h2:last-child{top:auto;bottom:5px}
 .gallery>div .l_1 i,.gallery>div .l_2 i,.gallery>div .l_3 i,.gallery>div .l_4 i{display:block !important}
 .gallery>div>div{overflow:hidden;opacity:0;max-width:0 !important;max-height:0 !important}.gallery>div>div.iso-item{opacity:1;max-width:400px !important;max-height:400px !important}
-.gallery>div>div.all{transition:all .5s linear;-webkit-transition:all .5s linear}
+.gallery>div>div.all{transition:all 1s linear;-webkit-transition:all 1s linear}
 .gallery>div>div .wr{position:relative;overflow:hidden;width:100%}.gallery>div>div .wr i{display:none;position:absolute;left:0;bottom:-4px;width:99%;padding:3px 1% 3px 0;text-align:center;color:rgba(255,255,255,0.8);line-height:100%;font-size:120%;font-family:'Lato',sans-serif;z-index:3;transition:all .3s linear;-webkit-transition:all .3s linear;font-weight:bold;text-shadow:0 0 5px #000}
 .gallery>div>div img{display:block}
 .gallery>div .league_3 .wr i,.gallery>div .league_4 .wr i,.gallery>div .league_5 .wr i{display:block}

@@ -214,6 +214,12 @@ function MyProfileSettingsController($scope, UserService, SocialService, Friends
     	var nameArray = name.split(".");
 
     	if(nameArray.length == 1) {
+            if(value == true) {
+                value = 1;
+            }
+            if(value == false) {
+                value = 0;
+            }
     		user[name] = value;
     	} else {
     		if(!user[nameArray[0]]) {
