@@ -15,8 +15,12 @@
 			<div class="image_box" crop-click ng-click="onUpdateFile()">
 				<img 
 					class="pp" 
-					ng-src="{{workspace.user.avatar}}" 
-					err-src="/images/unknown-person.png" />
+					ng-src="{{workspace.user.avatar}}"
+					ng-if="workspace.user.avatar"  />
+				<img 
+					class="pp" 
+					ng-if="!workspace.user.avatar" 
+					src="/images/unknown-person.png"  />
 			</div>
 			
 			<div class="publish" >

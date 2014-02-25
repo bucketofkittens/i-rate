@@ -6723,6 +6723,8 @@ function MyProfileProfileController($scope, $rootScope, $location, LocationServi
         }
     });
 
+    
+
     // проверяет окрывать ли вкладку или нет   
     $scope.selectGoal();
 
@@ -7123,16 +7125,14 @@ function NeedsAndGoalsController($scope, СareerService, UserService, Goals, Cri
         $scope.bindUserNeedsValues();
     });
 
-    // когда получаем данные пользователя
-    $scope.$watch('workspace.user', function (newVal, oldVal, scope) {
+    $scope.$on('quckUpdateUser', function(message) {
+        $scope.user = $scope.workspace.user;
         $scope.reopenCriterium();
-        $scope.user = newVal;
     });
 
     $scope.reopenCriterium = function () {
         angular.forEach($scope.needs, function(need, key) {
             angular.forEach(need.goals, function(goal, key) {
-                console.log(goal.criteriums);
                 if(goal.criteriums && goal.criteriums.length > 0) {
                     $scope.getCriteriumByGoal(goal);
                 }
@@ -7638,7 +7638,10 @@ function QuickUserChangeCtrl($scope, UserService, User, $rootScope, SessionsServ
     $scope.onSigninSuccessCallback_ = function(data) {
         UserService.setAuthData(data);
         UserService.getFriends(data.sguid, $scope.getFriendsCallback_);
+        
         $scope.workspace.user = data;
+
+        $rootScope.$broadcast('quckUpdateUser');
     }
 
     $scope.getFriendsCallback_ = function(data) {

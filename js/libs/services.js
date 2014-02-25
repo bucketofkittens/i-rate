@@ -69,6 +69,7 @@ pgrModule.factory('User', function ($resource) {
             'for_main_from_limit': {
                 method: 'GET',
                 isArray: true,
+                cache : true,
                 url: host+"/users/for/main/:skip/skip/:limit/limit"
             },
             'get_names': {
