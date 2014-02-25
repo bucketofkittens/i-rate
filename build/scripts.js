@@ -3430,28 +3430,6 @@ pgrModule.directive('mydash', function(User) {
                         needsData[needItem.sguid] += parseInt(goalsData[goalItem.sguid]);
                     }
                 });
-                
-                /*if(needItem.name == "Career") {
-                    var max = 0;
-                    var carreerMax = {};
-                    var moneyPoints = 0;
-                    var moneyMax = 0;
-
-                    angular.forEach(needItem.goals, function(goal) {
-                        if (goal.current_value > max && goal.name != "Money") {
-                          max = goal.current_value;
-                          carreerMax = {goal: goal.sguid, points: goal.current_value, max: goal.points_summary};
-                        }
-                        if(goal.name == "Money") {
-                          moneyPoints = goal.current_value;
-                          moneyMax = goal.points_summary;
-                        }
-
-                    });
-                    
-                    scope.carreeMax = parseInt(carreerMax.max + moneyMax);
-                    needsData[needItem.sguid] = parseInt(carreerMax.points + moneyPoints);
-                }*/
 
                 needItem.current_value = needsData[needItem.sguid];
             });
@@ -3588,6 +3566,11 @@ pgrModule.directive('mydash', function(User) {
         if(newValue) {
           scope.setNeeds();
         }
+      });
+
+      scope.$watch("workspace.user.points", function (newValue) {
+        scope.updatePointText_();
+        scope.setNeeds();
       });
     }
   }

@@ -174,19 +174,20 @@ pgrModule.directive('masonry', function(User, $rootScope) {
 
       // время жизни кеша с пользователям
       var cacheTime = 1440;
+
+      var self = this;
       
       /** забираем список пользователей из кеша **/
       $rootScope.users = lscache.get("masonry");
 
       /** открываем всплывающее окно пользователя **/
-      $scope.openUserInfo = function(userItem, $event) {
-        $rootScope.$broadcast('showUserProfile', { user: userItem });
+      $scope.openUserInfo = function() {
+        $rootScope.$broadcast('showUserProfile', { user: { sguid: $(this).data("id") }  });
       }
       
       /** инициализируем isotope **/
       this.initIso = function() {
         $(element).isotope({
-          itemSelector: '.iso-item',
           rowHeight: 70,
           layoutMode: "perfectMasonry",
           animationEngine: 'css',
@@ -201,14 +202,16 @@ pgrModule.directive('masonry', function(User, $rootScope) {
       /** забираем список пользователей из backend-а **/
       this.getUsersFromBackend = function(limit, skip, total_count, view_count) {
         User.for_main_from_limit({limit: limit, skip: skip}, {}, function(data) {
-            if(!$rootScope.users)
-              $rootScope.users = [];
+            
+            $scope.users = $scope.users.concat(data);
+            var items = $scope.appendElements(data);
 
-            $rootScope.users = $rootScope.users.concat(data);
+            $(element).isotope("insert", $(items));
+
+            if(data[0] && data[0].total_count)
+              total_count = data[0].total_count;
+           
             view_count += limit;
-
-            // выглядит дико, знаю
-            total_count = $rootScope.users[0] ? $rootScope.users[0].total_count : total_count;
 
             if(view_count < total_count) {
               skip += limit;
@@ -216,47 +219,63 @@ pgrModule.directive('masonry', function(User, $rootScope) {
               this.getUsersFromBackend(limit, skip, total_count, view_count);
             } else {
               // отправляем данные в кеш
-              lscache.set('masonry', JSON.stringify($rootScope.users), cacheTime);
+              lscache.set('masonry', JSON.stringify($scope.users), cacheTime);
+              $(element).append(items);
+              
             }
         });
       }
 
+      $scope.appendElements = function(data) {
+        var items = "";
+        
+        angular.forEach(data, function(value, key) {
+          var newDiv = document.createElement('div');
+          newDiv.className = 'item isotope-item iso-item all';
+          newDiv.setAttribute("data-id", value.sguid);
+          newDiv.onclick = $scope.openUserInfo;
+          newDiv.style.width = value.league.size+"px";
+          newDiv.style.height = value.league.size+"px";
+
+          var newSubDiv = document.createElement('div');
+          newSubDiv.className = 'wr';
+
+          newDiv.appendChild(newSubDiv);
+
+          var img = document.createElement('img');
+          img.src = value.avatar;
+          img.width = value.league.size;
+          img.height = value.league.size;
+
+          newSubDiv.appendChild(img);
+
+          items += $scope.nodeToString(newDiv);
+        });
+        return items;
+      }
+
+      $scope.nodeToString = function(node) {
+         var tmpNode = document.createElement( "div" );
+         tmpNode.appendChild( node.cloneNode( true ) );
+         var str = tmpNode.innerHTML;
+         tmpNode = node = null; // prevent memory leaks in IE
+         return str;
+      }
+
+
       /**
        * Забираем список пользователей
        */
-      if(!$scope.users) {
+     if(!$scope.users) {
         isCached = false;
         $scope.users = [];
+        self.initIso();
         this.getUsersFromBackend(limit, skip, total_count, view_count);  
+      } else {
+        var items = $scope.appendElements($scope.users);
+        $(element).append(items);
+        self.initIso();
       }
-      
-      // инициизируем masonry
-      this.initIso();
-
-      // хак для isotope который падает при удалении пользователя из коллекции
-      $rootScope.$watch('users', function() {
-        $(element).isotope('reloadItems').isotope();
-      }, true);
-      
-    }
-  }
-})
-
-/** 
- * Директира для внутреннего элемента masonry
- */
-pgrModule.directive('masonryItem', function() {
-  return {
-    link: function(scope, element, attrs) {
-      /** родительский элемент **/
-      var parentElement = $(element).parent();
-      setTimeout(function() {
-        $(element).addClass("iso-item");
-        parentElement.isotope("insert", $(element));
-      }, 0);
-      setTimeout(function() {
-        $(element).addClass("all");
-      }, 10); 
     }
   }
 })
