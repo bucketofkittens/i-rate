@@ -180,10 +180,12 @@ pgrModule.directive('masonry', function(User, $rootScope) {
       /** забираем список пользователей из кеша **/
       $rootScope.users = lscache.get("masonry");
 
-      /** открываем всплывающее окно пользователя **/
-      $scope.openUserInfo = function() {
-        $rootScope.$broadcast('showUserProfile', { user: { sguid: $(this).data("id") }  });
-      }
+      $("body").on("click", ".isotope-item", function(){
+        var item = this;
+        $scope.$apply(function() {
+          $rootScope.$broadcast('showUserProfile', { user: { sguid: $(item).data("id") }  }); 
+        });
+      });
       
       /** инициализируем isotope **/
       this.initIso = function() {
@@ -233,7 +235,7 @@ pgrModule.directive('masonry', function(User, $rootScope) {
           var newDiv = document.createElement('div');
           newDiv.className = 'item isotope-item iso-item all';
           newDiv.setAttribute("data-id", value.sguid);
-          newDiv.onclick = $scope.openUserInfo;
+          
           newDiv.style.width = value.league.size+"px";
           newDiv.style.height = value.league.size+"px";
 
@@ -681,3 +683,4 @@ pgrModule.directive('equal', function() {
         }
     };
 });
+

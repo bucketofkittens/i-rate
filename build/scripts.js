@@ -3210,16 +3210,16 @@ pgrModule.directive('masonry', function(User, $rootScope) {
       /**
        * Забираем список пользователей
        */
-     if(!$scope.users) {
+     //if(!$scope.users) {
         isCached = false;
         $scope.users = [];
         self.initIso();
         this.getUsersFromBackend(limit, skip, total_count, view_count);  
-      } else {
+      //} else {
         //var items = $scope.appendElements($scope.users);
         //$(element).append(items);
         //self.initIso();
-      }
+      //}
     }
   }
 })
