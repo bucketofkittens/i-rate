@@ -228,7 +228,7 @@ pgrModule.directive('masonry', function(User, $rootScope) {
 
       $scope.appendElements = function(data) {
         var items = "";
-        
+
         angular.forEach(data, function(value, key) {
           var newDiv = document.createElement('div');
           newDiv.className = 'item isotope-item iso-item all';
@@ -272,9 +272,9 @@ pgrModule.directive('masonry', function(User, $rootScope) {
         self.initIso();
         this.getUsersFromBackend(limit, skip, total_count, view_count);  
       } else {
-        var items = $scope.appendElements($scope.users);
-        $(element).append(items);
-        self.initIso();
+        //var items = $scope.appendElements($scope.users);
+        //$(element).append(items);
+        //self.initIso();
       }
     }
   }
