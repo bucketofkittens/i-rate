@@ -3124,10 +3124,12 @@ pgrModule.directive('masonry', function(User, $rootScope) {
       /** забираем список пользователей из кеша **/
       $rootScope.users = lscache.get("masonry");
 
-      /** открываем всплывающее окно пользователя **/
-      $scope.openUserInfo = function() {
-        $rootScope.$broadcast('showUserProfile', { user: { sguid: $(this).data("id") }  });
-      }
+      $("body").on("click", ".isotope-item", function(){
+        var item = this;
+        $scope.$apply(function() {
+          $rootScope.$broadcast('showUserProfile', { user: { sguid: $(item).data("id") }  }); 
+        });
+      });
       
       /** инициализируем isotope **/
       this.initIso = function() {
@@ -3177,7 +3179,7 @@ pgrModule.directive('masonry', function(User, $rootScope) {
           var newDiv = document.createElement('div');
           newDiv.className = 'item isotope-item iso-item all';
           newDiv.setAttribute("data-id", value.sguid);
-          newDiv.onclick = $scope.openUserInfo;
+          
           newDiv.style.width = value.league.size+"px";
           newDiv.style.height = value.league.size+"px";
 
@@ -3625,6 +3627,8 @@ pgrModule.directive('equal', function() {
         }
     };
 });
+
+
 pgrModule.filter('removewhite', function () {
     return function(text) {
         return text.split(" ").join("");
@@ -3653,8 +3657,8 @@ pgrModule.filter('title', function () {
 
 
 
-var host = "http://dev.sir.improva.com/api/v1";
-var debugHost = "http://192.168.1.116:3000/api/v1"; 
+//var host = "http://dev.sir.improva.com/api/v1";
+var host = "http://192.168.1.171:3000/api/v1"; 
 var hostShort = host.replace("/api/v1", "");
 
 var PanelsConst = {
@@ -5069,6 +5073,18 @@ function deleteCookie(name) {
 
 function base64encode(binary) {
     return btoa(unescape(encodeURIComponent(binary)));
+}
+
+Array.prototype.shuffle = function() {
+  var i = this.length, j, temp;
+  if ( i == 0 ) return this;
+  while ( --i ) {
+     j = Math.floor( Math.random() * ( i + 1 ) );
+     temp = this[i];
+     this[i] = this[j];
+     this[j] = temp;
+  }
+  return this;
 }
 function ChangePasswordController($scope, Sessions, User, $location, $rootScope, MailHash, $routeParams, Password, $window, $cookieStore) {
     $scope.show = false;

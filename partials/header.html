@@ -26,9 +26,16 @@
 		<section id="avatar" ng-cloak>
 		    <p ng-if="workspace.user">
 		        <img 
-		        	ng-click="openProfile()" 
+		        	ng-click="openProfile()"
+		        	ng-src="/images/unknown-person.png" 
+		        	class="current" 
+		        	ng-if="!workspace.user.avatar" />
+
+		        <img 
+		        	ng-click="openProfile()"
 		        	err-src="/images/unknown-person.png" 
-		        	ng-src="{{workspace.user.avatar}}" 
+		        	ng-src="{{workspace.user.avatar}}"
+		        	ng-if="workspace.user.avatar"
 		        	class="current" 
 		        	alt="{{workspace.user.name}}" />
 		    </p>
