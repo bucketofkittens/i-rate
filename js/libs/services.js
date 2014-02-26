@@ -496,11 +496,21 @@ pgrModule.service('UserService', function (User, AllUserService) {
 
     // забираем пользователя из кеша
     this.getAuthData = function() {
-        return lscache.get(this.cacheName);
+        var data = lscache.get(this.cacheName);
+
+        if(data && data.birthday) {
+            data.birthday = new Date(data.birthday);    
+        }
+        
+        return data;
     }
 
     // передаем данные в кеш
     this.setAuthData = function(user) {
+        user = JSON.parse(JSON.stringify(user));
+        if(user.birthday) {
+            user.birthday = moment(user.birthday).format("DD/MM/YYYY");    
+        }
         // сохраняем данные пользователя в localStorage
         lscache.set(this.cacheName, JSON.stringify(user), this.cacheTime);
     }
@@ -542,6 +552,9 @@ pgrModule.service('UserService', function (User, AllUserService) {
     // получаем данные по указанному пользователю с указанным id
     this.getById = function(id, callback) {
         User.query({id: id}, function(data) {
+            if(data && data.birthday) {
+                data.birthday = new Date(data.birthday);    
+            }
             callback(data);
         });
     }

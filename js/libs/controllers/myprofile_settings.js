@@ -21,7 +21,9 @@ function MyProfileSettingsController($scope, UserService, SocialService, Friends
     $scope.showUsersList = false;
 
     $scope.$watch('workspace.user.birthday', function (newVal, oldVal, scope) {
-        $scope.updateUserParamByValue('birthday', moment($scope.workspace.user.birthday).format("DD/MM/YYYY"));
+        if($scope.workspace.user.birthday && newVal != oldVal) {
+            $scope.updateUserParamByValue('birthday', moment($scope.workspace.user.birthday).format("DD/MM/YYYY"));    
+        }
     });
 
     	// выходим из пользователя
@@ -188,27 +190,10 @@ function MyProfileSettingsController($scope, UserService, SocialService, Friends
     // событие после обновления пользьвательских данных на сервере
     $scope.updateUserCallback_ = function(data) {
     	if(data.success) {
-            $scope.nameIsError = false;
-
             UserService.setAuthData($scope.workspace.user);
-
-            // обновляем пользователя в списке пользователей
-            $rootScope.users= UserService.updateUserFromCache($rootScope.users, $scope.workspace.user);
 
             // скрываем поиск
             $rootScope.$broadcast('closeSearch');
-        } else {
-            var isName = false;
-            angular.forEach(data.errors, function(value, key){
-                if(value == 'name: ["is already taken"]') {
-                    isName = true;
-                }
-            });
-            if(isName) {
-                $scope.nameIsError = true;
-            } else {
-                $scope.nameIsError = false;
-            }
         }
     }
 
@@ -231,8 +216,6 @@ function MyProfileSettingsController($scope, UserService, SocialService, Friends
     		}
     		user[nameArray[0]][nameArray[1]] = value;
     	}
-
-        $scope.workspace.users = AllUserService.updateUser($scope.workspace.user, $scope.workspace.users);
     	
     	UserService.update($scope.workspace.user.sguid, user, $scope.updateUserCallback_);
     }
@@ -376,7 +359,8 @@ function MyProfileSettingsController($scope, UserService, SocialService, Friends
     $scope.dateOptions = {
         changeYear: true,
         changeMonth: true,
-        yearRange: '1900:-0'
+        yearRange: '1900:-0',
+        dateFormat: 'dd/mm/yy'
     };
     
 }

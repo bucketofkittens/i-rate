@@ -27,8 +27,6 @@ function SigninController($scope, $rootScope, $timeout, SessionsService, UserSer
     }
 
     $scope.onSigninSuccessCallback_ = function(data) {
-        data.birthday = new Date(data.birthday);
-        
         UserService.setAuthData(data);
         UserService.getFriends(data.sguid, $scope.getFriendsCallback_);
 
