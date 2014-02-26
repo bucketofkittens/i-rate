@@ -4073,19 +4073,13 @@ pgrModule.service('UserService', function (User, AllUserService) {
 
     this.getUsersOnServer_ = function(callback) {
         User.get_all({}, {}, function(data) {
-            AllUserService.set(data);
+            console.log(data);
             callback(data);
         });
     }
 
     this.getAll = function(callback) {
-        var data = AllUserService.get();
-
-        if(!data) {
-            this.getUsersOnServer_(callback);
-        } else {
-            callback(data);
-        }
+        this.getUsersOnServer_(callback);
     }
 
 
@@ -5570,6 +5564,8 @@ function ImprovaLoginController($scope, ImprovaService, SessionsService, UserSer
 	}
 
     $scope.onSigninSuccessCallback_ = function(data) {
+        data.birthday = new Date(data.birthday);
+        
         SocialService.persist(SocialNames.IMPROVA);
 
         UserService.setAuthData(data);
@@ -6640,8 +6636,6 @@ function MyProfileSettingsController($scope, UserService, SocialService, Friends
 
     $scope.showUsersList = false;
 
-    $scope.workspace.user.birthday = new Date($scope.workspace.user.birthday);
-    
     $scope.$watch('workspace.user.birthday', function (newVal, oldVal, scope) {
         $scope.updateUserParamByValue('birthday', moment($scope.workspace.user.birthday).format("DD/MM/YYYY"));
     });
@@ -7539,6 +7533,8 @@ function QuickUserChangeCtrl($scope, UserService, User, $rootScope, SessionsServ
     }
 
     $scope.onSigninSuccessCallback_ = function(data) {
+        data.birthday = new Date(data.birthday);
+        
         UserService.setAuthData(data);
         UserService.getFriends(data.sguid, $scope.getFriendsCallback_);
         
@@ -8392,6 +8388,8 @@ function SigninController($scope, $rootScope, $timeout, SessionsService, UserSer
     }
 
     $scope.onSigninSuccessCallback_ = function(data) {
+        data.birthday = new Date(data.birthday);
+        
         UserService.setAuthData(data);
         UserService.getFriends(data.sguid, $scope.getFriendsCallback_);
 
