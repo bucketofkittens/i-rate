@@ -423,4 +423,10 @@ function SearchAdvanceController($scope, $location, $rootScope, User, Profession
 
     // загружаем список стран
     $rootScope.$broadcast('countryLoad');
+
+    $scope.dateOptions = {
+        changeYear: true,
+        changeMonth: true,
+        yearRange: '1900:-0'
+    };
 }

@@ -112,24 +112,12 @@
 		<div class="fsp">
 			<div class="ri">
 				<h6>Birthday from</h6>
-				<datepicker 
-					ng-model="search.birthday_from" 
-					disable-timepicker='true'
-					label-format="dd.MM.yyyy"
-					date-format="dd.MM.yyyy"
-					id="dFrom">
-				</datepicker>
+				<input type="text" ng-model="search.birthday_from" ui-date="dateOptions"  name="DateOfBirth1" id="dFrom" />
 				<img src="./images/fusedel.png" ng-click="selectParam('birthday_from', '', true)">
 			</div>
 			<div class="ri">
 				<h6>Birthday till</h6>
-				<datepicker 
-					ng-model="search.birthday_till" 
-					disable-timepicker='true'
-					label-format="dd.MM.yyyy"
-					date-format="dd.MM.yyyy"
-					id="dTill">
-				</datepicker>
+				<input type="text" ng-model="search.birthday_till" ui-date="dateOptions"  name="DateOfBirth2" id="dTill" />
 				<img src="./images/fusedel.png" ng-click="selectParam('birthday_till', '', true)">
 			</div>
 			<em></em>

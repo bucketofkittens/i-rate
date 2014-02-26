@@ -20,7 +20,13 @@ function MyProfileSettingsController($scope, UserService, SocialService, Friends
 
     $scope.showUsersList = false;
 
-	// выходим из пользователя
+    $scope.workspace.user.birthday = moment($scope.workspace.user.birthday).toDate();
+
+    $scope.$watch('workspace.user.birthday', function (newVal, oldVal, scope) {
+        $scope.updateUserParamByValue('birthday', moment($scope.workspace.user.birthday).format("DD/MM/YYYY"));
+    });
+
+    	// выходим из пользователя
 	$scope.onLogout = function() {
 		// убиваем токен
 		TokenService.remove();
@@ -369,6 +375,10 @@ function MyProfileSettingsController($scope, UserService, SocialService, Friends
     // загружаем список стран
     $rootScope.$broadcast('countryLoad');
 
-    
+    $scope.dateOptions = {
+        changeYear: true,
+        changeMonth: true,
+        yearRange: '1900:-0'
+    };
     
 }

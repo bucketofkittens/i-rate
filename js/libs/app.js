@@ -50,7 +50,7 @@ var pgrModule = angular.module(
 		"ngResource",
 		"ngAnimate",
 		"ngSanitize",
-    "ngQuickDate",
+    "ui.date",
 		'ngTouch', 
 		"localization",
 		"googleplus",
