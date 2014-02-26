@@ -204,7 +204,7 @@ pgrModule.directive('masonry', function(User, $rootScope) {
       /** забираем список пользователей из backend-а **/
       this.getUsersFromBackend = function(limit, skip, total_count, view_count) {
         User.for_main_from_limit({limit: limit, skip: skip}, {}, function(data) {
-            data = data.shuffle();
+          
             $scope.users = $scope.users.concat(data);
             var items = $scope.appendElements(data);
 

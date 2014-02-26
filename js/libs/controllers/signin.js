@@ -113,7 +113,7 @@ function SigninController($scope, $rootScope, $timeout, SessionsService, UserSer
     }
 
     // инициализация сервисов facebook
-    FacebookService.init($scope.facebookLoginSuccess_);
+    FacebookService.init();
 
     MSLiveService.init($scope.MSLiveLoginCompleteSuccess_);
 }

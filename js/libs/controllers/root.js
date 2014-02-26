@@ -91,5 +91,5 @@ function RootController($scope, FacebookService, СareerService, LeagueService, 
         UserService.getAll($scope.userServiceCallback_);
     });
     
-
+    FacebookService.init();
 }

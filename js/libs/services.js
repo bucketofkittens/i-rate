@@ -982,7 +982,7 @@ pgrModule.service('FriendsService', function (UserService, User, $rootScope) {
 
 // сервис авторизации в facebook
 pgrModule.service('FacebookService', function($window) {
-    this.init = function(authCallback) {
+    this.init = function() {
         window.fbAsyncInit = function() {
             FB.init({
                 appId: SocialConfig.facebook.applicationId[window.location.hostname],
@@ -990,10 +990,6 @@ pgrModule.service('FacebookService', function($window) {
                 xfbml: true,
                 oauth: true
             });
-
-            //FB.getLoginStatus(authCallback);
-
-            FB.Event.subscribe('auth.authResponseChange', authCallback);
         };
     },
     this.getUserData = function(callback) {
@@ -1002,6 +998,8 @@ pgrModule.service('FacebookService', function($window) {
         });
     }
     this.login = function(success, fail) {
+        FB.Event.subscribe('auth.authResponseChange', success);
+        
         $window.FB.login(function(response) {
             if (response.session) {
                 if (response.scope) {
