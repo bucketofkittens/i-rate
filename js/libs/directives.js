@@ -687,4 +687,3 @@ pgrModule.directive('equal', function() {
         }
     };
 });
-

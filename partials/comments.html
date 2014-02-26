@@ -1,5 +1,5 @@
 <div class="comments">
-	<div class="comm">
+	<perfect-scrollbar class="comm">
 		<div class="cmnt" ng-repeat="comment in commentsList | orderBy:'post_date'"  >
 			<strong>{{comment.user.name}}</strong>
 			<i>{{comment.post_date}}</i>
@@ -7,7 +7,7 @@
 			<p>{{comment.message}}</p>
 			<em></em>
 		</div>
-	</div>
+	</perfect-scrollbar>
 	<div class="butcomm">
 		<em></em>
 		<ng-form>

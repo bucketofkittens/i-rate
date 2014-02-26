@@ -1,7 +1,9 @@
 <div id="signin_panel" class="full_height" ng-if="showPanel" >
-	<div class="glass">
-		<div class="full_height" ng-if="state == 0" ng-include ng-controller="SigninController" src="'partials/signin.html'"></div>
-		<div class="full_height" ng-if="state == 1" ng-include ng-controller="SignupController" src="'partials/signup.html'"></div>
-		<div class="full_height" ng-if="state == 2" ng-include ng-controller="ImprovaLoginController" src="'partials/improva.html'"></div>
-	</div>
+	<perfect-scrollbar class="in scroller" wheel-propagation="true" wheel-speed="50">
+		<div class="glass">
+			<div class="full_height" ng-if="state == 0" ng-include ng-controller="SigninController" src="'partials/signin.html'"></div>
+			<div class="full_height" ng-if="state == 1" ng-include ng-controller="SignupController" src="'partials/signup.html'"></div>
+			<div class="full_height" ng-if="state == 2" ng-include ng-controller="ImprovaLoginController" src="'partials/improva.html'"></div>
+		</div>
+	</perfect-scrollbar>
 </div>

@@ -3,7 +3,7 @@
 	class="tab" 
 	ng-init="user = workspace.user;">
 	<div class="tab" ng-controller="MyProfileProfileController">
-		<section class="mypro acrd" scroller>
+		<perfect-scrollbar class="mypro acrd" scroller>
 			<div class="crits">
 				<ul> 
 					<li 
@@ -42,9 +42,9 @@
 					</li>
 				</ul>
 			</div>
-		</section>
+		</perfect-scrollbar>
 
-		<div class="mypro_wr" scroller >
+		<perfect-scrollbar class="mypro_wr" scroller >
 			<section class="mypro">
 				<div class="crits {{selectedNeed.name}}" ng-if="selectedGoal">
 					<h5>
@@ -90,6 +90,6 @@
 					</ul>
 				</div>
 			</section>
-		</div>
+		</perfect-scrollbar>
 	</div>
 </div>

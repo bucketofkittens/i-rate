@@ -29,10 +29,9 @@ function RootController($scope, FacebookService, СareerService, LeagueService, 
 
     // забираем список друзей
     $scope.getFriendsCallback_ = function(data) {
-        console.log(data);
         $scope.workspace.friends = data;
     }
-    console.log($scope.workspace.user);
+    
     // если пользователь есть в кеше забираем список его друзей с сервера
     if($scope.workspace.user) {
         UserService.getFriends($scope.workspace.user.sguid, $scope.getFriendsCallback_);

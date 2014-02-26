@@ -60,7 +60,8 @@ var pgrModule = angular.module(
     'vcRecaptcha',
     'ui.select2',
     'angular-google-analytics',
-    'monospaced.elastic'
+    'monospaced.elastic',
+    'perfect_scrollbar'
 	]
 );
 
