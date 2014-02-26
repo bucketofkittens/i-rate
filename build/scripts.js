@@ -1366,13 +1366,7 @@ angular.module("facebook", []).provider("Facebook", [ function() {
         return new e();
     } ];
 } ]).run([ function() {
-    (function(d, s, id){
-     var js, fjs = d.getElementsByTagName(s)[0];
-     if (d.getElementById(id)) {return;}
-     js = d.createElement(s); js.id = id;
-     js.src = "//connect.facebook.net/en_US/all.js";
-     fjs.parentNode.insertBefore(js, fjs);
-    }(document, 'script', 'facebook-jssdk'));
+    
 } ]);
 /**
  * Isotope v1.5.26
@@ -3148,7 +3142,7 @@ pgrModule.directive('masonry', function(User, $rootScope) {
       /** забираем список пользователей из backend-а **/
       this.getUsersFromBackend = function(limit, skip, total_count, view_count) {
         User.for_main_from_limit({limit: limit, skip: skip}, {}, function(data) {
-            data = data.shuffle();
+          
             $scope.users = $scope.users.concat(data);
             var items = $scope.appendElements(data);
 
@@ -4645,7 +4639,7 @@ pgrModule.service('FriendsService', function (UserService, User, $rootScope) {
 
 // сервис авторизации в facebook
 pgrModule.service('FacebookService', function($window) {
-    this.init = function(authCallback) {
+    this.init = function() {
         window.fbAsyncInit = function() {
             FB.init({
                 appId: SocialConfig.facebook.applicationId[window.location.hostname],
@@ -4653,10 +4647,6 @@ pgrModule.service('FacebookService', function($window) {
                 xfbml: true,
                 oauth: true
             });
-
-            //FB.getLoginStatus(authCallback);
-
-            FB.Event.subscribe('auth.authResponseChange', authCallback);
         };
     },
     this.getUserData = function(callback) {
@@ -4665,6 +4655,8 @@ pgrModule.service('FacebookService', function($window) {
         });
     }
     this.login = function(success, fail) {
+        FB.Event.subscribe('auth.authResponseChange', success);
+        
         $window.FB.login(function(response) {
             if (response.session) {
                 if (response.scope) {
@@ -5090,6 +5082,14 @@ Array.prototype.shuffle = function() {
   }
   return this;
 }
+
+(function(d, s, id){
+ var js, fjs = d.getElementsByTagName(s)[0];
+ if (d.getElementById(id)) {return;}
+ js = d.createElement(s); js.id = id;
+ js.src = "//connect.facebook.net/en_US/all.js";
+ fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));
 function ChangePasswordController($scope, Sessions, User, $location, $rootScope, MailHash, $routeParams, Password, $window, $cookieStore) {
     $scope.show = false;
 
@@ -7802,7 +7802,7 @@ function RootController($scope, FacebookService, СareerService, LeagueService, 
         UserService.getAll($scope.userServiceCallback_);
     });
     
-
+    FacebookService.init();
 }
 /**
  * Контроллер страницы расширенного поиска
@@ -8595,7 +8595,7 @@ function SigninController($scope, $rootScope, $timeout, SessionsService, UserSer
     }
 
     // инициализация сервисов facebook
-    FacebookService.init($scope.facebookLoginSuccess_);
+    FacebookService.init();
 
     MSLiveService.init($scope.MSLiveLoginCompleteSuccess_);
 }

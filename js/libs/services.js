@@ -999,7 +999,7 @@ pgrModule.service('FacebookService', function($window) {
     }
     this.login = function(success, fail) {
         FB.Event.subscribe('auth.authResponseChange', success);
-        
+
         $window.FB.login(function(response) {
             if (response.session) {
                 if (response.scope) {
@@ -1190,7 +1190,7 @@ pgrModule.service('ImprovaService', function(ImprovaLogin, UserService, Sessions
                 user["name"] = improvaData.login;
             }
             if(improvaData.birthday) {
-                user["birthday"] = improvaData.birthday;
+                user["birthday"] = moment(improvaData.birthday).format("DD/MM/YYYY");
             }
 
             UserService.update(data.message.guid, user, function() {

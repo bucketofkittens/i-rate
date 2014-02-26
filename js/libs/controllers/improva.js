@@ -24,7 +24,7 @@ function ImprovaLoginController($scope, ImprovaService, SessionsService, UserSer
         // если у пользователя нет баллов переходим сразу на колбасы
         if(data.points == 0) {
             $timeout(function() {
-                $rootScope.$broadcast('openProfile');
+                $rootScope.$broadcast('openProfile', { nav: "Profile" });
             }, 0);
         }
     }
