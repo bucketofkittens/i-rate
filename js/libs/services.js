@@ -876,12 +876,7 @@ pgrModule.service('LeagueService', function (Leagues) {
 
     // забираем пользователя из кеша
     this.getList = function(callback) {
-        var league = lscache.get(this.cacheName);
-        if(!league) {
-            this.getLeagueOnServer_(callback);
-        } else {
-            callback(league);
-        }
+        this.getLeagueOnServer_(callback);
     }
     this.getLeagueOnServer_ = function(callback) {
         var self = this;

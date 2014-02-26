@@ -22,7 +22,6 @@ function NSIController($scope, Leagues, $rootScope, $timeout, LeagueService) {
      */
     $scope.delete = function(value) {
         Leagues.del({id: value.sguid}, {}, function(data) {
-            LeagueService.remove();
             $rootScope.$broadcast('reloadLeagues');
         }); 
     }
@@ -38,6 +37,7 @@ function NSIController($scope, Leagues, $rootScope, $timeout, LeagueService) {
         Leagues.recal({}, {}, function(data) {
             $rootScope.$broadcast('closeModal');
             $rootScope.$broadcast('loaderHide');
+            $rootScope.$broadcast('reloadLeagues');
             location.reload();
         }); 
     }
@@ -48,19 +48,18 @@ function NSIController($scope, Leagues, $rootScope, $timeout, LeagueService) {
      * @return {[type]}       [description]
      */
     $scope.update = function(value) {
-        var sguid = value.sguid;
-
-        delete value.icon;
-        delete value.sguid;
-        delete value.$$hashKey;
 
         Leagues.updateLeague(
-            {id: sguid}, 
+            {id: value.sguid}, 
             {
-                "league": JSON.stringify(value)
+                "league": JSON.stringify({
+                    max_border: value.max_border,
+                    min_border: value.min_border,
+                    name: value.name,
+                    size: value.size
+                })
             }, function(data) {
-                LeagueService.remove();
-                $rootScope.$broadcast('reloadLeagues');
+
             }
         );
     }
