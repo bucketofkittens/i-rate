@@ -4461,8 +4461,8 @@ pgrModule.service('FriendsService', function (UserService, User, $rootScope) {
         var user = UserService.getAuthData();
         
         if(user) {
-            User.create_friendship({id: friend.sguid}, {
-                friend_guid: user.sguid
+            User.create_friendship({id: user.sguid}, {
+                friend_guid: friend.sguid
             }, function(response) {     
                 if(response.success) {
                     friends.push({sguid: response.message.guid, user: friend});
@@ -7614,9 +7614,10 @@ function RootController($scope, FacebookService, СareerService, LeagueService, 
 
     // забираем список друзей
     $scope.getFriendsCallback_ = function(data) {
+        console.log(data);
         $scope.workspace.friends = data;
     }
-
+    console.log($scope.workspace.user);
     // если пользователь есть в кеше забираем список его друзей с сервера
     if($scope.workspace.user) {
         UserService.getFriends($scope.workspace.user.sguid, $scope.getFriendsCallback_);
