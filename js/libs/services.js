@@ -893,6 +893,10 @@ pgrModule.service('LeagueService', function (Leagues) {
     this.persist = function(data) {
         lscache.set(this.cacheName, JSON.stringify(data), this.cacheTime);
     }
+
+    this.remove = function() {
+        lscache.remove(this.cacheName);
+    }
 });
 
 

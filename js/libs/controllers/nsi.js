@@ -2,7 +2,7 @@
  * Контроллер страницы редактирования лиги
  * @param {[type]} $scope [description]
  */
-function NSIController($scope, Leagues, $rootScope, $timeout) {
+function NSIController($scope, Leagues, $rootScope, $timeout, LeagueService) {
 
     /**
      * Добавляем новую лигу
@@ -22,11 +22,8 @@ function NSIController($scope, Leagues, $rootScope, $timeout) {
      */
     $scope.delete = function(value) {
         Leagues.del({id: value.sguid}, {}, function(data) {
-            angular.forEach($scope.workspace.leagues, function(value2, key2){
-                if(value2.sguid == value.sguid) {
-                    $scope.workspace.leagues.splice(key2, 1);
-                }
-            });
+            LeagueService.remove();
+            $rootScope.$broadcast('reloadLeagues');
         }); 
     }
 
@@ -62,7 +59,11 @@ function NSIController($scope, Leagues, $rootScope, $timeout) {
             {
                 "league": JSON.stringify(value)
             }, function(data) {
+                LeagueService.remove();
+                $rootScope.$broadcast('reloadLeagues');
             }
         );
     }
+
+    $rootScope.$broadcast('reloadLeagues');
 }

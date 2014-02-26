@@ -80,7 +80,7 @@ function RootController($scope, FacebookService, СareerService, LeagueService, 
     });
 
     // событие загрузки списка лиг
-    $scope.$on('countryLoad', function(event) {
+    $scope.$on('reloadLeagues', function(event) {
         // список лиг
         LeagueService.getList($scope.leagueServiceCallback_);
     });

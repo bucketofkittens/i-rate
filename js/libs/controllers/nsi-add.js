@@ -2,7 +2,7 @@
  * Контроллер добавления NSI
  * @param {[type]} $scope [description]
  */
-function NSIAddController($scope, Leagues, $rootScope) {
+function NSIAddController($scope, Leagues, $rootScope, LeagueService) {
     $scope.form = {
         name: "",
         min_border: "",
@@ -12,7 +12,6 @@ function NSIAddController($scope, Leagues, $rootScope) {
     $scope.size = 0;
 
     $scope.$on('nseAddOpen', function(event, message) {
-        console.log(message);
         $scope.size = message.size;
     });
 
@@ -26,6 +25,7 @@ function NSIAddController($scope, Leagues, $rootScope) {
         Leagues.create({}, {
             "league": JSON.stringify($scope.form)
         }, function(data) {
+            LeagueService.remove();
             $rootScope.$broadcast('reloadLeagues');
             $scope.close();
         });
