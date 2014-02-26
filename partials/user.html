@@ -95,7 +95,7 @@
 		</a> 
 
 		<!-- кнопочка закрытия -->
-		<a class="il" ng-if="user && !compare && user.sguid != workspace.user.sguid" ng-click="close()">
+		<a class="il" ng-click="close()">
 			<img src="../images/cl.png">
 		</a> 
 	</div>
@@ -195,7 +195,7 @@
 							</h5>
 							<ul class="criterion" ng-class="{current: goalItem.current}">
 								<li 
-									data-id="{{crItem.sguid}}" 
+									data-id="{{crItem.sguid}}"
 									ng-repeat="crItem in goalItem.criteriums | orderBy:'position'" >
 									<p>{{crItem.name}}</p>
 									<div class="bord">

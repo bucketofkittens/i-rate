@@ -54,10 +54,6 @@ function NeedsAndGoalsController($scope, СareerService, UserService, Goals, Cri
                 }
             });
 
-
-            //if(СareerService.isCareer(needItem))
-                //needsData[needItem.sguid] = СareerService.calculate(needItem);
-
             needItem.current_value = needsData[needItem.sguid];
         });
         $rootScope.$broadcast('needUserValueLoaded', {

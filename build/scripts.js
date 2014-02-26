@@ -974,6 +974,739 @@ angular.module('angular-google-analytics', [])
 
 (function(e,t){function i(t,i){var s,a,o,r=t.nodeName.toLowerCase();return"area"===r?(s=t.parentNode,a=s.name,t.href&&a&&"map"===s.nodeName.toLowerCase()?(o=e("img[usemap=#"+a+"]")[0],!!o&&n(o)):!1):(/input|select|textarea|button|object/.test(r)?!t.disabled:"a"===r?t.href||i:i)&&n(t)}function n(t){return e.expr.filters.visible(t)&&!e(t).parents().addBack().filter(function(){return"hidden"===e.css(this,"visibility")}).length}var s=0,a=/^ui-id-\d+$/;e.ui=e.ui||{},e.extend(e.ui,{version:"1.10.4",keyCode:{BACKSPACE:8,COMMA:188,DELETE:46,DOWN:40,END:35,ENTER:13,ESCAPE:27,HOME:36,LEFT:37,NUMPAD_ADD:107,NUMPAD_DECIMAL:110,NUMPAD_DIVIDE:111,NUMPAD_ENTER:108,NUMPAD_MULTIPLY:106,NUMPAD_SUBTRACT:109,PAGE_DOWN:34,PAGE_UP:33,PERIOD:190,RIGHT:39,SPACE:32,TAB:9,UP:38}}),e.fn.extend({focus:function(t){return function(i,n){return"number"==typeof i?this.each(function(){var t=this;setTimeout(function(){e(t).focus(),n&&n.call(t)},i)}):t.apply(this,arguments)}}(e.fn.focus),scrollParent:function(){var t;return t=e.ui.ie&&/(static|relative)/.test(this.css("position"))||/absolute/.test(this.css("position"))?this.parents().filter(function(){return/(relative|absolute|fixed)/.test(e.css(this,"position"))&&/(auto|scroll)/.test(e.css(this,"overflow")+e.css(this,"overflow-y")+e.css(this,"overflow-x"))}).eq(0):this.parents().filter(function(){return/(auto|scroll)/.test(e.css(this,"overflow")+e.css(this,"overflow-y")+e.css(this,"overflow-x"))}).eq(0),/fixed/.test(this.css("position"))||!t.length?e(document):t},zIndex:function(i){if(i!==t)return this.css("zIndex",i);if(this.length)for(var n,s,a=e(this[0]);a.length&&a[0]!==document;){if(n=a.css("position"),("absolute"===n||"relative"===n||"fixed"===n)&&(s=parseInt(a.css("zIndex"),10),!isNaN(s)&&0!==s))return s;a=a.parent()}return 0},uniqueId:function(){return this.each(function(){this.id||(this.id="ui-id-"+ ++s)})},removeUniqueId:function(){return this.each(function(){a.test(this.id)&&e(this).removeAttr("id")})}}),e.extend(e.expr[":"],{data:e.expr.createPseudo?e.expr.createPseudo(function(t){return function(i){return!!e.data(i,t)}}):function(t,i,n){return!!e.data(t,n[3])},focusable:function(t){return i(t,!isNaN(e.attr(t,"tabindex")))},tabbable:function(t){var n=e.attr(t,"tabindex"),s=isNaN(n);return(s||n>=0)&&i(t,!s)}}),e("<a>").outerWidth(1).jquery||e.each(["Width","Height"],function(i,n){function s(t,i,n,s){return e.each(a,function(){i-=parseFloat(e.css(t,"padding"+this))||0,n&&(i-=parseFloat(e.css(t,"border"+this+"Width"))||0),s&&(i-=parseFloat(e.css(t,"margin"+this))||0)}),i}var a="Width"===n?["Left","Right"]:["Top","Bottom"],o=n.toLowerCase(),r={innerWidth:e.fn.innerWidth,innerHeight:e.fn.innerHeight,outerWidth:e.fn.outerWidth,outerHeight:e.fn.outerHeight};e.fn["inner"+n]=function(i){return i===t?r["inner"+n].call(this):this.each(function(){e(this).css(o,s(this,i)+"px")})},e.fn["outer"+n]=function(t,i){return"number"!=typeof t?r["outer"+n].call(this,t):this.each(function(){e(this).css(o,s(this,t,!0,i)+"px")})}}),e.fn.addBack||(e.fn.addBack=function(e){return this.add(null==e?this.prevObject:this.prevObject.filter(e))}),e("<a>").data("a-b","a").removeData("a-b").data("a-b")&&(e.fn.removeData=function(t){return function(i){return arguments.length?t.call(this,e.camelCase(i)):t.call(this)}}(e.fn.removeData)),e.ui.ie=!!/msie [\w.]+/.exec(navigator.userAgent.toLowerCase()),e.support.selectstart="onselectstart"in document.createElement("div"),e.fn.extend({disableSelection:function(){return this.bind((e.support.selectstart?"selectstart":"mousedown")+".ui-disableSelection",function(e){e.preventDefault()})},enableSelection:function(){return this.unbind(".ui-disableSelection")}}),e.extend(e.ui,{plugin:{add:function(t,i,n){var s,a=e.ui[t].prototype;for(s in n)a.plugins[s]=a.plugins[s]||[],a.plugins[s].push([i,n[s]])},call:function(e,t,i){var n,s=e.plugins[t];if(s&&e.element[0].parentNode&&11!==e.element[0].parentNode.nodeType)for(n=0;s.length>n;n++)e.options[s[n][0]]&&s[n][1].apply(e.element,i)}},hasScroll:function(t,i){if("hidden"===e(t).css("overflow"))return!1;var n=i&&"left"===i?"scrollLeft":"scrollTop",s=!1;return t[n]>0?!0:(t[n]=1,s=t[n]>0,t[n]=0,s)}})})(jQuery);(function(e,t){function i(){this._curInst=null,this._keyEvent=!1,this._disabledInputs=[],this._datepickerShowing=!1,this._inDialog=!1,this._mainDivId="ui-datepicker-div",this._inlineClass="ui-datepicker-inline",this._appendClass="ui-datepicker-append",this._triggerClass="ui-datepicker-trigger",this._dialogClass="ui-datepicker-dialog",this._disableClass="ui-datepicker-disabled",this._unselectableClass="ui-datepicker-unselectable",this._currentClass="ui-datepicker-current-day",this._dayOverClass="ui-datepicker-days-cell-over",this.regional=[],this.regional[""]={closeText:"Done",prevText:"Prev",nextText:"Next",currentText:"Today",monthNames:["January","February","March","April","May","June","July","August","September","October","November","December"],monthNamesShort:["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"],dayNames:["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"],dayNamesShort:["Sun","Mon","Tue","Wed","Thu","Fri","Sat"],dayNamesMin:["Su","Mo","Tu","We","Th","Fr","Sa"],weekHeader:"Wk",dateFormat:"mm/dd/yy",firstDay:0,isRTL:!1,showMonthAfterYear:!1,yearSuffix:""},this._defaults={showOn:"focus",showAnim:"fadeIn",showOptions:{},defaultDate:null,appendText:"",buttonText:"...",buttonImage:"",buttonImageOnly:!1,hideIfNoPrevNext:!1,navigationAsDateFormat:!1,gotoCurrent:!1,changeMonth:!1,changeYear:!1,yearRange:"c-10:c+10",showOtherMonths:!1,selectOtherMonths:!1,showWeek:!1,calculateWeek:this.iso8601Week,shortYearCutoff:"+10",minDate:null,maxDate:null,duration:"fast",beforeShowDay:null,beforeShow:null,onSelect:null,onChangeMonthYear:null,onClose:null,numberOfMonths:1,showCurrentAtPos:0,stepMonths:1,stepBigMonths:12,altField:"",altFormat:"",constrainInput:!0,showButtonPanel:!1,autoSize:!1,disabled:!1},e.extend(this._defaults,this.regional[""]),this.dpDiv=a(e("<div id='"+this._mainDivId+"' class='ui-datepicker ui-widget ui-widget-content ui-helper-clearfix ui-corner-all'></div>"))}function a(t){var i="button, .ui-datepicker-prev, .ui-datepicker-next, .ui-datepicker-calendar td a";return t.delegate(i,"mouseout",function(){e(this).removeClass("ui-state-hover"),-1!==this.className.indexOf("ui-datepicker-prev")&&e(this).removeClass("ui-datepicker-prev-hover"),-1!==this.className.indexOf("ui-datepicker-next")&&e(this).removeClass("ui-datepicker-next-hover")}).delegate(i,"mouseover",function(){e.datepicker._isDisabledDatepicker(n.inline?t.parent()[0]:n.input[0])||(e(this).parents(".ui-datepicker-calendar").find("a").removeClass("ui-state-hover"),e(this).addClass("ui-state-hover"),-1!==this.className.indexOf("ui-datepicker-prev")&&e(this).addClass("ui-datepicker-prev-hover"),-1!==this.className.indexOf("ui-datepicker-next")&&e(this).addClass("ui-datepicker-next-hover"))})}function s(t,i){e.extend(t,i);for(var a in i)null==i[a]&&(t[a]=i[a]);return t}e.extend(e.ui,{datepicker:{version:"1.10.4"}});var n,r="datepicker";e.extend(i.prototype,{markerClassName:"hasDatepicker",maxRows:4,_widgetDatepicker:function(){return this.dpDiv},setDefaults:function(e){return s(this._defaults,e||{}),this},_attachDatepicker:function(t,i){var a,s,n;a=t.nodeName.toLowerCase(),s="div"===a||"span"===a,t.id||(this.uuid+=1,t.id="dp"+this.uuid),n=this._newInst(e(t),s),n.settings=e.extend({},i||{}),"input"===a?this._connectDatepicker(t,n):s&&this._inlineDatepicker(t,n)},_newInst:function(t,i){var s=t[0].id.replace(/([^A-Za-z0-9_\-])/g,"\\\\$1");return{id:s,input:t,selectedDay:0,selectedMonth:0,selectedYear:0,drawMonth:0,drawYear:0,inline:i,dpDiv:i?a(e("<div class='"+this._inlineClass+" ui-datepicker ui-widget ui-widget-content ui-helper-clearfix ui-corner-all'></div>")):this.dpDiv}},_connectDatepicker:function(t,i){var a=e(t);i.append=e([]),i.trigger=e([]),a.hasClass(this.markerClassName)||(this._attachments(a,i),a.addClass(this.markerClassName).keydown(this._doKeyDown).keypress(this._doKeyPress).keyup(this._doKeyUp),this._autoSize(i),e.data(t,r,i),i.settings.disabled&&this._disableDatepicker(t))},_attachments:function(t,i){var a,s,n,r=this._get(i,"appendText"),o=this._get(i,"isRTL");i.append&&i.append.remove(),r&&(i.append=e("<span class='"+this._appendClass+"'>"+r+"</span>"),t[o?"before":"after"](i.append)),t.unbind("focus",this._showDatepicker),i.trigger&&i.trigger.remove(),a=this._get(i,"showOn"),("focus"===a||"both"===a)&&t.focus(this._showDatepicker),("button"===a||"both"===a)&&(s=this._get(i,"buttonText"),n=this._get(i,"buttonImage"),i.trigger=e(this._get(i,"buttonImageOnly")?e("<img/>").addClass(this._triggerClass).attr({src:n,alt:s,title:s}):e("<button type='button'></button>").addClass(this._triggerClass).html(n?e("<img/>").attr({src:n,alt:s,title:s}):s)),t[o?"before":"after"](i.trigger),i.trigger.click(function(){return e.datepicker._datepickerShowing&&e.datepicker._lastInput===t[0]?e.datepicker._hideDatepicker():e.datepicker._datepickerShowing&&e.datepicker._lastInput!==t[0]?(e.datepicker._hideDatepicker(),e.datepicker._showDatepicker(t[0])):e.datepicker._showDatepicker(t[0]),!1}))},_autoSize:function(e){if(this._get(e,"autoSize")&&!e.inline){var t,i,a,s,n=new Date(2009,11,20),r=this._get(e,"dateFormat");r.match(/[DM]/)&&(t=function(e){for(i=0,a=0,s=0;e.length>s;s++)e[s].length>i&&(i=e[s].length,a=s);return a},n.setMonth(t(this._get(e,r.match(/MM/)?"monthNames":"monthNamesShort"))),n.setDate(t(this._get(e,r.match(/DD/)?"dayNames":"dayNamesShort"))+20-n.getDay())),e.input.attr("size",this._formatDate(e,n).length)}},_inlineDatepicker:function(t,i){var a=e(t);a.hasClass(this.markerClassName)||(a.addClass(this.markerClassName).append(i.dpDiv),e.data(t,r,i),this._setDate(i,this._getDefaultDate(i),!0),this._updateDatepicker(i),this._updateAlternate(i),i.settings.disabled&&this._disableDatepicker(t),i.dpDiv.css("display","block"))},_dialogDatepicker:function(t,i,a,n,o){var u,c,h,l,d,p=this._dialogInst;return p||(this.uuid+=1,u="dp"+this.uuid,this._dialogInput=e("<input type='text' id='"+u+"' style='position: absolute; top: -100px; width: 0px;'/>"),this._dialogInput.keydown(this._doKeyDown),e("body").append(this._dialogInput),p=this._dialogInst=this._newInst(this._dialogInput,!1),p.settings={},e.data(this._dialogInput[0],r,p)),s(p.settings,n||{}),i=i&&i.constructor===Date?this._formatDate(p,i):i,this._dialogInput.val(i),this._pos=o?o.length?o:[o.pageX,o.pageY]:null,this._pos||(c=document.documentElement.clientWidth,h=document.documentElement.clientHeight,l=document.documentElement.scrollLeft||document.body.scrollLeft,d=document.documentElement.scrollTop||document.body.scrollTop,this._pos=[c/2-100+l,h/2-150+d]),this._dialogInput.css("left",this._pos[0]+20+"px").css("top",this._pos[1]+"px"),p.settings.onSelect=a,this._inDialog=!0,this.dpDiv.addClass(this._dialogClass),this._showDatepicker(this._dialogInput[0]),e.blockUI&&e.blockUI(this.dpDiv),e.data(this._dialogInput[0],r,p),this},_destroyDatepicker:function(t){var i,a=e(t),s=e.data(t,r);a.hasClass(this.markerClassName)&&(i=t.nodeName.toLowerCase(),e.removeData(t,r),"input"===i?(s.append.remove(),s.trigger.remove(),a.removeClass(this.markerClassName).unbind("focus",this._showDatepicker).unbind("keydown",this._doKeyDown).unbind("keypress",this._doKeyPress).unbind("keyup",this._doKeyUp)):("div"===i||"span"===i)&&a.removeClass(this.markerClassName).empty())},_enableDatepicker:function(t){var i,a,s=e(t),n=e.data(t,r);s.hasClass(this.markerClassName)&&(i=t.nodeName.toLowerCase(),"input"===i?(t.disabled=!1,n.trigger.filter("button").each(function(){this.disabled=!1}).end().filter("img").css({opacity:"1.0",cursor:""})):("div"===i||"span"===i)&&(a=s.children("."+this._inlineClass),a.children().removeClass("ui-state-disabled"),a.find("select.ui-datepicker-month, select.ui-datepicker-year").prop("disabled",!1)),this._disabledInputs=e.map(this._disabledInputs,function(e){return e===t?null:e}))},_disableDatepicker:function(t){var i,a,s=e(t),n=e.data(t,r);s.hasClass(this.markerClassName)&&(i=t.nodeName.toLowerCase(),"input"===i?(t.disabled=!0,n.trigger.filter("button").each(function(){this.disabled=!0}).end().filter("img").css({opacity:"0.5",cursor:"default"})):("div"===i||"span"===i)&&(a=s.children("."+this._inlineClass),a.children().addClass("ui-state-disabled"),a.find("select.ui-datepicker-month, select.ui-datepicker-year").prop("disabled",!0)),this._disabledInputs=e.map(this._disabledInputs,function(e){return e===t?null:e}),this._disabledInputs[this._disabledInputs.length]=t)},_isDisabledDatepicker:function(e){if(!e)return!1;for(var t=0;this._disabledInputs.length>t;t++)if(this._disabledInputs[t]===e)return!0;return!1},_getInst:function(t){try{return e.data(t,r)}catch(i){throw"Missing instance data for this datepicker"}},_optionDatepicker:function(i,a,n){var r,o,u,c,h=this._getInst(i);return 2===arguments.length&&"string"==typeof a?"defaults"===a?e.extend({},e.datepicker._defaults):h?"all"===a?e.extend({},h.settings):this._get(h,a):null:(r=a||{},"string"==typeof a&&(r={},r[a]=n),h&&(this._curInst===h&&this._hideDatepicker(),o=this._getDateDatepicker(i,!0),u=this._getMinMaxDate(h,"min"),c=this._getMinMaxDate(h,"max"),s(h.settings,r),null!==u&&r.dateFormat!==t&&r.minDate===t&&(h.settings.minDate=this._formatDate(h,u)),null!==c&&r.dateFormat!==t&&r.maxDate===t&&(h.settings.maxDate=this._formatDate(h,c)),"disabled"in r&&(r.disabled?this._disableDatepicker(i):this._enableDatepicker(i)),this._attachments(e(i),h),this._autoSize(h),this._setDate(h,o),this._updateAlternate(h),this._updateDatepicker(h)),t)},_changeDatepicker:function(e,t,i){this._optionDatepicker(e,t,i)},_refreshDatepicker:function(e){var t=this._getInst(e);t&&this._updateDatepicker(t)},_setDateDatepicker:function(e,t){var i=this._getInst(e);i&&(this._setDate(i,t),this._updateDatepicker(i),this._updateAlternate(i))},_getDateDatepicker:function(e,t){var i=this._getInst(e);return i&&!i.inline&&this._setDateFromField(i,t),i?this._getDate(i):null},_doKeyDown:function(t){var i,a,s,n=e.datepicker._getInst(t.target),r=!0,o=n.dpDiv.is(".ui-datepicker-rtl");if(n._keyEvent=!0,e.datepicker._datepickerShowing)switch(t.keyCode){case 9:e.datepicker._hideDatepicker(),r=!1;break;case 13:return s=e("td."+e.datepicker._dayOverClass+":not(."+e.datepicker._currentClass+")",n.dpDiv),s[0]&&e.datepicker._selectDay(t.target,n.selectedMonth,n.selectedYear,s[0]),i=e.datepicker._get(n,"onSelect"),i?(a=e.datepicker._formatDate(n),i.apply(n.input?n.input[0]:null,[a,n])):e.datepicker._hideDatepicker(),!1;case 27:e.datepicker._hideDatepicker();break;case 33:e.datepicker._adjustDate(t.target,t.ctrlKey?-e.datepicker._get(n,"stepBigMonths"):-e.datepicker._get(n,"stepMonths"),"M");break;case 34:e.datepicker._adjustDate(t.target,t.ctrlKey?+e.datepicker._get(n,"stepBigMonths"):+e.datepicker._get(n,"stepMonths"),"M");break;case 35:(t.ctrlKey||t.metaKey)&&e.datepicker._clearDate(t.target),r=t.ctrlKey||t.metaKey;break;case 36:(t.ctrlKey||t.metaKey)&&e.datepicker._gotoToday(t.target),r=t.ctrlKey||t.metaKey;break;case 37:(t.ctrlKey||t.metaKey)&&e.datepicker._adjustDate(t.target,o?1:-1,"D"),r=t.ctrlKey||t.metaKey,t.originalEvent.altKey&&e.datepicker._adjustDate(t.target,t.ctrlKey?-e.datepicker._get(n,"stepBigMonths"):-e.datepicker._get(n,"stepMonths"),"M");break;case 38:(t.ctrlKey||t.metaKey)&&e.datepicker._adjustDate(t.target,-7,"D"),r=t.ctrlKey||t.metaKey;break;case 39:(t.ctrlKey||t.metaKey)&&e.datepicker._adjustDate(t.target,o?-1:1,"D"),r=t.ctrlKey||t.metaKey,t.originalEvent.altKey&&e.datepicker._adjustDate(t.target,t.ctrlKey?+e.datepicker._get(n,"stepBigMonths"):+e.datepicker._get(n,"stepMonths"),"M");break;case 40:(t.ctrlKey||t.metaKey)&&e.datepicker._adjustDate(t.target,7,"D"),r=t.ctrlKey||t.metaKey;break;default:r=!1}else 36===t.keyCode&&t.ctrlKey?e.datepicker._showDatepicker(this):r=!1;r&&(t.preventDefault(),t.stopPropagation())},_doKeyPress:function(i){var a,s,n=e.datepicker._getInst(i.target);return e.datepicker._get(n,"constrainInput")?(a=e.datepicker._possibleChars(e.datepicker._get(n,"dateFormat")),s=String.fromCharCode(null==i.charCode?i.keyCode:i.charCode),i.ctrlKey||i.metaKey||" ">s||!a||a.indexOf(s)>-1):t},_doKeyUp:function(t){var i,a=e.datepicker._getInst(t.target);if(a.input.val()!==a.lastVal)try{i=e.datepicker.parseDate(e.datepicker._get(a,"dateFormat"),a.input?a.input.val():null,e.datepicker._getFormatConfig(a)),i&&(e.datepicker._setDateFromField(a),e.datepicker._updateAlternate(a),e.datepicker._updateDatepicker(a))}catch(s){}return!0},_showDatepicker:function(t){if(t=t.target||t,"input"!==t.nodeName.toLowerCase()&&(t=e("input",t.parentNode)[0]),!e.datepicker._isDisabledDatepicker(t)&&e.datepicker._lastInput!==t){var i,a,n,r,o,u,c;i=e.datepicker._getInst(t),e.datepicker._curInst&&e.datepicker._curInst!==i&&(e.datepicker._curInst.dpDiv.stop(!0,!0),i&&e.datepicker._datepickerShowing&&e.datepicker._hideDatepicker(e.datepicker._curInst.input[0])),a=e.datepicker._get(i,"beforeShow"),n=a?a.apply(t,[t,i]):{},n!==!1&&(s(i.settings,n),i.lastVal=null,e.datepicker._lastInput=t,e.datepicker._setDateFromField(i),e.datepicker._inDialog&&(t.value=""),e.datepicker._pos||(e.datepicker._pos=e.datepicker._findPos(t),e.datepicker._pos[1]+=t.offsetHeight),r=!1,e(t).parents().each(function(){return r|="fixed"===e(this).css("position"),!r}),o={left:e.datepicker._pos[0],top:e.datepicker._pos[1]},e.datepicker._pos=null,i.dpDiv.empty(),i.dpDiv.css({position:"absolute",display:"block",top:"-1000px"}),e.datepicker._updateDatepicker(i),o=e.datepicker._checkOffset(i,o,r),i.dpDiv.css({position:e.datepicker._inDialog&&e.blockUI?"static":r?"fixed":"absolute",display:"none",left:o.left+"px",top:o.top+"px"}),i.inline||(u=e.datepicker._get(i,"showAnim"),c=e.datepicker._get(i,"duration"),i.dpDiv.zIndex(e(t).zIndex()+1),e.datepicker._datepickerShowing=!0,e.effects&&e.effects.effect[u]?i.dpDiv.show(u,e.datepicker._get(i,"showOptions"),c):i.dpDiv[u||"show"](u?c:null),e.datepicker._shouldFocusInput(i)&&i.input.focus(),e.datepicker._curInst=i))}},_updateDatepicker:function(t){this.maxRows=4,n=t,t.dpDiv.empty().append(this._generateHTML(t)),this._attachHandlers(t),t.dpDiv.find("."+this._dayOverClass+" a").mouseover();var i,a=this._getNumberOfMonths(t),s=a[1],r=17;t.dpDiv.removeClass("ui-datepicker-multi-2 ui-datepicker-multi-3 ui-datepicker-multi-4").width(""),s>1&&t.dpDiv.addClass("ui-datepicker-multi-"+s).css("width",r*s+"em"),t.dpDiv[(1!==a[0]||1!==a[1]?"add":"remove")+"Class"]("ui-datepicker-multi"),t.dpDiv[(this._get(t,"isRTL")?"add":"remove")+"Class"]("ui-datepicker-rtl"),t===e.datepicker._curInst&&e.datepicker._datepickerShowing&&e.datepicker._shouldFocusInput(t)&&t.input.focus(),t.yearshtml&&(i=t.yearshtml,setTimeout(function(){i===t.yearshtml&&t.yearshtml&&t.dpDiv.find("select.ui-datepicker-year:first").replaceWith(t.yearshtml),i=t.yearshtml=null},0))},_shouldFocusInput:function(e){return e.input&&e.input.is(":visible")&&!e.input.is(":disabled")&&!e.input.is(":focus")},_checkOffset:function(t,i,a){var s=t.dpDiv.outerWidth(),n=t.dpDiv.outerHeight(),r=t.input?t.input.outerWidth():0,o=t.input?t.input.outerHeight():0,u=document.documentElement.clientWidth+(a?0:e(document).scrollLeft()),c=document.documentElement.clientHeight+(a?0:e(document).scrollTop());return i.left-=this._get(t,"isRTL")?s-r:0,i.left-=a&&i.left===t.input.offset().left?e(document).scrollLeft():0,i.top-=a&&i.top===t.input.offset().top+o?e(document).scrollTop():0,i.left-=Math.min(i.left,i.left+s>u&&u>s?Math.abs(i.left+s-u):0),i.top-=Math.min(i.top,i.top+n>c&&c>n?Math.abs(n+o):0),i},_findPos:function(t){for(var i,a=this._getInst(t),s=this._get(a,"isRTL");t&&("hidden"===t.type||1!==t.nodeType||e.expr.filters.hidden(t));)t=t[s?"previousSibling":"nextSibling"];return i=e(t).offset(),[i.left,i.top]},_hideDatepicker:function(t){var i,a,s,n,o=this._curInst;!o||t&&o!==e.data(t,r)||this._datepickerShowing&&(i=this._get(o,"showAnim"),a=this._get(o,"duration"),s=function(){e.datepicker._tidyDialog(o)},e.effects&&(e.effects.effect[i]||e.effects[i])?o.dpDiv.hide(i,e.datepicker._get(o,"showOptions"),a,s):o.dpDiv["slideDown"===i?"slideUp":"fadeIn"===i?"fadeOut":"hide"](i?a:null,s),i||s(),this._datepickerShowing=!1,n=this._get(o,"onClose"),n&&n.apply(o.input?o.input[0]:null,[o.input?o.input.val():"",o]),this._lastInput=null,this._inDialog&&(this._dialogInput.css({position:"absolute",left:"0",top:"-100px"}),e.blockUI&&(e.unblockUI(),e("body").append(this.dpDiv))),this._inDialog=!1)},_tidyDialog:function(e){e.dpDiv.removeClass(this._dialogClass).unbind(".ui-datepicker-calendar")},_checkExternalClick:function(t){if(e.datepicker._curInst){var i=e(t.target),a=e.datepicker._getInst(i[0]);(i[0].id!==e.datepicker._mainDivId&&0===i.parents("#"+e.datepicker._mainDivId).length&&!i.hasClass(e.datepicker.markerClassName)&&!i.closest("."+e.datepicker._triggerClass).length&&e.datepicker._datepickerShowing&&(!e.datepicker._inDialog||!e.blockUI)||i.hasClass(e.datepicker.markerClassName)&&e.datepicker._curInst!==a)&&e.datepicker._hideDatepicker()}},_adjustDate:function(t,i,a){var s=e(t),n=this._getInst(s[0]);this._isDisabledDatepicker(s[0])||(this._adjustInstDate(n,i+("M"===a?this._get(n,"showCurrentAtPos"):0),a),this._updateDatepicker(n))},_gotoToday:function(t){var i,a=e(t),s=this._getInst(a[0]);this._get(s,"gotoCurrent")&&s.currentDay?(s.selectedDay=s.currentDay,s.drawMonth=s.selectedMonth=s.currentMonth,s.drawYear=s.selectedYear=s.currentYear):(i=new Date,s.selectedDay=i.getDate(),s.drawMonth=s.selectedMonth=i.getMonth(),s.drawYear=s.selectedYear=i.getFullYear()),this._notifyChange(s),this._adjustDate(a)},_selectMonthYear:function(t,i,a){var s=e(t),n=this._getInst(s[0]);n["selected"+("M"===a?"Month":"Year")]=n["draw"+("M"===a?"Month":"Year")]=parseInt(i.options[i.selectedIndex].value,10),this._notifyChange(n),this._adjustDate(s)},_selectDay:function(t,i,a,s){var n,r=e(t);e(s).hasClass(this._unselectableClass)||this._isDisabledDatepicker(r[0])||(n=this._getInst(r[0]),n.selectedDay=n.currentDay=e("a",s).html(),n.selectedMonth=n.currentMonth=i,n.selectedYear=n.currentYear=a,this._selectDate(t,this._formatDate(n,n.currentDay,n.currentMonth,n.currentYear)))},_clearDate:function(t){var i=e(t);this._selectDate(i,"")},_selectDate:function(t,i){var a,s=e(t),n=this._getInst(s[0]);i=null!=i?i:this._formatDate(n),n.input&&n.input.val(i),this._updateAlternate(n),a=this._get(n,"onSelect"),a?a.apply(n.input?n.input[0]:null,[i,n]):n.input&&n.input.trigger("change"),n.inline?this._updateDatepicker(n):(this._hideDatepicker(),this._lastInput=n.input[0],"object"!=typeof n.input[0]&&n.input.focus(),this._lastInput=null)},_updateAlternate:function(t){var i,a,s,n=this._get(t,"altField");n&&(i=this._get(t,"altFormat")||this._get(t,"dateFormat"),a=this._getDate(t),s=this.formatDate(i,a,this._getFormatConfig(t)),e(n).each(function(){e(this).val(s)}))},noWeekends:function(e){var t=e.getDay();return[t>0&&6>t,""]},iso8601Week:function(e){var t,i=new Date(e.getTime());return i.setDate(i.getDate()+4-(i.getDay()||7)),t=i.getTime(),i.setMonth(0),i.setDate(1),Math.floor(Math.round((t-i)/864e5)/7)+1},parseDate:function(i,a,s){if(null==i||null==a)throw"Invalid arguments";if(a="object"==typeof a?""+a:a+"",""===a)return null;var n,r,o,u,c=0,h=(s?s.shortYearCutoff:null)||this._defaults.shortYearCutoff,l="string"!=typeof h?h:(new Date).getFullYear()%100+parseInt(h,10),d=(s?s.dayNamesShort:null)||this._defaults.dayNamesShort,p=(s?s.dayNames:null)||this._defaults.dayNames,g=(s?s.monthNamesShort:null)||this._defaults.monthNamesShort,m=(s?s.monthNames:null)||this._defaults.monthNames,f=-1,_=-1,v=-1,k=-1,y=!1,b=function(e){var t=i.length>n+1&&i.charAt(n+1)===e;return t&&n++,t},D=function(e){var t=b(e),i="@"===e?14:"!"===e?20:"y"===e&&t?4:"o"===e?3:2,s=RegExp("^\\d{1,"+i+"}"),n=a.substring(c).match(s);if(!n)throw"Missing number at position "+c;return c+=n[0].length,parseInt(n[0],10)},w=function(i,s,n){var r=-1,o=e.map(b(i)?n:s,function(e,t){return[[t,e]]}).sort(function(e,t){return-(e[1].length-t[1].length)});if(e.each(o,function(e,i){var s=i[1];return a.substr(c,s.length).toLowerCase()===s.toLowerCase()?(r=i[0],c+=s.length,!1):t}),-1!==r)return r+1;throw"Unknown name at position "+c},M=function(){if(a.charAt(c)!==i.charAt(n))throw"Unexpected literal at position "+c;c++};for(n=0;i.length>n;n++)if(y)"'"!==i.charAt(n)||b("'")?M():y=!1;else switch(i.charAt(n)){case"d":v=D("d");break;case"D":w("D",d,p);break;case"o":k=D("o");break;case"m":_=D("m");break;case"M":_=w("M",g,m);break;case"y":f=D("y");break;case"@":u=new Date(D("@")),f=u.getFullYear(),_=u.getMonth()+1,v=u.getDate();break;case"!":u=new Date((D("!")-this._ticksTo1970)/1e4),f=u.getFullYear(),_=u.getMonth()+1,v=u.getDate();break;case"'":b("'")?M():y=!0;break;default:M()}if(a.length>c&&(o=a.substr(c),!/^\s+/.test(o)))throw"Extra/unparsed characters found in date: "+o;if(-1===f?f=(new Date).getFullYear():100>f&&(f+=(new Date).getFullYear()-(new Date).getFullYear()%100+(l>=f?0:-100)),k>-1)for(_=1,v=k;;){if(r=this._getDaysInMonth(f,_-1),r>=v)break;_++,v-=r}if(u=this._daylightSavingAdjust(new Date(f,_-1,v)),u.getFullYear()!==f||u.getMonth()+1!==_||u.getDate()!==v)throw"Invalid date";return u},ATOM:"yy-mm-dd",COOKIE:"D, dd M yy",ISO_8601:"yy-mm-dd",RFC_822:"D, d M y",RFC_850:"DD, dd-M-y",RFC_1036:"D, d M y",RFC_1123:"D, d M yy",RFC_2822:"D, d M yy",RSS:"D, d M y",TICKS:"!",TIMESTAMP:"@",W3C:"yy-mm-dd",_ticksTo1970:1e7*60*60*24*(718685+Math.floor(492.5)-Math.floor(19.7)+Math.floor(4.925)),formatDate:function(e,t,i){if(!t)return"";var a,s=(i?i.dayNamesShort:null)||this._defaults.dayNamesShort,n=(i?i.dayNames:null)||this._defaults.dayNames,r=(i?i.monthNamesShort:null)||this._defaults.monthNamesShort,o=(i?i.monthNames:null)||this._defaults.monthNames,u=function(t){var i=e.length>a+1&&e.charAt(a+1)===t;return i&&a++,i},c=function(e,t,i){var a=""+t;if(u(e))for(;i>a.length;)a="0"+a;return a},h=function(e,t,i,a){return u(e)?a[t]:i[t]},l="",d=!1;if(t)for(a=0;e.length>a;a++)if(d)"'"!==e.charAt(a)||u("'")?l+=e.charAt(a):d=!1;else switch(e.charAt(a)){case"d":l+=c("d",t.getDate(),2);break;case"D":l+=h("D",t.getDay(),s,n);break;case"o":l+=c("o",Math.round((new Date(t.getFullYear(),t.getMonth(),t.getDate()).getTime()-new Date(t.getFullYear(),0,0).getTime())/864e5),3);break;case"m":l+=c("m",t.getMonth()+1,2);break;case"M":l+=h("M",t.getMonth(),r,o);break;case"y":l+=u("y")?t.getFullYear():(10>t.getYear()%100?"0":"")+t.getYear()%100;break;case"@":l+=t.getTime();break;case"!":l+=1e4*t.getTime()+this._ticksTo1970;break;case"'":u("'")?l+="'":d=!0;break;default:l+=e.charAt(a)}return l},_possibleChars:function(e){var t,i="",a=!1,s=function(i){var a=e.length>t+1&&e.charAt(t+1)===i;return a&&t++,a};for(t=0;e.length>t;t++)if(a)"'"!==e.charAt(t)||s("'")?i+=e.charAt(t):a=!1;else switch(e.charAt(t)){case"d":case"m":case"y":case"@":i+="0123456789";break;case"D":case"M":return null;case"'":s("'")?i+="'":a=!0;break;default:i+=e.charAt(t)}return i},_get:function(e,i){return e.settings[i]!==t?e.settings[i]:this._defaults[i]},_setDateFromField:function(e,t){if(e.input.val()!==e.lastVal){var i=this._get(e,"dateFormat"),a=e.lastVal=e.input?e.input.val():null,s=this._getDefaultDate(e),n=s,r=this._getFormatConfig(e);try{n=this.parseDate(i,a,r)||s}catch(o){a=t?"":a}e.selectedDay=n.getDate(),e.drawMonth=e.selectedMonth=n.getMonth(),e.drawYear=e.selectedYear=n.getFullYear(),e.currentDay=a?n.getDate():0,e.currentMonth=a?n.getMonth():0,e.currentYear=a?n.getFullYear():0,this._adjustInstDate(e)}},_getDefaultDate:function(e){return this._restrictMinMax(e,this._determineDate(e,this._get(e,"defaultDate"),new Date))},_determineDate:function(t,i,a){var s=function(e){var t=new Date;return t.setDate(t.getDate()+e),t},n=function(i){try{return e.datepicker.parseDate(e.datepicker._get(t,"dateFormat"),i,e.datepicker._getFormatConfig(t))}catch(a){}for(var s=(i.toLowerCase().match(/^c/)?e.datepicker._getDate(t):null)||new Date,n=s.getFullYear(),r=s.getMonth(),o=s.getDate(),u=/([+\-]?[0-9]+)\s*(d|D|w|W|m|M|y|Y)?/g,c=u.exec(i);c;){switch(c[2]||"d"){case"d":case"D":o+=parseInt(c[1],10);break;case"w":case"W":o+=7*parseInt(c[1],10);break;case"m":case"M":r+=parseInt(c[1],10),o=Math.min(o,e.datepicker._getDaysInMonth(n,r));break;case"y":case"Y":n+=parseInt(c[1],10),o=Math.min(o,e.datepicker._getDaysInMonth(n,r))}c=u.exec(i)}return new Date(n,r,o)},r=null==i||""===i?a:"string"==typeof i?n(i):"number"==typeof i?isNaN(i)?a:s(i):new Date(i.getTime());return r=r&&"Invalid Date"==""+r?a:r,r&&(r.setHours(0),r.setMinutes(0),r.setSeconds(0),r.setMilliseconds(0)),this._daylightSavingAdjust(r)},_daylightSavingAdjust:function(e){return e?(e.setHours(e.getHours()>12?e.getHours()+2:0),e):null},_setDate:function(e,t,i){var a=!t,s=e.selectedMonth,n=e.selectedYear,r=this._restrictMinMax(e,this._determineDate(e,t,new Date));e.selectedDay=e.currentDay=r.getDate(),e.drawMonth=e.selectedMonth=e.currentMonth=r.getMonth(),e.drawYear=e.selectedYear=e.currentYear=r.getFullYear(),s===e.selectedMonth&&n===e.selectedYear||i||this._notifyChange(e),this._adjustInstDate(e),e.input&&e.input.val(a?"":this._formatDate(e))},_getDate:function(e){var t=!e.currentYear||e.input&&""===e.input.val()?null:this._daylightSavingAdjust(new Date(e.currentYear,e.currentMonth,e.currentDay));return t},_attachHandlers:function(t){var i=this._get(t,"stepMonths"),a="#"+t.id.replace(/\\\\/g,"\\");t.dpDiv.find("[data-handler]").map(function(){var t={prev:function(){e.datepicker._adjustDate(a,-i,"M")},next:function(){e.datepicker._adjustDate(a,+i,"M")},hide:function(){e.datepicker._hideDatepicker()},today:function(){e.datepicker._gotoToday(a)},selectDay:function(){return e.datepicker._selectDay(a,+this.getAttribute("data-month"),+this.getAttribute("data-year"),this),!1},selectMonth:function(){return e.datepicker._selectMonthYear(a,this,"M"),!1},selectYear:function(){return e.datepicker._selectMonthYear(a,this,"Y"),!1}};e(this).bind(this.getAttribute("data-event"),t[this.getAttribute("data-handler")])})},_generateHTML:function(e){var t,i,a,s,n,r,o,u,c,h,l,d,p,g,m,f,_,v,k,y,b,D,w,M,C,x,I,N,T,A,E,S,Y,F,P,O,j,K,R,H=new Date,W=this._daylightSavingAdjust(new Date(H.getFullYear(),H.getMonth(),H.getDate())),L=this._get(e,"isRTL"),U=this._get(e,"showButtonPanel"),B=this._get(e,"hideIfNoPrevNext"),z=this._get(e,"navigationAsDateFormat"),q=this._getNumberOfMonths(e),G=this._get(e,"showCurrentAtPos"),J=this._get(e,"stepMonths"),Q=1!==q[0]||1!==q[1],V=this._daylightSavingAdjust(e.currentDay?new Date(e.currentYear,e.currentMonth,e.currentDay):new Date(9999,9,9)),$=this._getMinMaxDate(e,"min"),X=this._getMinMaxDate(e,"max"),Z=e.drawMonth-G,et=e.drawYear;if(0>Z&&(Z+=12,et--),X)for(t=this._daylightSavingAdjust(new Date(X.getFullYear(),X.getMonth()-q[0]*q[1]+1,X.getDate())),t=$&&$>t?$:t;this._daylightSavingAdjust(new Date(et,Z,1))>t;)Z--,0>Z&&(Z=11,et--);for(e.drawMonth=Z,e.drawYear=et,i=this._get(e,"prevText"),i=z?this.formatDate(i,this._daylightSavingAdjust(new Date(et,Z-J,1)),this._getFormatConfig(e)):i,a=this._canAdjustMonth(e,-1,et,Z)?"<a class='ui-datepicker-prev ui-corner-all' data-handler='prev' data-event='click' title='"+i+"'><span class='ui-icon ui-icon-circle-triangle-"+(L?"e":"w")+"'>"+i+"</span></a>":B?"":"<a class='ui-datepicker-prev ui-corner-all ui-state-disabled' title='"+i+"'><span class='ui-icon ui-icon-circle-triangle-"+(L?"e":"w")+"'>"+i+"</span></a>",s=this._get(e,"nextText"),s=z?this.formatDate(s,this._daylightSavingAdjust(new Date(et,Z+J,1)),this._getFormatConfig(e)):s,n=this._canAdjustMonth(e,1,et,Z)?"<a class='ui-datepicker-next ui-corner-all' data-handler='next' data-event='click' title='"+s+"'><span class='ui-icon ui-icon-circle-triangle-"+(L?"w":"e")+"'>"+s+"</span></a>":B?"":"<a class='ui-datepicker-next ui-corner-all ui-state-disabled' title='"+s+"'><span class='ui-icon ui-icon-circle-triangle-"+(L?"w":"e")+"'>"+s+"</span></a>",r=this._get(e,"currentText"),o=this._get(e,"gotoCurrent")&&e.currentDay?V:W,r=z?this.formatDate(r,o,this._getFormatConfig(e)):r,u=e.inline?"":"<button type='button' class='ui-datepicker-close ui-state-default ui-priority-primary ui-corner-all' data-handler='hide' data-event='click'>"+this._get(e,"closeText")+"</button>",c=U?"<div class='ui-datepicker-buttonpane ui-widget-content'>"+(L?u:"")+(this._isInRange(e,o)?"<button type='button' class='ui-datepicker-current ui-state-default ui-priority-secondary ui-corner-all' data-handler='today' data-event='click'>"+r+"</button>":"")+(L?"":u)+"</div>":"",h=parseInt(this._get(e,"firstDay"),10),h=isNaN(h)?0:h,l=this._get(e,"showWeek"),d=this._get(e,"dayNames"),p=this._get(e,"dayNamesMin"),g=this._get(e,"monthNames"),m=this._get(e,"monthNamesShort"),f=this._get(e,"beforeShowDay"),_=this._get(e,"showOtherMonths"),v=this._get(e,"selectOtherMonths"),k=this._getDefaultDate(e),y="",D=0;q[0]>D;D++){for(w="",this.maxRows=4,M=0;q[1]>M;M++){if(C=this._daylightSavingAdjust(new Date(et,Z,e.selectedDay)),x=" ui-corner-all",I="",Q){if(I+="<div class='ui-datepicker-group",q[1]>1)switch(M){case 0:I+=" ui-datepicker-group-first",x=" ui-corner-"+(L?"right":"left");break;case q[1]-1:I+=" ui-datepicker-group-last",x=" ui-corner-"+(L?"left":"right");break;default:I+=" ui-datepicker-group-middle",x=""}I+="'>"}for(I+="<div class='ui-datepicker-header ui-widget-header ui-helper-clearfix"+x+"'>"+(/all|left/.test(x)&&0===D?L?n:a:"")+(/all|right/.test(x)&&0===D?L?a:n:"")+this._generateMonthYearHeader(e,Z,et,$,X,D>0||M>0,g,m)+"</div><table class='ui-datepicker-calendar'><thead>"+"<tr>",N=l?"<th class='ui-datepicker-week-col'>"+this._get(e,"weekHeader")+"</th>":"",b=0;7>b;b++)T=(b+h)%7,N+="<th"+((b+h+6)%7>=5?" class='ui-datepicker-week-end'":"")+">"+"<span title='"+d[T]+"'>"+p[T]+"</span></th>";for(I+=N+"</tr></thead><tbody>",A=this._getDaysInMonth(et,Z),et===e.selectedYear&&Z===e.selectedMonth&&(e.selectedDay=Math.min(e.selectedDay,A)),E=(this._getFirstDayOfMonth(et,Z)-h+7)%7,S=Math.ceil((E+A)/7),Y=Q?this.maxRows>S?this.maxRows:S:S,this.maxRows=Y,F=this._daylightSavingAdjust(new Date(et,Z,1-E)),P=0;Y>P;P++){for(I+="<tr>",O=l?"<td class='ui-datepicker-week-col'>"+this._get(e,"calculateWeek")(F)+"</td>":"",b=0;7>b;b++)j=f?f.apply(e.input?e.input[0]:null,[F]):[!0,""],K=F.getMonth()!==Z,R=K&&!v||!j[0]||$&&$>F||X&&F>X,O+="<td class='"+((b+h+6)%7>=5?" ui-datepicker-week-end":"")+(K?" ui-datepicker-other-month":"")+(F.getTime()===C.getTime()&&Z===e.selectedMonth&&e._keyEvent||k.getTime()===F.getTime()&&k.getTime()===C.getTime()?" "+this._dayOverClass:"")+(R?" "+this._unselectableClass+" ui-state-disabled":"")+(K&&!_?"":" "+j[1]+(F.getTime()===V.getTime()?" "+this._currentClass:"")+(F.getTime()===W.getTime()?" ui-datepicker-today":""))+"'"+(K&&!_||!j[2]?"":" title='"+j[2].replace(/'/g,"&#39;")+"'")+(R?"":" data-handler='selectDay' data-event='click' data-month='"+F.getMonth()+"' data-year='"+F.getFullYear()+"'")+">"+(K&&!_?"&#xa0;":R?"<span class='ui-state-default'>"+F.getDate()+"</span>":"<a class='ui-state-default"+(F.getTime()===W.getTime()?" ui-state-highlight":"")+(F.getTime()===V.getTime()?" ui-state-active":"")+(K?" ui-priority-secondary":"")+"' href='#'>"+F.getDate()+"</a>")+"</td>",F.setDate(F.getDate()+1),F=this._daylightSavingAdjust(F);I+=O+"</tr>"}Z++,Z>11&&(Z=0,et++),I+="</tbody></table>"+(Q?"</div>"+(q[0]>0&&M===q[1]-1?"<div class='ui-datepicker-row-break'></div>":""):""),w+=I}y+=w}return y+=c,e._keyEvent=!1,y},_generateMonthYearHeader:function(e,t,i,a,s,n,r,o){var u,c,h,l,d,p,g,m,f=this._get(e,"changeMonth"),_=this._get(e,"changeYear"),v=this._get(e,"showMonthAfterYear"),k="<div class='ui-datepicker-title'>",y="";if(n||!f)y+="<span class='ui-datepicker-month'>"+r[t]+"</span>";else{for(u=a&&a.getFullYear()===i,c=s&&s.getFullYear()===i,y+="<select class='ui-datepicker-month' data-handler='selectMonth' data-event='change'>",h=0;12>h;h++)(!u||h>=a.getMonth())&&(!c||s.getMonth()>=h)&&(y+="<option value='"+h+"'"+(h===t?" selected='selected'":"")+">"+o[h]+"</option>");y+="</select>"}if(v||(k+=y+(!n&&f&&_?"":"&#xa0;")),!e.yearshtml)if(e.yearshtml="",n||!_)k+="<span class='ui-datepicker-year'>"+i+"</span>";else{for(l=this._get(e,"yearRange").split(":"),d=(new Date).getFullYear(),p=function(e){var t=e.match(/c[+\-].*/)?i+parseInt(e.substring(1),10):e.match(/[+\-].*/)?d+parseInt(e,10):parseInt(e,10);
 return isNaN(t)?d:t},g=p(l[0]),m=Math.max(g,p(l[1]||"")),g=a?Math.max(g,a.getFullYear()):g,m=s?Math.min(m,s.getFullYear()):m,e.yearshtml+="<select class='ui-datepicker-year' data-handler='selectYear' data-event='change'>";m>=g;g++)e.yearshtml+="<option value='"+g+"'"+(g===i?" selected='selected'":"")+">"+g+"</option>";e.yearshtml+="</select>",k+=e.yearshtml,e.yearshtml=null}return k+=this._get(e,"yearSuffix"),v&&(k+=(!n&&f&&_?"":"&#xa0;")+y),k+="</div>"},_adjustInstDate:function(e,t,i){var a=e.drawYear+("Y"===i?t:0),s=e.drawMonth+("M"===i?t:0),n=Math.min(e.selectedDay,this._getDaysInMonth(a,s))+("D"===i?t:0),r=this._restrictMinMax(e,this._daylightSavingAdjust(new Date(a,s,n)));e.selectedDay=r.getDate(),e.drawMonth=e.selectedMonth=r.getMonth(),e.drawYear=e.selectedYear=r.getFullYear(),("M"===i||"Y"===i)&&this._notifyChange(e)},_restrictMinMax:function(e,t){var i=this._getMinMaxDate(e,"min"),a=this._getMinMaxDate(e,"max"),s=i&&i>t?i:t;return a&&s>a?a:s},_notifyChange:function(e){var t=this._get(e,"onChangeMonthYear");t&&t.apply(e.input?e.input[0]:null,[e.selectedYear,e.selectedMonth+1,e])},_getNumberOfMonths:function(e){var t=this._get(e,"numberOfMonths");return null==t?[1,1]:"number"==typeof t?[1,t]:t},_getMinMaxDate:function(e,t){return this._determineDate(e,this._get(e,t+"Date"),null)},_getDaysInMonth:function(e,t){return 32-this._daylightSavingAdjust(new Date(e,t,32)).getDate()},_getFirstDayOfMonth:function(e,t){return new Date(e,t,1).getDay()},_canAdjustMonth:function(e,t,i,a){var s=this._getNumberOfMonths(e),n=this._daylightSavingAdjust(new Date(i,a+(0>t?t:s[0]*s[1]),1));return 0>t&&n.setDate(this._getDaysInMonth(n.getFullYear(),n.getMonth())),this._isInRange(e,n)},_isInRange:function(e,t){var i,a,s=this._getMinMaxDate(e,"min"),n=this._getMinMaxDate(e,"max"),r=null,o=null,u=this._get(e,"yearRange");return u&&(i=u.split(":"),a=(new Date).getFullYear(),r=parseInt(i[0],10),o=parseInt(i[1],10),i[0].match(/[+\-].*/)&&(r+=a),i[1].match(/[+\-].*/)&&(o+=a)),(!s||t.getTime()>=s.getTime())&&(!n||t.getTime()<=n.getTime())&&(!r||t.getFullYear()>=r)&&(!o||o>=t.getFullYear())},_getFormatConfig:function(e){var t=this._get(e,"shortYearCutoff");return t="string"!=typeof t?t:(new Date).getFullYear()%100+parseInt(t,10),{shortYearCutoff:t,dayNamesShort:this._get(e,"dayNamesShort"),dayNames:this._get(e,"dayNames"),monthNamesShort:this._get(e,"monthNamesShort"),monthNames:this._get(e,"monthNames")}},_formatDate:function(e,t,i,a){t||(e.currentDay=e.selectedDay,e.currentMonth=e.selectedMonth,e.currentYear=e.selectedYear);var s=t?"object"==typeof t?t:this._daylightSavingAdjust(new Date(a,i,t)):this._daylightSavingAdjust(new Date(e.currentYear,e.currentMonth,e.currentDay));return this.formatDate(this._get(e,"dateFormat"),s,this._getFormatConfig(e))}}),e.fn.datepicker=function(t){if(!this.length)return this;e.datepicker.initialized||(e(document).mousedown(e.datepicker._checkExternalClick),e.datepicker.initialized=!0),0===e("#"+e.datepicker._mainDivId).length&&e("body").append(e.datepicker.dpDiv);var i=Array.prototype.slice.call(arguments,1);return"string"!=typeof t||"isDisabled"!==t&&"getDate"!==t&&"widget"!==t?"option"===t&&2===arguments.length&&"string"==typeof arguments[1]?e.datepicker["_"+t+"Datepicker"].apply(e.datepicker,[this[0]].concat(i)):this.each(function(){"string"==typeof t?e.datepicker["_"+t+"Datepicker"].apply(e.datepicker,[this].concat(i)):e.datepicker._attachDatepicker(this,t)}):e.datepicker["_"+t+"Datepicker"].apply(e.datepicker,[this[0]].concat(i))},e.datepicker=new i,e.datepicker.initialized=!1,e.datepicker.uuid=(new Date).getTime(),e.datepicker.version="1.10.4"})(jQuery);
+/*! Copyright (c) 2013 Brandon Aaron (http://brandonaaron.net)
+ * Licensed under the MIT License (LICENSE.txt).
+ *
+ * Thanks to: http://adomas.org/javascript-mouse-wheel/ for some pointers.
+ * Thanks to: Mathias Bank(http://www.mathias-bank.de) for a scope bug fix.
+ * Thanks to: Seamus Leahy for adding deltaX and deltaY
+ *
+ * Version: 3.1.3
+ *
+ * Requires: 1.2.2+
+ */
+
+(function (factory) {
+    if ( typeof define === 'function' && define.amd ) {
+        // AMD. Register as an anonymous module.
+        define(['jquery'], factory);
+    } else if (typeof exports === 'object') {
+        // Node/CommonJS style for Browserify
+        module.exports = factory;
+    } else {
+        // Browser globals
+        factory(jQuery);
+    }
+}(function ($) {
+
+    var toFix = ['wheel', 'mousewheel', 'DOMMouseScroll', 'MozMousePixelScroll'];
+    var toBind = 'onwheel' in document || document.documentMode >= 9 ? ['wheel'] : ['mousewheel', 'DomMouseScroll', 'MozMousePixelScroll'];
+    var lowestDelta, lowestDeltaXY;
+
+    if ( $.event.fixHooks ) {
+        for ( var i = toFix.length; i; ) {
+            $.event.fixHooks[ toFix[--i] ] = $.event.mouseHooks;
+        }
+    }
+
+    $.event.special.mousewheel = {
+        setup: function() {
+            if ( this.addEventListener ) {
+                for ( var i = toBind.length; i; ) {
+                    this.addEventListener( toBind[--i], handler, false );
+                }
+            } else {
+                this.onmousewheel = handler;
+            }
+        },
+
+        teardown: function() {
+            if ( this.removeEventListener ) {
+                for ( var i = toBind.length; i; ) {
+                    this.removeEventListener( toBind[--i], handler, false );
+                }
+            } else {
+                this.onmousewheel = null;
+            }
+        }
+    };
+
+    $.fn.extend({
+        mousewheel: function(fn) {
+            return fn ? this.bind("mousewheel", fn) : this.trigger("mousewheel");
+        },
+
+        unmousewheel: function(fn) {
+            return this.unbind("mousewheel", fn);
+        }
+    });
+
+
+    function handler(event) {
+        var orgEvent = event || window.event,
+            args = [].slice.call(arguments, 1),
+            delta = 0,
+            deltaX = 0,
+            deltaY = 0,
+            absDelta = 0,
+            absDeltaXY = 0,
+            fn;
+        event = $.event.fix(orgEvent);
+        event.type = "mousewheel";
+
+        // Old school scrollwheel delta
+        if ( orgEvent.wheelDelta ) { delta = orgEvent.wheelDelta; }
+        if ( orgEvent.detail )     { delta = orgEvent.detail * -1; }
+
+        // New school wheel delta (wheel event)
+        if ( orgEvent.deltaY ) {
+            deltaY = orgEvent.deltaY * -1;
+            delta  = deltaY;
+        }
+        if ( orgEvent.deltaX ) {
+            deltaX = orgEvent.deltaX;
+            delta  = deltaX * -1;
+        }
+
+        // Webkit
+        if ( orgEvent.wheelDeltaY !== undefined ) { deltaY = orgEvent.wheelDeltaY; }
+        if ( orgEvent.wheelDeltaX !== undefined ) { deltaX = orgEvent.wheelDeltaX * -1; }
+
+        // Look for lowest delta to normalize the delta values
+        absDelta = Math.abs(delta);
+        if ( !lowestDelta || absDelta < lowestDelta ) { lowestDelta = absDelta; }
+        absDeltaXY = Math.max(Math.abs(deltaY), Math.abs(deltaX));
+        if ( !lowestDeltaXY || absDeltaXY < lowestDeltaXY ) { lowestDeltaXY = absDeltaXY; }
+
+        // Get a whole value for the deltas
+        fn = delta > 0 ? 'floor' : 'ceil';
+        delta  = Math[fn](delta / lowestDelta);
+        deltaX = Math[fn](deltaX / lowestDeltaXY);
+        deltaY = Math[fn](deltaY / lowestDeltaXY);
+
+        // Add event and delta to the front of the arguments
+        args.unshift(event, delta, deltaX, deltaY);
+
+        return ($.event.dispatch || $.event.handle).apply(this, args);
+    }
+
+}));
+
+angular.module('perfect_scrollbar', []).directive('perfectScrollbar', function($parse) {
+	return {
+		restrict: 'E',
+		transclude: true,
+		template:  '<div><div ng-transclude></div></div>',
+		replace: true,
+		link: function($scope, $elem, $attr) {
+		    $elem.perfectScrollbar({
+				wheelSpeed: $parse($attr.wheelSpeed)() || 50,
+				wheelPropagation: $parse($attr.wheelPropagation)() || false,
+				minScrollbarLength: $parse($attr.minScrollbarLength)() || false,
+			});
+
+			if ($attr.refreshOnChange) {
+				$scope.$watchCollection($attr.refreshOnChange, function(newNames, oldNames) {
+					// I'm not crazy about setting timeouts but it sounds like thie is unavoidable per
+					// http://stackoverflow.com/questions/11125078/is-there-a-post-render-callback-for-angular-js-directive
+					setTimeout(function() { $elem.perfectScrollbar('update'); }, 10);
+				});
+			}
+		}
+	}
+});
+/* Copyright (c) 2012 HyeonJe Jun (http://github.com/noraesae)
+ * Licensed under the MIT License
+ */
+'use strict';
+(function (factory) {
+  if (typeof define === 'function' && define.amd) {
+    // AMD. Register as an anonymous module.
+    define(['jquery'], factory);
+  } else {
+    // Browser globals
+    factory(jQuery);
+  }
+}(function ($) {
+
+  // The default settings for the plugin
+  var defaultSettings = {
+    wheelSpeed: 10,
+    wheelPropagation: false,
+    minScrollbarLength: null,
+    useBothWheelAxes: false,
+    useKeyboard: true,
+    suppressScrollX: false,
+    suppressScrollY: false,
+    scrollXMarginOffset: 0,
+    scrollYMarginOffset: 0
+  };
+
+  var getEventClassName = (function () {
+    var incrementingId = 0;
+    return function () {
+      var id = incrementingId;
+      incrementingId += 1;
+      return '.perfect-scrollbar-' + id;
+    };
+  }());
+
+  $.fn.perfectScrollbar = function (suppliedSettings, option) {
+
+    return this.each(function () {
+      // Use the default settings
+      var settings = $.extend(true, {}, defaultSettings),
+          $this = $(this);
+
+      if (typeof suppliedSettings === "object") {
+        // But over-ride any supplied
+        $.extend(true, settings, suppliedSettings);
+      } else {
+        // If no settings were supplied, then the first param must be the option
+        option = suppliedSettings;
+      }
+
+      // Catch options
+
+      if (option === 'update') {
+        if ($this.data('perfect-scrollbar-update')) {
+          $this.data('perfect-scrollbar-update')();
+        }
+        return $this;
+      }
+      else if (option === 'destroy') {
+        if ($this.data('perfect-scrollbar-destroy')) {
+          $this.data('perfect-scrollbar-destroy')();
+        }
+        return $this;
+      }
+
+      if ($this.data('perfect-scrollbar')) {
+        // if there's already perfect-scrollbar
+        return $this.data('perfect-scrollbar');
+      }
+
+
+      // Or generate new perfectScrollbar
+
+      // Set class to the container
+      $this.addClass('ps-container');
+
+      var $scrollbarXRail = $("<div class='ps-scrollbar-x-rail'></div>").appendTo($this),
+          $scrollbarYRail = $("<div class='ps-scrollbar-y-rail'></div>").appendTo($this),
+          $scrollbarX = $("<div class='ps-scrollbar-x'></div>").appendTo($scrollbarXRail),
+          $scrollbarY = $("<div class='ps-scrollbar-y'></div>").appendTo($scrollbarYRail),
+          scrollbarXActive,
+          scrollbarYActive,
+          containerWidth,
+          containerHeight,
+          contentWidth,
+          contentHeight,
+          scrollbarXWidth,
+          scrollbarXLeft,
+          scrollbarXBottom = parseInt($scrollbarXRail.css('bottom'), 10),
+          scrollbarYHeight,
+          scrollbarYTop,
+          scrollbarYRight = parseInt($scrollbarYRail.css('right'), 10),
+          eventClassName = getEventClassName();
+
+      var updateContentScrollTop = function (currentTop, deltaY) {
+        var newTop = currentTop + deltaY,
+            maxTop = containerHeight - scrollbarYHeight;
+
+        if (newTop < 0) {
+          scrollbarYTop = 0;
+        }
+        else if (newTop > maxTop) {
+          scrollbarYTop = maxTop;
+        }
+        else {
+          scrollbarYTop = newTop;
+        }
+
+        var scrollTop = parseInt(scrollbarYTop * (contentHeight - containerHeight) / (containerHeight - scrollbarYHeight), 10);
+        $this.scrollTop(scrollTop);
+        $scrollbarXRail.css({bottom: scrollbarXBottom - scrollTop});
+      };
+
+      var updateContentScrollLeft = function (currentLeft, deltaX) {
+        var newLeft = currentLeft + deltaX,
+            maxLeft = containerWidth - scrollbarXWidth;
+
+        if (newLeft < 0) {
+          scrollbarXLeft = 0;
+        }
+        else if (newLeft > maxLeft) {
+          scrollbarXLeft = maxLeft;
+        }
+        else {
+          scrollbarXLeft = newLeft;
+        }
+
+        var scrollLeft = parseInt(scrollbarXLeft * (contentWidth - containerWidth) / (containerWidth - scrollbarXWidth), 10);
+        $this.scrollLeft(scrollLeft);
+        $scrollbarYRail.css({right: scrollbarYRight - scrollLeft});
+      };
+
+      var getSettingsAdjustedThumbSize = function (thumbSize) {
+        if (settings.minScrollbarLength) {
+          thumbSize = Math.max(thumbSize, settings.minScrollbarLength);
+        }
+        return thumbSize;
+      };
+
+      var updateScrollbarCss = function () {
+        $scrollbarXRail.css({left: $this.scrollLeft(), bottom: scrollbarXBottom - $this.scrollTop(), width: containerWidth, display: scrollbarXActive ? "inherit": "none"});
+        $scrollbarYRail.css({top: $this.scrollTop(), right: scrollbarYRight - $this.scrollLeft(), height: containerHeight, display: scrollbarYActive ? "inherit": "none"});
+        $scrollbarX.css({left: scrollbarXLeft, width: scrollbarXWidth});
+        $scrollbarY.css({top: scrollbarYTop, height: scrollbarYHeight});
+      };
+
+      var updateBarSizeAndPosition = function () {
+        containerWidth = $this.width();
+        containerHeight = $this.height();
+        contentWidth = $this.prop('scrollWidth');
+        contentHeight = $this.prop('scrollHeight');
+
+        if (!settings.suppressScrollX && containerWidth + settings.scrollXMarginOffset < contentWidth) {
+          scrollbarXActive = true;
+          scrollbarXWidth = getSettingsAdjustedThumbSize(parseInt(containerWidth * containerWidth / contentWidth, 10));
+          scrollbarXLeft = parseInt($this.scrollLeft() * (containerWidth - scrollbarXWidth) / (contentWidth - containerWidth), 10);
+        }
+        else {
+          scrollbarXActive = false;
+          scrollbarXWidth = 0;
+          scrollbarXLeft = 0;
+          $this.scrollLeft(0);
+        }
+
+        if (!settings.suppressScrollY && containerHeight + settings.scrollYMarginOffset < contentHeight) {
+          scrollbarYActive = true;
+          scrollbarYHeight = getSettingsAdjustedThumbSize(parseInt(containerHeight * containerHeight / contentHeight, 10));
+          scrollbarYTop = parseInt($this.scrollTop() * (containerHeight - scrollbarYHeight) / (contentHeight - containerHeight), 10);
+        }
+        else {
+          scrollbarYActive = false;
+          scrollbarYHeight = 0;
+          scrollbarYTop = 0;
+          $this.scrollTop(0);
+        }
+
+        if (scrollbarYTop >= containerHeight - scrollbarYHeight) {
+          scrollbarYTop = containerHeight - scrollbarYHeight;
+        }
+        if (scrollbarXLeft >= containerWidth - scrollbarXWidth) {
+          scrollbarXLeft = containerWidth - scrollbarXWidth;
+        }
+
+        updateScrollbarCss();
+      };
+
+      var bindMouseScrollXHandler = function () {
+        var currentLeft,
+            currentPageX;
+
+        $scrollbarX.bind('mousedown' + eventClassName, function (e) {
+          currentPageX = e.pageX;
+          currentLeft = $scrollbarX.position().left;
+          $scrollbarXRail.addClass('in-scrolling');
+          e.stopPropagation();
+          e.preventDefault();
+        });
+
+        $(document).bind('mousemove' + eventClassName, function (e) {
+          if ($scrollbarXRail.hasClass('in-scrolling')) {
+            updateContentScrollLeft(currentLeft, e.pageX - currentPageX);
+            e.stopPropagation();
+            e.preventDefault();
+          }
+        });
+
+        $(document).bind('mouseup' + eventClassName, function (e) {
+          if ($scrollbarXRail.hasClass('in-scrolling')) {
+            $scrollbarXRail.removeClass('in-scrolling');
+          }
+        });
+
+        currentLeft =
+        currentPageX = null;
+      };
+
+      var bindMouseScrollYHandler = function () {
+        var currentTop,
+            currentPageY;
+
+        $scrollbarY.bind('mousedown' + eventClassName, function (e) {
+          currentPageY = e.pageY;
+          currentTop = $scrollbarY.position().top;
+          $scrollbarYRail.addClass('in-scrolling');
+          e.stopPropagation();
+          e.preventDefault();
+        });
+
+        $(document).bind('mousemove' + eventClassName, function (e) {
+          if ($scrollbarYRail.hasClass('in-scrolling')) {
+            updateContentScrollTop(currentTop, e.pageY - currentPageY);
+            e.stopPropagation();
+            e.preventDefault();
+          }
+        });
+
+        $(document).bind('mouseup' + eventClassName, function (e) {
+          if ($scrollbarYRail.hasClass('in-scrolling')) {
+            $scrollbarYRail.removeClass('in-scrolling');
+          }
+        });
+
+        currentTop =
+        currentPageY = null;
+      };
+
+      // check if the default scrolling should be prevented.
+      var shouldPreventDefault = function (deltaX, deltaY) {
+        var scrollTop = $this.scrollTop();
+        if (deltaX === 0) {
+          if (!scrollbarYActive) {
+            return false;
+          }
+          if ((scrollTop === 0 && deltaY > 0) || (scrollTop >= contentHeight - containerHeight && deltaY < 0)) {
+            return !settings.wheelPropagation;
+          }
+        }
+
+        var scrollLeft = $this.scrollLeft();
+        if (deltaY === 0) {
+          if (!scrollbarXActive) {
+            return false;
+          }
+          if ((scrollLeft === 0 && deltaX < 0) || (scrollLeft >= contentWidth - containerWidth && deltaX > 0)) {
+            return !settings.wheelPropagation;
+          }
+        }
+        return true;
+      };
+
+      // bind handlers
+      var bindMouseWheelHandler = function () {
+        var shouldPrevent = false;
+        $this.bind('mousewheel' + eventClassName, function (e, deprecatedDelta, deprecatedDeltaX, deprecatedDeltaY) {
+          var deltaX = e.deltaX ? e.deltaX / 10 : deprecatedDeltaX,
+              deltaY = e.deltaY ? e.deltaY / 10 : deprecatedDeltaY;
+
+          if (!settings.useBothWheelAxes) {
+            // deltaX will only be used for horizontal scrolling and deltaY will
+            // only be used for vertical scrolling - this is the default
+            $this.scrollTop($this.scrollTop() - (deltaY * settings.wheelSpeed));
+            $this.scrollLeft($this.scrollLeft() + (deltaX * settings.wheelSpeed));
+          } else if (scrollbarYActive && !scrollbarXActive) {
+            // only vertical scrollbar is active and useBothWheelAxes option is
+            // active, so let's scroll vertical bar using both mouse wheel axes
+            if (deltaY) {
+              $this.scrollTop($this.scrollTop() - (deltaY * settings.wheelSpeed));
+            } else {
+              $this.scrollTop($this.scrollTop() + (deltaX * settings.wheelSpeed));
+            }
+          } else if (scrollbarXActive && !scrollbarYActive) {
+            // useBothWheelAxes and only horizontal bar is active, so use both
+            // wheel axes for horizontal bar
+            if (deltaX) {
+              $this.scrollLeft($this.scrollLeft() + (deltaX * settings.wheelSpeed));
+            } else {
+              $this.scrollLeft($this.scrollLeft() - (deltaY * settings.wheelSpeed));
+            }
+          }
+
+          // update bar position
+          updateBarSizeAndPosition();
+
+          shouldPrevent = shouldPreventDefault(deltaX, deltaY);
+          if (shouldPrevent) {
+            e.preventDefault();
+          }
+        });
+
+        // fix Firefox scroll problem
+        $this.bind('MozMousePixelScroll' + eventClassName, function (e) {
+          if (shouldPrevent) {
+            e.preventDefault();
+          }
+        });
+      };
+
+      var bindKeyboardHandler = function () {
+        var hovered = false;
+        $this.bind('mouseenter' + eventClassName, function (e) {
+          hovered = true;
+        });
+        $this.bind('mouseleave' + eventClassName, function (e) {
+          hovered = false;
+        });
+
+        var shouldPrevent = false;
+        $(document).bind('keydown' + eventClassName, function (e) {
+          if (!hovered || $(document.activeElement).is(":input,[contenteditable]")) {
+            return;
+          }
+
+          var deltaX = 0,
+              deltaY = 0;
+
+          switch (e.which) {
+          case 37: // left
+            deltaX = -3;
+            break;
+          case 38: // up
+            deltaY = 3;
+            break;
+          case 39: // right
+            deltaX = 3;
+            break;
+          case 40: // down
+            deltaY = -3;
+            break;
+          case 33: // page up
+            deltaY = 9;
+            break;
+          case 32: // space bar
+          case 34: // page down
+            deltaY = -9;
+            break;
+          case 35: // end
+            deltaY = -containerHeight;
+            break;
+          case 36: // home
+            deltaY = containerHeight;
+            break;
+          default:
+            return;
+          }
+
+          $this.scrollTop($this.scrollTop() - (deltaY * settings.wheelSpeed));
+          $this.scrollLeft($this.scrollLeft() + (deltaX * settings.wheelSpeed));
+
+          shouldPrevent = shouldPreventDefault(deltaX, deltaY);
+          if (shouldPrevent) {
+            e.preventDefault();
+          }
+        });
+      };
+
+      var bindRailClickHandler = function () {
+        var stopPropagation = function (e) { e.stopPropagation(); };
+
+        $scrollbarY.bind('click' + eventClassName, stopPropagation);
+        $scrollbarYRail.bind('click' + eventClassName, function (e) {
+          var halfOfScrollbarLength = parseInt(scrollbarYHeight / 2, 10),
+              positionTop = e.pageY - $scrollbarYRail.offset().top - halfOfScrollbarLength,
+              maxPositionTop = containerHeight - scrollbarYHeight,
+              positionRatio = positionTop / maxPositionTop;
+
+          if (positionRatio < 0) {
+            positionRatio = 0;
+          } else if (positionRatio > 1) {
+            positionRatio = 1;
+          }
+
+          $this.scrollTop((contentHeight - containerHeight) * positionRatio);
+        });
+
+        $scrollbarX.bind('click' + eventClassName, stopPropagation);
+        $scrollbarXRail.bind('click' + eventClassName, function (e) {
+          var halfOfScrollbarLength = parseInt(scrollbarXWidth / 2, 10),
+              positionLeft = e.pageX - $scrollbarXRail.offset().left - halfOfScrollbarLength,
+              maxPositionLeft = containerWidth - scrollbarXWidth,
+              positionRatio = positionLeft / maxPositionLeft;
+
+          if (positionRatio < 0) {
+            positionRatio = 0;
+          } else if (positionRatio > 1) {
+            positionRatio = 1;
+          }
+
+          $this.scrollLeft((contentWidth - containerWidth) * positionRatio);
+        });
+      };
+
+      // bind mobile touch handler
+      var bindMobileTouchHandler = function () {
+        var applyTouchMove = function (differenceX, differenceY) {
+          $this.scrollTop($this.scrollTop() - differenceY);
+          $this.scrollLeft($this.scrollLeft() - differenceX);
+
+          // update bar position
+          updateBarSizeAndPosition();
+        };
+
+        var startCoords = {},
+            startTime = 0,
+            speed = {},
+            breakingProcess = null,
+            inGlobalTouch = false;
+
+        $(window).bind("touchstart" + eventClassName, function (e) {
+          inGlobalTouch = true;
+        });
+        $(window).bind("touchend" + eventClassName, function (e) {
+          inGlobalTouch = false;
+        });
+
+        $this.bind("touchstart" + eventClassName, function (e) {
+          var touch = e.originalEvent.targetTouches[0];
+
+          startCoords.pageX = touch.pageX;
+          startCoords.pageY = touch.pageY;
+
+          startTime = (new Date()).getTime();
+
+          if (breakingProcess !== null) {
+            clearInterval(breakingProcess);
+          }
+
+          e.stopPropagation();
+        });
+        $this.bind("touchmove" + eventClassName, function (e) {
+          if (!inGlobalTouch && e.originalEvent.targetTouches.length === 1) {
+            var touch = e.originalEvent.targetTouches[0];
+
+            var currentCoords = {};
+            currentCoords.pageX = touch.pageX;
+            currentCoords.pageY = touch.pageY;
+
+            var differenceX = currentCoords.pageX - startCoords.pageX,
+              differenceY = currentCoords.pageY - startCoords.pageY;
+
+            applyTouchMove(differenceX, differenceY);
+            startCoords = currentCoords;
+
+            var currentTime = (new Date()).getTime();
+
+            var timeGap = currentTime - startTime;
+            if (timeGap > 0) {
+              speed.x = differenceX / timeGap;
+              speed.y = differenceY / timeGap;
+              startTime = currentTime;
+            }
+
+            e.preventDefault();
+          }
+        });
+        $this.bind("touchend" + eventClassName, function (e) {
+          clearInterval(breakingProcess);
+          breakingProcess = setInterval(function () {
+            if (Math.abs(speed.x) < 0.01 && Math.abs(speed.y) < 0.01) {
+              clearInterval(breakingProcess);
+              return;
+            }
+
+            applyTouchMove(speed.x * 30, speed.y * 30);
+
+            speed.x *= 0.8;
+            speed.y *= 0.8;
+          }, 10);
+        });
+      };
+
+      var bindScrollHandler = function () {
+        $this.bind('scroll' + eventClassName, function (e) {
+          updateBarSizeAndPosition();
+        });
+      };
+
+      var destroy = function () {
+        $this.unbind(eventClassName);
+        $(window).unbind(eventClassName);
+        $(document).unbind(eventClassName);
+        $this.data('perfect-scrollbar', null);
+        $this.data('perfect-scrollbar-update', null);
+        $this.data('perfect-scrollbar-destroy', null);
+        $scrollbarX.remove();
+        $scrollbarY.remove();
+        $scrollbarXRail.remove();
+        $scrollbarYRail.remove();
+
+        // clean all variables
+        $scrollbarX =
+        $scrollbarY =
+        containerWidth =
+        containerHeight =
+        contentWidth =
+        contentHeight =
+        scrollbarXWidth =
+        scrollbarXLeft =
+        scrollbarXBottom =
+        scrollbarYHeight =
+        scrollbarYTop =
+        scrollbarYRight = null;
+      };
+
+      var ieSupport = function (version) {
+        $this.addClass('ie').addClass('ie' + version);
+
+        var bindHoverHandlers = function () {
+          var mouseenter = function () {
+            $(this).addClass('hover');
+          };
+          var mouseleave = function () {
+            $(this).removeClass('hover');
+          };
+          $this.bind('mouseenter' + eventClassName, mouseenter).bind('mouseleave' + eventClassName, mouseleave);
+          $scrollbarXRail.bind('mouseenter' + eventClassName, mouseenter).bind('mouseleave' + eventClassName, mouseleave);
+          $scrollbarYRail.bind('mouseenter' + eventClassName, mouseenter).bind('mouseleave' + eventClassName, mouseleave);
+          $scrollbarX.bind('mouseenter' + eventClassName, mouseenter).bind('mouseleave' + eventClassName, mouseleave);
+          $scrollbarY.bind('mouseenter' + eventClassName, mouseenter).bind('mouseleave' + eventClassName, mouseleave);
+        };
+
+        var fixIe6ScrollbarPosition = function () {
+          updateScrollbarCss = function () {
+            $scrollbarX.css({left: scrollbarXLeft + $this.scrollLeft(), bottom: scrollbarXBottom, width: scrollbarXWidth});
+            $scrollbarY.css({top: scrollbarYTop + $this.scrollTop(), right: scrollbarYRight, height: scrollbarYHeight});
+            $scrollbarX.hide().show();
+            $scrollbarY.hide().show();
+          };
+        };
+
+        if (version === 6) {
+          bindHoverHandlers();
+          fixIe6ScrollbarPosition();
+        }
+      };
+
+      var supportsTouch = (('ontouchstart' in window) || window.DocumentTouch && document instanceof window.DocumentTouch);
+
+      var initialize = function () {
+        var ieMatch = navigator.userAgent.toLowerCase().match(/(msie) ([\w.]+)/);
+        if (ieMatch && ieMatch[1] === 'msie') {
+          // must be executed at first, because 'ieSupport' may addClass to the container
+          ieSupport(parseInt(ieMatch[2], 10));
+        }
+
+        updateBarSizeAndPosition();
+        bindScrollHandler();
+        bindMouseScrollXHandler();
+        bindMouseScrollYHandler();
+        bindRailClickHandler();
+        if (supportsTouch) {
+          bindMobileTouchHandler();
+        }
+        if ($this.mousewheel) {
+          bindMouseWheelHandler();
+        }
+        if (settings.useKeyboard) {
+          bindKeyboardHandler();
+        }
+        $this.data('perfect-scrollbar', $this);
+        $this.data('perfect-scrollbar-update', updateBarSizeAndPosition);
+        $this.data('perfect-scrollbar-destroy', destroy);
+      };
+
+      // initialize
+      initialize();
+
+      return $this;
+    });
+  };
+}));
+
 /*
 Copyright 2012 Igor Vaynberg
 
@@ -2509,7 +3242,8 @@ var pgrModule = angular.module(
     'vcRecaptcha',
     'ui.select2',
     'angular-google-analytics',
-    'monospaced.elastic'
+    'monospaced.elastic',
+    'perfect_scrollbar'
 	]
 );
 
@@ -3497,8 +4231,6 @@ pgrModule.directive('equal', function() {
         }
     };
 });
-
-
 pgrModule.filter('removewhite', function () {
     return function(text) {
         return text.split(" ").join("");
@@ -4853,7 +5585,7 @@ $templateCache.put('views/nsi.html', "<div id=\"nsi_content\">\n\tnsi\n</div>");
 $templateCache.put('views/profile.html', "<section class=\"promain\" scroller ng-include src=\"'partials/user.html'\" ></section>\n\n<div class=\"user_right\">\n\t<ul id=\"nav2\">\n\t\t<li><a ng-click=\"closeComments()\" ng-class=\"{current: !comments}\">Top of the league</a></li>\n\t\t<li ng-if=\"workspace.user\"><a ng-click=\"onShowComments()\" ng-class=\"{current: comments}\">Comments</a></li>\n\t</ul>\n\n\t<section class=\"pronear\" ng-show=\"!comments\" app-view-segment=\"1\"></section>\n\t<section ng-controller=\"CommentsController\" id=\"comments\" ng-show=\"comments\" class=\"pronear\" ng-include src=\"'partials/comments.html'\" ></section>\t\n</div>");
 $templateCache.put('views/terms.html', "<h1>TERMS OF USE and PRIVACY POLICY</h1>\n<p>terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use terms of use</p>");
 $templateCache.put('partials/changePassword.html', "<div class=\"full_height\" ng-if=\"show\">\n    <div id=\"reset_password\">\n        <div class=\"center\">\n            <div class=\"email login chepas\">\n                <div class=\"modal\">\n                    <div class=\"modal_wrapper\">\n                        <div class=\"header\">\n                           <h4 ng-if=\"message == 0\">Reset password</h4>\n                        </div>\n                        <div class=\"body\">\n                            <div class=\"form-show\" ng-if=\"message == 1\">\n                                <p>Message with code was sent to your email</p>\n                                <input \n                                        ng-click=\"onChangePasswordOk()\" \n                                        type=\"button\" \n                                        value=\"OK\" />\n                            </div>\n                            <div class=\"form-show\" ng-if=\"message == 3\">\n                                <p>Password changed</p>\n                                <input \n                                        ng-click=\"onChangePasswordChanged()\" \n                                        type=\"button\" \n                                        value=\"OK\" />\n                            </div>\n                            <ng-form  \n                                ng-if=\"message == 0\"\n                                id=\"RepasswordForm\" \n                                name=\"RepasswordForm\" \n                                novalidate \n                                class=\"css-form myForm\" >\n                                <p ng-if=\"state == 1\">\n                                    <input \n                                        id=\"login_i\" \n                                        class=\"form-input\"\n                                        ng-model=\"form.email\"\n                                        required \n                                        placeholder=\"Email\"\n                                        required\n                                        type=\"email\" />\n                                    <p class=\"errors\" ng-if=\"isEmailNotFound\">Email not found.</p>\n                                </p>\n                                <p ng-if=\"state == 2\">\n                                    <input \n                                        id=\"login_i\" \n                                        class=\"form-input\"\n                                        ng-model=\"form.code\"\n                                        required \n                                        placeholder=\"Current code\"\n                                        type=\"text\" />\n                                </p>\n                                <p ng-if=\"state == 2\">\n                                    <input \n                                        type=\"password\" \n                                        id=\"pass_i\"\n                                        class=\"form-input\"\n                                        ng-model=\"form.newPassword\"\n                                        placeholder=\"New password\"\n                                        required\n                                        ng-minlength=\"6\" /> \n                                </p>\n                                <p ng-if=\"state == 2\">\n                                    <input \n                                        type=\"password\" \n                                        id=\"pass_i\"\n                                        class=\"form-input\"\n                                        ng-model=\"form.confirmPassword\"\n                                        placeholder=\"Confirm password\"\n                                        required\n                                        ng-minlength=\"6\" /> \n                                </p>\n                                <p class=\"errors\" ng-if=\"error\">{{error}}</p>\n                                <p ng-if=\"state == 1\">\n                                    <input \n                                        ng-click=\"onChangePasswordCancel()\" \n                                        type=\"button\" \n                                        value=\"Cancel\"\n                                        class=\"cancel\" />\n                                    <input \n                                        ng-disabled=\"RepasswordForm.$invalid\"\n                                        ng-click=\"onChangePassword()\" \n                                        type=\"button\" \n                                        value=\"Send code\" />\n                                </p>\n                                <p ng-if=\"state == 2\">\n                                    <input \n                                        ng-click=\"onChangePasswordCancel2()\" \n                                        type=\"button\" \n                                        value=\"Cancel\"\n                                        class=\"cancel\" />\n                                    <input \n                                        ng-disabled=\"RepasswordForm.$invalid\"\n                                        ng-click=\"onChangePasswordBegin()\" \n                                        type=\"button\" \n                                        value=\"Save\" />\n                                </p>\n                            </ng-form>\n                        </div>\n                    </div>\n                </div>\n            </div>    \n        </div>\n    </div>\n</div>");
-$templateCache.put('partials/comments.html', "<div class=\"comments\">\n\t<div class=\"comm\">\n\t\t<div class=\"cmnt\" ng-repeat=\"comment in commentsList | orderBy:'post_date'\"  >\n\t\t\t<strong>{{comment.user.name}}</strong>\n\t\t\t<i>{{comment.post_date}}</i>\n\t\t\t<br />\n\t\t\t<p>{{comment.message}}</p>\n\t\t\t<em></em>\n\t\t</div>\n\t</div>\n\t<div class=\"butcomm\">\n\t\t<em></em>\n\t\t<ng-form>\n\t\t\t<textarea ng-model=\"form.message\" id=\"comment_message\" name=\"comment\" placeholder=\"Enter your comment here\"></textarea>\n\t\t\t<button ng-click=\"onSendMessage()\">Send</button>\n\t\t</ng-form>\n\t</div>\n</div>");
+$templateCache.put('partials/comments.html', "<div class=\"comments\">\n\t<perfect-scrollbar class=\"comm\">\n\t\t<div class=\"cmnt\" ng-repeat=\"comment in commentsList | orderBy:'post_date'\"  >\n\t\t\t<strong>{{comment.user.name}}</strong>\n\t\t\t<i>{{comment.post_date}}</i>\n\t\t\t<br />\n\t\t\t<p>{{comment.message}}</p>\n\t\t\t<em></em>\n\t\t</div>\n\t</perfect-scrollbar>\n\t<div class=\"butcomm\">\n\t\t<em></em>\n\t\t<ng-form>\n\t\t\t<textarea ng-model=\"form.message\" id=\"comment_message\" name=\"comment\" placeholder=\"Enter your comment here\"></textarea>\n\t\t\t<button ng-click=\"onSendMessage()\">Send</button>\n\t\t</ng-form>\n\t</div>\n</div>");
 $templateCache.put('partials/compare.html', "<div class=\"comp\" ng-include src=\"'partials/user.html'\" ng-controller=\"UserController\" ng-init=\"currentUserId=routeUserId;allUser=false;isEdit=false;\"></div>");
 $templateCache.put('partials/confirm-success.html', "<div class=\"small-message\">\n\t<h2>Successful confirm!</h2>\n\t<p></p>\n\t<a ng-click=\"closeModal()\" class=\"close\">Ok</a>\n</div>");
 $templateCache.put('partials/crop-image.html', "<div ng-class=\"{show: show}\" id=\"crop_modal\">\n\t<div class=\"modal-body\">\n\t\t<form action=\"\" method=\"get\" accept-charset=\"utf-8\">\n\t\t\t<div id='cropContainer'>\n\t\t      <div class=\"cropper\">\n\t\t         <div class=\"preview-container\">\n\t\t         \t<img src=\"\" id=\"crop_img\" alt=\"\" />\n\t        \t\t<canvas id=\"image_canvas\"></canvas>\n\t\t         </div>\n\t\t      </div>\n\t\t   </div>\n\t   </form>\n\t</div>\n\t<div class=\"buttons\">\n\t\t<button ng-click=\"close()\">Cancel</button>\n\t\t<button class=\"apply\" ng-click=\"onSend()\">Apply</button>\n\t</div>\n</div>\n");
@@ -4865,21 +5597,21 @@ $templateCache.put('partials/improva.html', "<h4 class=\"imprin\">Sign in with</
 $templateCache.put('partials/leagues.html', "<section class=\"leaglist\">\n\t<a ng-click=\"onLeagUser(item)\" ng-class=\"{curleag:item.curleag}\" ng-repeat=\"(key, item) in leagues\">\n\t\t<img ng-if=\"key == 0\" src=\"/images/I.png\" />\n\t\t<img ng-if=\"key == 1\" src=\"/images/II.png\" />\n\t\t<img ng-if=\"key == 2\" src=\"/images/III.png\" />\n\t\t<img ng-if=\"key == 3\" src=\"/images/IV.png\" />\n\t\t<img ng-if=\"key == 4\" src=\"/images/V.png\" />\n\t\t<img ng-if=\"key == 5\" src=\"/images/VI.png\" />\n\t\t<img ng-if=\"key == 6\" src=\"/images/VII.png\" />\n\t\t<img ng-if=\"key == 7\" src=\"/images/VIII.png\" />\n\t\t<img ng-if=\"key == 8\" src=\"/images/IX.png\" />\n\t\t<img ng-if=\"key == 9\" src=\"/images/X.png\" />\n\t</a>\n</section>");
 $templateCache.put('partials/loader.html', "<div id=\"modal-shadow\" ng-controller=\"LoaderController\">\n\t<span id=\"loader\"></span>\n</div>");
 $templateCache.put('partials/main_user_item.html', "<div\n\tng-click=\"onUserClick(userItem, $event)\"\n\tng-class=\"{big: userItem.big}\"\n\tclass=\"item l_{userItem.league.name}\"\n\tng-repeat=\"(userKey, userItem) in users\"\n\tng-style=\"{width: userItem.size, height: userItem.size}\"\n\tmasonry-item>\n\t<div \t\n\t\tclass=\"wr\" \n\t\tng-style=\"{width: userItem.size, height: userItem.size}\" \n\t\tback-img=\"{{userItem.avatar}}\" \n\t\tng-class=\"{big: userItem.big}\"\n\t\tng-click=\"switchState(userItem)\"\n\t\tset-width >\n\t\t<i>{{userItem.points}}</i>\n\t\t<div class=\"sub\">\n\t\t\t<b>{{userItem.name}} <br /><s>{{userItem.league.name}} league</s></b>\n\t\t\t<ul>\n\t\t\t\t<li>\n\t\t\t\t\t<a ng-click=\"onMoveToProfile(userItem)\">\n\t\t\t\t\t\t<span class=\"icon profile navigate\"></span>\n\t\t\t\t\t</a>\n\t\t\t\t</li>\n\t\t\t\t<li>\n\t\t\t\t\t<a ng-click=\"onMoveToCompare(userItem)\">\n\t\t\t\t\t\t<span class=\"icon compare navigate\"></span>\n\t\t\t\t\t</a>\n\t\t\t\t</li>\n\t\t\t\t<li>\n\t\t\t\t\t<a ng-if=\"!userItem.isFrend\" ng-click=\"onFollow(userItem)\">\n\t\t\t\t\t\t<span class=\"icon follow navigate\"></span>\n\t\t\t\t\t</a>\n\t\t\t\t\t<a ng-if=\"userItem.isFrend\" ng-click=\"onUnFollow(userItem)\">\n\t\t\t\t\t\t<span class=\"icon unfollow navigate\"></span>\n\t\t\t\t\t</a>\n\t\t\t\t</li>\n\t\t\t</ul>\n\t\t</div>\n\t\t<em></em>\n\t</div>\n</div>");
-$templateCache.put('partials/mydash.html', "<section class=\"mydash tab\">\n\t<div id=\"mydash_draw\" mydash></div>\n</section>");
+$templateCache.put('partials/mydash.html', "<perfect-scrollbar class=\"mydash tab\">\n\t<div id=\"mydash_draw\" mydash></div>\n</perfect-scrollbar>");
 $templateCache.put('partials/myprofile.html', "<div class=\"full_height\" ng-if=\"showProfile\" id=\"myprofile\">\n\t<div class=\"center\">\n\t\t<div id=\"profile_header\">\n\t\t\t<!-- навигация -->\n\t\t\t<div class=\"mynav\">\n\t\t\t\t<ul>\n\t\t\t\t\t<li ng-repeat=\"(navKey, navValue) in navItems\"\n\t\t\t\t\t\tng-class=\"{current: navValue.current}\">\n\t\t\t\t\t\t<a ng-click=\"changeState(navKey)\">\n\t\t\t\t\t\t\t<span class=\"icon {{navValue.name}}\"></span>\n\t\t\t\t\t\t\t{{navValue.name}}\n\t\t\t\t\t\t</a>\n\t\t\t\t\t</li>\n\t\t\t\t</ul>\n\t\t\t\t<span class=\"close\" ng-click=\"close()\"></span>\n\t\t\t</div>\n\n\t\t\t<p id=\"setting_info\">\n\t\t\t\t{{workspace.user.league.name}} league   Score: {{workspace.user.points}}\n\t\t\t</p>\n\t\t</div>\n\t\t\n\t\t<div class=\"tabs full_height\">\n\t\t\t<div ng-show=\"currentNav.name == indexes.PROFILE && workspace.user\" class=\"tab\">\n\t\t\t\t<section \n\t\t\t\t\tclass=\"tab\" \n\t\t\t\t\tng-include \n\t\t\t\t\tsrc=\"'partials/profile.html'\" >\n\t\t\t\t</section>\n\t\t\t</div>\n\t\t\t<div ng-show=\"currentNav.name == indexes.DASHBOARD && workspace.user\" class=\"tab\">\n\t\t\t\t<section \n\t\t\t\t\tclass=\"tab\" \n\t\t\t\t\tng-include \n\t\t\t\t\tsrc=\"'partials/mydash.html'\" >\n\t\t\t\t</section> \n\t\t\t</div>\n\t\t\t<div ng-show=\"currentNav.name == indexes.SETTINGS && workspace.user\" class=\"tab\">\n\t\t\t\t<section \n\t\t\t\t\tclass=\"tab\" \n\t\t\t\t\tng-controller=\"MyProfileSettingsController\" \n\t\t\t\t\tng-include \n\t\t\t\t\tsrc=\"'partials/mysettings.html'\" >\n\t\t\t\t</section>\n\t\t\t</div>\t\n\t\t</div>\n\t</div>\n</div>");
-$templateCache.put('partials/mysettings.html', "<div ng-controller=\"CropImageController\" ng-include src=\"'partials/crop-image.html'\"></div>\n\n<section class=\"myset\" ng-click=\"onClose($event)\" >\n\t<div \n\t\tclass=\"pmain pro promy\" >\n\t\t<div class=\"block\">\n\t\t\t<input \n\t\t\t\tclass=\"hidden\" \n\t\t\t\tid=\"photo_crop\" \n\t\t\t\tonchange=\"angular.element(this).scope().onReadFile()\" \n\t\t\t\tcapture=\"camera\" \n\t\t\t\ttype=\"file\" \n\t\t\t\taccept=\"image/*\" />\n\t\t\t\n\t\t\t<div class=\"image_box\" crop-click ng-click=\"onUpdateFile()\">\n\t\t\t\t<img \n\t\t\t\t\tclass=\"pp\" \n\t\t\t\t\tng-src=\"{{workspace.user.avatar}}\"\n\t\t\t\t\tng-if=\"workspace.user.avatar\"  />\n\t\t\t\t<img \n\t\t\t\t\tclass=\"pp\" \n\t\t\t\t\tng-if=\"!workspace.user.avatar\" \n\t\t\t\t\tsrc=\"/images/unknown-person.png\"  />\n\t\t\t</div>\n\t\t\t\n\t\t\t<div class=\"publish\" >\n\t\t\t\t\t<strong ng-if=\"workspace.user.published == 0\">\n\t\t\t\t\t\tYour account is private.<b>Only you can see your profile.</b>\n\t\t\t\t\t</strong>\n\t\t\t\t\t<strong ng-if=\"workspace.user.published == 1\">\n\t\t\t\t\t\tYour account is public.<b>Everybody can see you profile.</b>\n\t\t\t\t\t</strong>\n\t\t\t\t\t<div class=\"pubut\" ng-class=\"{ published: workspace.user.published }\">\n\t\t\t\t\t\t<i>Public</i>\n\t\t\t\t\t\t<span ng-click=\"changePublish()\">\n\t\t\t\t\t\t\t<em class=\"icon pub\"></em>\n\t\t\t\t\t\t</span>\n\t\t\t\t\t\t<i>Private</i>\n\t\t\t\t\t</div>\n\t\t\t</div>\n\t\t\t<div class=\"publish\">\n\t\t\t\t<button ng-click=\"onLogout()\">Sign out</button>\n\t\t\t</div>\n\t\t</div>\n\n\t\t<div class=\"pmpar\" >\n\t\t\t<p>\n\t\t\t\t<label for=\"i1_i\">Name:</label> \n\t\t\t\t<input \n\t\t\t\t\ttype=\"text\" \n\t\t\t\t\tid=\"i1_i\" \n\t\t\t\t\tng-model=\"workspace.user.name\"\n\t\t\t\t\trequired\n\t\t\t\t\tng-change=\"updateName()\" />\n\t\t\t</p>\n\t\t\t<p class=\"errors\" ng-if=\"nameIsError\">Name already user.</p>\n\t\t\t<p>\n\t\t\t\t<label for=\"i2_i\">Birthday:</label>\n\t\t\t\t<input ng-model=\"workspace.user.birthday\" ui-date=\"dateOptions\"  name=\"DateOfBirth\" />\n\t\t\t</p>\n\t\t\t<p>\n\t\t\t\t<label for=\"i3_i\">Сountry:</label>\n\t\t\t\t<select\n\t\t\t\t\tui-select2=\"{ width: 230 }\"\n\t\t\t\t\tid=\"i3_i\"\n\t\t\t\t\tng-model=\"workspace.user.state.sguid\"\n\t\t\t\t\tng-change=\"cityByState($event)\">\n\t\t\t\t\t<option ng-repeat=\"(key, value) in workspace.country\" value=\"{{value.sguid}}\" >{{value.name}}</option>\n\t\t\t\t</select>\n\t\t\t</p>\n\t\t\t<p>\n\t\t\t\t<label for=\"i4_i\">City:</label>\n\t\t\t\t<input \n\t\t\t\t\tid=\"i4_i\" \n\t\t\t\t\tng-model=\"workspace.user.city.name\"\n\t\t\t\t\ttype=\"text\"\n\t\t\t\t\tng-change=\"changeCity($event)\" />\n\t\t\t\t\t<img \n\t\t\t\t\t\tsrc=\"/images/7.jpg\" \n\t\t\t\t\t\tclass=\"cursor\" \n\t\t\t\t\t\tng-click=\"addCity($event)\" \n\t\t\t\t\t\twidth=\"40px\" \n\t\t\t\t\t\talt=\"\"\n\t\t\t\t\t\tng-if=\"showCityAddButton\" />\n\t\t\t</p>\n\t\t\t<div class=\"popup_list\" ng-if=\"showCityList\">\n\t\t\t\t<ul>\n\t\t\t\t\t<li ng-if=\"cityItem.show\" ng-repeat=\"(cityKey, cityItem) in city\">\n\t\t\t\t\t\t<a ng-click=\"selectCity($event, cityItem, cityKey)\">{{cityItem.name}}</a>\n\t\t\t\t\t\t<span class=\"close icon\" ng-click=\"deleteCityItem($event, cityItem, cityKey)\"></span>\n\t\t\t\t\t</li>\n\t\t\t\t</ul>\n\t\t\t</div>\n\t\t\t<p>\n\t\t\t\t<label for=\"i5_i\">Career:</label>\n\t\t\t\t<select\n\t\t\t\t\tui-select2=\"{ width: 230 }\"\n\t\t\t\t\tid=\"i5_i\"\n\t\t\t\t\tng-model=\"workspace.user.profession.goal_sguid\"\n\t\t\t\t\tng-change=\"selectCareer($event)\">\n\t\t\t\t\t<option ng-repeat=\"(key, value) in workspace.careers\" value=\"{{value.sguid}}\" >{{value.name}}</option>\n\t\t\t\t</select>\n\t\t\t</p>\n\t\t\t<p>\n\t\t\t\t<label for=\"i6_i\">Profession:</label>\n\t\t\t\t<input \n\t\t\t\t\tid=\"i6_i\" \n\t\t\t\t\tng-model=\"workspace.user.profession.name\"\n\t\t\t\t\ttype=\"text\"\n\t\t\t\t\tng-change=\"changeProfession($event)\" />\n\t\t\t\t\t<img \n\t\t\t\t\t\tsrc=\"/images/7.jpg\" \n\t\t\t\t\t\tclass=\"cursor\" \n\t\t\t\t\t\tng-click=\"addProfession($event)\" \n\t\t\t\t\t\twidth=\"40px\" \n\t\t\t\t\t\talt=\"\"\n\t\t\t\t\t\tng-if=\"showProfessionAddButton\" />\n\t\t\t</p>\n\t\t\t<div class=\"popup_list\" ng-if=\"showProfessionList\">\n\t\t\t\t<ul>\n\t\t\t\t\t<li ng-if=\"profItem.show\" ng-repeat=\"(profKey, profItem) in profession\">\n\t\t\t\t\t\t<a ng-click=\"selectProfession($event, profItem, profKey)\">{{profItem.name}}</a>\n\t\t\t\t\t\t<span class=\"close icon\" ng-click=\"deleteItem($event, profItem, profKey)\"></span>\n\t\t\t\t\t</li>\n\t\t\t\t</ul>\n\t\t\t</div>\n\t\t\t<p>\n\t\t\t\t<label for=\"i7_i\">E-mail:</label> \n\t\t\t\t<input \n\t\t\t\t\ttype=\"email\" \n\t\t\t\t\tid=\"i7_i\" \n\t\t\t\t\tng-model=\"workspace.user.email\"\n\t\t\t\t\treadonly=\"readonly\"\n\t\t\t\t\trequired />\n\t\t\t</p>\n\t\t\t<p ng-controller=\"QuickUserChangeCtrl\">\n\t\t\t\t<label for=\"username_i\">Username:</label>\n\t\t\t\t<span ng-show=\"workspace.users.length == 0\">Loading...</span>\n\t\t\t\t<select\n\t\t\t\t\tui-select2=\"{ width: 230, allowClear:true }\"\n\t\t\t\t\tid=\"acc_i\"\n\t\t\t\t\tng-model=\"nextUser\"\n\t\t\t\t\tng-change=\"onMoveUserClick($event)\"\n\t\t\t\t\tng-show=\"workspace.users.length > 0\">\n\t\t\t\t\t<option ng-repeat=\"(key, value) in workspace.users track by $index\" value=\"{{value.email}}\" >{{value | title}}</option>\n\t\t\t\t</select>\n\t\t\t</p>\n\t\t\t<p ng-if=\"!social\">\n\t\t\t\t<button class=\"reset\" ng-click=\"onChangePassword()\">Reset password</button>\n\t\t\t</p>\n\t\t</div>\n\t</div>\n\t<div class=\"lnbl\" ng-include src=\"'partials/follow.html'\" ></div>\n</section>");
+$templateCache.put('partials/mysettings.html', "<div ng-controller=\"CropImageController\" ng-include src=\"'partials/crop-image.html'\"></div>\n\n<perfect-scrollbar class=\"myset\" ng-click=\"onClose($event)\" >\n\t<div \n\t\tclass=\"pmain pro promy\" >\n\t\t<div class=\"block\">\n\t\t\t<input \n\t\t\t\tclass=\"hidden\" \n\t\t\t\tid=\"photo_crop\" \n\t\t\t\tonchange=\"angular.element(this).scope().onReadFile()\" \n\t\t\t\tcapture=\"camera\" \n\t\t\t\ttype=\"file\" \n\t\t\t\taccept=\"image/*\" />\n\t\t\t\n\t\t\t<div class=\"image_box\" crop-click ng-click=\"onUpdateFile()\">\n\t\t\t\t<img \n\t\t\t\t\tclass=\"pp\" \n\t\t\t\t\tng-src=\"{{workspace.user.avatar}}\"\n\t\t\t\t\tng-if=\"workspace.user.avatar\"  />\n\t\t\t\t<img \n\t\t\t\t\tclass=\"pp\" \n\t\t\t\t\tng-if=\"!workspace.user.avatar\" \n\t\t\t\t\tsrc=\"/images/unknown-person.png\"  />\n\t\t\t</div>\n\t\t\t\n\t\t\t<div class=\"publish\" >\n\t\t\t\t\t<strong ng-if=\"workspace.user.published == 0\">\n\t\t\t\t\t\tYour account is private.<b>Only you can see your profile.</b>\n\t\t\t\t\t</strong>\n\t\t\t\t\t<strong ng-if=\"workspace.user.published == 1\">\n\t\t\t\t\t\tYour account is public.<b>Everybody can see you profile.</b>\n\t\t\t\t\t</strong>\n\t\t\t\t\t<div class=\"pubut\" ng-class=\"{ published: workspace.user.published }\">\n\t\t\t\t\t\t<i>Public</i>\n\t\t\t\t\t\t<span ng-click=\"changePublish()\">\n\t\t\t\t\t\t\t<em class=\"icon pub\"></em>\n\t\t\t\t\t\t</span>\n\t\t\t\t\t\t<i>Private</i>\n\t\t\t\t\t</div>\n\t\t\t</div>\n\t\t\t<div class=\"publish\">\n\t\t\t\t<button ng-click=\"onLogout()\">Sign out</button>\n\t\t\t</div>\n\t\t</div>\n\n\t\t<div class=\"pmpar\" >\n\t\t\t<p>\n\t\t\t\t<label for=\"i1_i\">Name:</label> \n\t\t\t\t<input \n\t\t\t\t\ttype=\"text\" \n\t\t\t\t\tid=\"i1_i\" \n\t\t\t\t\tng-model=\"workspace.user.name\"\n\t\t\t\t\trequired\n\t\t\t\t\tng-change=\"updateName()\" />\n\t\t\t</p>\n\t\t\t<p class=\"errors\" ng-if=\"nameIsError\">Name already user.</p>\n\t\t\t<p>\n\t\t\t\t<label for=\"i2_i\">Birthday:</label>\n\t\t\t\t<input ng-model=\"workspace.user.birthday\" ui-date=\"dateOptions\"  name=\"DateOfBirth\" />\n\t\t\t</p>\n\t\t\t<p>\n\t\t\t\t<label for=\"i3_i\">Сountry:</label>\n\t\t\t\t<select\n\t\t\t\t\tui-select2=\"{ width: 230 }\"\n\t\t\t\t\tid=\"i3_i\"\n\t\t\t\t\tng-model=\"workspace.user.state.sguid\"\n\t\t\t\t\tng-change=\"cityByState($event)\">\n\t\t\t\t\t<option ng-repeat=\"(key, value) in workspace.country\" value=\"{{value.sguid}}\" >{{value.name}}</option>\n\t\t\t\t</select>\n\t\t\t</p>\n\t\t\t<p>\n\t\t\t\t<label for=\"i4_i\">City:</label>\n\t\t\t\t<input \n\t\t\t\t\tid=\"i4_i\" \n\t\t\t\t\tng-model=\"workspace.user.city.name\"\n\t\t\t\t\ttype=\"text\"\n\t\t\t\t\tng-change=\"changeCity($event)\" />\n\t\t\t\t\t<img \n\t\t\t\t\t\tsrc=\"/images/7.jpg\" \n\t\t\t\t\t\tclass=\"cursor\" \n\t\t\t\t\t\tng-click=\"addCity($event)\" \n\t\t\t\t\t\twidth=\"40px\" \n\t\t\t\t\t\talt=\"\"\n\t\t\t\t\t\tng-if=\"showCityAddButton\" />\n\t\t\t</p>\n\t\t\t<div class=\"popup_list\" ng-if=\"showCityList\">\n\t\t\t\t<ul>\n\t\t\t\t\t<li ng-if=\"cityItem.show\" ng-repeat=\"(cityKey, cityItem) in city\">\n\t\t\t\t\t\t<a ng-click=\"selectCity($event, cityItem, cityKey)\">{{cityItem.name}}</a>\n\t\t\t\t\t\t<span class=\"close icon\" ng-click=\"deleteCityItem($event, cityItem, cityKey)\"></span>\n\t\t\t\t\t</li>\n\t\t\t\t</ul>\n\t\t\t</div>\n\t\t\t<p>\n\t\t\t\t<label for=\"i5_i\">Career:</label>\n\t\t\t\t<select\n\t\t\t\t\tui-select2=\"{ width: 230 }\"\n\t\t\t\t\tid=\"i5_i\"\n\t\t\t\t\tng-model=\"workspace.user.profession.goal_sguid\"\n\t\t\t\t\tng-change=\"selectCareer($event)\">\n\t\t\t\t\t<option ng-repeat=\"(key, value) in workspace.careers\" value=\"{{value.sguid}}\" >{{value.name}}</option>\n\t\t\t\t</select>\n\t\t\t</p>\n\t\t\t<p>\n\t\t\t\t<label for=\"i6_i\">Profession:</label>\n\t\t\t\t<input \n\t\t\t\t\tid=\"i6_i\" \n\t\t\t\t\tng-model=\"workspace.user.profession.name\"\n\t\t\t\t\ttype=\"text\"\n\t\t\t\t\tng-change=\"changeProfession($event)\" />\n\t\t\t\t\t<img \n\t\t\t\t\t\tsrc=\"/images/7.jpg\" \n\t\t\t\t\t\tclass=\"cursor\" \n\t\t\t\t\t\tng-click=\"addProfession($event)\" \n\t\t\t\t\t\twidth=\"40px\" \n\t\t\t\t\t\talt=\"\"\n\t\t\t\t\t\tng-if=\"showProfessionAddButton\" />\n\t\t\t</p>\n\t\t\t<div class=\"popup_list\" ng-if=\"showProfessionList\">\n\t\t\t\t<ul>\n\t\t\t\t\t<li ng-if=\"profItem.show\" ng-repeat=\"(profKey, profItem) in profession\">\n\t\t\t\t\t\t<a ng-click=\"selectProfession($event, profItem, profKey)\">{{profItem.name}}</a>\n\t\t\t\t\t\t<span class=\"close icon\" ng-click=\"deleteItem($event, profItem, profKey)\"></span>\n\t\t\t\t\t</li>\n\t\t\t\t</ul>\n\t\t\t</div>\n\t\t\t<p>\n\t\t\t\t<label for=\"i7_i\">E-mail:</label> \n\t\t\t\t<input \n\t\t\t\t\ttype=\"email\" \n\t\t\t\t\tid=\"i7_i\" \n\t\t\t\t\tng-model=\"workspace.user.email\"\n\t\t\t\t\treadonly=\"readonly\"\n\t\t\t\t\trequired />\n\t\t\t</p>\n\t\t\t<p ng-controller=\"QuickUserChangeCtrl\">\n\t\t\t\t<label for=\"username_i\">Username:</label>\n\t\t\t\t<span ng-show=\"workspace.users.length == 0\">Loading...</span>\n\t\t\t\t<select\n\t\t\t\t\tui-select2=\"{ width: 230, allowClear:true }\"\n\t\t\t\t\tid=\"acc_i\"\n\t\t\t\t\tng-model=\"nextUser\"\n\t\t\t\t\tng-change=\"onMoveUserClick($event)\"\n\t\t\t\t\tng-show=\"workspace.users.length > 0\">\n\t\t\t\t\t<option ng-repeat=\"(key, value) in workspace.users track by $index\" value=\"{{value.email}}\" >{{value | title}}</option>\n\t\t\t\t</select>\n\t\t\t</p>\n\t\t\t<p ng-if=\"!social\">\n\t\t\t\t<button class=\"reset\" ng-click=\"onChangePassword()\">Reset password</button>\n\t\t\t</p>\n\t\t</div>\n\t</div>\n\t<div class=\"lnbl\" ng-include src=\"'partials/follow.html'\" ></div>\n</perfect-scrollbar>");
 $templateCache.put('partials/neighbours.html', "<div class=\"nearblock\" ng-controller=\"NeighboursCtrl\">\n\t<div ng-controller=\"GalleryController\"  ng-init=\"id='top';title='_topL_'\">\n\t\t<div class=\"lnbl\" ng-include src=\"'partials/gallery.html'\"></div>\n\t</div>\n\t<i></i>\n\t<div ng-controller=\"GalleryController\"  ng-init=\"id='neigh';title='_neighL_'\">\n\t\t<div class=\"lnbl\" ng-include src=\"'partials/gallery.html'\"></div>\n\t</div>\n</div>");
 $templateCache.put('partials/nsi-add.html', "<div id=\"nsi_content\" ng-controller=\"NSIAddController\">\n\t<h2>Add league</h2>\n\t<table>\n\t\t<tr>\n\t\t\t<td>Name:</td>\n\t\t\t<td><input type=\"text\" ng-model=\"form.name\" /></td>\n\t\t</tr>\n\t\t<tr>\n\t\t\t<td>Min:</td>\n\t\t\t<td><input type=\"text\" ng-model=\"form.min_border\" /></td>\n\t\t</tr>\n\t\t<tr>\n\t\t\t<td>Max:</td>\n\t\t\t<td><input type=\"text\" ng-model=\"form.max_border\" /></td>\n\t\t</tr>\n\t\t<tr>\n\t\t\t<td>Size:</td>\n\t\t\t<td><input type=\"text\" ng-model=\"form.size\" /></td>\n\t\t</tr>\n\t\t<tr>\n\t\t\t<td></td>\n\t\t\t<td>\n\t\t\t\t<a class=\"buttons green\" ng-click=\"addLeague()\">Save</a>\n\t\t\t\t<a class=\"buttons red\" ng-click=\"close()\">Close</a>\n\t\t\t</td>\n\t\t</tr>\n\t</table>\n\t<div class=\"btns\">\n\t\t\n\t</div>\n</div>");
 $templateCache.put('partials/nsi.html', "<div id=\"nsi_content\" ng-controller=\"NSIController\">\n\t<h2>NSI</h2>\n\t<table>\n\t\t<thead>\n\t\t\t<tr>\n\t\t\t\t<th>Name</th>\n\t\t\t\t<th>Min</th>\n\t\t\t\t<th>Max</th>\n\t\t\t\t<th>Size</th>\n\t\t\t\t<th></th>\n\t\t\t</tr>\n\t\t</thead>\n\t\t<tbody>\n\t\t\t<tr ng-repeat=\"(key, value) in workspace.leagues | orderBy: 'position'\">\n\t\t\t\t<td width=\"20%\" class=\"editing_cell\">\n\t\t\t\t\t<input type=\"text\" ng-model=\"value.name\" ng-change=\"update(value)\" />\n\t\t\t\t</td>\n\t\t\t\t<td width=\"20%\" class=\"editing_cell\">\n\t\t\t\t\t<input type=\"text\" ng-model=\"value.min_border\" ng-change=\"update(value)\" />\n\t\t\t\t</td>\n\t\t\t\t<td width=\"20%\" class=\"editing_cell\">\n\t\t\t\t\t<input type=\"text\" ng-model=\"value.max_border\" ng-change=\"update(value)\" />\n\t\t\t\t</td>\n\t\t\t\t<td width=\"20%\" class=\"editing_cell\">\n\t\t\t\t\t<input type=\"text\" ng-model=\"value.size\" ng-change=\"update(value)\" />\n\t\t\t\t</td>\n\t\t\t\t<td width=\"40%\">\n\t\t\t\t\t<span class=\"icon delete\" ng-click=\"delete(value)\"></span>\n\t\t\t\t</td>\n\t\t\t</tr>\n\t\t</tbody>\n\t</table>\n\t<div class=\"btns\">\n\t\t<a class=\"buttons all\" ng-click=\"ok()\">Ok</a>\n\t\t<a class=\"buttons green\" ng-click=\"addLeague()\">Add league</a>\n\t\t<a class=\"buttons red\" ng-click=\"closeModal()\">Close</a>\n\t</div>\n</div>");
-$templateCache.put('partials/profile.html', "<div \n\tng-controller=\"NeedsAndGoalsController\" \n\tclass=\"tab\" \n\tng-init=\"user = workspace.user;\">\n\t<div class=\"tab\" ng-controller=\"MyProfileProfileController\">\n\t\t<section class=\"mypro acrd\" scroller>\n\t\t\t<div class=\"crits\">\n\t\t\t\t<ul> \n\t\t\t\t\t<li \n\t\t\t\t\t\tng-repeat=\"(needKey, needItem) in needs | orderBy:'position'\" \n\t\t\t\t\t\tdata-needId=\"{{needItem.sguid}}\"\n\t\t\t\t\t\tclass=\"{{needItem.name}}\">\n\t\t\t\t\t\t<div class=\"cr\" >\n\t\t\t\t\t\t\t<p>{{needItem.name}}</p>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t\t<ul ng-class=\"{current: needItem.current}\">\n\t\t\t\t\t\t\t<li \n\t\t\t\t\t\t\t\tng-repeat=\"(goalKey,goalItem) in needItem.goals | orderBy:'position'\" \n\t\t\t\t\t\t\t\tdata-goalid=\"{{goalItem.sguid}}\" >\n\t\t\t\t\t\t\t\t<h5 ng-class=\"{current: goalItem.current}\">\n\t\t\t\t\t\t\t\t\t<a ng-click=\"goalClick($event, goalItem, needs, needItem);\">\n\t\t\t\t\t\t\t\t\t\t<span>\n\t\t\t\t\t\t\t\t\t\t\t<img \n\t\t\t\t\t\t\t\t\t\t\tng-src=\"/images/goals/{{needItem.name | removewhite}}/{{goalItem.name | removewhite}}.png\"\n\t\t\t\t\t\t\t\t\t\t\talt=\"\" \n\t\t\t\t\t\t\t\t\t\t\ttitle=\"{{goalItem.name}}\" />\n\t\t\t\t\t\t\t\t\t\t</span>\n\t\t\t\t\t\t\t\t\t\t<h6>{{goalItem.name}}</h6>\n\t\t\t\t\t\t\t\t\t\t<em ng-if=\"!goalItem.current\"></em>\n\t\t\t\t\t\t\t\t\t</a>\t\n\t\t\t\t\t\t\t\t\t<div class=\"right\">\n\t\t\t\t\t\t\t\t\t\t<strong>\n\t\t\t\t\t\t\t\t\t\t\t<span \n\t\t\t\t\t\t\t\t\t\t\tclass=\"current_position\" \n\t\t\t\t\t\t\t\t\t\t\tstyle=\"width: {{(goalItem.current_value / (goalItem.points_summary ))*100}}%;\"></span>\n\t\t\t\t\t\t\t\t\t\t</strong>\n\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t</h5>\n\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t</li>\n\t\t\t\t\t\t</ul>\n\t\t\t\t\t</li>\n\t\t\t\t</ul>\n\t\t\t</div>\n\t\t</section>\n\n\t\t<div class=\"mypro_wr\" scroller >\n\t\t\t<section class=\"mypro\">\n\t\t\t\t<div class=\"crits {{selectedNeed.name}}\" ng-if=\"selectedGoal\">\n\t\t\t\t\t<h5>\n\t\t\t\t\t\t<a>\n\t\t\t\t\t\t\t<span>\n\t\t\t\t\t\t\t\t<img \n\t\t\t\t\t\t\t\t\tng-src=\"/images/goals/{{selectedNeed.name | removewhite}}/{{selectedGoal.name | removewhite}}.png\"\n\t\t\t\t\t\t\t\t\talt=\"\" \n\t\t\t\t\t\t\t\t\ttitle=\"{{selectedGoal.name}}\" />\n\t\t\t\t\t\t\t</span>\n\t\t\t\t\t\t\t{{selectedGoal.name}}\n\t\t\t\t\t\t</a>\t\n\t\t\t\t\t\t<div class=\"right\">\n\t\t\t\t\t\t\t<b>{{selectedGoal.current_value}} / {{selectedGoal.points_summary}}</b>\n\t\t\t\t\t\t\t<strong>\n\t\t\t\t\t\t\t\t<span class=\"current_position\" style=\"width: {{(selectedGoal.current_value / (selectedGoal.points_summary ))*100}}%;\"></span>\n\t\t\t\t\t\t\t</strong>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</h5>\n\t\t\t\t\t<ul class=\"criterion\">\n\t\t\t\t\t\t<li \n\t\t\t\t\t\tdata-id=\"{{crItem.sguid}}\" \n\t\t\t\t\t\tng-repeat=\"crItem in selectedGoal.criteriums | orderBy:'position'\" \n\t\t\t\t\t\tclass=\"animate-list\" >\n\t\t\t\t\t\t\t<p>{{crItem.name}}</p>\n\t\t\t\t\t\t\t<div class=\"bord\">\n\t\t\t\t\t\t\t\t<ul class=\"crp\">\n\t\t\t\t\t\t\t\t\t<div class=\"tab\">\n\t\t\t\t\t\t\t\t\t\t<li data-id=\"{{value.sguid}}\"  \n\t\t\t\t\t\t\t\t\t\t\tng-repeat=\"value in crItem.criteria_values | orderBy:'position'\"  \n\t\t\t\t\t\t\t\t\t\t\tclass=\"{{value.user_criteria}} position_{{value.position}}\" \n\t\t\t\t\t\t\t\t\t\t\tng-click=\"onCriteriaSelect(value, crItem, $event, selectedNeed, selectedGoal)\">\n\t\t\t\t\t\t\t\t\t\t\t<i ng-if=\"value.sguid != 'none'\">{{value.name}}</i>\n\t\t\t\t\t\t\t\t\t\t\t<i ng-if=\"value.sguid == 'none'\" class=\"null_criteria\"></i>\n\t\t\t\t\t\t\t\t\t\t</li>\n\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t<span>\n\t\t\t\t\t\t\t\t\t\t<sup></sup>\n\t\t\t\t\t\t\t\t\t</span>\n\t\t\t\t\t\t\t\t</ul>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t</li>\n\t\t\t\t\t</ul>\n\t\t\t\t</div>\n\t\t\t</section>\n\t\t</div>\n\t</div>\n</div>");
+$templateCache.put('partials/profile.html', "<div \n\tng-controller=\"NeedsAndGoalsController\" \n\tclass=\"tab\" \n\tng-init=\"user = workspace.user;\">\n\t<div class=\"tab\" ng-controller=\"MyProfileProfileController\">\n\t\t<perfect-scrollbar class=\"mypro acrd\" scroller>\n\t\t\t<div class=\"crits\">\n\t\t\t\t<ul> \n\t\t\t\t\t<li \n\t\t\t\t\t\tng-repeat=\"(needKey, needItem) in needs | orderBy:'position'\" \n\t\t\t\t\t\tdata-needId=\"{{needItem.sguid}}\"\n\t\t\t\t\t\tclass=\"{{needItem.name}}\">\n\t\t\t\t\t\t<div class=\"cr\" >\n\t\t\t\t\t\t\t<p>{{needItem.name}}</p>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t\t<ul ng-class=\"{current: needItem.current}\">\n\t\t\t\t\t\t\t<li \n\t\t\t\t\t\t\t\tng-repeat=\"(goalKey,goalItem) in needItem.goals | orderBy:'position'\" \n\t\t\t\t\t\t\t\tdata-goalid=\"{{goalItem.sguid}}\" >\n\t\t\t\t\t\t\t\t<h5 ng-class=\"{current: goalItem.current}\">\n\t\t\t\t\t\t\t\t\t<a ng-click=\"goalClick($event, goalItem, needs, needItem);\">\n\t\t\t\t\t\t\t\t\t\t<span>\n\t\t\t\t\t\t\t\t\t\t\t<img \n\t\t\t\t\t\t\t\t\t\t\tng-src=\"/images/goals/{{needItem.name | removewhite}}/{{goalItem.name | removewhite}}.png\"\n\t\t\t\t\t\t\t\t\t\t\talt=\"\" \n\t\t\t\t\t\t\t\t\t\t\ttitle=\"{{goalItem.name}}\" />\n\t\t\t\t\t\t\t\t\t\t</span>\n\t\t\t\t\t\t\t\t\t\t<h6>{{goalItem.name}}</h6>\n\t\t\t\t\t\t\t\t\t\t<em ng-if=\"!goalItem.current\"></em>\n\t\t\t\t\t\t\t\t\t</a>\t\n\t\t\t\t\t\t\t\t\t<div class=\"right\">\n\t\t\t\t\t\t\t\t\t\t<strong>\n\t\t\t\t\t\t\t\t\t\t\t<span \n\t\t\t\t\t\t\t\t\t\t\tclass=\"current_position\" \n\t\t\t\t\t\t\t\t\t\t\tstyle=\"width: {{(goalItem.current_value / (goalItem.points_summary ))*100}}%;\"></span>\n\t\t\t\t\t\t\t\t\t\t</strong>\n\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t</h5>\n\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t</li>\n\t\t\t\t\t\t</ul>\n\t\t\t\t\t</li>\n\t\t\t\t</ul>\n\t\t\t</div>\n\t\t</perfect-scrollbar>\n\n\t\t<perfect-scrollbar class=\"mypro_wr\" scroller >\n\t\t\t<section class=\"mypro\">\n\t\t\t\t<div class=\"crits {{selectedNeed.name}}\" ng-if=\"selectedGoal\">\n\t\t\t\t\t<h5>\n\t\t\t\t\t\t<a>\n\t\t\t\t\t\t\t<span>\n\t\t\t\t\t\t\t\t<img \n\t\t\t\t\t\t\t\t\tng-src=\"/images/goals/{{selectedNeed.name | removewhite}}/{{selectedGoal.name | removewhite}}.png\"\n\t\t\t\t\t\t\t\t\talt=\"\" \n\t\t\t\t\t\t\t\t\ttitle=\"{{selectedGoal.name}}\" />\n\t\t\t\t\t\t\t</span>\n\t\t\t\t\t\t\t{{selectedGoal.name}}\n\t\t\t\t\t\t</a>\t\n\t\t\t\t\t\t<div class=\"right\">\n\t\t\t\t\t\t\t<b>{{selectedGoal.current_value}} / {{selectedGoal.points_summary}}</b>\n\t\t\t\t\t\t\t<strong>\n\t\t\t\t\t\t\t\t<span class=\"current_position\" style=\"width: {{(selectedGoal.current_value / (selectedGoal.points_summary ))*100}}%;\"></span>\n\t\t\t\t\t\t\t</strong>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</h5>\n\t\t\t\t\t<ul class=\"criterion\">\n\t\t\t\t\t\t<li \n\t\t\t\t\t\tdata-id=\"{{crItem.sguid}}\" \n\t\t\t\t\t\tng-repeat=\"crItem in selectedGoal.criteriums | orderBy:'position'\" \n\t\t\t\t\t\tclass=\"animate-list\" >\n\t\t\t\t\t\t\t<p>{{crItem.name}}</p>\n\t\t\t\t\t\t\t<div class=\"bord\">\n\t\t\t\t\t\t\t\t<ul class=\"crp\">\n\t\t\t\t\t\t\t\t\t<div class=\"tab\">\n\t\t\t\t\t\t\t\t\t\t<li data-id=\"{{value.sguid}}\"  \n\t\t\t\t\t\t\t\t\t\t\tng-repeat=\"value in crItem.criteria_values | orderBy:'position'\"  \n\t\t\t\t\t\t\t\t\t\t\tclass=\"{{value.user_criteria}} position_{{value.position}}\" \n\t\t\t\t\t\t\t\t\t\t\tng-click=\"onCriteriaSelect(value, crItem, $event, selectedNeed, selectedGoal)\">\n\t\t\t\t\t\t\t\t\t\t\t<i ng-if=\"value.sguid != 'none'\">{{value.name}}</i>\n\t\t\t\t\t\t\t\t\t\t\t<i ng-if=\"value.sguid == 'none'\" class=\"null_criteria\"></i>\n\t\t\t\t\t\t\t\t\t\t</li>\n\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t<span>\n\t\t\t\t\t\t\t\t\t\t<sup></sup>\n\t\t\t\t\t\t\t\t\t</span>\n\t\t\t\t\t\t\t\t</ul>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t</li>\n\t\t\t\t\t</ul>\n\t\t\t\t</div>\n\t\t\t</section>\n\t\t</perfect-scrollbar>\n\t</div>\n</div>");
 $templateCache.put('partials/report.html', "<div class=\"fuckenmorda\">\n\t<h2>Report an Impostor Account</h2>\n\t<a ng-click=\"closeModal()\"></a>\n\t<p>If someone created an i-Rate account that’s pretending to be yours, please \n\tuse this form to file a report.</p>\n\t<input placeholder=\"Your full name\" />\n\t<input placeholder=\"Your contact email address\" />\n\t<p>Please attach a picture of a government-issued ID of the person being impersonated (ex: your ID or the ID of the person you’re authorized to represent). Cover up any personal information (ex: address, license number) that we don’t need to confirm your identity.</p>\n\t<b>The ID you provide:</b>\n\t<ul>\n\t\t<li>Must be government-issued (ex: passport, driver’s license)</li>\n\t\t<li>Must be multicolour</li>\n\t\t<li>Must clearly show the full name, date of birth, any photo</li>\n\t</ul>\n\t<s>Note: We won’t be able to process your request unless you submit an ID that meets these requirements.</s>\n\t<i>Upload an ID</i>\n\t<i>Your ID or an ID of a person you’re authorized to represent</i>\n\t<button>Upload</button>\n\t<input placeholder=\"Additional info\" />\n\t<button>Report</button>\n</div>");
-$templateCache.put('partials/right.html', "<div id=\"signin_panel\" class=\"full_height\" ng-if=\"showPanel\" >\n\t<div class=\"glass\">\n\t\t<div class=\"full_height\" ng-if=\"state == 0\" ng-include ng-controller=\"SigninController\" src=\"'partials/signin.html'\"></div>\n\t\t<div class=\"full_height\" ng-if=\"state == 1\" ng-include ng-controller=\"SignupController\" src=\"'partials/signup.html'\"></div>\n\t\t<div class=\"full_height\" ng-if=\"state == 2\" ng-include ng-controller=\"ImprovaLoginController\" src=\"'partials/improva.html'\"></div>\n\t</div>\n</div>");
+$templateCache.put('partials/right.html', "<div id=\"signin_panel\" class=\"full_height\" ng-if=\"showPanel\" >\n\t<perfect-scrollbar class=\"in scroller\" wheel-propagation=\"true\" wheel-speed=\"50\">\n\t\t<div class=\"glass\">\n\t\t\t<div class=\"full_height\" ng-if=\"state == 0\" ng-include ng-controller=\"SigninController\" src=\"'partials/signin.html'\"></div>\n\t\t\t<div class=\"full_height\" ng-if=\"state == 1\" ng-include ng-controller=\"SignupController\" src=\"'partials/signup.html'\"></div>\n\t\t\t<div class=\"full_height\" ng-if=\"state == 2\" ng-include ng-controller=\"ImprovaLoginController\" src=\"'partials/improva.html'\"></div>\n\t\t</div>\n\t</perfect-scrollbar>\n</div>");
 $templateCache.put('partials/search.html', "<div id=\"searchfull\" ng-if=\"show\"> \n\t<section class=\"searchfull\">\n\t\t<div \n\t\t\tid=\"search\" \n\t\t\tclass=\"search fullsearch\" \n\t\t\tng-controller=\"SearchController\">\n\t\t\t<div ng-controller=\"SearchLeftController\">\n\t\t\t\t<input \n\t\t\t\t\ttype=\"text\" \n\t\t\t\t\tng-model=\"searchText\" \n\t\t\t\t\tplaceholder=\"Search people\" \n\t\t\t\t\tclass=\"search\"\n\t\t\t\t\tng-change=\"onSearch()\" />\n\t\t\t\t<input type=\"button\" class=\"searcher\" ng-click=\"onSearch()\" />\n\t\t\t\t<div ng-cloak class=\"searchResult\" ng-if=\"resultSearch.length > 0\">\n\t\t\t\t\t<div class=\"item\" ng-repeat=\"(userKey, userItem) in resultSearch | orderBy:'points':true\">\n\t\t\t\t\t\t<div class=\"image\" ng-click=\"openSearchProfile(userItem.sguid)\">\n\t\t\t\t\t\t\t<img ng-src=\"{{userItem.avatar}}\" alt=\"\" err-src=\"/images/unknown-person.png\" />\n\t\t\t\t\t\t</div>\n\t\t\t\t\t\t<div class=\"text\" ng-click=\"openSearchProfile(userItem.sguid)\">\n\t\t\t\t\t\t\t<p class=\"name\">{{userItem.name}}</p>\n\t\t\t\t\t\t\t<p class=\"league\">{{userItem.league.name}} league</p>\n\t\t\t\t\t\t\t<p class=\"points\">{{userItem.points | int}}</p>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t</div>\t\n\t</section>\n\t<section class=\"fusepar\" ng-if=\"showRight\" scroller>\n\t\t<i ng-click=\"close()\"></i>\n\t\t<div class=\"fsp\">\n\t\t\t<div class=\"ri\">\n\t\t\t\t<h6>Top</h6>\n\t\t\t\t<input \n\t\t\t\t\ttype=\"text\" \n\t\t\t\t\tng-model=\"search.top.name\" \n\t\t\t\t\tclass=\"search\"\n\t\t\t\t\tng-change=\"filteredList('topList', search.top.name, 'top')\" />\n\t\t\t\t<input type=\"button\" class=\"searcher\" ng-click=\"toggleShowState('top')\" />\n\t\t\t\t<img src=\"./images/fusedel.png\" ng-click=\"selectParam('top', '', true)\">\n\t\t\t\t<ul class=\"popup_list\" ng-if=\"shows.top\">\n\t\t\t\t\t<li \n\t\t\t\t\t\tng-if=\"value.show\" \n\t\t\t\t\t\tng-repeat=\"(key, value) in topList\" \n\t\t\t\t\t\tng-click=\"selectTopParam('top', value)\">{{value.name}}</li>\n\t\t\t\t</ul>\n\t\t\t</div>\n\t\t\t<em></em>\n\t\t</div>\n\t\t<div class=\"fsp\">\n\t\t\t<div class=\"ri\">\n\t\t\t\t<h6>Career</h6>\n\t\t\t\t<input \n\t\t\t\t\ttype=\"text\" \n\t\t\t\t\tng-model=\"search.career.name\" \n\t\t\t\t\tclass=\"search\"\n\t\t\t\t\tng-change=\"filteredList('careerList', search.career.name, 'career')\" />\n\t\t\t\t<input type=\"button\" class=\"searcher\" ng-click=\"toggleShowState('career')\" />\n\t\t\t\t<img src=\"./images/fusedel.png\" ng-click=\"selectParam('career', '', true)\">\n\t\t\t\t<ul class=\"popup_list\" ng-if=\"shows.career\">\n\t\t\t\t\t<li \n\t\t\t\t\t\tng-if=\"value.show\" \n\t\t\t\t\t\tng-repeat=\"(key, value) in careerList\" \n\t\t\t\t\t\tng-click=\"selectCareerParam('career', value)\">{{value.name}}</li>\n\t\t\t\t</ul>\n\t\t\t</div>\n\t\t\t<div class=\"ri\">\n\t\t\t\t<h6>Profession</h6>\n\t\t\t\t<input \n\t\t\t\t\ttype=\"text\" \n\t\t\t\t\tng-model=\"search.profession.name\" \n\t\t\t\t\tclass=\"search\"\n\t\t\t\t\tng-change=\"filteredList('professionList', search.profession.name, 'profession')\" />\n\t\t\t\t<input type=\"button\" class=\"searcher\" ng-click=\"toggleShowState('profession')\" />\n\t\t\t\t<img src=\"./images/fusedel.png\" ng-click=\"selectParam('profession', '', true)\">\n\t\t\t\t<ul class=\"popup_list\" ng-if=\"shows.profession\">\n\t\t\t\t\t<li ng-if=\"value.show\" ng-repeat=\"(key, value) in professionList\" ng-click=\"selectParam('profession', value)\">{{value.name}}</li>\n\t\t\t\t</ul>\n\t\t\t</div>\n\t\t\t<em></em>\n\t\t</div>\n\t\t<div class=\"fsp\">\n\t\t\t<div class=\"ri\">\n\t\t\t\t<h6>Country</h6>\n\t\t\t\t<input \n\t\t\t\t\ttype=\"text\" \n\t\t\t\t\tng-model=\"search.country.name\" \n\t\t\t\t\tclass=\"search\"\n\t\t\t\t\tng-change=\"filteredList('countriesList', search.country.name, 'country')\" />\n\t\t\t\t<input type=\"button\" class=\"searcher\" ng-click=\"toggleShowState('country')\" />\n\t\t\t\t<img src=\"./images/fusedel.png\" ng-click=\"selectParam('country', '', true)\">\n\t\t\t\t<ul class=\"popup_list\" ng-if=\"shows.country\">\n\t\t\t\t\t<li ng-if=\"value.show\" ng-repeat=\"(key, value) in countriesList\" ng-click=\"selectContryParam('country', value)\">{{value.name}}</li>\n\t\t\t\t</ul>\n\t\t\t</div>\n\t\t\t<div class=\"ri\">\n\t\t\t\t<h6>City</h6>\n\t\t\t\t<input \n\t\t\t\t\ttype=\"text\" \n\t\t\t\t\tng-model=\"search.city.name\" \n\t\t\t\t\tclass=\"search\"\n\t\t\t\t\tng-change=\"filteredList('cityList', search.city.name, 'city')\" />\n\t\t\t\t<input type=\"button\" class=\"searcher\" ng-click=\"toggleShowState('city')\" />\n\t\t\t\t<img src=\"./images/fusedel.png\" ng-click=\"selectParam('city', '', true)\">\n\t\t\t\t<ul class=\"popup_list\" ng-if=\"shows.city\">\n\t\t\t\t\t<li ng-if=\"value.show\" ng-repeat=\"(key, value) in cityList\" ng-click=\"selectParam('city', value)\">{{value.name}}</li>\n\t\t\t\t</ul>\n\t\t\t</div>\n\t\t\t<em></em>\n\t\t</div>\n\t\t<div class=\"fsp\">\n\t\t\t<div class=\"ri\">\n\t\t\t\t<h6>Birthday from</h6>\n\t\t\t\t<input type=\"text\" ng-model=\"search.birthday_from\" ui-date=\"dateOptions\"  name=\"DateOfBirth1\" id=\"dFrom\" />\n\t\t\t\t<img src=\"./images/fusedel.png\" ng-click=\"selectParam('birthday_from', '', true)\">\n\t\t\t</div>\n\t\t\t<div class=\"ri\">\n\t\t\t\t<h6>Birthday till</h6>\n\t\t\t\t<input type=\"text\" ng-model=\"search.birthday_till\" ui-date=\"dateOptions\"  name=\"DateOfBirth2\" id=\"dTill\" />\n\t\t\t\t<img src=\"./images/fusedel.png\" ng-click=\"selectParam('birthday_till', '', true)\">\n\t\t\t</div>\n\t\t\t<em></em>\n\t\t</div>\n\t\t<div class=\"fsp\">\n\t\t\t<div class=\"ri\">\n\t\t\t\t<h6>League</h6>\n\t\t\t\t<input \n\t\t\t\t\ttype=\"text\" \n\t\t\t\t\tng-model=\"search.league.name\" \n\t\t\t\t\tclass=\"search\" />\n\t\t\t\t<input type=\"button\" class=\"searcher\" ng-click=\"toggleShowState('league')\" />\n\t\t\t\t<img src=\"./images/fusedel.png\" ng-click=\"selectParam('league', '', true)\">\n\t\t\t\t<ul class=\"popup_list\" ng-if=\"shows.league\">\n\t\t\t\t\t<li ng-repeat=\"(key, value) in workspace.leagues\" ng-click=\"selectLeagueParam('league', value)\">{{value.name}}</li>\n\t\t\t\t</ul>\n\t\t\t\t\n\t\t\t</div>\n\t\t\t<div class=\"ri\">\n\t\t\t\t<h6>Score</h6>\n\t\t\t\t<rzslider \n\t\t\t\t\trz-slider-floor=\"0\" \n\t\t\t\t\trz-slider-ceil=\"100000\" \n\t\t\t\t\trz-slider-model=\"search.minScore\" \n\t\t\t\t\trz-slider-high=\"search.maxScore\">\n\t\t\t\t</rzslider>\n\t\t\t</div>\n\t\t\t<em></em>\n\t\t</div>\n\t\t<div class=\"fsp fspb\">\n\t\t\t<button ng-click=\"clearAll()\">Clear all</button>\n\t\t\t<button ng-click=\"advanceSearch()\">Find</button>\n\t\t</div>\n\t</section>\n</div>");
 $templateCache.put('partials/share.html', "<div ng-controller=\"ShareController\">\n\t<a \n\t\thref=\"https://twitter.com/intent/tweet?text=iRate&url=http://www.irate.com\" \n\t\ttarget=\"_blank\"></a>\n\t<a \n\t\tng-click=\"shareFacebook('http://www.irate.com', 'iRate', '', 'http://www.improva.com/src/assets/images/icons/improva_icon.png')\" class=\"facebook\"></a>\n\t<a \n\t\tng-click=\"shareGoogle('http://www.irate.com')\" \n\t\tclass=\"google\"></a>\t\n</div>");
 $templateCache.put('partials/signin.html', "<h4>Sign in</h4>\n<div class=\"sign-in\">\n  <ng-form \n    id=\"login_form\" \n    name=\"LoginForm\" \n    novalidate \n    class=\"css-form myForm\" >\n    <p>\n      <input \n        type=\"email\" \n        id=\"login_i\" \n        class=\"form-input\"\n        ng-model=\"login.email\"\n        name=\"Email\"\n        required \n        ng-minlength=\"6\"\n        placeholder=\"Email\"\n        ui-keypress=\"{13:'onKeyPress($event)'}\" />\n      <br />\n      <span \n      \tclass=\"errorss\" \n      \tng-show=\"LoginForm.Email.$dirty && (LoginForm.Email.$error.required || LoginForm.Email.$error.minlength || LoginForm.Email.$error.email)\">Incorrect email\n      </span>\n    </p>       \n    <p>\n      <input \n        type=\"password\" \n        id=\"pass_i\"\n        class=\"form-input\"\n        ng-model=\"login.password\"\n        required \n        name=\"Password\"\n        ng-minlength=\"6\"\n        placeholder=\"Password\"\n        ui-keypress=\"{13:'onKeyPress($event)'}\"\n        ng-trim=\"false\" /> \n      <br />\n      <span \n      \tclass=\"errorss rss\" \n      \tng-show=\"LoginForm.Password.$dirty && (LoginForm.Password.$error.required || LoginForm.Password.$error.minlength)\">Incorrect password\n      </span>\n    </p>\n    <div class=\"step\">\n      <p>\n        <a href=\"#/change_password\">Forgot your password?</a>\n      </p>\n      <p>\n        <input type=\"checkbox\"  />\n        <label>Keep me signed in</label>\n      </p>\n      <p class=\"errors\" ng-show=\"error\">{{error}}</p>\n      <p class=\"singin-sub\">\n        <input \n          ng-disabled=\"LoginForm.$invalid\"\n          ng-click=\"onSingin()\" \n          type=\"button\" \n          value=\"Sign in\" />\n      </p>    \n    </div>\n    <div class=\"rere\">\n      <p>Don’t have an iRate account yet?</p>\t\n      <p class=\"singin-sub\">\n        <input \n          ng-click=\"changeState(states.SIGNUP)\" \n          type=\"button\" \n          value=\"Sign up\" />\n      </p>          \n    </div>\n\n    <!-- social link -->\n    <i>Use Improva, Facebook, Google+, LiveID or your email to sign in.</i>    \n    <ul>\n      <li>\n        <a ng-click=\"improvaLogin()\">\n          <span class=\"icon improva\" ng-click=\"changeState(states.IMPROVA)\"></span>\n        </a>\n      </li>\n      <li>\n        <a ng-click=\"socialFacebookLogin()\">\n          <span class=\"icon facebook\"></span>\n        </a>\n      </li>\n      <li>\n        <a ng-click=\"socialGooglePlusLogin()\">\n          <span class=\"icon google\"></span>\n        </a>\n      </li>\n      <li>\n        <a ng-click=\"socialMicrosoftLiveLogin()\">\n          <span class=\"icon live\"></span>\n        </a>\n      </li>\n    </ul>\n    \n  </ng-form>\n</div>");
 $templateCache.put('partials/signup-success.html', "<div class=\"small-message\">\n\t<h2>Successful registration!</h2>\n\t<p>The message have been sent to your email. <br />Sign in by the inner link now.</p>\n\t<a ng-click=\"closeModal()\" class=\"close\">Ok</a>\n</div>");
 $templateCache.put('partials/signup.html', "<h4>Sign up</h4>\n<b class=\"close icon\" ng-click=\"changeState(states.SIGNIN)\"></b>\n<div class=\"sign-up\">\n  <ng-form \n    novalidate \n    class=\"css-form myForm\"\n    name=\"RegForm\" >\n    <p>\n      <input \n        type=\"email\" \n        id=\"email_1\" \n        class=\"form-input\"\n        ng-model=\"user.email\" \n        required\n        ng-minlength=\"6\"\n        placeholder=\"Email\"\n        name=\"NewEmail\"\n        ui-keypress=\"{13:'onKeyPressReg($event)'}\"  />\n      <br />\n      <span \n        class=\"errorss\" \n        ng-show=\"RegForm.NewEmail.$dirty && (RegForm.NewEmail.$error.required || RegForm.NewEmail.$error.minlength || RegForm.NewEmail.$error.email)\">Incorrect email</span>\n      <span class=\"errorss\" ng-if=\"errorEmail\">{{errorEmail}}</span>\n    </p>\n    <p>\n      <input \n        type=\"email\" \n        id=\"email_2\" \n        class=\"form-input\"\n        ng-model=\"user.reemail\" \n        required \n        ng-minlength=\"6\"\n        placeholder=\"Confirm email\"\n        disable-paste\n        onpaste=\"return false;\"\n        name=\"NewMassEmail\"\n        pw-check=\"email_2\"\n        equal='user.email'\n        ui-keypress=\"{13:'onKeyPressReg($event)'}\" />\n      <br />\n      <span \n        class=\"errorss rss\" \n        ng-show=\"RegForm.NewMassEmail.$dirty && (RegForm.NewMassEmail.$error.required || RegForm.NewMassEmail.$error.minlength || RegForm.NewEmail.$error.email)\"> Incorrect mismatch</span> \n      <span class=\"errorss\" ng-if=\"errorName\">{{errorName}}</span>\n    </p>\n    <p>\n      <input \n        type=\"password\" \n        id=\"name_i\" \n        class=\"form-input\"\n        ng-model=\"user.password\" \n        required \n        ng-minlength=\"6\"\n        placeholder=\"Password\"\n        name=\"NewPassword\"\n        ui-keypress=\"{13:'onKeyPressReg($event)'}\" /> \n      <br />\n      <span \n        class=\"errorss rrss\" \n        ng-show=\"RegForm.NewPassword.$dirty && (RegForm.NewPassword.$error.required || RegForm.NewPassword.$error.minlength)\">Incorrect password</span>\n    </p>\n    <div\n      vc-recaptcha\n      theme=\"blackglass\"\n      lang=\"en\"\n      ng-model=\"captha\"\n      key=\"6Lf1Z-oSAAAAAEkk7m5n6cGiwgqeMya21UetPbIO\">\n    </div>\n\n    <p class=\"errors\" ng-if=\"errorValidate\"><br />{{errorValidate}}</p><br />\n\n    <p class=\"acknowledge\">\n      <input type=\"checkbox\"  required=\"required\" ng-model=\"acknowledge\" class=\"icheckbox_minimal\" />\n      <label>I acknowledge I have read and accept the<a href=\"/views/terms.html\" class=\"notdark\">Terms of use Agreement</a> and consent to the <a href=\"/views/terms.html\" class=\"notdark\">Privacy Policy</a>.</label>\n    </p>\n\n    <p class=\"signup-submit\">\n      <input \n        type=\"button\" \n        value=\"Sign up\"\n        ng-disabled=\"RegForm.$invalid\"\n        ng-click=\"addUser()\" />\n    </p>\n  </ng-form>\n</div>");
-$templateCache.put('partials/user.html', "<div ng-if=\"user\" class=\"sam\" ng-class=\"{big: big}\">\n\t<!-- Поиск -->\n\t<div id=\"search\" class=\"search\" ng-if=\"compare\">\n\t\t<div ng-controller=\"SearchController\">\n\t\t\t<input \n\t\t\t\ttype=\"text\" \n\t\t\t\tng-model=\"searchText\" \n\t\t\t\tplaceholder=\"Search people\" \n\t\t\t\tclass=\"search\"\n\t\t\t\tng-change=\"onSearch()\"\n\t\t\t\tui-keypress=\"{13:'onSearch()'}\" />\n\t\t\t<input type=\"button\" class=\"searcher\" ng-click=\"onSearch()\" />\n\t\t\t<div ng-cloak class=\"searchResult\" ng-if=\"resultSearch.length > 0\">\n\t\t\t\t<div class=\"item\" ng-repeat=\"(userKey, userItem) in resultSearch\" ng-click=\"changeUser(userItem)\">\n\t\t\t\t\t<div class=\"image\">\n\t\t\t\t\t\t<img ng-src=\"{{userItem.avatar}}\" alt=\"\">\n\t\t\t\t\t\t<i ng-if=\"userItem.points\">{{userItem.points}}</i>\n\t\t\t\t\t</div>\n\t\t\t\t\t<div class=\"text\">\n\t\t\t\t\t\t<p class=\"name\">{{userItem.name}}</p>\n\t\t\t\t\t\t<p class=\"birthday\">{{userItem.birthday}}</p>\n\t\t\t\t\t\t<p class=\"birthday\">{{userItem.state.name}}</p>\n\t\t\t\t\t\t<p class=\"profession\">{{userItem.profession.name}}</p>\n\t\t\t\t\t\t<p class=\"league\">{{userItem.league.name}} league</p>\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t</div>\t\n\t\t</div>\n\t</div>\n\t<div class=\"pmain pro\" >\n\t\t<div class=\"block\" ng-if=\"user\">\n\t\t\t<div class=\"image_box\" ng-class=\"{updated: user.sguid == authUserId && isEdit, big: user.hover}\" \n\t\t\t\tng-click=\"onUserClick(user, $event)\" >\n\t\t\t\t<img class=\"pp\" ng-src=\"{{user.avatar}}\" err-src=\"/images/unknown-person.png\" />\n\t\t\t\t<a ng-click=\"onUpdateFile()\" title=\"\">Update image</a>\n\t\t\t\t<span></span>\t\n\t\t\t\t<s ng-if=\"user.artificial\">profile is created by experts based on available public info</s>\t\n\t\t\t\t<div class=\"sub\">\n\t\t\t\t\t<b>{{user.name}} <br /><s>{{user.league.name}} league</s></b>\n\t\t\t\t\t<ul>\n\t\t\t\t\t\t<li>\n\t\t\t\t\t\t\t<a ng-click=\"onMoveToProfile(user)\">\n\t\t\t\t\t\t\t\t<span class=\"icon profile navigate\"></span>\n\t\t\t\t\t\t\t</a>\n\t\t\t\t\t\t</li>\n\t\t\t\t\t\t<li>\n\t\t\t\t\t\t\t<a ng-if=\"user && !user.isFollow\" ng-click=\"onFollow()\">\n\t\t\t\t\t\t\t\t<span class=\"icon follow navigate\"></span>\n\t\t\t\t\t\t\t</a>\n\t\t\t\t\t\t\t<a ng-if=\"user && user.isFollow\" ng-click=\"onUnFollow()\">\n\t\t\t\t\t\t\t\t<span class=\"icon unfollow navigate\"></span>\n\t\t\t\t\t\t\t</a>\n\t\t\t\t\t\t</li>\n\t\t\t\t\t</ul>\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t</div>\n\t\t<div class=\"pmpar\" ng-if=\"user\">\n\t\t\t<p>\n\t\t\t\t<i>{{user.name}}</i>\n\t\t\t</p>\n\t\t\t<p>\n\t\t\t\t<i>{{user.birthday}}</i>\n\t\t\t</p>\n\t\t\t<p>\n\t\t\t\t<i>\n\t\t\t\t\t<span ng-if=\"user.state.name\">{{user.state.name}}</span>\n\t\t\t\t\t<span ng-if=\"user.city.name\">\n\t\t\t\t\t\t<span ng-if=\"user.state.name\">,</span> \n\t\t\t\t\t\t{{user.city.name}}\n\t\t\t\t\t</span>\n\t\t\t\t</i>\n\t\t\t<p>\n\t\t\t\t<i>{{user.profession.name}}<span ng-if=\"user.goal_name\">, {{user.goal_name}}</span></i>\n\t\t\t</p>\n\n\t\t\t<p>\n\t\t\t\t<i>{{user.league.name}}</i>\n\t\t\t</p>\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\n\t\t\t<p>\n\t\t\t\t<i>{{user.points}}</i>\n\t\t\t</p>\n\t\t</div>\n\n\t\t<!-- статситика -->\n\t\t<b class=\"statis stf\">123</b>\n\t\t<b class=\"statis stv\">4567 views</b>\n\n\t\t<a class=\"il\" ng-if=\"user && !isFriend && !compare\" ng-click=\"onFollow()\"><img src=\"../images/i3.png\"></a>\n\t\t<a class=\"il\" ng-if=\"user && isFriend && !compare\" ng-click=\"onUnFollow()\"><img src=\"../images/i3i.png\"></a>\n\n\t\t<!-- report button -->\n\t\t<a class=\"il rep\" ng-click=\"openReport()\" >\n\t\t\t<img src=\"../images/rep.png\">\n\t\t</a> \n\n\t\t<!-- кнопочка закрытия -->\n\t\t<a class=\"il\" ng-if=\"user && !compare && user.sguid != workspace.user.sguid\" ng-click=\"close()\">\n\t\t\t<img src=\"../images/cl.png\">\n\t\t</a> \n\t</div>\n\n\t<!-- переключатель колбасы/комментарии -->\n\t<div class=\"mynav notmynav\">\n\t\t<ul>\n\t\t\t<li ng-click=\"onChangeTab(1)\" ng-class=\"{current: tab == 1}\">\n\t\t\t\t<a>Profile</a>\n\t\t\t</li>\n\t\t\t<li ng-click=\"onChangeTab(2)\" ng-class=\"{current: tab == 2}\">\n\t\t\t\t<a>Comments</a>\n\t\t\t</li>\n\t\t</ul>\n\t</div>\n\n\t<div \n\t\tclass=\"tab tabss\"\n\t\tscroller\n\t\tscrolls\n\t\tscrolls-class=\"tabss\">\n\t\t<div \n\t\tng-controller=\"UserCommentsController\" \n\t\tng-show=\"tab == 2\" \n\t\tclass=\"comments\"\n\t\tscroller>\n\t\t\t<div class=\"comm\">\n\t\t\t\t<div class=\"cmnt\" ng-repeat=\"comment in commentsList | orderBy:'post_date'\"  >\n\t\t\t\t\t<strong>{{comment.user.name}}</strong>\n\t\t\t\t\t<i>{{comment.post_date}}</i>\n\t\t\t\t\t<br />\n\t\t\t\t\t<p>{{comment.message}}</p>\n\t\t\t\t\t<em></em>\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t\t<div class=\"butcomm\">\n\t\t\t\t<em></em>\n\t\t\t\t<ng-form>\n\t\t\t\t\t<textarea ng-model=\"form.message\" msd-elastic id=\"comment_message\" name=\"comment\" placeholder=\"Enter your comment here\"></textarea>\n\t\t\t\t\t<button ng-click=\"onSendMessage()\">Send</button>\n\t\t\t\t</ng-form>\n\t\t\t</div>\n\t\t</div>\n\n\t\t<div \n\t\t\tclass=\"crits\" \n\t\t\tng-controller=\"NeedsAndGoalsController\" \n\t\t\tng-show=\"tab == 1\">\n\t\t\t<ul ng-controller=\"UserNeedsController\"> \n\t\t\t\t<li \n\t\t\t\t\tclass=\"{{needItem.name}}\" \n\t\t\t\t\tng-repeat=\"(needKey, needItem) in needs | orderBy:'position'\" \n\t\t\t\t\tdata-needId=\"{{needItem.sguid}}\">\n\t\t\t\t\t<div class=\"cr\" ng-click=\"onShowGoals($event, needItem)\">\n\t\t\t\t\t\t<p>{{needItem.name}}</p>\n\t\t\t\t\t\t<div class=\"right\">\n\t\t\t\t\t\t\t<b>{{needItem.current_value | notnull}} / {{needItem.points_summary}}</b>\n\t\t\t\t\t\t\t<strong>\n\t\t\t\t\t\t\t\t<span \n\t\t\t\t\t\t\t\t\tclass=\"current_position\"\n\t\t\t\t\t\t\t\t\tposition-need>\n\t\t\t\t\t\t\t\t</span>\n\t\t\t\t\t\t\t</strong>\t\n\t\t\t\t\t\t</div>\n\t\t\t\t\t\t<sup class=\"compare\" route=\"{{route}}\" comparator values=\"{{needsValues[needItem.sguid]}}\"></sup>\n\t\t\t\t\t</div>\n\t\t\t\t\t<ul ng-class=\"{hidden: needItem.hidden}\">\n\t\t\t\t\t\t<li ng-repeat=\"(goalKey,goalItem) in needItem.goals | orderBy:'position'\" \n\t\t\t\t\t\t\tdata-goalid=\"{{goalItem.sguid}}\" \n\t\t\t\t\t\t\tuser-id=\"{{user.sguid}}\" >\n\t\t\t\t\t\t\t<h5 ng-click=\"showCriterias($event, needItem, goalItem, needs)\">\n\t\t\t\t\t\t\t\t<a \n\t\t\t\t\t\t\t\t\tng-class=\"{current: goalItem.current}\"\n\t\t\t\t\t\t\t\t\tdata-goalid=\"{{goalItem.sguid}}\" \n\t\t\t\t\t\t\t\t\tuser-id=\"{{user.sguid}}\">\n\t\t\t\t\t\t\t\t\t<span>\n\t\t\t\t\t\t\t\t\t\t<img \n\t\t\t\t\t\t\t\t\t\t\tng-src=\"/images/goals/{{needItem.name | removewhite}}/{{goalItem.name | removewhite}}.png\"\n\t\t\t\t\t\t\t\t\t\t\talt=\"\" \n\t\t\t\t\t\t\t\t\t\t\ttitle=\"{{goalItem.name}}\" />\n\t\t\t\t\t\t\t\t\t</span>\n\t\t\t\t\t\t\t\t\t<h6>{{goalItem.name}}</h6>\n\t\t\t\t\t\t\t\t\t<s></s>\n\t\t\t\t\t\t\t\t</a>\t\n\t\t\t\t\t\t\t\t<div class=\"right\">\n\t\t\t\t\t\t\t\t\t<strong>\n\t\t\t\t\t\t\t\t\t\t<span position-goal class=\"current_position\" ></span>\n\t\t\t\t\t\t\t\t\t</strong>\n\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t<i ng-if=\"!goalItem.current\"><em></em></i>\n\t\t\t\t\t\t\t\t<sup \n\t\t\t\t\t\t\t\t\tclass=\"compare goal\" \n\t\t\t\t\t\t\t\t\troute=\"{{route}}\" \n\t\t\t\t\t\t\t\t\tcomparator \n\t\t\t\t\t\t\t\t\tvalues=\"{{goalsValues[goalItem.sguid]}}\" >\n\t\t\t\t\t\t\t\t</sup>\n\t\t\t\t\t\t\t</h5>\n\t\t\t\t\t\t\t<ul class=\"criterion\" ng-class=\"{current: goalItem.current}\">\n\t\t\t\t\t\t\t\t<li \n\t\t\t\t\t\t\t\t\tdata-id=\"{{crItem.sguid}}\" \n\t\t\t\t\t\t\t\t\tng-repeat=\"crItem in goalItem.criteriums | orderBy:'position'\" >\n\t\t\t\t\t\t\t\t\t<p>{{crItem.name}}</p>\n\t\t\t\t\t\t\t\t\t<div class=\"bord\">\n\t\t\t\t\t\t\t\t\t\t<ul class=\"crp\">\n\t\t\t\t\t\t\t\t\t\t\t<div class=\"tab\">\n\t\t\t\t\t\t\t\t\t\t\t\t<li data-id=\"{{value.sguid}}\"  \n\t\t\t\t\t\t\t\t\t\t\t\t\tng-repeat=\"value in crItem.criteria_values | orderBy:'position'\"  \n\t\t\t\t\t\t\t\t\t\t\t\t\tclass=\"{{value.user_criteria}} position_{{value.position}}\" >\n\t\t\t\t\t\t\t\t\t\t\t\t\t<i ng-if=\"value.sguid != 'none'\">{{value.name}}</i>\n\t\t\t\t\t\t\t\t\t\t\t\t\t<i ng-if=\"value.sguid == 'none'\" class=\"null_criteria\"></i>\n\t\t\t\t\t\t\t\t\t\t\t\t</li>\n\t\t\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t\t\t<span>\n\t\t\t\t\t\t\t\t\t\t\t\t<sup></sup>\n\t\t\t\t\t\t\t\t\t\t\t</span>\n\t\t\t\t\t\t\t\t\t\t</ul>\n\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t<sup \n\t\t\t\t\t\t\t\t\t\tclass=\"compare criterium\" \n\t\t\t\t\t\t\t\t\t\troute=\"{{route}}\" \n\t\t\t\t\t\t\t\t\t\tcomparator \n\t\t\t\t\t\t\t\t\t\tvalues=\"{{criteriumsValues[crItem.sguid]}}\">\n\t\t\t\t\t\t\t\t\t</sup>\n\t\t\t\t\t\t\t\t</li>\n\t\t\t\t\t\t\t</ul>\n\t\t\t\t\t\t</li>\n\t\t\t\t\t\t\n\t\t\t\t\t</ul>\n\t\t\t\t</li>\n\t\t\t</ul>\n\t\t</div>\n\t</div>\n</div>");
+$templateCache.put('partials/user.html', "<div ng-if=\"user\" class=\"sam\" ng-class=\"{big: big}\">\n\t<!-- Поиск -->\n\t<div id=\"search\" class=\"search\" ng-if=\"compare\">\n\t\t<div ng-controller=\"SearchController\">\n\t\t\t<input \n\t\t\t\ttype=\"text\" \n\t\t\t\tng-model=\"searchText\" \n\t\t\t\tplaceholder=\"Search people\" \n\t\t\t\tclass=\"search\"\n\t\t\t\tng-change=\"onSearch()\"\n\t\t\t\tui-keypress=\"{13:'onSearch()'}\" />\n\t\t\t<input type=\"button\" class=\"searcher\" ng-click=\"onSearch()\" />\n\t\t\t<div ng-cloak class=\"searchResult\" ng-if=\"resultSearch.length > 0\">\n\t\t\t\t<div class=\"item\" ng-repeat=\"(userKey, userItem) in resultSearch\" ng-click=\"changeUser(userItem)\">\n\t\t\t\t\t<div class=\"image\">\n\t\t\t\t\t\t<img ng-src=\"{{userItem.avatar}}\" alt=\"\">\n\t\t\t\t\t\t<i ng-if=\"userItem.points\">{{userItem.points}}</i>\n\t\t\t\t\t</div>\n\t\t\t\t\t<div class=\"text\">\n\t\t\t\t\t\t<p class=\"name\">{{userItem.name}}</p>\n\t\t\t\t\t\t<p class=\"birthday\">{{userItem.birthday}}</p>\n\t\t\t\t\t\t<p class=\"birthday\">{{userItem.state.name}}</p>\n\t\t\t\t\t\t<p class=\"profession\">{{userItem.profession.name}}</p>\n\t\t\t\t\t\t<p class=\"league\">{{userItem.league.name}} league</p>\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t</div>\t\n\t\t</div>\n\t</div>\n\t<div class=\"pmain pro\" >\n\t\t<div class=\"block\" ng-if=\"user\">\n\t\t\t<div class=\"image_box\" ng-class=\"{updated: user.sguid == authUserId && isEdit, big: user.hover}\" \n\t\t\t\tng-click=\"onUserClick(user, $event)\" >\n\t\t\t\t<img class=\"pp\" ng-src=\"{{user.avatar}}\" err-src=\"/images/unknown-person.png\" />\n\t\t\t\t<a ng-click=\"onUpdateFile()\" title=\"\">Update image</a>\n\t\t\t\t<span></span>\t\n\t\t\t\t<s ng-if=\"user.artificial\">profile is created by experts based on available public info</s>\t\n\t\t\t\t<div class=\"sub\">\n\t\t\t\t\t<b>{{user.name}} <br /><s>{{user.league.name}} league</s></b>\n\t\t\t\t\t<ul>\n\t\t\t\t\t\t<li>\n\t\t\t\t\t\t\t<a ng-click=\"onMoveToProfile(user)\">\n\t\t\t\t\t\t\t\t<span class=\"icon profile navigate\"></span>\n\t\t\t\t\t\t\t</a>\n\t\t\t\t\t\t</li>\n\t\t\t\t\t\t<li>\n\t\t\t\t\t\t\t<a ng-if=\"user && !user.isFollow\" ng-click=\"onFollow()\">\n\t\t\t\t\t\t\t\t<span class=\"icon follow navigate\"></span>\n\t\t\t\t\t\t\t</a>\n\t\t\t\t\t\t\t<a ng-if=\"user && user.isFollow\" ng-click=\"onUnFollow()\">\n\t\t\t\t\t\t\t\t<span class=\"icon unfollow navigate\"></span>\n\t\t\t\t\t\t\t</a>\n\t\t\t\t\t\t</li>\n\t\t\t\t\t</ul>\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t</div>\n\t\t<div class=\"pmpar\" ng-if=\"user\">\n\t\t\t<p>\n\t\t\t\t<i>{{user.name}}</i>\n\t\t\t</p>\n\t\t\t<p>\n\t\t\t\t<i>{{user.birthday}}</i>\n\t\t\t</p>\n\t\t\t<p>\n\t\t\t\t<i>\n\t\t\t\t\t<span ng-if=\"user.state.name\">{{user.state.name}}</span>\n\t\t\t\t\t<span ng-if=\"user.city.name\">\n\t\t\t\t\t\t<span ng-if=\"user.state.name\">,</span> \n\t\t\t\t\t\t{{user.city.name}}\n\t\t\t\t\t</span>\n\t\t\t\t</i>\n\t\t\t<p>\n\t\t\t\t<i>{{user.profession.name}}<span ng-if=\"user.goal_name\">, {{user.goal_name}}</span></i>\n\t\t\t</p>\n\n\t\t\t<p>\n\t\t\t\t<i>{{user.league.name}}</i>\n\t\t\t</p>\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\n\t\t\t<p>\n\t\t\t\t<i>{{user.points}}</i>\n\t\t\t</p>\n\t\t</div>\n\n\t\t<!-- статситика -->\n\t\t<b class=\"statis stf\">123</b>\n\t\t<b class=\"statis stv\">4567 views</b>\n\n\t\t<a class=\"il\" ng-if=\"user && !isFriend && !compare\" ng-click=\"onFollow()\"><img src=\"../images/i3.png\"></a>\n\t\t<a class=\"il\" ng-if=\"user && isFriend && !compare\" ng-click=\"onUnFollow()\"><img src=\"../images/i3i.png\"></a>\n\n\t\t<!-- report button -->\n\t\t<a class=\"il rep\" ng-click=\"openReport()\" >\n\t\t\t<img src=\"../images/rep.png\">\n\t\t</a> \n\n\t\t<!-- кнопочка закрытия -->\n\t\t<a class=\"il\" ng-if=\"user && !compare && user.sguid != workspace.user.sguid\" ng-click=\"close()\">\n\t\t\t<img src=\"../images/cl.png\">\n\t\t</a> \n\t</div>\n\n\t<!-- переключатель колбасы/комментарии -->\n\t<div class=\"mynav notmynav\">\n\t\t<ul>\n\t\t\t<li ng-click=\"onChangeTab(1)\" ng-class=\"{current: tab == 1}\">\n\t\t\t\t<a>Profile</a>\n\t\t\t</li>\n\t\t\t<li ng-click=\"onChangeTab(2)\" ng-class=\"{current: tab == 2}\">\n\t\t\t\t<a>Comments</a>\n\t\t\t</li>\n\t\t</ul>\n\t</div>\n\n\t<perfect-scrollbar \n\t\tclass=\"tab tabss\"\n\t\tscroller\n\t\tscrolls\n\t\tscrolls-class=\"tabss\">\n\t\t<div \n\t\tng-controller=\"UserCommentsController\" \n\t\tng-show=\"tab == 2\" \n\t\tclass=\"comments\"\n\t\tscroller>\n\t\t\t<div class=\"comm\">\n\t\t\t\t<div class=\"cmnt\" ng-repeat=\"comment in commentsList | orderBy:'post_date'\"  >\n\t\t\t\t\t<strong>{{comment.user.name}}</strong>\n\t\t\t\t\t<i>{{comment.post_date}}</i>\n\t\t\t\t\t<br />\n\t\t\t\t\t<p>{{comment.message}}</p>\n\t\t\t\t\t<em></em>\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t\t<div class=\"butcomm\">\n\t\t\t\t<em></em>\n\t\t\t\t<ng-form>\n\t\t\t\t\t<textarea ng-model=\"form.message\" msd-elastic id=\"comment_message\" name=\"comment\" placeholder=\"Enter your comment here\"></textarea>\n\t\t\t\t\t<button ng-click=\"onSendMessage()\">Send</button>\n\t\t\t\t</ng-form>\n\t\t\t</div>\n\t\t</div>\n\n\t\t<div \n\t\t\tclass=\"crits\" \n\t\t\tng-controller=\"NeedsAndGoalsController\" \n\t\t\tng-show=\"tab == 1\">\n\t\t\t<ul ng-controller=\"UserNeedsController\"> \n\t\t\t\t<li \n\t\t\t\t\tclass=\"{{needItem.name}}\" \n\t\t\t\t\tng-repeat=\"(needKey, needItem) in needs | orderBy:'position'\" \n\t\t\t\t\tdata-needId=\"{{needItem.sguid}}\">\n\t\t\t\t\t<div class=\"cr\" ng-click=\"onShowGoals($event, needItem)\">\n\t\t\t\t\t\t<p>{{needItem.name}}</p>\n\t\t\t\t\t\t<div class=\"right\">\n\t\t\t\t\t\t\t<b>{{needItem.current_value | notnull}} / {{needItem.points_summary}}</b>\n\t\t\t\t\t\t\t<strong>\n\t\t\t\t\t\t\t\t<span \n\t\t\t\t\t\t\t\t\tclass=\"current_position\"\n\t\t\t\t\t\t\t\t\tposition-need>\n\t\t\t\t\t\t\t\t</span>\n\t\t\t\t\t\t\t</strong>\t\n\t\t\t\t\t\t</div>\n\t\t\t\t\t\t<sup class=\"compare\" route=\"{{route}}\" comparator values=\"{{needsValues[needItem.sguid]}}\"></sup>\n\t\t\t\t\t</div>\n\t\t\t\t\t<ul ng-class=\"{hidden: needItem.hidden}\">\n\t\t\t\t\t\t<li ng-repeat=\"(goalKey,goalItem) in needItem.goals | orderBy:'position'\" \n\t\t\t\t\t\t\tdata-goalid=\"{{goalItem.sguid}}\" \n\t\t\t\t\t\t\tuser-id=\"{{user.sguid}}\" >\n\t\t\t\t\t\t\t<h5 ng-click=\"showCriterias($event, needItem, goalItem, needs)\">\n\t\t\t\t\t\t\t\t<a \n\t\t\t\t\t\t\t\t\tng-class=\"{current: goalItem.current}\"\n\t\t\t\t\t\t\t\t\tdata-goalid=\"{{goalItem.sguid}}\" \n\t\t\t\t\t\t\t\t\tuser-id=\"{{user.sguid}}\">\n\t\t\t\t\t\t\t\t\t<span>\n\t\t\t\t\t\t\t\t\t\t<img \n\t\t\t\t\t\t\t\t\t\t\tng-src=\"/images/goals/{{needItem.name | removewhite}}/{{goalItem.name | removewhite}}.png\"\n\t\t\t\t\t\t\t\t\t\t\talt=\"\" \n\t\t\t\t\t\t\t\t\t\t\ttitle=\"{{goalItem.name}}\" />\n\t\t\t\t\t\t\t\t\t</span>\n\t\t\t\t\t\t\t\t\t<h6>{{goalItem.name}}</h6>\n\t\t\t\t\t\t\t\t\t<s></s>\n\t\t\t\t\t\t\t\t</a>\t\n\t\t\t\t\t\t\t\t<div class=\"right\">\n\t\t\t\t\t\t\t\t\t<strong>\n\t\t\t\t\t\t\t\t\t\t<span position-goal class=\"current_position\" ></span>\n\t\t\t\t\t\t\t\t\t</strong>\n\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t<i ng-if=\"!goalItem.current\"><em></em></i>\n\t\t\t\t\t\t\t\t<sup \n\t\t\t\t\t\t\t\t\tclass=\"compare goal\" \n\t\t\t\t\t\t\t\t\troute=\"{{route}}\" \n\t\t\t\t\t\t\t\t\tcomparator \n\t\t\t\t\t\t\t\t\tvalues=\"{{goalsValues[goalItem.sguid]}}\" >\n\t\t\t\t\t\t\t\t</sup>\n\t\t\t\t\t\t\t</h5>\n\t\t\t\t\t\t\t<ul class=\"criterion\" ng-class=\"{current: goalItem.current}\">\n\t\t\t\t\t\t\t\t<li \n\t\t\t\t\t\t\t\t\tdata-id=\"{{crItem.sguid}}\" \n\t\t\t\t\t\t\t\t\tng-repeat=\"crItem in goalItem.criteriums | orderBy:'position'\" >\n\t\t\t\t\t\t\t\t\t<p>{{crItem.name}}</p>\n\t\t\t\t\t\t\t\t\t<div class=\"bord\">\n\t\t\t\t\t\t\t\t\t\t<ul class=\"crp\">\n\t\t\t\t\t\t\t\t\t\t\t<div class=\"tab\">\n\t\t\t\t\t\t\t\t\t\t\t\t<li data-id=\"{{value.sguid}}\"  \n\t\t\t\t\t\t\t\t\t\t\t\t\tng-repeat=\"value in crItem.criteria_values | orderBy:'position'\"  \n\t\t\t\t\t\t\t\t\t\t\t\t\tclass=\"{{value.user_criteria}} position_{{value.position}}\" >\n\t\t\t\t\t\t\t\t\t\t\t\t\t<i ng-if=\"value.sguid != 'none'\">{{value.name}}</i>\n\t\t\t\t\t\t\t\t\t\t\t\t\t<i ng-if=\"value.sguid == 'none'\" class=\"null_criteria\"></i>\n\t\t\t\t\t\t\t\t\t\t\t\t</li>\n\t\t\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t\t\t<span>\n\t\t\t\t\t\t\t\t\t\t\t\t<sup></sup>\n\t\t\t\t\t\t\t\t\t\t\t</span>\n\t\t\t\t\t\t\t\t\t\t</ul>\n\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t<sup \n\t\t\t\t\t\t\t\t\t\tclass=\"compare criterium\" \n\t\t\t\t\t\t\t\t\t\troute=\"{{route}}\" \n\t\t\t\t\t\t\t\t\t\tcomparator \n\t\t\t\t\t\t\t\t\t\tvalues=\"{{criteriumsValues[crItem.sguid]}}\">\n\t\t\t\t\t\t\t\t\t</sup>\n\t\t\t\t\t\t\t\t</li>\n\t\t\t\t\t\t\t</ul>\n\t\t\t\t\t\t</li>\n\t\t\t\t\t\t\n\t\t\t\t\t</ul>\n\t\t\t\t</li>\n\t\t\t</ul>\n\t\t</perfect-scrollbar>\n\t</div>\n</div>");
 $templateCache.put('partials/users.html', "<div id=\"users\" class=\"full_height\" ng-if=\"show\" >\n\t<div class=\"center\">\n\t\t<div \n\t\t\tclass=\"full_height user sha\" \n\t\t\tng-controller=\"UserController\" \n\t\t\tng-include\n\t\t\tng-init=\"init('user1')\"\n\t\t\tsrc=\"'partials/user.html'\">\n\t\t</div>\n\t\t<div \n\t\t\tclass=\"full_height user\" \n\t\t\tng-controller=\"UserController\" \n\t\t\tng-include\n\t\t\tng-init=\"init('user2')\"\n\t\t\tsrc=\"'partials/user.html'\">\n\t\t</div>\t\n\t</div>\n</div>");
 }]);
 
@@ -7614,10 +8346,9 @@ function RootController($scope, FacebookService, СareerService, LeagueService, 
 
     // забираем список друзей
     $scope.getFriendsCallback_ = function(data) {
-        console.log(data);
         $scope.workspace.friends = data;
     }
-    console.log($scope.workspace.user);
+    
     // если пользователь есть в кеше забираем список его друзей с сервера
     if($scope.workspace.user) {
         UserService.getFriends($scope.workspace.user.sguid, $scope.getFriendsCallback_);
