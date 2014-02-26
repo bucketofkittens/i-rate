@@ -932,8 +932,8 @@ pgrModule.service('FriendsService', function (UserService, User, $rootScope) {
         var user = UserService.getAuthData();
         
         if(user) {
-            User.create_friendship({id: friend.sguid}, {
-                friend_guid: user.sguid
+            User.create_friendship({id: user.sguid}, {
+                friend_guid: friend.sguid
             }, function(response) {     
                 if(response.success) {
                     friends.push({sguid: response.message.guid, user: friend});

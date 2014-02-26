@@ -4025,11 +4025,21 @@ pgrModule.service('UserService', function (User, AllUserService) {
 
     // забираем пользователя из кеша
     this.getAuthData = function() {
-        return lscache.get(this.cacheName);
+        var data = lscache.get(this.cacheName);
+
+        if(data && data.birthday) {
+            data.birthday = new Date(data.birthday);    
+        }
+        
+        return data;
     }
 
     // передаем данные в кеш
     this.setAuthData = function(user) {
+        user = JSON.parse(JSON.stringify(user));
+        if(user.birthday) {
+            user.birthday = moment(user.birthday).format("DD/MM/YYYY");    
+        }
         // сохраняем данные пользователя в localStorage
         lscache.set(this.cacheName, JSON.stringify(user), this.cacheTime);
     }
@@ -4071,6 +4081,9 @@ pgrModule.service('UserService', function (User, AllUserService) {
     // получаем данные по указанному пользователю с указанным id
     this.getById = function(id, callback) {
         User.query({id: id}, function(data) {
+            if(data && data.birthday) {
+                data.birthday = new Date(data.birthday);    
+            }
             callback(data);
         });
     }
@@ -5567,9 +5580,7 @@ function ImprovaLoginController($scope, ImprovaService, SessionsService, UserSer
 
 	}
 
-    $scope.onSigninSuccessCallback_ = function(data) {
-        data.birthday = new Date(data.birthday);
-        
+    $scope.onSigninSuccessCallback_ = function(data) { 
         SocialService.persist(SocialNames.IMPROVA);
 
         UserService.setAuthData(data);
@@ -6641,7 +6652,9 @@ function MyProfileSettingsController($scope, UserService, SocialService, Friends
     $scope.showUsersList = false;
 
     $scope.$watch('workspace.user.birthday', function (newVal, oldVal, scope) {
-        $scope.updateUserParamByValue('birthday', moment($scope.workspace.user.birthday).format("DD/MM/YYYY"));
+        if($scope.workspace.user.birthday && newVal != oldVal) {
+            $scope.updateUserParamByValue('birthday', moment($scope.workspace.user.birthday).format("DD/MM/YYYY"));    
+        }
     });
 
     	// выходим из пользователя
@@ -6808,27 +6821,10 @@ function MyProfileSettingsController($scope, UserService, SocialService, Friends
     // событие после обновления пользьвательских данных на сервере
     $scope.updateUserCallback_ = function(data) {
     	if(data.success) {
-            $scope.nameIsError = false;
-
             UserService.setAuthData($scope.workspace.user);
-
-            // обновляем пользователя в списке пользователей
-            $rootScope.users= UserService.updateUserFromCache($rootScope.users, $scope.workspace.user);
 
             // скрываем поиск
             $rootScope.$broadcast('closeSearch');
-        } else {
-            var isName = false;
-            angular.forEach(data.errors, function(value, key){
-                if(value == 'name: ["is already taken"]') {
-                    isName = true;
-                }
-            });
-            if(isName) {
-                $scope.nameIsError = true;
-            } else {
-                $scope.nameIsError = false;
-            }
         }
     }
 
@@ -6851,8 +6847,6 @@ function MyProfileSettingsController($scope, UserService, SocialService, Friends
     		}
     		user[nameArray[0]][nameArray[1]] = value;
     	}
-
-        $scope.workspace.users = AllUserService.updateUser($scope.workspace.user, $scope.workspace.users);
     	
     	UserService.update($scope.workspace.user.sguid, user, $scope.updateUserCallback_);
     }
@@ -6996,7 +6990,8 @@ function MyProfileSettingsController($scope, UserService, SocialService, Friends
     $scope.dateOptions = {
         changeYear: true,
         changeMonth: true,
-        yearRange: '1900:-0'
+        yearRange: '1900:-0',
+        dateFormat: 'dd/mm/yy'
     };
     
 }
@@ -7537,7 +7532,9 @@ function QuickUserChangeCtrl($scope, UserService, User, $rootScope, SessionsServ
     }
 
     $scope.onSigninSuccessCallback_ = function(data) {
-        data.birthday = new Date(data.birthday);
+        if(data.birthday) {
+            data.birthday = new Date(data.birthday);    
+        }
         
         UserService.setAuthData(data);
         UserService.getFriends(data.sguid, $scope.getFriendsCallback_);
@@ -8392,8 +8389,6 @@ function SigninController($scope, $rootScope, $timeout, SessionsService, UserSer
     }
 
     $scope.onSigninSuccessCallback_ = function(data) {
-        data.birthday = new Date(data.birthday);
-        
         UserService.setAuthData(data);
         UserService.getFriends(data.sguid, $scope.getFriendsCallback_);
 
