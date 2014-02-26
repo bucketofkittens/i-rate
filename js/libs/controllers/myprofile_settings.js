@@ -19,10 +19,7 @@ function MyProfileSettingsController($scope, UserService, SocialService, Friends
 	$scope.showProfessionAddButton = false;
 
     $scope.showUsersList = false;
-    console.log($scope.workspace.user.birthday);
-    console.log(moment($scope.workspace.user.birthday));
-    $scope.workspace.user.birthday = moment($scope.workspace.user.birthday).toDate();
-    console.log($scope.workspace.user.birthday);
+
     $scope.$watch('workspace.user.birthday', function (newVal, oldVal, scope) {
         $scope.updateUserParamByValue('birthday', moment($scope.workspace.user.birthday).format("DD/MM/YYYY"));
     });

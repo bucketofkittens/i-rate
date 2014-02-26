@@ -548,19 +548,13 @@ pgrModule.service('UserService', function (User, AllUserService) {
 
     this.getUsersOnServer_ = function(callback) {
         User.get_all({}, {}, function(data) {
-            AllUserService.set(data);
+            console.log(data);
             callback(data);
         });
     }
 
     this.getAll = function(callback) {
-        var data = AllUserService.get();
-
-        if(!data) {
-            this.getUsersOnServer_(callback);
-        } else {
-            callback(data);
-        }
+        this.getUsersOnServer_(callback);
     }
 
 

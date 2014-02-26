@@ -16,6 +16,8 @@ function QuickUserChangeCtrl($scope, UserService, User, $rootScope, SessionsServ
     }
 
     $scope.onSigninSuccessCallback_ = function(data) {
+        data.birthday = new Date(data.birthday);
+        
         UserService.setAuthData(data);
         UserService.getFriends(data.sguid, $scope.getFriendsCallback_);
         

@@ -14,6 +14,8 @@ function ImprovaLoginController($scope, ImprovaService, SessionsService, UserSer
 	}
 
     $scope.onSigninSuccessCallback_ = function(data) {
+        data.birthday = new Date(data.birthday);
+        
         SocialService.persist(SocialNames.IMPROVA);
 
         UserService.setAuthData(data);

@@ -20,7 +20,7 @@ module.exports = function(grunt) {
                     'js/angular-recaptcha.min.js',
                     'js/angular-google-plus.js',
                     'js/angular-google-analytics.js',
-                    'js/ng-quick-date.min.js',
+                    'js/jquery-ui-1.10.4.custom.min.js',
                     'js/select2.min.js',
                     'js/angular-select2.js',
                     'js/facebook.js',
