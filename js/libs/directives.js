@@ -234,7 +234,7 @@ pgrModule.directive('masonry', function(User, $rootScope) {
         var items = "";
 
         angular.forEach(data, function(value, key) {
-          if(value.avatar) {
+          if(value.avatar && value.league && value.league.size) {
             var newDiv = document.createElement('div');
             newDiv.className = 'item isotope-item iso-item all';
             newDiv.setAttribute("data-id", value.sguid);

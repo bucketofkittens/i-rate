@@ -3148,8 +3148,8 @@ pgrModule.directive('masonry', function(User, $rootScope) {
       /** забираем список пользователей из backend-а **/
       this.getUsersFromBackend = function(limit, skip, total_count, view_count) {
         User.for_main_from_limit({limit: limit, skip: skip}, {}, function(data) {
-            
-            $scope.users = $scope.users.concat(data).shuffle();
+            data = data.shuffle();
+            $scope.users = $scope.users.concat(data);
             var items = $scope.appendElements(data);
 
             $rootScope.users = $scope.users;
@@ -3661,8 +3661,8 @@ pgrModule.filter('title', function () {
 
 
 
-//var host = "http://dev.sir.improva.com/api/v1";
-var host = "http://192.168.1.171:3000/api/v1"; 
+var host = "http://dev.sir.improva.com/api/v1";
+//var host = "http://192.168.1.171:3000/api/v1"; 
 var hostShort = host.replace("/api/v1", "");
 
 var PanelsConst = {
