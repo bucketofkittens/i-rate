@@ -46,11 +46,11 @@ function UserController($scope, FriendsService, UserService, $element, $route, $
 
     // callback получения данных пользователя
     $scope.userServiceGetByIdCallback_ = function(data) {
-        $scope.user = data;
-        console.log($scope.user.birthday);
-        if($scope.user && moment($scope.user.birthday)) {
-            $scope.user.birthday = moment($scope.user.birthday).format("DD.MM.YYYY");    
+        if(data && moment(data.birthday)) {
+            data.birthday = moment(data.birthday).format("DD.MM.YYYY");    
         }
+
+        $scope.user = data;
         
         // отправляем полученные данные в событие
         $rootScope.$broadcast('userGetById', { user: data, route: $scope.route });

@@ -113,7 +113,7 @@
 	</div>
 
 	<perfect-scrollbar
-		class="tab tabss"
+		class="tab tabss current_{{tab}}"
 		scroller
 		scrolls
 		scrolls-class="tabss">
@@ -121,7 +121,7 @@
 		ng-controller="UserCommentsController" 
 		ng-show="tab == 2" 
 		class="comments">
-			<div class="comm">
+			<perfect-scrollbar class="comm" scroller-step="360">
 				<div class="cmnt" ng-repeat="comment in commentsList | orderBy:'post_date'"  >
 					<strong>{{comment.user.name}}</strong>
 					<i>{{comment.post_date}}</i>
@@ -129,12 +129,12 @@
 					<p>{{comment.message}}</p>
 					<em></em>
 				</div>
-			</div>
-			<div class="butcomm"  ng-if="workspace.user">
+			</perfect-scrollbar>
+			<div class="butcomm" ng-if="workspace.user">
 				<em></em>
-				<ng-form>
-					<textarea ng-model="form.message" msd-elastic id="comment_message" name="comment" placeholder="Enter your comment here"></textarea>
-					<button ng-click="onSendMessage()">Send</button>
+				<ng-form name="CommentForm">
+					<textarea ng-change="changeText()" ng-model="form.message" msd-elastic id="comment_message" name="comment" placeholder="Enter your comment here"></textarea>
+					<button ng-class="{disable: disable}" class="button " ng-click="onSendMessage()">Send</button>
 				</ng-form>
 			</div>
 		</div>

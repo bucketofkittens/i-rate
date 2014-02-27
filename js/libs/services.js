@@ -553,8 +553,9 @@ pgrModule.service('UserService', function (User, AllUserService) {
     this.getById = function(id, callback) {
         User.query({id: id}, function(data) {
             if(data && data.birthday) {
-                data.birthday = new Date(data.birthday);    
+                data.birthday = dateFromString(data.birthday);    
             }
+            console.log(data.birthday);
             callback(data);
         });
     }

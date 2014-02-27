@@ -368,6 +368,9 @@ body {
     .tabss {
         overflow: hidden;
         position: relative;
+        &.current_2 {
+            overflow: visible !important;
+        }
         &::-webkit-scrollbar {
             width: 0px;
             height: 0px; 
@@ -2896,7 +2899,6 @@ sup.bidubi {
         height: 100%;
         overflow: hidden;
         margin-top: 10px;
-        padding-bottom: 200px;
         .cmnt {
             overflow: hidden;
             width: 420px;
@@ -2949,7 +2951,7 @@ sup.bidubi {
             background-size: 100% 100%;
             resize: vertical;
         }
-        button {
+        .button {
             float: right;
             font-size: 18px;
             color: #ffffff;
@@ -2965,6 +2967,10 @@ sup.bidubi {
             background-size: 120px 45px;
             display: inline-block;
             border: none;
+            &.disable {
+                opacity: 0.5;
+                cursor: default;
+            }
         } 
     }  
     em {

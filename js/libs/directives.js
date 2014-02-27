@@ -131,6 +131,19 @@ pgrModule.directive('scroller', function($window) {
   }
 })
 
+pgrModule.directive('scrollerStep', function($window) {
+  return {
+    link: function(scope, element, attrs) {
+      console.log($(element).offset().top);
+      $(element).height($(window).height()-attrs.scrollerStep);
+
+      $(window).resize(function() {
+        $(element).height($(window).height()-attrs.scrollerStep);
+      });
+    }
+  }
+})
+
 pgrModule.directive('caruselPosition', function($window) {
   return {
     link: function(scope, element, attrs) {

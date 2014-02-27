@@ -3,6 +3,8 @@ function UserCommentsController($scope, Comments, $rootScope) {
         message: ""
     }
 
+    $scope.disable = true;
+
     $scope.commentsList = [];
     
     $scope.onClose = function() {
@@ -21,6 +23,14 @@ function UserCommentsController($scope, Comments, $rootScope) {
             
             $scope.commentsList = data;
         });
+    }
+
+    $scope.changeText = function() {
+        if($scope.form.message.length > 0) {
+            $scope.disable = false;
+        } else {
+            $scope.disable = true;
+        }
     }
 
     $scope.onSendMessage = function() {
