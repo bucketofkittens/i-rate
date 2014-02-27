@@ -143,7 +143,7 @@ function MyProfileSettingsController($scope, UserService, SocialService, Friends
         };
         
         // сохраняем
-        $scope.updateUserParamByValue("city", $scope.workspace.user.city);
+        $scope.updateUserParamByValue("city", $scope.workspace.user.city.sguid);
 
         $scope.showCityList = false;
     }
@@ -156,7 +156,7 @@ function MyProfileSettingsController($scope, UserService, SocialService, Friends
         };
         
         // сохраняем
-        $scope.updateUserParamByValue("profession", $scope.workspace.user.profession);
+        $scope.updateUserParamByValue("profession", $scope.workspace.user.profession.sguid);
 
         $scope.showProfessionList = false;
     }
@@ -293,7 +293,7 @@ function MyProfileSettingsController($scope, UserService, SocialService, Friends
         };
         
         // сохраняем
-        $scope.updateUserParamByValue("profession", $scope.workspace.user.profession);
+        $scope.updateUserParamByValue("profession", $scope.workspace.user.profession.sguid);
 
         $scope.showProfessionList = false;
         $scope.showProfessionAddButton = false;
@@ -314,7 +314,7 @@ function MyProfileSettingsController($scope, UserService, SocialService, Friends
         };
         
         // сохраняем
-        $scope.updateUserParamByValue("city", $scope.workspace.user.city);
+        $scope.updateUserParamByValue("city", $scope.workspace.user.city.sguid);
 
         $scope.showCityList = false;
         $scope.showCityAddButton = false;
