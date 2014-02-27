@@ -346,13 +346,11 @@ sup.bidubi{top:13px !important;border-width:23px 0 23px 15px}
 .recaptchatable .recaptcha_image_cell{padding:0 !important}
 .recaptchatable .recaptcha_r4_c2{width:36px !important}
 #recaptcha_image img{width:218px !important;margin-left:-70px !important}
-.comments{width:500px;height:100%;position:relative}.comments .comm{height:70%;overflow:hidden;margin-top:10px}.comments .comm::-webkit-scrollbar{width:0;height:0}
-.comments .comm::-moz-scrollbar{width:0;height:0}
-.comments .comm .cmnt{overflow:hidden;width:420px;margin:0 auto}.comments .comm .cmnt strong{float:left;color:#888;font-size:18px;max-width:170px}
+.comments{width:500px;height:100%;position:relative;overflow:hidden}.comments .comm{height:100%;overflow:hidden;margin-top:10px;padding-bottom:200px}.comments .comm .cmnt{overflow:hidden;width:420px;margin:0 auto}.comments .comm .cmnt strong{float:left;color:#888;font-size:18px;max-width:170px}
 .comments .comm .cmnt i{float:right;color:#888;font-size:14px;line-height:18px}
 .comments .comm .cmnt br{clear:both}
 .comments .comm .cmnt p{font-size:16px;margin-top:15px;color:#fff}
-.comments .butcomm{overflow:hidden;padding:15px;width:420px;position:fixed;margin:0 auto;bottom:30px;margin-left:25px}.comments .butcomm textarea{float:left;font-size:16px;color:#888;line-height:20px;width:280px;height:30px;padding:5px 0 5px 10px !important;font-family:'Lato',sans-serif;vertical-align:middle;margin-top:2px;background:url("../images/sbg.png") left top no-repeat;display:inline-block;border:none;background-size:100% 100%;resize:vertical}
+.comments .butcomm{overflow:hidden;padding:15px;width:420px;position:fixed;margin:0 auto;bottom:-15px;margin-left:25px}.comments .butcomm textarea{float:left;font-size:16px;color:#888;line-height:20px;width:280px;height:30px;padding:5px 0 5px 10px !important;font-family:'Lato',sans-serif;vertical-align:middle;margin-top:2px;background:url("../images/sbg.png") left top no-repeat;display:inline-block;border:none;background-size:100% 100%;resize:vertical}
 .comments .butcomm button{float:right;font-size:18px;color:#fff;line-height:20px;text-align:center;vertical-align:middle;font-family:'Lato',sans-serif;background:none;cursor:pointer;width:120px;height:40px;background:url("../images/ssbg.png") left top no-repeat;background-size:120px 45px;display:inline-block;border:none}
 .comments em{display:block;width:100%;border-top:1px solid #666;border-bottom:1px solid #333;margin:10px 0}
 #searchfull{position:absolute;left:50%;top:0;margin-left:-500px;z-index:10;height:100%;width:1000px}#searchfull .popup_list{margin-left:0;min-width:190px}

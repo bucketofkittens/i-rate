@@ -130,7 +130,7 @@
 					<em></em>
 				</div>
 			</div>
-			<div class="butcomm">
+			<div class="butcomm"  ng-if="workspace.user">
 				<em></em>
 				<ng-form>
 					<textarea ng-model="form.message" msd-elastic id="comment_message" name="comment" placeholder="Enter your comment here"></textarea>
