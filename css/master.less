@@ -2891,18 +2891,12 @@ sup.bidubi {
     width: 500px;
     height: 100%;
     position: relative;
+    overflow: hidden;
     .comm {
-        height: 70%;
+        height: 100%;
         overflow: hidden;
         margin-top: 10px;
-        &::-webkit-scrollbar {
-            width: 0px;
-            height: 0px; 
-        }
-        &::-moz-scrollbar {
-            width: 0px;
-            height: 0px; 
-        }
+        padding-bottom: 200px;
         .cmnt {
             overflow: hidden;
             width: 420px;
@@ -2935,8 +2929,9 @@ sup.bidubi {
         width: 420px;
         position: fixed;
         margin: 0px auto;
-        bottom: 30px;
+        bottom: -15px;
         margin-left: 25px;
+        //background-color: rgba(0, 0, 0, 0.5);
         textarea {
             float: left;
             font-size: 16px;

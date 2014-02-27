@@ -20,7 +20,6 @@ function CommentsController($scope, $rootScope, Comments, $routeParams, $locatio
     $scope.$on('openComments', function($event, message) {
         $scope.user = $location.search().user;
 
-        $rootScope.$broadcast('loaderShow');
         $scope.getMessages();
     });
 
@@ -31,22 +30,23 @@ function CommentsController($scope, $rootScope, Comments, $routeParams, $locatio
             });
             
             $scope.commentsList = data;
-            $rootScope.$broadcast('loaderHide');
         });
     }
 
     $scope.onSendMessage = function() {
-        $rootScope.$broadcast('loaderShow');
-        Comments.create({}, {
-            owner_type: 0,
-            author_guid: $scope.workspace.user.sguid,
-            post_date: moment().format("DD-MM-YYYY"),
-            message: $scope.form.message,
-            owner_guid: $scope.user
-        }, function(data) {
-            $rootScope.$broadcast('loaderHide');
-            $scope.getMessages();
-            $scope.form.message = "";
-        });
+        console.log($scope.form.message.length);
+        if($scope.form.message.length > 0) {
+            Comments.create({}, {
+                owner_type: 0,
+                author_guid: $scope.workspace.user.sguid,
+                post_date: moment().format("DD-MM-YYYY"),
+                message: $scope.form.message,
+                owner_guid: $scope.user
+            }, function(data) {
+                $rootScope.$broadcast('loaderHide');
+                $scope.getMessages();
+                $scope.form.message = "";
+            });    
+        }
     }
 }

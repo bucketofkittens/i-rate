@@ -112,7 +112,7 @@
 		</ul>
 	</div>
 
-	<perfect-scrollbar 
+	<perfect-scrollbar
 		class="tab tabss"
 		scroller
 		scrolls
@@ -120,8 +120,7 @@
 		<div 
 		ng-controller="UserCommentsController" 
 		ng-show="tab == 2" 
-		class="comments"
-		scroller>
+		class="comments">
 			<div class="comm">
 				<div class="cmnt" ng-repeat="comment in commentsList | orderBy:'post_date'"  >
 					<strong>{{comment.user.name}}</strong>
