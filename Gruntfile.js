@@ -101,5 +101,5 @@ module.exports = function(grunt) {
     require('matchdep').filterDev('grunt-*').forEach(grunt.loadNpmTasks);
 
     // Задача по умолчанию
-    grunt.registerTask('default', ['prangler', 'concat', 'uglify']);
+    grunt.registerTask('default', ['prangler', 'concat', 'imageEmbed', 'uglify']);
 };

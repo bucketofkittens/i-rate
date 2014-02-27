@@ -73,7 +73,46 @@ pgrModule.directive('scrolls', function() {
   }
 })
 
+pgrModule.directive('colbasa', function() {
+  return {
+    link: function(scope, element, attrs) {
+      attrs.$observe('colbasaCurrent', function(data) {
+        var currentElement = $('li[data-id="'+attrs.colbasaCurrent+'"]', $(element).parent());
 
+        var parentLi  = $(element).parent().find("li"),
+            parentUl  = $(element).parent(),
+            slider = parentUl.find("span");
+
+        currentElement.removeClass("current");
+
+        if($(currentElement).size() > 0 && currentElement.index() != 0) {
+            var size = currentElement.get(0).offsetLeft + currentElement.get(0).clientWidth;
+            if (size <  15) {
+                size = 0;
+            }
+            slider.css("width", size + "px");
+        } else {
+            slider.css("width", "10px");
+        }
+        
+        var isCurrent = false;
+        $.each(parentLi, function(key, value) {
+            if(!isCurrent) {
+                $(value).addClass("white-text");
+            } else {
+                $(value).removeClass("white-text");
+            }
+            
+            if($(value).index() == currentElement.index()) {
+                isCurrent = true;
+            }
+        });
+
+        $(element).parent().show();
+      });
+    }
+  }
+})
 
 // сравнение пользователей
 pgrModule.directive('comparator', function() {
@@ -122,11 +161,13 @@ pgrModule.directive('comparator', function() {
 pgrModule.directive('scroller', function($window) {
   return {
     link: function(scope, element, attrs) {
-      $(element).height($(window).height()-$(element).offset().top);
-
-      $(window).resize(function() {
+      setTimeout(function() {
         $(element).height($(window).height()-$(element).offset().top);
-      });
+
+        $(window).resize(function() {
+          $(element).height($(window).height()-$(element).offset().top);
+        });
+      }, 0);
     }
   }
 })
@@ -134,7 +175,6 @@ pgrModule.directive('scroller', function($window) {
 pgrModule.directive('scrollerStep', function($window) {
   return {
     link: function(scope, element, attrs) {
-      console.log($(element).offset().top);
       $(element).height($(window).height()-attrs.scrollerStep);
 
       $(window).resize(function() {

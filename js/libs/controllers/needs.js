@@ -141,11 +141,10 @@ function NeedsAndGoalsController($scope, СareerService, UserService, Goals, Cri
                         userId: $scope.user.sguid,
                         route: $scope.route
                     });
-
-                    var currentElement = $('li[data-id="'+fCriteria.sguid+'"] li[data-id="'+userCriteriaItem.criteria_value_sguid+'"]', $($element));
-                    $scope.setCriteriaPosition(currentElement);
                 }
             });
+
+            goal.criteriums.show = true;
         });
     }
 
