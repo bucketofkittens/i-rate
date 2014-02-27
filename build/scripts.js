@@ -4259,8 +4259,8 @@ pgrModule.filter('title', function () {
 
 
 
-var host = "http://dev.sir.improva.com/api/v1";
-//var host = "http://192.168.1.171:3000/api/v1"; 
+//var host = "http://dev.sir.improva.com/api/v1";
+var host = "http://192.168.1.171:3000/api/v1"; 
 var hostShort = host.replace("/api/v1", "");
 
 var PanelsConst = {
@@ -7506,7 +7506,7 @@ function MyProfileSettingsController($scope, UserService, SocialService, Friends
         };
         
         // сохраняем
-        $scope.updateUserParamByValue("city", $scope.workspace.user.city);
+        $scope.updateUserParamByValue("city", $scope.workspace.user.city.sguid);
 
         $scope.showCityList = false;
     }
@@ -7519,7 +7519,7 @@ function MyProfileSettingsController($scope, UserService, SocialService, Friends
         };
         
         // сохраняем
-        $scope.updateUserParamByValue("profession", $scope.workspace.user.profession);
+        $scope.updateUserParamByValue("profession", $scope.workspace.user.profession.sguid);
 
         $scope.showProfessionList = false;
     }
@@ -7656,7 +7656,7 @@ function MyProfileSettingsController($scope, UserService, SocialService, Friends
         };
         
         // сохраняем
-        $scope.updateUserParamByValue("profession", $scope.workspace.user.profession);
+        $scope.updateUserParamByValue("profession", $scope.workspace.user.profession.sguid);
 
         $scope.showProfessionList = false;
         $scope.showProfessionAddButton = false;
@@ -7677,7 +7677,7 @@ function MyProfileSettingsController($scope, UserService, SocialService, Friends
         };
         
         // сохраняем
-        $scope.updateUserParamByValue("city", $scope.workspace.user.city);
+        $scope.updateUserParamByValue("city", $scope.workspace.user.city.sguid);
 
         $scope.showCityList = false;
         $scope.showCityAddButton = false;
@@ -8260,12 +8260,12 @@ function QuickUserChangeCtrl($scope, UserService, User, $rootScope, SessionsServ
     }
 
     $scope.onSigninSuccessCallback_ = function(data) {
+        UserService.setAuthData(data);
+        UserService.getFriends(data.sguid, $scope.getFriendsCallback_);
+
         if(data.birthday) {
             data.birthday = new Date(data.birthday);    
         }
-        
-        UserService.setAuthData(data);
-        UserService.getFriends(data.sguid, $scope.getFriendsCallback_);
         
         $scope.workspace.user = data;
 
@@ -9411,8 +9411,8 @@ function UserController($scope, FriendsService, UserService, $element, $route, $
     // callback получения данных пользователя
     $scope.userServiceGetByIdCallback_ = function(data) {
         $scope.user = data;
-
-        if($scope.user) {
+        console.log($scope.user.birthday);
+        if($scope.user && moment($scope.user.birthday)) {
             $scope.user.birthday = moment($scope.user.birthday).format("DD.MM.YYYY");    
         }
         
