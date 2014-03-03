@@ -25,8 +25,6 @@ function SearchAdvanceController($scope, $location, $rootScope, User, Profession
         return list;
     }
 
-    $scope.careerList = $scope.showAll($scope.workspace.careers);
-
     $scope.showRight = true;
 
     /**
@@ -105,8 +103,14 @@ function SearchAdvanceController($scope, $location, $rootScope, User, Profession
         });
     }
 
-    $scope.countriesList = $scope.workspace.country;
-    $scope.showAllListElement('countriesList');
+    $scope.$watch("workspace.country", function (newVal, oldVal, scope) {
+        $scope.countriesList = $scope.workspace.country;
+        $scope.showAllListElement('countriesList');
+    });
+
+     $scope.$watch("workspace.careers", function (newVal, oldVal, scope) {
+        $scope.careerList = $scope.showAll($scope.workspace.careers);
+    });
 
     /**
      * Событие изменения maxScore
@@ -424,9 +428,20 @@ function SearchAdvanceController($scope, $location, $rootScope, User, Profession
     // загружаем список стран
     $rootScope.$broadcast('countryLoad');
 
+    // настройки календаря
     $scope.dateOptions = {
         changeYear: true,
         changeMonth: true,
         yearRange: '1900:-0'
     };
+
+    // загружаем список лиг
+    $rootScope.$broadcast('reloadLeagues');
+
+    // загружаем список стран
+    $rootScope.$broadcast('countryLoad');
+
+    // загружаем список карьер
+    $rootScope.$broadcast('needsLoad');
+    
 }

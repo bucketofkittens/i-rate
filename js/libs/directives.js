@@ -73,10 +73,11 @@ pgrModule.directive('scrolls', function() {
   }
 })
 
-pgrModule.directive('colbasa', function() {
+pgrModule.directive('colbasa', function($timeout) {
   return {
     link: function(scope, element, attrs) {
       attrs.$observe('colbasaCurrent', function(data) {
+        console.log(attrs.colbasaCurrent);
         var currentElement = $('li[data-id="'+attrs.colbasaCurrent+'"]', $(element).parent());
 
         var parentLi  = $(element).parent().find("li"),

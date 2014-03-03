@@ -876,29 +876,12 @@ pgrModule.service('CountryService', function (Country) {
  * Сервис списка лиг
  */
 pgrModule.service('LeagueService', function (Leagues) {
-    // название кеша
-    this.cacheName = 'league';
-
-    // время кеширования
-    this.cacheTime = 1440;
-
     // забираем пользователя из кеша
     this.getList = function(callback) {
-        this.getLeagueOnServer_(callback);
-    }
-    this.getLeagueOnServer_ = function(callback) {
         var self = this;
         Leagues.query({}, {}, function(data) {
             callback(data);
-            self.persist(data);
         });
-    }
-    this.persist = function(data) {
-        lscache.set(this.cacheName, JSON.stringify(data), this.cacheTime);
-    }
-
-    this.remove = function() {
-        lscache.remove(this.cacheName);
     }
 });
 
