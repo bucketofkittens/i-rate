@@ -162,6 +162,8 @@ function SearchAdvanceController($scope, $location, $rootScope, User, Profession
             city: false, 
             league: false
         }
+
+        $scope.advanceSearch();
     }
 
     /**
@@ -173,8 +175,19 @@ function SearchAdvanceController($scope, $location, $rootScope, User, Profession
     $scope.selectParam = function(paramName, value, isNotToggle) {
         $scope.search[paramName] = value;
         if(!isNotToggle) {
-            $scope.toggleShowState(paramName);   
+            $scope.toggleShowState(paramName);
         }
+
+        $scope.advanceSearch();
+    }
+
+    $scope.selectDateParam = function(paramName, value, isNotToggle) {
+        $scope.selectParam(paramName, value, isNotToggle);
+
+        setTimeout(function() {
+            $.datepicker._clearDate($("#"+paramName));
+        }, 0);
+        
     }
 
     /**
@@ -185,15 +198,16 @@ function SearchAdvanceController($scope, $location, $rootScope, User, Profession
      * @return {[type]}              [description]
      */
     $scope.selectLeagueParam = function(paramName, value, isNotToggle) {
-
         var leagueName = 10 - parseInt(value.name);
-        $scope.search.minScore = leagueName*10000;
-        $scope.search.maxScore = (leagueName+1)*10000;
+        $scope.search.minScore = value.min_border;
+        $scope.search.maxScore = value.max_border;
 
         $timeout(function(){
             $scope.selectParam(paramName, value);
             $scope.disableShowState(paramName);
         }, 0);
+
+        $scope.advanceSearch();
     }
 
     /**

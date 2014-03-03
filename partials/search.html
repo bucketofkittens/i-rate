@@ -112,13 +112,13 @@
 		<div class="fsp">
 			<div class="ri">
 				<h6>Birthday from</h6>
-				<input type="text" ng-model="search.birthday_from" ui-date="dateOptions"  name="DateOfBirth1" id="dFrom" />
-				<img src="./images/fusedel.png" ng-click="selectParam('birthday_from', '', true)">
+				<input type="text" ng-model="search.birthday_from" id="birthday_from" ui-date="dateOptions"  name="DateOfBirth1" id="dFrom" />
+				<img src="./images/fusedel.png" ng-click="selectDateParam('birthday_from', '', true)">
 			</div>
 			<div class="ri">
 				<h6>Birthday till</h6>
-				<input type="text" ng-model="search.birthday_till" ui-date="dateOptions"  name="DateOfBirth2" id="dTill" />
-				<img src="./images/fusedel.png" ng-click="selectParam('birthday_till', '', true)">
+				<input type="text" ng-model="search.birthday_till" id="birthday_till" ui-date="dateOptions"  name="DateOfBirth2" id="dTill" />
+				<img src="./images/fusedel.png" ng-click="selectDateParam('birthday_till', '', true)">
 			</div>
 			<em></em>
 		</div>
@@ -149,7 +149,6 @@
 		</div>
 		<div class="fsp fspb">
 			<button ng-click="clearAll()">Clear all</button>
-			<button ng-click="advanceSearch()">Find</button>
 		</div>
 	</section>
 </div>
