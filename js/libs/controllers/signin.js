@@ -12,8 +12,8 @@ function SigninController($scope, $rootScope, $timeout, SessionsService, UserSer
     }
 
     // нажатие enter в форме
-    $scope.onKeyPress = function($event) {
-        if(!$scope.LoginForm.$invalid) {
+    $scope.onKeyPress = function(state) {
+        if(!state) {
             $scope.onSingin();
         }
     }

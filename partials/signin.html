@@ -4,7 +4,7 @@
     id="login_form" 
     name="LoginForm" 
     novalidate 
-    class="css-form myForm" >
+    class="css-form myForm">
     <p>
       <input 
         type="email" 
@@ -15,7 +15,7 @@
         required 
         ng-minlength="6"
         placeholder="Email"
-        ui-keypress="{13:'onKeyPress($event)'}" />
+        ui-keypress="{13:'onKeyPress(LoginForm.$invalid)'}"/>
       <br />
       <span 
       	class="errorss" 
@@ -32,7 +32,7 @@
         name="Password"
         ng-minlength="6"
         placeholder="Password"
-        ui-keypress="{13:'onKeyPress($event)'}"
+        ui-keypress="{13:'onKeyPress(LoginForm.$invalid)'}"
         ng-trim="false" /> 
       <br />
       <span 
@@ -53,7 +53,7 @@
         <input 
           ng-disabled="LoginForm.$invalid"
           ng-click="onSingin()" 
-          type="button" 
+          type="button"
           value="Sign in" />
       </p>    
     </div>
@@ -63,7 +63,8 @@
         <input 
           ng-click="changeState(states.SIGNUP)" 
           type="button" 
-          value="Sign up" />
+          value="Sign up"
+          />
       </p>          
     </div>
 
@@ -91,6 +92,5 @@
         </a>
       </li>
     </ul>
-    
   </ng-form>
 </div>

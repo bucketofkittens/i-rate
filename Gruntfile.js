@@ -26,6 +26,7 @@ module.exports = function(grunt) {
                     'js/perfect-scrollbar.js',
                     'js/select2.min.js',
                     'js/angular-select2.js',
+                    'js/ui-utils.min.js',
                     'js/facebook.js',
                     'js/jquery.isotope.min.js',
                     'js/jquery.isotope.perfectmasonry.js',

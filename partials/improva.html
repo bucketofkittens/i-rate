@@ -17,7 +17,7 @@
         required 
         ng-minlength="6"
         placeholder="Email"
-        ui-keypress="{13:'onKeyPress($event)'}" />
+        ui-keypress="{13:'onKeyPress(ImprovaForm.$invalid)'}" />
       <br />
       <span 
       	class="errorss" 
@@ -33,7 +33,7 @@
         required 
         name="Password"
         placeholder="Password"
-        ui-keypress="{13:'onKeyPress($event)'}"
+        ui-keypress="{13:'onKeyPress(ImprovaForm.$invalid)'}"
         ng-trim="false" /> 
       <br />
       <span 

@@ -13,6 +13,13 @@ function ImprovaLoginController($scope, ImprovaService, SessionsService, UserSer
 
 	}
 
+    // нажатие enter в форме
+    $scope.onKeyPress = function(state) {
+        if(!state) {
+            $scope.improvaLogin();
+        }
+    }
+
     $scope.onSigninSuccessCallback_ = function(data) { 
         SocialService.persist(SocialNames.IMPROVA);
 

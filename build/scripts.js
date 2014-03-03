@@ -5192,29 +5192,12 @@ pgrModule.service('CountryService', function (Country) {
  * Сервис списка лиг
  */
 pgrModule.service('LeagueService', function (Leagues) {
-    // название кеша
-    this.cacheName = 'league';
-
-    // время кеширования
-    this.cacheTime = 1440;
-
     // забираем пользователя из кеша
     this.getList = function(callback) {
-        this.getLeagueOnServer_(callback);
-    }
-    this.getLeagueOnServer_ = function(callback) {
         var self = this;
         Leagues.query({}, {}, function(data) {
             callback(data);
-            self.persist(data);
         });
-    }
-    this.persist = function(data) {
-        lscache.set(this.cacheName, JSON.stringify(data), this.cacheTime);
-    }
-
-    this.remove = function() {
-        lscache.remove(this.cacheName);
     }
 });
 
@@ -8493,8 +8476,6 @@ function SearchAdvanceController($scope, $location, $rootScope, User, Profession
         return list;
     }
 
-    $scope.careerList = $scope.showAll($scope.workspace.careers);
-
     $scope.showRight = true;
 
     /**
@@ -8573,8 +8554,14 @@ function SearchAdvanceController($scope, $location, $rootScope, User, Profession
         });
     }
 
-    $scope.countriesList = $scope.workspace.country;
-    $scope.showAllListElement('countriesList');
+    $scope.$watch("workspace.country", function (newVal, oldVal, scope) {
+        $scope.countriesList = $scope.workspace.country;
+        $scope.showAllListElement('countriesList');
+    });
+
+     $scope.$watch("workspace.careers", function (newVal, oldVal, scope) {
+        $scope.careerList = $scope.showAll($scope.workspace.careers);
+    });
 
     /**
      * Событие изменения maxScore
@@ -8892,11 +8879,22 @@ function SearchAdvanceController($scope, $location, $rootScope, User, Profession
     // загружаем список стран
     $rootScope.$broadcast('countryLoad');
 
+    // настройки календаря
     $scope.dateOptions = {
         changeYear: true,
         changeMonth: true,
         yearRange: '1900:-0'
     };
+
+    // загружаем список лиг
+    $rootScope.$broadcast('reloadLeagues');
+
+    // загружаем список стран
+    $rootScope.$broadcast('countryLoad');
+
+    // загружаем список карьер
+    $rootScope.$broadcast('needsLoad');
+    
 }
 // контроллер формы поиска слева в расширенном поиске
 function SearchLeftController($scope, $location, $rootScope) {
