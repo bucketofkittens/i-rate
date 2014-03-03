@@ -255,6 +255,66 @@ pgrModule.directive('masonry', function(User, $rootScope) {
         });
       }
 
+      $scope.addCurrentUser = function() {
+        var userElement = $scope.getUserByGuid($scope.workspace.user.sguid);
+        if(userElement.size() == 0) {
+          var item = $scope.addUser($scope.workspace.user);
+          $(".isotope-item").eq(randomRange(0, 20)).before(item);
+          $(element).isotope( 'reloadItems' ).isotope({ sortBy: 'original-order' });
+        }
+      }
+
+      $scope.removeCurrentUser = function() {
+        var userElement = $scope.getUserByGuid($scope.workspace.user.sguid);
+        if(userElement.size() > 0) {
+          $(element).isotope( 'remove', userElement );
+        }
+      }
+
+      $scope.addUser = function(value) {
+        if(value.avatar && value.league) {
+            var newDiv = document.createElement('div');
+            newDiv.className = 'item isotope-item iso-item all';
+            newDiv.setAttribute("data-id", value.sguid);
+            
+            newDiv.style.width = value.league.size ? value.league.size+"px" : "70px";
+            newDiv.style.height = value.league.size ? value.league.size+"px" : "70px";  
+
+            var newSubDiv = document.createElement('div');
+            newSubDiv.className = 'wr';
+
+            newDiv.appendChild(newSubDiv);
+
+            var img = document.createElement('img');
+            img.src = value.avatar;
+            img.width = value.league.size ? value.league.size : "70";
+            img.height = value.league.size ? value.league.size : "70";
+
+            newSubDiv.appendChild(img);
+            return $scope.nodeToString(newDiv);  
+          }
+          return "";
+      }
+
+      $scope.getUserByGuid = function() {
+        return $("div[data-id='"+$scope.workspace.user.sguid+"']", $(element));
+      }
+
+      $scope.currentUserUpdate = function() {
+        console.log($scope.workspace.user.published);
+        if($scope.workspace.user.published) {
+          $scope.addCurrentUser();
+        } else {
+          $scope.removeCurrentUser();
+        }
+      }
+
+      $scope.$watch("workspace.user.published", function (newVal, oldVal, scope) {
+        if($scope.workspace.user) {
+          $scope.currentUserUpdate();
+        }
+      });
+
       /** забираем список пользователей из backend-а **/
       this.getUsersFromBackend = function(limit, skip, total_count, view_count) {
         var self = this;
@@ -275,6 +335,7 @@ pgrModule.directive('masonry', function(User, $rootScope) {
 
               if(view_count < total_count) {
                 skip += limit;
+
                 // рекурсивно берем еще пользователей
                 self.getUsersFromBackend(limit, skip, total_count, view_count);
               } else {
@@ -288,28 +349,7 @@ pgrModule.directive('masonry', function(User, $rootScope) {
         var items = "";
 
         angular.forEach(data, function(value, key) {
-          if(value.avatar && value.league && value.league.size) {
-            var newDiv = document.createElement('div');
-            newDiv.className = 'item isotope-item iso-item all';
-            newDiv.setAttribute("data-id", value.sguid);
-            
-            newDiv.style.width = value.league.size+"px";
-            newDiv.style.height = value.league.size+"px";
-
-            var newSubDiv = document.createElement('div');
-            newSubDiv.className = 'wr';
-
-            newDiv.appendChild(newSubDiv);
-
-            var img = document.createElement('img');
-            img.src = value.avatar;
-            img.width = value.league.size;
-            img.height = value.league.size;
-
-            newSubDiv.appendChild(img);
-
-            items += $scope.nodeToString(newDiv);  
-          }
+          items += $scope.addUser(value);
         });
         return items;
       }
@@ -318,7 +358,7 @@ pgrModule.directive('masonry', function(User, $rootScope) {
          var tmpNode = document.createElement( "div" );
          tmpNode.appendChild( node.cloneNode( true ) );
          var str = tmpNode.innerHTML;
-         tmpNode = node = null; // prevent memory leaks in IE
+         tmpNode = node = null; 
          return str;
       }
 
@@ -326,16 +366,10 @@ pgrModule.directive('masonry', function(User, $rootScope) {
       /**
        * Забираем список пользователей
        */
-     //if(!$scope.users) {
-        isCached = false;
-        $scope.users = [];
-        self.initIso();
-        this.getUsersFromBackend(limit, skip, total_count, view_count);  
-      //} else {
-        //var items = $scope.appendElements($scope.users);
-        //$(element).append(items);
-        //self.initIso();
-      //}
+      isCached = false;
+      $scope.users = [];
+      self.initIso();
+      this.getUsersFromBackend(limit, skip, total_count, view_count);  
     }
   }
 })
