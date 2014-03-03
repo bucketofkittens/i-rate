@@ -38,7 +38,7 @@ function SearchAdvanceController($scope, $location, $rootScope, User, Profession
         city: {},
         league: {},
         minScore: 0,
-        maxScore: 100000
+        maxScore: 175000
     };
 
 
@@ -71,6 +71,13 @@ function SearchAdvanceController($scope, $location, $rootScope, User, Profession
      * @type {Object}
      */
     $scope.countriesList = {};
+
+    $scope.clearLeagueParam = function() {
+        $scope.search.minScore = 0;
+        $scope.search.maxScore = 175000;
+
+        selectParam('league', '', true)
+    }
 
     /**
      * Скрывать все списоки при клике вне него

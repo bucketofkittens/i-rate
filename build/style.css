@@ -320,7 +320,7 @@ sup.bidubi{top:13px !important;border-width:23px 0 23px 15px}
 .ui-menu-item:hover .close{display:block;right:-30px}
 .ui-menu .ui-menu-item a{margin-right:30px}
 .singin-sub{margin:40px 17px 0 0}
-.popup_list{position:absolute;margin:-10px 0 0 133px;background:url("../images/glass.png") left top no-repeat;background-size:100% 110%;background-color:rgba(255,255,255,0.8);box-shadow:0 0 20px 0 rgba(0,0,0,0.5);z-index:9999;max-height:220px;width:230px;overflow-y:auto;color:#fff}.popup_list::-webkit-scrollbar{width:0;height:0}
+.popup_list{position:absolute;margin:-10px 0 0 133px;background:url("../images/glass.png") left top no-repeat;background-size:100% 110%;background-color:rgba(255,255,255,0.8);box-shadow:0 0 20px 0 rgba(0,0,0,0.5);z-index:9999;max-height:150px;width:230px;overflow-y:auto;color:#fff}.popup_list::-webkit-scrollbar{width:0;height:0}
 .popup_list li{padding:10px 0;margin:0 auto;position:relative;border-top:1px solid #777;border-bottom:1px solid #333;width:200px}.popup_list li a{cursor:pointer;display:block;margin-right:15px}
 .popup_list li span{cursor:pointer;background:url("../images/fusedel.png") left top no-repeat !important;background-size:25px 25px !important;width:25px !important;height:25px !important;top:5px !important}
 .popup_list li:hover{background:rgba(0,0,0,0.1)}
@@ -362,7 +362,7 @@ sup.bidubi{top:13px !important;border-width:23px 0 23px 15px}
 #searchfull .searchfull .fullsearch .searchResult .item{width:380px}#searchfull .searchfull .fullsearch .searchResult .item img{width:80px;margin-right:10px}
 #searchfull .searchfull .fullsearch .searchResult .item .sealin{background:none;top:20px}
 #searchfull .searchfull .fullsearch .searchResult .item .text{padding-left:25px}
-.fusepar{display:inline-block;position:absolute;top:60px;right:0;vertical-align:top;width:600px;height:90%;min-height:550px;z-index:3;overflow:hidden;overflow-y:scroll;padding-bottom:500px;background:url("../images/glass.png") left top no-repeat;background-size:100% 100%;box-shadow:inset 5px 0 20px 1px rgba(0,0,0,0.7)}.fusepar::-webkit-scrollbar{width:0;height:0}
+.fusepar{display:inline-block;position:absolute;top:60px;right:0;vertical-align:top;width:600px;height:90%;min-height:550px;z-index:3;overflow:hidden;overflow-y:scroll;background:url("../images/glass.png") left top no-repeat;background-size:100% 100%;box-shadow:inset 5px 0 20px 1px rgba(0,0,0,0.7)}.fusepar::-webkit-scrollbar{width:0;height:0}
 .fusepar i{display:block;position:absolute;top:10px;right:10px;width:25px;height:25px;background:url("../images/cl.png") left top no-repeat;background-size:25px 25px;cursor:pointer;z-index:10}
 .fusepar .fsp{margin:0 auto;width:550px;padding:30px 15px 30px 30px;position:relative}.fusepar .fsp:after{content:".";display:block;height:0;clear:both;visibility:hidden}
 .fusepar .fsp em{width:530px;text-align:center;border-top:1px solid #666;border-bottom:1px solid #333;display:block;position:absolute;bottom:0}
