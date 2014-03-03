@@ -108,9 +108,11 @@ function SearchAdvanceController($scope, $location, $rootScope, User, Profession
         $scope.showAllListElement('countriesList');
     });
 
-     $scope.$watch("workspace.careers", function (newVal, oldVal, scope) {
+    $scope.$watch("workspace.careers", function (newVal, oldVal, scope) {
         $scope.careerList = $scope.showAll($scope.workspace.careers);
     });
+
+     
 
     /**
      * Событие изменения maxScore

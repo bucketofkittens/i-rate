@@ -132,7 +132,7 @@
 				<input type="button" class="searcher" ng-click="toggleShowState('league')" />
 				<img src="./images/fusedel.png" ng-click="selectParam('league', '', true)">
 				<ul class="popup_list" ng-if="shows.league">
-					<li ng-repeat="(key, value) in workspace.leagues" ng-click="selectLeagueParam('league', value)">{{value.name}}</li>
+					<li ng-repeat="(key, value) in workspace.leagues | orderBy:'min_border':true" ng-click="selectLeagueParam('league', value)">{{value.name}}</li>
 				</ul>
 				
 			</div>
