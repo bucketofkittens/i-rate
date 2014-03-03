@@ -1,7 +1,7 @@
 /**
  * Контроллер правой панели
  */
-function RightController($scope) {
+function RightController($scope, $location) {
     // показываем блок или нет
     $scope.showPanel = true;
 
@@ -23,10 +23,19 @@ function RightController($scope) {
     // показываем плашку
     $scope.$on('showRightPanel', function() {
         $scope.showPanel = true;
+        console.log("show");
     });
 
     // переключаем состояние панели
     $scope.changeState = function(state) {
         $scope.state = state;
     }
+
+    $scope.$on('$locationChangeSuccess', function () {
+        if($location.search().search || ($location.search().user1 && $location.search().user2)) {
+            $scope.showPanel = false; 
+        } else {
+            $scope.showPanel = true; 
+        }
+    });
 }

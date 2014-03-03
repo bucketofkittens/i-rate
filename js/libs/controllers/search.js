@@ -33,6 +33,8 @@ function SearchController($scope, User, $rootScope, $location) {
 
         $scope.resultSearch = [];
         $scope.searchText = "";
+
+        $rootScope.$broadcast('hideRightPanel');
     }
 
     $scope.close = function() {
@@ -59,7 +61,7 @@ function SearchController($scope, User, $rootScope, $location) {
                 $scope.resultSearch = [];
                 $scope.searchText = "";
                 if($(event.target).parents(searchId).length == 0 && !$location.search().user1 && !$location.search().user2) {
-                    $rootScope.$broadcast('showRightPanel');    
+                    //$rootScope.$broadcast('showRightPanel');    
                 }
             });
         }

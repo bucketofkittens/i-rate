@@ -1,7 +1,7 @@
 /**
  * Контроллер страницы расширенного поиска
  */
-function SearchAdvanceController($scope, $location, $rootScope, User, Professions, CityByState, Leagues, $timeout, LocationService) {
+function SearchAdvanceController($scope, $location, $rootScope, User, Professions, CityByState, Leagues, $timeout, LocationService, $timeout) {
     /**
      * Тект поиска
      * @type {[type]}
@@ -422,8 +422,7 @@ function SearchAdvanceController($scope, $location, $rootScope, User, Profession
         $scope.showRight = true;
     });
 
-    // скрываем правую панель
-    $rootScope.$broadcast('hideRightPanel');
+    
 
     // загружаем список стран
     $rootScope.$broadcast('countryLoad');
