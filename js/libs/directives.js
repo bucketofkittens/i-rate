@@ -257,30 +257,30 @@ pgrModule.directive('masonry', function(User, $rootScope) {
 
       /** забираем список пользователей из backend-а **/
       this.getUsersFromBackend = function(limit, skip, total_count, view_count) {
+        var self = this;
         User.for_main_from_limit({limit: limit, skip: skip}, {}, function(data) {
           
             $scope.users = $scope.users.concat(data);
             var items = $scope.appendElements(data);
 
-            $rootScope.users = $scope.users;
+            $(items).imagesLoaded( function(){
+              $rootScope.users = $scope.users;
 
-            $(element).isotope("insert", $(items));
+              $(element).isotope("insert", $(items));
 
-            if(data[0] && data[0].total_count)
-              total_count = data[0].total_count;
-           
-            view_count += limit;
+              if(data[0] && data[0].total_count)
+                total_count = data[0].total_count;
+             
+              view_count += limit;
 
-            if(view_count < total_count) {
-              skip += limit;
-              // рекурсивно берем еще пользователей
-              this.getUsersFromBackend(limit, skip, total_count, view_count);
-            } else {
-              // отправляем данные в кеш
-              lscache.set('masonry', JSON.stringify($scope.users), cacheTime);
-              $(element).append(items);
-              
-            }
+              if(view_count < total_count) {
+                skip += limit;
+                // рекурсивно берем еще пользователей
+                self.getUsersFromBackend(limit, skip, total_count, view_count);
+              } else {
+                $(element).append(items);
+              }
+            });
         });
       }
 

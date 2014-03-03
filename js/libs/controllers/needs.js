@@ -110,6 +110,8 @@ function NeedsAndGoalsController($scope, СareerService, UserService, Goals, Cri
                      */
                     $scope.addEmptyElement(goal);
 
+                    goal.criteriums.all_load = true;
+
                     /**
                      * забираем значения для текущего пользователя
                      */
