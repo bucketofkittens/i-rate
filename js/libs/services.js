@@ -940,56 +940,33 @@ pgrModule.service('FriendsService', function (UserService, User, $rootScope) {
     this.follow = function(friend, friends, callback) {
         var user = UserService.getAuthData();
         
-        if(user) {
-            User.create_friendship({id: user.sguid}, {
-                friend_guid: friend.sguid
-            }, function(response) {     
-                if(response.success) {
-                    friends.push({sguid: response.message.guid, user: friend});
-                    callback(friends);
-                }
-            });
-            User.liked_calculate({id: friend.sguid}, function() {});
-        } else {
-            if(!friends) {
-                friends = [];
+        User.create_friendship({id: user.sguid}, {
+            friend_guid: friend.sguid
+        }, function(response) {     
+            if(response.success) {
+                friends.push({sguid: response.message.guid, user: friend});
+                callback(friends);
             }
-            friends.push({sguid: null, user: friend});
-            this.persist(friends);
-            callback(friends);
-        }
+        });
+        User.liked_calculate({id: friend.sguid}, function() {});
     }
 
     // убираем пользователя из друзей
     this.unfollow = function(friend, friends, callback) {
         var user = UserService.getAuthData();
-        
-        if(user) {
-            User.destroy_friendship({id: user.sguid, friendId: friend.sguid}, { }, function() {
-                var frend = friends.filter(function(data) {
-                    if(data.user.sguid === friend.sguid) {
-                        return data;
-                    }
-                })[0];
-                var index = friends.indexOf(frend);
-                friends.splice(index, 1);
-                callback(friends); 
-            });
 
-            User.unliked_calculate({id: friend.sguid}, function() {});
-        } else {
+        User.destroy_friendship({id: user.sguid, friendId: friend.sguid}, { }, function() {
             var frend = friends.filter(function(data) {
                 if(data.user.sguid === friend.sguid) {
                     return data;
                 }
             })[0];
-
             var index = friends.indexOf(frend);
             friends.splice(index, 1);
+            callback(friends); 
+        });
 
-            this.persist(friends);
-            callback(friends);
-        }
+        User.unliked_calculate({id: friend.sguid}, function() {});
     }
 
     // передаем данные в кеш
