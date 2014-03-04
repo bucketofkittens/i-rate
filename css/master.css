@@ -254,8 +254,9 @@ sub.dubidu{top:0 !important;border-width:27px 15px 27px 0}
 sup.dubidu{top:0 !important;border-width:27px 0 27px 15px}
 sub.bidubi{top:13px !important;border-width:23px 15px 23px 0}
 sup.bidubi{top:13px !important;border-width:23px 0 23px 15px}
-#setting_info{position:absolute;top:100px;right:75px;font-size:18px;font-family:'Lato',sans-serif;vertical-align:middle;color:#fff}#setting_info *{vertical-align:middle}
+#setting_info{position:absolute;top:90px;right:75px;font-size:18px;font-family:'Lato',sans-serif;vertical-align:middle;color:#fff}#setting_info *{vertical-align:middle}
 #setting_info .league{width:43px;height:35px}
+#setting_info img{max-height:30px;padding-right:10px}
 .imp-link{position:absolute;top:5px;right:15px;background:url("../images/imp.png") center center no-repeat;width:230px;height:50px}
 .controller__ .content_wrap,.controller__graphs .content_wrap{width:100% !important}
 .reset{margin:0 0 0 102px !important;width:235px !important}
