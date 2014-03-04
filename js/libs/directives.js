@@ -709,10 +709,10 @@ pgrModule.directive('mydash', function(User) {
       scope.drawFullDashboard_ = function() {
         scope.dashboard = new Kinetic.Stage({
           container: 'mydash_draw',
-          width: 1000,
-          height: 700
+          width: 400,
+          height: 300
         });
-        scope.dashboard_size = { width: 1000, height: 700 };
+        scope.dashboard_size = { width: 400, height: 300 };
         scope.drawDashboard_(); 
       }
 

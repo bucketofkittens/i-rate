@@ -9,9 +9,6 @@ function MyProfileController($scope, $location, LocationService, $rootScope, $ti
 			name: 'Profile'
 		},
 		{
-			name: 'Dashboard'
-		},
-		{
 			name: 'Settings'
 		}
 	];
@@ -19,7 +16,6 @@ function MyProfileController($scope, $location, LocationService, $rootScope, $ti
 	// список индексов
 	$scope.indexes = {
 		PROFILE: 'Profile',
-		DASHBOARD: 'Dashboard',
 		SETTINGS: 'Settings'
 	}
 
