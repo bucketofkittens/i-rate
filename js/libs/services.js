@@ -25,10 +25,13 @@ pgrModule.factory('User', function ($resource) {
                     if(data) {
                         // подготавливаем данные 
                         var user = angular.fromJson(data)[0];
-                        user.points = parseInt(user.points);
+                        console.log(data);
+                        if(user.points) {
+                            if( user.points == null || isNaN(user.points)) {
+                                user.points = 0;
+                            }
 
-                        if(user.points == null || isNaN(user.points)) {
-                            user.points = 0;
+                            user.points = parseInt(user.points);    
                         }
 
                         /**

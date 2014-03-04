@@ -62,7 +62,8 @@ var pgrModule = angular.module(
     'ui.select2',
     'angular-google-analytics',
     'monospaced.elastic',
-    'perfect_scrollbar'
+    'perfect_scrollbar',
+    'angularFileUpload'
 	]
 );
 

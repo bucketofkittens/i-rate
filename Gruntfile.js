@@ -31,6 +31,7 @@ module.exports = function(grunt) {
                     'js/facebook.js',
                     'js/jquery.isotope.min.js',
                     'js/jquery.isotope.perfectmasonry.js',
+                    'js/angular-file-upload.min.js',
                     'js/date.js',
                     'js/keypress.js',
                     'js/moment+langs.min.js',
