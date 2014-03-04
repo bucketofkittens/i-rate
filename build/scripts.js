@@ -9541,8 +9541,10 @@ function UserController($scope, FriendsService, UserService, $element, $route, $
     // текущий выбранный так
     $scope.tab = 1;
 
-    // событие переключчения состояния страницы.
-    $scope.$on('$locationChangeSuccess', function () {
+    // индикатор прогресса загрузки данных. нужен для того что бы не дублировались ajax запросы
+    $scope.getProgressFlag = false;
+
+    $scope.$on('$locationChangeStart', function(event, newLoc, oldLoc) {
         $scope.setCurrentUser();
     });
 
@@ -9557,7 +9559,8 @@ function UserController($scope, FriendsService, UserService, $element, $route, $
         var newId = $location.search()[$scope.route];
 
         // проверяем а нужно ли вообще менять id
-        if(newId && (!$scope.user || $scope.user.sguid != newId)) {
+        if(newId && (!$scope.user || $scope.user.sguid != newId) && !$scope.getProgressFlag) {
+            $scope.getProgressFlag = true;
             UserService.getById(newId, $scope.userServiceGetByIdCallback_);
         }
 
@@ -9570,6 +9573,8 @@ function UserController($scope, FriendsService, UserService, $element, $route, $
 
     // callback получения данных пользователя
     $scope.userServiceGetByIdCallback_ = function(data) {
+        $scope.getProgressFlag = false;
+
         if(data && moment(data.birthday)) {
             data.birthday = moment(data.birthday).format("DD.MM.YYYY");    
         }

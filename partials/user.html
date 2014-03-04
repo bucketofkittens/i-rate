@@ -1,58 +1,9 @@
 <div ng-if="user" class="sam" ng-class="{big: big}">
-	<!-- Поиск -->
-	<div id="search" class="search" ng-if="compare">
-		<div ng-controller="SearchController">
-			<input 
-				type="text" 
-				ng-model="searchText" 
-				placeholder="Search people" 
-				class="search"
-				ng-change="onSearch()"
-				ui-keypress="{13:'onSearch()'}" />
-			<input type="button" class="searcher" ng-click="onSearch()" />
-			<div ng-cloak class="searchResult" ng-if="resultSearch.length > 0">
-				<div class="item" ng-repeat="(userKey, userItem) in resultSearch" ng-click="changeUser(userItem)">
-					<div class="image">
-						<img ng-src="{{userItem.avatar}}" alt="">
-						<i ng-if="userItem.points">{{userItem.points}}</i>
-					</div>
-					<div class="text">
-						<p class="name">{{userItem.name}}</p>
-						<p class="birthday">{{userItem.birthday}}</p>
-						<p class="birthday">{{userItem.state.name}}</p>
-						<p class="profession">{{userItem.profession.name}}</p>
-						<p class="league">{{userItem.league.name}} league</p>
-					</div>
-				</div>
-			</div>	
-		</div>
-	</div>
 	<div class="pmain pro" >
-		<div class="block" ng-if="user">
-			<div class="image_box" ng-class="{updated: user.sguid == authUserId && isEdit, big: user.hover}" 
-				ng-click="onUserClick(user, $event)" >
+		<div class="block">
+			<div class="image_box" >
 				<img class="pp" ng-src="{{user.avatar}}" err-src="/images/unknown-person.png" />
-				<a ng-click="onUpdateFile()" title="">Update image</a>
-				<span></span>	
-				<s ng-if="user.artificial">profile is created by experts based on available public info</s>	
-				<div class="sub">
-					<b>{{user.name}} <br /><s>{{user.league.name}} league</s></b>
-					<ul>
-						<li>
-							<a ng-click="onMoveToProfile(user)">
-								<span class="icon profile navigate"></span>
-							</a>
-						</li>
-						<li>
-							<a ng-if="user && !user.isFollow" ng-click="onFollow()">
-								<span class="icon follow navigate"></span>
-							</a>
-							<a ng-if="user && user.isFollow" ng-click="onUnFollow()">
-								<span class="icon unfollow navigate"></span>
-							</a>
-						</li>
-					</ul>
-				</div>
+				<s ng-if="user.artificial">profile is created by experts based on available public info</s>
 			</div>
 		</div>
 		<div class="pmpar" ng-if="user">
