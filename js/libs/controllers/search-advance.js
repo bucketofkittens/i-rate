@@ -76,7 +76,7 @@ function SearchAdvanceController($scope, $location, $rootScope, User, Profession
         $scope.search.minScore = 0;
         $scope.search.maxScore = 175000;
 
-        selectParam('league', '', true)
+        selectParam('league', '', true);
     }
 
     /**
