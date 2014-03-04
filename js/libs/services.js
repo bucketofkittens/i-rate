@@ -78,6 +78,10 @@ pgrModule.factory('User', function ($resource) {
                 method: 'GET',
                 url: host+"/users/:id/disliked"
             },
+            'compared_calculate': {
+                method: 'GET',
+                url: host+"/users/:id/compared"
+            },
             'for_main': {
                 method: 'GET',
                 isArray: true,
@@ -941,12 +945,11 @@ pgrModule.service('FriendsService', function (UserService, User, $rootScope) {
                 friend_guid: friend.sguid
             }, function(response) {     
                 if(response.success) {
-                    User.liked_calculate({id: friend.sguid}, function() {
-                        friends.push({sguid: response.message.guid, user: friend});
-                        callback(friends);
-                    });
+                    friends.push({sguid: response.message.guid, user: friend});
+                    callback(friends);
                 }
             });
+            User.liked_calculate({id: friend.sguid}, function() {});
         } else {
             if(!friends) {
                 friends = [];
@@ -963,17 +966,17 @@ pgrModule.service('FriendsService', function (UserService, User, $rootScope) {
         
         if(user) {
             User.destroy_friendship({id: user.sguid, friendId: friend.sguid}, { }, function() {
-                User.unliked_calculate({id: friend.sguid}, function() {
-                    var frend = friends.filter(function(data) {
-                        if(data.user.sguid === friend.sguid) {
-                            return data;
-                        }
-                    })[0];
-                    var index = friends.indexOf(frend);
-                    friends.splice(index, 1);
-                    callback(friends);    
-                })
+                var frend = friends.filter(function(data) {
+                    if(data.user.sguid === friend.sguid) {
+                        return data;
+                    }
+                })[0];
+                var index = friends.indexOf(frend);
+                friends.splice(index, 1);
+                callback(friends); 
             });
+
+            User.unliked_calculate({id: friend.sguid}, function() {});
         } else {
             var frend = friends.filter(function(data) {
                 if(data.user.sguid === friend.sguid) {

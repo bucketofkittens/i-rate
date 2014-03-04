@@ -43,10 +43,11 @@ function UserController($scope, FriendsService, UserService, $element, $route, $
         // проверяем а нужно ли вообще менять id
         if(newId && (!$scope.user || $scope.user.sguid != newId) && !$scope.getProgressFlag) {
             $scope.getProgressFlag = true;
+
+            UserService.getById(newId, $scope.userServiceGetByIdCallback_);
+            
             if(($scope.workspace.user && newId != $scope.workspace.user.sguid) || !$scope.workspace.user) {
                 UserService.addView(newId, $scope.addViewCallback_);    
-            } else {
-                UserService.getById(newId, $scope.userServiceGetByIdCallback_);
             }
         }
 

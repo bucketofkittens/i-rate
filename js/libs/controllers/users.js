@@ -1,5 +1,5 @@
 // контролле панели пользователей
-function UsersController($scope, $location, $rootScope, $timeout, NeedsService, LocationService) {
+function UsersController($scope, $location, $rootScope, $timeout, NeedsService, LocationService, User) {
     // список значений нидсов для пользователя
     $scope.needsValues = {};
 
@@ -96,12 +96,18 @@ function UsersController($scope, $location, $rootScope, $timeout, NeedsService, 
             // указываем переданного пользователя
             if($location.search().user1 && !$location.search().user2 && $location.search().user1 != message.user.sguid) {
                 $location.search({user1: $location.search().user1, user2: message.user.sguid});
+
+                User.compared_calculate({id: $location.search().user1});
+                User.compared_calculate({id: message.user.sguid});
             }
             if(!$location.search().user1 && !$location.search().user2) {
                 $location.search({user1: message.user.sguid});
             }
             if(!$location.search().user1 && $location.search().user2 && $location.search().user2 != message.user.sguid) {
                 $location.search({user1: message.user.sguid, user2: $location.search().user2});
+
+                User.compared_calculate({id: message.user.sguid});
+                User.compared_calculate({id: $location.search().user2});
             }
         } else {
             // указываем переданного пользователя
