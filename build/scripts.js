@@ -4004,7 +4004,7 @@ pgrModule.directive('mydash', function(User) {
           var centerImgContainer =  new Kinetic.Image({
               image: image,
               x: 0,
-              y: -10,
+              y: -25,
               name: "image4"
           });
 
@@ -4067,7 +4067,7 @@ pgrModule.directive('mydash', function(User) {
           var corruption = params.corruption;
           var radius =  params.radius;
           var oneStep =  params.need_max/params.segment;
-          
+
           if(params.need_max - params.need_value < 500) {
             var oneStep =  params.need_max/params.segmentMax;
           }

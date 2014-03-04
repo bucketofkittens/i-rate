@@ -1,17 +1,21 @@
 <section ng-controller="FollowController" >
 	<div id="follow_tab">
 		<span class="icon star">Favorites</span>
-		<sub class="icon favorite_nav_left"></sub>
-		<ul>
-			<li 
-				ng-click="openUser(userItem.user)" 
-				ng-repeat="userItem in workspace.friends">
-				<img 
-					ng-src="{{userItem.user.avatar}}" 
-					alt="" 
-					err-src="/images/unknown-person.png" />
-			</li>
-		</ul>
-		<sup class="icon favorite_nav_right"></sup>
+		<sub class="icon favorite_nav_left" ng-if="step > 0" ng-click="newStep(step-1)"></sub>
+		<div class="list">
+			<div class="sub">
+				<ul ng-style="{left: '-'+step*48+'px'}">
+					<li 
+						ng-click="openUser(userItem.user)" 
+						ng-repeat="userItem in workspace.friends">
+						<img 
+							ng-src="{{userItem.user.avatar}}" 
+							alt="" 
+							err-src="/images/unknown-person.png" />
+					</li>
+				</ul>	
+			</div>
+		</div>
+		<sup class="icon favorite_nav_right" ng-click="newStep(step+1)"  ng-if="step+14 <= workspace.friends.length"></sup>
 	</div>
 </section>

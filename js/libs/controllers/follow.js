@@ -3,6 +3,12 @@
  */
 function FollowController($scope, $rootScope) {
 
+	$scope.step = 0;
+
+	$scope.newStep = function(step) {
+		$scope.step = step;
+	}
+
     // открываем планшку с пользователем
     $scope.openUser = function(userItem) {
         $rootScope.$broadcast('hideRightPanel');
