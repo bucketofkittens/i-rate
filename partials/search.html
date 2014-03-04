@@ -19,7 +19,7 @@
 						</div>
 						<div class="text" ng-click="openSearchProfile(userItem.sguid)">
 							<p class="name">{{userItem.name}}</p>
-							<p class="league">{{userItem.league.name}} league</p>
+							<p class="league"><img class="league_icon" ng-src="{{userItem.league.icon}}" alt="" /> {{userItem.league.name}} league</p>
 							<p class="points">{{userItem.points | int}}</p>
 						</div>
 					</div>

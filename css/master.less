@@ -266,10 +266,16 @@ body {
                 display: inline-block;
                 vertical-align: top;
                 width: auto;
+                img {
+                    max-width: 30px;
+                }
                 p {
                     font-size: 18px;
                     color: #969696;
                     line-height: 21px;
+                    * {
+                        vertical-align: middle;
+                    }
                 }
                 label {
                     display: inline-block;
@@ -2579,6 +2585,11 @@ input[type="checkbox"] {
     &::-webkit-scrollbar {
         width: 0px;
         height: 0px; 
+    }
+    .league_icon {
+        width: auto !important;
+        max-width: 30px;
+        margin: 0px !important;
     }
     .item {
         width: 290px;
