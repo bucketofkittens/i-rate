@@ -5534,7 +5534,9 @@ pgrModule.service('ImprovaService', function(ImprovaLogin, UserService, Sessions
             "email": improvaForm.email,
             "name": improvaForm.email,
             "password": "",
-            "confirmed": "1"
+            "confirmed": "1",
+            "improva_user_guid": improvaData.improva_user_guid
+
         }, function(data) {
             var user = {};
 
@@ -8594,7 +8596,7 @@ function SearchAdvanceController($scope, $location, $rootScope, User, Profession
         $scope.search.minScore = 0;
         $scope.search.maxScore = 175000;
 
-        selectParam('league', '', true)
+        selectParam('league', '', true);
     }
 
     /**
