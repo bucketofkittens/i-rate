@@ -458,8 +458,8 @@ pgrModule.directive('mydash', function(User) {
           var newAngle = degToRad(scope.workspace.user.points/oneStep+corruption);
           var baseAngle = degToRad(corruption);
 
-          var centerRX = scope.dashboard.getWidth()*0.6/2-9;
-          var centerRY = scope.dashboard.getHeight()*0.6/2+21;
+          var centerRX = scope.dashboard.getWidth()/2-9;
+          var centerRY = scope.dashboard.getHeight()/2+21;
           var endX = centerRX + Math.cos(newAngle) * 149;
           var endY = centerRY + Math.sin(newAngle) * 149;
 
@@ -476,17 +476,16 @@ pgrModule.directive('mydash', function(User) {
                 ctx.beginPath();
                 ctx.arc(x, y, radius, startAngle, endAngle, false);
                 ctx.strokeStyle = colorString;
-                ctx.lineWidth = 36;
+                ctx.lineWidth = 64;
                 ctx.stroke();
                 ctx.closePath();
                 ctx.beginPath();
-                ctx.moveTo(centerRX + Math.cos(newAngle) * 180*0.6,centerRY + Math.sin(newAngle) * 180*0.6);
-                ctx.lineTo(centerRX + Math.cos(newAngle+0.1) * 149*0.6,centerRY + Math.sin(newAngle+0.1) * 149*0.6);
-                ctx.lineTo(centerRX + Math.cos(newAngle) * 120*0.6,centerRY + Math.sin(newAngle) * 120*0.6);
+                ctx.moveTo(centerRX + Math.cos(newAngle) * 180,centerRY + Math.sin(newAngle) * 180);
+                ctx.lineTo(centerRX + Math.cos(newAngle+0.1) * 149,centerRY + Math.sin(newAngle+0.1) * 149);
+                ctx.lineTo(centerRX + Math.cos(newAngle) * 120,centerRY + Math.sin(newAngle) * 120);
                 ctx.fillStyle = colorString;
                 ctx.strokeStyle = colorString;
                 ctx.lineWidth = 2;
-                ctx.scale(0.6, 0.6);
                 ctx.stroke();
                 ctx.fill();
                 ctx.closePath();
@@ -529,8 +528,7 @@ pgrModule.directive('mydash', function(User) {
                 ctx.rotate(degToRad(-1.5));
                 ctx.arc(x, y, radius, startAngle, endAngle, false);
                 ctx.strokeStyle = colorString;
-                ctx.lineWidth = 36;
-                ctx.scale(0.6, 0.6);
+                ctx.lineWidth = 57;
                 ctx.stroke();
                 ctx.closePath();
 
@@ -613,12 +611,12 @@ pgrModule.directive('mydash', function(User) {
             });
 
             scope.drawNeed_(scope.db3Draw, {
-                corruption: 359*0.7,
-                radius: 248*0.7,
+                corruption: 359,
+                radius: 248,
                 need_max: scope.findNeedBySguid("169990243011789824").points_summary,
                 need_value: needsData["169990243011789824"],
-                centerX: 198*0.7,
-                centerY: 97*0.7,
+                centerX: 198,
+                centerY: 97,
                 segment: 33,
                 gradientX: 50,
                 gradientY: 150,
@@ -626,12 +624,12 @@ pgrModule.directive('mydash', function(User) {
                 segmentMax: 38
              });
             scope.drawNeed_(scope.db3Draw, {
-                corruption: 305*0.7,
-                radius: 250*0.7,
+                corruption: 305,
+                radius: 250,
                 need_max: scope.findNeedBySguid("169990243011789827").points_summary,
                 need_value: needsData["169990243011789827"],
-                centerX: 198*0.7,
-                centerY: 107*0.7,
+                centerX: 198,
+                centerY: 107,
                 segment: 33,
                 gradientX: 120,
                 gradientY: 100,
@@ -639,12 +637,12 @@ pgrModule.directive('mydash', function(User) {
                 segmentMax: 48
              });
             scope.drawNeed_(scope.db3Draw, {
-                corruption: 190*0.7,
-                radius: 250*0.7,
+                corruption: 190,
+                radius: 250,
                 need_max: scope.findNeedBySguid("169990243011789825").points_summary,
                 need_value: needsData["169990243011789825"],
-                centerX: 224*0.7,
-                centerY: 107*0.7,
+                centerX: 224,
+                centerY: 107,
                 segment: 41,
                 gradientX: -10,
                 gradientY: -110,
@@ -652,12 +650,12 @@ pgrModule.directive('mydash', function(User) {
                 segmentMax: 46
              });
             scope.drawNeed_(scope.db3Draw, {
-                corruption: 135*0.7,
-                radius: 250*0.7,
+                corruption: 135,
+                radius: 250,
                 need_max: scope.findNeedBySguid("169990243011789826").points_summary,
                 need_value: needsData["169990243011789826"],
-                centerX: 222.5*0.7,
-                centerY: 104*0.7,
+                centerX: 222.5,
+                centerY: 104,
                 segment: 40,
                 gradientX: -100,
                 gradientY: -100,
