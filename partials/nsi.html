@@ -2,39 +2,46 @@
 	<ng-form ng-upload="complete(contents)">
 		<h2>NSI</h2>
 		<table>
+			<col width="170px" />
+			<col width="170px" />
+			<col width="170px" />
+			<col width="50px" />
+			<col width="50px" />
+			<col width="170px" />
+			<col width="50px" />
 			<thead>
 				<tr>
 					<th>Name</th>
 					<th>Min</th>
 					<th>Max</th>
 					<th>Size</th>
-					<th>Is points</th>
+					<th>Show</th>
 					<th>Icon</th>
 					<th></th>
 				</tr>
 			</thead>
 			<tbody>
 				<tr ng-repeat="(key, value) in workspace.leagues | orderBy: 'position'">
-					<td width="20%" class="editing_cell">
+					<td class="editing_cell">
 						<input type="text" ng-model="value.name" ng-change="update(value)" />
 					</td>
-					<td width="20%" class="editing_cell">
+					<td class="editing_cell">
 						<input type="text" ng-model="value.min_border" ng-change="update(value)" />
 					</td>
-					<td width="50px" class="editing_cell">
+					<td class="editing_cell">
 						<input type="text" ng-model="value.max_border" ng-change="update(value)" />
 					</td>
-					<td width="50px" class="editing_cell">
+					<td class="editing_cell">
 						<input style="width:50px" type="text" ng-model="value.size" maxlength="3" ng-change="update(value)" />
 					</td>
-					<td width="50px" class="editing_cell">
+					<td class="editing_cell">
 						<input type="checkbox" ng-model="value.is_points" ng-change="update(value)" />
 					</td>
-					<td width="50px" class="editing_cell">
+					<td class="editing_cell">
 						<img ng-src="{{value.icon}}" alt="" />
 						<input type="file" name="file" ng-file-select="onFileSelect($files, value)" />
 					</td>
-					<td width="40%">
+					<td >
 						<span class="icon delete" ng-click="delete(value)"></span>
 					</td>
 				</tr>
