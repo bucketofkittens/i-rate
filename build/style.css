@@ -416,7 +416,7 @@ table#graphs tr:last-child td{border-top:none}
 #zoom_element .sub ul li a{width:70%;height:100%;display:inline-block;cursor:pointer}
 #zoom_element .sub b{font-family:'Lato',sans-serif;color:#fff;font-size:24px;display:block;text-align:center;padding:20% 5% 0 5%;transition:all .3s linear;-webkit-transition:all .3s linear}#zoom_element .sub b s{font-size:90%;padding-top:5%;display:block;text-decoration:none}
 #body_include{height:100%}
-#modal{z-index:9999;position:absolute;left:50%;top:35%;width:500px;margin-left:-250px}#modal .body{position:relative}
+#modal{z-index:9999;position:absolute;left:50%;top:10%;width:500px;margin-left:-250px}#modal .body{position:relative}
 .body.nsi,.body.nsi-add,.body.nsi-edit{padding:15px}.body.nsi h2,.body.nsi-add h2,.body.nsi-edit h2{font-size:24px;text-align:center;padding-bottom:10px}
 .body.nsi th,.body.nsi-add th,.body.nsi-edit th{font-weight:bold}
 .body.nsi .icon,.body.nsi-add .icon,.body.nsi-edit .icon{cursor:pointer}
@@ -426,6 +426,8 @@ table#graphs tr:last-child td{border-top:none}
 .body.nsi td,.body.nsi-add td,.body.nsi-edit td{vertical-align:middle}
 .body.nsi th,.body.nsi-add th,.body.nsi-edit th{text-align:left !important}
 .body.nsi .btns,.body.nsi-add .btns,.body.nsi-edit .btns{margin-top:10px}
+.body.nsi input[type="file"],.body.nsi-add input[type="file"],.body.nsi-edit input[type="file"]{width:115px;vertical-align:middle;display:inline-block}
+.body.nsi img,.body.nsi-add img,.body.nsi-edit img{width:30px;height:30px;vertical-align:middle;display:inline-block}
 .body.nsi td{border-top:1px solid #ccc}
 .buttons{color:#000;padding:4px 10px;display:inline-block;margin-right:10px;border-radius:3px;text-decoration:none;cursor:pointer}.buttons.green{background:#bcf5a9}
 .buttons.red{background:#f00}
@@ -626,8 +628,10 @@ table.quickdate-calendar td.is-today{font-weight:bold;background:url("../images/
 #myprofile .mypro.acrd,#myprofile .mypro_wr,#myprofile .myset{margin-top:129px !important}
 .ui-corner-all{z-index:999 !important}
 #follow_tab{width:900px;height:50px;z-index:300;margin:50px auto;overflow:hidden;vertical-align:middle;white-space:nowrap;position:relative}#follow_tab .star{vertical-align:middle;position:relative;top:0;left:0;font-size:20px;color:#fff;width:120px;height:30px;text-align:right}
-#follow_tab ul{display:inline-block;background:url("../images/sbg.png") -5px top no-repeat;background-size:705px 50px;width:620px;height:50px;margin:0 0 0 50px;z-index:300;overflow:hidden;vertical-align:middle;white-space:nowrap;padding:0 40px}#follow_tab ul li{display:inline-block;position:relative;top:1px;cursor:pointer}#follow_tab ul li img{height:auto;display:block;max-height:48px;margin:0 !important}
-#follow_tab sub,#follow_tab sup{position:absolute;width:15px;height:20px;cursor:pointer;top:13px;right:38px}
+#follow_tab .list{background:url("../images/sbg.png") -5px top no-repeat;background-size:705px 50px;width:625px;height:50px;overflow:hidden;display:inline-block;vertical-align:middle;margin:0 0 0 50px;padding:0 40px 0 40px}
+#follow_tab .sub{width:625px;overflow:hidden;position:relative}
+#follow_tab ul{display:inline-block;z-index:300;overflow:hidden;vertical-align:middle;white-space:nowrap;height:50px;position:relative;transition:all .5s ease-out;-webkit-transition:all .5s ease-out}#follow_tab ul li{display:inline-block;position:relative;top:1px;cursor:pointer}#follow_tab ul li img{height:auto;display:block;max-height:48px;margin:0 !important}
+#follow_tab sub,#follow_tab sup{position:absolute;width:15px;height:20px;cursor:pointer;top:13px;right:38px;z-index:30}
 #follow_tab sub{right:702px}
 #follow_tab a{position:absolute;top:17px;right:5px;cursor:pointer;background:url("../images/nx.png") right center no-repeat;background-size:17px 15px;width:17px;height:15px}
 .ps-container .ps-scrollbar-x-rail{position:absolute;bottom:3px;height:8px;-webkit-border-radius:4px;-moz-border-radius:4px;border-radius:4px;opacity:0;-o-transition:background-color .2s linear,opacity .2s linear;-webkit-transition:background-color .2s linear,opacity .2s linear;-moz-transition:background-color .2s linear,opacity .2s linear;transition:background-color .2s linear,opacity .2s linear}
