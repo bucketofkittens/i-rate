@@ -1,6 +1,7 @@
 <section ng-controller="FollowController" >
 	<div id="follow_tab">
-		<span class="icon star"></span>
+		<span class="icon star">Favorites</span>
+		<sub class="icon favorite_nav_left"></sub>
 		<ul>
 			<li 
 				ng-click="openUser(userItem.user)" 
@@ -11,5 +12,6 @@
 					err-src="/images/unknown-person.png" />
 			</li>
 		</ul>
+		<sup class="icon favorite_nav_right"></sup>
 	</div>
 </section>
