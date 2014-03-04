@@ -31,6 +31,10 @@ function UserController($scope, FriendsService, UserService, $element, $route, $
         $scope.tab = tab;
     }
 
+    $scope.addViewCallback_ = function(newId) {
+        UserService.getById(newId, $scope.userServiceGetByIdCallback_);
+    }
+
     // указываем текущего выбранного пользователя
     $scope.setCurrentUser = function() {
         // новый id по указанному rpute в ng-init
@@ -39,7 +43,11 @@ function UserController($scope, FriendsService, UserService, $element, $route, $
         // проверяем а нужно ли вообще менять id
         if(newId && (!$scope.user || $scope.user.sguid != newId) && !$scope.getProgressFlag) {
             $scope.getProgressFlag = true;
-            UserService.getById(newId, $scope.userServiceGetByIdCallback_);
+            if(($scope.workspace.user && newId != $scope.workspace.user.sguid) || !$scope.workspace.user) {
+                UserService.addView(newId, $scope.addViewCallback_);    
+            } else {
+                UserService.getById(newId, $scope.userServiceGetByIdCallback_);
+            }
         }
 
         // если нет id то удаляем данные 
@@ -86,12 +94,14 @@ function UserController($scope, FriendsService, UserService, $element, $route, $
     $scope.followCallback_ = function(friends) {
         $scope.workspace.friends = friends;
         $scope.isFriend = true;
+        $scope.user.likes += 1;
     }
 
     // callback после удаления пользователя из друзей
     $scope.unfollowCallback_ = function(friends) {
         $scope.workspace.friends = friends;
         $scope.isFriend = false;
+        $scope.user.likes -= 1;
     }
 
     /** Событие добавление в друзья */

@@ -25,21 +25,23 @@ pgrModule.factory('User', function ($resource) {
                     if(data) {
                         // подготавливаем данные 
                         var user = angular.fromJson(data)[0];
-                        console.log(data);
-                        if(user.points) {
+                        
+                        if(user && user.points) {
                             if( user.points == null || isNaN(user.points)) {
                                 user.points = 0;
                             }
 
-                            user.points = parseInt(user.points);    
+                            user.points = parseInt(user.points); 
+
+                            /**
+                             * Указваем формат дня рождения
+                             */
+                            if(user.birthday) {
+                                user.birthday = moment(user.birthday).format("DD.MM.YYYY");
+                            }  
                         }
 
-                        /**
-                         * Указваем формат дня рождения
-                         */
-                        if(user.birthday) {
-                            user.birthday = moment(user.birthday).format("DD.MM.YYYY");
-                        }
+                        
 
                         return user;    
                     }
@@ -63,6 +65,18 @@ pgrModule.factory('User', function ($resource) {
                 method: 'GET',
                 isArray: true,
                 url: host+"/users/only/published"
+            },
+            'add_view': {
+                method: 'GET',
+                url: host+"/users/:id/viewed"
+            },
+            'liked_calculate': {
+                method: 'GET',
+                url: host+"/users/:id/liked"
+            },
+            'unliked_calculate': {
+                method: 'GET',
+                url: host+"/users/:id/disliked"
             },
             'for_main': {
                 method: 'GET',
@@ -528,6 +542,12 @@ pgrModule.service('UserService', function (User, AllUserService) {
         User.get_friends({id: sguid}, callback);
     }
 
+    this.addView = function(sguid, callback) {
+        User.add_view({id: sguid}, function() {
+            callback(sguid);
+        });
+    }
+
     // создание нового пользователя
     this.create = function(params, callback, fail) {
         User.create(
@@ -558,14 +578,12 @@ pgrModule.service('UserService', function (User, AllUserService) {
             if(data && data.birthday) {
                 data.birthday = dateFromString(data.birthday);    
             }
-            console.log(data.birthday);
             callback(data);
         });
     }
 
     this.getUsersOnServer_ = function(callback) {
         User.get_all({}, {}, function(data) {
-            console.log(data);
             callback(data);
         });
     }
@@ -923,8 +941,10 @@ pgrModule.service('FriendsService', function (UserService, User, $rootScope) {
                 friend_guid: friend.sguid
             }, function(response) {     
                 if(response.success) {
-                    friends.push({sguid: response.message.guid, user: friend});
-                    callback(friends);
+                    User.liked_calculate({id: friend.sguid}, function() {
+                        friends.push({sguid: response.message.guid, user: friend});
+                        callback(friends);
+                    });
                 }
             });
         } else {
@@ -943,14 +963,16 @@ pgrModule.service('FriendsService', function (UserService, User, $rootScope) {
         
         if(user) {
             User.destroy_friendship({id: user.sguid, friendId: friend.sguid}, { }, function() {
-                var frend = friends.filter(function(data) {
-                    if(data.user.sguid === friend.sguid) {
-                        return data;
-                    }
-                })[0];
-                var index = friends.indexOf(frend);
-                friends.splice(index, 1);
-                callback(friends);
+                User.unliked_calculate({id: friend.sguid}, function() {
+                    var frend = friends.filter(function(data) {
+                        if(data.user.sguid === friend.sguid) {
+                            return data;
+                        }
+                    })[0];
+                    var index = friends.indexOf(frend);
+                    friends.splice(index, 1);
+                    callback(friends);    
+                })
             });
         } else {
             var frend = friends.filter(function(data) {
