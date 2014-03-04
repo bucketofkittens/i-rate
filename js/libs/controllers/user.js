@@ -14,7 +14,7 @@ function UserController($scope, FriendsService, UserService, $element, $route, $
     // открывать большую карточку или нет
     $scope.big = false;
 
-    // текущий выбранный так
+    // текущий выбранный таб
     $scope.tab = 1;
 
     // индикатор прогресса загрузки данных. нужен для того что бы не дублировались ajax запросы
@@ -22,6 +22,8 @@ function UserController($scope, FriendsService, UserService, $element, $route, $
 
     $scope.$on('$locationChangeStart', function(event, newLoc, oldLoc) {
         $scope.setCurrentUser();
+
+        $scope.big = $location.search().big && $location.search().big == $scope.route ? true : false;
     });
 
     // меняем таб на другой
@@ -44,7 +46,6 @@ function UserController($scope, FriendsService, UserService, $element, $route, $
         if(!newId) {
             $scope.user = null;
         }
-        $scope.big = $location.search().big && $location.search().big == $scope.route ? true : false;
     }
 
     // callback получения данных пользователя
