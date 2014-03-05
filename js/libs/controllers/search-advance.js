@@ -375,6 +375,9 @@ function SearchAdvanceController($scope, $location, $rootScope, User, Profession
         if($scope.search.maxScore) {
             params["points_till"] = $scope.search.maxScore;
         }
+        if($scope.search.top) {
+            params["goal_id"] = $scope.search.top;
+        }
         if($scope.searchText) {
             params["name"] = $scope.searchText;
         }

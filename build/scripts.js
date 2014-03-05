@@ -3853,6 +3853,12 @@ pgrModule.directive('masonry', function(User, $rootScope) {
             img.width = value.league.size ? value.league.size : "70";
             img.height = value.league.size ? value.league.size : "70";
 
+            if(value.league.is_points) {
+              var scoreSpan = document.createElement('span');
+              scoreSpan.innerHTML = parseInt(value.points);
+              newSubDiv.appendChild(scoreSpan);
+            }
+
             newSubDiv.appendChild(img);
             return $scope.nodeToString(newDiv);  
           }
