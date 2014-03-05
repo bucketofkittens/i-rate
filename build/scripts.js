@@ -4063,17 +4063,33 @@ pgrModule.directive('mydash', function(User) {
         });
       }
 
-      scope.drawCenterArc_ = function(container) {
-        if(scope.workspace.user && container) {
-          if(!scope.elements["CENTER_ARC"]) {
-            scope.drawNewCenterArc_();
-          } else {
-            container.remove(scope.elements["CENTER_ARC"]);
+      scope.drawCenterArc_ = function() {
+        if(!scope.db2Draw) {
+          scope.db2Draw = scope.drawSegmentPoints_( 
+            {x: 0, y: 0}, 
+            [scope.preload.getResult("db2"), scope.preload.getResult("db2p")],
+            null,
+            {x: 9, y: 7}
+          );
+        }
+
+        if(scope.workspace.user && scope.db2Draw) {
+          if(scope.elements["CENTER_ARC"]) {
+            scope.db2Draw.destroy();
+            scope.elements["CENTER_ARC"] = null;
           }
 
-          container.add(scope.elements["CENTER_ARC"]);
+          scope.db2Draw = scope.drawSegmentPoints_( 
+            {x: 0, y: 0}, 
+            [scope.preload.getResult("db2"), scope.preload.getResult("db2p")],
+            null,
+            {x: 9, y: 7}
+          );
+          
+          scope.drawNewCenterArc_();
+          scope.db2Draw.add(scope.elements["CENTER_ARC"]);
           scope.elements["CENTER_ARC"].setZIndex(1);
-          container.draw();
+          scope.db2Draw.draw();
         }
       }
 
@@ -4269,17 +4285,9 @@ pgrModule.directive('mydash', function(User) {
 
             scope.preload.on("complete", function(event) {
                 scope.drawCenter_(scope.preload.getResult("db"));
-
-                var cont = scope.drawSegmentPoints_( 
-                    {x: 0, y: 0}, 
-                    [scope.preload.getResult("db2"), scope.preload.getResult("db2p")],
-                    null,
-                    {x: 9, y: 7}
-                );
-                scope.db2Draw = cont;
                 
                 scope.drawText_(scope.preload.getResult("dbt"));
-                scope.drawCenterArc_(cont);
+                scope.drawCenterArc_();
                 if(scope.workspace.needs) {
                   scope.setNeeds();  
                 }

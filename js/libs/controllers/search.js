@@ -74,28 +74,8 @@ function SearchController($scope, User, $rootScope, $location) {
         document.getElementsByTagName("header")[0].onclick = this.windowClickCallback_;
     }
 
-    // проверяем вхождения пользователей
-    $scope.test_ = function(text, callback) {
-        $scope.resultSearch = [];
-
-        angular.forEach($rootScope.users, function(value, key) {
-            var reg = new RegExp(text.replace("[", "\\[").replace("]", "\\]"), "i");
-            if(value.name && value.name != null && value.name != "null" && reg.test(value.name)) {
-                if(!value.league) {
-                    value.league = {name: "10"};
-                }
-                var isset = false;
-                angular.forEach($scope.resultSearch, function(resValue, resKey){
-                    if(resValue.sguid == value.sguid) {
-                        isset = true;
-                    }
-                });
-                if(!isset) {
-                    $scope.resultSearch.push(value);   
-                }
-            }
-        });
-        return $scope.resultSearch;
+    $scope.advanceSearchCallback_ = function(data) {
+        $scope.resultSearch = data;
     }
 
     // ищем в списке пользователей
@@ -106,7 +86,7 @@ function SearchController($scope, User, $rootScope, $location) {
         // проверяем сколько символов в строке поиска
         if($scope.searchText.length > 0) {
             // проверяем вхождение
-            $scope.test_($scope.searchText);
+            $scope.resultSearch = User.search({}, { name: $scope.searchText }, $scope.advanceSearchCallback_);
 
             // скрываем правую панель
             $rootScope.$broadcast('hideRightPanel');
