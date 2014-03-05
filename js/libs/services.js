@@ -70,14 +70,6 @@ pgrModule.factory('User', function ($resource) {
                 method: 'GET',
                 url: host+"/users/:id/viewed"
             },
-            'liked_calculate': {
-                method: 'GET',
-                url: host+"/users/:id/liked"
-            },
-            'unliked_calculate': {
-                method: 'GET',
-                url: host+"/users/:id/disliked"
-            },
             'compared_calculate': {
                 method: 'GET',
                 url: host+"/users/:id/compared"
@@ -950,7 +942,6 @@ pgrModule.service('FriendsService', function (UserService, User, $rootScope) {
                 callback(friends);
             }
         });
-        User.liked_calculate({id: friend.sguid}, function() {});
     }
 
     // убираем пользователя из друзей
@@ -967,8 +958,6 @@ pgrModule.service('FriendsService', function (UserService, User, $rootScope) {
             friends.splice(index, 1);
             callback(friends); 
         });
-
-        User.unliked_calculate({id: friend.sguid}, function() {});
     }
 
     // передаем данные в кеш

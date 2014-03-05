@@ -4048,9 +4048,9 @@ pgrModule.directive('mydash', function(User) {
               ctx.stroke();
               ctx.closePath();
               ctx.beginPath();
-              ctx.moveTo(centerRX + Math.cos(newAngle) * (radius+20),centerRY + Math.sin(newAngle) * (radius+20));
+              ctx.moveTo(centerRX + Math.cos(newAngle) * (radius+18),centerRY + Math.sin(newAngle) * (radius+18));
               ctx.lineTo(centerRX + Math.cos(newAngle+0.1) * radius,centerRY + Math.sin(newAngle+0.1) * radius);
-              ctx.lineTo(centerRX + Math.cos(newAngle) * (radius-20),centerRY + Math.sin(newAngle) * (radius-20));
+              ctx.lineTo(centerRX + Math.cos(newAngle) * (radius-18),centerRY + Math.sin(newAngle) * (radius-18));
               ctx.fillStyle = colorString;
               ctx.strokeStyle = colorString;
               ctx.lineWidth = 2;
@@ -4111,9 +4111,9 @@ pgrModule.directive('mydash', function(User) {
 
                 if(params.need_max - params.need_value > 500) {
                   ctx.beginPath();
-                  ctx.moveTo(centerRX + Math.cos(newAngle) * (radius+20),centerRY + Math.sin(newAngle) * (radius+20));
+                  ctx.moveTo(centerRX + Math.cos(newAngle) * (radius+18),centerRY + Math.sin(newAngle) * (radius+18));
                   ctx.lineTo(centerRX + Math.cos(newAngle+0.1) * radius,centerRY + Math.sin(newAngle+0.1) * radius);
-                  ctx.lineTo(centerRX + Math.cos(newAngle) * (radius-20),centerRY + Math.sin(newAngle) * (radius-20));
+                  ctx.lineTo(centerRX + Math.cos(newAngle) * (radius-18),centerRY + Math.sin(newAngle) * (radius-18));
                   ctx.fillStyle = colorString;
                   ctx.lineWidth = 1;
                   ctx.fill();

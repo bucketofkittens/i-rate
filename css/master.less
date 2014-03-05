@@ -2218,16 +2218,21 @@ ng-form:not(.ng-pristine) {
 }
 
 #crop_modal {
-    background: #ffffff;
-    padding: 20px;
     position: absolute;
-    top: 200px;
+    top: 10%;
     left: 50%;
     width: 500px;
+    height: 100%;
     margin-left: -250px;
     z-index: 1199;
     display: none;
-    box-shadow: 0 0 20px 1px rgba(0,0,0,0.2);
+    .scroll {
+        background: #ffffff;
+        padding: 20px;
+        max-height: 80%;
+        overflow: hidden;
+        box-shadow: 0 0 20px 1px rgba(0,0,0,0.2);
+    }
     &.show {
         display: block;
     }
@@ -4766,6 +4771,7 @@ disabled look for disabled choices in the results dropdown
 .jcrop-holder {
   direction: ltr;
   text-align: left;
+  margin: 0px auto;
 }
 /* Selection Border */
 .jcrop-vline,
@@ -5133,7 +5139,7 @@ table.quickdate-calendar td.is-today{font-weight:bold;background: url("../images
         padding: 0px 40px 0px 40px;
     }
     .sub {
-        width: 625px;
+        width: 624px;
         overflow: hidden;
         position: relative;
     }

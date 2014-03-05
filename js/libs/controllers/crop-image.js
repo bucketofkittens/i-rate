@@ -103,7 +103,7 @@ function CropImageController($scope, $rootScope, TokenService, UserService) {
             if($scope.jcrop) {
                 $scope.jcrop.data('Jcrop').destroy();
             }
-            $scope.jcrop = crop_img.Jcrop({boxWidth: 500, boxHeight: 500, maxSize: [500, 500], minSize: [200, 200], aspectRatio: 1, setSelect: [0, 0, 200, 200], onChange: function(data) {
+            $scope.jcrop = crop_img.Jcrop({boxHeight: 500, minSize: [200, 200], aspectRatio: 1, setSelect: [0, 0, 200, 200], onChange: function(data) {
                 $scope.positions = data;
             }}); 
         };

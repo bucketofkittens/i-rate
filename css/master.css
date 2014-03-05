@@ -208,7 +208,8 @@ ng-form:not(.ng-pristine) input.ng-invalid:not(.ng-pristine){border-color:rgba(2
 .icon.Dashboard{background:url("../images/dash2.png") left top no-repeat;width:43px;height:43px;background-size:100% 100%}
 .icon.Settings{background:url("../images/set2.png") left top no-repeat;width:43px;height:43px;background-size:100% 100%}
 #bridge{position:absolute;width:32px;left:0;top:0;background:#fff;height:57px !important;display:none;border-top:1px solid #ddd;border-bottom:1px solid #ddd;z-index:200;box-shadow:0 20px 30px -20px rgba(0,0,0,0.5),0 -20px 30px -20px rgba(0,0,0,0.5)}
-#crop_modal{background:#fff;padding:20px;position:absolute;top:200px;left:50%;width:500px;margin-left:-250px;z-index:1199;display:none;box-shadow:0 0 20px 1px rgba(0,0,0,0.2)}#crop_modal.show{display:block}
+#crop_modal{position:absolute;top:10%;left:50%;width:500px;height:100%;margin-left:-250px;z-index:1199;display:none}#crop_modal .scroll{background:#fff;padding:20px;max-height:80%;overflow:hidden;box-shadow:0 0 20px 1px rgba(0,0,0,0.2)}
+#crop_modal.show{display:block}
 #crop_modal #cropContainer{width:460px}
 #crop_modal button{width:30%;height:100%;font-size:100%;font-family:'Lato',sans-serif;line-height:130%;margin-left:3%;padding:1% !important;vertical-align:middle !important;display:inline-block;cursor:pointer;background:none;border:2px solid #ccc}
 #crop_modal .buttons{width:100%;overflow:hidden;padding:10px 0 0 0}#crop_modal .buttons .apply{float:right}
@@ -479,7 +480,7 @@ table#graphs tr:last-child td{border-top:none}
 .select2-display-none{display:none}
 .select2-measure-scrollbar{position:absolute;top:-10000px;left:-10000px;width:100px;height:100px;overflow:scroll}
 @media only screen and (-webkit-min-device-pixel-ratio:1.5),only screen and (min-resolution:144dpi){.select2-search input,.select2-search-choice-close,.select2-container .select2-choice abbr,.select2-container .select2-choice .select2-arrow b{background-image:url('../images/select2x2.png') !important;background-repeat:no-repeat !important;background-size:60px 40px !important} .select2-search input{background-position:100% -21px !important}}.select2-drop{border:none !important;background:url("../images/glass.png") left top no-repeat;background-size:100% 110%;color:#fff;background-color:rgba(255,255,255,0.9);border-radius:0;box-shadow:0 0 30px 0 rgba(0,0,0,0.7)}
-.jcrop-holder{direction:ltr;text-align:left}
+.jcrop-holder{direction:ltr;text-align:left;margin:0 auto}
 .jcrop-vline,.jcrop-hline{font-size:0;position:absolute}
 .jcrop-vline{height:100%;width:1px !important}
 .jcrop-vline.right{right:0}
@@ -564,7 +565,7 @@ table.quickdate-calendar td.is-today{font-weight:bold;background:url("../images/
 .ui-corner-all{z-index:999 !important}
 #follow_tab{width:900px;height:50px;z-index:300;margin:50px auto;overflow:hidden;vertical-align:middle;white-space:nowrap;position:relative}#follow_tab .star{vertical-align:middle;position:relative;top:0;left:0;font-size:20px;color:#fff;width:120px;height:30px;text-align:right}
 #follow_tab .list{background:url("../images/sbg.png") -5px top no-repeat;background-size:705px 50px;width:625px;height:50px;overflow:hidden;display:inline-block;vertical-align:middle;margin:0 0 0 50px;padding:0 40px 0 40px}
-#follow_tab .sub{width:625px;overflow:hidden;position:relative}
+#follow_tab .sub{width:624px;overflow:hidden;position:relative}
 #follow_tab ul{display:inline-block;z-index:300;overflow:hidden;vertical-align:middle;white-space:nowrap;height:50px;position:relative;transition:all .5s ease-out;-webkit-transition:all .5s ease-out}#follow_tab ul li{display:inline-block;position:relative;top:1px;cursor:pointer}#follow_tab ul li img{height:auto;display:block;max-height:48px;margin:0 !important}
 #follow_tab sub,#follow_tab sup{position:absolute;width:15px;height:20px;cursor:pointer;top:13px;right:38px;z-index:30}
 #follow_tab sub{right:702px}

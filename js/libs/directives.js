@@ -399,40 +399,42 @@ pgrModule.directive('mydash', function(User) {
       }
 
       scope.drawSegmentPoints_ = function(positions, images, specialPosition, dotCorruptions) {
-          var containerParams = {
-            x: specialPosition ? specialPosition.x : scope.dashboard.getWidth()/2-images[0].width*0.6/2,
-            y: specialPosition ? specialPosition.y : scope.dashboard.getHeight()/2-images[0].height*0.6/2,
-            width: images[0].width,
-            height: images[0].height
-          };
-          var container = new Kinetic.Layer(containerParams);
+          if(images[0]) {
+            var containerParams = {
+              x: specialPosition ? specialPosition.x : scope.dashboard.getWidth()/2-images[0].width*0.6/2,
+              y: specialPosition ? specialPosition.y : scope.dashboard.getHeight()/2-images[0].height*0.6/2,
+              width: images[0].width,
+              height: images[0].height
+            };
+            var container = new Kinetic.Layer(containerParams);
 
-          var centerImgContainer =  new Kinetic.Image({
-              image: images[0],
-              x: 0,
-              y: 0,
-              name: "image1"
-          });
+            var centerImgContainer =  new Kinetic.Image({
+                image: images[0],
+                x: 0,
+                y: 0,
+                name: "image1"
+            });
 
-          var centerImgDotContainer = new Kinetic.Image({
-              image: images[1],
-              x: dotCorruptions ? dotCorruptions.x : 0,
-              y: dotCorruptions ? dotCorruptions.y : 0,
-              name: "image2"
-          });
+            var centerImgDotContainer = new Kinetic.Image({
+                image: images[1],
+                x: dotCorruptions ? dotCorruptions.x : 0,
+                y: dotCorruptions ? dotCorruptions.y : 0,
+                name: "image2"
+            });
 
-          centerImgContainer.scale({x:0.6,y:0.6});
-          centerImgDotContainer.scale({x:0.6,y:0.6});
+            centerImgContainer.scale({x:0.6,y:0.6});
+            centerImgDotContainer.scale({x:0.6,y:0.6});
 
-          container.add(centerImgContainer);
-          container.add(centerImgDotContainer);
+            container.add(centerImgContainer);
+            container.add(centerImgDotContainer);
 
-          centerImgContainer.setZIndex(0);
-          centerImgDotContainer.setZIndex(3);
+            centerImgContainer.setZIndex(0);
+            centerImgDotContainer.setZIndex(3);
 
-          scope.dashboard.add(container);
+            scope.dashboard.add(container);
 
-          return container;
+            return container;
+          }
       } 
 
       scope.drawText_ = function(image) {
