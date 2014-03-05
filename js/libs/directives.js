@@ -389,19 +389,19 @@ pgrModule.directive('mydash', function(User) {
       scope.carreeMax = 0;
 
       scope.updatePointText_ = function() {
-        if(scope.workspace.user && scope.centerTextDraw) {
-          scope.centerTextDraw.setText(scope.workspace.user.points);
-          scope.centerTextDraw.offsetY("-"+(scope.dashboard_size.height/2-30));
-          scope.centerTextDraw.offsetX(scope.centerTextDraw.width()/2);
+        if(scope.workspace.user && scope.elements["CENTER_TEXT"]) {
+          scope.elements["CENTER_TEXT"].setText(scope.workspace.user.points);
+          scope.elements["CENTER_TEXT"].offsetY("-"+(scope.dashboard.getHeight()/2-30));
+          scope.elements["CENTER_TEXT"].offsetX(scope.elements["CENTER_TEXT"].width()/2);
 
-          scope.centerTextDraw.getLayer().draw();  
+          scope.elements["CENTER_TEXT"].getLayer().draw();
         }
       }
 
       scope.drawSegmentPoints_ = function(positions, images, specialPosition, dotCorruptions) {
           var containerParams = {
-            x: specialPosition ? specialPosition.x : scope.dashboard_size.width/2-images[0].width*0.6/2,
-            y: specialPosition ? specialPosition.y : scope.dashboard_size.height/2-images[0].height*0.6/2,
+            x: specialPosition ? specialPosition.x : scope.dashboard.getWidth()/2-images[0].width*0.6/2,
+            y: specialPosition ? specialPosition.y : scope.dashboard.getHeight()/2-images[0].height*0.6/2,
             width: images[0].width,
             height: images[0].height
           };
@@ -437,8 +437,8 @@ pgrModule.directive('mydash', function(User) {
 
       scope.drawText_ = function(image) {
           var containerParams = {
-            x: scope.dashboard_size.width/2-image.width*0.6/2,
-            y: scope.dashboard_size.height/2-image.height*0.6/2,
+            x: scope.dashboard.getWidth()/2-image.width*0.6/2,
+            y: scope.dashboard.getHeight()/2-image.height*0.6/2,
             width: image.width*0.6,
             height: image.height*0.6
           };
@@ -455,56 +455,59 @@ pgrModule.directive('mydash', function(User) {
 
           container.add(centerImgContainer);
           scope.dashboard.add(container);
-      } 
+      }
+
+      scope.drawNewCenterArc_ = function() {
+        var corruption = 90;
+        var oneStep = 175000/360;
+        var newAngle = degToRad(scope.workspace.user.points/oneStep+corruption);
+        var baseAngle = degToRad(corruption);
+
+        var centerRX = scope.dashboard.getWidth()/2-89;
+        var centerRY = scope.dashboard.getHeight()/2-39.5;
+        var endX = centerRX + Math.cos(newAngle) * 149;
+        var endY = centerRY + Math.sin(newAngle) * 149;
+
+        scope.elements["CENTER_ARC"] = new Kinetic.Shape({
+            drawFunc: function(context) {
+              var ctx = context.canvas.getContext()._context;
+              var x = centerRX;
+              var y = centerRY;
+              var radius = 91;
+              var startAngle = baseAngle;
+              var endAngle = newAngle;
+              var colorString = "rgba(170, 200, 255, 0.5)";
+
+              ctx.beginPath();
+              ctx.arc(x, y, radius, startAngle, endAngle, false);
+              ctx.strokeStyle = colorString;
+              ctx.lineWidth = 37;
+              ctx.stroke();
+              ctx.closePath();
+              ctx.beginPath();
+              ctx.moveTo(centerRX + Math.cos(newAngle) * (radius+30),centerRY + Math.sin(newAngle) * (radius+30));
+              ctx.lineTo(centerRX + Math.cos(newAngle+0.1) * radius,centerRY + Math.sin(newAngle+0.1) * radius);
+              ctx.lineTo(centerRX + Math.cos(newAngle) * (radius-30),centerRY + Math.sin(newAngle) * (radius-30));
+              ctx.fillStyle = colorString;
+              ctx.strokeStyle = colorString;
+              ctx.lineWidth = 2;
+              ctx.stroke();
+              ctx.fill();
+              ctx.closePath();
+          },
+        });
+      }
 
       scope.drawCenterArc_ = function(container) {
         if(scope.workspace.user && container) {
-          if(scope.centerArc) {
-            container.remove(scope.centerArc);
-            container.draw();
+          if(!scope.elements["CENTER_ARC"]) {
+            scope.drawNewCenterArc_();
+          } else {
+            container.remove(scope.elements["CENTER_ARC"]);
           }
 
-          var corruption = 90;
-          var oneStep = 175000/360;
-          var newAngle = degToRad(scope.workspace.user.points/oneStep+corruption);
-          var baseAngle = degToRad(corruption);
-
-          var centerRX = scope.dashboard.getWidth()/2-89;
-          var centerRY = scope.dashboard.getHeight()/2-39.5;
-          var endX = centerRX + Math.cos(newAngle) * 149;
-          var endY = centerRY + Math.sin(newAngle) * 149;
-
-          scope.centerArc = new Kinetic.Shape({
-              drawFunc: function(context) {
-                var ctx = context.canvas.getContext()._context;
-                var x = centerRX;
-                var y = centerRY;
-                var radius = 91;
-                var startAngle = baseAngle;
-                var endAngle = newAngle;
-                var colorString = "rgba(170, 200, 255, 0.5)";
-
-                ctx.beginPath();
-                ctx.arc(x, y, radius, startAngle, endAngle, false);
-                ctx.strokeStyle = colorString;
-                ctx.lineWidth = 37;
-                ctx.stroke();
-                ctx.closePath();
-                ctx.beginPath();
-                ctx.moveTo(centerRX + Math.cos(newAngle) * 180,centerRY + Math.sin(newAngle) * 180);
-                ctx.lineTo(centerRX + Math.cos(newAngle+0.1) * 149,centerRY + Math.sin(newAngle+0.1) * 149);
-                ctx.lineTo(centerRX + Math.cos(newAngle) * 120,centerRY + Math.sin(newAngle) * 120);
-                ctx.fillStyle = colorString;
-                ctx.strokeStyle = colorString;
-                ctx.lineWidth = 2;
-                ctx.stroke();
-                ctx.fill();
-                ctx.closePath();
-            },
-          });
-
-          container.add(scope.centerArc);
-          scope.centerArc.setZIndex(1);
+          container.add(scope.elements["CENTER_ARC"]);
+          scope.elements["CENTER_ARC"].setZIndex(1);
           container.draw();
         }
       }
@@ -536,7 +539,6 @@ pgrModule.directive('mydash', function(User) {
                 var colorString = "rgba(170, 200, 255, 0.5)";
 
                 ctx.beginPath();
-                ctx.globalAlpha = 0.4;
                 ctx.rotate(degToRad(-1.5));
                 ctx.arc(x, y, radius, startAngle, endAngle, false);
                 ctx.strokeStyle = colorString;
@@ -567,35 +569,30 @@ pgrModule.directive('mydash', function(User) {
       }
 
       scope.drawCenter_ = function(image) {
-          var container = new Kinetic.Layer();
-
-          var centerImgContainer = new Kinetic.Image({
+          scope.elements["CENTER_CONTAINER"] = new Kinetic.Layer();
+          scope.elements["CENTER_IMAGE"] = new Kinetic.Image({
               image: image,
-              x: scope.dashboard_size.width/2-image.width*0.6/2,
-              y: scope.dashboard_size.height/2-image.height*0.6/2,
+              x: scope.dashboard.getWidth()/2-image.width*0.6/2,
+              y: scope.dashboard.getHeight()/2-image.height*0.6/2,
               name: "image"
           });
           
-          var centerText = new Kinetic.Text({
+          scope.elements["CENTER_TEXT"] = new Kinetic.Text({
             text: '',
             fontSize: 25,
             fontFamily: 'Helvetica Neue Light',
             fill: '#ffffff',
-            x: scope.dashboard_size.width/2,
+            x: scope.dashboard.getWidth()/2,
             y: 60
           });
 
-          centerImgContainer.scale({x:0.6,y:0.6});
-          centerText.scale({x:0.6,y:0.6});
+          scope.elements["CENTER_IMAGE"].scale({x:0.6,y:0.6});
+          scope.elements["CENTER_TEXT"].scale({x:0.6,y:0.6});
 
-          container.add(centerImgContainer);
-          container.add(centerText);
+          scope.elements["CENTER_CONTAINER"].add(scope.elements["CENTER_IMAGE"]);
+          scope.elements["CENTER_CONTAINER"].add(scope.elements["CENTER_TEXT"]);
 
-          scope.dashboard.add(container);
-
-          scope.centerTextDraw = centerText;
-          scope.pointsLayer = container;
-
+          scope.dashboard.add(scope.elements["CENTER_CONTAINER"]);
           scope.updatePointText_();
       }
 
@@ -702,6 +699,7 @@ pgrModule.directive('mydash', function(User) {
             ];
 
             var preload = new createjs.LoadQueue(true, "/images/");
+
             preload.on("complete", function(event) {
                 scope.drawCenter_(preload.getResult("db"));
 
@@ -730,21 +728,16 @@ pgrModule.directive('mydash', function(User) {
             preload.loadManifest(manifest);
       }
 
+      scope.elements = {};
+
       scope.drawFullDashboard_ = function() {
         scope.dashboard = new Kinetic.Stage({
           container: 'mydash_draw',
           width: 400,
           height: 300
         });
-        scope.dashboard_size = { width: 400, height: 300 };
         scope.drawDashboard_(); 
       }
-
-      $(window).on("load", function() {
-        if(!scope.dashboard) {
-          scope.drawFullDashboard_();
-        }
-      });
 
       $(document).ready(function() {
         if(!scope.dashboard) {
@@ -752,17 +745,13 @@ pgrModule.directive('mydash', function(User) {
         }
       });
 
-      /*
-      scope.$watch("workspace.needs", function (newValue) {
-        if(newValue) {
-          scope.setNeeds();
+      scope.$watch("workspace.user.points", function (newValue) {
+        scope.updatePointText_();
+        scope.drawCenterArc_();
+
+        if(scope.db3Draw) {
         }
       });
-
-      scope.$watch("workspace.user.points", function (newValue) {
-        scope.drawFullDashboard_();
-      });
-      */
     }
   }
 })
