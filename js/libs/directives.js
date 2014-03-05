@@ -631,11 +631,11 @@ pgrModule.directive('mydash', function(User) {
              });
             scope.drawNeed_(scope.db3Draw, {
                 corruption: 305,
-                radius: 250,
+                radius: 148,
                 need_max: scope.findNeedBySguid("169990243011789827").points_summary,
                 need_value: needsData["169990243011789827"],
-                centerX: 198,
-                centerY: 50,
+                centerX: 17,
+                centerY: 5.5,
                 segment: 33,
                 gradientX: 120,
                 gradientY: 100,
