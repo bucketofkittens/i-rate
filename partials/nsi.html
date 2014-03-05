@@ -7,6 +7,7 @@
 			<col width="170px" />
 			<col width="50px" />
 			<col width="50px" />
+			<col width="50px" />
 			<col width="170px" />
 			<col width="50px" />
 			<thead>
@@ -16,6 +17,7 @@
 					<th>Max</th>
 					<th>Size</th>
 					<th>Show</th>
+					<th>Font</th>
 					<th>Icon</th>
 					<th></th>
 				</tr>
@@ -36,6 +38,9 @@
 					</td>
 					<td class="editing_cell">
 						<input type="checkbox" ng-model="value.is_points" ng-change="update(value)" />
+					</td>
+					<td class="editing_cell">
+						<input style="width:50px" type="text" ng-model="value.font" maxlength="3" ng-change="update(value)" />
 					</td>
 					<td class="editing_cell">
 						<img ng-src="{{value.icon}}" alt="" />

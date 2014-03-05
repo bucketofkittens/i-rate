@@ -292,6 +292,9 @@ pgrModule.directive('masonry', function(User, $rootScope) {
 
             if(value.league.is_points) {
               var scoreSpan = document.createElement('span');
+              if(value.league.font) {
+                scoreSpan.style.fontSize = value.league.font+"px";  
+              }
               scoreSpan.innerHTML = parseInt(value.points);
               newSubDiv.appendChild(scoreSpan);
             }

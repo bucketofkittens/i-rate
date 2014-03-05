@@ -123,7 +123,8 @@ function NSIController($scope, Leagues, $rootScope, $timeout, LeagueService, Tok
                     min_border: value.min_border,
                     name: value.name,
                     size: value.size,
-                    is_points: value.is_points
+                    is_points: value.is_points,
+                    font: value.font
                 })
             }, function(data) {
 
