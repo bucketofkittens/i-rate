@@ -34,13 +34,13 @@
 		</div>
 
 		<!-- статситика -->
-		<b class="statis stf" ng-if="workspace.user">{{user.likes}}</b>
+		<b class="statis stf">{{user.likes}}</b>
 		<b class="statis stv">{{user.views}} views</b>
 
-		<a class="il" ng-if="user && !isFriend && !compare && workspace.user" ng-click="onFollow()">
+		<a class="il" ng-if="user && !isFriend && !compare" ng-click="onFollow()">
 			<img src="../images/i3.png" alt="" />
 		</a>
-		<a class="il" ng-if="user && isFriend && !compare && workspace.user" ng-click="onUnFollow()">
+		<a class="il" ng-if="user && isFriend && !compare" ng-click="onUnFollow()">
 			<img src="../images/i3i.png" alt="" />
 		</a>
 

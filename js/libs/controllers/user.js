@@ -107,12 +107,16 @@ function UserController($scope, FriendsService, UserService, $element, $route, $
 
     /** Событие добавление в друзья */
     $scope.onFollow = function() {
-        FriendsService.follow($scope.user, $scope.workspace.friends, $scope.followCallback_);
+        if($scope.workspace.user) {
+            FriendsService.follow($scope.user, $scope.workspace.friends, $scope.followCallback_);    
+        }
     }
 
     /** Событие удаление из друзей */
     $scope.onUnFollow = function() {
-        FriendsService.unfollow($scope.user, $scope.workspace.friends, $scope.unfollowCallback_);
+        if($scope.workspace.user) {
+            FriendsService.unfollow($scope.user, $scope.workspace.friends, $scope.unfollowCallback_);
+        }
     }
 
     // показываем или скрываем список голов

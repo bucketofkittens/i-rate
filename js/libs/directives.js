@@ -752,6 +752,7 @@ pgrModule.directive('mydash', function(User) {
         }
       });
 
+      /*
       scope.$watch("workspace.needs", function (newValue) {
         if(newValue) {
           scope.setNeeds();
@@ -759,9 +760,9 @@ pgrModule.directive('mydash', function(User) {
       });
 
       scope.$watch("workspace.user.points", function (newValue) {
-        scope.updatePointText_();
-        scope.setNeeds();
+        scope.drawFullDashboard_();
       });
+      */
     }
   }
 })
