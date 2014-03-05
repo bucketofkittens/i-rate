@@ -447,7 +447,7 @@ pgrModule.directive('mydash', function(User) {
           var centerImgContainer =  new Kinetic.Image({
               image: image,
               x: 0,
-              y: -25,
+              y: -20,
               name: "image4"
           });
 
@@ -470,7 +470,7 @@ pgrModule.directive('mydash', function(User) {
           var baseAngle = degToRad(corruption);
 
           var centerRX = scope.dashboard.getWidth()/2-89;
-          var centerRY = scope.dashboard.getHeight()/2-40;
+          var centerRY = scope.dashboard.getHeight()/2-39.5;
           var endX = centerRX + Math.cos(newAngle) * 149;
           var endY = centerRY + Math.sin(newAngle) * 149;
 
@@ -650,16 +650,16 @@ pgrModule.directive('mydash', function(User) {
              });
             scope.drawNeed_(scope.db3Draw, {
                 corruption: 190,
-                radius: 250,
+                radius: 150,
                 need_max: scope.findNeedBySguid("169990243011789825").points_summary,
                 need_value: needsData["169990243011789825"],
-                centerX: 224,
-                centerY: 107,
+                centerX: 34,
+                centerY: 5,
                 segment: 41,
                 gradientX: -10,
                 gradientY: -110,
                 zIndex: 3,
-                segmentMax: 46
+                segmentMax: 47
              });
             scope.drawNeed_(scope.db3Draw, {
                 corruption: 135,
