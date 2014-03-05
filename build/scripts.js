@@ -4021,8 +4021,8 @@ pgrModule.directive('mydash', function(User) {
           var newAngle = degToRad(scope.workspace.user.points/oneStep+corruption);
           var baseAngle = degToRad(corruption);
 
-          var centerRX = scope.dashboard.getWidth()/2-9;
-          var centerRY = scope.dashboard.getHeight()/2+21;
+          var centerRX = scope.dashboard.getWidth()/2-89;
+          var centerRY = scope.dashboard.getHeight()/2-40;
           var endX = centerRX + Math.cos(newAngle) * 149;
           var endY = centerRY + Math.sin(newAngle) * 149;
 
@@ -4039,7 +4039,7 @@ pgrModule.directive('mydash', function(User) {
                 ctx.beginPath();
                 ctx.arc(x, y, radius, startAngle, endAngle, false);
                 ctx.strokeStyle = colorString;
-                ctx.lineWidth = 64;
+                ctx.lineWidth = 37;
                 ctx.stroke();
                 ctx.closePath();
                 ctx.beginPath();
@@ -4091,7 +4091,7 @@ pgrModule.directive('mydash', function(User) {
                 ctx.rotate(degToRad(-1.5));
                 ctx.arc(x, y, radius, startAngle, endAngle, false);
                 ctx.strokeStyle = colorString;
-                ctx.lineWidth = 57;
+                ctx.lineWidth = 36;
                 ctx.stroke();
                 ctx.closePath();
 
@@ -4175,16 +4175,16 @@ pgrModule.directive('mydash', function(User) {
 
             scope.drawNeed_(scope.db3Draw, {
                 corruption: 359,
-                radius: 248,
+                radius: 147,
                 need_max: scope.findNeedBySguid("169990243011789824").points_summary,
                 need_value: needsData["169990243011789824"],
-                centerX: 198,
-                centerY: 97,
+                centerX: 17,
+                centerY: -2,
                 segment: 33,
                 gradientX: 50,
                 gradientY: 150,
                 zIndex: 1,
-                segmentMax: 38
+                segmentMax: 48.5
              });
             scope.drawNeed_(scope.db3Draw, {
                 corruption: 305,
@@ -4192,7 +4192,7 @@ pgrModule.directive('mydash', function(User) {
                 need_max: scope.findNeedBySguid("169990243011789827").points_summary,
                 need_value: needsData["169990243011789827"],
                 centerX: 198,
-                centerY: 107,
+                centerY: 50,
                 segment: 33,
                 gradientX: 120,
                 gradientY: 100,
@@ -5090,6 +5090,7 @@ pgrModule.service('NeedsService', function (Needs) {
     // забираем нидсы из кеша
     this.getList = function(callback) {
         var needs = this.listPrepare_(lscache.get(this.cacheName));
+        
         if(!needs) {
             this.getNeedsOnServer_(callback);
         } else {
@@ -5109,6 +5110,7 @@ pgrModule.service('NeedsService', function (Needs) {
     this.persist = function(data) {
         lscache.set(this.cacheName, JSON.stringify(data), this.cacheTime);
     }
+
     // удаляем Spirituality
     this.listPrepare_ = function(data) {
         if(data) {
@@ -8733,7 +8735,9 @@ function SearchAdvanceController($scope, $location, $rootScope, User, Profession
     });
 
     $scope.$watch("workspace.needs", function (newVal, oldVal, scope) {
-        angular.forEach($scope.workspace.needs, function(need, key) {
+        var needs = JSON.parse(JSON.stringify($scope.workspace.needs));
+        
+        angular.forEach(needs, function(need, key) {
             angular.forEach(need.goals, function(goal, key) {
                 goal.show = true;
                 goal.need = need;
