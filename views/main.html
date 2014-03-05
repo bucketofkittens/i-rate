@@ -2,22 +2,5 @@
   id="masonry_parent"
 	class="gallery" 
 	ng-controller="GalleryController">
-  <div 
-  	id="masonry" 
-  	class="isotope" 
-  	masonry>
-    <!--
-    <div 
-    	ng-click="openUserInfo(userItem, $event)" 
-    	class="item isotope-item iso-item all" 
-    	ng-repeat="(userKey, userItem) in $root.users track by $index" 
-    	masonry-item>
-      <div class="wr">
-        <img 
-          ng-src="{{userItem.avatar}}"
-          ng-style="{width: userItem.league.size, height: userItem.league.size}" />
-      </div>
-    </div>
-    -->
-  </div>
+  <div id="masonry" class="isotope" masonry></div>
 </section>

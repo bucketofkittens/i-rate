@@ -259,7 +259,7 @@ pgrModule.directive('masonry', function(User, $rootScope) {
         var userElement = $scope.getUserByGuid($scope.workspace.user.sguid);
         if(userElement.size() == 0) {
           var item = $scope.addUser($scope.workspace.user);
-          $(".isotope-item").eq(randomRange(0, 20)).before(item);
+          $(".isotope-item").eq(0).before(item);
           $(element).isotope( 'reloadItems' ).isotope({ sortBy: 'original-order' });
         }
       }
