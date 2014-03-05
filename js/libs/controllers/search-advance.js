@@ -131,7 +131,7 @@ function SearchAdvanceController($scope, $location, $rootScope, User, Profession
         angular.forEach(needs, function(need, key) {
             angular.forEach(need.goals, function(goal, key) {
                 goal.show = true;
-                goal.need = need;
+                goal.needName = need.name;
                 $scope.topList.push(goal);
             });
         });
@@ -376,7 +376,7 @@ function SearchAdvanceController($scope, $location, $rootScope, User, Profession
             params["points_till"] = $scope.search.maxScore;
         }
         if($scope.search.top) {
-            params["goal_id"] = $scope.search.top;
+            params["goal_id"] = $scope.search.top.sguid;
         }
         if($scope.searchText) {
             params["name"] = $scope.searchText;
