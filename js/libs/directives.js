@@ -531,6 +531,7 @@ pgrModule.directive('mydash', function(User) {
                 var colorString = "rgba(170, 200, 255, 0.5)";
 
                 ctx.beginPath();
+                ctx.globalAlpha = 0.4;
                 ctx.rotate(degToRad(-1.5));
                 ctx.arc(x, y, radius, startAngle, endAngle, false);
                 ctx.strokeStyle = colorString;
@@ -673,7 +674,7 @@ pgrModule.directive('mydash', function(User) {
 
       scope.clearNeeds = function() {
         angular.forEach(scope.needsLine, function(value, key){
-          value.remove();
+          scope.db3Draw.remove(value);
         });
       }
 
