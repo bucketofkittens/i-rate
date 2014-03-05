@@ -459,6 +459,11 @@ pgrModule.directive('mydash', function(User) {
 
       scope.drawCenterArc_ = function(container) {
         if(scope.workspace.user && container) {
+          if(scope.centerArc) {
+            container.remove(scope.centerArc);
+            container.draw();
+          }
+
           var corruption = 90;
           var oneStep = 175000/360;
           var newAngle = degToRad(scope.workspace.user.points/oneStep+corruption);
@@ -469,7 +474,7 @@ pgrModule.directive('mydash', function(User) {
           var endX = centerRX + Math.cos(newAngle) * 149;
           var endY = centerRY + Math.sin(newAngle) * 149;
 
-          var arc = new Kinetic.Shape({
+          scope.centerArc = new Kinetic.Shape({
               drawFunc: function(context) {
                 var ctx = context.canvas.getContext()._context;
                 var x = centerRX;
@@ -498,8 +503,8 @@ pgrModule.directive('mydash', function(User) {
             },
           });
 
-          container.add(arc);
-          arc.setZIndex(1);
+          container.add(scope.centerArc);
+          scope.centerArc.setZIndex(1);
           container.draw();
         }
       }
@@ -556,7 +561,7 @@ pgrModule.directive('mydash', function(User) {
 
           container.add(arc);
           arc.setZIndex(params.zIndex);
-          container.draw();
+          
           scope.needsLine.push(arc);
         }
       }
@@ -669,6 +674,8 @@ pgrModule.directive('mydash', function(User) {
                 zIndex: 4,
                 segmentMax: 42
              });
+
+            scope.db3Draw.draw();
           });
       }
 

@@ -4094,6 +4094,7 @@ pgrModule.directive('mydash', function(User) {
                 var colorString = "rgba(170, 200, 255, 0.5)";
 
                 ctx.beginPath();
+                ctx.globalAlpha = 0.4;
                 ctx.rotate(degToRad(-1.5));
                 ctx.arc(x, y, radius, startAngle, endAngle, false);
                 ctx.strokeStyle = colorString;
@@ -4194,11 +4195,11 @@ pgrModule.directive('mydash', function(User) {
              });
             scope.drawNeed_(scope.db3Draw, {
                 corruption: 305,
-                radius: 250,
+                radius: 148,
                 need_max: scope.findNeedBySguid("169990243011789827").points_summary,
                 need_value: needsData["169990243011789827"],
-                centerX: 198,
-                centerY: 50,
+                centerX: 17,
+                centerY: 5.5,
                 segment: 33,
                 gradientX: 120,
                 gradientY: 100,
@@ -4236,7 +4237,7 @@ pgrModule.directive('mydash', function(User) {
 
       scope.clearNeeds = function() {
         angular.forEach(scope.needsLine, function(value, key){
-          value.remove();
+          scope.db3Draw.remove(value);
         });
       }
 
@@ -8989,6 +8990,9 @@ function SearchAdvanceController($scope, $location, $rootScope, User, Profession
         }
         if($scope.search.maxScore) {
             params["points_till"] = $scope.search.maxScore;
+        }
+        if($scope.search.top) {
+            params["goal_id"] = $scope.search.top;
         }
         if($scope.searchText) {
             params["name"] = $scope.searchText;
