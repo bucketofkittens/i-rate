@@ -72,6 +72,12 @@ function SearchAdvanceController($scope, $location, $rootScope, User, Profession
      */
     $scope.countriesList = {};
 
+    /**
+     * Список гоалсов
+     * @type {Object}
+     */
+    $scope.topList = [];
+
     $scope.clearLeagueParam = function() {
         $scope.search.minScore = 0;
         $scope.search.maxScore = 175000;
@@ -119,7 +125,15 @@ function SearchAdvanceController($scope, $location, $rootScope, User, Profession
         $scope.careerList = $scope.showAll($scope.workspace.careers);
     });
 
-     
+    $scope.$watch("workspace.needs", function (newVal, oldVal, scope) {
+        angular.forEach($scope.workspace.needs, function(need, key) {
+            angular.forEach(need.goals, function(goal, key) {
+                goal.show = true;
+                goal.need = need;
+                $scope.topList.push(goal);
+            });
+        });
+    });
 
     /**
      * Событие изменения maxScore
@@ -142,6 +156,16 @@ function SearchAdvanceController($scope, $location, $rootScope, User, Profession
     $scope.$watch("search.maxScore", function (newVal, oldVal, scope) {
         $scope.collapseLeague();
     });
+
+    /**
+     * Изменяем top
+     */
+    $scope.selectTopParam = function(paramName, value) {
+        $scope.selectParam(paramName, value);
+
+        // очищаем профессию если сменилась карьера
+        $scope.toggleShowState("top");
+    }
 
     /**
      * Скидываем лигу

@@ -43,7 +43,13 @@
 					<li 
 						ng-if="value.show" 
 						ng-repeat="(key, value) in topList" 
-						ng-click="selectTopParam('top', value)">{{value.name}}</li>
+						ng-click="selectTopParam('top', value)">
+							<img 
+								ng-src="/images/goals/{{value.need.name | removewhite}}/{{value.name | removewhite}}.png"
+								alt="" 
+								title="{{value.name}}" />
+							{{value.name}}
+					</li>
 				</ul>
 			</div>
 			<em></em>
