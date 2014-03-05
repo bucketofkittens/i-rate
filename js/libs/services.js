@@ -712,6 +712,7 @@ pgrModule.service('NeedsService', function (Needs) {
     // забираем нидсы из кеша
     this.getList = function(callback) {
         var needs = this.listPrepare_(lscache.get(this.cacheName));
+        
         if(!needs) {
             this.getNeedsOnServer_(callback);
         } else {
@@ -731,6 +732,7 @@ pgrModule.service('NeedsService', function (Needs) {
     this.persist = function(data) {
         lscache.set(this.cacheName, JSON.stringify(data), this.cacheTime);
     }
+
     // удаляем Spirituality
     this.listPrepare_ = function(data) {
         if(data) {

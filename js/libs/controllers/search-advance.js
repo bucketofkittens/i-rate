@@ -126,7 +126,9 @@ function SearchAdvanceController($scope, $location, $rootScope, User, Profession
     });
 
     $scope.$watch("workspace.needs", function (newVal, oldVal, scope) {
-        angular.forEach($scope.workspace.needs, function(need, key) {
+        var needs = JSON.parse(JSON.stringify($scope.workspace.needs));
+        
+        angular.forEach(needs, function(need, key) {
             angular.forEach(need.goals, function(goal, key) {
                 goal.show = true;
                 goal.need = need;
