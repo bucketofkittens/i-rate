@@ -123,7 +123,7 @@ body header #header #avatar p span{color:#fff;text-decoration:none;font-size:10p
 .gallery>div .l_1 i,.gallery>div .l_2 i,.gallery>div .l_3 i,.gallery>div .l_4 i{display:block !important}
 .gallery>div>div{overflow:hidden;opacity:0;max-width:0 !important;max-height:0 !important}.gallery>div>div.iso-item{opacity:1;max-width:400px !important;max-height:400px !important}
 .gallery>div>div.all{transition:all 1s linear;-webkit-transition:all 1s linear}
-.gallery>div>div .wr{position:relative;overflow:hidden;width:100%}.gallery>div>div .wr span{position:absolute;bottom:0;left:0;width:100%;padding:3px 0;background:rgba(0,0,0,0.5);color:#fff;text-align:center;font-size:21px}
+.gallery>div>div .wr{position:relative;overflow:hidden;width:100%}.gallery>div>div .wr span{position:absolute;bottom:0;left:0;width:100%;padding:3px 0;color:#fff;text-align:center;font-size:21px;text-shadow:0 0 3px #000}
 .gallery>div>div img{display:block}
 .image_box{position:relative;cursor:pointer;width:250px;height:250px}.image_box sup{display:block;position:absolute;top:0;right:0;background:url("../images/asterisk2.png") right top no-repeat;width:50px;height:50px;z-index:10}
 .image_box s{display:block;position:absolute;bottom:-22px;left:0;white-space:nowrap;z-index:10;text-decoration:none;font-size:12px;color:#e1e1e1}

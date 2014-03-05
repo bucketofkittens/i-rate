@@ -485,9 +485,9 @@ pgrModule.directive('mydash', function(User) {
               ctx.stroke();
               ctx.closePath();
               ctx.beginPath();
-              ctx.moveTo(centerRX + Math.cos(newAngle) * (radius+30),centerRY + Math.sin(newAngle) * (radius+30));
+              ctx.moveTo(centerRX + Math.cos(newAngle) * (radius+20),centerRY + Math.sin(newAngle) * (radius+20));
               ctx.lineTo(centerRX + Math.cos(newAngle+0.1) * radius,centerRY + Math.sin(newAngle+0.1) * radius);
-              ctx.lineTo(centerRX + Math.cos(newAngle) * (radius-30),centerRY + Math.sin(newAngle) * (radius-30));
+              ctx.lineTo(centerRX + Math.cos(newAngle) * (radius-20),centerRY + Math.sin(newAngle) * (radius-20));
               ctx.fillStyle = colorString;
               ctx.strokeStyle = colorString;
               ctx.lineWidth = 2;
@@ -548,9 +548,9 @@ pgrModule.directive('mydash', function(User) {
 
                 if(params.need_max - params.need_value > 500) {
                   ctx.beginPath();
-                  ctx.moveTo(centerRX + Math.cos(newAngle) * (radius+30),centerRY + Math.sin(newAngle) * (radius+30));
+                  ctx.moveTo(centerRX + Math.cos(newAngle) * (radius+20),centerRY + Math.sin(newAngle) * (radius+20));
                   ctx.lineTo(centerRX + Math.cos(newAngle+0.1) * radius,centerRY + Math.sin(newAngle+0.1) * radius);
-                  ctx.lineTo(centerRX + Math.cos(newAngle) * (radius-30),centerRY + Math.sin(newAngle) * (radius-30));
+                  ctx.lineTo(centerRX + Math.cos(newAngle) * (radius-20),centerRY + Math.sin(newAngle) * (radius-20));
                   ctx.fillStyle = colorString;
                   ctx.lineWidth = 1;
                   ctx.fill();
@@ -563,6 +563,7 @@ pgrModule.directive('mydash', function(User) {
 
           container.add(arc);
           arc.setZIndex(params.zIndex);
+          container.draw();
           
           scope.needsLine.push(arc);
         }
@@ -598,9 +599,16 @@ pgrModule.directive('mydash', function(User) {
 
       scope.setNeeds = function() {
           if(scope.db3Draw) {
-            scope.clearNeeds();
-            scope.db3Draw.draw();  
+            scope.db3Draw.destroy();
+            scope.db3Draw.draw();
           }
+
+          scope.db3Draw = scope.drawSegmentPoints_(
+              {x: 0, y: 0}, 
+              [scope.preload.getResult("db3"), scope.preload.getResult("db3p")],
+              null,
+              {x: 9, y: 7}
+          );
 
           User.goals_points({id: scope.workspace.user.sguid}, {}, function(goalsData) {
             var needsData = {};
@@ -672,14 +680,8 @@ pgrModule.directive('mydash', function(User) {
                 segmentMax: 46.5
              });
 
-            scope.db3Draw.draw();
+            
           });
-      }
-
-      scope.clearNeeds = function() {
-        angular.forEach(scope.needsLine, function(value, key){
-          scope.db3Draw.remove(value);
-        });
       }
 
       scope.findNeedBySguid = function(sguid) {
@@ -698,34 +700,27 @@ pgrModule.directive('mydash', function(User) {
                 {src:"db1.png", id:"db"}
             ];
 
-            var preload = new createjs.LoadQueue(true, "/images/");
+            scope.preload = new createjs.LoadQueue(true, "/images/");
 
-            preload.on("complete", function(event) {
-                scope.drawCenter_(preload.getResult("db"));
+            scope.preload.on("complete", function(event) {
+                scope.drawCenter_(scope.preload.getResult("db"));
 
                 var cont = scope.drawSegmentPoints_( 
                     {x: 0, y: 0}, 
-                    [preload.getResult("db2"), preload.getResult("db2p")],
+                    [scope.preload.getResult("db2"), scope.preload.getResult("db2p")],
                     null,
                     {x: 9, y: 7}
                 );
                 scope.db2Draw = cont;
-                var cont2 =scope.drawSegmentPoints_(
-                    {x: 0, y: 0}, 
-                    [preload.getResult("db3"), preload.getResult("db3p")],
-                    null,
-                    {x: 9, y: 7}
-                );
-                scope.db3Draw = cont2;
-
-                scope.drawText_(preload.getResult("dbt"));
+                
+                scope.drawText_(scope.preload.getResult("dbt"));
                 scope.drawCenterArc_(cont);
                 if(scope.workspace.needs) {
                   scope.setNeeds();  
                 }
             });
 
-            preload.loadManifest(manifest);
+            scope.preload.loadManifest(manifest);
       }
 
       scope.elements = {};
@@ -749,8 +744,7 @@ pgrModule.directive('mydash', function(User) {
         scope.updatePointText_();
         scope.drawCenterArc_();
 
-        if(scope.db3Draw) {
-        }
+        scope.setNeeds();
       });
     }
   }

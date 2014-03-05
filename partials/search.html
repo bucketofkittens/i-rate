@@ -13,7 +13,7 @@
 					ng-change="onSearch()" />
 				<input type="button" class="searcher" ng-click="onSearch()" />
 				<div ng-cloak class="searchResult" ng-if="resultSearch.length > 0">
-					<div class="item" ng-repeat="(userKey, userItem) in resultSearch | orderBy:'points':true">
+					<div class="item" ng-repeat="(userKey, userItem) in resultSearch">
 						<div class="image" ng-click="openSearchProfile(userItem.sguid)">
 							<img ng-src="{{userItem.avatar}}" alt="" err-src="/images/unknown-person.png" />
 						</div>

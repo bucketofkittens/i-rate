@@ -68,7 +68,8 @@
 						<li 
 						data-id="{{crItem.sguid}}" 
 						ng-repeat="crItem in selectedGoal.criteriums | orderBy:'position'" 
-						class="animate-list" >
+						class="animate-list"
+						ng-show="selectedGoal.criteriums.all_load" >
 							<p>{{crItem.name}}</p>
 							<div class="bord">
 								<ul class="crp">
