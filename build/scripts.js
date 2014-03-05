@@ -3962,40 +3962,42 @@ pgrModule.directive('mydash', function(User) {
       }
 
       scope.drawSegmentPoints_ = function(positions, images, specialPosition, dotCorruptions) {
-          var containerParams = {
-            x: specialPosition ? specialPosition.x : scope.dashboard.getWidth()/2-images[0].width*0.6/2,
-            y: specialPosition ? specialPosition.y : scope.dashboard.getHeight()/2-images[0].height*0.6/2,
-            width: images[0].width,
-            height: images[0].height
-          };
-          var container = new Kinetic.Layer(containerParams);
+          if(images[0]) {
+            var containerParams = {
+              x: specialPosition ? specialPosition.x : scope.dashboard.getWidth()/2-images[0].width*0.6/2,
+              y: specialPosition ? specialPosition.y : scope.dashboard.getHeight()/2-images[0].height*0.6/2,
+              width: images[0].width,
+              height: images[0].height
+            };
+            var container = new Kinetic.Layer(containerParams);
 
-          var centerImgContainer =  new Kinetic.Image({
-              image: images[0],
-              x: 0,
-              y: 0,
-              name: "image1"
-          });
+            var centerImgContainer =  new Kinetic.Image({
+                image: images[0],
+                x: 0,
+                y: 0,
+                name: "image1"
+            });
 
-          var centerImgDotContainer = new Kinetic.Image({
-              image: images[1],
-              x: dotCorruptions ? dotCorruptions.x : 0,
-              y: dotCorruptions ? dotCorruptions.y : 0,
-              name: "image2"
-          });
+            var centerImgDotContainer = new Kinetic.Image({
+                image: images[1],
+                x: dotCorruptions ? dotCorruptions.x : 0,
+                y: dotCorruptions ? dotCorruptions.y : 0,
+                name: "image2"
+            });
 
-          centerImgContainer.scale({x:0.6,y:0.6});
-          centerImgDotContainer.scale({x:0.6,y:0.6});
+            centerImgContainer.scale({x:0.6,y:0.6});
+            centerImgDotContainer.scale({x:0.6,y:0.6});
 
-          container.add(centerImgContainer);
-          container.add(centerImgDotContainer);
+            container.add(centerImgContainer);
+            container.add(centerImgDotContainer);
 
-          centerImgContainer.setZIndex(0);
-          centerImgDotContainer.setZIndex(3);
+            centerImgContainer.setZIndex(0);
+            centerImgDotContainer.setZIndex(3);
 
-          scope.dashboard.add(container);
+            scope.dashboard.add(container);
 
-          return container;
+            return container;
+          }
       } 
 
       scope.drawText_ = function(image) {
@@ -4445,14 +4447,6 @@ pgrModule.factory('User', function ($resource) {
             'add_view': {
                 method: 'GET',
                 url: host+"/users/:id/viewed"
-            },
-            'liked_calculate': {
-                method: 'GET',
-                url: host+"/users/:id/liked"
-            },
-            'unliked_calculate': {
-                method: 'GET',
-                url: host+"/users/:id/disliked"
             },
             'compared_calculate': {
                 method: 'GET',
@@ -5326,7 +5320,6 @@ pgrModule.service('FriendsService', function (UserService, User, $rootScope) {
                 callback(friends);
             }
         });
-        User.liked_calculate({id: friend.sguid}, function() {});
     }
 
     // убираем пользователя из друзей
@@ -5343,8 +5336,6 @@ pgrModule.service('FriendsService', function (UserService, User, $rootScope) {
             friends.splice(index, 1);
             callback(friends); 
         });
-
-        User.unliked_calculate({id: friend.sguid}, function() {});
     }
 
     // передаем данные в кеш
@@ -5696,7 +5687,7 @@ $templateCache.put('partials/changePassword.html', "<div class=\"full_height\" n
 $templateCache.put('partials/comments.html', "<div class=\"comments\">\n\t<perfect-scrollbar class=\"comm\">\n\t\t<div class=\"cmnt\" ng-repeat=\"comment in commentsList | orderBy:'post_date'\"  >\n\t\t\t<strong>{{comment.user.name}}</strong>\n\t\t\t<i>{{comment.post_date}}</i>\n\t\t\t<br />\n\t\t\t<p>{{comment.message}}</p>\n\t\t\t<em></em>\n\t\t</div>\n\t</perfect-scrollbar>\n\t<div class=\"butcomm\">\n\t\t<em></em>\n\t\t<ng-form>\n\t\t\t<textarea ng-model=\"form.message\" id=\"comment_message\" name=\"comment\" placeholder=\"Enter your comment here\"></textarea>\n\t\t\t<button ng-click=\"onSendMessage()\">Send</button>\n\t\t</ng-form>\n\t</div>\n</div>");
 $templateCache.put('partials/compare.html', "<div class=\"comp\" ng-include src=\"'partials/user.html'\" ng-controller=\"UserController\" ng-init=\"currentUserId=routeUserId;allUser=false;isEdit=false;\"></div>");
 $templateCache.put('partials/confirm-success.html', "<div class=\"small-message\">\n\t<h2>Successful confirm!</h2>\n\t<p></p>\n\t<a ng-click=\"closeModal()\" class=\"close\">Ok</a>\n</div>");
-$templateCache.put('partials/crop-image.html', "<div ng-class=\"{show: show}\" id=\"crop_modal\">\n\t<div class=\"modal-body\">\n\t\t<form action=\"\" method=\"get\" accept-charset=\"utf-8\">\n\t\t\t<div id='cropContainer'>\n\t\t      <div class=\"cropper\">\n\t\t         <div class=\"preview-container\">\n\t\t         \t<img src=\"\" id=\"crop_img\" alt=\"\" />\n\t        \t\t<canvas id=\"image_canvas\"></canvas>\n\t\t         </div>\n\t\t      </div>\n\t\t   </div>\n\t   </form>\n\t</div>\n\t<div class=\"buttons\">\n\t\t<button ng-click=\"close()\">Cancel</button>\n\t\t<button class=\"apply\" ng-click=\"onSend()\">Apply</button>\n\t</div>\n</div>\n");
+$templateCache.put('partials/crop-image.html', "<div ng-class=\"{show: show}\" id=\"crop_modal\">\n\t<perfect-scrollbar class=\"scroll\" wheel-propagation=\"true\" wheel-speed=\"50\">\n\t\t<div class=\"modal-body\">\n\t\t\t<form action=\"\" method=\"get\" accept-charset=\"utf-8\">\n\t\t\t\t<div id='cropContainer'>\n\t\t\t      <div class=\"cropper\">\n\t\t\t         <div class=\"preview-container\">\n\t\t\t         \t<img src=\"\" id=\"crop_img\" alt=\"\" />\n\t\t        \t\t<canvas id=\"image_canvas\"></canvas>\n\t\t\t         </div>\n\t\t\t      </div>\n\t\t\t   </div>\n\t\t   </form>\n\t\t</div>\n\t\t<div class=\"buttons\">\n\t\t\t<button ng-click=\"close()\">Cancel</button>\n\t\t\t<button class=\"apply\" ng-click=\"onSend()\">Apply</button>\n\t\t</div>\n\t</perfect-scrollbar>\n</div>\n");
 $templateCache.put('partials/follow.html', "<section ng-controller=\"FollowController\" >\n\t<div id=\"follow_tab\">\n\t\t<span class=\"icon star\">Favorites</span>\n\t\t<sub class=\"icon favorite_nav_left\" ng-if=\"step > 0\" ng-click=\"newStep(step-1)\"></sub>\n\t\t<div class=\"list\">\n\t\t\t<div class=\"sub\">\n\t\t\t\t<ul ng-style=\"{left: '-'+step*48+'px'}\">\n\t\t\t\t\t<li \n\t\t\t\t\t\tng-click=\"openUser(userItem.user)\" \n\t\t\t\t\t\tng-repeat=\"userItem in workspace.friends\">\n\t\t\t\t\t\t<img \n\t\t\t\t\t\t\tng-src=\"{{userItem.user.avatar}}\" \n\t\t\t\t\t\t\talt=\"\" \n\t\t\t\t\t\t\terr-src=\"/images/unknown-person.png\" />\n\t\t\t\t\t</li>\n\t\t\t\t</ul>\t\n\t\t\t</div>\n\t\t</div>\n\t\t<sup class=\"icon favorite_nav_right\" ng-click=\"newStep(step+1)\"  ng-if=\"step+14 <= workspace.friends.length\"></sup>\n\t</div>\n</section>");
 $templateCache.put('partials/footer.html', "\n<!-- Футер -->\n<footer>\n\t<div id=\"footer\">\n\t\t<div class=\"sexual\" ng-include src=\"'partials/share.html'\"></div>\n\t\t\n\t\t<div ng-if=\"controller != '_compare'\">\n\t\t\t<div \n\t\t\t\tclass=\"lnbl\" \n\t\t\t\tng-include\n\t\t\t\tsrc=\"'partials/follow.html'\"  >\n\t\t\t</div>\t\n\t\t</div>\t\n\t</div>\n</footer>\n\n<section ng-include src=\"'partials/loader.html'\"></section>\n\n<div id=\"fb-root\"></div>\n\n\n");
 $templateCache.put('partials/gallery.html', "<div class=\"galblo\">\n\t<div class=\"galblos isotope item\"\n\t\tng-repeat=\"userItem in users\"\n\t\tng-click=\"onUserPage(userItem)\">\n\t\t<div class=\"image\">\n\t\t\t<img ng-src=\"{{userItem.avatar}}\" alt=\"\" err-src=\"/images/unknown-person.png\" />\n\t\t\t<i>{{userItem.points}}</i>\n\t\t</div>\n\t\t<div class=\"text\">\n\t\t\t<p class=\"name\">{{userItem.name}}</p>\n\t\t\t<p class=\"birthday\">{{userItem.birthday}}</p>\n\t\t\t<p class=\"birthday gr\">{{userItem.state.name}}</p>\n\t\t\t<p class=\"profession gr\">{{userItem.profession.name}}</p>\n\t\t</div>\n\t\t<img class=\"sealin\" src=\"./images/i1l.png\" alt=\"\">\n\t\t<b></b>\n\t</div>\n</div>\n\n<sub ng-if=\"swipe > 0\" ng-click=\"onSwipeLeft()\"><img src=\"../images/left.png\"></sub>\n<sup ng-if=\"users.length > limit && swipe < swipeMax - 1\" ng-click=\"onSwipeRight()\"><img src=\"../images/right.png\"></sup>");
@@ -6158,7 +6149,7 @@ function CropImageController($scope, $rootScope, TokenService, UserService) {
             if($scope.jcrop) {
                 $scope.jcrop.data('Jcrop').destroy();
             }
-            $scope.jcrop = crop_img.Jcrop({boxWidth: 500, boxHeight: 500, maxSize: [500, 500], minSize: [200, 200], aspectRatio: 1, setSelect: [0, 0, 200, 200], onChange: function(data) {
+            $scope.jcrop = crop_img.Jcrop({boxHeight: 500, minSize: [200, 200], aspectRatio: 1, setSelect: [0, 0, 200, 200], onChange: function(data) {
                 $scope.positions = data;
             }}); 
         };
