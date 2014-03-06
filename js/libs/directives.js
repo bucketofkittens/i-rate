@@ -262,7 +262,7 @@ pgrModule.directive('masonry', function(User, $rootScope) {
         var userElement = $scope.getUserByGuid($scope.workspace.user.sguid);
         if(userElement.size() == 0) {
           var item = $scope.addUser($scope.workspace.user);
-          $(".isotope-item").eq(0).before(item);
+          $(".isotope-item").eq(randomRange(0, 20)).before(item);
           $(element).isotope( 'reloadItems' ).isotope({ sortBy: 'original-order' });
         }
       }
@@ -313,7 +313,6 @@ pgrModule.directive('masonry', function(User, $rootScope) {
       }
 
       $scope.currentUserUpdate = function() {
-        console.log($scope.workspace.user.published);
         if($scope.workspace.user.published) {
           $scope.addCurrentUser();
         } else {
@@ -322,6 +321,12 @@ pgrModule.directive('masonry', function(User, $rootScope) {
       }
 
       $scope.$watch("workspace.user.published", function (newVal, oldVal, scope) {
+        if($scope.workspace.user) {
+          $scope.currentUserUpdate();
+        }
+      });
+
+      $scope.$watch("workspace.user", function (newVal, oldVal, scope) {
         if($scope.workspace.user) {
           $scope.currentUserUpdate();
         }
