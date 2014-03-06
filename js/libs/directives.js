@@ -65,9 +65,12 @@ pgrModule.directive('scrolls', function() {
   return {
     link: function(scope, element, attrs) {
       $(element).scroll(function() {
-        var cls = attrs.scrollsClass;
-        var elements = $("."+cls);
-        elements.scrollTop($(element).scrollTop());
+        var elements = $("."+attrs.scrollsClass);
+        angular.forEach(elements, function(value, key) {
+          if($(value).attr("id") != $(element).attr("id")) {
+            $(value).scrollTop($(element).scrollTop());  
+          }
+        });
       });
     }
   }
