@@ -902,6 +902,17 @@ pgrModule.service('LeagueService', function (Leagues) {
             callback(data);
         });
     }
+
+    this.getLeagueById = function(sguid, list) {
+        var item = null;
+        angular.forEach(list, function(value, key) {
+            if(value.sguid == sguid) {
+                item = value;
+            }
+        });
+
+        return item;
+    }
 });
 
 

@@ -3961,6 +3961,21 @@ table#graphs {
     height: 100%;
 }
 
+#leagues {
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    width: 100%; 
+    height: 100%;
+    .center {
+        margin: 60px auto 0px auto;
+        width: 1000px;
+        height: 100%;
+        overflow: hidden;
+        position: relative;
+        z-index: 99;
+    }
+}
 #users {
     position: absolute;
     left: 0px;
@@ -5341,4 +5356,25 @@ input:invalid {
     input[type="checkbox"] {
         visibility: visible;
     }
+}
+
+.league_link {
+    position: relative;
+    float: left;
+    color: #ffffff;
+    cursor: pointer;
+}
+
+.league_list {
+    float: left;
+    color: #ffffff;
+}
+
+.user_list {
+    float: left;
+    overflow: hidden;
+}
+
+.league_user {
+    float: left;
 }

@@ -329,11 +329,9 @@ pgrModule.directive('masonry', function(User, $rootScope) {
         var self = this;
         User.for_main_from_limit({limit: limit, skip: skip}, {}, function(data) {
           
-            $scope.users = $scope.users.concat(data);
             var items = $scope.appendElements(data);
 
             $(items).imagesLoaded( function(){
-              $rootScope.users = $scope.users;
 
               $(element).isotope("insert", $(items));
 

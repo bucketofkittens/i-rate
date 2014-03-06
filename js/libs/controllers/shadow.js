@@ -59,6 +59,11 @@ function ShadowController($scope, $rootScope, $location) {
             shadow = true;
         }
 
+        // затенение для страницы лиг
+        if($location.search().leagues) {
+            shadow = true;
+        }
+
         // затенять или нет
         $scope.showShadow = shadow ? true : false;
     }
