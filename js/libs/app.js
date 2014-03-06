@@ -103,10 +103,12 @@ pgrModule.factory('httpRequestInterceptor', function() {
     		config.headers = {};
     	}
 
-    	config.headers['AUTH_TOKEN'] = token.split('"').join("");
-    	config.headers['REMOTE_USER'] = user.split('"').join("");
-    	
-      	return config;
+      if(user && token) {
+        config.headers['AUTH_TOKEN'] = token.split('"').join("");
+        config.headers['REMOTE_USER'] = user.split('"').join("");  
+      }
+      
+      return config;
     }
   };
 });
