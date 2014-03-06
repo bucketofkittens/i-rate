@@ -23,3 +23,10 @@ pgrModule.filter('title', function () {
     }
 })
 
+pgrModule.filter('unidate', function () {
+    return function(value) {
+        return value.toString().replace(/(\d)(?=(\d\d\d)+([^\d]|$))/g, '$1 ');
+    }
+})
+
+
