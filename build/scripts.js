@@ -3858,7 +3858,7 @@ pgrModule.directive('masonry', function(User, $rootScope) {
               if(value.league.font) {
                 scoreSpan.style.fontSize = value.league.font+"px";  
               }
-              scoreSpan.innerHTML = parseInt(value.points);
+              scoreSpan.innerHTML = unidate(parseInt(value.points).toString());
               newSubDiv.appendChild(scoreSpan);
             }
 
@@ -4383,7 +4383,6 @@ pgrModule.filter('title', function () {
         return value.name ? value.login + ", " + value.name : value.login;
     }
 })
-
 
 
 
@@ -5814,6 +5813,13 @@ Array.prototype.shuffle = function() {
 function dateFromString(str) {
   var a = $.map(str.split(/[^0-9]/), function(s) { return parseInt(s, 10) });
   return new Date(a[0], a[1]-1 || 0, a[2] || 1, a[3] || 0, a[4] || 0, a[5] || 0, a[6] || 0);
+}
+
+
+
+
+function unidate(str) {
+  return str.replace(/(\d)(?=(\d\d\d)+([^\d]|$))/g, '$1 ');
 }
 function ChangePasswordController($scope, Sessions, User, $location, $rootScope, MailHash, $routeParams, Password, $window, $cookieStore) {
     $scope.show = false;
