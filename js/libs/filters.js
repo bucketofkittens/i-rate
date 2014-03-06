@@ -23,4 +23,3 @@ pgrModule.filter('title', function () {
     }
 })
 
-

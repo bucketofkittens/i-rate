@@ -295,7 +295,7 @@ pgrModule.directive('masonry', function(User, $rootScope) {
               if(value.league.font) {
                 scoreSpan.style.fontSize = value.league.font+"px";  
               }
-              scoreSpan.innerHTML = parseInt(value.points);
+              scoreSpan.innerHTML = unidate(parseInt(value.points).toString());
               newSubDiv.appendChild(scoreSpan);
             }
 
