@@ -9636,7 +9636,7 @@ function SearchLeftController($scope, $location, $rootScope, User) {
 /**
  * Конроллер поиска
  */
-function SearchController($scope, User, $rootScope, $location) {
+function SearchController($scope, User, $rootScope, $location, $timeout) {
     /**
      * Текст который ищется
      * @type {String}
@@ -9648,6 +9648,9 @@ function SearchController($scope, User, $rootScope, $location) {
      * @type {Array}
      */
     $scope.resultSearch = [];
+
+    // таймер отправки запроса на сервер
+    $scope.changeTimer = false;
 
     /**
      * Переход на страницу профиля пользователя
@@ -9721,7 +9724,12 @@ function SearchController($scope, User, $rootScope, $location) {
         // проверяем сколько символов в строке поиска
         if($scope.searchText.length > 0) {
             // проверяем вхождение
-            $scope.resultSearch = User.search({}, { name: $scope.searchText }, $scope.advanceSearchCallback_);
+            if($scope.changeTimer !== false) clearTimeout($scope.changeTimer);
+            
+            $scope.changeTimer = $timeout(function(){
+                $scope.resultSearch = User.search({}, { name: $scope.searchText }, $scope.advanceSearchCallback_);
+                $scope.changeTimer = false;
+            }, 300);
 
             // скрываем правую панель
             $rootScope.$broadcast('hideRightPanel');
