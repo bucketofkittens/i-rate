@@ -44,10 +44,7 @@
 			<img src="../images/i3i.png" alt="" />
 		</a>
 
-		<!-- report button -->
-		<a class="il rep" ng-click="openReport()" >
-			<img src="../images/rep.png">
-		</a> 
+		
 
 		<!-- кнопочка закрытия -->
 		<a class="il" ng-click="close()">
@@ -86,12 +83,16 @@
 					<em></em>
 				</div>
 			</perfect-scrollbar>
-			<div class="butcomm" ng-if="workspace.user">
+			<div class="butcomm">
 				<em></em>
 				<ng-form name="CommentForm">
 					<textarea ng-change="changeText()" ng-model="form.message" msd-elastic id="comment_message" name="comment" placeholder="Enter your comment here"></textarea>
-					<button ng-class="{disable: disable}" class="button " ng-click="onSendMessage()">Send</button>
+					<button ng-class="{disable: disable || !workspace.user}" class="button " ng-click="onSendMessage()">Send</button>
 				</ng-form>
+				<!-- report button -->
+				<a class="il rep" ng-click="openReport()" >
+					<img src="../images/rep.png">
+				</a>
 			</div>
 		</div>
 
