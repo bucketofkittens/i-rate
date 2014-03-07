@@ -4976,7 +4976,7 @@ pgrModule.factory('Comments', function ($resource) {
  */
 pgrModule.factory('ImprovaLogin', function ($resource) {
     return $resource(
-        'http://dev.tutors.improva.com/sessions.json', 
+        'http://tutors.improva.com/sessions.json', 
         {}, 
         {
             isset: {method: 'POST'}
