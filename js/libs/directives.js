@@ -61,6 +61,17 @@ pgrModule.directive('backImg', function() {
   }
 })
 
+pgrModule.directive('commentScroll', function() {
+  return {
+    link: function(scope, element, attrs) {
+      scope.$on('commentsScrollTop', function($event, message) {
+          $(element).animate({ scrollTop: 0 }, 600);
+          $(element).perfectScrollbar('update');
+      });
+    }
+  }
+});
+
 pgrModule.directive('scrolls', function() {
   return {
     link: function(scope, element, attrs) {

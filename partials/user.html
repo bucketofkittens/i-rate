@@ -44,8 +44,6 @@
 			<img src="../images/i3i.png" alt="" />
 		</a>
 
-		
-
 		<!-- кнопочка закрытия -->
 		<a class="il" ng-click="close()">
 			<img src="../images/cl.png">
@@ -74,7 +72,7 @@
 		ng-controller="UserCommentsController" 
 		ng-show="tab == 2" 
 		class="comments">
-			<perfect-scrollbar class="comm" scroller-step="360">
+			<perfect-scrollbar class="comm" scroller-step="360" comment-scroll>
 				<div class="cmnt" ng-repeat="comment in commentsList | orderBy:'post_date'"  >
 					<strong>{{comment.user.name}}</strong>
 					<i>{{comment.post_date}}</i>

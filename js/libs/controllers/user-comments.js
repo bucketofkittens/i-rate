@@ -1,3 +1,4 @@
+// Вкладка комментариев на странице пользователя
 function UserCommentsController($scope, Comments, $rootScope) {
     $scope.form = {
         message: ""
@@ -45,6 +46,8 @@ function UserCommentsController($scope, Comments, $rootScope) {
                 $rootScope.$broadcast('loaderHide');
                 $scope.getMessages();
                 $scope.form.message = "";
+
+                $rootScope.$broadcast('commentsScrollTop');
             });
         }
     }
