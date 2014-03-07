@@ -34,7 +34,8 @@ body header #header #avatar p span{color:#fff;text-decoration:none;font-size:10p
 #content .pmain.pro .il{position:absolute;right:20px;top:105px;cursor:pointer;z-index:15}#content .pmain.pro .il img{width:30px}
 #content .pmain.pro .il:last-child{top:20px;right:22px}#content .pmain.pro .il:last-child img{width:25px}
 #content .pmain.pro .il.rep{top:62px;right:22px}#content .pmain.pro .il.rep img{width:25px}
-#content .pmain.pro b.statis{position:absolute;right:25px;top:140px;font-family:'Lato',sans-serif;color:#fff;font-size:12px;z-index:2}#content .pmain.pro b.statis.stv{top:165px}
+#content .pmain.pro b.statis{position:absolute;right:25px;top:140px;font-family:'Lato',sans-serif;color:#fff;font-size:12px;z-index:2}#content .pmain.pro b.statis.stf{width:33px;right:19px;text-align:center}
+#content .pmain.pro b.statis.stv{top:165px}
 #content .tabss{overflow:hidden;position:relative}#content .tabss.current_2{overflow:visible !important}
 #content .tabss::-webkit-scrollbar{width:0;height:0}
 #content .tabss::-moz-scrollbar{width:0;height:0}
