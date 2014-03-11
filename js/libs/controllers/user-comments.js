@@ -47,7 +47,7 @@ function UserCommentsController($scope, Comments, $rootScope) {
             Comments.create({}, {
                 owner_type: 0,
                 author_guid: $scope.workspace.user.sguid,
-                post_date: moment().format("DD-MM-YYYY h:mm:ss "),
+                post_date: moment().format("DD-MM-YYYY HH:mm:ss"),
                 message: $scope.form.message,
                 owner_guid: $scope.user.sguid
             }, function(data) {
