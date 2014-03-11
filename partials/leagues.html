@@ -7,16 +7,18 @@
 			</li>
 		</ul>
 		<perfect-scrollbar class="user_list" scroller>
-			<li ng-repeat="(key, value) in leagueUsers | orderBy: 'points'" ng-click="selectUser(value)">
-				<div class="avatar">
-					<img ng-src="{{value.avatar}}" alt="" />
-				</div>
-				<div class="text">
-					<span>{{key+1}}</span>
-					<p>{{value.name}}</p>
-					<em>{{value.points | unidate}}</em>
-				</div>
-			</li>
+			<ul class="person_list">
+				<li ng-repeat="(key, value) in leagueUsers | orderBy: 'points'" ng-click="selectUser(value)">
+					<div class="avatar">
+						<img ng-src="{{value.avatar}}" alt="" />
+					</div>
+					<div class="text">
+						<p>{{key+1}}</p>
+						<p>{{value.name}}</p>
+						<span>{{value.points | unidate}}</span>
+					</div>
+				</li>
+			</ul>
 		</perfect-scrollbar>
 		<div 
 			class="full_height user sha league_user" 
