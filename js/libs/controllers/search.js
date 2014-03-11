@@ -85,14 +85,15 @@ function SearchController($scope, User, $rootScope, $location, $timeout) {
     $scope.onSearch = function() {
         // очищаем результат поиска
         $scope.resultSearch = [];
-
         // проверяем сколько символов в строке поиска
         if($scope.searchText.length > 0) {
             // проверяем вхождение
             if($scope.changeTimer !== false) clearTimeout($scope.changeTimer);
 
+            var text = $scope.searchText;
+
             $scope.changeTimer = $timeout(function(){
-                $scope.resultSearch = User.search({}, { name: $scope.searchText }, $scope.advanceSearchCallback_);
+                $scope.resultSearch = User.search({}, { name: text }, $scope.advanceSearchCallback_);
                 $scope.changeTimer = false;
             }, 600);
 
