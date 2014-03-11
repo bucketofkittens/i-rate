@@ -11,3 +11,13 @@ table#graphs tr:last-child th{border-right:none}
 table#graphs tr:first-child td,table#graphs tr:first-child th{border-top:none}
 table#graphs tr:last-child td{border-top:none}
 #loosers li{display:inline-block;width:50px}#loosers li img{width:50px}
+header{height:60px;width:100%;background:url("../../images/hbg.png") left top repeat-x;top:0;z-index:1020;position:absolute;left:0}header #header{width:1020px;margin:0 auto;position:relative}header #header .logo{width:140px;height:60px;margin-left:10px;position:relative;display:inline-block;float:left}header #header .logo img{position:absolute;display:inline-block;right:0;top:0;height:50px}
+header #header .imp{background:url("../../images/imp.png") center center no-repeat;background-size:175px 40px;float:left;height:40px;width:175px;margin:10px 0 0 50px;display:inline-block;position:relative}
+header #header .link{color:#888;text-decoration:underline;font-size:12px;text-transform:uppercase;cursor:pointer;position:absolute;display:inline-block;margin:15px 0 0 20px}header #header .link:last-child{margin:40px 0 0 0}
+header #header #search{float:right;width:200px;margin:15px 15px 0 0;background:url("../../images/sbg.png") center center no-repeat;background-size:200px 30px;height:30px;position:relative}header #header #search .all{text-align:center;padding:5px 0;position:relative}header #header #search .all a{color:#fff;font-size:18px;cursor:pointer;background:url("../../images/ssbg.png") center center no-repeat;background-size:235px 40px;width:100%;height:30px;display:block;position:relative;left:12px;padding-top:10px}
+header #header #search .all i{display:block;position:absolute;top:12px;right:15px;width:25px;height:25px;background:url("../../images/cl.png") left top no-repeat;background-size:25px 25px;cursor:pointer}
+@media (max-height:600px){header #header #search .all{padding-bottom:170px}}header #header #search .search{font-size:15px;color:#959595;float:left;display:block;margin:5px 0 0 10px;position:relative;line-height:20px;border:none;background:none}
+header #header #search .searcher{background:url("../../images/search.png") left top no-repeat;width:20px;height:20px;border:none;cursor:pointer;display:block;padding:0;text-indent:-999px;position:absolute;top:5px;right:10px;background-size:100%}
+header #header #avatar{float:right;margin:5px 20px 0 0}header #header #avatar .current{max-height:50px}
+header #header #avatar p{text-align:center}header #header #avatar p img{max-height:50px;position:relative;display:block;cursor:pointer}
+header #header #avatar p span{color:#fff;text-decoration:none;font-size:10px;cursor:pointer;text-align:center;position:relative}
