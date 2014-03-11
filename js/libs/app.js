@@ -67,31 +67,6 @@ var pgrModule = angular.module(
 	]
 );
 
-/** Роутинг **/
-pgrModule.config(['$routeProvider',
-    function($routeProvider) {
-        $routeProvider.
-          when('/', {
-            templateUrl: 'views/main.html',
-            controller: 'MainController',
-            reloadOnSearch: false
-          }).
-          when('/graphs', {
-            templateUrl: 'views/graphs.html',
-            controller: 'GraphsController',
-            reloadOnSearch: false
-          }).
-          when('/confirm_signup/:hash', {
-            templateUrl: 'views/confirm.html',
-            controller: 'ConfirmController',
-            reloadOnSearch: false
-          }).
-          otherwise({
-            redirectTo: '/'
-          });
-    }
-]);
-
 // добавляем в ajax token в заголовок
 pgrModule.factory('httpRequestInterceptor', function() {
   return {

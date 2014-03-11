@@ -15,7 +15,8 @@
     <link rel="stylesheet" href="/css/dark-hive/jquery.ui.theme.css" />
     <link rel="stylesheet" href="/css/dark-hive/jquery-ui.min.css" />
 
-    <link href="./css/master.less" rel="stylesheet/less" />
+    <link href="/css/master.less" rel="stylesheet/less" />
+    <link href="/admin/css/main.less" rel="stylesheet/less" />
 
     <script src="/js/less-1.5.0.min.js"></script>
 </head>
@@ -25,6 +26,7 @@
     <!-- Контент -->
     <div id="content">
         <div ng-include src="'admin/partials/header.html'"></div>
+        <div class="content_wrap" ng-view></div>
     </div>
 
     <div ng-include src="'partials/footer.html'"></div>
@@ -92,7 +94,14 @@
     <script src="/js/libs/controllers/modal.js"></script>
     <script src="/js/libs/controllers/loader.js"></script>
 
+    <script src="/js/libs/controllers/gallery.js"></script>
+
+    <script src="/admin/js/route.js"></script>
+    <script src="/admin/js/controllers/nsi.js"></script>
+    <script src="/admin/js/controllers/graph.js"></script>
+    <script src="/admin/js/controllers/nsi-add.js"></script>
     <script src="/admin/js/controllers/root.js"></script>
+    <script src="/admin/js/controllers/main.js"></script>
 </body>
 
 </html>
