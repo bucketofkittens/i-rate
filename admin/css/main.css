@@ -1,1 +1,13 @@
 .content_wrap{padding-top:100px}
+#nsi_content{width:700px;padding:20px;background:#fff}
+.buttons{color:#000;padding:4px 10px;display:inline-block;margin-right:10px;border-radius:3px;text-decoration:none;cursor:pointer}.buttons.green{background:#bcf5a9}
+.buttons.red{background:#f00}
+.buttons.all{background:#ccc}
+#graph_container{height:90%;width:100%;overflow-y:scroll;overflow-x:scroll}
+table#graphs{height:90%}table#graphs tr td,table#graphs tr th{vertical-align:top;text-align:center;border-top:1px solid #ccc;height:200px}table#graphs tr td img,table#graphs tr th img{width:70px;position:relative}
+table#graphs tr td a,table#graphs tr th a{display:block;position:relative}
+table#graphs tr th{border-top:none;border-right:1px solid #000;line-height:50% !important;width:10%}
+table#graphs tr:last-child th{border-right:none}
+table#graphs tr:first-child td,table#graphs tr:first-child th{border-top:none}
+table#graphs tr:last-child td{border-top:none}
+#loosers li{display:inline-block;width:50px}#loosers li img{width:50px}

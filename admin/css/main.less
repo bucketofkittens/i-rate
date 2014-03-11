@@ -1,3 +1,78 @@
 .content_wrap {
 	padding-top: 100px;
 }
+
+#nsi_content {
+    width: 700px;
+    padding: 20px;
+    background: #ffffff;
+}
+
+.buttons {
+    color: #000000;
+    padding: 4px 10px;
+    display: inline-block;
+    margin-right: 10px;
+    border-radius: 3px;
+    text-decoration: none;
+    cursor: pointer;
+    &.green {
+        background: #BCF5A9;
+    }
+    &.red {
+        background: red;
+    }
+    &.all {
+        background: #cccccc;
+    }
+}
+
+
+#graph_container {
+    height: 90%;
+    width: 100%;
+    overflow-y: scroll;
+    overflow-x: scroll;
+}
+/** GRAPHS **/
+table#graphs {
+    height: 90%;
+    tr {
+        td, th {
+            vertical-align: top;
+            text-align: center;
+            border-top: 1px solid #cccccc;
+            height: 200px;
+            img {
+                width: 70px;
+                position: relative;
+            }
+            a {
+                display: block;
+                position: relative;
+            }
+        }
+        th {
+            border-top: none;
+            border-right: 1px solid #000000;
+            line-height: 50% !important;
+            width: 10%;
+        }
+        &:last-child th {
+            border-right: none;
+        }
+        &:first-child td, &:first-child th {
+            border-top: none;
+        }
+        &:last-child td {
+            border-top: none;
+        }
+    }
+}
+#loosers li {
+    display:inline-block;
+    width: 50px;
+    img {
+        width: 50px;
+    }
+}
