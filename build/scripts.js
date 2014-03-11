@@ -5973,6 +5973,23 @@ pgrModule.factory('Needs', function ($resource) {
 });
 
 /**
+ * Модель для репортов
+ */
+pgrModule.factory('Reports', function ($resource) {
+    return $resource(
+        host+'/reports/:id', 
+        {id:'@id'}, 
+        {
+            create: {method: 'POST'},
+            query: {
+                method: 'GET',
+                isArray: true
+            }
+        }
+    );
+});
+
+/**
  * 
  * @param  {[type]} $resource [description]
  * @return {[type]}           [description]
@@ -6224,6 +6241,58 @@ pgrModule.service('SessionsService', function (Sessions, User, TokenService) {
         User.query({id: sguid}, function(data) {
             callback(data);
         });
+    }
+});
+
+
+
+/**
+ * Сервис работы с репортами
+ */
+pgrModule.service('ReportService', function (Reports) {
+
+    // создание нового пользователя
+    this.create = function(params, callback, fail) {
+        Reports.create(
+            {report: JSON.stringify(params)}
+            ,function(data) {
+                if(!data.success && fail) {
+                    fail(data);      
+                }
+                if(data.success && callback) {
+                    callback(data);      
+                }
+            }
+        );
+    }
+
+    // создание обновление пользователя
+    this.update = function(sguid, params, callback) {
+        User.updateUser({id: sguid},  {user: JSON.stringify(params)}, function(data) {
+            if(callback) {
+                callback(data);    
+            }
+        });
+    }
+
+    // получаем данные по указанному пользователю с указанным id
+    this.getById = function(id, callback) {
+        User.query({id: id}, function(data) {
+            if(data && data.birthday) {
+                data.birthday = dateFromString(data.birthday);    
+            }
+            callback(data);
+        });
+    }
+
+    this.getUsersOnServer_ = function(callback) {
+        User.get_all({}, {}, function(data) {
+            callback(data);
+        });
+    }
+
+    this.getAll = function(callback) {
+        this.getUsersOnServer_(callback);
     }
 });
 
@@ -7054,9 +7123,9 @@ $templateCache.put('partials/crop-image.html', "<div ng-class=\"{show: show}\" i
 $templateCache.put('partials/follow.html', "<section ng-controller=\"FollowController\" >\n\t<div id=\"follow_tab\">\n\t\t<span class=\"icon star\">Favorites</span>\n\t\t<sub class=\"icon favorite_nav_left\" ng-if=\"step > 0\" ng-click=\"newStep(step-1)\"></sub>\n\t\t<div class=\"list\">\n\t\t\t<div class=\"sub\">\n\t\t\t\t<ul ng-style=\"{left: '-'+step*48+'px'}\">\n\t\t\t\t\t<li \n\t\t\t\t\t\tng-click=\"openUser(userItem.user)\" \n\t\t\t\t\t\tng-repeat=\"userItem in workspace.friends\">\n\t\t\t\t\t\t<img \n\t\t\t\t\t\t\tng-src=\"{{userItem.user.avatar}}\" \n\t\t\t\t\t\t\talt=\"\" \n\t\t\t\t\t\t\terr-src=\"/images/unknown-person.png\" />\n\t\t\t\t\t</li>\n\t\t\t\t</ul>\t\n\t\t\t</div>\n\t\t</div>\n\t\t<sup class=\"icon favorite_nav_right\" ng-click=\"newStep(step+1)\"  ng-if=\"step+14 <= workspace.friends.length\"></sup>\n\t</div>\n</section>");
 $templateCache.put('partials/footer.html', "<section ng-include src=\"'partials/loader.html'\"></section>\n\n<div id=\"fb-root\"></div>\n\n\n");
 $templateCache.put('partials/gallery.html', "<div class=\"galblo\">\n\t<div class=\"galblos isotope item\"\n\t\tng-repeat=\"userItem in users\"\n\t\tng-click=\"onUserPage(userItem)\">\n\t\t<div class=\"image\">\n\t\t\t<img ng-src=\"{{userItem.avatar}}\" alt=\"\" err-src=\"/images/unknown-person.png\" />\n\t\t\t<i>{{userItem.points}}</i>\n\t\t</div>\n\t\t<div class=\"text\">\n\t\t\t<p class=\"name\">{{userItem.name}}</p>\n\t\t\t<p class=\"birthday\">{{userItem.birthday}}</p>\n\t\t\t<p class=\"birthday gr\">{{userItem.state.name}}</p>\n\t\t\t<p class=\"profession gr\">{{userItem.profession.name}}</p>\n\t\t</div>\n\t\t<img class=\"sealin\" src=\"./images/i1l.png\" alt=\"\">\n\t\t<b></b>\n\t</div>\n</div>\n\n<sub ng-if=\"swipe > 0\" ng-click=\"onSwipeLeft()\"><img src=\"../images/left.png\"></sub>\n<sup ng-if=\"users.length > limit && swipe < swipeMax - 1\" ng-click=\"onSwipeRight()\"><img src=\"../images/right.png\"></sup>");
-$templateCache.put('partials/header.html', "<div id=\"fb-root\"></div>\n\n<!-- Тенюшка -->\n<section ng-controller=\"ShadowController\">\n\t<div id=\"shadow\" ng-if=\"showShadow\" ng-click=\"onHideModal()\"></div>\n</section>\n\n\n<section ng-controller=\"ModalController\" id=\"modal\" class=\"{{template}}-modal\">\n\t<div ng-class=\"{show: show}\" class=\"body {{template}}\" ng-if=\"template\">\n\t\t<section ng-include src=\"'partials/'+template+'.html'\"></section>\n\t</div>\n</section>\n\n<header>\n\t<div id=\"header\">\n\t\t<!-- Логотип -->\n\t\t<a href=\"#/\" class=\"logo\">\n\t\t\t<span class=\"logo icon\"></span>\n\t\t</a>\n\n\t\t<!-- Аватар -->\n\t\t<section id=\"avatar\" ng-cloak>\n\t\t    <p ng-if=\"workspace.user\">\n\t\t        <img \n\t\t        \tng-click=\"openProfile()\"\n\t\t        \tng-src=\"/images/unknown-person.png\" \n\t\t        \tclass=\"current\" \n\t\t        \tng-if=\"!workspace.user.avatar\" />\n\n\t\t        <img \n\t\t        \tng-click=\"openProfile()\"\n\t\t        \terr-src=\"/images/unknown-person.png\" \n\t\t        \tng-src=\"{{workspace.user.avatar}}\"\n\t\t        \tng-if=\"workspace.user.avatar\"\n\t\t        \tclass=\"current\" \n\t\t        \talt=\"{{workspace.user.name}}\" />\n\t\t    </p>\n\t\t</section>\n\n\t\t<a ng-click=\"openLeagues()\" class=\"league_link\">League</a>\n\n\t\t<!-- Поиск -->\n\t\t<div id=\"search\" ng-controller=\"SearchController\" ng-init=\"limit=5\">\n\t\t\t<input \n\t\t\t\ttype=\"text\" \n\t\t\t\tng-model=\"searchText\" \n\t\t\t\tplaceholder=\"Search people\" \n\t\t\t\tclass=\"search\"\n\t\t\t\tng-change=\"onSearch()\" />\n\t\t\t<input type=\"submit\" class=\"searcher\" ng-click=\"onAdvanceSearch()\" />\n\t\t\t<div ng-cloak class=\"searchResult\" ng-if=\"resultSearch.length > 0\">\n\t\t\t\t<div class=\"item\" ng-repeat=\"(userKey, userItem) in resultSearch | limitTo: limit\">\n\t\t\t\t\t<div class=\"image\" ng-click=\"userClick(userItem)\">\n\t\t\t\t\t\t<img ng-src=\"{{userItem.avatar}}\" err-src=\"/images/unknown-person.png\" alt=\"\" />\n\t\t\t\t\t</div>\n\t\t\t\t\t<div class=\"text\" ng-click=\"userClick(userItem)\">\n\t\t\t\t\t\t<p class=\"name\">{{userItem.name}}</p>\n\t\t\t\t\t\t<p class=\"league\"><img ng-src=\"{{userItem.league.icon}}\" alt=\"\" /> {{userItem.league.name}} league</p>\n\t\t\t\t\t\t<p>{{user.points}}</p>\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t\t<div class=\"all\" ng-if=\"resultSearch.length > limit\">\n\t\t\t\t\t<a ng-click=\"onAdvanceSearch()\">See all the results</a>\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t</div>\n\n\t\t<!-- GRAPHS -->\n\t\t<a class=\"link\" ng-if=\"workspace.user\" ng-cloak ng-click=\"showModal('nsi')\">NSI</a>\n\t\t<a class=\"link\" ng-if=\"workspace.user\" ng-cloak href=\"#/graphs\">GRAPH</a>\n\t</div>\n</header>");
+$templateCache.put('partials/header.html', "<div id=\"fb-root\"></div>\n\n<!-- Тенюшка -->\n<section ng-controller=\"ShadowController\">\n\t<div id=\"shadow\" ng-if=\"showShadow\" ng-click=\"onHideModal()\"></div>\n</section>\n\n\n<section ng-controller=\"ModalController\" id=\"modal\" class=\"{{template}}-modal\">\n\t<div ng-class=\"{show: show}\" class=\"body {{template}}\" ng-if=\"template\">\n\t\t<section ng-include src=\"'partials/'+template+'.html'\"></section>\n\t</div>\n</section>\n\n<header>\n\t<div id=\"header\">\n\t\t<!-- Логотип -->\n\t\t<a href=\"#/\" class=\"logo\">\n\t\t\t<span class=\"logo icon\"></span>\n\t\t</a>\n\n\t\t<!-- Аватар -->\n\t\t<section id=\"avatar\" ng-cloak>\n\t\t    <p ng-if=\"workspace.user\">\n\t\t        <img \n\t\t        \tng-click=\"openProfile()\"\n\t\t        \tng-src=\"/images/unknown-person.png\" \n\t\t        \tclass=\"current\" \n\t\t        \tng-if=\"!workspace.user.avatar\" />\n\n\t\t        <img \n\t\t        \tng-click=\"openProfile()\"\n\t\t        \terr-src=\"/images/unknown-person.png\" \n\t\t        \tng-src=\"{{workspace.user.avatar}}\"\n\t\t        \tng-if=\"workspace.user.avatar\"\n\t\t        \tclass=\"current\" \n\t\t        \talt=\"{{workspace.user.name}}\" />\n\t\t    </p>\n\t\t</section>\n\n\t\t<a ng-click=\"openLeagues()\" class=\"league_link\"></a>\n\n\t\t<!-- Поиск -->\n\t\t<div id=\"search\" ng-controller=\"SearchController\" ng-init=\"limit=5\">\n\t\t\t<input \n\t\t\t\ttype=\"text\" \n\t\t\t\tng-model=\"searchText\" \n\t\t\t\tplaceholder=\"Search people\" \n\t\t\t\tclass=\"search\"\n\t\t\t\tng-change=\"onSearch()\" />\n\t\t\t<input type=\"submit\" class=\"searcher\" ng-click=\"onAdvanceSearch()\" />\n\t\t\t<div ng-cloak class=\"searchResult\" ng-if=\"resultSearch.length > 0\">\n\t\t\t\t<div class=\"item\" ng-repeat=\"(userKey, userItem) in resultSearch | limitTo: limit\">\n\t\t\t\t\t<div class=\"image\" ng-click=\"userClick(userItem)\">\n\t\t\t\t\t\t<img ng-src=\"{{userItem.avatar}}\" err-src=\"/images/unknown-person.png\" alt=\"\" />\n\t\t\t\t\t</div>\n\t\t\t\t\t<div class=\"text\" ng-click=\"userClick(userItem)\">\n\t\t\t\t\t\t<p class=\"name\">{{userItem.name}}</p>\n\t\t\t\t\t\t<p class=\"league\"><img ng-src=\"{{userItem.league.icon}}\" alt=\"\" /> {{userItem.league.name}} league</p>\n\t\t\t\t\t\t<p>{{user.points}}</p>\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t\t<div class=\"all\" ng-if=\"resultSearch.length > limit\">\n\t\t\t\t\t<a ng-click=\"onAdvanceSearch()\">See all the results</a>\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t</div>\n\n\t\t<!-- GRAPHS -->\n\t\t<a class=\"link\" ng-if=\"workspace.user\" ng-cloak ng-click=\"showModal('nsi')\">NSI</a>\n\t\t<a class=\"link\" ng-if=\"workspace.user\" ng-cloak href=\"#/graphs\">GRAPH</a>\n\t</div>\n</header>");
 $templateCache.put('partials/improva.html', "<h4 class=\"imprin\">Sign in with</h4>\n<h5><span class=\"icon  improva\"></span> improva</h5>\n<b ng-click=\"changeState(states.SIGNIN)\"></b>\n<div class=\"sign-in imprin\">\n  <ng-form \n    id=\"login_form\" \n    name=\"ImprovaForm\" \n    novalidate \n    class=\"css-form myForm\" >\n    <p>\n      <input \n        type=\"email\" \n        id=\"login_i\" \n        class=\"form-input\"\n        ng-model=\"improvaForm.email\"\n        name=\"Email\"\n        required \n        ng-minlength=\"6\"\n        placeholder=\"Email\"\n        ui-keypress=\"{13:'onKeyPress(ImprovaForm.$invalid)'}\" />\n      <br />\n      <span \n      \tclass=\"errorss\" \n      \tng-show=\"ImprovaForm.Email.$dirty && (ImprovaForm.Email.$error.required || ImprovaForm.Email.$error.minlength || ImprovaForm.Email.$error.email)\">Incorrect email\n      </span>\n    </p>       \n    <p>\n      <input \n        type=\"password\" \n        id=\"pass_i\"\n        class=\"form-input\"\n        ng-model=\"improvaForm.password\"\n        required \n        name=\"Password\"\n        placeholder=\"Password\"\n        ui-keypress=\"{13:'onKeyPress(ImprovaForm.$invalid)'}\"\n        ng-trim=\"false\" /> \n      <br />\n      <span \n      \tclass=\"errorss rss\" \n      \tng-show=\"ImprovaForm.Password.$dirty && (ImprovaForm.Password.$error.required || ImprovaForm.Password.$error.minlength)\">Incorrect password\n      </span>\n    </p>\n    <div class=\"step\">\n      <p class=\"errors\" ng-show=\"improvaError\">{{improvaError}}</p>\n      <p class=\"singin-sub\">\n        <input \n          ng-disabled=\"LoginForm.$invalid\"\n          ng-click=\"improvaLogin()\" \n          type=\"button\" \n          value=\"Sign in\" />\n      </p>    \n    </div>\n  </ng-form>\n</div>");
-$templateCache.put('partials/leagues.html', "<div id=\"leagues\" class=\"full_height\" ng-if=\"show\" >\n\t<div class=\"center\">\n\t\t<ul class=\"league_list\">\n\t\t\t<li ng-class=\"{ current: value.current }\" ng-repeat=\"(key, value) in leagues | orderBy: 'position': true\" ng-click=\"selectLeague(value.sguid)\">\n\t\t\t\t<img ng-src=\"{{value.icon}}\" alt=\"\" />\n\t\t\t\t<p>{{value.name}}</p>\n\t\t\t</li>\n\t\t</ul>\n\t\t<perfect-scrollbar class=\"user_list\" scroller>\n\t\t\t<li ng-repeat=\"(key, value) in leagueUsers | orderBy: 'points'\" ng-click=\"selectUser(value)\">\n\t\t\t\t<div class=\"avatar\">\n\t\t\t\t\t<img ng-src=\"{{value.avatar}}\" alt=\"\" />\n\t\t\t\t</div>\n\t\t\t\t<div class=\"text\">\n\t\t\t\t\t<span>{{key+1}}</span>\n\t\t\t\t\t<p>{{value.name}}</p>\n\t\t\t\t\t<em>{{value.points | unidate}}</em>\n\t\t\t\t</div>\n\t\t\t</li>\n\t\t</perfect-scrollbar>\n\t\t<div \n\t\t\tclass=\"full_height user sha league_user\" \n\t\t\tng-controller=\"UserController\" \n\t\t\tng-include\n\t\t\tng-init=\"init('league_user')\"\n\t\t\tsrc=\"'partials/user.html'\">\n\t\t</div>\n\t</div>\n</div>");
+$templateCache.put('partials/leagues.html', "<div id=\"leagues\" class=\"full_height\" ng-if=\"show\" >\n\t<div class=\"center\">\n\t\t<ul class=\"league_list\">\n\t\t\t<li ng-class=\"{ current: value.current }\" ng-repeat=\"(key, value) in leagues | orderBy: 'position': true\" ng-click=\"selectLeague(value.sguid)\">\n\t\t\t\t<img ng-src=\"{{value.icon}}\" alt=\"\" />\n\t\t\t\t<p>{{value.name}}</p>\n\t\t\t</li>\n\t\t</ul>\n\t\t<perfect-scrollbar class=\"user_list\" scroller>\n\t\t\t<ul class=\"person_list\">\n\t\t\t\t<li  ng-class=\"{ current: value.current }\" ng-repeat=\"(key, value) in leagueUsers | orderBy: 'points'\" ng-click=\"selectUser(value)\">\n\t\t\t\t\t<div class=\"avatar\">\n\t\t\t\t\t\t<img err-src=\"/images/unknown-person.png\" ng-src=\"{{value.avatar}}\" alt=\"\" />\n\t\t\t\t\t</div>\n\t\t\t\t\t<div class=\"text\">\n\t\t\t\t\t\t<p>{{key+1}}</p>\n\t\t\t\t\t\t<p>{{value.name}}</p>\n\t\t\t\t\t\t<span>{{value.points | unidate}}</span>\n\t\t\t\t\t</div>\n\t\t\t\t</li>\n\t\t\t</ul>\n\t\t</perfect-scrollbar>\n\t\t<div \n\t\t\tclass=\"full_height user sha league_user persona\" \n\t\t\tng-controller=\"UserController\" \n\t\t\tng-include\n\t\t\tng-init=\"init('league_user')\"\n\t\t\tsrc=\"'partials/user.html'\">\n\t\t</div>\n\t</div>\n</div>");
 $templateCache.put('partials/loader.html', "<div id=\"modal-shadow\" ng-controller=\"LoaderController\">\n\t<span id=\"loader\"></span>\n</div>");
 $templateCache.put('partials/main_user_item.html', "<div\n\tng-click=\"onUserClick(userItem, $event)\"\n\tng-class=\"{big: userItem.big}\"\n\tclass=\"item l_{userItem.league.name}\"\n\tng-repeat=\"(userKey, userItem) in users\"\n\tng-style=\"{width: userItem.size, height: userItem.size}\"\n\tmasonry-item>\n\t<div \t\n\t\tclass=\"wr\" \n\t\tng-style=\"{width: userItem.size, height: userItem.size}\" \n\t\tback-img=\"{{userItem.avatar}}\" \n\t\tng-class=\"{big: userItem.big}\"\n\t\tng-click=\"switchState(userItem)\"\n\t\tset-width >\n\t\t<i>{{userItem.points}}</i>\n\t\t<div class=\"sub\">\n\t\t\t<b>{{userItem.name}} <br /><s>{{userItem.league.name}} league</s></b>\n\t\t\t<ul>\n\t\t\t\t<li>\n\t\t\t\t\t<a ng-click=\"onMoveToProfile(userItem)\">\n\t\t\t\t\t\t<span class=\"icon profile navigate\"></span>\n\t\t\t\t\t</a>\n\t\t\t\t</li>\n\t\t\t\t<li>\n\t\t\t\t\t<a ng-click=\"onMoveToCompare(userItem)\">\n\t\t\t\t\t\t<span class=\"icon compare navigate\"></span>\n\t\t\t\t\t</a>\n\t\t\t\t</li>\n\t\t\t\t<li>\n\t\t\t\t\t<a ng-if=\"!userItem.isFrend\" ng-click=\"onFollow(userItem)\">\n\t\t\t\t\t\t<span class=\"icon follow navigate\"></span>\n\t\t\t\t\t</a>\n\t\t\t\t\t<a ng-if=\"userItem.isFrend\" ng-click=\"onUnFollow(userItem)\">\n\t\t\t\t\t\t<span class=\"icon unfollow navigate\"></span>\n\t\t\t\t\t</a>\n\t\t\t\t</li>\n\t\t\t</ul>\n\t\t</div>\n\t\t<em></em>\n\t</div>\n</div>");
 $templateCache.put('partials/mydash.html', "<perfect-scrollbar class=\"mydash tab\">\n\t\n</perfect-scrollbar>");
@@ -7066,7 +7135,7 @@ $templateCache.put('partials/neighbours.html', "<div class=\"nearblock\" ng-cont
 $templateCache.put('partials/nsi-add.html', "<div id=\"nsi_content\" ng-controller=\"NSIAddController\">\n\t<h2>Add league</h2>\n\t<table>\n\t\t<tr>\n\t\t\t<td>Name:</td>\n\t\t\t<td><input type=\"text\" ng-model=\"form.name\" /></td>\n\t\t</tr>\n\t\t<tr>\n\t\t\t<td>Min:</td>\n\t\t\t<td><input type=\"text\" ng-model=\"form.min_border\" /></td>\n\t\t</tr>\n\t\t<tr>\n\t\t\t<td>Max:</td>\n\t\t\t<td><input type=\"text\" ng-model=\"form.max_border\" /></td>\n\t\t</tr>\n\t\t<tr>\n\t\t\t<td>Size:</td>\n\t\t\t<td><input type=\"text\" ng-model=\"form.size\" /></td>\n\t\t</tr>\n\t\t<tr>\n\t\t\t<td></td>\n\t\t\t<td>\n\t\t\t\t<a class=\"buttons green\" ng-click=\"addLeague()\">Save</a>\n\t\t\t\t<a class=\"buttons red\" ng-click=\"close()\">Close</a>\n\t\t\t</td>\n\t\t</tr>\n\t</table>\n\t<div class=\"btns\">\n\t\t\n\t</div>\n</div>");
 $templateCache.put('partials/nsi.html', "<div id=\"nsi_content\" ng-controller=\"NSIController\">\n\t<ng-form ng-upload=\"complete(contents)\">\n\t\t<h2>NSI</h2>\n\t\t<table>\n\t\t\t<col width=\"170px\" />\n\t\t\t<col width=\"170px\" />\n\t\t\t<col width=\"170px\" />\n\t\t\t<col width=\"50px\" />\n\t\t\t<col width=\"50px\" />\n\t\t\t<col width=\"50px\" />\n\t\t\t<col width=\"170px\" />\n\t\t\t<col width=\"50px\" />\n\t\t\t<thead>\n\t\t\t\t<tr>\n\t\t\t\t\t<th>Name</th>\n\t\t\t\t\t<th>Min</th>\n\t\t\t\t\t<th>Max</th>\n\t\t\t\t\t<th>Size</th>\n\t\t\t\t\t<th>Show</th>\n\t\t\t\t\t<th>Font</th>\n\t\t\t\t\t<th>Icon</th>\n\t\t\t\t\t<th></th>\n\t\t\t\t</tr>\n\t\t\t</thead>\n\t\t\t<tbody>\n\t\t\t\t<tr ng-repeat=\"(key, value) in workspace.leagues | orderBy: 'position'\">\n\t\t\t\t\t<td class=\"editing_cell\">\n\t\t\t\t\t\t<input type=\"text\" ng-model=\"value.name\" ng-change=\"update(value)\" />\n\t\t\t\t\t</td>\n\t\t\t\t\t<td class=\"editing_cell\">\n\t\t\t\t\t\t<input type=\"text\" ng-model=\"value.min_border\" ng-change=\"update(value)\" />\n\t\t\t\t\t</td>\n\t\t\t\t\t<td class=\"editing_cell\">\n\t\t\t\t\t\t<input type=\"text\" ng-model=\"value.max_border\" ng-change=\"update(value)\" />\n\t\t\t\t\t</td>\n\t\t\t\t\t<td class=\"editing_cell\">\n\t\t\t\t\t\t<input style=\"width:50px\" type=\"text\" ng-model=\"value.size\" maxlength=\"3\" ng-change=\"update(value)\" />\n\t\t\t\t\t</td>\n\t\t\t\t\t<td class=\"editing_cell\">\n\t\t\t\t\t\t<input type=\"checkbox\" ng-model=\"value.is_points\" ng-change=\"update(value)\" />\n\t\t\t\t\t</td>\n\t\t\t\t\t<td class=\"editing_cell\">\n\t\t\t\t\t\t<input style=\"width:50px\" type=\"text\" ng-model=\"value.font\" maxlength=\"3\" ng-change=\"update(value)\" />\n\t\t\t\t\t</td>\n\t\t\t\t\t<td class=\"editing_cell\">\n\t\t\t\t\t\t<img ng-src=\"{{value.icon}}\" alt=\"\" />\n\t\t\t\t\t\t<input type=\"file\" name=\"file\" ng-file-select=\"onFileSelect($files, value)\" />\n\t\t\t\t\t</td>\n\t\t\t\t\t<td >\n\t\t\t\t\t\t<span class=\"icon delete\" ng-click=\"delete(value)\"></span>\n\t\t\t\t\t</td>\n\t\t\t\t</tr>\n\t\t\t</tbody>\n\t\t</table>\n\t</ng-form>\n\t<div class=\"btns\">\n\t\t<a class=\"buttons all\" ng-click=\"ok()\">Ok</a>\n\t\t<a class=\"buttons green\" ng-click=\"addLeague()\">Add league</a>\n\t\t<a class=\"buttons red\" ng-click=\"closeModal()\">Close</a>\n\t</div>\n</div>");
 $templateCache.put('partials/profile.html', "<div \n\tng-controller=\"NeedsAndGoalsController\" \n\tclass=\"tab\" \n\tng-init=\"user = workspace.user;\">\n\t<div class=\"tab\" ng-controller=\"MyProfileProfileController\">\n\t\t<perfect-scrollbar class=\"mypro acrd\" scroller>\n\t\t\t<div class=\"crits\">\n\t\t\t\t<ul> \n\t\t\t\t\t<li \n\t\t\t\t\t\tng-repeat=\"(needKey, needItem) in needs | orderBy:'position'\" \n\t\t\t\t\t\tdata-needId=\"{{needItem.sguid}}\"\n\t\t\t\t\t\tclass=\"{{needItem.name}}\">\n\t\t\t\t\t\t<div class=\"cr\" >\n\t\t\t\t\t\t\t<p>{{needItem.name}}</p>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t\t<ul ng-class=\"{current: needItem.current}\">\n\t\t\t\t\t\t\t<li \n\t\t\t\t\t\t\t\tng-repeat=\"(goalKey,goalItem) in needItem.goals | orderBy:'position'\" \n\t\t\t\t\t\t\t\tdata-goalid=\"{{goalItem.sguid}}\" >\n\t\t\t\t\t\t\t\t<h5 ng-class=\"{current: goalItem.current}\">\n\t\t\t\t\t\t\t\t\t<a ng-click=\"goalClick($event, goalItem, needs, needItem);\">\n\t\t\t\t\t\t\t\t\t\t<span>\n\t\t\t\t\t\t\t\t\t\t\t<img \n\t\t\t\t\t\t\t\t\t\t\tng-src=\"/images/goals/{{needItem.name | removewhite}}/{{goalItem.name | removewhite}}.png\"\n\t\t\t\t\t\t\t\t\t\t\talt=\"\" \n\t\t\t\t\t\t\t\t\t\t\ttitle=\"{{goalItem.name}}\" />\n\t\t\t\t\t\t\t\t\t\t</span>\n\t\t\t\t\t\t\t\t\t\t<h6>{{goalItem.name}}</h6>\n\t\t\t\t\t\t\t\t\t\t<em ng-if=\"!goalItem.current\"></em>\n\t\t\t\t\t\t\t\t\t</a>\t\n\t\t\t\t\t\t\t\t\t<div class=\"right\">\n\t\t\t\t\t\t\t\t\t\t<strong>\n\t\t\t\t\t\t\t\t\t\t\t<span \n\t\t\t\t\t\t\t\t\t\t\tclass=\"current_position\" \n\t\t\t\t\t\t\t\t\t\t\tstyle=\"width: {{(goalItem.current_value / (goalItem.points_summary ))*100}}%;\"></span>\n\t\t\t\t\t\t\t\t\t\t</strong>\n\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t</h5>\n\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t</li>\n\t\t\t\t\t\t</ul>\n\t\t\t\t\t</li>\n\t\t\t\t</ul>\n\t\t\t</div>\n\t\t</perfect-scrollbar>\n\n\t\t<perfect-scrollbar class=\"mypro_wr\" scroller >\n\t\t\t<section class=\"mypro\">\n\t\t\t\t<div class=\"crits {{selectedNeed.name}}\" ng-if=\"selectedGoal\">\n\t\t\t\t\t<h5>\n\t\t\t\t\t\t<a>\n\t\t\t\t\t\t\t<span>\n\t\t\t\t\t\t\t\t<img \n\t\t\t\t\t\t\t\t\tng-src=\"/images/goals/{{selectedNeed.name | removewhite}}/{{selectedGoal.name | removewhite}}.png\"\n\t\t\t\t\t\t\t\t\talt=\"\" \n\t\t\t\t\t\t\t\t\ttitle=\"{{selectedGoal.name}}\" />\n\t\t\t\t\t\t\t</span>\n\t\t\t\t\t\t\t{{selectedGoal.name}}\n\t\t\t\t\t\t</a>\t\n\t\t\t\t\t\t<div class=\"right\">\n\t\t\t\t\t\t\t<b>{{selectedGoal.current_value}} / {{selectedGoal.points_summary}}</b>\n\t\t\t\t\t\t\t<strong>\n\t\t\t\t\t\t\t\t<span class=\"current_position\" style=\"width: {{(selectedGoal.current_value / (selectedGoal.points_summary ))*100}}%;\"></span>\n\t\t\t\t\t\t\t</strong>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</h5>\n\t\t\t\t\t<ul class=\"criterion\">\n\t\t\t\t\t\t<li \n\t\t\t\t\t\tdata-id=\"{{crItem.sguid}}\" \n\t\t\t\t\t\tng-repeat=\"crItem in selectedGoal.criteriums | orderBy:'position'\" \n\t\t\t\t\t\tclass=\"animate-list\"\n\t\t\t\t\t\tng-show=\"selectedGoal.criteriums.all_load\" >\n\t\t\t\t\t\t\t<p>{{crItem.name}}</p>\n\t\t\t\t\t\t\t<div class=\"bord\">\n\t\t\t\t\t\t\t\t<ul class=\"crp\">\n\t\t\t\t\t\t\t\t\t<div class=\"tab\">\n\t\t\t\t\t\t\t\t\t\t<li data-id=\"{{value.sguid}}\"  \n\t\t\t\t\t\t\t\t\t\t\tng-repeat=\"value in crItem.criteria_values | orderBy:'position'\"  \n\t\t\t\t\t\t\t\t\t\t\tclass=\"{{value.user_criteria}} position_{{value.position}}\" \n\t\t\t\t\t\t\t\t\t\t\tng-click=\"onCriteriaSelect(value, crItem, $event, selectedNeed, selectedGoal)\">\n\t\t\t\t\t\t\t\t\t\t\t<i ng-if=\"value.sguid != 'none'\">{{value.name}}</i>\n\t\t\t\t\t\t\t\t\t\t\t<i ng-if=\"value.sguid == 'none'\" class=\"null_criteria\"></i>\n\t\t\t\t\t\t\t\t\t\t</li>\n\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t<span ng-show=\"selectedGoal.criteriums.show\" colbasa colbasa-current=\"{{crItem.user_criteria_sguid}}\">\n\t\t\t\t\t\t\t\t\t\t<sup></sup>\n\t\t\t\t\t\t\t\t\t</span>\n\t\t\t\t\t\t\t\t</ul>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t</li>\n\t\t\t\t\t</ul>\n\t\t\t\t</div>\n\t\t\t</section>\n\t\t</perfect-scrollbar>\n\t</div>\n</div>");
-$templateCache.put('partials/report.html', "<div class=\"fuckenmorda\">\n\t<h2>Report an Impostor Account</h2>\n\t<a ng-click=\"closeModal()\"></a>\n\t<p>If someone created an i-Rate account that’s pretending to be yours, please \n\tuse this form to file a report.</p>\n\t<input placeholder=\"Your full name\" />\n\t<input placeholder=\"Your contact email address\" />\n\t<p>Please attach a picture of a government-issued ID of the person being impersonated (ex: your ID or the ID of the person you’re authorized to represent). Cover up any personal information (ex: address, license number) that we don’t need to confirm your identity.</p>\n\t<b>The ID you provide:</b>\n\t<ul>\n\t\t<li>Must be government-issued (ex: passport, driver’s license)</li>\n\t\t<li>Must be multicolour</li>\n\t\t<li>Must clearly show the full name, date of birth, any photo</li>\n\t</ul>\n\t<s>Note: We won’t be able to process your request unless you submit an ID that meets these requirements.</s>\n\t<i>Upload an ID</i>\n\t<i>Your ID or an ID of a person you’re authorized to represent</i>\n\t<button>Upload</button>\n\t<input placeholder=\"Additional info\" />\n\t<button>Report</button>\n</div>");
+$templateCache.put('partials/report.html', "<div class=\"fuckenmorda\" ng-controller=\"ReportController\">\n\t<h2>Report an Impostor Account</h2>\n\t<a ng-click=\"closeModal()\"></a>\n\t<p>If someone created an i-Rate account that’s pretending to be yours, please \n\tuse this form to file a report.</p>\n\t<input placeholder=\"Your full name\" ng-model=\"form.full_name\" />\n\t<input placeholder=\"Your contact email address\" ng-model=\"form.email\" />\n\t<p>Please attach a picture of a government-issued ID of the person being impersonated (ex: your ID or the ID of the person you’re authorized to represent). Cover up any personal information (ex: address, license number) that we don’t need to confirm your identity.</p>\n\t<b>The ID you provide:</b>\n\t<ul>\n\t\t<li>Must be government-issued (ex: passport, driver’s license)</li>\n\t\t<li>Must be multicolour</li>\n\t\t<li>Must clearly show the full name, date of birth, any photo</li>\n\t</ul>\n\t<s>Note: We won’t be able to process your request unless you submit an ID that meets these requirements.</s>\n\t<i>Upload an ID</i>\n\t<i>Your ID or an ID of a person you’re authorized to represent</i>\n\t<button>Upload</button>\n\t<input type=\"file\" name=\"file\" ng-file-select=\"onFileSelect($files, value)\" />\n\t<input placeholder=\"Additional info\" ng-model=\"form.additional_info\" />\n\t<button ng-click=\"onReport()\">Report</button>\n</div>");
 $templateCache.put('partials/right.html', "<div id=\"signin_panel\" class=\"full_height\" ng-if=\"showPanel\" >\n\t<perfect-scrollbar class=\"in scroller\" wheel-propagation=\"true\" wheel-speed=\"50\">\n\t\t<div class=\"glass\">\n\t\t\t<div class=\"full_height\" ng-if=\"state == 0\" ng-include ng-controller=\"SigninController\" src=\"'partials/signin.html'\"></div>\n\t\t\t<div class=\"full_height\" ng-if=\"state == 1\" ng-include ng-controller=\"SignupController\" src=\"'partials/signup.html'\"></div>\n\t\t\t<div class=\"full_height\" ng-if=\"state == 2\" ng-include ng-controller=\"ImprovaLoginController\" src=\"'partials/improva.html'\"></div>\n\t\t</div>\n\t</perfect-scrollbar>\n</div>");
 $templateCache.put('partials/search.html', "<div id=\"searchfull\" ng-if=\"show\"> \n\t<section class=\"searchfull\">\n\t\t<div \n\t\t\tid=\"search\" \n\t\t\tclass=\"search fullsearch\" \n\t\t\tng-controller=\"SearchController\">\n\t\t\t<div ng-controller=\"SearchLeftController\">\n\t\t\t\t<input \n\t\t\t\t\ttype=\"text\" \n\t\t\t\t\tng-model=\"searchText\" \n\t\t\t\t\tplaceholder=\"Search people\" \n\t\t\t\t\tclass=\"search\"\n\t\t\t\t\tng-change=\"onSearch()\" />\n\t\t\t\t<input type=\"button\" class=\"searcher\" ng-click=\"onSearch()\" />\n\t\t\t\t<div ng-cloak class=\"searchResult\" ng-if=\"resultSearch.length > 0\">\n\t\t\t\t\t<div class=\"item\" ng-repeat=\"(userKey, userItem) in resultSearch\">\n\t\t\t\t\t\t<div class=\"image\" ng-click=\"openSearchProfile(userItem.sguid)\">\n\t\t\t\t\t\t\t<img ng-src=\"{{userItem.avatar}}\" alt=\"\" err-src=\"/images/unknown-person.png\" />\n\t\t\t\t\t\t</div>\n\t\t\t\t\t\t<div class=\"text\" ng-click=\"openSearchProfile(userItem.sguid)\">\n\t\t\t\t\t\t\t<p class=\"name\">{{userItem.name}}</p>\n\t\t\t\t\t\t\t<p class=\"league\"><img class=\"league_icon\" ng-src=\"{{userItem.league.icon}}\" alt=\"\" /> {{userItem.league.name}} league</p>\n\t\t\t\t\t\t\t<p class=\"points\">{{userItem.points | unidate}}</p>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t</div>\t\n\t</section>\n\t<div \n\t\tclass=\"full_height user sha search_user\" \n\t\tng-controller=\"UserController\" \n\t\tng-include\n\t\tng-init=\"init('search_profile')\"\n\t\tsrc=\"'partials/user.html'\">\n\t</div>\n\t<div class=\"fusepar\" ng-if=\"showRight\" scroller>\n\t\t<i ng-click=\"close()\"></i>\n\t\t<div class=\"fsp\">\n\t\t\t<div class=\"ri\">\n\t\t\t\t<h6>Top</h6>\n\t\t\t\t<input \n\t\t\t\t\ttype=\"text\" \n\t\t\t\t\tng-model=\"search.top.name\" \n\t\t\t\t\tclass=\"search\"\n\t\t\t\t\tng-change=\"filteredList('topList', search.top.name, 'top')\" />\n\t\t\t\t<input type=\"button\" class=\"searcher\" ng-click=\"toggleShowState('top')\" />\n\t\t\t\t<img src=\"./images/fusedel.png\" ng-click=\"selectParam('top', '', true)\">\n\t\t\t\t<ul class=\"popup_list big\" ng-if=\"shows.top\">\n\t\t\t\t\t<li \n\t\t\t\t\t\tng-if=\"value.show\" \n\t\t\t\t\t\tng-repeat=\"(key, value) in topList\" \n\t\t\t\t\t\tng-click=\"selectTopParam('top', value)\">\n\t\t\t\t\t\t\t<img \n\t\t\t\t\t\t\t\tng-src=\"/images/goals/{{value.needName | removewhite}}/{{value.name | removewhite}}.png\"\n\t\t\t\t\t\t\t\talt=\"\"\n\t\t\t\t\t\t\t\tclass=\"goal_icon\"\n\t\t\t\t\t\t\t\ttitle=\"{{value.name}}\" />\n\t\t\t\t\t\t\t{{value.name}}\n\t\t\t\t\t</li>\n\t\t\t\t</ul>\n\t\t\t</div>\n\t\t\t<em></em>\n\t\t</div>\n\t\t<div class=\"fsp\">\n\t\t\t<div class=\"ri\">\n\t\t\t\t<h6>Career</h6>\n\t\t\t\t<input \n\t\t\t\t\ttype=\"text\" \n\t\t\t\t\tng-model=\"search.career.name\" \n\t\t\t\t\tclass=\"search\"\n\t\t\t\t\tng-change=\"filteredList('careerList', search.career.name, 'career')\" />\n\t\t\t\t<input type=\"button\" class=\"searcher\" ng-click=\"toggleShowState('career')\" />\n\t\t\t\t<img src=\"./images/fusedel.png\" ng-click=\"selectParam('career', '', true)\">\n\t\t\t\t<ul class=\"popup_list\" ng-if=\"shows.career\">\n\t\t\t\t\t<li \n\t\t\t\t\t\tng-if=\"value.show\" \n\t\t\t\t\t\tng-repeat=\"(key, value) in careerList\" \n\t\t\t\t\t\tng-click=\"selectCareerParam('career', value)\">{{value.name}}</li>\n\t\t\t\t</ul>\n\t\t\t</div>\n\t\t\t<div class=\"ri\">\n\t\t\t\t<h6>Profession</h6>\n\t\t\t\t<input \n\t\t\t\t\ttype=\"text\" \n\t\t\t\t\tng-model=\"search.profession.name\" \n\t\t\t\t\tclass=\"search\"\n\t\t\t\t\tng-change=\"filteredList('professionList', search.profession.name, 'profession')\" />\n\t\t\t\t<input type=\"button\" class=\"searcher\" ng-click=\"toggleShowState('profession')\" />\n\t\t\t\t<img src=\"./images/fusedel.png\" ng-click=\"selectParam('profession', '', true)\">\n\t\t\t\t<ul class=\"popup_list\" ng-if=\"shows.profession\">\n\t\t\t\t\t<li ng-if=\"value.show\" ng-repeat=\"(key, value) in professionList\" ng-click=\"selectParam('profession', value)\">{{value.name}}</li>\n\t\t\t\t</ul>\n\t\t\t</div>\n\t\t\t<em></em>\n\t\t</div>\n\t\t<div class=\"fsp\">\n\t\t\t<div class=\"ri\">\n\t\t\t\t<h6>Country</h6>\n\t\t\t\t<input \n\t\t\t\t\ttype=\"text\" \n\t\t\t\t\tng-model=\"search.country.name\" \n\t\t\t\t\tclass=\"search\"\n\t\t\t\t\tng-change=\"filteredList('countriesList', search.country.name, 'country')\" />\n\t\t\t\t<input type=\"button\" class=\"searcher\" ng-click=\"toggleShowState('country')\" />\n\t\t\t\t<img src=\"./images/fusedel.png\" ng-click=\"selectParam('country', '', true)\">\n\t\t\t\t<ul class=\"popup_list\" ng-if=\"shows.country\">\n\t\t\t\t\t<li ng-if=\"value.show\" ng-repeat=\"(key, value) in countriesList\" ng-click=\"selectContryParam('country', value)\">{{value.name}}</li>\n\t\t\t\t</ul>\n\t\t\t</div>\n\t\t\t<div class=\"ri\">\n\t\t\t\t<h6>City</h6>\n\t\t\t\t<input \n\t\t\t\t\ttype=\"text\" \n\t\t\t\t\tng-model=\"search.city.name\" \n\t\t\t\t\tclass=\"search\"\n\t\t\t\t\tng-change=\"filteredList('cityList', search.city.name, 'city')\" />\n\t\t\t\t<input type=\"button\" class=\"searcher\" ng-click=\"toggleShowState('city')\" />\n\t\t\t\t<img src=\"./images/fusedel.png\" ng-click=\"selectParam('city', '', true)\">\n\t\t\t\t<ul class=\"popup_list\" ng-if=\"shows.city\">\n\t\t\t\t\t<li ng-if=\"value.show\" ng-repeat=\"(key, value) in cityList\" ng-click=\"selectParam('city', value)\">{{value.name}}</li>\n\t\t\t\t</ul>\n\t\t\t</div>\n\t\t\t<em></em>\n\t\t</div>\n\t\t<div class=\"fsp\">\n\t\t\t<div class=\"ri\">\n\t\t\t\t<h6>Birthday from</h6>\n\t\t\t\t<input type=\"text\" ng-model=\"search.birthday_from\" id=\"birthday_from\" ui-date=\"dateOptions\"  name=\"DateOfBirth1\" id=\"dFrom\" />\n\t\t\t\t<img src=\"./images/fusedel.png\" ng-click=\"selectDateParam('birthday_from', '', true)\">\n\t\t\t</div>\n\t\t\t<div class=\"ri\">\n\t\t\t\t<h6>Birthday till</h6>\n\t\t\t\t<input type=\"text\" ng-model=\"search.birthday_till\" id=\"birthday_till\" ui-date=\"dateOptions\"  name=\"DateOfBirth2\" id=\"dTill\" />\n\t\t\t\t<img src=\"./images/fusedel.png\" ng-click=\"selectDateParam('birthday_till', '', true)\">\n\t\t\t</div>\n\t\t\t<em></em>\n\t\t</div>\n\t\t<div class=\"fsp\">\n\t\t\t<div class=\"ri\">\n\t\t\t\t<h6>League</h6>\n\t\t\t\t<input \n\t\t\t\t\ttype=\"text\" \n\t\t\t\t\tng-model=\"search.league.name\" \n\t\t\t\t\tclass=\"search\" />\n\t\t\t\t<input type=\"button\" class=\"searcher\" ng-click=\"toggleShowState('league')\" />\n\t\t\t\t<img src=\"./images/fusedel.png\" ng-click=\"clearLeagueParam('league', '', true)\">\n\t\t\t\t<ul class=\"popup_list\" ng-if=\"shows.league\">\n\t\t\t\t\t<li ng-repeat=\"(key, value) in workspace.leagues | orderBy:'min_border':true\" ng-click=\"selectLeagueParam('league', value)\">{{value.name}}</li>\n\t\t\t\t</ul>\n\t\t\t\t\n\t\t\t</div>\n\t\t\t<div class=\"ri\">\n\t\t\t\t<h6>Score</h6>\n\t\t\t\t<rzslider \n\t\t\t\t\trz-slider-floor=\"0\" \n\t\t\t\t\trz-slider-ceil=\"175000\" \n\t\t\t\t\trz-slider-model=\"search.minScore\" \n\t\t\t\t\trz-slider-high=\"search.maxScore\">\n\t\t\t\t</rzslider>\n\t\t\t</div>\n\t\t\t<em></em>\n\t\t</div>\n\t\t<div class=\"fsp fspb\">\n\t\t\t<button ng-click=\"clearAll()\">Clear all</button>\n\t\t</div>\n\t</div>\n</div>");
 $templateCache.put('partials/share.html', "<div ng-controller=\"ShareController\">\n\t<a \n\t\thref=\"https://twitter.com/intent/tweet?text=iRate&url=http://www.irate.com\" \n\t\ttarget=\"_blank\"></a>\n\t<a \n\t\tng-click=\"shareFacebook('http://www.irate.com', 'iRate', '', 'http://www.improva.com/src/assets/images/icons/improva_icon.png')\" class=\"facebook\"></a>\n\t<a \n\t\tng-click=\"shareGoogle('http://www.irate.com')\" \n\t\tclass=\"google\"></a>\t\n</div>");
@@ -7883,12 +7952,22 @@ function LeaguesController($scope, $location, $rootScope, User, LocationService,
 
     // выбор нужного пользователя
     $scope.selectUser = function(value) {
+        $scope.usersAllNotCurrent();
+        value.current = true;
         LocationService.update("league_user", value.sguid);
     }
 
     // делаем все лиги не текущими
     $scope.closeAllLeague_ = function() {
         angular.forEach($scope.leagues, function(value, key) {
+            value.current = false;
+        });
+    }
+
+
+    // все пользоваетли false
+    $scope.usersAllNotCurrent = function() {
+        angular.forEach($scope.leagueUsers, function(value, key) {
             value.current = false;
         });
     }
@@ -9925,6 +10004,88 @@ function QuickUserChangeCtrl($scope, UserService, User, $rootScope, SessionsServ
     // загружаем список пользователей
     $rootScope.$broadcast('usersLoad');
 }
+// контроллер репортов
+function ReportController($scope, ReportService, $location, TokenService) {
+    // форма репорта
+    $scope.form = {
+        full_name: "",
+        email: "",
+        additional_info: "",
+        user_guid: $location.search().report_user
+    }
+
+    // отправляем репорт на сервер
+    $scope.onReport = function() {
+        ReportService.create($scope.form);
+    }
+
+    $scope.fileReaderSupported = window.FileReader != null;
+    $scope.uploadRightAway = true;
+
+    $scope.start = function(index, league) {
+        var token = TokenService.get() ? TokenService.get() : "";
+        var user = $scope.workspace.user.sguid ? $scope.workspace.user.sguid : "";
+
+        var data = new FormData();
+        data.append("picture", $scope.selectedFiles[index]);
+        data.append("owner_type", 2);
+
+        $.ajax({
+            beforeSend: function(xhrObj){
+                xhrObj.setRequestHeader("AUTH_TOKEN",token.split('"').join(""));
+                xhrObj.setRequestHeader("REMOTE_USER",user.split('"').join(""));
+            },
+            url: host+'/pictures/'+league.sguid,
+            data: data,
+            cache: false,
+            contentType: false,
+            processData: false,
+            type: 'PUT'
+        }).done(function(data) {
+            $scope.$apply(function(){
+                if(data.success) {
+                    league.icon = data.message.scheme+"://"+data.message.host+data.message.path;
+                }
+            });
+        });
+    }
+
+
+    $scope.onFileSelect = function($files, league) {
+        $scope.selectedFiles = [];
+        $scope.progress = [];
+        if ($scope.upload && $scope.upload.length > 0) {
+            for (var i = 0; i < $scope.upload.length; i++) {
+                if ($scope.upload[i] != null) {
+                    $scope.upload[i].abort();
+                }
+            }
+        }
+        $scope.upload = [];
+        $scope.uploadResult = [];
+        $scope.selectedFiles = $files;
+        $scope.dataUrls = [];
+        for ( var i = 0; i < $files.length; i++) {
+            var $file = $files[i];
+            if (window.FileReader && $file.type.indexOf('image') > -1) {
+                var fileReader = new FileReader();
+                fileReader.readAsDataURL($files[i]);
+                function setPreview(fileReader, index) {
+                    fileReader.onload = function(e) {
+                        $timeout(function() {
+                            $scope.dataUrls[index] = e.target.result;
+                        });
+                    }
+                }
+                setPreview(fileReader, i);
+            }
+            $scope.progress[i] = -1;
+            if ($scope.uploadRightAway) {
+                $scope.start(i, league);
+            }
+        }
+    }
+}
 /**
  * Контроллер правой панели
  */
@@ -9959,7 +10120,7 @@ function RightController($scope, $location) {
     }
 
     $scope.$on('$locationChangeSuccess', function () {
-        if($location.search().search || ($location.search().user1 && $location.search().user2)) {
+        if($location.search().search || ($location.search().user1 && $location.search().user2) || $location.search().leagues) {
             $scope.showPanel = false; 
         } else {
             $scope.showPanel = true; 
@@ -11127,7 +11288,7 @@ function UserNeedsController($scope, $rootScope) {
 /**
  * Контроллер  профиля
  */
-function UserController($scope, FriendsService, UserService, $element, $route, $routeParams, User, Needs, Professions, States, $http, NeedsByUser, $rootScope, GoalsByUser, AuthUser, Leagues, $location, $window, LocationService) {
+function UserController($scope, FriendsService, UserService, User, $location, LocationService, $rootScope) {
     // данные пользователя
     $scope.user = null;
 
@@ -11245,6 +11406,7 @@ function UserController($scope, FriendsService, UserService, $element, $route, $
     // открываем модальное окно репорта
     $scope.openReport = function() {
         $rootScope.$broadcast('openModal', {name: "report"});
+        LocationService.update("report_user", $scope.user.sguid);
     }
 
     // загружаем список нидсов

@@ -48,8 +48,9 @@ function NeedsAndGoalsController($scope, СareerService, UserService, Goals, Cri
             needsData[needItem.sguid] = 0;
 
             angular.forEach(needItem.goals, function(goalItem, goalKey) {
-                goalItem.current_value = parseInt(goalsData[goalItem.sguid]);
+                goalItem.current_value = 0;
                 if(goalsData[goalItem.sguid]) {
+                    goalItem.current_value = parseInt(goalsData[goalItem.sguid]);
                     needsData[needItem.sguid] += parseInt(goalsData[goalItem.sguid]);
                 }
             });

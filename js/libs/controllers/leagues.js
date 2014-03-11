@@ -45,6 +45,10 @@ function LeaguesController($scope, $location, $rootScope, User, LocationService,
             if($location.search().leagues && !$location.search().league && $scope.leagues.length > 0) {
                 $scope.selectLeague($scope.leagues[0].sguid);
             }
+
+            if($location.search().leagues && $location.search().league) {
+                $scope.setState($location.search().league);
+            }
         }
     });
 
@@ -81,7 +85,6 @@ function LeaguesController($scope, $location, $rootScope, User, LocationService,
 
     // выбираем нужную нам лигу
     $scope.selectLeague = function(sguid) {
-        
         LocationService.update("league", sguid);
     }
 
@@ -93,11 +96,10 @@ function LeaguesController($scope, $location, $rootScope, User, LocationService,
 
     // callback после загрузки пользователей для текущей лиги
     $scope.selectLeagueCallback_ = function(data) {
-        console.log("by_league");
         $scope.leagueUsers = data;
         $scope.leagueUsers.sort(function(a, b) {
-                if(a.points < b.points) return -1;
-                if(a.points > b.points) return 1;
+                if(a.points < b.points) return 1;
+                if(a.points > b.points) return -1;
                 return 0;
             });
         $scope.selectUser($scope.leagueUsers[0]);

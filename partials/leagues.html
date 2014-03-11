@@ -8,7 +8,10 @@
 		</ul>
 		<perfect-scrollbar class="user_list" scroller>
 			<ul class="person_list">
-				<li  ng-class="{ current: value.current }" ng-repeat="(key, value) in leagueUsers | orderBy: 'points'" ng-click="selectUser(value)">
+				<li 
+					ng-class="{ current: value.current }" 
+					ng-repeat="(key, value) in leagueUsers" 
+					ng-click="selectUser(value)">
 					<div class="avatar">
 						<img err-src="/images/unknown-person.png" ng-src="{{value.avatar}}" alt="" />
 					</div>

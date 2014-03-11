@@ -24,9 +24,7 @@ pgrModule.directive('positionGoal', function() {
   return {
     link: function(scope, element, attrs) {
       scope.$watch("goalItem.current_value", function (newVal, oldVal, scope) {
-        if(scope.goalItem.current_value) {
-          $(element).width(scope.goalItem.current_value / (scope.goalItem.points_summary )*100+"%");
-        }
+        $(element).width(scope.goalItem.current_value / (scope.goalItem.points_summary )*100+"%");
       });
     }
   }
@@ -36,9 +34,7 @@ pgrModule.directive('positionNeed', function() {
   return {
     link: function(scope, element, attrs) {
       scope.$watch("needItem.current_value", function (newVal, oldVal, scope) {
-        if(scope.needItem.current_value) {
-          $(element).width(scope.needItem.current_value / (scope.needItem.points_summary )*100+"%");
-        }
+        $(element).width(scope.needItem.current_value / (scope.needItem.points_summary )*100+"%");
       });
     }
   }
@@ -91,7 +87,6 @@ pgrModule.directive('colbasa', function($timeout) {
   return {
     link: function(scope, element, attrs) {
       attrs.$observe('colbasaCurrent', function(data) {
-        console.log(attrs.colbasaCurrent);
         var currentElement = $('li[data-id="'+attrs.colbasaCurrent+'"]', $(element).parent());
 
         var parentLi  = $(element).parent().find("li"),
