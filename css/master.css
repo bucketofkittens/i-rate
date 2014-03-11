@@ -39,9 +39,9 @@ body header #header #avatar p span{color:#fff;text-decoration:none;font-size:10p
 #content .tabss{overflow:hidden;position:relative}#content .tabss.current_2{overflow:visible !important}
 #content .tabss::-webkit-scrollbar{width:0;height:0}
 #content .tabss::-moz-scrollbar{width:0;height:0}
-#content .crits{display:block;width:100%;height:100%;position:relative;z-index:5;transition:all .5s ease-out;-webkit-transition:all .5s ease-out;cursor:default}#content .crits ul{text-align:center;position:relative;margin:0 auto;cursor:default}#content .crits ul li{margin:0 0 5px 15px;position:relative;cursor:default}#content .crits ul li.Spirituality{display:none}#content .crits ul li.Spirituality .cr{background:url("../images/needsbg.png") right top no-repeat}
+#content .crits{display:block;width:100%;height:100%;position:relative;z-index:5;transition:all .5s ease-out;-webkit-transition:all .5s ease-out;cursor:default}#content .crits ul{text-align:center;position:relative;margin:0 auto;cursor:default}#content .crits ul li{margin:0 0 5px 15px;position:relative;cursor:default}#content .crits ul li.Spirituality{display:none}#content .crits ul li.Spirituality .cr{background:url("../images/needsbg.png") right top no-repeat;background-size:100% 100%}
 #content .crits ul li.current .cr s{border-width:8px 7.5px 0 7.5px !important;border-color:#fff transparent transparent transparent !important;top:22px !important}
-#content .crits ul li .cr{background:url("../images/needsbg.png") right top no-repeat;line-height:50px;cursor:pointer;position:relative}#content .crits ul li .cr:after{content:".";display:block;height:0;clear:both;visibility:hidden}
+#content .crits ul li .cr{background:url("../images/needsbg.png") right top no-repeat;background-size:100% 100%;line-height:50px;cursor:pointer;position:relative}#content .crits ul li .cr:after{content:".";display:block;height:0;clear:both;visibility:hidden}
 #content .crits ul li .cr p{font-size:20px;color:#fff;float:left;margin-top:3px;text-align:left;padding-left:15px}
 #content .crits ul li .cr .right{float:right;width:300px;margin:15px 15px 0 0;cursor:default}#content .crits ul li .cr .right b{font-size:15px;color:#fff;text-align:center;display:block;position:relative;z-index:5;text-align:right;line-height:18px}
 #content .crits ul li .cr .right strong{background:url("../images/needsbg.png") right top no-repeat;background-size:150px 5px;display:block;width:300px;position:relative;overflow:hidden;height:5px;float:right}#content .crits ul li .cr .right strong span{position:absolute;left:0;top:1px;height:3px;display:block;background:#759fd2;transition:all .5s ease}
@@ -57,7 +57,7 @@ body header #header #avatar p span{color:#fff;text-decoration:none;font-size:10p
 #content .crits ul li ul li h5 .right{width:90%;position:relative;left:20px;top:5px;cursor:default}#content .crits ul li ul li h5 .right b{font-size:16px;color:#000;text-align:center;display:block;position:relative;z-index:5;text-align:right;line-height:18px}
 #content .crits ul li ul li h5 .right strong{background:url("../images/needsbg.png") right top no-repeat;background-size:100% 5px;display:block;width:90%;position:relative;overflow:hidden;height:5px;float:right}#content .crits ul li ul li h5 .right strong span{position:absolute;left:0;top:1px;height:3px;display:block;background:#759fd2;transition:all .5s ease}
 #content .crits ul li ul li .criterion{margin:0;display:none;cursor:default}#content .crits ul li ul li .criterion .du{top:10px}
-#content .crits ul li ul li .criterion.show,#content .crits ul li ul li .criterion.current{display:block;width:470px;margin:0;background:rgba(0,0,0,0.3);position:relative;left:-15px;padding:5px 15px;box-shadow:inset 2px 3px 15px 0 rgba(0,0,0,0.7)}
+#content .crits ul li ul li .criterion.show,#content .crits ul li ul li .criterion.current{display:block;margin:0;background:rgba(0,0,0,0.3);position:relative;left:-15px;padding:5px 15px;box-shadow:inset 2px 3px 15px 0 rgba(0,0,0,0.7)}
 #content .crits ul li ul li .criterion li{text-align:left;cursor:default}#content .crits ul li ul li .criterion li p{color:#fff;font-size:13px;display:block;width:500px;text-align:left;vertical-align:middle;margin-left:15px}
 #content .crits ul li ul li .criterion li .bord{width:100%;border-top:1px solid #333;border-bottom:1px solid #666;height:45px;position:relative;overflow:hidden}#content .crits ul li ul li .criterion li .bord .crp{display:inline-block;cursor:default;margin:0;background:rgba(0,0,0,0.3);width:100%;vertical-align:middle;overflow:hidden;opacity:1;left:0}#content .crits ul li ul li .criterion li .bord .crp .tab{display:table;width:100%;cursor:default;table-layout:fixed}#content .crits ul li ul li .criterion li .bord .crp .tab li{display:table-cell;color:#fff;font-size:12px;width:auto;margin:0 auto;line-height:12px;z-index:7;position:relative;border:0;text-align:center;height:50px;vertical-align:middle;overflow:hidden;padding:0 10px;cursor:default}#content .crits ul li ul li .criterion li .bord .crp .tab li.white-text i{color:#000 !important}
 #content .crits ul li ul li .criterion li .bord .crp .tab li i{display:block;cursor:default;position:relative;top:-3px;word-break:normal}#content .crits ul li ul li .criterion li .bord .crp .tab li i.null_criteria{width:20px;height:100%}
@@ -238,6 +238,7 @@ input[type="checkbox"]:before{content:" ";display:inline-block;width:18px;height
 .searchResult .item .text{float:left;width:170px;padding:0 0 0 10px;line-height:25px;cursor:pointer}.searchResult .item .text p{font-size:14px;color:#fff}.searchResult .item .text p img{vertical-align:middle;max-height:35px;padding-right:2px}
 .searchResult .item .text p:first-child{font-size:18px}
 .searchResult .item .sealin{position:absolute;width:35px !important;height:35px !important;top:18px;right:15px;cursor:pointer;background:url("../images/i1l.png") left top no-repeat}
+.searchfull .searchResult .text{width:270px}
 sub.du,sup.du{z-index:7;position:absolute;left:-31px;top:-5px;display:block;width:0;height:0;border-style:solid;border-width:20px 0 20px 15px;border-color:transparent transparent transparent #576d91}
 sub.du{border-width:20px 15px 20px 0;border-color:transparent #576d91 transparent transparent}
 sup.du{right:-15px;left:auto}
@@ -285,7 +286,7 @@ sup.bidubi{top:13px !important;border-width:23px 0 23px 15px}
 .recaptchatable .recaptcha_image_cell{padding:0 !important}
 .recaptchatable .recaptcha_r4_c2{width:36px !important}
 #recaptcha_image img{width:218px !important;margin-left:-70px !important}
-.comments{width:500px;height:100%;position:relative;overflow:hidden}.comments .comm{height:100%;overflow:hidden;margin-top:10px}.comments .comm .cmnt{overflow:hidden;width:420px;margin:0 auto}.comments .comm .cmnt strong{float:left;color:#888;font-size:18px;max-width:170px}
+.comments{height:100%;position:relative;overflow:hidden}.comments .comm{height:100%;overflow:hidden;margin-top:10px}.comments .comm .cmnt{overflow:hidden;width:80%;margin:0 auto}.comments .comm .cmnt strong{float:left;color:#888;font-size:18px;max-width:170px}
 .comments .comm .cmnt i{float:right;color:#888;font-size:14px;line-height:18px}
 .comments .comm .cmnt br{clear:both}
 .comments .comm .cmnt p{font-size:16px;margin-top:15px;color:#fff;white-space:pre}
@@ -301,6 +302,7 @@ sup.bidubi{top:13px !important;border-width:23px 0 23px 15px}
 #searchfull .searchfull .fullsearch .searchResult .item{width:380px}#searchfull .searchfull .fullsearch .searchResult .item img{width:80px;margin-right:10px}
 #searchfull .searchfull .fullsearch .searchResult .item .sealin{background:none;top:20px}
 #searchfull .searchfull .fullsearch .searchResult .item .text{padding-left:25px}
+.search_user{display:inline-block;position:absolute;top:60px;right:0;vertical-align:top;width:600px;height:90%;background:url("../images/glass.png") left top no-repeat;background-size:100% 100%;box-shadow:inset 5px 0 20px 1px rgba(0,0,0,0.7)}
 .fusepar{display:inline-block;position:absolute;top:60px;right:0;vertical-align:top;width:600px;height:90%;z-index:3;overflow-y:scroll;background:url("../images/glass.png") left top no-repeat;background-size:100% 100%;box-shadow:inset 5px 0 20px 1px rgba(0,0,0,0.7)}.fusepar::-webkit-scrollbar{width:0;height:0}
 .fusepar i{display:block;position:absolute;top:10px;right:10px;width:25px;height:25px;background:url("../images/cl.png") left top no-repeat;background-size:25px 25px;cursor:pointer;z-index:10}
 .fusepar .fsp{margin:0 auto;width:550px;padding:30px 15px 30px 30px;position:relative}.fusepar .fsp:after{content:".";display:block;height:0;clear:both;visibility:hidden}

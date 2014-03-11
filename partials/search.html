@@ -20,13 +20,20 @@
 						<div class="text" ng-click="openSearchProfile(userItem.sguid)">
 							<p class="name">{{userItem.name}}</p>
 							<p class="league"><img class="league_icon" ng-src="{{userItem.league.icon}}" alt="" /> {{userItem.league.name}} league</p>
-							<p class="points">{{userItem.points | int}}</p>
+							<p class="points">{{userItem.points | unidate}}</p>
 						</div>
 					</div>
 				</div>
 			</div>
 		</div>	
 	</section>
+	<div 
+		class="full_height user sha search_user" 
+		ng-controller="UserController" 
+		ng-include
+		ng-init="init('search_profile')"
+		src="'partials/user.html'">
+	</div>
 	<div class="fusepar" ng-if="showRight" scroller>
 		<i ng-click="close()"></i>
 		<div class="fsp">

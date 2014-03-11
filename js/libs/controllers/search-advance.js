@@ -137,6 +137,12 @@ function SearchAdvanceController($scope, $location, $rootScope, User, Profession
         });
     });
 
+    // таймер отправки запроса на сервер
+    $scope.changeMinTimer = false;
+
+    // таймер отправки запроса на сервер
+    $scope.changeMaxTimer = false;
+
     /**
      * Событие изменения maxScore
      * @param  {[type]} newVal [description]
@@ -146,6 +152,15 @@ function SearchAdvanceController($scope, $location, $rootScope, User, Profession
      */
     $scope.$watch("search.minScore", function (newVal, oldVal, scope) {
         $scope.collapseLeague();
+
+        if(newVal) {
+            if($scope.changeMinTimer !== false) clearTimeout($scope.changeMinTimer);
+
+            $scope.changeMinTimer = $timeout(function(){
+                $scope.advanceSearch();
+                $scope.changeMinTimer = false;
+            }, 600);    
+        }
     });
 
     /**
@@ -157,6 +172,15 @@ function SearchAdvanceController($scope, $location, $rootScope, User, Profession
      */
     $scope.$watch("search.maxScore", function (newVal, oldVal, scope) {
         $scope.collapseLeague();
+
+        if(newVal) {
+            if($scope.changeMaxTimer !== false) clearTimeout($scope.changeMaxTimer);
+
+            $scope.changeMaxTimer = $timeout(function(){
+                $scope.advanceSearch();
+                $scope.changeMaxTimer = false;
+            }, 600);
+        }
     });
 
     /**
@@ -458,23 +482,20 @@ function SearchAdvanceController($scope, $location, $rootScope, User, Profession
     // открываем профиль
     $scope.openSearchProfile = function(sguid) {
         $scope.showRight = false;
-        LocationService.update("big", PanelsConst.RIGHT);
 
-        $rootScope.$broadcast('showUserProfile', {userId: sguid, fix: PanelsConst.RIGHT});
-
+        LocationService.update("search_profile", sguid);
     }
 
-    // если есть user2 в location тогда открывает его профиль
-    if($location.search().user2) {
-        $scope.openProfile($location.search().user2);
+    // если есть search_profile в location тогда открывает его профиль
+    if($location.search().search_profile) {
+        $scope.openProfile($location.search().search_profile);
+        $scope.showRight = false;
     }
 
     // если закрываем панель пользователя тогда показываем панель справа в поиске
     $scope.$on('closeUserPanel', function () {
         $scope.showRight = true;
     });
-
-    
 
     // загружаем список стран
     $rootScope.$broadcast('countryLoad');

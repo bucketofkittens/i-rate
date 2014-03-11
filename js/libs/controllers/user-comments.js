@@ -26,6 +26,13 @@ function UserCommentsController($scope, Comments, $rootScope) {
         });
     }
 
+    // если сменился пользователь меняем данные
+    $scope.$watch('user', function (newVal, oldVal, scope) {
+        if(newVal) {
+            $scope.getMessages();
+        }
+    });
+
     $scope.changeText = function() {
         if($scope.form.message.length > 0) {
             $scope.disable = false;
@@ -34,8 +41,9 @@ function UserCommentsController($scope, Comments, $rootScope) {
         }
     }
 
+    // отправка сообщения
     $scope.onSendMessage = function() {
-        if($scope.form.message.length > 0) {
+        if($scope.form.message.length > 0 && $scope.workspace.user) {
             Comments.create({}, {
                 owner_type: 0,
                 author_guid: $scope.workspace.user.sguid,

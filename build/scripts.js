@@ -3046,8 +3046,961 @@ angular.module('localization', [])
         return i18NAttrDirective;
     }]);
 
-/*! angularjs-slider - v0.1.2 - (c) Rafal Zajac <rzajac@gmail.com>, https://github.com/rzajac/angularjs-slider.git - 2013-12-16 */
-angular.module("rzModule",[]).value("throttle",function(a,b,c){var d,e,f,g=Date.now||function(){return(new Date).getTime()},h=null,i=0;c||(c={});var j=function(){i=c.leading===!1?0:g(),h=null,f=a.apply(d,e),d=e=null};return function(){var k=g();i||c.leading!==!1||(i=k);var l=b-(k-i);return d=this,e=arguments,0>=l?(clearTimeout(h),h=null,i=k,f=a.apply(d,e),d=e=null):h||c.trailing===!1||(h=setTimeout(j,l)),f}}).factory("Slider",["$timeout","$document","throttle",function(a,b,c){var d=function(a,b,c){this.scope=a,this.attributes=c,this.sliderElem=b,this.range=void 0!==c.rzSliderHigh&&void 0!==c.rzSliderModel,this.handleHalfWidth=0,this.maxLeft=0,this.precision=0,this.step=0,this.tracking="",this.minValue=0,this.maxValue=0,this.valueRange=0,this.initRun=!1,this.customTrFn=null,this.fullBar=null,this.selBar=null,this.minH=null,this.maxH=null,this.flrLab=null,this.ceilLab=null,this.minLab=null,this.maxLab=null,this.cmbLab=null,this.init()};return d.prototype={init:function(){var b=this;this.scope.rzSliderTranslate&&(this.customTrFn=this.scope.rzSliderTranslate()),this.initElemHandles(),this.calcViewDimensions(),this.setMinAndMax(),this.precision=void 0===this.scope.rzSliderPrecision?0:+this.scope.rzSliderPrecision,this.step=void 0===this.scope.rzSliderStep?1:+this.scope.rzSliderStep,a(function(){b.updateCeilLab(),b.updateFloorLab(),b.initHandles(),b.bindEvents()}),angular.element(window).on("resize",angular.bind(this,this.calcViewDimensions)),this.initRun=!0;var d=c(function(){b.setMinAndMax(),b.updateLowHandle(b.valueToOffset(b.scope.rzSliderModel)),b.range&&(b.updateSelectionBar(),b.updateCmbLabel())},350,{leading:!1}),e=c(function(){b.setMinAndMax(),b.updateHighHandle(b.valueToOffset(b.scope.rzSliderHigh)),b.updateSelectionBar(),b.updateCmbLabel()},350,{leading:!1});this.scope.$watch("rzSliderModel",function(a,b){a!==b&&d()}),this.scope.$watch("rzSliderHigh",function(a,b){a!==b&&e()})},initHandles:function(){this.updateLowHandle(this.valueToOffset(this.scope.rzSliderModel)),this.range&&(this.updateHighHandle(this.valueToOffset(this.scope.rzSliderHigh)),this.updateSelectionBar(),this.updateCmbLabel())},translateFn:function(a,b,c){c=void 0===c?!0:c;var d=this.customTrFn&&c?""+this.customTrFn(a):""+a,e=!1;(void 0===b.rzsv||b.rzsv.length!=d.length)&&(e=!0,b.rzsv=d),b.text(d),e&&this.getWidth(b)},setMinAndMax:function(){this.minValue=this.scope.rzSliderFloor?+this.scope.rzSliderFloor:this.scope.rzSliderFloor=0,this.scope.rzSliderCeil?this.maxValue=+this.scope.rzSliderCeil:this.scope.rzSliderCeil=this.maxValue=this.range?this.scope.rzSliderHigh:this.scope.rzSliderModel,this.valueRange=this.maxValue-this.minValue},initElemHandles:function(){angular.forEach(this.sliderElem.children(),function(a,b){var c=angular.element(a);switch(b){case 0:this.fullBar=c;break;case 1:this.selBar=c;break;case 2:this.minH=c;break;case 3:this.maxH=c;break;case 4:this.flrLab=c;break;case 5:this.ceilLab=c;break;case 6:this.minLab=c;break;case 7:this.maxLab=c;break;case 8:this.cmbLab=c}},this),this.fullBar.rzsl=0,this.selBar.rzsl=0,this.minH.rzsl=0,this.maxH.rzsl=0,this.flrLab.rzsl=0,this.ceilLab.rzsl=0,this.minLab.rzsl=0,this.maxLab.rzsl=0,this.cmbLab.rzsl=0,this.range||(this.cmbLab.remove(),this.maxLab.remove(),this.maxH.remove(),this.selBar.remove())},calcViewDimensions:function(){var a=this.getWidth(this.minH);this.handleHalfWidth=a/2,this.barWidth=this.getWidth(this.fullBar),this.maxLeft=this.barWidth-a,this.getWidth(this.sliderElem),this.sliderElem.rzsl=this.sliderElem[0].getBoundingClientRect().left,this.initRun&&(this.updateCeilLab(),this.initHandles())},updateCeilLab:function(){this.translateFn(this.scope.rzSliderCeil,this.ceilLab),this.setLeft(this.ceilLab,this.barWidth-this.ceilLab.rzsw),this.getWidth(this.ceilLab)},updateFloorLab:function(){this.translateFn(this.scope.rzSliderFloor,this.flrLab),this.getWidth(this.flrLab)},updateHandles:function(a,b){return"rzSliderModel"===a?(this.updateLowHandle(b),this.range&&(this.updateSelectionBar(),this.updateCmbLabel()),void 0):"rzSliderHigh"===a?(this.updateHighHandle(b),this.range&&(this.updateSelectionBar(),this.updateCmbLabel()),void 0):(this.updateLowHandle(b),this.updateHighHandle(b),this.updateSelectionBar(),this.updateCmbLabel(),void 0)},updateLowHandle:function(a){this.setLeft(this.minH,a),this.translateFn(this.scope.rzSliderModel,this.minLab),this.setLeft(this.minLab,a-this.minLab.rzsw/2+this.handleHalfWidth),this.shFloorCeil()},updateHighHandle:function(a){this.setLeft(this.maxH,a),this.translateFn(this.scope.rzSliderHigh,this.maxLab),this.setLeft(this.maxLab,a-this.maxLab.rzsw/2+this.handleHalfWidth),this.shFloorCeil()},shFloorCeil:function(){var a=!1,b=!1;this.minLab.rzsl<=this.flrLab.rzsl+this.flrLab.rzsw+5?(a=!0,this.hideEl(this.flrLab)):(a=!1,this.showEl(this.flrLab)),this.minLab.rzsl+this.minLab.rzsw>=this.ceilLab.rzsl-this.handleHalfWidth-10?(b=!0,this.hideEl(this.ceilLab)):(b=!1,this.showEl(this.ceilLab)),this.range&&(this.maxLab.rzsl+this.maxLab.rzsw>=this.ceilLab.rzsl-10?this.hideEl(this.ceilLab):b||this.showEl(this.ceilLab),this.maxLab.rzsl<=this.flrLab.rzsl+this.flrLab.rzsw+this.handleHalfWidth?this.hideEl(this.flrLab):a||this.showEl(this.flrLab))},updateSelectionBar:function(){this.setWidth(this.selBar,this.maxH.rzsl-this.minH.rzsl),this.setLeft(this.selBar,this.minH.rzsl+this.handleHalfWidth)},updateCmbLabel:function(){var a,b;this.minLab.rzsl+this.minLab.rzsw+10>=this.maxLab.rzsl?(this.customTrFn?(a=this.customTrFn(this.scope.rzSliderModel),b=this.customTrFn(this.scope.rzSliderHigh)):(a=this.scope.rzSliderModel,b=this.scope.rzSliderHigh),this.translateFn(a+" - "+b,this.cmbLab,!1),this.setLeft(this.cmbLab,this.selBar.rzsl+this.selBar.rzsw/2-this.cmbLab.rzsw/2),this.hideEl(this.minLab),this.hideEl(this.maxLab),this.showEl(this.cmbLab)):(this.showEl(this.maxLab),this.showEl(this.minLab),this.hideEl(this.cmbLab))},roundStep:function(a){var b=this.step,c=(a-this.minValue)%b,d=c>b/2?a+b-c:a-c;return+d.toFixed(this.precision)},hideEl:function(a){return a.css({opacity:0})},showEl:function(a){return a.css({opacity:1})},setLeft:function(a,b){return a.rzsl=b,a.css({left:b+"px"}),b},getWidth:function(a){var b=a[0].getBoundingClientRect();return a.rzsw=b.right-b.left,a.rzsw},setWidth:function(a,b){return a.rzsw=b,a.css({width:b+"px"}),b},valueToOffset:function(a){return(a-this.minValue)*this.maxLeft/this.valueRange},offsetToValue:function(a){return a/this.maxLeft*this.valueRange+this.minValue},bindEvents:function(){this.minH.on("mousedown",angular.bind(this,this.onStart,this.minH,"rzSliderModel")),this.range&&this.maxH.on("mousedown",angular.bind(this,this.onStart,this.maxH,"rzSliderHigh")),this.minH.on("touchstart",angular.bind(this,this.onStart,this.minH,"rzSliderModel")),this.range&&this.maxH.on("touchstart",angular.bind(this,this.onStart,this.maxH,"rzSliderHigh"))},onStart:function(a,c,d){d.stopPropagation(),d.preventDefault(),""===this.tracking&&(this.calcViewDimensions(),this.tracking=c,a.addClass("active"),d.touches?(b.on("touchmove",angular.bind(this,this.onMove,a)),b.on("touchend",angular.bind(this,this.onEnd))):(b.on("mousemove",angular.bind(this,this.onMove,a)),b.on("mouseup",angular.bind(this,this.onEnd))))},onMove:function(a,b){var c,d=b.clientX||b.touches[0].clientX,e=this.sliderElem.rzsl,f=d-e-this.handleHalfWidth;return 0>=f?(0!==a.rzsl&&(this.scope[this.tracking]=this.minValue,this.updateHandles(this.tracking,0),this.scope.$apply()),void 0):f>=this.maxLeft?(a.rzsl!==this.maxLeft&&(this.scope[this.tracking]=this.maxValue,this.updateHandles(this.tracking,this.maxLeft),this.scope.$apply()),void 0):(c=this.offsetToValue(f),c=this.roundStep(c),this.range&&("rzSliderModel"===this.tracking&&c>=this.scope.rzSliderHigh?(this.scope[this.tracking]=this.scope.rzSliderHigh,this.updateHandles(this.tracking,this.maxH.rzsl),this.tracking="rzSliderHigh",this.minH.removeClass("active"),this.maxH.addClass("active")):"rzSliderHigh"===this.tracking&&c<=this.scope.rzSliderModel&&(this.scope[this.tracking]=this.scope.rzSliderModel,this.updateHandles(this.tracking,this.minH.rzsl),this.tracking="rzSliderModel",this.maxH.removeClass("active"),this.minH.addClass("active"))),this.scope[this.tracking]!==c&&(this.scope[this.tracking]=c,this.updateHandles(this.tracking,f),this.scope.$apply()),void 0)},onEnd:function(a){this.minH.removeClass("active"),this.maxH.removeClass("active"),a.touches?(b.unbind("touchmove"),b.unbind("touchend")):(b.unbind("mousemove"),b.unbind("mouseup")),this.tracking=""}},d}]).directive("rzslider",["Slider",function(a){return{restrict:"E",scope:{rzSliderFloor:"=?",rzSliderCeil:"=?",rzSliderStep:"@",rzSliderPrecision:"@",rzSliderModel:"=?",rzSliderHigh:"=?",rzSliderTranslate:"&"},template:'<span class="bar"></span><span class="bar selection"></span><span class="pointer"></span><span class="pointer"></span><span class="bubble limit"></span><span class="bubble limit"></span><span class="bubble"></span><span class="bubble"></span><span class="bubble"></span>',link:function(b,c,d){return new a(b,c,d)}}}]);
+/**
+ * Angular JS slider directive
+ *
+ * (c) Rafal Zajac <rzajac@gmail.com>
+ * http://github.com/rzajac/angularjs-slider
+ *
+ * Version: v0.1.3
+ *
+ * Licensed under the MIT license
+ */
+
+/* global angular: false */
+
+angular.module('rzModule', [])
+
+.value('throttle',
+  /**
+   * throttle
+   *
+   * Taken from underscore project
+   *
+   * @param {Function} func
+   * @param {number} wait
+   * @param {ThrottleOptions} options
+   * @returns {Function}
+   */
+function throttle(func, wait, options) {
+  var getTime = (Date.now || function() {
+    return new Date().getTime();
+  });
+  var context, args, result;
+  var timeout = null;
+  var previous = 0;
+  options || (options = {});
+  var later = function() {
+    previous = options.leading === false ? 0 : getTime();
+    timeout = null;
+    result = func.apply(context, args);
+    context = args = null;
+  };
+  return function() {
+    var now = getTime();
+    if (!previous && options.leading === false) previous = now;
+    var remaining = wait - (now - previous);
+    context = this;
+    args = arguments;
+    if (remaining <= 0) {
+      clearTimeout(timeout);
+      timeout = null;
+      previous = now;
+      result = func.apply(context, args);
+      context = args = null;
+    } else if (!timeout && options.trailing !== false) {
+      timeout = setTimeout(later, remaining);
+    }
+    return result;
+  }
+})
+
+.factory('Slider', ['$timeout', '$document', 'throttle', function($timeout, $document, throttle)
+{
+  /**
+   * Slider
+   *
+   * @param {ngScope} scope            The AngularJS scope
+   * @param {Element} sliderElem The slider directive element wrapped in jqLite
+   * @param {*} attributes       The slider directive attributes
+   * @constructor
+   */
+  var Slider = function(scope, sliderElem, attributes)
+  {
+    /**
+     * The slider's scope
+     *
+     * @type {ngScope}
+     */
+    this.scope = scope;
+
+    /**
+     * The slider attributes
+     *
+     * @type {*}
+     */
+    this.attributes = attributes;
+
+    /**
+     * Slider element wrapped in jqLite
+     *
+     * @type {jqLite}
+     */
+    this.sliderElem = sliderElem;
+
+    /**
+     * Slider type
+     *
+     * @type {string}
+     */
+    this.range = attributes.rzSliderHigh !== undefined && attributes.rzSliderModel !== undefined;
+
+    /**
+     * Half of the width of the slider handles
+     *
+     * @type {number}
+     */
+    this.handleHalfWidth = 0;
+
+    /**
+     * Maximum left the slider handle can have
+     *
+     * @type {number}
+     */
+    this.maxLeft = 0;
+
+    /**
+     * Precision
+     *
+     * @type {number}
+     */
+    this.precision = 0;
+
+    /**
+     * Step
+     *
+     * @type {number}
+     */
+    this.step = 0;
+
+    /**
+     * The name of the handle we are currently tracking
+     *
+     * @type {string}
+     */
+    this.tracking = '';
+
+    /**
+     * Minimum value (floor) of the model
+     *
+     * @type {number}
+     */
+    this.minValue = 0;
+
+    /**
+     * Maximum value (ceiling) of the model
+     *
+     * @type {number}
+     */
+    this.maxValue = 0;
+
+    /**
+     * The delta between min and max value
+     *
+     * @type {number}
+     */
+    this.valueRange = 0;
+
+    /**
+     * Set to true if init method already executed
+     *
+     * @type {boolean}
+     */
+    this.initRun = false;
+
+    /**
+     * Custom translate function
+     *
+     * @type {function}
+     */
+    this.customTrFn = null;
+
+    // Slider DOM elements wrapped in jqLite
+    this.fullBar = null; // The whole slider bar
+    this.selBar = null;  // Highlight between two handles
+    this.minH = null;  // Left slider handle
+    this.maxH = null;  // Right slider handle
+    this.flrLab = null;  // Floor label
+    this.ceilLab = null; // Ceiling label
+    this.minLab =  null; // Label above the low value
+    this.maxLab = null; // Label above the high value
+    this.cmbLab = null;  // Combined label
+
+    // Initialize slider
+    this.init();
+  };
+
+  // Add instance methods
+  Slider.prototype = {
+
+    /**
+     * Initialize slider
+     *
+     * @returns {undefined}
+     */
+    init: function()
+    {
+      var self = this;
+
+      if(this.scope.rzSliderTranslate)
+      {
+        this.customTrFn = this.scope.rzSliderTranslate();
+      }
+
+      this.initElemHandles();
+      this.calcViewDimensions();
+
+      this.setMinAndMax();
+      this.precision = this.scope.rzSliderPrecision === undefined ? 0 : +this.scope.rzSliderPrecision;
+      this.step = this.scope.rzSliderStep === undefined ? 1 : +this.scope.rzSliderStep;
+
+      $timeout(function()
+      {
+        self.updateCeilLab();
+        self.updateFloorLab();
+        self.initHandles();
+        self.bindEvents();
+      });
+
+      // Recalculate slider view dimensions
+      this.scope.$on('reCalcViewDimensions', angular.bind(this, this.calcViewDimensions));
+
+      // Recalculate stuff if view port dimensions have changed
+      angular.element(window).on('resize', angular.bind(this, this.calcViewDimensions));
+
+      this.initRun = true;
+
+      // Watch for changes to the model
+
+      var thrLow = throttle(function()
+      {
+        self.setMinAndMax();
+        self.updateLowHandle(self.valueToOffset(self.scope.rzSliderModel));
+
+        if(self.range)
+        {
+          self.updateSelectionBar();
+          self.updateCmbLabel();
+        }
+
+      }, 350, { leading: false });
+
+      var thrHigh = throttle(function()
+      {
+        self.setMinAndMax();
+        self.updateHighHandle(self.valueToOffset(self.scope.rzSliderHigh));
+        self.updateSelectionBar();
+        self.updateCmbLabel();
+      }, 350, { leading: false });
+
+      this.scope.$on('rzSliderForceRender', function()
+      {
+        self.resetLabelsValue();
+        thrLow();
+        thrHigh();
+        self.resetSlider();
+      });
+
+      // Watchers
+
+      this.scope.$watch('rzSliderModel', function(newValue, oldValue)
+      {
+        if(newValue === oldValue) return;
+        thrLow();
+      });
+
+      this.scope.$watch('rzSliderHigh', function(newValue, oldValue)
+      {
+        if(newValue === oldValue) return;
+        thrHigh();
+      });
+
+      this.scope.$watch('rzSliderFloor', function(newValue, oldValue)
+      {
+        if(newValue === oldValue) return;
+        self.resetSlider();
+      });
+
+      this.scope.$watch('rzSliderCeil', function(newValue, oldValue)
+      {
+        if(newValue === oldValue) return;
+        self.resetSlider();
+      });
+    },
+
+    /**
+     * Resets slider
+     *
+     * @returns {undefined}
+     */
+    resetSlider: function()
+    {
+      this.setMinAndMax();
+      this.calcViewDimensions();
+      this.updateCeilLab();
+      this.updateFloorLab();
+    },
+
+    /**
+     * Reset label values
+     *
+     * @return {undefined}
+     */
+    resetLabelsValue: function()
+    {
+      this.minLab.rzsv = undefined;
+      this.maxLab.rzsv = undefined;
+    },
+
+    /**
+     * Initialize slider handles positions and labels
+     *
+     * Run only once during initialization and every time view port changes size
+     *
+     * @returns {undefined}
+     */
+    initHandles: function()
+    {
+      this.updateLowHandle(this.valueToOffset(this.scope.rzSliderModel));
+
+      if(this.range)
+      {
+        this.updateHighHandle(this.valueToOffset(this.scope.rzSliderHigh));
+        this.updateSelectionBar();
+        this.updateCmbLabel();
+      }
+    },
+
+    /**
+     * Translate value to human readable format
+     *
+     * @param {number|string} value
+     * @param {jqLite} label
+     * @param {bool?} useCustomTr
+     * @returns {undefined}
+     */
+    translateFn: function(value, label, useCustomTr)
+    {
+      useCustomTr = useCustomTr === undefined ? true : useCustomTr;
+
+      var valStr = this.customTrFn && useCustomTr ? '' + this.customTrFn(value) : '' + value,
+        getWidth = false;
+
+      if(label.rzsv === undefined || label.rzsv.length != valStr.length)
+      {
+        getWidth = true;
+        label.rzsv = valStr;
+      }
+
+      label.text(valStr);
+
+      // Update width only when length of the label have changed
+      if(getWidth) { this.getWidth(label); }
+    },
+
+    /**
+     * Set maximum and minimum values for the slider
+     *
+     * @returns {undefined}
+     */
+    setMinAndMax: function()
+    {
+      if(this.scope.rzSliderFloor)
+      {
+        this.minValue = +this.scope.rzSliderFloor;
+      }
+      else
+      {
+        this.minValue = this.scope.rzSliderFloor = 0;
+      }
+
+      if(this.scope.rzSliderCeil)
+      {
+        this.maxValue = +this.scope.rzSliderCeil;
+      }
+      else
+      {
+        this.scope.rzSliderCeil = this.maxValue = this.range ? this.scope.rzSliderHigh : this.scope.rzSliderModel;
+      }
+
+      this.valueRange = this.maxValue - this.minValue;
+    },
+
+    /**
+     * Set the slider children to variables for easy access
+     *
+     * Run only once during initialization
+     *
+     * @returns {undefined}
+     */
+    initElemHandles: function()
+    {
+      angular.forEach(this.sliderElem.children(), function(elem, index)
+      {
+        var _elem = angular.element(elem);
+
+        switch(index)
+        {
+          case 0: this.fullBar = _elem; break;
+          case 1: this.selBar = _elem; break;
+          case 2: this.minH = _elem; break;
+          case 3: this.maxH = _elem; break;
+          case 4: this.flrLab = _elem; break;
+          case 5: this.ceilLab = _elem; break;
+          case 6: this.minLab = _elem; break;
+          case 7: this.maxLab = _elem; break;
+          case 8: this.cmbLab = _elem; break;
+        }
+
+      }, this);
+
+      // Initialize offsets
+      this.fullBar.rzsl = 0;
+      this.selBar.rzsl = 0;
+      this.minH.rzsl = 0;
+      this.maxH.rzsl = 0;
+      this.flrLab.rzsl = 0;
+      this.ceilLab.rzsl = 0;
+      this.minLab.rzsl = 0;
+      this.maxLab.rzsl = 0;
+      this.cmbLab.rzsl = 0;
+
+      // Remove stuff not needed in single slider
+      if( ! this.range)
+      {
+        this.cmbLab.remove();
+        this.maxLab.remove();
+        this.maxH.remove();
+        this.selBar.remove();
+      }
+    },
+
+    /**
+     * Calculate dimensions that are dependent on view port size
+     *
+     * Run once during initialization and every time view port changes size.
+     *
+     * @returns {undefined}
+     */
+    calcViewDimensions: function ()
+    {
+      var handleWidth = this.getWidth(this.minH);
+
+      this.handleHalfWidth = handleWidth / 2;
+      this.barWidth = this.getWidth(this.fullBar);
+
+      this.maxLeft = this.barWidth - handleWidth;
+
+      this.getWidth(this.sliderElem);
+      this.sliderElem.rzsl = this.sliderElem[0].getBoundingClientRect().left;
+
+      if(this.initRun)
+      {
+        this.updateCeilLab();
+        this.initHandles();
+      }
+    },
+
+    /**
+     * Update position of the ceiling label
+     *
+     * @returns {undefined}
+     */
+    updateCeilLab: function()
+    {
+      this.translateFn(this.scope.rzSliderCeil, this.ceilLab);
+      this.setLeft(this.ceilLab, this.barWidth - this.ceilLab.rzsw);
+      this.getWidth(this.ceilLab);
+    },
+
+    /**
+     * Update position of the floor label
+     *
+     * @returns {undefined}
+     */
+    updateFloorLab: function()
+    {
+      this.translateFn(this.scope.rzSliderFloor, this.flrLab);
+      this.getWidth(this.flrLab);
+    },
+
+    /**
+     * Update slider handles and label positions
+     *
+     * @param {string} which
+     * @param {number} newOffset
+     */
+    updateHandles: function(which, newOffset)
+    {
+      if(which === 'rzSliderModel')
+      {
+        this.updateLowHandle(newOffset);
+        if(this.range)
+        {
+          this.updateSelectionBar();
+          this.updateCmbLabel();
+        }
+        return;
+      }
+
+      if(which === 'rzSliderHigh')
+      {
+        this.updateHighHandle(newOffset);
+        if(this.range)
+        {
+          this.updateSelectionBar();
+          this.updateCmbLabel();
+        }
+        return;
+      }
+
+      // Update both
+      this.updateLowHandle(newOffset);
+      this.updateHighHandle(newOffset);
+      this.updateSelectionBar();
+      this.updateCmbLabel();
+    },
+
+    /**
+     * Update low slider handle position and label
+     *
+     * @param {number} newOffset
+     * @returns {undefined}
+     */
+    updateLowHandle: function(newOffset)
+    {
+      this.setLeft(this.minH, newOffset);
+      this.translateFn(this.scope.rzSliderModel, this.minLab);
+      this.setLeft(this.minLab, newOffset - this.minLab.rzsw / 2 + this.handleHalfWidth);
+
+      this.shFloorCeil();
+    },
+
+    /**
+     * Update high slider handle position and label
+     *
+     * @param {number} newOffset
+     * @returns {undefined}
+     */
+    updateHighHandle: function(newOffset)
+    {
+      this.setLeft(this.maxH, newOffset);
+      this.translateFn(this.scope.rzSliderHigh, this.maxLab);
+      this.setLeft(this.maxLab, newOffset - this.maxLab.rzsw / 2 + this.handleHalfWidth);
+
+      this.shFloorCeil();
+    },
+
+    /**
+     * Show / hide floor / ceiling label
+     *
+     * @returns {undefined}
+     */
+    shFloorCeil: function()
+    {
+      var flHidden = false, clHidden = false;
+
+      if(this.minLab.rzsl <= this.flrLab.rzsl + this.flrLab.rzsw + 5)
+      {
+        flHidden = true;
+        this.hideEl(this.flrLab);
+      }
+      else
+      {
+        flHidden = false;
+        this.showEl(this.flrLab);
+      }
+
+      if(this.minLab.rzsl + this.minLab.rzsw >= this.ceilLab.rzsl - this.handleHalfWidth - 10)
+      {
+        clHidden = true;
+        this.hideEl(this.ceilLab);
+      }
+      else
+      {
+        clHidden = false;
+        this.showEl(this.ceilLab);
+      }
+
+      if(this.range)
+      {
+        if(this.maxLab.rzsl + this.maxLab.rzsw >= this.ceilLab.rzsl - 10)
+        {
+          this.hideEl(this.ceilLab);
+        }
+        else if( ! clHidden)
+        {
+          this.showEl(this.ceilLab);
+        }
+
+        // Hide or show floor label
+        if(this.maxLab.rzsl <= this.flrLab.rzsl + this.flrLab.rzsw + this.handleHalfWidth)
+        {
+          this.hideEl(this.flrLab);
+        }
+        else if( ! flHidden)
+        {
+          this.showEl(this.flrLab);
+        }
+      }
+    },
+
+    /**
+     * Update slider selection bar, combined label and range label
+     *
+     * @returns {undefined}
+     */
+    updateSelectionBar: function()
+    {
+      this.setWidth(this.selBar, this.maxH.rzsl - this.minH.rzsl);
+      this.setLeft(this.selBar, this.minH.rzsl + this.handleHalfWidth);
+    },
+
+    /**
+     * Update combined label position and value
+     *
+     * @returns {undefined}
+     */
+    updateCmbLabel: function()
+    {
+      var lowTr, highTr;
+
+      if(this.minLab.rzsl + this.minLab.rzsw + 10 >= this.maxLab.rzsl)
+      {
+        if(this.customTrFn)
+        {
+          lowTr = this.customTrFn(this.scope.rzSliderModel);
+          highTr = this.customTrFn(this.scope.rzSliderHigh);
+        }
+        else
+        {
+          lowTr = this.scope.rzSliderModel;
+          highTr = this.scope.rzSliderHigh;
+        }
+
+        this.translateFn(lowTr + ' - ' + highTr, this.cmbLab, false);
+        this.setLeft(this.cmbLab, this.selBar.rzsl + this.selBar.rzsw / 2 - this.cmbLab.rzsw / 2);
+        this.hideEl(this.minLab);
+        this.hideEl(this.maxLab);
+        this.showEl(this.cmbLab);
+      }
+      else
+      {
+        this.showEl(this.maxLab);
+        this.showEl(this.minLab);
+        this.hideEl(this.cmbLab);
+      }
+    },
+
+    /**
+     * Round value to step and precision
+     *
+     * @param {number} value
+     * @returns {number}
+     */
+    roundStep: function(value)
+    {
+      var step = this.step,
+        remainder = (value - this.minValue) % step,
+        steppedValue = remainder > (step / 2) ? value + step - remainder : value - remainder;
+
+      return +(steppedValue).toFixed(this.precision);
+    },
+
+    /**
+     * Hide element
+     *
+     * @param element
+     * @returns {jqLite} The jqLite wrapped DOM element
+     */
+    hideEl: function (element)
+    {
+      return element.css({opacity: 0});
+    },
+
+    /**
+     * Show element
+     *
+     * @param element The jqLite wrapped DOM element
+     * @returns {jqLite} The jqLite
+     */
+    showEl: function (element)
+    {
+      return element.css({opacity: 1});
+    },
+
+    /**
+     * Set element left offset
+     *
+     * @param {jqLite} elem The jqLite wrapped DOM element
+     * @param {number} left
+     * @returns {number}
+     */
+    setLeft: function (elem, left)
+    {
+      elem.rzsl = left;
+      elem.css({left: left + 'px'});
+      return left;
+    },
+
+    /**
+     * Get element width
+     *
+     * @param {jqLite} elem The jqLite wrapped DOM element
+     * @returns {number}
+     */
+    getWidth: function(elem)
+    {
+      var val = elem[0].getBoundingClientRect();
+      elem.rzsw = val.right - val.left;
+      return elem.rzsw;
+    },
+
+    /**
+     * Set element width
+     *
+     * @param {jqLite} elem  The jqLite wrapped DOM element
+     * @param {number} width
+     * @returns {*}
+     */
+    setWidth: function(elem, width)
+    {
+      elem.rzsw = width;
+      elem.css({width: width + 'px'});
+      return width;
+    },
+
+    /**
+     * Translate value to pixel offset
+     *
+     * @param {number} val
+     * @returns {number}
+     */
+    valueToOffset: function(val)
+    {
+      return (val - this.minValue) * this.maxLeft / this.valueRange;
+    },
+
+    /**
+     * Translate offset to model value
+     *
+     * @param {number} offset
+     * @returns {number}
+     */
+    offsetToValue: function(offset)
+    {
+      return (offset / this.maxLeft) * this.valueRange + this.minValue;
+    },
+
+    // Events
+
+    /**
+     * Bind mouse and touch events to slider handles
+     *
+     * @returns {undefined}
+     */
+    bindEvents: function()
+    {
+      this.minH.on('mousedown', angular.bind(this, this.onStart, this.minH, 'rzSliderModel'));
+      if(this.range) { this.maxH.on('mousedown', angular.bind(this, this.onStart, this.maxH, 'rzSliderHigh')) }
+
+      this.minH.on('touchstart', angular.bind(this, this.onStart, this.minH, 'rzSliderModel'));
+      if(this.range) { this.maxH.on('touchstart', angular.bind(this, this.onStart, this.maxH, 'rzSliderHigh')) }
+    },
+
+    /**
+     * onStart event handler
+     *
+     * @param {Object} pointer The jqLite wrapped DOM element
+     * @param {string} ref     One of the refLow, refHigh values
+     * @param {Event}  event   The event
+     * @returns {undefined}
+     */
+    onStart: function (pointer, ref, event)
+    {
+      event.stopPropagation();
+      event.preventDefault();
+
+      if(this.tracking !== '') { return }
+
+      // We have to do this in case the HTML where the sliders are on
+      // have been animated into view.
+      this.calcViewDimensions();
+      this.tracking = ref;
+
+      pointer.addClass('active');
+
+      if(event.touches)
+      {
+        $document.on('touchmove', angular.bind(this, this.onMove, pointer));
+        $document.on('touchend', angular.bind(this, this.onEnd));
+      }
+      else
+      {
+        $document.on('mousemove', angular.bind(this, this.onMove, pointer));
+        $document.on('mouseup', angular.bind(this, this.onEnd));
+      }
+    },
+
+    /**
+     * onMove event handler
+     *
+     * @param {jqLite} pointer
+     * @param {Event}  event The event
+     * @returns {undefined}
+     */
+    onMove: function (pointer, event)
+    {
+      var eventX = event.clientX || event.touches[0].clientX,
+        sliderLO = this.sliderElem.rzsl,
+        newOffset = eventX - sliderLO - this.handleHalfWidth,
+        newValue;
+
+      if(newOffset <= 0)
+      {
+        if(pointer.rzsl !== 0)
+        {
+          this.scope[this.tracking] = this.minValue;
+          this.updateHandles(this.tracking, 0);
+          this.scope.$apply();
+        }
+
+        return;
+      }
+
+      if(newOffset >= this.maxLeft)
+      {
+        if(pointer.rzsl !== this.maxLeft)
+        {
+          this.scope[this.tracking] = this.maxValue;
+          this.updateHandles(this.tracking, this.maxLeft);
+          this.scope.$apply();
+        }
+
+        return;
+      }
+
+      newValue = this.offsetToValue(newOffset);
+      newValue = this.roundStep(newValue);
+
+      if (this.range)
+      {
+        if (this.tracking === 'rzSliderModel' && newValue >= this.scope.rzSliderHigh)
+        {
+          this.scope[this.tracking] = this.scope.rzSliderHigh;
+          this.updateHandles(this.tracking, this.maxH.rzsl);
+          this.tracking = 'rzSliderHigh';
+          this.minH.removeClass('active');
+          this.maxH.addClass('active');
+        }
+        else if(this.tracking === 'rzSliderHigh' && newValue <= this.scope.rzSliderModel)
+        {
+          this.scope[this.tracking] = this.scope.rzSliderModel;
+          this.updateHandles(this.tracking, this.minH.rzsl);
+          this.tracking = 'rzSliderModel';
+          this.maxH.removeClass('active');
+          this.minH.addClass('active');
+        }
+      }
+
+      if(this.scope[this.tracking] !== newValue)
+      {
+        this.scope[this.tracking] = newValue;
+        this.updateHandles(this.tracking, newOffset);
+        this.scope.$apply();
+      }
+    },
+
+    /**
+     * onEnd event handler
+     *
+     * @param {Event} event    The event
+     * @returns {undefined}
+     */
+    onEnd: function(event)
+    {
+      this.minH.removeClass('active');
+      this.maxH.removeClass('active');
+
+      if(event.touches)
+      {
+        $document.unbind('touchmove');
+        $document.unbind('touchend');
+      }
+      else
+      {
+        $document.unbind('mousemove');
+        $document.unbind('mouseup');
+      }
+
+      this.tracking = '';
+    }
+  };
+
+  return Slider;
+}])
+
+.directive('rzslider', ['Slider', function(Slider)
+{
+  return {
+    restrict: 'E',
+    scope: {
+      rzSliderFloor: '=?',
+      rzSliderCeil: '=?',
+      rzSliderStep: '@',
+      rzSliderPrecision: '@',
+      rzSliderModel: '=?',
+      rzSliderHigh: '=?',
+      rzSliderTranslate: '&'
+    },
+    template:   '<span class="bar"></span>' + // 0 The slider bar
+                '<span class="bar selection"></span>' + // 1 Highlight between two handles
+                '<span class="pointer"></span>' + // 2 Left slider handle
+                '<span class="pointer"></span>' + // 3 Right slider handle
+                '<span class="bubble limit"></span>' + // 4 Floor label
+                '<span class="bubble limit"></span>' + // 5 Ceiling label
+                '<span class="bubble"></span>' + // 6 Label above left slider handle
+                '<span class="bubble"></span>' + // 7 Label above right slider handle
+                '<span class="bubble"></span>', // 8 Range label when the slider handles are close ex. 15 - 17
+
+    link: function(scope, elem, attr)
+    {
+      return new Slider(scope, elem, attr);
+    }
+  };
+}]);
+
+// IDE assist
+
+/**
+ * @name ngScope
+ *
+ * @property {number} rzSliderModel
+ * @property {number} rzSliderHigh
+ * @property {number} rzSliderCeil
+ */
+
+/**
+ * @name jqLite
+ *
+ * @property {number|undefined} rzsl
+ * @property {number|undefined} rzsw
+ * @property {string|undefined} rzsv
+ * @property {Function} css
+ * @property {Function} text
+ */
+
+/**
+ * @name Event
+ * @property {Array} touches
+ */
+
+/**
+ * @name ThrottleOptions
+ *
+ * @property {bool} leading
+ * @property {bool} trailing
+ */
 /**
  * lscache library
  * Copyright (c) 2011, Pamela Fox
@@ -4767,6 +5720,11 @@ pgrModule.filter('unidate', function () {
     }
 })
 
+pgrModule.filter('usadata', function () {
+    return function(value) {    
+        return moment(value).format("MMM DD, YYYY");
+    }
+})
 
 
 
@@ -6110,12 +7068,12 @@ $templateCache.put('partials/nsi.html', "<div id=\"nsi_content\" ng-controller=\
 $templateCache.put('partials/profile.html', "<div \n\tng-controller=\"NeedsAndGoalsController\" \n\tclass=\"tab\" \n\tng-init=\"user = workspace.user;\">\n\t<div class=\"tab\" ng-controller=\"MyProfileProfileController\">\n\t\t<perfect-scrollbar class=\"mypro acrd\" scroller>\n\t\t\t<div class=\"crits\">\n\t\t\t\t<ul> \n\t\t\t\t\t<li \n\t\t\t\t\t\tng-repeat=\"(needKey, needItem) in needs | orderBy:'position'\" \n\t\t\t\t\t\tdata-needId=\"{{needItem.sguid}}\"\n\t\t\t\t\t\tclass=\"{{needItem.name}}\">\n\t\t\t\t\t\t<div class=\"cr\" >\n\t\t\t\t\t\t\t<p>{{needItem.name}}</p>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t\t<ul ng-class=\"{current: needItem.current}\">\n\t\t\t\t\t\t\t<li \n\t\t\t\t\t\t\t\tng-repeat=\"(goalKey,goalItem) in needItem.goals | orderBy:'position'\" \n\t\t\t\t\t\t\t\tdata-goalid=\"{{goalItem.sguid}}\" >\n\t\t\t\t\t\t\t\t<h5 ng-class=\"{current: goalItem.current}\">\n\t\t\t\t\t\t\t\t\t<a ng-click=\"goalClick($event, goalItem, needs, needItem);\">\n\t\t\t\t\t\t\t\t\t\t<span>\n\t\t\t\t\t\t\t\t\t\t\t<img \n\t\t\t\t\t\t\t\t\t\t\tng-src=\"/images/goals/{{needItem.name | removewhite}}/{{goalItem.name | removewhite}}.png\"\n\t\t\t\t\t\t\t\t\t\t\talt=\"\" \n\t\t\t\t\t\t\t\t\t\t\ttitle=\"{{goalItem.name}}\" />\n\t\t\t\t\t\t\t\t\t\t</span>\n\t\t\t\t\t\t\t\t\t\t<h6>{{goalItem.name}}</h6>\n\t\t\t\t\t\t\t\t\t\t<em ng-if=\"!goalItem.current\"></em>\n\t\t\t\t\t\t\t\t\t</a>\t\n\t\t\t\t\t\t\t\t\t<div class=\"right\">\n\t\t\t\t\t\t\t\t\t\t<strong>\n\t\t\t\t\t\t\t\t\t\t\t<span \n\t\t\t\t\t\t\t\t\t\t\tclass=\"current_position\" \n\t\t\t\t\t\t\t\t\t\t\tstyle=\"width: {{(goalItem.current_value / (goalItem.points_summary ))*100}}%;\"></span>\n\t\t\t\t\t\t\t\t\t\t</strong>\n\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t</h5>\n\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t</li>\n\t\t\t\t\t\t</ul>\n\t\t\t\t\t</li>\n\t\t\t\t</ul>\n\t\t\t</div>\n\t\t</perfect-scrollbar>\n\n\t\t<perfect-scrollbar class=\"mypro_wr\" scroller >\n\t\t\t<section class=\"mypro\">\n\t\t\t\t<div class=\"crits {{selectedNeed.name}}\" ng-if=\"selectedGoal\">\n\t\t\t\t\t<h5>\n\t\t\t\t\t\t<a>\n\t\t\t\t\t\t\t<span>\n\t\t\t\t\t\t\t\t<img \n\t\t\t\t\t\t\t\t\tng-src=\"/images/goals/{{selectedNeed.name | removewhite}}/{{selectedGoal.name | removewhite}}.png\"\n\t\t\t\t\t\t\t\t\talt=\"\" \n\t\t\t\t\t\t\t\t\ttitle=\"{{selectedGoal.name}}\" />\n\t\t\t\t\t\t\t</span>\n\t\t\t\t\t\t\t{{selectedGoal.name}}\n\t\t\t\t\t\t</a>\t\n\t\t\t\t\t\t<div class=\"right\">\n\t\t\t\t\t\t\t<b>{{selectedGoal.current_value}} / {{selectedGoal.points_summary}}</b>\n\t\t\t\t\t\t\t<strong>\n\t\t\t\t\t\t\t\t<span class=\"current_position\" style=\"width: {{(selectedGoal.current_value / (selectedGoal.points_summary ))*100}}%;\"></span>\n\t\t\t\t\t\t\t</strong>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</h5>\n\t\t\t\t\t<ul class=\"criterion\">\n\t\t\t\t\t\t<li \n\t\t\t\t\t\tdata-id=\"{{crItem.sguid}}\" \n\t\t\t\t\t\tng-repeat=\"crItem in selectedGoal.criteriums | orderBy:'position'\" \n\t\t\t\t\t\tclass=\"animate-list\"\n\t\t\t\t\t\tng-show=\"selectedGoal.criteriums.all_load\" >\n\t\t\t\t\t\t\t<p>{{crItem.name}}</p>\n\t\t\t\t\t\t\t<div class=\"bord\">\n\t\t\t\t\t\t\t\t<ul class=\"crp\">\n\t\t\t\t\t\t\t\t\t<div class=\"tab\">\n\t\t\t\t\t\t\t\t\t\t<li data-id=\"{{value.sguid}}\"  \n\t\t\t\t\t\t\t\t\t\t\tng-repeat=\"value in crItem.criteria_values | orderBy:'position'\"  \n\t\t\t\t\t\t\t\t\t\t\tclass=\"{{value.user_criteria}} position_{{value.position}}\" \n\t\t\t\t\t\t\t\t\t\t\tng-click=\"onCriteriaSelect(value, crItem, $event, selectedNeed, selectedGoal)\">\n\t\t\t\t\t\t\t\t\t\t\t<i ng-if=\"value.sguid != 'none'\">{{value.name}}</i>\n\t\t\t\t\t\t\t\t\t\t\t<i ng-if=\"value.sguid == 'none'\" class=\"null_criteria\"></i>\n\t\t\t\t\t\t\t\t\t\t</li>\n\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t<span ng-show=\"selectedGoal.criteriums.show\" colbasa colbasa-current=\"{{crItem.user_criteria_sguid}}\">\n\t\t\t\t\t\t\t\t\t\t<sup></sup>\n\t\t\t\t\t\t\t\t\t</span>\n\t\t\t\t\t\t\t\t</ul>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t</li>\n\t\t\t\t\t</ul>\n\t\t\t\t</div>\n\t\t\t</section>\n\t\t</perfect-scrollbar>\n\t</div>\n</div>");
 $templateCache.put('partials/report.html', "<div class=\"fuckenmorda\">\n\t<h2>Report an Impostor Account</h2>\n\t<a ng-click=\"closeModal()\"></a>\n\t<p>If someone created an i-Rate account that’s pretending to be yours, please \n\tuse this form to file a report.</p>\n\t<input placeholder=\"Your full name\" />\n\t<input placeholder=\"Your contact email address\" />\n\t<p>Please attach a picture of a government-issued ID of the person being impersonated (ex: your ID or the ID of the person you’re authorized to represent). Cover up any personal information (ex: address, license number) that we don’t need to confirm your identity.</p>\n\t<b>The ID you provide:</b>\n\t<ul>\n\t\t<li>Must be government-issued (ex: passport, driver’s license)</li>\n\t\t<li>Must be multicolour</li>\n\t\t<li>Must clearly show the full name, date of birth, any photo</li>\n\t</ul>\n\t<s>Note: We won’t be able to process your request unless you submit an ID that meets these requirements.</s>\n\t<i>Upload an ID</i>\n\t<i>Your ID or an ID of a person you’re authorized to represent</i>\n\t<button>Upload</button>\n\t<input placeholder=\"Additional info\" />\n\t<button>Report</button>\n</div>");
 $templateCache.put('partials/right.html', "<div id=\"signin_panel\" class=\"full_height\" ng-if=\"showPanel\" >\n\t<perfect-scrollbar class=\"in scroller\" wheel-propagation=\"true\" wheel-speed=\"50\">\n\t\t<div class=\"glass\">\n\t\t\t<div class=\"full_height\" ng-if=\"state == 0\" ng-include ng-controller=\"SigninController\" src=\"'partials/signin.html'\"></div>\n\t\t\t<div class=\"full_height\" ng-if=\"state == 1\" ng-include ng-controller=\"SignupController\" src=\"'partials/signup.html'\"></div>\n\t\t\t<div class=\"full_height\" ng-if=\"state == 2\" ng-include ng-controller=\"ImprovaLoginController\" src=\"'partials/improva.html'\"></div>\n\t\t</div>\n\t</perfect-scrollbar>\n</div>");
-$templateCache.put('partials/search.html', "<div id=\"searchfull\" ng-if=\"show\"> \n\t<section class=\"searchfull\">\n\t\t<div \n\t\t\tid=\"search\" \n\t\t\tclass=\"search fullsearch\" \n\t\t\tng-controller=\"SearchController\">\n\t\t\t<div ng-controller=\"SearchLeftController\">\n\t\t\t\t<input \n\t\t\t\t\ttype=\"text\" \n\t\t\t\t\tng-model=\"searchText\" \n\t\t\t\t\tplaceholder=\"Search people\" \n\t\t\t\t\tclass=\"search\"\n\t\t\t\t\tng-change=\"onSearch()\" />\n\t\t\t\t<input type=\"button\" class=\"searcher\" ng-click=\"onSearch()\" />\n\t\t\t\t<div ng-cloak class=\"searchResult\" ng-if=\"resultSearch.length > 0\">\n\t\t\t\t\t<div class=\"item\" ng-repeat=\"(userKey, userItem) in resultSearch\">\n\t\t\t\t\t\t<div class=\"image\" ng-click=\"openSearchProfile(userItem.sguid)\">\n\t\t\t\t\t\t\t<img ng-src=\"{{userItem.avatar}}\" alt=\"\" err-src=\"/images/unknown-person.png\" />\n\t\t\t\t\t\t</div>\n\t\t\t\t\t\t<div class=\"text\" ng-click=\"openSearchProfile(userItem.sguid)\">\n\t\t\t\t\t\t\t<p class=\"name\">{{userItem.name}}</p>\n\t\t\t\t\t\t\t<p class=\"league\"><img class=\"league_icon\" ng-src=\"{{userItem.league.icon}}\" alt=\"\" /> {{userItem.league.name}} league</p>\n\t\t\t\t\t\t\t<p class=\"points\">{{userItem.points | int}}</p>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t</div>\t\n\t</section>\n\t<perfect-scrollbar class=\"fusepar\" ng-if=\"showRight\" scroller wheel-propagation=\"true\" wheel-speed=\"50\">\n\t\t<i ng-click=\"close()\"></i>\n\t\t<div class=\"fsp\">\n\t\t\t<div class=\"ri\">\n\t\t\t\t<h6>Top</h6>\n\t\t\t\t<input \n\t\t\t\t\ttype=\"text\" \n\t\t\t\t\tng-model=\"search.top.name\" \n\t\t\t\t\tclass=\"search\"\n\t\t\t\t\tng-change=\"filteredList('topList', search.top.name, 'top')\" />\n\t\t\t\t<input type=\"button\" class=\"searcher\" ng-click=\"toggleShowState('top')\" />\n\t\t\t\t<img src=\"./images/fusedel.png\" ng-click=\"selectParam('top', '', true)\">\n\t\t\t\t<ul class=\"popup_list big\" ng-if=\"shows.top\">\n\t\t\t\t\t<li \n\t\t\t\t\t\tng-if=\"value.show\" \n\t\t\t\t\t\tng-repeat=\"(key, value) in topList\" \n\t\t\t\t\t\tng-click=\"selectTopParam('top', value)\">\n\t\t\t\t\t\t\t<img \n\t\t\t\t\t\t\t\tng-src=\"/images/goals/{{value.needName | removewhite}}/{{value.name | removewhite}}.png\"\n\t\t\t\t\t\t\t\talt=\"\"\n\t\t\t\t\t\t\t\tclass=\"goal_icon\"\n\t\t\t\t\t\t\t\ttitle=\"{{value.name}}\" />\n\t\t\t\t\t\t\t{{value.name}}\n\t\t\t\t\t</li>\n\t\t\t\t</ul>\n\t\t\t</div>\n\t\t\t<em></em>\n\t\t</div>\n\t\t<div class=\"fsp\">\n\t\t\t<div class=\"ri\">\n\t\t\t\t<h6>Career</h6>\n\t\t\t\t<input \n\t\t\t\t\ttype=\"text\" \n\t\t\t\t\tng-model=\"search.career.name\" \n\t\t\t\t\tclass=\"search\"\n\t\t\t\t\tng-change=\"filteredList('careerList', search.career.name, 'career')\" />\n\t\t\t\t<input type=\"button\" class=\"searcher\" ng-click=\"toggleShowState('career')\" />\n\t\t\t\t<img src=\"./images/fusedel.png\" ng-click=\"selectParam('career', '', true)\">\n\t\t\t\t<ul class=\"popup_list\" ng-if=\"shows.career\">\n\t\t\t\t\t<li \n\t\t\t\t\t\tng-if=\"value.show\" \n\t\t\t\t\t\tng-repeat=\"(key, value) in careerList\" \n\t\t\t\t\t\tng-click=\"selectCareerParam('career', value)\">{{value.name}}</li>\n\t\t\t\t</ul>\n\t\t\t</div>\n\t\t\t<div class=\"ri\">\n\t\t\t\t<h6>Profession</h6>\n\t\t\t\t<input \n\t\t\t\t\ttype=\"text\" \n\t\t\t\t\tng-model=\"search.profession.name\" \n\t\t\t\t\tclass=\"search\"\n\t\t\t\t\tng-change=\"filteredList('professionList', search.profession.name, 'profession')\" />\n\t\t\t\t<input type=\"button\" class=\"searcher\" ng-click=\"toggleShowState('profession')\" />\n\t\t\t\t<img src=\"./images/fusedel.png\" ng-click=\"selectParam('profession', '', true)\">\n\t\t\t\t<ul class=\"popup_list\" ng-if=\"shows.profession\">\n\t\t\t\t\t<li ng-if=\"value.show\" ng-repeat=\"(key, value) in professionList\" ng-click=\"selectParam('profession', value)\">{{value.name}}</li>\n\t\t\t\t</ul>\n\t\t\t</div>\n\t\t\t<em></em>\n\t\t</div>\n\t\t<div class=\"fsp\">\n\t\t\t<div class=\"ri\">\n\t\t\t\t<h6>Country</h6>\n\t\t\t\t<input \n\t\t\t\t\ttype=\"text\" \n\t\t\t\t\tng-model=\"search.country.name\" \n\t\t\t\t\tclass=\"search\"\n\t\t\t\t\tng-change=\"filteredList('countriesList', search.country.name, 'country')\" />\n\t\t\t\t<input type=\"button\" class=\"searcher\" ng-click=\"toggleShowState('country')\" />\n\t\t\t\t<img src=\"./images/fusedel.png\" ng-click=\"selectParam('country', '', true)\">\n\t\t\t\t<ul class=\"popup_list\" ng-if=\"shows.country\">\n\t\t\t\t\t<li ng-if=\"value.show\" ng-repeat=\"(key, value) in countriesList\" ng-click=\"selectContryParam('country', value)\">{{value.name}}</li>\n\t\t\t\t</ul>\n\t\t\t</div>\n\t\t\t<div class=\"ri\">\n\t\t\t\t<h6>City</h6>\n\t\t\t\t<input \n\t\t\t\t\ttype=\"text\" \n\t\t\t\t\tng-model=\"search.city.name\" \n\t\t\t\t\tclass=\"search\"\n\t\t\t\t\tng-change=\"filteredList('cityList', search.city.name, 'city')\" />\n\t\t\t\t<input type=\"button\" class=\"searcher\" ng-click=\"toggleShowState('city')\" />\n\t\t\t\t<img src=\"./images/fusedel.png\" ng-click=\"selectParam('city', '', true)\">\n\t\t\t\t<ul class=\"popup_list\" ng-if=\"shows.city\">\n\t\t\t\t\t<li ng-if=\"value.show\" ng-repeat=\"(key, value) in cityList\" ng-click=\"selectParam('city', value)\">{{value.name}}</li>\n\t\t\t\t</ul>\n\t\t\t</div>\n\t\t\t<em></em>\n\t\t</div>\n\t\t<div class=\"fsp\">\n\t\t\t<div class=\"ri\">\n\t\t\t\t<h6>Birthday from</h6>\n\t\t\t\t<input type=\"text\" ng-model=\"search.birthday_from\" id=\"birthday_from\" ui-date=\"dateOptions\"  name=\"DateOfBirth1\" id=\"dFrom\" />\n\t\t\t\t<img src=\"./images/fusedel.png\" ng-click=\"selectDateParam('birthday_from', '', true)\">\n\t\t\t</div>\n\t\t\t<div class=\"ri\">\n\t\t\t\t<h6>Birthday till</h6>\n\t\t\t\t<input type=\"text\" ng-model=\"search.birthday_till\" id=\"birthday_till\" ui-date=\"dateOptions\"  name=\"DateOfBirth2\" id=\"dTill\" />\n\t\t\t\t<img src=\"./images/fusedel.png\" ng-click=\"selectDateParam('birthday_till', '', true)\">\n\t\t\t</div>\n\t\t\t<em></em>\n\t\t</div>\n\t\t<div class=\"fsp\">\n\t\t\t<div class=\"ri\">\n\t\t\t\t<h6>League</h6>\n\t\t\t\t<input \n\t\t\t\t\ttype=\"text\" \n\t\t\t\t\tng-model=\"search.league.name\" \n\t\t\t\t\tclass=\"search\" />\n\t\t\t\t<input type=\"button\" class=\"searcher\" ng-click=\"toggleShowState('league')\" />\n\t\t\t\t<img src=\"./images/fusedel.png\" ng-click=\"clearLeagueParam('league', '', true)\">\n\t\t\t\t<ul class=\"popup_list\" ng-if=\"shows.league\">\n\t\t\t\t\t<li ng-repeat=\"(key, value) in workspace.leagues | orderBy:'min_border':true\" ng-click=\"selectLeagueParam('league', value)\">{{value.name}}</li>\n\t\t\t\t</ul>\n\t\t\t\t\n\t\t\t</div>\n\t\t\t<div class=\"ri\">\n\t\t\t\t<h6>Score</h6>\n\t\t\t\t<rzslider \n\t\t\t\t\trz-slider-floor=\"0\" \n\t\t\t\t\trz-slider-ceil=\"175000\" \n\t\t\t\t\trz-slider-model=\"search.minScore\" \n\t\t\t\t\trz-slider-high=\"search.maxScore\">\n\t\t\t\t</rzslider>\n\t\t\t</div>\n\t\t\t<em></em>\n\t\t</div>\n\t\t<div class=\"fsp fspb\">\n\t\t\t<button ng-click=\"clearAll()\">Clear all</button>\n\t\t</div>\n\t</perfect-scrollbar>\n</div>");
+$templateCache.put('partials/search.html', "<div id=\"searchfull\" ng-if=\"show\"> \n\t<section class=\"searchfull\">\n\t\t<div \n\t\t\tid=\"search\" \n\t\t\tclass=\"search fullsearch\" \n\t\t\tng-controller=\"SearchController\">\n\t\t\t<div ng-controller=\"SearchLeftController\">\n\t\t\t\t<input \n\t\t\t\t\ttype=\"text\" \n\t\t\t\t\tng-model=\"searchText\" \n\t\t\t\t\tplaceholder=\"Search people\" \n\t\t\t\t\tclass=\"search\"\n\t\t\t\t\tng-change=\"onSearch()\" />\n\t\t\t\t<input type=\"button\" class=\"searcher\" ng-click=\"onSearch()\" />\n\t\t\t\t<div ng-cloak class=\"searchResult\" ng-if=\"resultSearch.length > 0\">\n\t\t\t\t\t<div class=\"item\" ng-repeat=\"(userKey, userItem) in resultSearch\">\n\t\t\t\t\t\t<div class=\"image\" ng-click=\"openSearchProfile(userItem.sguid)\">\n\t\t\t\t\t\t\t<img ng-src=\"{{userItem.avatar}}\" alt=\"\" err-src=\"/images/unknown-person.png\" />\n\t\t\t\t\t\t</div>\n\t\t\t\t\t\t<div class=\"text\" ng-click=\"openSearchProfile(userItem.sguid)\">\n\t\t\t\t\t\t\t<p class=\"name\">{{userItem.name}}</p>\n\t\t\t\t\t\t\t<p class=\"league\"><img class=\"league_icon\" ng-src=\"{{userItem.league.icon}}\" alt=\"\" /> {{userItem.league.name}} league</p>\n\t\t\t\t\t\t\t<p class=\"points\">{{userItem.points | unidate}}</p>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t</div>\t\n\t</section>\n\t<div \n\t\tclass=\"full_height user sha search_user\" \n\t\tng-controller=\"UserController\" \n\t\tng-include\n\t\tng-init=\"init('search_profile')\"\n\t\tsrc=\"'partials/user.html'\">\n\t</div>\n\t<div class=\"fusepar\" ng-if=\"showRight\" scroller>\n\t\t<i ng-click=\"close()\"></i>\n\t\t<div class=\"fsp\">\n\t\t\t<div class=\"ri\">\n\t\t\t\t<h6>Top</h6>\n\t\t\t\t<input \n\t\t\t\t\ttype=\"text\" \n\t\t\t\t\tng-model=\"search.top.name\" \n\t\t\t\t\tclass=\"search\"\n\t\t\t\t\tng-change=\"filteredList('topList', search.top.name, 'top')\" />\n\t\t\t\t<input type=\"button\" class=\"searcher\" ng-click=\"toggleShowState('top')\" />\n\t\t\t\t<img src=\"./images/fusedel.png\" ng-click=\"selectParam('top', '', true)\">\n\t\t\t\t<ul class=\"popup_list big\" ng-if=\"shows.top\">\n\t\t\t\t\t<li \n\t\t\t\t\t\tng-if=\"value.show\" \n\t\t\t\t\t\tng-repeat=\"(key, value) in topList\" \n\t\t\t\t\t\tng-click=\"selectTopParam('top', value)\">\n\t\t\t\t\t\t\t<img \n\t\t\t\t\t\t\t\tng-src=\"/images/goals/{{value.needName | removewhite}}/{{value.name | removewhite}}.png\"\n\t\t\t\t\t\t\t\talt=\"\"\n\t\t\t\t\t\t\t\tclass=\"goal_icon\"\n\t\t\t\t\t\t\t\ttitle=\"{{value.name}}\" />\n\t\t\t\t\t\t\t{{value.name}}\n\t\t\t\t\t</li>\n\t\t\t\t</ul>\n\t\t\t</div>\n\t\t\t<em></em>\n\t\t</div>\n\t\t<div class=\"fsp\">\n\t\t\t<div class=\"ri\">\n\t\t\t\t<h6>Career</h6>\n\t\t\t\t<input \n\t\t\t\t\ttype=\"text\" \n\t\t\t\t\tng-model=\"search.career.name\" \n\t\t\t\t\tclass=\"search\"\n\t\t\t\t\tng-change=\"filteredList('careerList', search.career.name, 'career')\" />\n\t\t\t\t<input type=\"button\" class=\"searcher\" ng-click=\"toggleShowState('career')\" />\n\t\t\t\t<img src=\"./images/fusedel.png\" ng-click=\"selectParam('career', '', true)\">\n\t\t\t\t<ul class=\"popup_list\" ng-if=\"shows.career\">\n\t\t\t\t\t<li \n\t\t\t\t\t\tng-if=\"value.show\" \n\t\t\t\t\t\tng-repeat=\"(key, value) in careerList\" \n\t\t\t\t\t\tng-click=\"selectCareerParam('career', value)\">{{value.name}}</li>\n\t\t\t\t</ul>\n\t\t\t</div>\n\t\t\t<div class=\"ri\">\n\t\t\t\t<h6>Profession</h6>\n\t\t\t\t<input \n\t\t\t\t\ttype=\"text\" \n\t\t\t\t\tng-model=\"search.profession.name\" \n\t\t\t\t\tclass=\"search\"\n\t\t\t\t\tng-change=\"filteredList('professionList', search.profession.name, 'profession')\" />\n\t\t\t\t<input type=\"button\" class=\"searcher\" ng-click=\"toggleShowState('profession')\" />\n\t\t\t\t<img src=\"./images/fusedel.png\" ng-click=\"selectParam('profession', '', true)\">\n\t\t\t\t<ul class=\"popup_list\" ng-if=\"shows.profession\">\n\t\t\t\t\t<li ng-if=\"value.show\" ng-repeat=\"(key, value) in professionList\" ng-click=\"selectParam('profession', value)\">{{value.name}}</li>\n\t\t\t\t</ul>\n\t\t\t</div>\n\t\t\t<em></em>\n\t\t</div>\n\t\t<div class=\"fsp\">\n\t\t\t<div class=\"ri\">\n\t\t\t\t<h6>Country</h6>\n\t\t\t\t<input \n\t\t\t\t\ttype=\"text\" \n\t\t\t\t\tng-model=\"search.country.name\" \n\t\t\t\t\tclass=\"search\"\n\t\t\t\t\tng-change=\"filteredList('countriesList', search.country.name, 'country')\" />\n\t\t\t\t<input type=\"button\" class=\"searcher\" ng-click=\"toggleShowState('country')\" />\n\t\t\t\t<img src=\"./images/fusedel.png\" ng-click=\"selectParam('country', '', true)\">\n\t\t\t\t<ul class=\"popup_list\" ng-if=\"shows.country\">\n\t\t\t\t\t<li ng-if=\"value.show\" ng-repeat=\"(key, value) in countriesList\" ng-click=\"selectContryParam('country', value)\">{{value.name}}</li>\n\t\t\t\t</ul>\n\t\t\t</div>\n\t\t\t<div class=\"ri\">\n\t\t\t\t<h6>City</h6>\n\t\t\t\t<input \n\t\t\t\t\ttype=\"text\" \n\t\t\t\t\tng-model=\"search.city.name\" \n\t\t\t\t\tclass=\"search\"\n\t\t\t\t\tng-change=\"filteredList('cityList', search.city.name, 'city')\" />\n\t\t\t\t<input type=\"button\" class=\"searcher\" ng-click=\"toggleShowState('city')\" />\n\t\t\t\t<img src=\"./images/fusedel.png\" ng-click=\"selectParam('city', '', true)\">\n\t\t\t\t<ul class=\"popup_list\" ng-if=\"shows.city\">\n\t\t\t\t\t<li ng-if=\"value.show\" ng-repeat=\"(key, value) in cityList\" ng-click=\"selectParam('city', value)\">{{value.name}}</li>\n\t\t\t\t</ul>\n\t\t\t</div>\n\t\t\t<em></em>\n\t\t</div>\n\t\t<div class=\"fsp\">\n\t\t\t<div class=\"ri\">\n\t\t\t\t<h6>Birthday from</h6>\n\t\t\t\t<input type=\"text\" ng-model=\"search.birthday_from\" id=\"birthday_from\" ui-date=\"dateOptions\"  name=\"DateOfBirth1\" id=\"dFrom\" />\n\t\t\t\t<img src=\"./images/fusedel.png\" ng-click=\"selectDateParam('birthday_from', '', true)\">\n\t\t\t</div>\n\t\t\t<div class=\"ri\">\n\t\t\t\t<h6>Birthday till</h6>\n\t\t\t\t<input type=\"text\" ng-model=\"search.birthday_till\" id=\"birthday_till\" ui-date=\"dateOptions\"  name=\"DateOfBirth2\" id=\"dTill\" />\n\t\t\t\t<img src=\"./images/fusedel.png\" ng-click=\"selectDateParam('birthday_till', '', true)\">\n\t\t\t</div>\n\t\t\t<em></em>\n\t\t</div>\n\t\t<div class=\"fsp\">\n\t\t\t<div class=\"ri\">\n\t\t\t\t<h6>League</h6>\n\t\t\t\t<input \n\t\t\t\t\ttype=\"text\" \n\t\t\t\t\tng-model=\"search.league.name\" \n\t\t\t\t\tclass=\"search\" />\n\t\t\t\t<input type=\"button\" class=\"searcher\" ng-click=\"toggleShowState('league')\" />\n\t\t\t\t<img src=\"./images/fusedel.png\" ng-click=\"clearLeagueParam('league', '', true)\">\n\t\t\t\t<ul class=\"popup_list\" ng-if=\"shows.league\">\n\t\t\t\t\t<li ng-repeat=\"(key, value) in workspace.leagues | orderBy:'min_border':true\" ng-click=\"selectLeagueParam('league', value)\">{{value.name}}</li>\n\t\t\t\t</ul>\n\t\t\t\t\n\t\t\t</div>\n\t\t\t<div class=\"ri\">\n\t\t\t\t<h6>Score</h6>\n\t\t\t\t<rzslider \n\t\t\t\t\trz-slider-floor=\"0\" \n\t\t\t\t\trz-slider-ceil=\"175000\" \n\t\t\t\t\trz-slider-model=\"search.minScore\" \n\t\t\t\t\trz-slider-high=\"search.maxScore\">\n\t\t\t\t</rzslider>\n\t\t\t</div>\n\t\t\t<em></em>\n\t\t</div>\n\t\t<div class=\"fsp fspb\">\n\t\t\t<button ng-click=\"clearAll()\">Clear all</button>\n\t\t</div>\n\t</div>\n</div>");
 $templateCache.put('partials/share.html', "<div ng-controller=\"ShareController\">\n\t<a \n\t\thref=\"https://twitter.com/intent/tweet?text=iRate&url=http://www.irate.com\" \n\t\ttarget=\"_blank\"></a>\n\t<a \n\t\tng-click=\"shareFacebook('http://www.irate.com', 'iRate', '', 'http://www.improva.com/src/assets/images/icons/improva_icon.png')\" class=\"facebook\"></a>\n\t<a \n\t\tng-click=\"shareGoogle('http://www.irate.com')\" \n\t\tclass=\"google\"></a>\t\n</div>");
 $templateCache.put('partials/signin.html', "<h4>Sign in</h4>\n<div class=\"sign-in\">\n  <ng-form \n    id=\"login_form\" \n    name=\"LoginForm\" \n    novalidate \n    class=\"css-form myForm\">\n    <p>\n      <input \n        type=\"email\" \n        id=\"login_i\" \n        class=\"form-input\"\n        ng-model=\"login.email\"\n        name=\"Email\"\n        required \n        ng-minlength=\"6\"\n        placeholder=\"Email\"\n        ui-keypress=\"{13:'onKeyPress(LoginForm.$invalid)'}\"/>\n      <br />\n      <span \n      \tclass=\"errorss\" \n      \tng-show=\"LoginForm.Email.$dirty && (LoginForm.Email.$error.required || LoginForm.Email.$error.minlength || LoginForm.Email.$error.email)\">Incorrect email\n      </span>\n    </p>       \n    <p>\n      <input \n        type=\"password\" \n        id=\"pass_i\"\n        class=\"form-input\"\n        ng-model=\"login.password\"\n        required \n        name=\"Password\"\n        ng-minlength=\"6\"\n        placeholder=\"Password\"\n        ui-keypress=\"{13:'onKeyPress(LoginForm.$invalid)'}\"\n        ng-trim=\"false\" /> \n      <br />\n      <span \n      \tclass=\"errorss rss\" \n      \tng-show=\"LoginForm.Password.$dirty && (LoginForm.Password.$error.required || LoginForm.Password.$error.minlength)\">Incorrect password\n      </span>\n    </p>\n    <div class=\"step\">\n      <p>\n        <a href=\"#/change_password\">Forgot your password?</a>\n      </p>\n      <p>\n        <input type=\"checkbox\"  />\n        <label>Keep me signed in</label>\n      </p>\n      <p class=\"errors\" ng-show=\"error\">{{error}}</p>\n      <p class=\"singin-sub\">\n        <input \n          ng-disabled=\"LoginForm.$invalid\"\n          ng-click=\"onSingin()\" \n          type=\"button\"\n          value=\"Sign in\" />\n      </p>    \n    </div>\n    <div class=\"rere\">\n      <p>Don’t have an iRate account yet?</p>\t\n      <p class=\"singin-sub\">\n        <input \n          ng-click=\"changeState(states.SIGNUP)\" \n          type=\"button\" \n          value=\"Sign up\"\n          />\n      </p>          \n    </div>\n\n    <!-- social link -->\n    <i>Use Improva, Facebook, Google+, LiveID or your email to sign in.</i>    \n    <ul>\n      <li>\n        <a ng-click=\"improvaLogin()\">\n          <span class=\"icon improva\" ng-click=\"changeState(states.IMPROVA)\"></span>\n        </a>\n      </li>\n      <li>\n        <a ng-click=\"socialFacebookLogin()\">\n          <span class=\"icon facebook\"></span>\n        </a>\n      </li>\n      <li>\n        <a ng-click=\"socialGooglePlusLogin()\">\n          <span class=\"icon google\"></span>\n        </a>\n      </li>\n      <li>\n        <a ng-click=\"socialMicrosoftLiveLogin()\">\n          <span class=\"icon live\"></span>\n        </a>\n      </li>\n    </ul>\n  </ng-form>\n</div>");
 $templateCache.put('partials/signup-success.html', "<div class=\"small-message\">\n\t<h2>Successful registration!</h2>\n\t<p>The message have been sent to your email. <br />Sign in by the inner link now.</p>\n\t<a ng-click=\"closeModal()\" class=\"close\">Ok</a>\n</div>");
 $templateCache.put('partials/signup.html', "<h4>Sign up</h4>\n<b class=\"close icon\" ng-click=\"changeState(states.SIGNIN)\"></b>\n<div class=\"sign-up\">\n  <ng-form \n    novalidate \n    class=\"css-form myForm\"\n    name=\"RegForm\" >\n    <p>\n      <input \n        type=\"email\" \n        id=\"email_1\" \n        class=\"form-input\"\n        ng-model=\"user.email\" \n        required\n        ng-minlength=\"6\"\n        placeholder=\"Email\"\n        name=\"NewEmail\"\n        ui-keypress=\"{13:'onKeyPressReg($event)'}\"  />\n      <br />\n      <span \n        class=\"errorss\" \n        ng-show=\"RegForm.NewEmail.$dirty && (RegForm.NewEmail.$error.required || RegForm.NewEmail.$error.minlength || RegForm.NewEmail.$error.email)\">Incorrect email</span>\n      <span class=\"errorss\" ng-if=\"errorEmail\">{{errorEmail}}</span>\n    </p>\n    <p>\n      <input \n        type=\"email\" \n        id=\"email_2\" \n        class=\"form-input\"\n        ng-model=\"user.reemail\" \n        required \n        ng-minlength=\"6\"\n        placeholder=\"Confirm email\"\n        disable-paste\n        onpaste=\"return false;\"\n        name=\"NewMassEmail\"\n        pw-check=\"email_2\"\n        equal='user.email'\n        ui-keypress=\"{13:'onKeyPressReg($event)'}\" />\n      <br />\n      <span \n        class=\"errorss rss\" \n        ng-show=\"RegForm.NewMassEmail.$dirty && (RegForm.NewMassEmail.$error.required || RegForm.NewMassEmail.$error.minlength || RegForm.NewEmail.$error.email)\"> Incorrect mismatch</span> \n      <span class=\"errorss\" ng-if=\"errorName\">{{errorName}}</span>\n    </p>\n    <p>\n      <input \n        type=\"password\" \n        id=\"name_i\" \n        class=\"form-input\"\n        ng-model=\"user.password\" \n        required \n        ng-minlength=\"6\"\n        placeholder=\"Password\"\n        name=\"NewPassword\"\n        ui-keypress=\"{13:'onKeyPressReg($event)'}\" /> \n      <br />\n      <span \n        class=\"errorss rrss\" \n        ng-show=\"RegForm.NewPassword.$dirty && (RegForm.NewPassword.$error.required || RegForm.NewPassword.$error.minlength)\">Incorrect password</span>\n    </p>\n    <div\n      vc-recaptcha\n      theme=\"blackglass\"\n      lang=\"en\"\n      ng-model=\"captha\"\n      key=\"6Lf1Z-oSAAAAAEkk7m5n6cGiwgqeMya21UetPbIO\">\n    </div>\n\n    <p class=\"errors\" ng-if=\"errorValidate\"><br />{{errorValidate}}</p><br />\n\n    <p class=\"acknowledge\">\n      <input type=\"checkbox\"  required=\"required\" ng-model=\"acknowledge\" class=\"icheckbox_minimal\" />\n      <label>I acknowledge I have read and accept the<a href=\"/views/terms.html\" class=\"notdark\">Terms of use Agreement</a> and consent to the <a href=\"/views/terms.html\" class=\"notdark\">Privacy Policy</a>.</label>\n    </p>\n\n    <p class=\"signup-submit\">\n      <input \n        type=\"button\" \n        value=\"Sign up\"\n        ng-disabled=\"RegForm.$invalid\"\n        ng-click=\"addUser()\" />\n    </p>\n  </ng-form>\n</div>");
-$templateCache.put('partials/user.html', "<div ng-if=\"user\" class=\"sam\" ng-class=\"{big: big}\">\n\t<div class=\"pmain pro\" >\n\t\t<div class=\"block\">\n\t\t\t<div class=\"image_box\" >\n\t\t\t\t<img class=\"pp\" ng-src=\"{{user.avatar}}\" err-src=\"/images/unknown-person.png\" />\n\t\t\t\t<s ng-if=\"user.artificial\">profile is created by experts based on available public info</s>\n\t\t\t</div>\n\t\t</div>\n\t\t<div class=\"pmpar\" ng-if=\"user\">\n\t\t\t<p>\n\t\t\t\t<i>{{user.name}}</i>\n\t\t\t</p>\n\t\t\t<p>\n\t\t\t\t<i>{{user.birthday}}</i>\n\t\t\t</p>\n\t\t\t<p>\n\t\t\t\t<i>\n\t\t\t\t\t<span ng-if=\"user.state.name\">{{user.state.name}}</span>\n\t\t\t\t\t<span ng-if=\"user.city.name\">\n\t\t\t\t\t\t<span ng-if=\"user.state.name\">,</span> \n\t\t\t\t\t\t{{user.city.name}}\n\t\t\t\t\t</span>\n\t\t\t\t</i>\n\t\t\t<p>\n\t\t\t\t<i>{{user.profession.name}}<span ng-if=\"user.goal_name\">, {{user.goal_name}}</span></i>\n\t\t\t</p>\n\n\t\t\t<p>\n\t\t\t\t<i> <img ng-src=\"{{user.league.icon}}\" alt=\"\" /> {{user.league.name}} league</i>\n\t\t\t</p>\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\n\t\t\t<p>\n\t\t\t\t<i>Score: {{user.points | unidate}}</i>\n\t\t\t</p>\n\t\t</div>\n\n\t\t<!-- статситика -->\n\t\t<b class=\"statis stf\">{{user.likes}}</b>\n\t\t<b class=\"statis stv\">{{user.views}} views</b>\n\n\t\t<a class=\"il\" ng-if=\"user && !isFriend && !compare\" ng-click=\"onFollow()\">\n\t\t\t<img src=\"../images/i3.png\" alt=\"\" />\n\t\t</a>\n\t\t<a class=\"il\" ng-if=\"user && isFriend && !compare\" ng-click=\"onUnFollow()\">\n\t\t\t<img src=\"../images/i3i.png\" alt=\"\" />\n\t\t</a>\n\n\t\t<!-- кнопочка закрытия -->\n\t\t<a class=\"il\" ng-click=\"close()\">\n\t\t\t<img src=\"../images/cl.png\">\n\t\t</a> \n\t</div>\n\n\t<!-- переключатель колбасы/комментарии -->\n\t<div class=\"mynav notmynav\">\n\t\t<ul>\n\t\t\t<li ng-click=\"onChangeTab(1)\" ng-class=\"{current: tab == 1}\">\n\t\t\t\t<a>Profile</a>\n\t\t\t</li>\n\t\t\t<li ng-click=\"onChangeTab(2)\" ng-class=\"{current: tab == 2}\">\n\t\t\t\t<a>Comments</a>\n\t\t\t</li>\n\t\t</ul>\n\t</div>\n\n\t<perfect-scrollbar\n\t\tclass=\"tab tabss current_{{tab}}\"\n\t\tscroller\n\t\tscrolls\n\t\tscrolls-class=\"tabss\"\n\t\tid=\"tab_{{route}}\">\n\t\t<div \n\t\tng-controller=\"UserCommentsController\" \n\t\tng-show=\"tab == 2\" \n\t\tclass=\"comments\">\n\t\t\t<perfect-scrollbar class=\"comm\" scroller-step=\"360\" comment-scroll>\n\t\t\t\t<div class=\"cmnt\" ng-repeat=\"comment in commentsList | orderBy:'post_date'\"  >\n\t\t\t\t\t<strong>{{comment.user.name}}</strong>\n\t\t\t\t\t<i>{{comment.post_date}}</i>\n\t\t\t\t\t<br />\n\t\t\t\t\t<p>{{comment.message}}</p>\n\t\t\t\t\t<em></em>\n\t\t\t\t</div>\n\t\t\t</perfect-scrollbar>\n\t\t\t<div class=\"butcomm\">\n\t\t\t\t<em></em>\n\t\t\t\t<ng-form name=\"CommentForm\">\n\t\t\t\t\t<textarea ng-change=\"changeText()\" ng-model=\"form.message\" msd-elastic id=\"comment_message\" name=\"comment\" placeholder=\"Enter your comment here\"></textarea>\n\t\t\t\t\t<button ng-class=\"{disable: disable || !workspace.user}\" class=\"button \" ng-click=\"onSendMessage()\">Send</button>\n\t\t\t\t</ng-form>\n\t\t\t\t<!-- report button -->\n\t\t\t\t<a class=\"il rep\" ng-click=\"openReport()\" >\n\t\t\t\t\t<img src=\"../images/rep.png\">\n\t\t\t\t</a>\n\t\t\t</div>\n\t\t</div>\n\n\t\t<div \n\t\t\tclass=\"crits\" \n\t\t\tng-controller=\"NeedsAndGoalsController\" \n\t\t\tng-show=\"tab == 1\">\n\t\t\t<ul ng-controller=\"UserNeedsController\"> \n\t\t\t\t<li \n\t\t\t\t\tclass=\"{{needItem.name}}\" \n\t\t\t\t\tng-repeat=\"(needKey, needItem) in needs | orderBy:'position'\" \n\t\t\t\t\tdata-needId=\"{{needItem.sguid}}\">\n\t\t\t\t\t<div class=\"cr\" ng-click=\"onShowGoals($event, needItem)\">\n\t\t\t\t\t\t<p>{{needItem.name}}</p>\n\t\t\t\t\t\t<div class=\"right\">\n\t\t\t\t\t\t\t<b>{{needItem.current_value | notnull}} / {{needItem.points_summary}}</b>\n\t\t\t\t\t\t\t<strong>\n\t\t\t\t\t\t\t\t<span \n\t\t\t\t\t\t\t\t\tclass=\"current_position\"\n\t\t\t\t\t\t\t\t\tposition-need>\n\t\t\t\t\t\t\t\t</span>\n\t\t\t\t\t\t\t</strong>\t\n\t\t\t\t\t\t</div>\n\t\t\t\t\t\t<sup class=\"compare\" route=\"{{route}}\" comparator values=\"{{needsValues[needItem.sguid]}}\"></sup>\n\t\t\t\t\t</div>\n\t\t\t\t\t<ul ng-class=\"{hidden: needItem.hidden}\">\n\t\t\t\t\t\t<li ng-repeat=\"(goalKey,goalItem) in needItem.goals | orderBy:'position'\" \n\t\t\t\t\t\t\tdata-goalid=\"{{goalItem.sguid}}\" \n\t\t\t\t\t\t\tuser-id=\"{{user.sguid}}\" >\n\t\t\t\t\t\t\t<h5 ng-click=\"showCriterias($event, needItem, goalItem, needs)\">\n\t\t\t\t\t\t\t\t<a \n\t\t\t\t\t\t\t\t\tng-class=\"{current: goalItem.current}\"\n\t\t\t\t\t\t\t\t\tdata-goalid=\"{{goalItem.sguid}}\" \n\t\t\t\t\t\t\t\t\tuser-id=\"{{user.sguid}}\">\n\t\t\t\t\t\t\t\t\t<span>\n\t\t\t\t\t\t\t\t\t\t<img \n\t\t\t\t\t\t\t\t\t\t\tng-src=\"/images/goals/{{needItem.name | removewhite}}/{{goalItem.name | removewhite}}.png\"\n\t\t\t\t\t\t\t\t\t\t\talt=\"\" \n\t\t\t\t\t\t\t\t\t\t\ttitle=\"{{goalItem.name}}\" />\n\t\t\t\t\t\t\t\t\t</span>\n\t\t\t\t\t\t\t\t\t<h6>{{goalItem.name}}</h6>\n\t\t\t\t\t\t\t\t\t<s></s>\n\t\t\t\t\t\t\t\t</a>\t\n\t\t\t\t\t\t\t\t<div class=\"right\">\n\t\t\t\t\t\t\t\t\t<strong>\n\t\t\t\t\t\t\t\t\t\t<span position-goal class=\"current_position\" ></span>\n\t\t\t\t\t\t\t\t\t</strong>\n\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t<i ng-if=\"!goalItem.current\"><em></em></i>\n\t\t\t\t\t\t\t\t<sup \n\t\t\t\t\t\t\t\t\tclass=\"compare goal\" \n\t\t\t\t\t\t\t\t\troute=\"{{route}}\" \n\t\t\t\t\t\t\t\t\tcomparator \n\t\t\t\t\t\t\t\t\tvalues=\"{{goalsValues[goalItem.sguid]}}\" >\n\t\t\t\t\t\t\t\t</sup>\n\t\t\t\t\t\t\t</h5>\n\t\t\t\t\t\t\t<ul class=\"criterion\" ng-class=\"{current: goalItem.current}\">\n\t\t\t\t\t\t\t\t<li \n\t\t\t\t\t\t\t\t\tdata-id=\"{{crItem.sguid}}\"\n\t\t\t\t\t\t\t\t\tng-repeat=\"crItem in goalItem.criteriums | orderBy:'position'\"\n\t\t\t\t\t\t\t\t\tng-show=\"goalItem.criteriums.all_load\" >\n\t\t\t\t\t\t\t\t\t<p>{{crItem.name}}</p>\n\t\t\t\t\t\t\t\t\t<div class=\"bord\">\n\t\t\t\t\t\t\t\t\t\t<ul class=\"crp\">\n\t\t\t\t\t\t\t\t\t\t\t<div class=\"tab\">\n\t\t\t\t\t\t\t\t\t\t\t\t<li data-id=\"{{value.sguid}}\"  \n\t\t\t\t\t\t\t\t\t\t\t\t\tng-repeat=\"value in crItem.criteria_values | orderBy:'position'\"  \n\t\t\t\t\t\t\t\t\t\t\t\t\tclass=\"{{value.user_criteria}} position_{{value.position}}\" >\n\t\t\t\t\t\t\t\t\t\t\t\t\t<i ng-if=\"value.sguid != 'none'\">{{value.name}}</i>\n\t\t\t\t\t\t\t\t\t\t\t\t\t<i ng-if=\"value.sguid == 'none'\" class=\"null_criteria\"></i>\n\t\t\t\t\t\t\t\t\t\t\t\t</li>\n\t\t\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t\t\t<span colbasa colbasa-current=\"{{crItem.user_criteria_sguid}}\">\n\t\t\t\t\t\t\t\t\t\t\t\t<sup></sup>\n\t\t\t\t\t\t\t\t\t\t\t</span>\n\t\t\t\t\t\t\t\t\t\t</ul>\n\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t<sup \n\t\t\t\t\t\t\t\t\t\tclass=\"compare criterium\" \n\t\t\t\t\t\t\t\t\t\troute=\"{{route}}\" \n\t\t\t\t\t\t\t\t\t\tcomparator \n\t\t\t\t\t\t\t\t\t\tvalues=\"{{criteriumsValues[crItem.sguid]}}\">\n\t\t\t\t\t\t\t\t\t</sup>\n\t\t\t\t\t\t\t\t</li>\n\t\t\t\t\t\t\t</ul>\n\t\t\t\t\t\t</li>\n\t\t\t\t\t\t\n\t\t\t\t\t</ul>\n\t\t\t\t</li>\n\t\t\t</ul>\n\t\t</perfect-scrollbar>\n\t</div>\n</div>");
+$templateCache.put('partials/user.html', "<div ng-if=\"user\" class=\"sam\" ng-class=\"{big: big}\">\n\t<div class=\"pmain pro\" >\n\t\t<div class=\"block\">\n\t\t\t<div class=\"image_box\" >\n\t\t\t\t<img class=\"pp\" ng-src=\"{{user.avatar}}\" err-src=\"/images/unknown-person.png\" />\n\t\t\t\t<s ng-if=\"user.artificial\">profile is created by experts based on available public info</s>\n\t\t\t</div>\n\t\t</div>\n\t\t<div class=\"pmpar\" ng-if=\"user\">\n\t\t\t<p>\n\t\t\t\t<i>{{user.name}}</i>\n\t\t\t</p>\n\t\t\t<p>\n\t\t\t\t<i>{{user.birthday | usadata}}</i>\n\t\t\t</p>\n\t\t\t<p>\n\t\t\t\t<i>\n\t\t\t\t\t<span ng-if=\"user.state.name\">{{user.state.name}}</span>\n\t\t\t\t\t<span ng-if=\"user.city.name\">\n\t\t\t\t\t\t<span ng-if=\"user.state.name\">,</span> \n\t\t\t\t\t\t{{user.city.name}}\n\t\t\t\t\t</span>\n\t\t\t\t</i>\n\t\t\t<p>\n\t\t\t\t<i>{{user.profession.name}}<span ng-if=\"user.goal_name\">, {{user.goal_name}}</span></i>\n\t\t\t</p>\n\n\t\t\t<p>\n\t\t\t\t<i> <img ng-src=\"{{user.league.icon}}\" alt=\"\" /> {{user.league.name}} league</i>\n\t\t\t</p>\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\n\t\t\t<p>\n\t\t\t\t<i>Score: {{user.points | unidate}}</i>\n\t\t\t</p>\n\t\t</div>\n\n\t\t<!-- статситика -->\n\t\t<b class=\"statis stf\">{{user.likes}}</b>\n\t\t<b class=\"statis stv\">{{user.views}} views</b>\n\n\t\t<a class=\"il\" ng-if=\"user && !isFriend && !compare\" ng-click=\"onFollow()\">\n\t\t\t<img src=\"../images/i3.png\" alt=\"\" />\n\t\t</a>\n\t\t<a class=\"il\" ng-if=\"user && isFriend && !compare\" ng-click=\"onUnFollow()\">\n\t\t\t<img src=\"../images/i3i.png\" alt=\"\" />\n\t\t</a>\n\n\t\t<!-- кнопочка закрытия -->\n\t\t<a class=\"il\" ng-click=\"close()\">\n\t\t\t<img src=\"../images/cl.png\">\n\t\t</a> \n\t</div>\n\n\t<!-- переключатель колбасы/комментарии -->\n\t<div class=\"mynav notmynav\">\n\t\t<ul>\n\t\t\t<li ng-click=\"onChangeTab(1)\" ng-class=\"{current: tab == 1}\">\n\t\t\t\t<a>Profile</a>\n\t\t\t</li>\n\t\t\t<li ng-click=\"onChangeTab(2)\" ng-class=\"{current: tab == 2}\">\n\t\t\t\t<a>Comments</a>\n\t\t\t</li>\n\t\t</ul>\n\t</div>\n\n\t<perfect-scrollbar\n\t\tclass=\"tab tabss current_{{tab}}\"\n\t\tscroller\n\t\tscrolls\n\t\tscrolls-class=\"tabss\"\n\t\tid=\"tab_{{route}}\">\n\t\t<div \n\t\tng-controller=\"UserCommentsController\" \n\t\tng-show=\"tab == 2\" \n\t\tclass=\"comments\">\n\t\t\t<perfect-scrollbar class=\"comm\" scroller-step=\"360\" comment-scroll>\n\t\t\t\t<div class=\"cmnt\" ng-repeat=\"comment in commentsList | orderBy:'post_date'\"  >\n\t\t\t\t\t<strong>{{comment.user.name}}</strong>\n\t\t\t\t\t<i>{{comment.post_date}}</i>\n\t\t\t\t\t<br />\n\t\t\t\t\t<p>{{comment.message}}</p>\n\t\t\t\t\t<em></em>\n\t\t\t\t</div>\n\t\t\t</perfect-scrollbar>\n\t\t\t<div class=\"butcomm\">\n\t\t\t\t<em></em>\n\t\t\t\t<ng-form name=\"CommentForm\">\n\t\t\t\t\t<textarea ng-change=\"changeText()\" ng-model=\"form.message\" msd-elastic id=\"comment_message\" name=\"comment\" placeholder=\"Enter your comment here\"></textarea>\n\t\t\t\t\t<button ng-class=\"{disable: disable || !workspace.user}\" class=\"button \" ng-click=\"onSendMessage()\">Send</button>\n\t\t\t\t</ng-form>\n\t\t\t\t<!-- report button -->\n\t\t\t\t<a class=\"il rep\" ng-click=\"openReport()\" >\n\t\t\t\t\t<img src=\"../images/rep.png\">\n\t\t\t\t</a>\n\t\t\t</div>\n\t\t</div>\n\n\t\t<div \n\t\t\tclass=\"crits\" \n\t\t\tng-controller=\"NeedsAndGoalsController\" \n\t\t\tng-show=\"tab == 1\">\n\t\t\t<ul ng-controller=\"UserNeedsController\"> \n\t\t\t\t<li \n\t\t\t\t\tclass=\"{{needItem.name}}\" \n\t\t\t\t\tng-repeat=\"(needKey, needItem) in needs | orderBy:'position'\" \n\t\t\t\t\tdata-needId=\"{{needItem.sguid}}\">\n\t\t\t\t\t<div class=\"cr\" ng-click=\"onShowGoals($event, needItem)\">\n\t\t\t\t\t\t<p>{{needItem.name}}</p>\n\t\t\t\t\t\t<div class=\"right\">\n\t\t\t\t\t\t\t<b>{{needItem.current_value | notnull}} / {{needItem.points_summary}}</b>\n\t\t\t\t\t\t\t<strong>\n\t\t\t\t\t\t\t\t<span \n\t\t\t\t\t\t\t\t\tclass=\"current_position\"\n\t\t\t\t\t\t\t\t\tposition-need>\n\t\t\t\t\t\t\t\t</span>\n\t\t\t\t\t\t\t</strong>\t\n\t\t\t\t\t\t</div>\n\t\t\t\t\t\t<sup class=\"compare\" route=\"{{route}}\" comparator values=\"{{needsValues[needItem.sguid]}}\"></sup>\n\t\t\t\t\t</div>\n\t\t\t\t\t<ul ng-class=\"{hidden: needItem.hidden}\">\n\t\t\t\t\t\t<li ng-repeat=\"(goalKey,goalItem) in needItem.goals | orderBy:'position'\" \n\t\t\t\t\t\t\tdata-goalid=\"{{goalItem.sguid}}\" \n\t\t\t\t\t\t\tuser-id=\"{{user.sguid}}\" >\n\t\t\t\t\t\t\t<h5 ng-click=\"showCriterias($event, needItem, goalItem, needs)\">\n\t\t\t\t\t\t\t\t<a \n\t\t\t\t\t\t\t\t\tng-class=\"{current: goalItem.current}\"\n\t\t\t\t\t\t\t\t\tdata-goalid=\"{{goalItem.sguid}}\" \n\t\t\t\t\t\t\t\t\tuser-id=\"{{user.sguid}}\">\n\t\t\t\t\t\t\t\t\t<span>\n\t\t\t\t\t\t\t\t\t\t<img \n\t\t\t\t\t\t\t\t\t\t\tng-src=\"/images/goals/{{needItem.name | removewhite}}/{{goalItem.name | removewhite}}.png\"\n\t\t\t\t\t\t\t\t\t\t\talt=\"\" \n\t\t\t\t\t\t\t\t\t\t\ttitle=\"{{goalItem.name}}\" />\n\t\t\t\t\t\t\t\t\t</span>\n\t\t\t\t\t\t\t\t\t<h6>{{goalItem.name}}</h6>\n\t\t\t\t\t\t\t\t\t<s></s>\n\t\t\t\t\t\t\t\t</a>\t\n\t\t\t\t\t\t\t\t<div class=\"right\">\n\t\t\t\t\t\t\t\t\t<strong>\n\t\t\t\t\t\t\t\t\t\t<span position-goal class=\"current_position\" ></span>\n\t\t\t\t\t\t\t\t\t</strong>\n\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t<i ng-if=\"!goalItem.current\"><em></em></i>\n\t\t\t\t\t\t\t\t<sup \n\t\t\t\t\t\t\t\t\tclass=\"compare goal\" \n\t\t\t\t\t\t\t\t\troute=\"{{route}}\" \n\t\t\t\t\t\t\t\t\tcomparator \n\t\t\t\t\t\t\t\t\tvalues=\"{{goalsValues[goalItem.sguid]}}\" >\n\t\t\t\t\t\t\t\t</sup>\n\t\t\t\t\t\t\t</h5>\n\t\t\t\t\t\t\t<ul class=\"criterion\" ng-class=\"{current: goalItem.current}\">\n\t\t\t\t\t\t\t\t<li \n\t\t\t\t\t\t\t\t\tdata-id=\"{{crItem.sguid}}\"\n\t\t\t\t\t\t\t\t\tng-repeat=\"crItem in goalItem.criteriums | orderBy:'position'\"\n\t\t\t\t\t\t\t\t\tng-show=\"goalItem.criteriums.all_load\" >\n\t\t\t\t\t\t\t\t\t<p>{{crItem.name}}</p>\n\t\t\t\t\t\t\t\t\t<div class=\"bord\">\n\t\t\t\t\t\t\t\t\t\t<ul class=\"crp\">\n\t\t\t\t\t\t\t\t\t\t\t<div class=\"tab\">\n\t\t\t\t\t\t\t\t\t\t\t\t<li data-id=\"{{value.sguid}}\"  \n\t\t\t\t\t\t\t\t\t\t\t\t\tng-repeat=\"value in crItem.criteria_values | orderBy:'position'\"  \n\t\t\t\t\t\t\t\t\t\t\t\t\tclass=\"{{value.user_criteria}} position_{{value.position}}\" >\n\t\t\t\t\t\t\t\t\t\t\t\t\t<i ng-if=\"value.sguid != 'none'\">{{value.name}}</i>\n\t\t\t\t\t\t\t\t\t\t\t\t\t<i ng-if=\"value.sguid == 'none'\" class=\"null_criteria\"></i>\n\t\t\t\t\t\t\t\t\t\t\t\t</li>\n\t\t\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t\t\t<span colbasa colbasa-current=\"{{crItem.user_criteria_sguid}}\">\n\t\t\t\t\t\t\t\t\t\t\t\t<sup></sup>\n\t\t\t\t\t\t\t\t\t\t\t</span>\n\t\t\t\t\t\t\t\t\t\t</ul>\n\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t<sup \n\t\t\t\t\t\t\t\t\t\tclass=\"compare criterium\" \n\t\t\t\t\t\t\t\t\t\troute=\"{{route}}\" \n\t\t\t\t\t\t\t\t\t\tcomparator \n\t\t\t\t\t\t\t\t\t\tvalues=\"{{criteriumsValues[crItem.sguid]}}\">\n\t\t\t\t\t\t\t\t\t</sup>\n\t\t\t\t\t\t\t\t</li>\n\t\t\t\t\t\t\t</ul>\n\t\t\t\t\t\t</li>\n\t\t\t\t\t\t\n\t\t\t\t\t</ul>\n\t\t\t\t</li>\n\t\t\t</ul>\n\t\t</perfect-scrollbar>\n\t</div>\n</div>");
 $templateCache.put('partials/users.html', "<div id=\"users\" class=\"full_height\" ng-if=\"show\" >\n\t<div class=\"center\">\n\t\t<div \n\t\t\tclass=\"full_height user sha\" \n\t\t\tng-controller=\"UserController\" \n\t\t\tng-include\n\t\t\tng-init=\"init('user1')\"\n\t\t\tsrc=\"'partials/user.html'\">\n\t\t</div>\n\t\t<div \n\t\t\tclass=\"full_height user\" \n\t\t\tng-controller=\"UserController\" \n\t\t\tng-include\n\t\t\tng-init=\"init('user2')\"\n\t\t\tsrc=\"'partials/user.html'\">\n\t\t</div>\t\n\t</div>\n</div>");
 }]);
 
@@ -9247,6 +10205,12 @@ function SearchAdvanceController($scope, $location, $rootScope, User, Profession
         });
     });
 
+    // таймер отправки запроса на сервер
+    $scope.changeMinTimer = false;
+
+    // таймер отправки запроса на сервер
+    $scope.changeMaxTimer = false;
+
     /**
      * Событие изменения maxScore
      * @param  {[type]} newVal [description]
@@ -9256,6 +10220,15 @@ function SearchAdvanceController($scope, $location, $rootScope, User, Profession
      */
     $scope.$watch("search.minScore", function (newVal, oldVal, scope) {
         $scope.collapseLeague();
+
+        if(newVal) {
+            if($scope.changeMinTimer !== false) clearTimeout($scope.changeMinTimer);
+
+            $scope.changeMinTimer = $timeout(function(){
+                $scope.advanceSearch();
+                $scope.changeMinTimer = false;
+            }, 600);    
+        }
     });
 
     /**
@@ -9267,6 +10240,15 @@ function SearchAdvanceController($scope, $location, $rootScope, User, Profession
      */
     $scope.$watch("search.maxScore", function (newVal, oldVal, scope) {
         $scope.collapseLeague();
+
+        if(newVal) {
+            if($scope.changeMaxTimer !== false) clearTimeout($scope.changeMaxTimer);
+
+            $scope.changeMaxTimer = $timeout(function(){
+                $scope.advanceSearch();
+                $scope.changeMaxTimer = false;
+            }, 600);
+        }
     });
 
     /**
@@ -9568,23 +10550,20 @@ function SearchAdvanceController($scope, $location, $rootScope, User, Profession
     // открываем профиль
     $scope.openSearchProfile = function(sguid) {
         $scope.showRight = false;
-        LocationService.update("big", PanelsConst.RIGHT);
 
-        $rootScope.$broadcast('showUserProfile', {userId: sguid, fix: PanelsConst.RIGHT});
-
+        LocationService.update("search_profile", sguid);
     }
 
-    // если есть user2 в location тогда открывает его профиль
-    if($location.search().user2) {
-        $scope.openProfile($location.search().user2);
+    // если есть search_profile в location тогда открывает его профиль
+    if($location.search().search_profile) {
+        $scope.openProfile($location.search().search_profile);
+        $scope.showRight = false;
     }
 
     // если закрываем панель пользователя тогда показываем панель справа в поиске
     $scope.$on('closeUserPanel', function () {
         $scope.showRight = true;
     });
-
-    
 
     // загружаем список стран
     $rootScope.$broadcast('countryLoad');
@@ -10071,6 +11050,13 @@ function UserCommentsController($scope, Comments, $rootScope) {
         });
     }
 
+    // если сменился пользователь меняем данные
+    $scope.$watch('user', function (newVal, oldVal, scope) {
+        if(newVal) {
+            $scope.getMessages();
+        }
+    });
+
     $scope.changeText = function() {
         if($scope.form.message.length > 0) {
             $scope.disable = false;
@@ -10079,8 +11065,9 @@ function UserCommentsController($scope, Comments, $rootScope) {
         }
     }
 
+    // отправка сообщения
     $scope.onSendMessage = function() {
-        if($scope.form.message.length > 0) {
+        if($scope.form.message.length > 0 && $scope.workspace.user) {
             Comments.create({}, {
                 owner_type: 0,
                 author_guid: $scope.workspace.user.sguid,
@@ -10150,9 +11137,6 @@ function UserController($scope, FriendsService, UserService, $element, $route, $
     // является ли пользователь другом
     $scope.isFriend = false;
 
-    // открывать большую карточку или нет
-    $scope.big = false;
-
     // текущий выбранный таб
     $scope.tab = 1;
 
@@ -10161,8 +11145,6 @@ function UserController($scope, FriendsService, UserService, $element, $route, $
 
     $scope.$on('$locationChangeStart', function(event, newLoc, oldLoc) {
         $scope.setCurrentUser();
-
-        $scope.big = $location.search().big && $location.search().big == $scope.route ? true : false;
     });
 
     // меняем таб на другой
@@ -10215,11 +11197,8 @@ function UserController($scope, FriendsService, UserService, $element, $route, $
 
     // закрывает плашку с текущим пользователем
     $scope.close = function() {
-        $scope.big = false;
         $location.search($scope.route, null);
         $rootScope.$broadcast('closeUserPanel', {route: $scope.route});
-
-        LocationService.update("big", false);
     }
 
     // инициализация контрллера

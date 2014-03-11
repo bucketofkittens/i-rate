@@ -413,6 +413,7 @@ body {
                     display: none;
                     .cr {
                         background: url("../images/needsbg.png") right top no-repeat;
+                        background-size: 100% 100%;
                     }
                 }
                 &.current {
@@ -426,6 +427,7 @@ body {
                 }
                 .cr { 
                     background: url("../images/needsbg.png") right top no-repeat;
+                    background-size: 100% 100%;
                     line-height: 50px;
                     cursor: pointer;
                     position: relative;
@@ -613,8 +615,7 @@ body {
                             }
                             &.show, &.current {
                                 display: block;
-                                width: 470px;
-                                margin: 0px;                                
+                                margin: 0px;
                                 background: rgba(0, 0, 0, 0.3);
                                 position: relative;
                                 left: -15px;
@@ -2537,6 +2538,14 @@ input[type="checkbox"] {
     }
 }
 
+.searchfull {
+    .searchResult {
+        .text {
+            width: 270px;
+        }
+    }
+}
+
 sub.du, sup.du {
     z-index: 7;
     position: absolute;
@@ -2808,7 +2817,6 @@ sup.bidubi {
 
 /** COMMENTS **/
 .comments {
-    width: 500px;
     height: 100%;
     position: relative;
     overflow: hidden;
@@ -2818,7 +2826,7 @@ sup.bidubi {
         margin-top: 10px;
         .cmnt {
             overflow: hidden;
-            width: 420px;
+            width: 80%;
             margin: 0px auto;
             strong {
                 float: left;
@@ -2983,6 +2991,18 @@ sup.bidubi {
             }
         }    
     }
+}
+.search_user {
+    display: inline-block;
+    position: absolute;
+    top: 60px;
+    right: 0px;
+    vertical-align: top;
+    width: 600px;
+    height: 90%;
+    background: url("../images/glass.png") left top no-repeat;
+    background-size: 100% 100%;
+    box-shadow: inset 5px 0px 20px 1px rgba(0, 0, 0, 0.7);
 }
 .fusepar {
     display: inline-block;

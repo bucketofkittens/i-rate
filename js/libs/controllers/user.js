@@ -11,9 +11,6 @@ function UserController($scope, FriendsService, UserService, $element, $route, $
     // является ли пользователь другом
     $scope.isFriend = false;
 
-    // открывать большую карточку или нет
-    $scope.big = false;
-
     // текущий выбранный таб
     $scope.tab = 1;
 
@@ -22,8 +19,6 @@ function UserController($scope, FriendsService, UserService, $element, $route, $
 
     $scope.$on('$locationChangeStart', function(event, newLoc, oldLoc) {
         $scope.setCurrentUser();
-
-        $scope.big = $location.search().big && $location.search().big == $scope.route ? true : false;
     });
 
     // меняем таб на другой
@@ -76,11 +71,8 @@ function UserController($scope, FriendsService, UserService, $element, $route, $
 
     // закрывает плашку с текущим пользователем
     $scope.close = function() {
-        $scope.big = false;
         $location.search($scope.route, null);
         $rootScope.$broadcast('closeUserPanel', {route: $scope.route});
-
-        LocationService.update("big", false);
     }
 
     // инициализация контрллера
