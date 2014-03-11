@@ -10439,6 +10439,10 @@ function SearchAdvanceController($scope, $location, $rootScope, User, Profession
      */
     $scope.translateParamsToServer_ = function() {
         var params = {};
+
+        if($scope.searchText) {
+            params["name"] = $scope.searchText;
+        }
         if($scope.search.career && $scope.search.career.sguid) {
             params["career_goal_guid"] = $scope.search.career.sguid;
         }
@@ -10507,12 +10511,14 @@ function SearchAdvanceController($scope, $location, $rootScope, User, Profession
 
     /**
      * Событие изменения в поле поиска текста
-     * @param  {[type]} $event  [description]
-     * @param  {[type]} message [description]
-     * @return {[type]}         [description]
      */
     $scope.$on('updateSearchText', function($event, message) {
         $scope.searchText = message.text;
+    });
+
+    $scope.$on('advanceSearch_', function($event, message) {
+        $scope.searchText = message.searchText;
+        $scope.advanceSearch();
     });
 
     /**
@@ -10585,7 +10591,7 @@ function SearchAdvanceController($scope, $location, $rootScope, User, Profession
     
 }
 // контроллер формы поиска слева в расширенном поиске
-function SearchLeftController($scope, $location, $rootScope, User) {
+function SearchLeftController($scope, $location, $rootScope, User, $timeout) {
 	// забираем текст поиска из location
     $scope.searchText = $location.search().text;
     $scope.resultSearch = User.search({}, { name: $scope.searchText }, $scope.advanceSearchCallback_);
@@ -10602,13 +10608,7 @@ function SearchLeftController($scope, $location, $rootScope, User) {
 
     // ищем в списке пользователей
     $scope.onSearch = function() {
-        // очищаем результат поиска
-        $scope.resultSearch = [];
-        // проверяем сколько символов в строке поиска
-        if($scope.searchText.length > 0) {
-            // проверяем вхождение
-            $scope.resultSearch = User.search({}, { name: $scope.searchText }, $scope.advanceSearchCallback_);
-        }
+       $rootScope.$broadcast('advanceSearch_', {searchText: $scope.searchText});
     }
 }
 /**
