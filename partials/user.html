@@ -15,7 +15,7 @@
 				<i ng-if="user.birthday">{{user.birthday | usadata}}</i>
 			</p>
 			<p>
-				<i>
+				<i ng-if="user.state.name || user.city.name">
 					<span ng-if="user.state.name">{{user.state.name}}</span>
 					<span ng-if="user.city.name">
 						<span ng-if="user.state.name">,</span> 
@@ -23,7 +23,7 @@
 					</span>
 				</i>
 			<p>
-				<i>{{user.profession.name}}<span ng-if="user.goal_name">, {{user.goal_name}}</span></i>
+				<i  ng-if="user.profession.name || user.goal_name">{{user.profession.name}}<span ng-if="user.goal_name">, {{user.goal_name}}</span></i>
 			</p>
 
 			<p>
