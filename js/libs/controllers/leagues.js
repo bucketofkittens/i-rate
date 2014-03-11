@@ -104,4 +104,10 @@ function LeaguesController($scope, $location, $rootScope, User, LocationService,
             });
         $scope.selectUser($scope.leagueUsers[0]);
     }
+
+    $scope.$on('closeUserPanel', function (event, message) {
+        if(message.route == "league_user") {
+            $location.search({});
+        }
+    });
 }
