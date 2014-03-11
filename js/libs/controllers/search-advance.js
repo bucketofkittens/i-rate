@@ -211,7 +211,9 @@ function SearchAdvanceController($scope, $location, $rootScope, User, Profession
             profession: {},
             country: {},
             city: {},
-            league: {}
+            league: {},
+            minScore: 0,
+            maxScore: 175000
         };
 
         $scope.shows = {
