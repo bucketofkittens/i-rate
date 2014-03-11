@@ -243,6 +243,23 @@ pgrModule.factory('Needs', function ($resource) {
 });
 
 /**
+ * Модель для репортов
+ */
+pgrModule.factory('Reports', function ($resource) {
+    return $resource(
+        host+'/reports/:id', 
+        {id:'@id'}, 
+        {
+            create: {method: 'POST'},
+            query: {
+                method: 'GET',
+                isArray: true
+            }
+        }
+    );
+});
+
+/**
  * 
  * @param  {[type]} $resource [description]
  * @return {[type]}           [description]
@@ -494,6 +511,58 @@ pgrModule.service('SessionsService', function (Sessions, User, TokenService) {
         User.query({id: sguid}, function(data) {
             callback(data);
         });
+    }
+});
+
+
+
+/**
+ * Сервис работы с репортами
+ */
+pgrModule.service('ReportService', function (Reports) {
+
+    // создание нового пользователя
+    this.create = function(params, callback, fail) {
+        Reports.create(
+            {report: JSON.stringify(params)}
+            ,function(data) {
+                if(!data.success && fail) {
+                    fail(data);      
+                }
+                if(data.success && callback) {
+                    callback(data);      
+                }
+            }
+        );
+    }
+
+    // создание обновление пользователя
+    this.update = function(sguid, params, callback) {
+        User.updateUser({id: sguid},  {user: JSON.stringify(params)}, function(data) {
+            if(callback) {
+                callback(data);    
+            }
+        });
+    }
+
+    // получаем данные по указанному пользователю с указанным id
+    this.getById = function(id, callback) {
+        User.query({id: id}, function(data) {
+            if(data && data.birthday) {
+                data.birthday = dateFromString(data.birthday);    
+            }
+            callback(data);
+        });
+    }
+
+    this.getUsersOnServer_ = function(callback) {
+        User.get_all({}, {}, function(data) {
+            callback(data);
+        });
+    }
+
+    this.getAll = function(callback) {
+        this.getUsersOnServer_(callback);
     }
 });
 

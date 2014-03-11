@@ -1,7 +1,7 @@
 /**
  * Контроллер  профиля
  */
-function UserController($scope, FriendsService, UserService, $element, $route, $routeParams, User, Needs, Professions, States, $http, NeedsByUser, $rootScope, GoalsByUser, AuthUser, Leagues, $location, $window, LocationService) {
+function UserController($scope, FriendsService, UserService, User, $location, LocationService, $rootScope) {
     // данные пользователя
     $scope.user = null;
 
@@ -119,6 +119,7 @@ function UserController($scope, FriendsService, UserService, $element, $route, $
     // открываем модальное окно репорта
     $scope.openReport = function() {
         $rootScope.$broadcast('openModal', {name: "report"});
+        LocationService.update("report_user", $scope.user.sguid);
     }
 
     // загружаем список нидсов

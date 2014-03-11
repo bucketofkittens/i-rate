@@ -656,3 +656,4 @@ input:invalid{box-shadow:none}
 .league_list{float:left;color:#fff}
 .user_list{float:left;overflow:hidden}
 .league_user{float:left}
+#content .search_user .mynav ul{margin-left:155px !important}
