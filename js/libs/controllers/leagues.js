@@ -50,12 +50,22 @@ function LeaguesController($scope, $location, $rootScope, User, LocationService,
 
     // выбор нужного пользователя
     $scope.selectUser = function(value) {
+        $scope.usersAllNotCurrent();
+        value.current = true;
         LocationService.update("league_user", value.sguid);
     }
 
     // делаем все лиги не текущими
     $scope.closeAllLeague_ = function() {
         angular.forEach($scope.leagues, function(value, key) {
+            value.current = false;
+        });
+    }
+
+
+    // все пользоваетли false
+    $scope.usersAllNotCurrent = function() {
+        angular.forEach($scope.leagueUsers, function(value, key) {
             value.current = false;
         });
     }

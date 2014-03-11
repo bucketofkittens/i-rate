@@ -32,7 +32,7 @@ function RightController($scope, $location) {
     }
 
     $scope.$on('$locationChangeSuccess', function () {
-        if($location.search().search || ($location.search().user1 && $location.search().user2)) {
+        if($location.search().search || ($location.search().user1 && $location.search().user2) || $location.search().leagues) {
             $scope.showPanel = false; 
         } else {
             $scope.showPanel = true; 
