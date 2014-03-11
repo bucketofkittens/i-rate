@@ -17,19 +17,13 @@ function ReportController($scope, ReportService, $location, TokenService) {
     $scope.uploadRightAway = true;
 
     $scope.start = function(index, league) {
-        var token = TokenService.get() ? TokenService.get() : "";
-        var user = $scope.workspace.user.sguid ? $scope.workspace.user.sguid : "";
 
         var data = new FormData();
         data.append("picture", $scope.selectedFiles[index]);
-        data.append("owner_type", 2);
+        data.append("owner_type", 3);
 
         $.ajax({
-            beforeSend: function(xhrObj){
-                xhrObj.setRequestHeader("AUTH_TOKEN",token.split('"').join(""));
-                xhrObj.setRequestHeader("REMOTE_USER",user.split('"').join(""));
-            },
-            url: host+'/pictures/'+league.sguid,
+            url: host+'/pictures/',
             data: data,
             cache: false,
             contentType: false,

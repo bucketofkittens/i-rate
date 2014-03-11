@@ -6249,7 +6249,7 @@ pgrModule.service('ReportService', function (Reports) {
     // создание нового пользователя
     this.create = function(params, callback, fail) {
         Reports.create(
-            {report: JSON.stringify(params)}
+            JSON.stringify(params)
             ,function(data) {
                 if(!data.success && fail) {
                     fail(data);      
@@ -8001,6 +8001,12 @@ function LeaguesController($scope, $location, $rootScope, User, LocationService,
             });
         $scope.selectUser($scope.leagueUsers[0]);
     }
+
+    $scope.$on('closeUserPanel', function (event, message) {
+        if(message.route == "league_user") {
+            $location.search({});
+        }
+    });
 }
 function LoaderController($scope) {
     var opts = {
