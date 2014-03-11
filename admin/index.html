@@ -2,7 +2,7 @@
 <html ng-app="pgrModule">
 
 <head>
-    <title>iRate</title>
+    <title>iRate Admin</title>
 
     <meta charset="utf-8" />
     <meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1, maximum-scale=1" />
@@ -21,18 +21,10 @@
 </head>
 
 <body ng-controller="RootController">
-    <div ng-include src="'partials/header.html'"></div>
 
     <!-- Контент -->
-    <div id="content" class="my-slide-container">
-        <div class="content_wrap" ng-view></div>
-
-        <div class="full_height" ng-controller="ChangePasswordController" ng-include src="'partials/changePassword.html'"></div>
-        <div class="full_height" ng-controller="UsersController" ng-include src="'partials/users.html'"></div>
-        <div class="full_height" ng-controller="SearchAdvanceController" ng-include src="'partials/search.html'"></div>
-        <div class="full_height" ng-controller="MyProfileController" ng-include ng-if="workspace.user" src="'partials/myprofile.html'"></div>
-        <div class="full_height" ng-controller="LeaguesController" ng-include src="'partials/leagues.html'"></div>
-        <div class="full_height" ng-controller="RightController" ng-include ng-if="!workspace.user" src="'partials/right.html'"></div>
+    <div id="content">
+        1234
     </div>
 
     <div ng-include src="'partials/footer.html'"></div>
@@ -96,46 +88,11 @@
     <script src="/js/libs/directives.js"></script>
     <script src="/js/libs/services.js"></script>
 
-    <script src="/js/libs/controllers/main.js"></script>
-    <script src="/js/libs/controllers/signin.js"></script>
-    <script src="/js/libs/controllers/signup.js"></script>
-    <script src="/js/libs/controllers/signup.js"></script>
     <script src="/js/libs/controllers/shadow.js"></script>
     <script src="/js/libs/controllers/modal.js"></script>
     <script src="/js/libs/controllers/loader.js"></script>
-    <script src="/js/libs/controllers/root.js"></script>
-    <script src="/js/libs/controllers/search.js"></script>
-    <script src="/js/libs/controllers/search-left.js"></script>
-    <script src="/js/libs/controllers/right.js"></script>
-    <script src="/js/libs/controllers/users.js"></script>
-    <script src="/js/libs/controllers/improva.js"></script>
-    <script src="/js/libs/controllers/report.js"></script>
 
-    <script src="/js/libs/controllers/leagues.js"></script>
-
-    <script src="/js/libs/controllers/myprofile.js"></script>
-    <script src="/js/libs/controllers/myprofile_profile.js"></script>
-    <script src="/js/libs/controllers/myprofile_settings.js"></script>
-
-    <script src="/js/libs/controllers/crop-image.js"></script>
-    <script src="/js/libs/controllers/share.js"></script>
-    <script src="/js/libs/controllers/comments.js"></script>
-    <script src="/js/libs/controllers/change-password.js"></script>
-    
-    <script src="/js/libs/controllers/search-advance.js"></script>
-    
-    <script src="/js/libs/controllers/gallery.js"></script>
-    
-    <script src="/js/libs/controllers/follow.js"></script>
-    
-    <script src="/js/libs/controllers/needs.js"></script>
-    <script src="/js/libs/controllers/quick-user-change.js"></script>
-    <script src="/js/libs/controllers/user.js"></script>
-    <script src="/js/libs/controllers/user-comments.js"></script>
-    <script src="/js/libs/controllers/user-needs.js"></script>
-    <script src="/js/libs/controllers/profile.js"></script>
-    <script src="/js/libs/controllers/nsi.js"></script>
-    <script src="/js/libs/controllers/nsi-add.js"></script>
+    <script src="/admin/js/controllers/root.js"></script>
 </body>
 
 </html>

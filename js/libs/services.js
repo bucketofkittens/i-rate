@@ -124,6 +124,13 @@ pgrModule.factory('User', function ($resource) {
                 method: "POST",
                 url: host+"/users/:id/friends"
             },
+            "is_admin": {
+                method: "GET",
+                url: host+"/users/:id/is_admin",
+                transformResponse: function (data) {
+                    return data;
+                }
+            },
             "destroy_friendship": {
                 method: "DELETE",
                 url: host+"/users/:id/friends/:friendId"
@@ -610,6 +617,12 @@ pgrModule.service('UserService', function (User, AllUserService) {
     this.addView = function(sguid, callback) {
         User.add_view({id: sguid}, function() {
             callback(sguid);
+        });
+    }
+
+    this.isAdmin = function(sguid, callback) {
+        User.is_admin({id: sguid}, {}, function(data) {
+            callback(data);
         });
     }
 
