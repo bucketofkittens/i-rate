@@ -2,7 +2,8 @@
 	<div class="pmain pro" >
 		<div class="block">
 			<div class="image_box" >
-				<img class="pp" ng-src="{{user.avatar}}" err-src="/images/unknown-person.png" />
+				<img class="pp" ng-if="user.avatar" ng-src="{{user.avatar}}" err-src="/images/unknown-person.png" />
+				<img class="pp" ng-if="!user.avatar" src="/images/unknown-person.png" />
 				<s ng-if="user.artificial">profile is created by experts based on available public info</s>
 			</div>
 		</div>
