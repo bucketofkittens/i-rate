@@ -524,7 +524,7 @@ pgrModule.service('ReportService', function (Reports) {
     // создание нового пользователя
     this.create = function(params, callback, fail) {
         Reports.create(
-            {report: JSON.stringify(params)}
+            JSON.stringify(params)
             ,function(data) {
                 if(!data.success && fail) {
                     fail(data);      
