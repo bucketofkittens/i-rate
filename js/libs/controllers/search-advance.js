@@ -372,6 +372,10 @@ function SearchAdvanceController($scope, $location, $rootScope, User, Profession
      */
     $scope.translateParamsToServer_ = function() {
         var params = {};
+
+        if($scope.searchText) {
+            params["name"] = $scope.searchText;
+        }
         if($scope.search.career && $scope.search.career.sguid) {
             params["career_goal_guid"] = $scope.search.career.sguid;
         }
@@ -440,12 +444,14 @@ function SearchAdvanceController($scope, $location, $rootScope, User, Profession
 
     /**
      * Событие изменения в поле поиска текста
-     * @param  {[type]} $event  [description]
-     * @param  {[type]} message [description]
-     * @return {[type]}         [description]
      */
     $scope.$on('updateSearchText', function($event, message) {
         $scope.searchText = message.text;
+    });
+
+    $scope.$on('advanceSearch_', function($event, message) {
+        $scope.searchText = message.searchText;
+        $scope.advanceSearch();
     });
 
     /**

@@ -1,5 +1,5 @@
 // контроллер формы поиска слева в расширенном поиске
-function SearchLeftController($scope, $location, $rootScope, User) {
+function SearchLeftController($scope, $location, $rootScope, User, $timeout) {
 	// забираем текст поиска из location
     $scope.searchText = $location.search().text;
     $scope.resultSearch = User.search({}, { name: $scope.searchText }, $scope.advanceSearchCallback_);
@@ -16,12 +16,6 @@ function SearchLeftController($scope, $location, $rootScope, User) {
 
     // ищем в списке пользователей
     $scope.onSearch = function() {
-        // очищаем результат поиска
-        $scope.resultSearch = [];
-        // проверяем сколько символов в строке поиска
-        if($scope.searchText.length > 0) {
-            // проверяем вхождение
-            $scope.resultSearch = User.search({}, { name: $scope.searchText }, $scope.advanceSearchCallback_);
-        }
+       $rootScope.$broadcast('advanceSearch_', {searchText: $scope.searchText});
     }
 }
