@@ -17,6 +17,9 @@ function UserController($scope, FriendsService, UserService, User, $location, Lo
     // индикатор прогресса загрузки данных. нужен для того что бы не дублировались ajax запросы
     $scope.getProgressFlag = false;
 
+    // видна ли кнопочка репорта или нет
+    $scope.isReport = false;
+
     $scope.$on('$locationChangeStart', function(event, newLoc, oldLoc) {
         $scope.setCurrentUser();
     });
