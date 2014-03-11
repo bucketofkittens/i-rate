@@ -19,9 +19,10 @@
 
 <body ng-controller="RootController">
 
+    <!-- Header -->
+    <div ng-include src="'admin/partials/header.html'"></div>
     <!-- Контент -->
     <div id="content">
-        <div ng-include src="'admin/partials/header.html'"></div>
         <div class="content_wrap" ng-view></div>
     </div>
 
