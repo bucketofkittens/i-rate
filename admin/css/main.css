@@ -1,3 +1,4 @@
+@import url(http://fonts.googleapis.com/css?family=Lato:100,300,400,700);
 .content_wrap{padding-top:100px}
 #nsi_content{width:700px;padding:20px;background:#fff}
 .buttons{color:#000;padding:4px 10px;display:inline-block;margin-right:10px;border-radius:3px;text-decoration:none;cursor:pointer}.buttons.green{background:#bcf5a9}
@@ -21,3 +22,4 @@ header #header #search .searcher{background:url("../../images/search.png") left 
 header #header #avatar{float:right;margin:5px 20px 0 0}header #header #avatar .current{max-height:50px}
 header #header #avatar p{text-align:center}header #header #avatar p img{max-height:50px;position:relative;display:block;cursor:pointer}
 header #header #avatar p span{color:#fff;text-decoration:none;font-size:10px;cursor:pointer;text-align:center;position:relative}
+.icon{display:inline-block;background-size:100% !important}.icon.logo{background:url("../../images/logobg.png") left top no-repeat;width:140px;height:50px;background-size:95% !important}
