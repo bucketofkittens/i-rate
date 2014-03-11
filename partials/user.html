@@ -88,7 +88,7 @@
 					<button ng-class="{disable: disable || !workspace.user}" class="button " ng-click="onSendMessage()">Send</button>
 				</ng-form>
 				<!-- report button -->
-				<button class="button repcha" ng-click="isReport = !isReport"></button>
+				<button class="button repcha" ng-click="changeReport()"></button>
 				<button class="button rep" ng-if="isReport" ng-click="openReport()">Report</button>
 			</div>
 		</div>

@@ -121,8 +121,14 @@ function UserController($scope, FriendsService, UserService, User, $location, Lo
 
     // открываем модальное окно репорта
     $scope.openReport = function() {
+        $scope.isReport = false;
+
         $rootScope.$broadcast('openModal', {name: "report"});
         LocationService.update("report_user", $scope.user.sguid);
+    }
+
+    $scope.changeReport = function() {
+        $scope.isReport = !$scope.isReport;
     }
 
     // загружаем список нидсов
