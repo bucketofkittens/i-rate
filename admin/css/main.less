@@ -11,6 +11,7 @@ body {
 	   z-index: 1020;
 	   position: absolute;
 	   left: 0px;
+	   box-shadow: 0px 0px 30px 0px #000000;
 	   #header {
 	      width: 1020px;
 	      height: 60px;
@@ -67,64 +68,29 @@ body {
 		margin: 0px auto;
 		.content_wrap {
 			margin-top: 60px;
+
+			/** NSI **/
 			#nsi_content {
-			   width: 960px;
-			   padding: 20px;
+			   width: 980px;
+			   padding: 10px;
 			   background: transparent;
-			   table {			   	
-			   	border: 1px solid #777777;
-				   thead {
-				   	background: -moz-linear-gradient(top,  rgba(0,0,0,0.2) 0%, rgba(0,0,0,0.5) 100%);
-						background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(0,0,0,0.2)), color-stop(100%,rgba(0,0,0,0.5)));
-						background: -webkit-linear-gradient(top,  rgba(0,0,0,0.2) 0%,rgba(0,0,0,0.5) 100%);
-						background: -o-linear-gradient(top,  rgba(0,0,0,0.2) 0%,rgba(0,0,0,0.5) 100%);
-						background: -ms-linear-gradient(top,  rgba(0,0,0,0.2) 0%,rgba(0,0,0,0.5) 100%);
-						background: linear-gradient(to bottom,  rgba(0,0,0,0.2) 0%,rgba(0,0,0,0.5) 100%);
-						tr {
-							th {
-								color: #ffffff;
-								padding: 5px 0px 7px 0px;
-								border-left: 1px solid #777777;
-								&:first-child {
-									border: none;
-								}
-							}
-						}
-				   }
-					tbody {			
-			   		tr {
-			   			td {			
-			   				border: 1px solid #777777;	
-								.delete {
-									background: url("../images/delete.png") left top no-repeat;
-									width: 30px;
-									height: 30px;
-									background-size: 100% 100%;
-									-webkit-filter: invert(100%);
-									display: block;
-									margin: 0px auto;
-								}		   				
-			   			}
-			   		}
-					}
-			   }
 				.buttons {
-                  width: 150px;
-                  height: 30px;
-                  font-size: 16px;
-                  font-family: 'Lato', sans-serif;
-                  line-height: 16px;
-                  padding: 10px 5px;
-                  vertical-align: middle;
-                  display: inline-block;
-                  cursor: pointer;
-                  background: url("../images/ssbg.png") left top no-repeat;
-                  background-size: 150px 40px;
-                  margin: 15px 10px 0px 10px;
-                  color: #ffffff;
-                  border: none;
-                  text-decoration: none;
-                  text-align: center;
+               width: 150px;
+               height: 30px;
+               font-size: 16px;
+               font-family: 'Lato', sans-serif;
+               line-height: 16px;
+               padding: 10px 5px;
+               vertical-align: middle;
+               display: inline-block;
+               cursor: pointer;
+               background: url("../images/ssbg.png") left top no-repeat;
+               background-size: 150px 40px;
+               margin: 15px 10px 0px 10px;
+               color: #ffffff;
+               border: none;
+               text-decoration: none;
+               text-align: center;
 				}
 			}
 
@@ -176,6 +142,58 @@ body {
 				   }
 				}
 			}
+
+			/** REPORTS **/
+			#reports_container {
+				width: 980px;
+			   padding: 10px;
+			   background: transparent;
+			}
+
+			/** APPROVE **/
+			#reports_container {
+				
+			}
+
+
+		   table {			   	
+		   	border: 1px solid #777777;
+		   	width: 100%;
+			   thead {
+			   	background: -moz-linear-gradient(top,  rgba(0,0,0,0.2) 0%, rgba(0,0,0,0.5) 100%);
+					background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(0,0,0,0.2)), color-stop(100%,rgba(0,0,0,0.5)));
+					background: -webkit-linear-gradient(top,  rgba(0,0,0,0.2) 0%,rgba(0,0,0,0.5) 100%);
+					background: -o-linear-gradient(top,  rgba(0,0,0,0.2) 0%,rgba(0,0,0,0.5) 100%);
+					background: -ms-linear-gradient(top,  rgba(0,0,0,0.2) 0%,rgba(0,0,0,0.5) 100%);
+					background: linear-gradient(to bottom,  rgba(0,0,0,0.2) 0%,rgba(0,0,0,0.5) 100%);
+					tr {
+						th {
+							color: #ffffff;
+							padding: 5px 0px 7px 0px;
+							border-left: 1px solid #777777;
+							&:first-child {
+								border: none;
+							}
+						}
+					}
+			   }
+				tbody {			
+		   		tr {
+		   			td {			
+		   				border: 1px solid #777777;	
+							.delete {
+								background: url("../images/delete.png") left top no-repeat;
+								width: 30px;
+								height: 30px;
+								background-size: 100% 100%;
+								-webkit-filter: invert(100%);
+								display: block;
+								margin: 0px auto;
+							}		   				
+		   			}
+		   		}
+				}
+		   }
 		}		
 	}
 }

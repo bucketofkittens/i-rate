@@ -1,26 +1,30 @@
-<table>
-	<thead>
-		<tr>
-			<th>Rate</th>
-			<th>Photo</th>
-			<th>Name</th>
-			<th>Birthday</th>
-			<th>Location</th>
-			<th>Career</th>
-			<th>E-mail / Reg.date</th>
-			<th>Comments</th>
-		</tr>
-	</thead>
-	<tbody>
-		<tr ng-repeat="(key, value) in approve">
-			<td>{{value.1}}</td>
-			<td>{{value.avatar}}</td>
-			<td>{{value.full_name}}</td>
-			<td>{{value.birthday}}</td>
-			<td>{{value.location}}</td>
-			<td>{{value.career}}</td>
-			<td>{{value.email}}</td>
-			<td>{{value.1}}</td>
-		</tr>
-	</tbody>
-</table>
+<div id="approve_container">
+	<table>
+		<thead>
+			<tr>
+				<th> </th>
+				<th>Rate</th>
+				<th>Photo</th>
+				<th>Name</th>
+				<th>Birthday</th>
+				<th>Location</th>
+				<th>Career</th>
+				<th>E-mail / Reg.date</th>
+				<th>Comments</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr ng-repeat="(key, value) in approve">
+				<td>{{value.1}}</td>
+				<td>{{value.1}} <br /> {{value.1}}</td>
+				<td>{{value.avatar}}</td>
+				<td>{{value.full_name}}</td>
+				<td>{{value.birthday}} <br /> {{value.1}}</td>
+				<td>{{value.location}}</td>
+				<td>{{value.career}} <br /> {{value.1}}</td>
+				<td>{{value.email}} <br /> {{value.1}}</td>
+				<td>{{value.1}}</td>
+			</tr>
+		</tbody>
+	</table>
+</div>

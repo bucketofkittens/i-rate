@@ -1,20 +1,24 @@
-<table>
-	<thead>
-		<tr>
-			<th>full_name</th>
-			<th>avatar</th>
-			<th>email</th>
-			<th>additional_info</th>
-			<th>report_date</th>
-		</tr>
-	</thead>
-	<tbody>
-		<tr ng-repeat="(key, value) in reports">
-			<td>{{value.full_name}}</td>
-			<td>{{value.avatar}}</td>
-			<td>{{value.email}}</td>
-			<td>{{value.additional_info}}</td>
-			<td>{{value.report_date}}</td>
-		</tr>
-	</tbody>
-</table>
+<div id="reports_container">
+	<table>
+		<thead>
+			<tr>
+				<th> </th>
+				<th>Rate</th>
+				<th>Photo</th>
+				<th>Name / E-mail</th>
+				<th>Photo / Name / E-mail (Report)</th>
+				<th>Comment</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr ng-repeat="(key, value) in reports">
+				<td>{{value.1}}</td>
+				<td>{{value.1}} <br /> {{value.1}}</td>
+				<td>{{value.avatar}}</td>
+				<td>{{value.full_name}} <br /> {{value.email}}</td>
+				<td>{{value.1}} <br /> {{value.1}} <br /> {{value.1}}</td>
+				<td>{{value.1}}</td>
+			</tr>
+		</tbody>
+	</table>
+</div>
