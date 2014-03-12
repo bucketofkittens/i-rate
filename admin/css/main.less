@@ -152,13 +152,18 @@ body {
 			   background: transparent;			   
 			   tr {
 			   	height: 70px;
-				   &:nth-child(2n) td:first-child {
+				   .accept {
+				   	background: none;
+				   	width: 70px;
+				   	min-height: 50px;
+				   }
+				   .denied {
 				   	background: url("../images/ban.png") 10px 10px no-repeat;
 				   	background-size: 50px 50px;
 				   	width: 70px;
 				   	min-height: 50px;
-				   }
-				   &:nth-child(2n+1) td:first-child {
+				   } 
+				   .quest {
 				   	background: url("../images/que.png") 20px 10px no-repeat;
 				   	background-size: 30px 50px;
 				   	width: 70px;
