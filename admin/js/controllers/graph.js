@@ -1,7 +1,5 @@
 /** Контроллер графика */
 function GraphsController($scope, $rootScope, $route, $location, Leagues, User) {
-
-    $scope.users = [];
     /**
      * Сурово и беспощадно.
      * Надо будет переписать
@@ -32,8 +30,7 @@ function GraphsController($scope, $rootScope, $route, $location, Leagues, User) 
     */
     $scope.$watch('workspace.leagues', function (newVal, oldVal, scope) {
         angular.forEach($scope.workspace.leagues, function(value, key){
-            
-            /*User.by_league({league_guid:value.sguid}, {}, function(v2, k2){
+            User.by_league({league_guid:value.sguid}, {}, function(v2, k2){
                 v2.sort(function(a, b) {
                     if(a.points < b.points) return 1;
                     if(a.points > b.points) return -1;
@@ -47,12 +44,8 @@ function GraphsController($scope, $rootScope, $route, $location, Leagues, User) 
                     }
                 }
                 value.users = users;
-            })*/
+            })
         });
-    });
-
-    User.get_all({}, {}, function(datas) {
-        $scope.users = datas;
     });
 
     /**
@@ -60,7 +53,13 @@ function GraphsController($scope, $rootScope, $route, $location, Leagues, User) 
      * @param  {[type]} datas [description]
      * @return {[type]}       [description]
     */
-    
+    User.get_all({}, {}, function(datas) {
+        $scope.looserUser = datas.filter(function(item) {
+            if(item.points == 0) {
+                return item;
+            }
+        });
+    });
  
     $scope.openUser = function(userItem) {
         $rootScope.$broadcast('closeAllGoals');
