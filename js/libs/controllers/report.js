@@ -1,5 +1,5 @@
 // контроллер репортов
-function ReportController($scope, ReportService, $location, TokenService) {
+function ReportController($scope, ReportService, $location, TokenService, $timeout, $rootScope) {
     // форма репорта
     $scope.form = {
         full_name: "",
@@ -8,22 +8,14 @@ function ReportController($scope, ReportService, $location, TokenService) {
         user_guid: $location.search().report_user
     }
 
-    // отправляем репорт на сервер
-    $scope.onReport = function() {
-        ReportService.create($scope.form);
-    }
-
-    $scope.fileReaderSupported = window.FileReader != null;
-    $scope.uploadRightAway = true;
-
-    $scope.start = function(index, league) {
+    $scope.onReportCallback_ = function(dataItem) {
 
         var data = new FormData();
-        data.append("picture", $scope.selectedFiles[index]);
-        data.append("owner_type", 3);
+        data.append("picture", $scope.selectedFiles[0]);
+        data.append("owner_type", 4);
 
         $.ajax({
-            url: host+'/pictures/',
+            url: host+'/pictures/'+dataItem.message.guid,
             data: data,
             cache: false,
             contentType: false,
@@ -32,11 +24,19 @@ function ReportController($scope, ReportService, $location, TokenService) {
         }).done(function(data) {
             $scope.$apply(function(){
                 if(data.success) {
-                    league.icon = data.message.scheme+"://"+data.message.host+data.message.path;
+                    $rootScope.$broadcast('openModal', {name: "report-success"});
                 }
             });
         });
     }
+
+    // отправляем репорт на сервер
+    $scope.onReport = function() {
+        ReportService.create($scope.form, $scope.onReportCallback_);
+    }
+
+    $scope.fileReaderSupported = window.FileReader != null;
+    $scope.uploadRightAway = true;
 
 
     $scope.onFileSelect = function($files, league) {
@@ -68,9 +68,13 @@ function ReportController($scope, ReportService, $location, TokenService) {
                 setPreview(fileReader, i);
             }
             $scope.progress[i] = -1;
-            if ($scope.uploadRightAway) {
-                $scope.start(i, league);
+            if($scope.uploadRightAway) {
+                //$scope.start(i, league);
             }
         }
+    }
+
+    $scope.onUpload = function() {
+        $("#report_upload").click();
     }
 }

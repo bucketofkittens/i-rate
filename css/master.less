@@ -4979,11 +4979,17 @@ table.quickdate-calendar td.is-today{font-weight:bold;background: url("../images
 
 
 
-.report-modal {
+.report-modal, .report-success-modal {
     height: 100% !important;
     width: 1000px !important;
     margin-left: -500px !important;
     top: 60px !important;
+    &.report-success-modal {
+        height: 100px !important;
+        .fuckenmorda {
+            height: 100px !important;
+        }
+    }
     .fuckenmorda {
         width: 460px;
         height: 520px;
@@ -5440,4 +5446,8 @@ input:invalid {
     .mynav {
         width: 550px;
     }
+}
+
+.hidden {
+    display: none !important;
 }

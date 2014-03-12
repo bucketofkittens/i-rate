@@ -8,7 +8,6 @@ function MenuController($scope, $location) {
     ];
 
     $scope.selectCurrentItem = function(path) {
-    	console.log(path);
     	angular.forEach($scope.items, function(value, key) {
     		if(value.path == path) {
     			value.current = true;
