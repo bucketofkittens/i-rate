@@ -3,6 +3,7 @@
 body {
 	background: #444444;
 	font-family: 'Lato', sans-serif; 
+	overflow: auto !important;
 	header {
 	   height: 60px;
 	   width: 100%;
@@ -66,8 +67,10 @@ body {
 	#content {
 		width: 1000px;
 		margin: 0px auto;
+		background: none !important;
+		overflow: visible !important;
 		.content_wrap {
-			margin-top: 60px;
+			padding-top: 60px;
 
 			/** NSI **/
 			#nsi_content {
@@ -96,9 +99,9 @@ body {
 
 			/** GRAPHS **/
 			#graph_container {
-			   height: 90%;
+			   height: 100%;
 			   width: 100%;
-			   margin-top: 80px;
+			   overflow: scroll;
 				table#graphs {
 					height: 100%;
 					border: none;
