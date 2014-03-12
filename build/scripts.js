@@ -10527,10 +10527,8 @@ function SearchController($scope, User, $rootScope, $location, $timeout) {
 
             var text = $scope.searchText;
 
-            $scope.changeTimer = $timeout(function() {
-                $scope.resultSearch = User.search({}, { name: text }, $scope.advanceSearchCallback_);
-                $scope.changeTimer = false;
-            }, 600);
+            $scope.resultSearch = User.search({}, { name: text }, $scope.advanceSearchCallback_);
+            $scope.changeTimer = false;
 
             // скрываем правую панель
             $rootScope.$broadcast('hideRightPanel');
