@@ -1,6 +1,5 @@
 <div id="nsi_content" ng-controller="NSIController">
 	<ng-form ng-upload="complete(contents)">
-		<h2>NSI</h2>
 		<table>
 			<col width="170px" />
 			<col width="170px" />
@@ -19,7 +18,7 @@
 					<th>Show</th>
 					<th>Font</th>
 					<th>Icon</th>
-					<th></th>
+					<th>Del</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -54,8 +53,8 @@
 		</table>
 	</ng-form>
 	<div class="btns">
-		<a class="buttons all" ng-click="ok()">Ok</a>
-		<a class="buttons green" href="/admin/index.html#/nsi-add">Add league</a>
-		<a class="buttons red" ng-click="closeModal()">Close</a>
+		<a class="buttons" ng-click="ok()">Ok</a>
+		<a class="buttons" href="/admin/index.html#/nsi-add">Add league</a>
+		<a class="buttons" ng-click="closeModal()">Close</a>
 	</div>
 </div>
