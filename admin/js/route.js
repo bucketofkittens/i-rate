@@ -23,6 +23,11 @@ pgrModule.config(['$routeProvider',
             controller: 'ReportsController',
             reloadOnSearch: false
           }).
+          when('/approve', {
+            templateUrl: 'admin/views/approve.html',
+            controller: 'ApproveController',
+            reloadOnSearch: false
+          }).
           otherwise({
             redirectTo: '/nsi'
           });
