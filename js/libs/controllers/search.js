@@ -87,7 +87,6 @@ function SearchController($scope, User, $rootScope, $location, $timeout) {
         $scope.resultSearch = [];
         // проверяем сколько символов в строке поиска
         if($scope.searchText.length > 0) {
-            console.log($scope.changeTimer);
             // проверяем вхождение
             if($scope.changeTimer !== false) clearTimeout($scope.changeTimer);
 
@@ -103,6 +102,8 @@ function SearchController($scope, User, $rootScope, $location, $timeout) {
             // скрываем правую панель
             $rootScope.$broadcast('hideRightPanel');
         } else {
+            if($scope.changeTimer !== false) clearTimeout($scope.changeTimer);
+            
             // показываем правую панель
             $rootScope.$broadcast('showRightPanel');
         }

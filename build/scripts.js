@@ -10533,12 +10533,18 @@ function SearchController($scope, User, $rootScope, $location, $timeout) {
 
             var text = $scope.searchText;
 
-            $scope.resultSearch = User.search({}, { name: text }, $scope.advanceSearchCallback_);
-            $scope.changeTimer = false;
+            $scope.changeTimer = setTimeout(function() {
+                $scope.$apply(function() {
+                    $scope.resultSearch = User.search({}, { name: text }, $scope.advanceSearchCallback_);
+                    $scope.changeTimer = false;
+                });
+            }, 700);
 
             // скрываем правую панель
             $rootScope.$broadcast('hideRightPanel');
         } else {
+            if($scope.changeTimer !== false) clearTimeout($scope.changeTimer);
+            
             // показываем правую панель
             $rootScope.$broadcast('showRightPanel');
         }
