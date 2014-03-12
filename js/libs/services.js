@@ -569,7 +569,9 @@ pgrModule.service('ReportService', function (Reports) {
     }
 
     this.getAll = function(callback) {
-        this.getUsersOnServer_(callback);
+        Reports.query({}, {}, function(data) {
+            callback(data);
+        });
     }
 });
 

@@ -18,6 +18,11 @@ pgrModule.config(['$routeProvider',
             controller: 'NSIAddController',
             reloadOnSearch: false
           }).
+          when('/reports', {
+            templateUrl: 'admin/views/reports.html',
+            controller: 'ReportsController',
+            reloadOnSearch: false
+          }).
           otherwise({
             redirectTo: '/nsi'
           });

@@ -1,0 +1,20 @@
+<table>
+	<thead>
+		<tr>
+			<th>full_name</th>
+			<th>avatar</th>
+			<th>email</th>
+			<th>additional_info</th>
+			<th>report_date</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr ng-repeat="(key, value) in reports">
+			<td>{{value.full_name}}</td>
+			<td>{{value.avatar}}</td>
+			<td>{{value.email}}</td>
+			<td>{{value.additional_info}}</td>
+			<td>{{value.report_date}}</td>
+		</tr>
+	</tbody>
+</table>
