@@ -4,11 +4,8 @@
 		<a href="/admin/index.html" class="logo">
 		</a>
 		
-		<ul>
-			<li class="current"><a ng-cloak href="/admin/index.html#/approve">Approve</a></li>
-			<li><a ng-cloak href="/admin/index.html#/reports">Reports</a></li>
-			<li><a ng-cloak href="/admin/index.html#/graphs">Graph</a></li>
-			<li><a ng-cloak href="/admin/index.html#/nsi">NSI</a></li>
+		<ul ng-controller="MenuController">
+			<li ng-class="{current: value.current}" ng-repeat="(key, value) in items"><a ng-cloak ng-click="onItemClick(value)" href="{{value.href}}">{{value.title}}</a></li>
 		</ul>
 	</div>
 </header>

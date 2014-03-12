@@ -3,11 +3,6 @@
 pgrModule.config(['$routeProvider',
     function($routeProvider) {
         $routeProvider.
-          when('/', {
-            templateUrl: 'admin/views/main.html',
-            controller: 'MainController',
-            reloadOnSearch: false
-          }).
           when('/graphs', {
             templateUrl: 'admin/views/graphs.html',
             controller: 'GraphsController',
@@ -24,7 +19,7 @@ pgrModule.config(['$routeProvider',
             reloadOnSearch: false
           }).
           otherwise({
-            redirectTo: '/'
+            redirectTo: '/nsi'
           });
     }
 ]);
