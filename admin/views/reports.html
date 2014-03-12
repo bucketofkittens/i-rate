@@ -12,7 +12,9 @@
 		<tbody>
 			<tr ng-repeat="(key, value) in reports">
 				<td ng-class="{accept: value.status == 1, denied: value.status == 2, quest: value.status == 0}"></td>
-				<td>{{value.user.points}} <br /> {{value.user.league.name}} league</td>
+				<td>
+					<p>{{value.user.points}}<s></s>{{value.user.league.name}} league</p>
+				</td>
 				<td class="reper">
 					<img ng-src="{{value.user.avatar}}" alt="">
 					<p>{{value.user.name}}<s></s>{{value.user.email}}</p>
@@ -21,7 +23,9 @@
 					<img ng-src="{{value.document_photo}}" alt="">
 					<p>{{value.full_name}}<s></s>{{value.email}}</p>
 				</td>
-				<td>{{value.1}}</td>
+				<td>
+					<p>{{value.1}}</p>
+				</td>
 			</tr>
 		</tbody>
 	</table>
