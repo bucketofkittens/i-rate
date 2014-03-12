@@ -27,18 +27,8 @@ function RootController($scope, FacebookService, СareerService, LeagueService, 
 
     $scope.workspace.users = {};
 
-    // забираем список друзей
-    $scope.getFriendsCallback_ = function(data) {
-        $scope.workspace.friends = data;
-    }
-
     $scope.isAdminCallback_ = function(data) {
         console.log(data);
-    }
-    
-    // если пользователь есть в кеше забираем список его друзей с сервера
-    if($scope.workspace.user) {
-        UserService.getFriends($scope.workspace.user.sguid, $scope.getFriendsCallback_);
     }
 
     if(!$scope.workspace.user) {
@@ -46,11 +36,6 @@ function RootController($scope, FacebookService, СareerService, LeagueService, 
     } else {
         UserService.isAdmin($scope.workspace.user.sguid, $scope.isAdminCallback_);
     }
-
-    /**
-     * Массив хренения списка друзей для не авторизованного пользователя
-     */
-    $scope.workspace.friends = $scope.workspace.user && $scope.workspace.user.friends ? $scope.workspace.user.friends : FriendsService.getList();
 
     $scope.needsServiceCallback_ = function(data) {
         $scope.workspace.needs = data;

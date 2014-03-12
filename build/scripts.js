@@ -4687,6 +4687,19 @@ pgrModule.directive('commentScroll', function() {
   }
 });
 
+pgrModule.directive('positionGraph', function() {
+  return {
+    link: function(scope, element, attrs) {
+      attrs.$observe('points', function(data) {
+        var percent = attrs.max/100;
+        $(element).css("top", 100-attrs.points/percent+"%");
+      });
+    }
+  }
+});
+
+
+
 pgrModule.directive('scrolls', function() {
   return {
     link: function(scope, element, attrs) {

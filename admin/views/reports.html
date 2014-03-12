@@ -8,16 +8,30 @@
 				<th>Name / E-mail</th>
 				<th>Photo / Name / E-mail (Report)</th>
 				<th>Comment</th>
+				<th></th>
 			</tr>
 		</thead>
 		<tbody>
 			<tr ng-repeat="(key, value) in reports">
-				<td>{{value.1}}</td>
+				<td></td>
 				<td>{{value.1}} <br /> {{value.1}}</td>
-				<td>{{value.avatar}}</td>
-				<td>{{value.full_name}} <br /> {{value.email}}</td>
-				<td style="background: rgba(130, 50, 50, 0.5)">{{value.1}} <br /> {{value.1}} <br /> {{value.1}}</td>
+				<td></td>
+				<td></td>
+				<td style="background: rgba(130, 50, 50, 0.5)">
+					<table>
+						<tbody>
+							<tr>
+								<td width="110px"><img ng-src="{{value.document_photo}}" alt=""></td>
+								<td>{{value.full_name}}<br />{{value.email}}</td>
+							</tr>
+						</tbody>
+					</table>
+				</td>
 				<td>{{value.1}}</td>
+				<td>
+					<input type="button" ng-click="onAccept(value)" value="Accept" />
+					<input type="button" ng-click="onDenied(value)" value="Denied" />
+				</td>
 			</tr>
 		</tbody>
 	</table>
