@@ -5744,7 +5744,7 @@ pgrModule.factory('Needs', function ($resource) {
  */
 pgrModule.factory('Reports', function ($resource) {
     return $resource(
-        host+'/reports/:id', 
+        host+'/reports/:id',
         {id:'@id'}, 
         {
             create: {method: 'POST'},
@@ -6035,7 +6035,7 @@ pgrModule.service('ReportService', function (Reports) {
 
     // создание обновление пользователя
     this.update = function(sguid, params, callback) {
-        User.updateUser({id: sguid},  {user: JSON.stringify(params)}, function(data) {
+        Reports.updateReport({id: sguid},  JSON.stringify(params), function(data) {
             if(callback) {
                 callback(data);    
             }
@@ -9664,7 +9664,6 @@ function ReportController($scope, ReportService, $location, TokenService, $timeo
     }
 
     $scope.onReportCallback_ = function(dataItem) {
-
         var data = new FormData();
         data.append("picture", $scope.selectedFiles[0]);
         data.append("owner_type", 4);
