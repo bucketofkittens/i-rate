@@ -149,66 +149,14 @@ body {
 			#reports_container {
 				width: 980px;
 			   padding: 10px;
-			   background: transparent;			   
-			   tr {
-			   	height: 70px;
-				   .accept {
-				   	background: none;
-				   	width: 70px;
-				   	min-height: 50px;
-				   }
-				   .denied {
-				   	background: url("../images/ban.png") 10px 10px no-repeat;
-				   	background-size: 50px 50px;
-				   	width: 70px;
-				   	min-height: 50px;
-				   } 
-				   .quest {
-				   	background: url("../images/que.png") 20px 10px no-repeat;
-				   	background-size: 30px 50px;
-				   	width: 70px;
-				   	min-height: 50px;
-				   }
-			   }
-			   td {
-			   	img {
-			   		width: 70px;
-			   		height: 70px;
-			   		display: inline-block;
-			         vertical-align: middle;
-			   	}
-			   	p {
-			   		color: #ffffff;
-			         font-size: 14px;
-			         display: inline-block;
-			         vertical-align: middle;
-			         margin-left: 10px;
-			   	}
-			   	s {
-			   		display: block;
-			   		margin: 10px 0px;
-			   	}
-			   }
+			   background: transparent;
 			}
 
 			/** APPROVE **/
 			#approve {
-				
-			   tr {
-			   	min-height: 70px;
-				   &:nth-child(2n) td:first-child {
-				   	background: url("../images/ban.png") 10px 10px no-repeat;
-				   	background-size: 50px 50px;
-				   	width: 70px;
-				   	min-height: 50px;
-				   }
-				   &:nth-child(2n+1) td:first-child {
-				   	background: url("../images/que.png") 20px 10px no-repeat;
-				   	background-size: 30px 50px;
-				   	width: 70px;
-				   	min-height: 50px;
-				   }
-			   }
+				width: 980px;
+			   padding: 10px;
+			   background: transparent;
 			}
 
 
@@ -253,7 +201,51 @@ body {
 							}		   				
 		   			}
 		   		}
-				}
+				}	
+			   &.moder {		   
+				   tr {
+				   	height: 70px;
+				   	&:first-child {
+				   		height: 30px;
+				   	}
+					   .accept {
+					   	background: none;
+					   	width: 70px;
+					   	min-height: 50px;
+					   }
+					   .denied {
+					   	background: url("../images/ban.png") 10px 10px no-repeat;
+					   	background-size: 50px 50px;
+					   	width: 70px;
+					   	min-height: 50px;
+					   } 
+					   .quest {
+					   	background: url("../images/que.png") 20px 10px no-repeat;
+					   	background-size: 30px 50px;
+					   	width: 70px;
+					   	min-height: 50px;
+					   }
+					   td {
+					   	img {
+					   		width: 70px;
+					   		height: 70px;
+					   		display: inline-block;
+					         vertical-align: middle;
+					   	}
+					   	p {
+					   		color: #ffffff;
+					         font-size: 14px;
+					         display: inline-block;
+					         vertical-align: middle;
+					         margin-left: 10px;
+					   	}
+					   	s {
+					   		display: block;
+					   		margin: 10px 0px;
+					   	}
+					   }
+				   }
+			   }
 		   }
 		}		
 	}
