@@ -4,10 +4,16 @@
 		
 			<tr ng-repeat="(lKey,lItem) in workspace.leagues | orderBy:'position':true"	>
 				<th>
-					{{lItem.min_border}}
+					{{lItem.max_border}}
 				</th>
-				<td ng-repeat="(uKey,uItem) in lItem.users" points data-points="{{uItem.points}}" data-step="{{lItem.position+1}}">
-					<a ng-if="uItem.name" ng-click="openUser(uItem)">
+				<td 
+					ng-repeat="(uKey,uItem) in lItem.users" >
+					<a 
+						ng-if="uItem.name" 
+						ng-click="openUser(uItem)"
+						position-graph 
+						points="{{uItem.points}}" 
+						max="{{lItem.max_border}}">
 						<img ng-if="uItem.avatar" ng-src="{{uItem.avatar}}" />
 						<img ng-if="!uItem.avatar" src="./images/unknown-person.png" />	
 					</a>

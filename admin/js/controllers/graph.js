@@ -4,7 +4,7 @@ function GraphsController($scope, $rootScope, $route, $location, Leagues, User) 
      * Сурово и беспощадно.
      * Надо будет переписать
      * @return {[type]} [description]
-     */
+    
     setInterval(function() {
         var key = 0;
         $.each($("#graphs tr"), function(key, value){ 
@@ -27,7 +27,7 @@ function GraphsController($scope, $rootScope, $route, $location, Leagues, User) 
             })
         })
     }, 100);
-
+    */
     $scope.$watch('workspace.leagues', function (newVal, oldVal, scope) {
         angular.forEach($scope.workspace.leagues, function(value, key){
             User.by_league({league_guid:value.sguid}, {}, function(v2, k2){
@@ -52,7 +52,7 @@ function GraphsController($scope, $rootScope, $route, $location, Leagues, User) 
      * Забираем список всех пользователей и выбираем только тех у которых 0 пользователей
      * @param  {[type]} datas [description]
      * @return {[type]}       [description]
-     */
+    */
     User.get_all({}, {}, function(datas) {
         $scope.looserUser = datas.filter(function(item) {
             if(item.points == 0) {
@@ -60,7 +60,7 @@ function GraphsController($scope, $rootScope, $route, $location, Leagues, User) 
             }
         });
     });
-
+ 
     $scope.openUser = function(userItem) {
         $rootScope.$broadcast('closeAllGoals');
         $rootScope.$broadcast('showUserProfile', { user: userItem });
