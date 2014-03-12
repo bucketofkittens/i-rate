@@ -5588,6 +5588,12 @@ pgrModule.factory('User', function ($resource) {
                 cache : true,
                 url: host+"/users/for/main/:skip/skip/:limit/limit"
             },
+            'without_points': {
+                method: 'GET',
+                isArray: true,
+                cache : true,
+                url: host+"/users/without/points"
+            },
             'get_names': {
                 method: 'GET',
                 url: host+"/users_names/"

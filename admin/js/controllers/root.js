@@ -28,7 +28,6 @@ function RootController($scope, FacebookService, СareerService, LeagueService, 
     $scope.workspace.users = {};
 
     $scope.isAdminCallback_ = function(data) {
-        console.log(data);
     }
 
     if(!$scope.workspace.user) {
