@@ -9,7 +9,6 @@ function ReportController($scope, ReportService, $location, TokenService, $timeo
     }
 
     $scope.onReportCallback_ = function(dataItem) {
-
         var data = new FormData();
         data.append("picture", $scope.selectedFiles[0]);
         data.append("owner_type", 4);
