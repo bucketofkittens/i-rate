@@ -5474,7 +5474,7 @@ pgrModule.filter('unidate', function () {
 })
 
 pgrModule.filter('usadata', function () {
-    return function(value) {    
+    return function(value) {
         return moment(value).format("MMM DD, YYYY");
     }
 })
@@ -5540,12 +5540,9 @@ pgrModule.factory('User', function ($resource) {
                              * Указваем формат дня рождения
                              */
                             if(user.birthday) {
-                                user.birthday = moment(user.birthday).format("DD.MM.YYYY");
+                                user.birthday = new Date(moment(user.birthday).format());
                             }  
                         }
-
-                        
-
                         return user;    
                     }
             	}
@@ -6095,24 +6092,17 @@ pgrModule.service('UserService', function (User, AllUserService) {
     this.cacheTime = 1440;
 
     // забираем пользователя из кеша
-    this.getAuthData = function() {
-        var data = lscache.get(this.cacheName);
-
-        if(data && data.birthday) {
-            data.birthday = new Date(data.birthday);    
+    this.getAuthData = function(callback) {
+        var sguid = lscache.get(this.cacheName);
+        if(sguid) {
+            this.getById(sguid, callback);    
         }
-        
-        return data;
     }
 
     // передаем данные в кеш
     this.setAuthData = function(user) {
-        user = JSON.parse(JSON.stringify(user));
-        if(user.birthday) {
-            user.birthday = moment(user.birthday).format("DD/MM/YYYY");    
-        }
         // сохраняем данные пользователя в localStorage
-        lscache.set(this.cacheName, JSON.stringify(user), this.cacheTime);
+        lscache.set(this.cacheName, JSON.stringify(user.sguid), this.cacheTime);
     }
 
     // удаляем пользователя из кеша
@@ -6164,10 +6154,10 @@ pgrModule.service('UserService', function (User, AllUserService) {
     // получаем данные по указанному пользователю с указанным id
     this.getById = function(id, callback) {
         User.query({id: id}, function(data) {
-            if(data && data.birthday) {
-                data.birthday = dateFromString(data.birthday);    
+            console.log(data.birthday);
+            if(callback) {
+                callback(data);    
             }
-            callback(data);
         });
     }
 
@@ -6934,7 +6924,7 @@ $templateCache.put('partials/signin.html', "<h4>Sign in</h4>\n<div class=\"sign-
 $templateCache.put('partials/signup-success.html', "<div class=\"small-message\">\n\t<h2>Successful registration!</h2>\n\t<p>The message have been sent to your email. <br />Sign in by the inner link now.</p>\n\t<a ng-click=\"closeModal()\" class=\"close\">Ok</a>\n</div>");
 $templateCache.put('partials/signup.html', "<h4>Sign up</h4>\n<b class=\"close icon\" ng-click=\"changeState(states.SIGNIN)\"></b>\n<div class=\"sign-up\">\n  <ng-form \n    novalidate \n    class=\"css-form myForm\"\n    name=\"RegForm\" >\n    <p>\n      <input \n        type=\"email\" \n        id=\"email_1\" \n        class=\"form-input\"\n        ng-model=\"user.email\" \n        required\n        ng-minlength=\"6\"\n        placeholder=\"Email\"\n        name=\"NewEmail\"\n        ui-keypress=\"{13:'onKeyPressReg($event)'}\"  />\n      <br />\n      <span \n        class=\"errorss\" \n        ng-show=\"RegForm.NewEmail.$dirty && (RegForm.NewEmail.$error.required || RegForm.NewEmail.$error.minlength || RegForm.NewEmail.$error.email)\">Incorrect email</span>\n      <span class=\"errorss\" ng-if=\"errorEmail\">{{errorEmail}}</span>\n    </p>\n    <p>\n      <input \n        type=\"email\" \n        id=\"email_2\" \n        class=\"form-input\"\n        ng-model=\"user.reemail\" \n        required \n        ng-minlength=\"6\"\n        placeholder=\"Confirm email\"\n        disable-paste\n        onpaste=\"return false;\"\n        name=\"NewMassEmail\"\n        pw-check=\"email_2\"\n        equal='user.email'\n        ui-keypress=\"{13:'onKeyPressReg($event)'}\" />\n      <br />\n      <span \n        class=\"errorss rss\" \n        ng-show=\"RegForm.NewMassEmail.$dirty && (RegForm.NewMassEmail.$error.required || RegForm.NewMassEmail.$error.minlength || RegForm.NewEmail.$error.email)\"> Incorrect mismatch</span> \n      <span class=\"errorss\" ng-if=\"errorName\">{{errorName}}</span>\n    </p>\n    <p>\n      <input \n        type=\"password\" \n        id=\"name_i\" \n        class=\"form-input\"\n        ng-model=\"user.password\" \n        required \n        ng-minlength=\"6\"\n        placeholder=\"Password\"\n        name=\"NewPassword\"\n        ui-keypress=\"{13:'onKeyPressReg($event)'}\" /> \n      <br />\n      <span \n        class=\"errorss rrss\" \n        ng-show=\"RegForm.NewPassword.$dirty && (RegForm.NewPassword.$error.required || RegForm.NewPassword.$error.minlength)\">Incorrect password</span>\n    </p>\n    <div\n      vc-recaptcha\n      theme=\"blackglass\"\n      lang=\"en\"\n      ng-model=\"captha\"\n      key=\"6Lf1Z-oSAAAAAEkk7m5n6cGiwgqeMya21UetPbIO\">\n    </div>\n\n    <p class=\"errors\" ng-if=\"errorValidate\"><br />{{errorValidate}}</p><br />\n\n    <p class=\"acknowledge\">\n      <input type=\"checkbox\"  required=\"required\" ng-model=\"acknowledge\" class=\"icheckbox_minimal\" />\n      <label>I acknowledge I have read and accept the<a href=\"/views/terms.html\" class=\"notdark\">Terms of use Agreement</a> and consent to the <a href=\"/views/terms.html\" class=\"notdark\">Privacy Policy</a>.</label>\n    </p>\n\n    <p class=\"signup-submit\">\n      <input \n        type=\"button\" \n        value=\"Sign up\"\n        ng-disabled=\"RegForm.$invalid\"\n        ng-click=\"addUser()\" />\n    </p>\n  </ng-form>\n</div>");
 $templateCache.put('partials/user.html', "<div ng-if=\"user\" class=\"sam\" ng-class=\"{big: big}\">\n\t<div class=\"pmain pro\" >\n\t\t<div class=\"block\">\n\t\t\t<div class=\"image_box\" >\n\t\t\t\t<img class=\"pp\" ng-if=\"user.avatar\" ng-src=\"{{user.avatar}}\" err-src=\"/images/unknown-person.png\" />\n\t\t\t\t<img class=\"pp\" ng-if=\"!user.avatar\" src=\"/images/unknown-person.png\" />\n\t\t\t\t<s ng-if=\"user.artificial\">profile is created by experts based on available public info</s>\n\t\t\t</div>\n\t\t</div>\n\t\t<div class=\"pmpar\" ng-if=\"user\">\n\t\t\t<p>\n\t\t\t\t<i>{{user.name}}</i>\n\t\t\t</p>\n\t\t\t<p>\n\t\t\t\t<i ng-if=\"user.birthday\">{{user.birthday | usadata}}</i>\n\t\t\t</p>\n\t\t\t<p>\n\t\t\t\t<i ng-if=\"user.state.name || user.city.name\">\n\t\t\t\t\t<span ng-if=\"user.state.name\">{{user.state.name}}</span>\n\t\t\t\t\t<span ng-if=\"user.city.name\">\n\t\t\t\t\t\t<span ng-if=\"user.state.name\">,</span> \n\t\t\t\t\t\t{{user.city.name}}\n\t\t\t\t\t</span>\n\t\t\t\t</i>\n\t\t\t<p>\n\t\t\t\t<i  ng-if=\"user.profession.name || user.goal_name\">{{user.profession.name}}<span ng-if=\"user.goal_name\">, {{user.goal_name}}</span></i>\n\t\t\t</p>\n\n\t\t\t<p>\n\t\t\t\t<i> <img ng-src=\"{{user.league.icon}}\" alt=\"\" /> {{user.league.name}} league</i>\n\t\t\t</p>\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\n\t\t\t<p>\n\t\t\t\t<i>Score: {{user.points | unidate}}</i>\n\t\t\t</p>\n\t\t</div>\n\n\t\t<!-- статситика -->\n\t\t<b class=\"statis stf\">{{user.likes}}</b>\n\t\t<b class=\"statis stv\">{{user.views}} views</b>\n\n\t\t<a class=\"il\" ng-if=\"user && !isFriend && !compare\" ng-click=\"onFollow()\">\n\t\t\t<img src=\"../images/i3.png\" alt=\"\" />\n\t\t</a>\n\t\t<a class=\"il\" ng-if=\"user && isFriend && !compare\" ng-click=\"onUnFollow()\">\n\t\t\t<img src=\"../images/i3i.png\" alt=\"\" />\n\t\t</a>\n\n\t\t<!-- кнопочка закрытия -->\n\t\t<a class=\"il\" ng-click=\"close()\">\n\t\t\t<img src=\"../images/cl.png\">\n\t\t</a> \n\t</div>\n\n\t<!-- переключатель колбасы/комментарии -->\n\t<div class=\"mynav notmynav\">\n\t\t<ul>\n\t\t\t<li ng-click=\"onChangeTab(1)\" ng-class=\"{current: tab == 1}\">\n\t\t\t\t<a>Profile</a>\n\t\t\t</li>\n\t\t\t<li ng-click=\"onChangeTab(2)\" ng-class=\"{current: tab == 2}\">\n\t\t\t\t<a>Comments</a>\n\t\t\t</li>\n\t\t</ul>\n\t</div>\n\n\t<perfect-scrollbar\n\t\tclass=\"tab tabss current_{{tab}}\"\n\t\tscroller\n\t\tscrolls\n\t\tscrolls-class=\"tabss\"\n\t\tid=\"tab_{{route}}\">\n\t\t<div \n\t\tng-controller=\"UserCommentsController\" \n\t\tng-show=\"tab == 2\" \n\t\tclass=\"comments\">\n\t\t\t<perfect-scrollbar class=\"comm\" scroller-step=\"360\" comment-scroll>\n\t\t\t\t<div class=\"cmnt\" ng-repeat=\"comment in commentsList | orderBy:'post_date':true\"  >\n\t\t\t\t\t<strong>{{comment.user.name}}</strong>\n\t\t\t\t\t<i>{{comment.post_date}}</i>\n\t\t\t\t\t<br />\n\t\t\t\t\t<p>{{comment.message}}</p>\n\t\t\t\t\t<em></em>\n\t\t\t\t</div>\n\t\t\t</perfect-scrollbar>\n\t\t\t<div class=\"butcomm\">\n\t\t\t\t<em></em>\n\t\t\t\t<ng-form name=\"CommentForm\">\n\t\t\t\t\t<textarea ng-change=\"changeText()\" ng-model=\"form.message\" msd-elastic id=\"comment_message\" name=\"comment\" placeholder=\"Enter your comment here\"></textarea>\n\t\t\t\t\t<button ng-class=\"{disable: disable || !workspace.user}\" class=\"button \" ng-click=\"onSendMessage()\">Send</button>\n\t\t\t\t</ng-form>\n\t\t\t\t<!-- report button -->\n\t\t\t\t<button class=\"button repcha\" ng-click=\"changeReport()\"></button>\n\t\t\t\t<button class=\"button rep\" ng-if=\"isReport\" ng-click=\"openReport()\">Report</button>\n\t\t\t</div>\n\t\t</div>\n\n\t\t<div \n\t\t\tclass=\"crits\" \n\t\t\tng-controller=\"NeedsAndGoalsController\" \n\t\t\tng-show=\"tab == 1\">\n\t\t\t<ul ng-controller=\"UserNeedsController\"> \n\t\t\t\t<li \n\t\t\t\t\tclass=\"{{needItem.name}}\" \n\t\t\t\t\tng-repeat=\"(needKey, needItem) in needs | orderBy:'position'\" \n\t\t\t\t\tdata-needId=\"{{needItem.sguid}}\">\n\t\t\t\t\t<div class=\"cr\" ng-click=\"onShowGoals($event, needItem)\">\n\t\t\t\t\t\t<p>{{needItem.name}}</p>\n\t\t\t\t\t\t<div class=\"right\">\n\t\t\t\t\t\t\t<b>{{needItem.current_value | notnull}} / {{needItem.points_summary}}</b>\n\t\t\t\t\t\t\t<strong>\n\t\t\t\t\t\t\t\t<span \n\t\t\t\t\t\t\t\t\tclass=\"current_position\"\n\t\t\t\t\t\t\t\t\tposition-need>\n\t\t\t\t\t\t\t\t</span>\n\t\t\t\t\t\t\t</strong>\t\n\t\t\t\t\t\t</div>\n\t\t\t\t\t\t<sup class=\"compare\" route=\"{{route}}\" comparator values=\"{{needsValues[needItem.sguid]}}\"></sup>\n\t\t\t\t\t</div>\n\t\t\t\t\t<ul ng-class=\"{hidden: needItem.hidden}\">\n\t\t\t\t\t\t<li ng-repeat=\"(goalKey,goalItem) in needItem.goals | orderBy:'position'\" \n\t\t\t\t\t\t\tdata-goalid=\"{{goalItem.sguid}}\" \n\t\t\t\t\t\t\tuser-id=\"{{user.sguid}}\" >\n\t\t\t\t\t\t\t<h5 ng-click=\"showCriterias($event, needItem, goalItem, needs)\">\n\t\t\t\t\t\t\t\t<a \n\t\t\t\t\t\t\t\t\tng-class=\"{current: goalItem.current}\"\n\t\t\t\t\t\t\t\t\tdata-goalid=\"{{goalItem.sguid}}\" \n\t\t\t\t\t\t\t\t\tuser-id=\"{{user.sguid}}\">\n\t\t\t\t\t\t\t\t\t<span>\n\t\t\t\t\t\t\t\t\t\t<img \n\t\t\t\t\t\t\t\t\t\t\tng-src=\"/images/goals/{{needItem.name | removewhite}}/{{goalItem.name | removewhite}}.png\"\n\t\t\t\t\t\t\t\t\t\t\talt=\"\" \n\t\t\t\t\t\t\t\t\t\t\ttitle=\"{{goalItem.name}}\" />\n\t\t\t\t\t\t\t\t\t</span>\n\t\t\t\t\t\t\t\t\t<h6>{{goalItem.name}}</h6>\n\t\t\t\t\t\t\t\t\t<s></s>\n\t\t\t\t\t\t\t\t</a>\t\n\t\t\t\t\t\t\t\t<div class=\"right\">\n\t\t\t\t\t\t\t\t\t<strong>\n\t\t\t\t\t\t\t\t\t\t<span position-goal class=\"current_position\" ></span>\n\t\t\t\t\t\t\t\t\t</strong>\n\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t<i ng-if=\"!goalItem.current\"><em></em></i>\n\t\t\t\t\t\t\t\t<sup \n\t\t\t\t\t\t\t\t\tclass=\"compare goal\" \n\t\t\t\t\t\t\t\t\troute=\"{{route}}\" \n\t\t\t\t\t\t\t\t\tcomparator \n\t\t\t\t\t\t\t\t\tvalues=\"{{goalsValues[goalItem.sguid]}}\" >\n\t\t\t\t\t\t\t\t</sup>\n\t\t\t\t\t\t\t</h5>\n\t\t\t\t\t\t\t<ul class=\"criterion\" ng-class=\"{current: goalItem.current}\">\n\t\t\t\t\t\t\t\t<li \n\t\t\t\t\t\t\t\t\tdata-id=\"{{crItem.sguid}}\"\n\t\t\t\t\t\t\t\t\tng-repeat=\"crItem in goalItem.criteriums | orderBy:'position'\"\n\t\t\t\t\t\t\t\t\tng-show=\"goalItem.criteriums.all_load\" >\n\t\t\t\t\t\t\t\t\t<p>{{crItem.name}}</p>\n\t\t\t\t\t\t\t\t\t<div class=\"bord\">\n\t\t\t\t\t\t\t\t\t\t<ul class=\"crp\">\n\t\t\t\t\t\t\t\t\t\t\t<div class=\"tab\">\n\t\t\t\t\t\t\t\t\t\t\t\t<li data-id=\"{{value.sguid}}\"  \n\t\t\t\t\t\t\t\t\t\t\t\t\tng-repeat=\"value in crItem.criteria_values | orderBy:'position'\"  \n\t\t\t\t\t\t\t\t\t\t\t\t\tclass=\"{{value.user_criteria}} position_{{value.position}}\" >\n\t\t\t\t\t\t\t\t\t\t\t\t\t<i ng-if=\"value.sguid != 'none'\">{{value.name}}</i>\n\t\t\t\t\t\t\t\t\t\t\t\t\t<i ng-if=\"value.sguid == 'none'\" class=\"null_criteria\"></i>\n\t\t\t\t\t\t\t\t\t\t\t\t</li>\n\t\t\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t\t\t<span colbasa colbasa-current=\"{{crItem.user_criteria_sguid}}\">\n\t\t\t\t\t\t\t\t\t\t\t\t<sup></sup>\n\t\t\t\t\t\t\t\t\t\t\t</span>\n\t\t\t\t\t\t\t\t\t\t</ul>\n\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t<sup \n\t\t\t\t\t\t\t\t\t\tclass=\"compare criterium\" \n\t\t\t\t\t\t\t\t\t\troute=\"{{route}}\" \n\t\t\t\t\t\t\t\t\t\tcomparator \n\t\t\t\t\t\t\t\t\t\tvalues=\"{{criteriumsValues[crItem.sguid]}}\">\n\t\t\t\t\t\t\t\t\t</sup>\n\t\t\t\t\t\t\t\t</li>\n\t\t\t\t\t\t\t</ul>\n\t\t\t\t\t\t</li>\n\t\t\t\t\t\t\n\t\t\t\t\t</ul>\n\t\t\t\t</li>\n\t\t\t</ul>\n\t\t</perfect-scrollbar>\n\t</div>\n</div>");
-$templateCache.put('partials/users.html', "<div id=\"users\" class=\"full_height\" ng-if=\"show\" >\n\t<div class=\"center\">\n\t\t<div \n\t\t\tclass=\"full_height user sha\" \n\t\t\tng-controller=\"UserController\" \n\t\t\tng-include\n\t\t\tng-init=\"init('user1')\"\n\t\t\tsrc=\"'partials/user.html'\">\n\t\t</div>\n\t\t<div \n\t\t\tclass=\"full_height user\" \n\t\t\tng-controller=\"UserController\" \n\t\t\tng-include\n\t\t\tng-init=\"init('user2')\"\n\t\t\tsrc=\"'partials/user.html'\">\n\t\t</div>\t\n\t</div>\n</div>");
+$templateCache.put('partials/users.html', "<div id=\"users\" class=\"full_height\" ng-if=\"show\" >\n\t<div class=\"center\">\n\t\t<div \n\t\t\tclass=\"full_height user sha\" \n\t\t\tng-controller=\"UserController\" \n\t\t\tng-include\n\t\t\tng-init=\"init('user1')\"\n\t\t\tsrc=\"'partials/user.html'\">\n\t\t</div>\n\t\t<div \n\t\t\tclass=\"full_height user\" \n\t\t\tng-controller=\"UserController\" \n\t\t\tng-include\n\t\t\tng-init=\"init('user2')\"\n\t\t\tsrc=\"'partials/user.html'\">\n\t\t</div>\n\t</div>\n</div>");
 }]);
 
 Array.prototype.shuffle = function(b) {
@@ -7024,7 +7014,7 @@ Array.prototype.shuffle = function() {
 }(document, 'script', 'facebook-jssdk'));
 
 function dateFromString(str) {
-  return  moment(str, "MM.DD.YYYY").format();
+  return  moment(str, "DD.MM.YYYY").format();
 }
 
 
@@ -8149,518 +8139,6 @@ function ModalController($scope, $rootScope) {
         $rootScope.$broadcast('hideShadow');
     }
 }
-function MyProfileController($scope, $rootScope, User, $location, $cookieStore, Professions, ProfessionCreate, City, States, CityByState) {
-    $scope.tab = 2;
-    $scope.curNeed = null;
-    $scope.curProff = [];
-    $scope.curState = [];
-    $scope.showProf = false;
-    $scope.showProf2 = false;
-    $scope.showState = false;
-    $scope.showState2 = false;
-    $scope.isAddState = false;
-    $scope.career = null;
-    $scope.isAddProff = false;
-    $scope.states = [];
-    $scope.state = null;
-    $scope.countCareerChange = 0;
-    $scope.countCityChange = 0;
-
-    /**
-     * Имена всех пользователей
-     * @type {Array}
-     */
-    $scope.names = [];
-
-    /**
-     * Список имен отображаемый
-     * @type {Array}
-     */
-    $scope.showedNames = [];
-
-    /**
-     * Показываем или нет список имен пользователей
-     * @type {Boolean}
-     */
-    $scope.isShowNames = false;
-
-    $("body").on("click", function() {
-        $scope.$apply(function() {
-            $scope.showProf2 = false;
-            $scope.showState2 = false;
-            $scope.showedNames = [];
-        });
-    });
-
-    /**
-     * Забираем имена всех пользователей
-     * @param  {[type]} $event [description]
-     * @return {[type]}        [description]
-     */
-    $scope.getAllNames = function($event) {
-        User.get_names({}, {}, function(data) {
-            $scope.names = JSON.parse(data.message);
-        });
-    }
-
-    /**
-     * Проверяем вхождение введенного имени в списке имен
-     * @param  {[type]} $event [description]
-     * @return {[type]}        [description]
-     */
-    $scope.testUserNames_ = function($event) {
-        
-    }
-
-    $scope.selectCareer = function($event, career) {
-        if(career) {
-            Professions.query({ id: career.sguid }, {}, function(data) {
-                $scope.showProf = true;
-                $scope.curProff = data;
-                $scope.career = career;
-
-                if($scope.countCareerChange != 0) {
-                    $scope.workspace.user.profession = {};
-                }
-
-                $scope.countCareerChange += 1;
-            });    
-        }
-    }
-
-    $scope.selectCityByState = function($event, state) {
-        if(state) {
-            CityByState.query({ id: state.sguid }, {}, function(data) {
-                $scope.showState = true;
-                $scope.curState = data;
-                $scope.state = state;
-
-                if($scope.countCityChange != 0) {
-                    $scope.workspace.user.city = {};
-                }
-
-                $scope.countCityChange += 1;
-            });    
-        }
-    }
-
-    $scope.selectCity = function($event) {
-        City.query({}, {}, function(data) {
-            $scope.showState = true;
-            $scope.curState = data;
-        });
-    }
-
-    $scope.getStates = function($event) {
-        States.query({}, {}, function(data) {
-            $scope.showState = true;
-            $scope.states = data;
-        });    
-    }
-
-    $scope.getStates();
-    $scope.selectCity();
-    $scope.getAllNames();
-
-    $scope.deleteItem = function($event, item, key) {
-        ProfessionCreate.del({id: item.sguid}, {}, function(data) {
-            $scope.curProff.splice(key, 1);
-        });
-    }
-
-    $scope.deleteCityItem = function($event, item, key) {
-        City.del({id: item.sguid}, {}, function(data) {
-            $scope.curState.splice(key, 1);
-        });
-    }
-
-    $scope.selectCurrentProfession = function($event, item, key) {
-        $scope.showProf2 = false;
-        $scope.isAddProff = false;
-        $scope.workspace.user.profession.name = item.name;
-        $scope.workspace.user.profession.sguid = item.sguid;
-        $scope.onPublish();    
-    }
-
-    $scope.selectCurrentCity = function($event, item, key) {
-        $scope.showState2 = false;
-        $scope.isAddState = false;
-        $scope.workspace.user.city.name = item.name;
-        $scope.workspace.user.city.sguid = item.sguid;
-        $scope.onPublish();    
-    }
-
-    $scope.selectProfession = function($event) {
-        var countShow = 0;
-        var proffisset = false;
-
-        if($scope.workspace.user.profession.name.length > 0) {
-            angular.forEach($scope.curProff, function(value, key) {
-                var reg = new RegExp($scope.workspace.user.profession.name, "i");
-                if(reg.test(value.name)) {
-                    countShow += 1;
-                    value.show = true;
-                } else {
-                    value.show = false;
-                }
-                if(value.name == $scope.workspace.user.profession.name) {
-                    $scope.isAddProff = false;
-                    proffisset = true;
-                }
-            });    
-        } else {
-            $scope.showProf2 = false;
-            $scope.isAddProff = false;
-        }
-        
-
-        if(!proffisset) {
-            $scope.isAddProff = true;
-        }
-
-        if(countShow > 0) {
-            $scope.showProf2 = true;
-        } else {
-            $scope.showProf2 = false;
-            $scope.isAddProff = true;
-        }
-
-        if($scope.workspace.user.profession.name.length == 0) {
-            $scope.isAddProff = false;
-        }
-    }
-
-    $scope.testCity = function($event) {
-        var countShow = 0;
-        var proffisset = false;
-
-        if($scope.workspace.user.city.name.length > 0) {
-            angular.forEach($scope.curState, function(value, key) {
-                var reg = new RegExp($scope.workspace.user.city.name, "i");
-                if(reg.test(value.name)) {
-                    countShow += 1;
-                    value.show = true;
-                } else {
-                    value.show = false;
-                }
-                if(value.name == $scope.workspace.user.city.name) {
-                    $scope.isAddState = false;
-                    proffisset = true;
-                }
-            });    
-        } else {
-            $scope.showState2 = false;
-        }
-        
-        if(!proffisset) {
-            $scope.isAddState = true;
-        }
-        if(countShow > 0) {
-            $scope.showState2 = true;
-        } else {
-            $scope.showState2 = false;
-            $scope.isAddState = true;
-        }
-
-        if($scope.workspace.user.city.name.length == 0) {
-            $scope.isAddState = false;
-        }
-    }
-
-    $scope.addProfession = function($event) {
-        ProfessionCreate.create({}, {
-            "profession": { 
-                name: $scope.workspace.user.profession.name 
-            },
-            "goal_guid": $scope.career.sguid
-        }, function(data) {
-            $scope.workspace.user.profession.name = data.message.name;
-            $scope.workspace.user.profession.sguid = data.message.guid;
-            $scope.onPublish();
-            Professions.query({ id: $scope.career.sguid }, {}, function(data) {
-                $scope.curProff = data;
-                $scope.isAddProff = false;
-            });
-        });
-
-        return false;
-    }
-
-    $scope.addCity = function($event) {
-        City.create({}, {
-            "city": { 
-                name: $scope.workspace.user.city.name
-            },
-            "state_guid": $scope.state.sguid
-        }, function(data) {
-            $scope.workspace.user.city.name = data.message.name;
-            $scope.workspace.user.city.sguid = data.message.guid;
-            $scope.onPublish();
-            City.query({}, {}, function(data) {
-                $scope.curState = data;
-                $scope.isAddState = false;
-            });
-        });
-
-        return false;
-    }
-
-    if($cookieStore.get("myProfileTab")) {
-        $scope.tab = $cookieStore.get("myProfileTab");    
-    }
-
-    /**
-     * Проверка изменения даты рождения
-     * @param  {[type]} newVal [description]
-     * @param  {[type]} oldVal [description]
-     * @param  {[type]} scope  [description]
-     * @return {[type]}        [description]
-     */
-    $scope.$watch("workspace.user.birthday", function (newVal, oldVal, scope) {
-        if(newVal) {
-            $scope.workspace.user.birthdayDate = moment(newVal).toDate();
-        }
-    });
-
-    $scope.$watch("workspace.user.profession", function (newVal, oldVal, scope) {
-        if($scope.workspace.user && $scope.workspace.user.profession && $scope.curNeed) {
-            if($scope.workspace.user.profession.goal_sguid) {
-                $scope.career = $scope.curNeed.goals.filter(function(value) {
-                    if(newVal.goal_sguid == value.sguid) {
-                        return value;
-                    }
-                })[0];
-                $scope.selectCareer({}, $scope.career);
-                $scope.showProf = true;    
-            }
-        }
-    });
-
-    $scope.$watch("workspace.user.state", function (newVal, oldVal, scope) {
-        if($scope.workspace.user && $scope.workspace.user.state && $scope.states.length > 0) {
-            angular.forEach($scope.states, function(value, key){
-                if(value.sguid == $scope.workspace.user.state.sguid) {
-                    $scope.state = value;
-                }
-            });
-            $scope.selectCityByState({}, $scope.state);
-            $scope.showState = true;
-        }
-    });
-
-    $scope.$watch("workspace.user", function (newVal, oldVal, scope) {
-        if($scope.workspace.user && !$scope.workspace.user.profession && $scope.curNeed) {
-            $scope.career = $scope.curNeed.goals[1];
-            $scope.selectCareer({}, $scope.career);
-        }
-
-        if($scope.workspace.user && !$scope.workspace.user.city && $scope.states.length > 0) {
-            $scope.setDefaultState();
-        }
-    });
-
-    $scope.setDefaultState = function() {
-        angular.forEach($scope.states, function(value, key){
-            if(value.sguid == "459827700832404777") {
-                $scope.state = value;
-            }
-        });
-        $scope.selectCityByState({}, $scope.state);
-    }
-
-    $scope.$watch("states", function (newVal, oldVal, scope) {
-        if($scope.workspace.user && !$scope.workspace.user.city && $scope.states.length > 0) {
-            $scope.setDefaultState();
-        }
-        if($scope.workspace.user && $scope.workspace.user.city && $scope.workspace.user.state && $scope.states.length > 0) {
-            angular.forEach($scope.states, function(value, key){
-                if(value.sguid == $scope.workspace.user.state.sguid) {
-                    $scope.state = value;
-                }
-            });
-            $scope.selectCityByState({}, $scope.state);
-            $scope.showState = true;
-        }
-    });
-
-    $scope.$watch("workspace.needs", function (newVal, oldVal, scope) {
-        if($scope.workspace.needs) {
-
-            var needs = JSON.parse(JSON.stringify($scope.workspace.needs)); ;
-            $scope.curNeed = needs.filter(function(value) {
-                if(value.sguid == "169990243011789827") {
-                    return value;
-                }
-            })[0];
-            $scope.curNeed.goals = $scope.curNeed.goals.filter(function(value) {
-                if(value.sguid != "170689401829983233") { return value }
-            });
-
-            if($scope.workspace.user && $scope.workspace.user.profession) {
-                $scope.career = $scope.curNeed.goals.filter(function(value) {
-                    if($scope.workspace.user.profession.goal_sguid == value.sguid) {
-                        return value;
-                    }
-                })[0];
-                $scope.selectCareer({}, $scope.career);
-                $scope.showProf = true;
-            }
-            if($scope.workspace.user && !$scope.workspace.user.profession) {
-                $scope.career = $scope.curNeed.goals[1];
-                $scope.selectCareer({}, $scope.career);
-            }
-        }
-    });
-
-    $scope.$watch("workspace.user.birthdayDate", function (newVal, oldVal, scope) {
-        if(oldVal && newVal) {
-            $scope.onPublish();
-        }
-    });
-
-    $scope.$watch("workspace.user.name", function (newVal, oldVal, scope) {
-        $scope.showedNames = [];
-
-        if($scope.workspace.user && $scope.workspace.user.name && $scope.workspace.user.name.length > 0) {
-            var reg = new RegExp($scope.workspace.user.name, "i");
-            angular.forEach($scope.names, function(value, key) {
-                if(value && reg.test(value)) {
-                    $scope.showedNames.push(value);
-                }
-            });    
-        }
-        if(oldVal && newVal) {
-            $scope.onPublish();
-        }
-    });
-
-    $scope.$on('criteriaOpened', function($event) {
-       $("#content .tab .mypro_wr .mypro").scrollTop(0);
-    });
-
-    $scope.nameIsError = false;
-
-    /**
-     * Публикация профиля
-     * Пока не работает нет backend
-     * @param  {[type]} $event [description]
-     * @return {[type]}        [description]
-     */
-    $scope.onPublish = function($event) {
-        if(!$scope.workspace.user.published) {
-            $scope.workspace.user.published = 0;
-        }
-
-        var birthday = $scope.workspace.user.birthday;
-        if($scope.workspace.user.birthdayDate) {
-            var birthday = moment($scope.workspace.user.birthdayDate).format("DD/MM/YYYY");
-        } 
-
-        var user = {
-                "login": $scope.workspace.user.login,
-                "email": $scope.workspace.user.email
-        }
-
-        if($scope.workspace.user.name) {
-            user["name"] = $scope.workspace.user.name;
-        }
-
-        if($scope.state) {
-            user["state"] = $scope.state.sguid;
-        }
-
-        if($scope.workspace.user.city) {
-            user["city"] = $scope.workspace.user.city.sguid;
-        }
-
-        if(birthday) {
-            user["birthday"] = birthday;
-        }
-
-        if($scope.workspace.user.profession) {
-            user["profession"] = $scope.workspace.user.profession.sguid;
-        }
-
-        User.updateUser({"id": $scope.workspace.user.sguid},  {user: JSON.stringify(user)}, function(data) {
-                if(data.success) {
-                    $scope.nameIsError = false;
-                } else {
-                    var isName = false;
-                    angular.forEach(data.errors, function(value, key){
-                        if(value == 'name: ["is already taken"]') {
-                            isName = true;
-                        }
-                    });
-                    if(isName) {
-                        $scope.nameIsError = true;
-                    } else {
-                        $scope.nameIsError = false;
-                    }
-                }
-            }
-        );
-    }
-
-    /**
-     * Публикация профиля
-     * Пока не работает нет backend
-     * @param  {[type]} $event [description]
-     * @return {[type]}        [description]
-     */
-    $scope.onUnPublish = function($event) {
-        var user = {
-            "published": 0
-        }
-
-        User.updateUser({"id": $scope.workspace.user.sguid},  {user: JSON.stringify(user)}, function(data) {
-                $scope.workspace.user.published = 0;
-                $rootScope.$broadcast('updatePubliched');
-            }
-        );
-    }
-
-    /**
-     * Публикация профиля
-     * Пока не работает нет backend
-     * @param  {[type]} $event [description]
-     * @return {[type]}        [description]
-     */
-    $scope.onOnPublish = function($event) {
-        var user = {
-            "published": 1
-        }
-
-        User.updateUser({"id": $scope.workspace.user.sguid},  {user: JSON.stringify(user)}, function(data) {
-                $scope.workspace.user.published = 1;
-                $rootScope.$broadcast('updatePubliched');
-            }
-        );
-    }
-
-    $scope.onChangeEmail = function() {
-        $location.path("/change_email"); 
-    }
-
-    
-
-    $scope.$watch("workspace.user.points", function (newVal, oldVal, scope) {
-        if($scope.workspace.user && $scope.workspace.user.sguid && !$scope.workspace.user.league) {
-            $scope.workspace.user.league = {};
-            $scope.workspace.user.league.name = "10";
-        }
-    });
-
-    $scope.dateOptions = {
-        changeYear: true,
-        changeMonth: true,
-        yearRange: '1900:-0'
-    };
-
-    $scope.onChange = function(tab) {
-        $scope.tab = tab;
-        $cookieStore.put("myProfileTab", tab);
-    }
-}
 // контроллер вкладок своего профиля
 function MyProfileController($scope, $location, LocationService, $rootScope, $timeout) {
 	// показываем плашку или нет
@@ -8742,9 +8220,8 @@ function MyProfileController($scope, $location, LocationService, $rootScope, $ti
 		$location.search({});
     });
 
-    // событие переключчения состояния страницы.
-    $scope.$on('$locationChangeSuccess', function (event) {
-        if($location.search().myprofile) {
+    $scope.updateProfileState = function() {
+    	if($location.search().myprofile) {
         	$scope.showProfile = true;
 
         	// проверяем существование nav в location
@@ -8761,6 +8238,17 @@ function MyProfileController($scope, $location, LocationService, $rootScope, $ti
         } else {
         	$scope.showProfile = false;
         }
+    }
+
+    // событие переключчения состояния страницы.
+    $scope.$on('$locationChangeSuccess', function (event) {
+        $scope.updateProfileState();
+    });
+
+    $scope.$watch("workspace.user", function (newVal, oldVal, scope) {
+    	if(newVal) {
+    		$scope.updateProfileState();	
+    	}
     });
 
     // загружаем список нидсов
@@ -9817,25 +9305,24 @@ function RootController($scope, FacebookService, СareerService, LeagueService, 
      * Забираем юзера из кеша
      * @type {[type]}
      */
-    $scope.workspace.user = UserService.getAuthData();
+    $scope.workspace.user = null;
 
-    $scope.workspace.users = {};
+    /**
+     * Массив хренения списка друзей для не авторизованного пользователя
+     */
+    $scope.workspace.friends = [];
+
+    // забираем профиль пользователя
+    $scope.getAuthDataCallback_ = function(data) {
+        $scope.workspace.user = data;
+        UserService.getFriends($scope.workspace.user.sguid, $scope.getFriendsCallback_);
+    }
 
     // забираем список друзей
     $scope.getFriendsCallback_ = function(data) {
         $scope.workspace.friends = data;
     }
     
-    // если пользователь есть в кеше забираем список его друзей с сервера
-    if($scope.workspace.user) {
-        UserService.getFriends($scope.workspace.user.sguid, $scope.getFriendsCallback_);
-    }
-
-    /**
-     * Массив хренения списка друзей для не авторизованного пользователя
-     */
-    $scope.workspace.friends = $scope.workspace.user && $scope.workspace.user.friends ? $scope.workspace.user.friends : FriendsService.getList();
-
     $scope.needsServiceCallback_ = function(data) {
         $scope.workspace.needs = data;
         СareerService.getList($scope.workspace.needs, $scope.careerServiceCallback_);
@@ -9888,6 +9375,8 @@ function RootController($scope, FacebookService, СareerService, LeagueService, 
         // список пользвателей
         UserService.getAll($scope.userServiceCallback_);
     });
+
+    UserService.getAuthData($scope.getAuthDataCallback_);
     
     FacebookService.init();
 }
@@ -11025,10 +10514,6 @@ function UserController($scope, FriendsService, UserService, User, $location, Lo
     // callback получения данных пользователя
     $scope.userServiceGetByIdCallback_ = function(data) {
         $scope.getProgressFlag = false;
-
-        if(data && moment(data.birthday)) {
-            data.birthday = moment(data.birthday).format("DD.MM.YYYY");    
-        }
 
         $scope.user = data;
         

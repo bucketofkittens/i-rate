@@ -23,8 +23,9 @@
 
     <!-- Header -->
     <div ng-include src="'admin/partials/header.html'"></div>
+    
     <!-- Контент -->
-    <div id="content">
+    <div id="content" class="{{location}}">
         <div class="content_wrap" ng-view></div>
 
         <div class="full_height" ng-controller="UsersController" ng-include src="'partials/users.html'"></div>

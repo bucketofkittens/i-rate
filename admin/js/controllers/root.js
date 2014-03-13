@@ -2,7 +2,7 @@
  * Основной контроллер.
  * В нем используются данные которые нужны на всех страницах.
  */
-function RootController($scope, FacebookService, СareerService, LeagueService, CountryService, NeedsService, FriendsService, UserService, User, $rootScope,  $location, UserService) {
+function RootController($scope, FacebookService, СareerService, LeagueService, CountryService, NeedsService, FriendsService, UserService, User, $rootScope,  $location, UserService, $location) {
     
     /**
      * Открывает модальное окно
@@ -87,5 +87,11 @@ function RootController($scope, FacebookService, СareerService, LeagueService, 
     $scope.$on('usersLoad', function(event) {
         // список пользвателей
         UserService.getAll($scope.userServiceCallback_);
+    });
+
+    $scope.location = $location.path().replace("/", "");
+
+    $scope.$on('$locationChangeSuccess', function(event) {
+        $scope.location = $location.path().replace("/", "");
     });
 }
