@@ -1,0 +1,88 @@
+<div 
+	class="crits" 
+	ng-controller="NeedsAndGoalsController" 
+	ng-show="tab == 1">
+	<ul ng-controller="UserNeedsController"> 
+		<li 
+			class="{{needItem.name}}" 
+			ng-repeat="(needKey, needItem) in needs | orderBy:'position'" 
+			data-needId="{{needItem.sguid}}">
+			<div class="cr" ng-click="onShowGoals($event, needItem)">
+				<p>{{needItem.name}}</p>
+				<div class="right">
+					<b>{{needItem.current_value | notnull}} / {{needItem.points_summary}}</b>
+					<strong>
+						<span 
+							class="current_position"
+							position-need>
+						</span>
+					</strong>	
+				</div>
+				<sup class="compare" route="{{route}}" comparator values="{{needsValues[needItem.sguid]}}"></sup>
+			</div>
+			<ul ng-class="{hidden: needItem.hidden}">
+				<li ng-repeat="(goalKey,goalItem) in needItem.goals | orderBy:'position'" 
+					data-goalid="{{goalItem.sguid}}" 
+					user-id="{{user.sguid}}" >
+					<h5 ng-click="showCriterias($event, needItem, goalItem, needs)">
+						<a 
+							ng-class="{current: goalItem.current}"
+							data-goalid="{{goalItem.sguid}}" 
+							user-id="{{user.sguid}}">
+							<span>
+								<img 
+									ng-src="/images/goals/{{needItem.name | removewhite}}/{{goalItem.name | removewhite}}.png"
+									alt="" 
+									title="{{goalItem.name}}" />
+							</span>
+							<h6>{{goalItem.name}}</h6>
+							<s></s>
+						</a>	
+						<div class="right">
+							<strong>
+								<span position-goal class="current_position" ></span>
+							</strong>
+						</div>
+						<i ng-if="!goalItem.current"><em></em></i>
+						<sup 
+							class="compare goal" 
+							route="{{route}}" 
+							comparator 
+							values="{{goalsValues[goalItem.sguid]}}" >
+						</sup>
+					</h5>
+					<ul class="criterion" ng-class="{current: goalItem.current}">
+						<li 
+							data-id="{{crItem.sguid}}"
+							ng-repeat="crItem in goalItem.criteriums | orderBy:'position'"
+							ng-show="goalItem.criteriums.all_load" >
+							<p>{{crItem.name}}</p>
+							<div class="bord">
+								<ul class="crp">
+									<div class="tab">
+										<li data-id="{{value.sguid}}"  
+											ng-repeat="value in crItem.criteria_values | orderBy:'position'"  
+											class="{{value.user_criteria}} position_{{value.position}}" >
+											<i ng-if="value.sguid != 'none'">{{value.name}}</i>
+											<i ng-if="value.sguid == 'none'" class="null_criteria"></i>
+										</li>
+									</div>
+									<span colbasa colbasa-current="{{crItem.user_criteria_sguid}}">
+										<sup></sup>
+									</span>
+								</ul>
+							</div>
+							<sup 
+								class="compare criterium" 
+								route="{{route}}" 
+								comparator 
+								values="{{criteriumsValues[crItem.sguid]}}">
+							</sup>
+						</li>
+					</ul>
+				</li>
+				
+			</ul>
+		</li>
+	</ul>
+</div>
