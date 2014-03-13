@@ -4849,7 +4849,7 @@ pgrModule.directive('masonry', function(User, $rootScope) {
         parentElement.scrollLeft -= $event.originalEvent.wheelDeltaY ? $event.originalEvent.wheelDeltaY : $event.originalEvent.detail * 5;
         
         if(parentElement.scrollLeft == $(element).width()-$(window).width()) {
-          self.getUsersFromBackend(self);
+          self.getUsersFromBackend(self, loadUserCallback_);
         }
       });
 
@@ -4975,25 +4975,51 @@ pgrModule.directive('masonry', function(User, $rootScope) {
       });
 
       /** забираем список пользователей из backend-а **/
-      this.getUsersFromBackend = function(self) {
+      this.getUsersFromBackend = function(self, callback) {
         User.for_main_from_limit({limit: self.limit, skip: self.skip}, {}, function(data) {
-            var items = $scope.appendElements(data);
+          callback(data, self, callback);
+        });
+      }
 
-            $(items).imagesLoaded( function() {
-              $(element).isotope("insert", $(items));
+      this.loadUserCallback_ = function(data, self, callback) {
+        var items = $scope.appendElements(data);
 
-              if(data[0] && data[0].total_count)
-                self.total_count = data[0].total_count;
-             
-              self.view_count += limit;
-              if(self.view_count < self.total_count && $(element).width() < $(window).width()) {
-                self.skip += limit;
-                // рекурсивно берем еще пользователей
-                self.getUsersFromBackend(self);
-              } else {
-                $(element).append(items);
-              }
-            });
+        $(items).imagesLoaded( function() {
+          $(element).isotope("insert", $(items));
+
+          if(data[0] && data[0].total_count)
+            self.total_count = data[0].total_count;
+         
+          self.view_count += self.limit;
+          if(self.view_count < self.total_count) {
+
+            self.skip += self.limit;
+            // рекурсивно берем еще пользователей
+            self.getUsersFromBackend(self, callback);
+          } else {
+            $(element).append(items);
+          }
+        });
+      }
+
+      this.firstLoadUserCallback_ = function(data, self, callback) {
+        var items = $scope.appendElements(data);
+
+        $(items).imagesLoaded( function() {
+          $(element).isotope("insert", $(items));
+
+          if(data[0] && data[0].total_count)
+            self.total_count = data[0].total_count;
+         
+          self.view_count += self.limit;
+          if(self.view_count < self.total_count && $(element).width() < $(window).width()) {
+
+            self.skip += self.limit;
+            // рекурсивно берем еще пользователей
+            self.getUsersFromBackend(self, callback);
+          } else {
+            $(element).append(items);
+          }
         });
       }
 
@@ -5021,7 +5047,8 @@ pgrModule.directive('masonry', function(User, $rootScope) {
       isCached = false;
       $scope.users = [];
       self.initIso();
-      this.getUsersFromBackend(this);  
+
+      this.getUsersFromBackend(this, this.firstLoadUserCallback_);  
     }
   }
 })
