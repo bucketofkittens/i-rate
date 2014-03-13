@@ -41,32 +41,34 @@ function NeedsAndGoalsController($scope, СareerService, UserService, Goals, Cri
 
     // забрали данные колбас
     $scope.bindUserNeedsValuesCallback_ = function(goalsData) {
-        // массив данных кобас
-        var needsData = {};
+        if($scope.user) {
+            // массив данных кобас
+            var needsData = {};
 
-        angular.forEach($scope.needs, function(needItem, needKey) {
-            needsData[needItem.sguid] = 0;
+            angular.forEach($scope.needs, function(needItem, needKey) {
+                needsData[needItem.sguid] = 0;
 
-            angular.forEach(needItem.goals, function(goalItem, goalKey) {
-                goalItem.current_value = 0;
-                if(goalsData[goalItem.sguid]) {
-                    goalItem.current_value = parseInt(goalsData[goalItem.sguid]);
-                    needsData[needItem.sguid] += parseInt(goalsData[goalItem.sguid]);
-                }
+                angular.forEach(needItem.goals, function(goalItem, goalKey) {
+                    goalItem.current_value = 0;
+                    if(goalsData[goalItem.sguid]) {
+                        goalItem.current_value = parseInt(goalsData[goalItem.sguid]);
+                        needsData[needItem.sguid] += parseInt(goalsData[goalItem.sguid]);
+                    }
+                });
+
+                needItem.current_value = needsData[needItem.sguid];
             });
-
-            needItem.current_value = needsData[needItem.sguid];
-        });
-        $rootScope.$broadcast('needUserValueLoaded', {
-            needsValues: needsData,
-            userId: $scope.user.sguid,
-            route: $scope.route
-        });
-        $rootScope.$broadcast('goalUserValueLoaded', {
-            goalsValues: goalsData,
-            userId: $scope.user.sguid,
-            route: $scope.route
-        });
+            $rootScope.$broadcast('needUserValueLoaded', {
+                needsValues: needsData,
+                userId: $scope.user.sguid,
+                route: $scope.route
+            });
+            $rootScope.$broadcast('goalUserValueLoaded', {
+                goalsValues: goalsData,
+                userId: $scope.user.sguid,
+                route: $scope.route
+            });    
+        }
     }
     
     // забираем данные колбас

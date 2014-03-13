@@ -16,6 +16,8 @@ function SearchAdvanceController($scope, $location, $rootScope, User, Profession
         $scope.show = $location.search().search  ? true : false;
     });
 
+    $scope.loaderShow = true;
+
     // показываем все елементы в списке
     $scope.showAll = function(list) {
         angular.forEach(list, function(value, key){
@@ -424,6 +426,9 @@ function SearchAdvanceController($scope, $location, $rootScope, User, Profession
      * @return {[type]} [description]
      */
     $scope.advanceSearch = function() {
+        $scope.loaderShow = true;
+        $rootScope.$broadcast('updateLeftSearchList', {data: []});
+
         User.search({}, $scope.translateParamsToServer_(), $scope.advanceSearchCallback_);
     }
 
@@ -433,6 +438,7 @@ function SearchAdvanceController($scope, $location, $rootScope, User, Profession
      * @return {[type]}      [description]
      */
     $scope.advanceSearchCallback_ = function(data) {
+        $scope.loaderShow = false;
         $rootScope.$broadcast('updateLeftSearchList', {data: data});
     }
 

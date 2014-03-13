@@ -78,8 +78,6 @@ pgrModule.factory('httpRequestInterceptor', function() {
     		config.headers = {};
     	}
 
-        console.log(token);
-
       if(user && token) {
         config.headers['AUTH_TOKEN'] = token.split('"').join("");
         config.headers['REMOTE_USER'] = user.split('"').join("");  

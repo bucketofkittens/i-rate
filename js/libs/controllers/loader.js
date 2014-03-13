@@ -1,4 +1,4 @@
-function LoaderController($scope) {
+function LoaderController($scope, $element) {
     var opts = {
       lines: 9, // The number of lines to draw
       length: 3, // The length of each line
@@ -17,7 +17,7 @@ function LoaderController($scope) {
       top: 'auto', // Top position relative to parent in px
       left: 'auto' // Left position relative to parent in px
     };
-    var target = document.getElementById('loader');
+    var target = $($element).find(".loader")[0];
     var spinner = new Spinner(opts).spin(target);
 
     $scope.$on('loaderShow', function() {

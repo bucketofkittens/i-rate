@@ -12,6 +12,7 @@
 					class="search"
 					ng-change="onSearch()" />
 				<input type="button" class="searcher" ng-click="onSearch()" />
+
 				<div ng-cloak class="searchResult" ng-if="resultSearch.length > 0">
 					<div class="item" ng-repeat="(userKey, userItem) in resultSearch">
 						<div class="image" ng-click="openSearchProfile(userItem.sguid)">
@@ -23,6 +24,10 @@
 							<p class="points">{{userItem.points | unidate}}</p>
 						</div>
 					</div>
+				</div>
+
+				<div ng-controller="ShortLoaderController" ng-if="loaderShow" >
+					<div class="loader"></div>
 				</div>
 			</div>
 		</div>	
