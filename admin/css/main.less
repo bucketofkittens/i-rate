@@ -283,5 +283,74 @@ body {
 		position: absolute;
 		left: 0px;
 		top: 0px;
+      .sam { 
+			width: 500px;
+			position: relative;
+			margin-top: 60px;
+			background: url("../images/glass.png") left top no-repeat;
+			background-size: 100% 100%;
+			z-index: 3;
+			//box-shadow: 1px 0 30px 0 #2b2b2b, inset 5px 2px 20px 1px #2b2b2b;
+			box-shadow: inset 5px 2px 20px 1px #2b2b2b;
+			min-height: 100%;
+			&.big {
+				width: 600px;
+				right: 94px;
+			}
+      }
+      #reps {
+			height: 100%;
+			position: relative;
+			overflow: hidden;
+			.dcdrep {
+				overflow: hidden;
+				width: 100%;
+				margin: 0px auto;
+				textarea {
+			      font-size: 16px;
+			      color: #888888;
+			      line-height: 20px;
+			      width: 390px;
+			      margin: 20px auto;
+			      height: 50px;
+			      padding: 5px 0px 5px 10px !important;
+			      font-family: 'Lato', sans-serif;
+			      background: url("../images/sbg.png") -2px top no-repeat;
+			      display: block;
+			      border: none;
+			      background-size: 100% 100%;
+			      resize: vertical;
+			   }
+			   button {
+			      float: left;
+			      font-size: 18px;
+			      margin: 0px 50px 30px 50px;
+			      color: #ffffff;
+			      line-height: 20px;
+			      text-align: center;
+			      vertical-align: middle;
+			      font-family: 'Lato', sans-serif;
+			      background: none;
+			      cursor: pointer;
+			      width: 100px;
+			      height: 40px;
+			      background: url("../images/ssbg.png") left top no-repeat;
+			      background-size: 100px 45px;
+			      display: inline-block;
+			      border: none;
+			      &:last-child {
+			      	float: right;
+			      }
+			   }
+			} 
+			.hstr {
+				width: 400px;
+				margin: 0px auto;
+				background: rgba(0, 0, 0, 0.2);
+				tr {
+					height: 70px !important;
+				}
+			} 
+		}		
 	}
 }
