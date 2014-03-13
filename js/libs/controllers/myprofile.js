@@ -79,9 +79,8 @@ function MyProfileController($scope, $location, LocationService, $rootScope, $ti
 		$location.search({});
     });
 
-    // событие переключчения состояния страницы.
-    $scope.$on('$locationChangeSuccess', function (event) {
-        if($location.search().myprofile) {
+    $scope.updateProfileState = function() {
+    	if($location.search().myprofile) {
         	$scope.showProfile = true;
 
         	// проверяем существование nav в location
@@ -98,6 +97,17 @@ function MyProfileController($scope, $location, LocationService, $rootScope, $ti
         } else {
         	$scope.showProfile = false;
         }
+    }
+
+    // событие переключчения состояния страницы.
+    $scope.$on('$locationChangeSuccess', function (event) {
+        $scope.updateProfileState();
+    });
+
+    $scope.$watch("workspace.user", function (newVal, oldVal, scope) {
+    	if(newVal) {
+    		$scope.updateProfileState();	
+    	}
     });
 
     // загружаем список нидсов

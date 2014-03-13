@@ -37,12 +37,9 @@ pgrModule.factory('User', function ($resource) {
                              * Указваем формат дня рождения
                              */
                             if(user.birthday) {
-                                user.birthday = moment(user.birthday).format("DD.MM.YYYY");
+                                user.birthday = new Date(moment(user.birthday).format());
                             }  
                         }
-
-                        
-
                         return user;    
                     }
             	}
@@ -592,24 +589,17 @@ pgrModule.service('UserService', function (User, AllUserService) {
     this.cacheTime = 1440;
 
     // забираем пользователя из кеша
-    this.getAuthData = function() {
-        var data = lscache.get(this.cacheName);
-
-        if(data && data.birthday) {
-            data.birthday = new Date(data.birthday);    
+    this.getAuthData = function(callback) {
+        var sguid = lscache.get(this.cacheName);
+        if(sguid) {
+            this.getById(sguid, callback);    
         }
-        
-        return data;
     }
 
     // передаем данные в кеш
     this.setAuthData = function(user) {
-        user = JSON.parse(JSON.stringify(user));
-        if(user.birthday) {
-            user.birthday = moment(user.birthday).format("DD/MM/YYYY");    
-        }
         // сохраняем данные пользователя в localStorage
-        lscache.set(this.cacheName, JSON.stringify(user), this.cacheTime);
+        lscache.set(this.cacheName, JSON.stringify(user.sguid), this.cacheTime);
     }
 
     // удаляем пользователя из кеша
@@ -661,10 +651,10 @@ pgrModule.service('UserService', function (User, AllUserService) {
     // получаем данные по указанному пользователю с указанным id
     this.getById = function(id, callback) {
         User.query({id: id}, function(data) {
-            if(data && data.birthday) {
-                data.birthday = dateFromString(data.birthday);    
+            console.log(data.birthday);
+            if(callback) {
+                callback(data);    
             }
-            callback(data);
         });
     }
 

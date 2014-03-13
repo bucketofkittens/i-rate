@@ -32,7 +32,7 @@ pgrModule.filter('unidate', function () {
 })
 
 pgrModule.filter('usadata', function () {
-    return function(value) {    
+    return function(value) {
         return moment(value).format("MMM DD, YYYY");
     }
 })

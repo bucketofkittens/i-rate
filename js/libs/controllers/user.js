@@ -59,10 +59,6 @@ function UserController($scope, FriendsService, UserService, User, $location, Lo
     $scope.userServiceGetByIdCallback_ = function(data) {
         $scope.getProgressFlag = false;
 
-        if(data && moment(data.birthday)) {
-            data.birthday = moment(data.birthday).format("DD.MM.YYYY");    
-        }
-
         $scope.user = data;
         
         // отправляем полученные данные в событие

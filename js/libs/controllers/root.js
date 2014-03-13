@@ -23,25 +23,24 @@ function RootController($scope, FacebookService, СareerService, LeagueService, 
      * Забираем юзера из кеша
      * @type {[type]}
      */
-    $scope.workspace.user = UserService.getAuthData();
+    $scope.workspace.user = null;
 
-    $scope.workspace.users = {};
+    /**
+     * Массив хренения списка друзей для не авторизованного пользователя
+     */
+    $scope.workspace.friends = [];
+
+    // забираем профиль пользователя
+    $scope.getAuthDataCallback_ = function(data) {
+        $scope.workspace.user = data;
+        UserService.getFriends($scope.workspace.user.sguid, $scope.getFriendsCallback_);
+    }
 
     // забираем список друзей
     $scope.getFriendsCallback_ = function(data) {
         $scope.workspace.friends = data;
     }
     
-    // если пользователь есть в кеше забираем список его друзей с сервера
-    if($scope.workspace.user) {
-        UserService.getFriends($scope.workspace.user.sguid, $scope.getFriendsCallback_);
-    }
-
-    /**
-     * Массив хренения списка друзей для не авторизованного пользователя
-     */
-    $scope.workspace.friends = $scope.workspace.user && $scope.workspace.user.friends ? $scope.workspace.user.friends : FriendsService.getList();
-
     $scope.needsServiceCallback_ = function(data) {
         $scope.workspace.needs = data;
         СareerService.getList($scope.workspace.needs, $scope.careerServiceCallback_);
@@ -94,6 +93,8 @@ function RootController($scope, FacebookService, СareerService, LeagueService, 
         // список пользвателей
         UserService.getAll($scope.userServiceCallback_);
     });
+
+    UserService.getAuthData($scope.getAuthDataCallback_);
     
     FacebookService.init();
 }

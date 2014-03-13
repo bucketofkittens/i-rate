@@ -10436,7 +10436,16 @@ function SearchLeftController($scope, $location, $rootScope, User, $timeout) {
 
     // ищем в списке пользователей
     $scope.onSearch = function() {
-       $rootScope.$broadcast('advanceSearch_', {searchText: $scope.searchText});
+        if($scope.changeTimer !== false) clearTimeout($scope.changeTimer);
+
+        var text = $scope.searchText;
+
+        $scope.changeTimer = setTimeout(function() {
+            $scope.$apply(function() {
+                $rootScope.$broadcast('advanceSearch_', {searchText: text});
+                $scope.changeTimer = false;
+            });
+        }, 700);
     }
 }
 /**

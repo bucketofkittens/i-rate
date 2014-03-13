@@ -86,7 +86,7 @@ Array.prototype.shuffle = function() {
 }(document, 'script', 'facebook-jssdk'));
 
 function dateFromString(str) {
-  return  moment(str, "MM.DD.YYYY").format();
+  return  moment(str, "DD.MM.YYYY").format();
 }
 
 
