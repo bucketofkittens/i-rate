@@ -21,7 +21,9 @@ function NeedsAndGoalsController($scope, СareerService, UserService, Goals, Cri
 
     // когда получаем данные пользователя
     $scope.$watch('user', function (newVal, oldVal, scope) {
-        $scope.bindUserNeedsValues();
+        if(newVal != oldVal) {
+            $scope.bindUserNeedsValues();
+        }
     });
 
     $scope.$on('quckUpdateUser', function(message) {
