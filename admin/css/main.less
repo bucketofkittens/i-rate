@@ -179,100 +179,100 @@ body {
 			   padding: 10px;
 			   background: transparent;
 			}
+		}		
 
-
-		   table {			   	
-		   	border: 1px solid #777777;
-		   	width: 100%;
-			   thead {
-			   	background: -moz-linear-gradient(top,  rgba(0,0,0,0.2) 0%, rgba(0,0,0,0.5) 100%);
-					background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(0,0,0,0.2)), color-stop(100%,rgba(0,0,0,0.5)));
-					background: -webkit-linear-gradient(top,  rgba(0,0,0,0.2) 0%,rgba(0,0,0,0.5) 100%);
-					background: -o-linear-gradient(top,  rgba(0,0,0,0.2) 0%,rgba(0,0,0,0.5) 100%);
-					background: -ms-linear-gradient(top,  rgba(0,0,0,0.2) 0%,rgba(0,0,0,0.5) 100%);
-					background: linear-gradient(to bottom,  rgba(0,0,0,0.2) 0%,rgba(0,0,0,0.5) 100%);
-					tr {
-						th {
-							color: #ffffff;
-							padding: 5px 0px 7px 0px;
-							border-left: 1px solid #777777;
-							&:first-child {
-								border: none;
-							}
+		
+	   table {			   	
+	   	border: 1px solid #777777;
+	   	width: 100%;
+		   thead {
+		   	background: -moz-linear-gradient(top,  rgba(0,0,0,0.2) 0%, rgba(0,0,0,0.5) 100%);
+				background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(0,0,0,0.2)), color-stop(100%,rgba(0,0,0,0.5)));
+				background: -webkit-linear-gradient(top,  rgba(0,0,0,0.2) 0%,rgba(0,0,0,0.5) 100%);
+				background: -o-linear-gradient(top,  rgba(0,0,0,0.2) 0%,rgba(0,0,0,0.5) 100%);
+				background: -ms-linear-gradient(top,  rgba(0,0,0,0.2) 0%,rgba(0,0,0,0.5) 100%);
+				background: linear-gradient(to bottom,  rgba(0,0,0,0.2) 0%,rgba(0,0,0,0.5) 100%);
+				tr {
+					th {
+						color: #ffffff;
+						padding: 5px 0px 7px 0px;
+						border-left: 1px solid #777777;
+						&:first-child {
+							border: none;
 						}
 					}
-			   }
-				tbody {			
-		   		tr {
-		   			&.current {
-		   				background: rgba(0, 0, 0, 0.3);
-		   			}
-		   			td {			
-		   				border: 1px solid #777777;	
-		   				color: #ffffff;
-		   				vertical-align: middle;
-							.delete {
-								background: url("../images/delete.png") left top no-repeat;
-								width: 30px;
-								height: 30px;
-								background-size: 100% 100%;
-								-webkit-filter: invert(100%);
-								display: block;
-								margin: 0px auto;
-							}	
-							img {
-								vertical-align: middle;
-							}	
-		   			}
-		   		}
-				}	
-			   &.moder {		   
-				   tr {
-				   	height: 70px;
-				   	&:first-child {
-				   		height: 30px;
+				}
+		   }
+			tbody {			
+	   		tr {
+	   			&.current {
+	   				background: rgba(0, 0, 0, 0.3);
+	   			}
+	   			td {			
+	   				border: 1px solid #777777;	
+	   				color: #ffffff;
+	   				vertical-align: middle;
+						.delete {
+							background: url("../images/delete.png") left top no-repeat;
+							width: 30px;
+							height: 30px;
+							background-size: 100% 100%;
+							-webkit-filter: invert(100%);
+							display: block;
+							margin: 0px auto;
+						}	
+						img {
+							vertical-align: middle;
+						}	
+	   			}
+	   		}
+			}	
+		   &.moder {		   
+			   tr {
+			   	height: 70px;
+			   	&:first-child {
+			   		height: 30px;
+			   	}
+				   .accept {
+				   	background: none;
+				   	width: 70px;
+				   	min-height: 50px;
+				   }
+				   .denied {
+				   	background: url("../images/ban.png") 10px 10px no-repeat;
+				   	background-size: 50px 50px;
+				   	width: 70px;
+				   	min-height: 50px;
+				   } 
+				   .quest {
+				   	background: url("../images/que.png") 20px 10px no-repeat;
+				   	background-size: 30px 50px;
+				   	width: 70px;
+				   	min-height: 50px;
+				   	cursor: pointer;
+				   }
+				   td {
+				   	img {
+				   		width: 70px;
+				   		height: 70px;
+				   		display: inline-block;
+				         vertical-align: middle;
 				   	}
-					   .accept {
-					   	background: none;
-					   	width: 70px;
-					   	min-height: 50px;
-					   }
-					   .denied {
-					   	background: url("../images/ban.png") 10px 10px no-repeat;
-					   	background-size: 50px 50px;
-					   	width: 70px;
-					   	min-height: 50px;
-					   } 
-					   .quest {
-					   	background: url("../images/que.png") 20px 10px no-repeat;
-					   	background-size: 30px 50px;
-					   	width: 70px;
-					   	min-height: 50px;
-					   	cursor: pointer;
-					   }
-					   td {
-					   	img {
-					   		width: 70px;
-					   		height: 70px;
-					   		display: inline-block;
-					         vertical-align: middle;
-					   	}
-					   	p {
-					   		color: #ffffff;
-					         font-size: 14px;
-					         display: inline-block;
-					         vertical-align: middle;
-					         margin-left: 10px;
-					   	}
-					   	s {
-					   		display: block;
-					   		margin: 10px 0px;
-					   	}
-					   }
+				   	p {
+				   		color: #ffffff;
+				         font-size: 14px;
+				         display: inline-block;
+				         vertical-align: middle;
+				         margin-left: 10px;
+				   	}
+				   	s {
+				   		display: block;
+				   		margin: 10px 0px;
+				   	}
 				   }
 			   }
 		   }
-		}		
+	   }
 	}
 
 	#content .pmain.pro .pmpar {
