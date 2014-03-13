@@ -80,6 +80,20 @@ body {
 			   width: 980px;
 			   padding: 10px;
 			   background: transparent;
+			   td {
+			   	text-align: center;
+					input {
+						background: inherit;
+						color: #ffffff;
+						border: 1px solid #555;
+						padding: 5px 0px 5px 5px !important;   	
+						&.uploadfile {
+							width: 110px;
+							vertical-align: middle;
+							border: none;
+						}	
+					}		
+			   }
 				.buttons {
                width: 150px;
                height: 30px;
@@ -91,7 +105,7 @@ body {
                display: inline-block;
                cursor: pointer;
                background: url("../images/ssbg.png") left top no-repeat;
-               background-size: 150px 40px;
+               background-size: 160px 40px;
                margin: 15px 10px 0px 10px;
                color: #ffffff;
                border: none;
@@ -205,11 +219,7 @@ body {
 								-webkit-filter: invert(100%);
 								display: block;
 								margin: 0px auto;
-							}		   	
-							.uploadfile {
-								width: 110px;
-								vertical-align: middle;
-							}		
+							}	
 							img {
 								vertical-align: middle;
 							}	
