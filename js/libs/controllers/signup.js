@@ -8,6 +8,14 @@ function SignupController($scope, UserService, Recaptha, $rootScope) {
         password: ""
     }
 
+    $scope.openTerms = function() {
+        $rootScope.$broadcast('openModal', {name: "terms"});
+    }
+
+    $scope.openPolicy = function() {
+        $rootScope.$broadcast('openModal', {name: "policy"});
+    }
+
     /**
      *  добавлям нового пользователя
      */
