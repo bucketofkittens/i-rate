@@ -131,25 +131,26 @@ function NeedsAndGoalsController($scope, СareerService, UserService, Goals, Cri
      */
     $scope.getCriteriumValueByUser = function(goal) {
         UserCriteriaValueByUser.query({id: $scope.user.sguid}, {}, function(d) {
+            if($scope.user && $scope.user.sguid) {
+                angular.forEach(d, function(userCriteriaItem, userCriteriaKey) {
+                    var fCriteria = goal.criteriums.filter(function(value) {
+                        return value.sguid == userCriteriaItem.criteria_sguid;
+                    })[0];
+                    
+                    if(fCriteria) {
+                        fCriteria.user_criteria_sguid = userCriteriaItem.criteria_value_sguid;
+                        fCriteria.user_criteria_id = userCriteriaItem.sguid;
 
-            angular.forEach(d, function(userCriteriaItem, userCriteriaKey) {
-                var fCriteria = goal.criteriums.filter(function(value) {
-                    return value.sguid == userCriteriaItem.criteria_sguid;
-                })[0];
-                
-                if(fCriteria) {
-                    fCriteria.user_criteria_sguid = userCriteriaItem.criteria_value_sguid;
-                    fCriteria.user_criteria_id = userCriteriaItem.sguid;
+                        $rootScope.$broadcast('criteriaUserValueLoaded', {
+                            fCriteria: fCriteria,
+                            userId: $scope.user.sguid,
+                            route: $scope.route
+                        });
+                    }
+                });
 
-                    $rootScope.$broadcast('criteriaUserValueLoaded', {
-                        fCriteria: fCriteria,
-                        userId: $scope.user.sguid,
-                        route: $scope.route
-                    });
-                }
-            });
-
-            goal.criteriums.show = true;
+                goal.criteriums.show = true;    
+            }
         });
     }
 

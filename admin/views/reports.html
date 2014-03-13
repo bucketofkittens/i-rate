@@ -32,5 +32,13 @@
 			</tr>
 		</tbody>
 	</table>
-	<div id="current_report" ng-if="currentReport"></div>
+	<div id="current_report" ng-if="currentReport">
+		<div
+			class="full_height user sha" 
+			ng-controller="UserController" 
+			ng-include
+			ng-init="init('report_profile')"
+			src="'/admin/partials/user.html'">
+		</div>
+	</div>
 </div>

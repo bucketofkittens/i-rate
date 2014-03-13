@@ -1,6 +1,6 @@
 /**
  */
-function ReportsController($scope, ReportService) {
+function ReportsController($scope, ReportService, $location) {
     $scope.reports = [];
     $scope.currentReport = null;
 
@@ -14,6 +14,7 @@ function ReportsController($scope, ReportService) {
 
     $scope.openReport = function(report) {
     	$scope.currentReport = report;
+        $location.search({"report_profile": report.user.sguid})
     }
 
     $scope.getReports();
