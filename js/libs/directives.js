@@ -79,16 +79,24 @@ pgrModule.directive('positionGraph', function() {
   }
 });
 
-
-
 pgrModule.directive('scrolls', function() {
   return {
     link: function(scope, element, attrs) {
-      $(element).scroll(function() {
+      $(element).on("mousewheel DOMMouseScroll", function($event) {
         var elements = $("."+attrs.scrollsClass);
-        angular.forEach(elements, function(value, key) {
+        var step = $event.originalEvent.wheelDeltaY ? $event.originalEvent.wheelDeltaY : $event.originalEvent.detail * 5;
+
+        $.each(elements, function(key, value) {
+            $(value).scrollTop($(value).scrollTop()-step);
+        });
+      });
+
+      $(element).on("scroll", function($event) {
+        var elements = $("."+attrs.scrollsClass);
+
+        $.each(elements, function(key, value) {
           if($(value).attr("id") != $(element).attr("id")) {
-            $(value).scrollTop($(element).scrollTop());  
+            $(value).scrollTop($(element).scrollTop());
           }
         });
       });

@@ -4700,16 +4700,24 @@ pgrModule.directive('positionGraph', function() {
   }
 });
 
-
-
 pgrModule.directive('scrolls', function() {
   return {
     link: function(scope, element, attrs) {
-      $(element).scroll(function() {
+      $(element).on("mousewheel DOMMouseScroll", function($event) {
         var elements = $("."+attrs.scrollsClass);
-        angular.forEach(elements, function(value, key) {
+        var step = $event.originalEvent.wheelDeltaY ? $event.originalEvent.wheelDeltaY : $event.originalEvent.detail * 5;
+
+        $.each(elements, function(key, value) {
+            $(value).scrollTop($(value).scrollTop()-step);
+        });
+      });
+
+      $(element).on("scroll", function($event) {
+        var elements = $("."+attrs.scrollsClass);
+
+        $.each(elements, function(key, value) {
           if($(value).attr("id") != $(element).attr("id")) {
-            $(value).scrollTop($(element).scrollTop());  
+            $(value).scrollTop($(element).scrollTop());
           }
         });
       });
@@ -6122,6 +6130,10 @@ pgrModule.service('UserService', function (User, AllUserService) {
         }
     }
 
+    this.getAuthGuid = function(callback) {
+        return lscache.get(this.cacheName);
+    }
+
     // передаем данные в кеш
     this.setAuthData = function(user) {
         // сохраняем данные пользователя в localStorage
@@ -6548,9 +6560,9 @@ pgrModule.service('FriendsService', function (UserService, User, $rootScope) {
 
     // добавляем чувака в друзья
     this.follow = function(friend, friends, callback) {
-        var user = UserService.getAuthData();
+        var user = UserService.getAuthGuid();
         
-        User.create_friendship({id: user.sguid}, {
+        User.create_friendship({id: user}, {
             friend_guid: friend.sguid
         }, function(response) {     
             if(response.success) {
@@ -6562,9 +6574,9 @@ pgrModule.service('FriendsService', function (UserService, User, $rootScope) {
 
     // убираем пользователя из друзей
     this.unfollow = function(friend, friends, callback) {
-        var user = UserService.getAuthData();
+        var user = UserService.getAuthGuid();
 
-        User.destroy_friendship({id: user.sguid, friendId: friend.sguid}, { }, function() {
+        User.destroy_friendship({id: user, friendId: friend.sguid}, { }, function() {
             var frend = friends.filter(function(data) {
                 if(data.user.sguid === friend.sguid) {
                     return data;
