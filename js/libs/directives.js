@@ -366,9 +366,33 @@ pgrModule.directive('masonry', function(User, $rootScope) {
               if(data[0] && data[0].total_count)
                 self.total_count = data[0].total_count;
              
-              self.view_count += limit;
+              self.view_count += self.limit;
+              if(self.view_count < self.total_count) {
+
+                self.skip += self.limit;
+                // рекурсивно берем еще пользователей
+                self.getUsersFromBackend(self);
+              } else {
+                $(element).append(items);
+              }
+            });
+        });
+      }
+
+      this.firstLoad = function(self) {
+        User.for_main_from_limit({limit: self.limit, skip: self.skip}, {}, function(data) {
+            var items = $scope.appendElements(data);
+
+            $(items).imagesLoaded( function() {
+              $(element).isotope("insert", $(items));
+
+              if(data[0] && data[0].total_count)
+                self.total_count = data[0].total_count;
+             
+              self.view_count += self.limit;
               if(self.view_count < self.total_count && $(element).width() < $(window).width()) {
-                self.skip += limit;
+
+                self.skip += self.limit;
                 // рекурсивно берем еще пользователей
                 self.getUsersFromBackend(self);
               } else {
@@ -402,7 +426,7 @@ pgrModule.directive('masonry', function(User, $rootScope) {
       isCached = false;
       $scope.users = [];
       self.initIso();
-      this.getUsersFromBackend(this);  
+      this.firstLoad(this);  
     }
   }
 })

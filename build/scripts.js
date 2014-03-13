@@ -4847,22 +4847,26 @@ pgrModule.directive('masonry', function(User, $rootScope) {
       // добавляем скроллинг мышкой
       $(parentElement).on("mousewheel DOMMouseScroll", function($event) {
         parentElement.scrollLeft -= $event.originalEvent.wheelDeltaY ? $event.originalEvent.wheelDeltaY : $event.originalEvent.detail * 5;
+        
+        if(parentElement.scrollLeft == $(element).width()-$(window).width()) {
+          self.getUsersFromBackend(self);
+        }
       });
 
       /** коэффициэнт количество элементов **/
       var limitCorruption = 30;
       
       /** Количество элементов на странице **/
-      var limit = parseInt($(window).height()/limitCorruption);
+      this.limit = parseInt($(window).height()/limitCorruption);
       
       /** текущий отступ  элементов **/
-      var skip = 0;
+      this.skip = 0;
       
       /** сколько сейчас показано элементов **/
-      var view_count = 0;
+      this.view_count = 0;
       
       /** общее количество элементов **/
-      var total_count = null;
+      this.total_count = null;
       
       /** есть ли элементы в кеше **/
       var isCached = true;
@@ -4971,26 +4975,21 @@ pgrModule.directive('masonry', function(User, $rootScope) {
       });
 
       /** забираем список пользователей из backend-а **/
-      this.getUsersFromBackend = function(limit, skip, total_count, view_count) {
-        var self = this;
-        User.for_main_from_limit({limit: limit, skip: skip}, {}, function(data) {
-          
+      this.getUsersFromBackend = function(self) {
+        User.for_main_from_limit({limit: self.limit, skip: self.skip}, {}, function(data) {
             var items = $scope.appendElements(data);
 
-            $(items).imagesLoaded( function(){
-
+            $(items).imagesLoaded( function() {
               $(element).isotope("insert", $(items));
 
               if(data[0] && data[0].total_count)
-                total_count = data[0].total_count;
+                self.total_count = data[0].total_count;
              
-              view_count += limit;
-
-              if(view_count < total_count) {
-                skip += limit;
-
+              self.view_count += limit;
+              if(self.view_count < self.total_count && $(element).width() < $(window).width()) {
+                self.skip += limit;
                 // рекурсивно берем еще пользователей
-                self.getUsersFromBackend(limit, skip, total_count, view_count);
+                self.getUsersFromBackend(self);
               } else {
                 $(element).append(items);
               }
@@ -5022,7 +5021,7 @@ pgrModule.directive('masonry', function(User, $rootScope) {
       isCached = false;
       $scope.users = [];
       self.initIso();
-      this.getUsersFromBackend(limit, skip, total_count, view_count);  
+      this.getUsersFromBackend(this);  
     }
   }
 })
