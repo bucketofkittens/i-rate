@@ -31,9 +31,9 @@ function RootController($scope, FacebookService, СareerService, LeagueService, 
     }
 
     if(!$scope.workspace.user) {
-        window.location = document.location.origin+"/index.html";
+        //window.location = document.location.origin+"/index.html";
     } else {
-        UserService.isAdmin($scope.workspace.user.sguid, $scope.isAdminCallback_);
+        //UserService.isAdmin($scope.workspace.user.sguid, $scope.isAdminCallback_);
     }
 
     $scope.needsServiceCallback_ = function(data) {

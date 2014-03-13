@@ -18,7 +18,7 @@ body #content .content_wrap table tbody tr td{border:1px solid #777;color:#fff;v
 body #content .content_wrap table.moder tr{height:70px}body #content .content_wrap table.moder tr:first-child{height:30px}
 body #content .content_wrap table.moder tr .accept{background:none;width:70px;min-height:50px}
 body #content .content_wrap table.moder tr .denied{background:url("../images/ban.png") 10px 10px no-repeat;background-size:50px 50px;width:70px;min-height:50px}
-body #content .content_wrap table.moder tr .quest{background:url("../images/que.png") 20px 10px no-repeat;background-size:30px 50px;width:70px;min-height:50px}
+body #content .content_wrap table.moder tr .quest{background:url("../images/que.png") 20px 10px no-repeat;background-size:30px 50px;width:70px;min-height:50px;cursor:pointer}
 body #content .content_wrap table.moder tr td img{width:70px;height:70px;display:inline-block;vertical-align:middle}
 body #content .content_wrap table.moder tr td p{color:#fff;font-size:14px;display:inline-block;vertical-align:middle;margin-left:10px}
 body #content .content_wrap table.moder tr td s{display:block;margin:10px 0}
