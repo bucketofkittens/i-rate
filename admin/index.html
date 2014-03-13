@@ -29,6 +29,15 @@
         <div class="content_wrap" ng-view></div>
 
         <div class="full_height" ng-controller="UsersController" ng-include src="'partials/users.html'"></div>
+        <div id="current_report">
+            <div
+                class="full_height user sha" 
+                ng-controller="UserController" 
+                ng-include
+                ng-init="init('report_profile')"
+                src="'/admin/partials/user.html'">
+            </div>
+        </div>
     </div>
 
     <script src="/js/jquery-2.0.3.min.js" type="text/javascript"></script>

@@ -3,7 +3,7 @@
  * @param {[type]} $scope [description]
  */
 function ShadowController($scope, $rootScope, $location) {
-    $scope.showShadow = false;
+    $scope.showShadow2 = false;
 
     /**
      * При клике на тенюшку, убрием modal окно
@@ -65,7 +65,7 @@ function ShadowController($scope, $rootScope, $location) {
         }
 
         // затенять или нет
-        $scope.showShadow = shadow ? true : false;
+        $scope.showShadow2 = shadow ? true : false;
     }
 
     $scope.isShadow();
