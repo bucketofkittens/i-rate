@@ -6154,7 +6154,6 @@ pgrModule.service('UserService', function (User, AllUserService) {
     // получаем данные по указанному пользователю с указанным id
     this.getById = function(id, callback) {
         User.query({id: id}, function(data) {
-            console.log(data.birthday);
             if(callback) {
                 callback(data);    
             }
@@ -9538,10 +9537,12 @@ function SearchAdvanceController($scope, $location, $rootScope, User, Profession
         if(newVal) {
             if($scope.changeMinTimer !== false) clearTimeout($scope.changeMinTimer);
 
-            $scope.changeMinTimer = $timeout(function(){
-                $scope.advanceSearch();
-                $scope.changeMinTimer = false;
-            }, 600);    
+            $scope.changeMinTimer = setTimeout(function() {
+                $scope.$apply(function() {
+                    $scope.advanceSearch();
+                    $scope.changeMinTimer = false;
+                });
+            }, 700);
         }
     });
 
@@ -9558,10 +9559,12 @@ function SearchAdvanceController($scope, $location, $rootScope, User, Profession
         if(newVal) {
             if($scope.changeMaxTimer !== false) clearTimeout($scope.changeMaxTimer);
 
-            $scope.changeMaxTimer = $timeout(function(){
-                $scope.advanceSearch();
-                $scope.changeMaxTimer = false;
-            }, 600);
+            $scope.changeMaxTimer = setTimeout(function() {
+                $scope.$apply(function() {
+                    $scope.advanceSearch();
+                    $scope.changeMaxTimer = false;
+                });
+            }, 700);
         }
     });
 
