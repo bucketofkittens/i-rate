@@ -651,7 +651,6 @@ pgrModule.service('UserService', function (User, AllUserService) {
     // получаем данные по указанному пользователю с указанным id
     this.getById = function(id, callback) {
         User.query({id: id}, function(data) {
-            console.log(data.birthday);
             if(callback) {
                 callback(data);    
             }
