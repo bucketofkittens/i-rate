@@ -72,11 +72,13 @@ pgrModule.factory('httpRequestInterceptor', function() {
   return {
     request: function (config) {
     	var token = lscache.get("token") ? lscache.get("token") : "";
-    	var user = lscache.get("user") ? lscache.get("user").sguid : "";
+    	var user = lscache.get("user") ? lscache.get("user") : "";
 
     	if(!config.headers) {
     		config.headers = {};
     	}
+
+        console.log(token);
 
       if(user && token) {
         config.headers['AUTH_TOKEN'] = token.split('"').join("");
