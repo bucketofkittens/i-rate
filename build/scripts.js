@@ -7721,14 +7721,31 @@ function ImprovaLoginController($scope, ImprovaService, SessionsService, UserSer
  * Контроллер страны лиг
  */
 function LeaguesController($scope, $location, $rootScope, User, LocationService, LeagueService) {
-    // определяем показываем ли мы панель или нет
-    $scope.show = $location.search().leagues ? true : false;
+
+    $scope.testLeague = function() {
+        // определяем показываем ли мы панель или нет
+        $scope.show = $location.search().leagues ? true : false;
+
+        if($scope.show) {
+            // забираем данные по лигам
+            $rootScope.$broadcast('reloadLeagues');
+        }
+    }
+    
 
     $scope.currentLeague = -1;
 
+    // массив пользователь выбранной лиги
+    $scope.leagueUsers = [];
+
+    // массив лиг
+    $scope.leagues = [];
+
+    $scope.testLeague();
+
     // событие переключчения состояния страницы.
     $scope.$on('$locationChangeSuccess', function (event, next) {
-        $scope.show = $location.search().leagues ? true : false;
+        $scope.testLeague();
 
         if($location.search().leagues && $location.search().league && $scope.leagues && $scope.currentLeague != $location.search().league) {
             $scope.loadUsersByLeague($location.search().league);
@@ -7741,15 +7758,6 @@ function LeaguesController($scope, $location, $rootScope, User, LocationService,
 
         $scope.currentLeague = $location.search().league;
     });
-
-    // массив пользователь выбранной лиги
-    $scope.leagueUsers = [];
-
-    // массив лиг
-    $scope.leagues = [];
-
-    // забираем данные по лигам
-    $rootScope.$broadcast('reloadLeagues');
 
     // забираем список лиг, сортируем и сразу выбираем первую лигу )
     $scope.$watch('workspace.leagues', function (newVal, oldVal, scope) {
@@ -9407,11 +9415,15 @@ function SearchAdvanceController($scope, $location, $rootScope, User, Profession
     $scope.searchText = $location.search().text;
 
     // определяем показываем ли мы панель или нет
-    $scope.show = $location.search().search  ? true : false;
+    $scope.showTest = function() {
+        $scope.show = $location.search().search  ? true : false;    
+    }
+
+    $scope.showTest();
 
     // событие показа панелии
     $scope.$on('$locationChangeSuccess', function () {
-        $scope.show = $location.search().search  ? true : false;
+        $scope.showTest();
     });
 
     $scope.loaderShow = true;
@@ -9553,7 +9565,7 @@ function SearchAdvanceController($scope, $location, $rootScope, User, Profession
     $scope.$watch("search.minScore", function (newVal, oldVal, scope) {
         $scope.collapseLeague();
 
-        if(newVal) {
+        if(newVal && newVal != oldVal) {
             if($scope.changeMinTimer !== false) clearTimeout($scope.changeMinTimer);
 
             $scope.changeMinTimer = setTimeout(function() {
@@ -9575,7 +9587,7 @@ function SearchAdvanceController($scope, $location, $rootScope, User, Profession
     $scope.$watch("search.maxScore", function (newVal, oldVal, scope) {
         $scope.collapseLeague();
 
-        if(newVal) {
+        if(newVal && newVal != oldVal) {
             if($scope.changeMaxTimer !== false) clearTimeout($scope.changeMaxTimer);
 
             $scope.changeMaxTimer = setTimeout(function() {
