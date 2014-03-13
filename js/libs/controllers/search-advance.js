@@ -9,11 +9,15 @@ function SearchAdvanceController($scope, $location, $rootScope, User, Profession
     $scope.searchText = $location.search().text;
 
     // определяем показываем ли мы панель или нет
-    $scope.show = $location.search().search  ? true : false;
+    $scope.showTest = function() {
+        $scope.show = $location.search().search  ? true : false;    
+    }
+
+    $scope.showTest();
 
     // событие показа панелии
     $scope.$on('$locationChangeSuccess', function () {
-        $scope.show = $location.search().search  ? true : false;
+        $scope.showTest();
     });
 
     $scope.loaderShow = true;
@@ -155,7 +159,7 @@ function SearchAdvanceController($scope, $location, $rootScope, User, Profession
     $scope.$watch("search.minScore", function (newVal, oldVal, scope) {
         $scope.collapseLeague();
 
-        if(newVal) {
+        if(newVal && newVal != oldVal) {
             if($scope.changeMinTimer !== false) clearTimeout($scope.changeMinTimer);
 
             $scope.changeMinTimer = setTimeout(function() {
@@ -177,7 +181,7 @@ function SearchAdvanceController($scope, $location, $rootScope, User, Profession
     $scope.$watch("search.maxScore", function (newVal, oldVal, scope) {
         $scope.collapseLeague();
 
-        if(newVal) {
+        if(newVal && newVal != oldVal) {
             if($scope.changeMaxTimer !== false) clearTimeout($scope.changeMaxTimer);
 
             $scope.changeMaxTimer = setTimeout(function() {

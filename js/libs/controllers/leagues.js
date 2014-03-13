@@ -2,14 +2,31 @@
  * Контроллер страны лиг
  */
 function LeaguesController($scope, $location, $rootScope, User, LocationService, LeagueService) {
-    // определяем показываем ли мы панель или нет
-    $scope.show = $location.search().leagues ? true : false;
+
+    $scope.testLeague = function() {
+        // определяем показываем ли мы панель или нет
+        $scope.show = $location.search().leagues ? true : false;
+
+        if($scope.show) {
+            // забираем данные по лигам
+            $rootScope.$broadcast('reloadLeagues');
+        }
+    }
+    
 
     $scope.currentLeague = -1;
 
+    // массив пользователь выбранной лиги
+    $scope.leagueUsers = [];
+
+    // массив лиг
+    $scope.leagues = [];
+
+    $scope.testLeague();
+
     // событие переключчения состояния страницы.
     $scope.$on('$locationChangeSuccess', function (event, next) {
-        $scope.show = $location.search().leagues ? true : false;
+        $scope.testLeague();
 
         if($location.search().leagues && $location.search().league && $scope.leagues && $scope.currentLeague != $location.search().league) {
             $scope.loadUsersByLeague($location.search().league);
@@ -22,15 +39,6 @@ function LeaguesController($scope, $location, $rootScope, User, LocationService,
 
         $scope.currentLeague = $location.search().league;
     });
-
-    // массив пользователь выбранной лиги
-    $scope.leagueUsers = [];
-
-    // массив лиг
-    $scope.leagues = [];
-
-    // забираем данные по лигам
-    $rootScope.$broadcast('reloadLeagues');
 
     // забираем список лиг, сортируем и сразу выбираем первую лигу )
     $scope.$watch('workspace.leagues', function (newVal, oldVal, scope) {
