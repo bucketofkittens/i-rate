@@ -4845,10 +4845,18 @@ pgrModule.directive('masonry', function(User, $rootScope) {
       var parentElement = element.parent()[0];
 
       // добавляем скроллинг мышкой
-      $(parentElement).on("mousewheel DOMMouseScroll scroll", function($event) {
+      $(parentElement).on("mousewheel DOMMouseScroll", function($event) {
         parentElement.scrollLeft -= $event.originalEvent.wheelDeltaY ? $event.originalEvent.wheelDeltaY : $event.originalEvent.detail * 5;
         
         if(parentElement.scrollLeft == $(element).width()-$(window).width() && self.view_count < self.total_count) {
+          self.view_count += self.limit;
+          self.skip += self.limit;
+          self.getUsersFromBackend(self, loadUserCallback_);
+        }
+      });
+
+      $(parentElement).on("touchmove", function($event) {
+        if($(parentElement).scrollLeft() == $(element).width()-$(window).width() && self.view_count < self.total_count) {
           self.view_count += self.limit;
           self.skip += self.limit;
           self.getUsersFromBackend(self, loadUserCallback_);

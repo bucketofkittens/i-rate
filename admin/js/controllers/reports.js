@@ -2,7 +2,6 @@
  */
 function ReportsController($scope, ReportService, $location) {
     $scope.reports = [];
-    $scope.currentReport = null;
 
     $scope.getReportsCallback_ = function(data) {
         $scope.reports = data;
@@ -13,8 +12,7 @@ function ReportsController($scope, ReportService, $location) {
     }
 
     $scope.openReport = function(report) {
-    	$scope.currentReport = report;
-        $location.search({"report_profile": report.user.sguid})
+        $location.search({"report_profile": report.user.sguid});
     }
 
     $scope.getReports();
