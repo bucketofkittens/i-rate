@@ -4845,10 +4845,12 @@ pgrModule.directive('masonry', function(User, $rootScope) {
       var parentElement = element.parent()[0];
 
       // добавляем скроллинг мышкой
-      $(parentElement).on("mousewheel DOMMouseScroll", function($event) {
+      $(parentElement).on("mousewheel DOMMouseScroll scroll", function($event) {
         parentElement.scrollLeft -= $event.originalEvent.wheelDeltaY ? $event.originalEvent.wheelDeltaY : $event.originalEvent.detail * 5;
         
-        if(parentElement.scrollLeft == $(element).width()-$(window).width()) {
+        if(parentElement.scrollLeft == $(element).width()-$(window).width() && self.view_count < self.total_count) {
+          self.view_count += self.limit;
+          self.skip += self.limit;
           self.getUsersFromBackend(self, loadUserCallback_);
         }
       });
@@ -4986,19 +4988,6 @@ pgrModule.directive('masonry', function(User, $rootScope) {
 
         $(items).imagesLoaded( function() {
           $(element).isotope("insert", $(items));
-
-          if(data[0] && data[0].total_count)
-            self.total_count = data[0].total_count;
-         
-          self.view_count += self.limit;
-          if(self.view_count < self.total_count) {
-
-            self.skip += self.limit;
-            // рекурсивно берем еще пользователей
-            self.getUsersFromBackend(self, callback);
-          } else {
-            $(element).append(items);
-          }
         });
       }
 
@@ -5008,17 +4997,15 @@ pgrModule.directive('masonry', function(User, $rootScope) {
         $(items).imagesLoaded( function() {
           $(element).isotope("insert", $(items));
 
-          if(data[0] && data[0].total_count)
+          if(data[0] && data[0].total_count && !self.total_count)
             self.total_count = data[0].total_count;
          
-          self.view_count += self.limit;
+            self.view_count += self.limit;
           if(self.view_count < self.total_count && $(element).width() < $(window).width()) {
-
             self.skip += self.limit;
+
             // рекурсивно берем еще пользователей
             self.getUsersFromBackend(self, callback);
-          } else {
-            $(element).append(items);
           }
         });
       }
