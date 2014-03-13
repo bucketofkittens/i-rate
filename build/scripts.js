@@ -2918,6 +2918,7 @@ angular.module('localization', [])
 
             // loads the language resource file from the server
             initLocalizedResources:function () {
+                /*
                 // build the url to retrieve the localized resource file
                 //var url = 'i18n/resources-locale_' + localize.language + '.js';
                 var url = 'i18n/resources-locale_default.js';
@@ -2928,6 +2929,7 @@ angular.module('localization', [])
                     // request the default resource file
                     $http({ method:"GET", url:url, cache:false }).success(localize.successCallback);
                 });
+                */
             },
 
             // checks the dictionary for a localized resource string
@@ -8772,7 +8774,9 @@ function NeedsAndGoalsController($scope, СareerService, UserService, Goals, Cri
 
     // когда получаем данные пользователя
     $scope.$watch('user', function (newVal, oldVal, scope) {
-        $scope.bindUserNeedsValues();
+        if(newVal != oldVal) {
+            $scope.bindUserNeedsValues();
+        }
     });
 
     $scope.$on('quckUpdateUser', function(message) {
@@ -10471,7 +10475,7 @@ function UserCommentsController($scope, Comments, $rootScope) {
 
     // если сменился пользователь меняем данные
     $scope.$watch('user', function (newVal, oldVal, scope) {
-        if(newVal) {
+        if(newVal != oldVal) {
             $scope.getMessages();
         }
     });
@@ -10559,13 +10563,10 @@ function UserController($scope, FriendsService, UserService, User, $location, Lo
     // текущий выбранный таб
     $scope.tab = 1;
 
-    // индикатор прогресса загрузки данных. нужен для того что бы не дублировались ajax запросы
-    $scope.getProgressFlag = false;
-
     // видна ли кнопочка репорта или нет
     $scope.isReport = false;
 
-    $scope.$on('$locationChangeStart', function(event, newLoc, oldLoc) {
+    $scope.$on('$locationChangeSuccess', function(event, newLoc, oldLoc) {
         $scope.setCurrentUser();
     });
 
@@ -10584,11 +10585,9 @@ function UserController($scope, FriendsService, UserService, User, $location, Lo
         var newId = $location.search()[$scope.route];
 
         // проверяем а нужно ли вообще менять id
-        if(newId && (!$scope.user || $scope.user.sguid != newId) && !$scope.getProgressFlag) {
-            $scope.getProgressFlag = true;
-
+        if(newId && (!$scope.user || $scope.user.sguid != newId)) {
             UserService.getById(newId, $scope.userServiceGetByIdCallback_);
-            
+
             if(($scope.workspace.user && newId != $scope.workspace.user.sguid) || !$scope.workspace.user) {
                 UserService.addView(newId, $scope.addViewCallback_);    
             }

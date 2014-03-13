@@ -596,6 +596,10 @@ pgrModule.service('UserService', function (User, AllUserService) {
         }
     }
 
+    this.getAuthGuid = function(callback) {
+        return lscache.get(this.cacheName);
+    }
+
     // передаем данные в кеш
     this.setAuthData = function(user) {
         // сохраняем данные пользователя в localStorage
@@ -1022,9 +1026,9 @@ pgrModule.service('FriendsService', function (UserService, User, $rootScope) {
 
     // добавляем чувака в друзья
     this.follow = function(friend, friends, callback) {
-        var user = UserService.getAuthData();
+        var user = UserService.getAuthGuid();
         
-        User.create_friendship({id: user.sguid}, {
+        User.create_friendship({id: user}, {
             friend_guid: friend.sguid
         }, function(response) {     
             if(response.success) {
@@ -1036,9 +1040,9 @@ pgrModule.service('FriendsService', function (UserService, User, $rootScope) {
 
     // убираем пользователя из друзей
     this.unfollow = function(friend, friends, callback) {
-        var user = UserService.getAuthData();
+        var user = UserService.getAuthGuid();
 
-        User.destroy_friendship({id: user.sguid, friendId: friend.sguid}, { }, function() {
+        User.destroy_friendship({id: user, friendId: friend.sguid}, { }, function() {
             var frend = friends.filter(function(data) {
                 if(data.user.sguid === friend.sguid) {
                     return data;

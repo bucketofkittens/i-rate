@@ -14,13 +14,10 @@ function UserController($scope, FriendsService, UserService, User, $location, Lo
     // текущий выбранный таб
     $scope.tab = 1;
 
-    // индикатор прогресса загрузки данных. нужен для того что бы не дублировались ajax запросы
-    $scope.getProgressFlag = false;
-
     // видна ли кнопочка репорта или нет
     $scope.isReport = false;
 
-    $scope.$on('$locationChangeStart', function(event, newLoc, oldLoc) {
+    $scope.$on('$locationChangeSuccess', function(event, newLoc, oldLoc) {
         $scope.setCurrentUser();
     });
 
@@ -39,11 +36,9 @@ function UserController($scope, FriendsService, UserService, User, $location, Lo
         var newId = $location.search()[$scope.route];
 
         // проверяем а нужно ли вообще менять id
-        if(newId && (!$scope.user || $scope.user.sguid != newId) && !$scope.getProgressFlag) {
-            $scope.getProgressFlag = true;
-
+        if(newId && (!$scope.user || $scope.user.sguid != newId)) {
             UserService.getById(newId, $scope.userServiceGetByIdCallback_);
-            
+
             if(($scope.workspace.user && newId != $scope.workspace.user.sguid) || !$scope.workspace.user) {
                 UserService.addView(newId, $scope.addViewCallback_);    
             }
