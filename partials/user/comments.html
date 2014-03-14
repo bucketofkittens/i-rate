@@ -14,7 +14,7 @@
 	<div class="butcomm">
 		<em></em>
 		<ng-form name="CommentForm">
-			<textarea ng-change="changeText()" ng-model="form.message" msd-elastic id="comment_message" name="comment" placeholder="Enter your comment here"></textarea>
+			<textarea ng-change="changeText()" ng-model="form.message" msd-elastic id="comment_message" name="comment" placeholder="Enter your comment here" maxlength="500"></textarea>
 			<button ng-class="{disable: disable || !workspace.user}" class="button " ng-click="onSendMessage()">Send</button>
 		</ng-form>
 		<!-- report button -->

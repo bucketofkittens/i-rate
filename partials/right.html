@@ -3,7 +3,12 @@
 		<div class="glass">
 			<div class="full_height" ng-if="state == 0" ng-include ng-controller="SigninController" src="'partials/signin.html'"></div>
 			<div class="full_height" ng-if="state == 1" ng-include ng-controller="SignupController" src="'partials/signup.html'"></div>
-			<div class="full_height" ng-if="state == 2" ng-include ng-controller="ImprovaLoginController" src="'partials/improva.html'"></div>
+			<div class="full_height" ng-if="state == 2" ng-include ng-controller="ImprovaLoginController" src="'partials/improva.html'"></div>		
+			<div class="dsclmr">
+			   <p>The information featured on this website is intended for entertainment purposes only, is not warranted to be factual and has been compiled from publicly available third-party sources, including users of this website, which may or may not be authoritative, reliable or objective.</p>
+			   <p>Any personal names, images, likenesses, product names, logos, brands, and other trademarks or publicity rights featured or referred to within our website are the property of their respective owners. These individuals and/or entities are not affiliated with i-Rate.com, our products and services, or our websites. They do not sponsor, endorse, or otherwise promote our website or any of our products and services.</p>
+			   <button ng-click="close()">OK</button>
+			</div>	
 		</div>
 	</perfect-scrollbar>
 </div>
