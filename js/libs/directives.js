@@ -91,13 +91,11 @@ pgrModule.directive('scrolls', function() {
         });
       });
 
-      $(element).on("scroll", function($event) {
+      $(element).on("touchmove", function($event) {
         var elements = $("."+attrs.scrollsClass);
 
         $.each(elements, function(key, value) {
-          if($(value).attr("id") != $(element).attr("id")) {
-            $(value).scrollTop($(element).scrollTop());
-          }
+          $(value).scrollTop($(element).scrollTop());
         });
       });
     }
