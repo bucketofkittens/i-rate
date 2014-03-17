@@ -657,6 +657,10 @@ pgrModule.service('UserService', function (User, AllUserService) {
         });
     }
 
+    this.isAdminCache = function(sguid, callback) {
+        return lscache.get("is_admin");
+    }
+
     this.clearAdmin = function() {
         lscache.remove("is_admin");
     }

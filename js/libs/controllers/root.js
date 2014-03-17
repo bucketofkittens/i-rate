@@ -30,15 +30,12 @@ function RootController($scope, FacebookService, СareerService, LeagueService, 
      */
     $scope.workspace.friends = [];
 
-    $scope.isAdminCallback_ = function(data) {
-        $scope.workspace.isAdmin = data;
-    }
+    $scope.workspace.isAdmin = UserService.isAdminCache();
 
     // забираем профиль пользователя
     $scope.getAuthDataCallback_ = function(data) {
         $scope.workspace.user = data;
 
-        UserService.isAdmin(data.sguid, $scope.isAdminCallback_);
         UserService.getFriends($scope.workspace.user.sguid, $scope.getFriendsCallback_);
     }
 
