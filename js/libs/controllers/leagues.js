@@ -104,12 +104,20 @@ function LeaguesController($scope, $location, $rootScope, User, LocationService,
 
     // callback после загрузки пользователей для текущей лиги
     $scope.selectLeagueCallback_ = function(data) {
+        
+        data = data.filter(function(value) {
+            if(value.published) {
+                return value;
+            }
+        });
+        
+        data.sort(function(a, b) {
+            if(a.points < b.points) return 1;
+            if(a.points > b.points) return -1;
+            return 0;
+        });
+
         $scope.leagueUsers = data;
-        $scope.leagueUsers.sort(function(a, b) {
-                if(a.points < b.points) return 1;
-                if(a.points > b.points) return -1;
-                return 0;
-            });
         $scope.selectUser($scope.leagueUsers[0]);
     }
 
