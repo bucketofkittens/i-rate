@@ -13,7 +13,7 @@
 			<tr ng-repeat="(key, value) in reports">
 				<td 
 					ng-click="openReport(value)" 
-					ng-class="{accept: value.status == 1, denied: value.status == 2, quest: value.status == 0}">
+					ng-class="{accept: value.status == 2, denied: value.status == 1, quest: value.status == 0}">
 				</td>
 				<td>
 					<p>{{value.user.points}}<s></s>{{value.user.league.name}} league</p>

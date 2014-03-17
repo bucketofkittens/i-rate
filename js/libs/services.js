@@ -264,6 +264,14 @@ pgrModule.factory('Reports', function ($resource) {
             query: {
                 method: 'GET',
                 isArray: true
+            },
+            allow: {
+                url: host + "/reports/:id/allow",
+                method: 'GET'
+            },
+            deny: {
+                url: host + "/reports/:id/deny",
+                method: 'GET'
             }
         }
     );
@@ -549,6 +557,22 @@ pgrModule.service('ReportService', function (Reports) {
     // создание обновление пользователя
     this.update = function(sguid, params, callback) {
         Reports.updateReport({id: sguid},  JSON.stringify(params), function(data) {
+            if(callback) {
+                callback(data);    
+            }
+        });
+    }
+
+    this.allow = function(sguid, callback) {
+        Reports.allow({id: sguid} , function(data) {
+            if(callback) {
+                callback(data);    
+            }
+        });
+    }
+
+    this.deny = function(sguid, callback) {
+        Reports.deny({id: sguid} , function(data) {
             if(callback) {
                 callback(data);    
             }

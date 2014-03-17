@@ -12,7 +12,7 @@ function ReportsController($scope, ReportService, $location) {
     }
 
     $scope.openReport = function(report) {
-        $location.search({"report_profile": report.user.sguid});
+        $location.search({"report_profile": report.user.sguid, "report": report.sguid});
     }
 
     $scope.getReports();
