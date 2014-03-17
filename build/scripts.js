@@ -6061,7 +6061,12 @@ pgrModule.factory('CriterionByGoal', function ($resource) {
                 url: host + "/criterion/:criteria_sguid",
                 method: 'GET',
                 isArray: true
-            }
+            },
+            'criterion_by_user_guid': {
+                method: 'GET',
+                isArray: true,
+                url: host+"/criterion/by_goal/:goal_guid/by_user/:user_guid"
+            },
         }
     );
 });
@@ -9002,25 +9007,12 @@ function NeedsAndGoalsController($scope, СareerService, UserService, Goals, Cri
         // всего критериев
         var maxCount_ = goal.criterion_guids.length;
 
-        angular.forEach(goal.criterion_guids, function(value, key){
-            CriterionByGoal.by_guid({criteria_sguid: value}, function(data) {
-                goal.criteriums.push(data[0]);
-                countLoad_ += 1;
+        CriterionByGoal.criterion_by_user_guid({goal_guid: goal.sguid, user_guid: $scope.user.sguid}, function(data) {
+            goal.criteriums = data;
+            goal.criteriums.all_load = true;
 
-                if(countLoad_ == maxCount_) {
-                    /**
-                     * добавляем пустой элемент
-                     */
-                    $scope.addEmptyElement(goal);
-
-                    goal.criteriums.all_load = true;
-
-                    /**
-                     * забираем значения для текущего пользователя
-                     */
-                    $scope.getCriteriumValueByUser(goal);
-                }
-            });
+            $scope.addEmptyElement(goal);
+            $scope.getCriteriumValueByUser(goal);
         });
     }
 

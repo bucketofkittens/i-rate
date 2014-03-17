@@ -1,4 +1,4 @@
-function ReportConfirmConroller($scope, ReportService, $location) {
+function ReportConfirmConroller($scope, ReportService, $location, $rootScope) {
 	$scope.reportSguid = null;
 
 	$scope.updateSguid = function() {
@@ -14,10 +14,12 @@ function ReportConfirmConroller($scope, ReportService, $location) {
     });
 
     $scope.denyCallback_ = function(data) {
+    	$rootScope.$broadcast('updateReport');
     	$scope.close();
     }
 
     $scope.allowCallback_ = function(data) {
+    	$rootScope.$broadcast('updateReport');
     	$scope.close();
     }
 
