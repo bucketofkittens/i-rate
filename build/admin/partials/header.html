@@ -1,0 +1,11 @@
+<header>
+	<div id="header">
+		<!-- Логотип -->
+		<a href="/index.html" class="logo">
+		</a>
+		
+		<ul ng-controller="MenuController">
+			<li ng-class="{current: value.current}" ng-repeat="(key, value) in items"><a ng-cloak ng-click="onItemClick(value)" href="{{value.href}}">{{value.title}}</a></li>
+		</ul>
+	</div>
+</header>

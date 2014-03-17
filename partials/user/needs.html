@@ -62,7 +62,8 @@
 									<div class="tab">
 										<li data-id="{{value.sguid}}"  
 											ng-repeat="value in crItem.criteria_values | orderBy:'position'"  
-											class="{{value.user_criteria}} position_{{value.position}}" >
+											class="{{value.user_criteria}} position_{{value.position}}"
+											ng-class="{null: value.sguid == 'none'}" >
 											<i ng-if="value.sguid != 'none'">{{value.name}}</i>
 											<i ng-if="value.sguid == 'none'" class="null_criteria"></i>
 										</li>

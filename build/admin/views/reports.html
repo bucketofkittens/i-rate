@@ -1,0 +1,35 @@
+<div id="reports_container">
+	<table class="moder">
+		<thead>
+			<tr>
+				<th> </th>
+				<th>Rate</th>
+				<th>Photo / Name / E-mail</th>
+				<th>Photo / Name / E-mail (Reporter)</th>
+				<th>Comment</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr ng-repeat="(key, value) in reports">
+				<td 
+					ng-click="openReport(value)" 
+					ng-class="{accept: value.status == 2, denied: value.status == 1, quest: value.status == 0}">
+				</td>
+				<td>
+					<p>{{value.user.points}}<s></s>{{value.user.league.name}} league</p>
+				</td>
+				<td class="reper" >
+					<img ng-src="{{value.user.avatar}}" err-src="/images/unknown-person.png" alt="">
+					<p>{{value.user.name}}<s></s>{{value.user.email}}</p>
+				</td>
+				<td class="reper" style="background: rgba(130, 50, 50, 0.5)">
+					<img ng-src="{{value.document_photo}}" err-src="/images/unknown-person.png" alt="">
+					<p>{{value.full_name}}<s></s>{{value.email}}</p>
+				</td>
+				<td>
+					<p>{{value.1}}</p>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+</div>

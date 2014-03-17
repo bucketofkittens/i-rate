@@ -1,0 +1,60 @@
+<div id="nsi_content" ng-controller="NSIController">
+	<ng-form ng-upload="complete(contents)">
+		<table>
+			<col width="170px" />
+			<col width="170px" />
+			<col width="170px" />
+			<col width="50px" />
+			<col width="50px" />
+			<col width="50px" />
+			<col width="170px" />
+			<col width="50px" />
+			<thead>
+				<tr>
+					<th>Name</th>
+					<th>Min</th>
+					<th>Max</th>
+					<th>Size</th>
+					<th>Show</th>
+					<th>Font</th>
+					<th>Icon</th>
+					<th>Del</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr ng-repeat="(key, value) in workspace.leagues | orderBy: 'position'">
+					<td class="editing_cell">
+						<input type="text" ng-model="value.name" ng-change="update(value)" />
+					</td>
+					<td class="editing_cell">
+						<input type="text" ng-model="value.min_border" ng-change="update(value)" />
+					</td>
+					<td class="editing_cell">
+						<input type="text" ng-model="value.max_border" ng-change="update(value)" />
+					</td>
+					<td class="editing_cell">
+						<input style="width:50px" type="text" ng-model="value.size" maxlength="3" ng-change="update(value)" />
+					</td>
+					<td class="editing_cell">
+						<input type="checkbox" ng-model="value.is_points" ng-change="update(value)" />
+					</td>
+					<td class="editing_cell">
+						<input style="width:50px" type="text" ng-model="value.font" maxlength="3" ng-change="update(value)" />
+					</td>
+					<td class="editing_cell">
+						<img ng-src="{{value.icon}}" alt="" />
+						<input class="uploadfile" type="file" name="file" ng-file-select="onFileSelect($files, value)" />
+					</td>
+					<td >
+						<span class="icon delete" ng-click="delete(value)"></span>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</ng-form>
+	<div class="btns">
+		<a class="buttons" ng-click="ok()">Ok</a>
+		<a class="buttons" href="/admin/index.html#/nsi-add">Add league</a>
+		<a class="buttons" ng-click="closeModal()">Close</a>
+	</div>
+</div>
