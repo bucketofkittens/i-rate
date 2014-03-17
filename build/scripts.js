@@ -5741,10 +5741,7 @@ pgrModule.factory('User', function ($resource) {
             },
             "is_admin": {
                 method: "GET",
-                url: host+"/users/:id/is_admin",
-                transformResponse: function (data) {
-                    return data;
-                }
+                url: host+"/users/:id/is_admin"
             },
             "destroy_friendship": {
                 method: "DELETE",
@@ -6265,9 +6262,9 @@ pgrModule.service('UserService', function (User, AllUserService) {
 
     this.isAdmin = function(sguid, callback) {
         User.is_admin({id: sguid}, {}, function(data) {
-            lscache.set("is_admin", data, 2000);
+            lscache.set("is_admin",  data.message.is_admin, 2000);
             if(callback) {
-                callback(data);
+                callback(data.message.is_admin);
             }
         });
     }
@@ -9523,9 +9520,15 @@ function RootController($scope, FacebookService, СareerService, LeagueService, 
      */
     $scope.workspace.friends = [];
 
+    $scope.isAdminCallback_ = function(data) {
+        $scope.workspace.isAdmin = data;
+    }
+
     // забираем профиль пользователя
     $scope.getAuthDataCallback_ = function(data) {
         $scope.workspace.user = data;
+
+        UserService.isAdmin(data.sguid, $scope.isAdminCallback_);
         UserService.getFriends($scope.workspace.user.sguid, $scope.getFriendsCallback_);
     }
 
