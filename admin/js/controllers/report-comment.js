@@ -1,4 +1,4 @@
-function ReportCommentConroller($scope) {
+function ReportCommentConroller($scope, Comments, $location) {
 	$scope.reportSguid = null;
 	$scope.commentsList = [];
 
@@ -9,7 +9,7 @@ function ReportCommentConroller($scope) {
 	}
 
 	$scope.getMessages = function() {
-        Comments.get_by_user({owner_guid: $scope.user.sguid, owner_type: 0}, {}, function(data) {
+        Comments.get_by_user({owner_guid: $scope.reportSguid, owner_type: 1}, {}, function(data) {
             angular.forEach(data, function(value, key){
                 value.post_date = moment(value.post_date).format("MMM DD, YYYY h:mm a");
             });
@@ -19,4 +19,5 @@ function ReportCommentConroller($scope) {
     }
 
 	$scope.updateSguid();
+	$scope.getMessages();
 }

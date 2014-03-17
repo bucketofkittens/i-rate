@@ -23,18 +23,7 @@ function RootController($scope, FacebookService, СareerService, LeagueService, 
      * Забираем юзера из кеша
      * @type {[type]}
      */
-    $scope.workspace.user = UserService.getAuthData();
-
-    $scope.workspace.users = {};
-
-    $scope.isAdminCallback_ = function(data) {
-    }
-
-    if(!$scope.workspace.user) {
-        //window.location = document.location.origin+"/index.html";
-    } else {
-        //UserService.isAdmin($scope.workspace.user.sguid, $scope.isAdminCallback_);
-    }
+    $scope.workspace.user = null;
 
     $scope.needsServiceCallback_ = function(data) {
         $scope.workspace.needs = data;
@@ -53,16 +42,17 @@ function RootController($scope, FacebookService, СareerService, LeagueService, 
         $scope.workspace.leagues = data;
     }
 
-    $scope.userServiceCallback_ = function(data) {
-        $scope.workspace.users = data;
-    }
-
     $scope.openProfile = function() {
         $rootScope.$broadcast('openProfile');
     }
 
     $scope.openLeagues = function() {
         $location.search( { leagues: true } );
+    }
+
+    $scope.getAuthDataCallback_ = function(data) {
+        console.log(data);
+        $scope.workspace.user = data;
     }
 
     // событие загрузки списка нидсов
@@ -88,6 +78,8 @@ function RootController($scope, FacebookService, СareerService, LeagueService, 
         // список пользвателей
         UserService.getAll($scope.userServiceCallback_);
     });
+
+    UserService.getAuthData($scope.getAuthDataCallback_);
 
     $scope.location = $location.path().replace("/", "");
 

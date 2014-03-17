@@ -1,5 +1,8 @@
-function ReportConfirmConroller($scope, ReportService, $location, $rootScope) {
+function ReportConfirmConroller($scope, ReportService, $location, $rootScope, Comments) {
 	$scope.reportSguid = null;
+	$scope.form = {
+		message: ""
+	}
 
 	$scope.updateSguid = function() {
 		if($location.search().report) {
@@ -13,13 +16,29 @@ function ReportConfirmConroller($scope, ReportService, $location, $rootScope) {
         $scope.updateSguid();
     });
 
+    $scope.createComment = function() {
+    	if($scope.form.message.length > 0) {
+            Comments.create({}, {
+                owner_type: 1,
+                author_guid: $scope.workspace.user.sguid,
+                post_date: moment().format("DD-MM-YYYY HH:mm:ss"),
+                message: $scope.form.message,
+                owner_guid: $scope.reportSguid
+            }, function(data) {
+                
+            });
+        }
+    }
+
     $scope.denyCallback_ = function(data) {
     	$rootScope.$broadcast('updateReport');
+    	$scope.createComment();
     	$scope.close();
     }
 
     $scope.allowCallback_ = function(data) {
     	$rootScope.$broadcast('updateReport');
+    	$scope.createComment();
     	$scope.close();
     }
 
