@@ -165,7 +165,7 @@ pgrModule.directive('scrolls', function() {
         var step = offset.y/4;
 
         $.each(elements, function(key, value) {
-            $(value).scrollTop($(value).scrollTop()-step);
+            $(value).scrollTop($(value).scrollTop()+step);
         });
       });
     }
@@ -249,6 +249,12 @@ pgrModule.directive('comparator', function() {
             }
           } else {
             element.removeClass(classes.DOWN).removeClass(classes.UP).removeClass(classes.CENTER);
+                        /*if(!values[usersName.USER1] && values[usersName.USER2]) {
+              element.addClass(classes.UP);
+            }
+            if(!values[usersName.USER2] && values[usersName.USER1]) {
+              element.addClass(classes.DOWN);
+            }*/
           }
         } else {
           element.removeClass(classes.DOWN).removeClass(classes.UP).removeClass(classes.CENTER);
