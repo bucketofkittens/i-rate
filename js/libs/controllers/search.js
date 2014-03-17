@@ -64,7 +64,7 @@ function SearchController($scope, User, $rootScope, $location, $timeout) {
                 $scope.resultSearch = [];
                 $scope.searchText = "";
                 if($(event.target).parents(searchId).length == 0 && !$location.search().user1 && !$location.search().user2) {
-                    //$rootScope.$broadcast('showRightPanel');    
+                    $rootScope.$broadcast('showRightPanel');    
                 }
             });
         }
@@ -79,6 +79,8 @@ function SearchController($scope, User, $rootScope, $location, $timeout) {
 
     $scope.advanceSearchCallback_ = function(data) {
         $scope.resultSearch = data;
+
+        $rootScope.$broadcast('hideRightPanel');
     }
 
     // ищем в списке пользователей
