@@ -5454,15 +5454,17 @@ input:invalid {
 }
 
 .dsclmr {
-    position: absolute;
-    left: -700px;
+    position: fixed;
+    left: 50%;
     top: 30%;
+    margin-left: -250px;
     width: 500px;
     height: 200px;
     background: rgba(0, 0, 0, 0.9);
     box-shadow: 0 0 80px 5px #000000;
     cursor: pointer;
     border: 1px solid #333333;
+    z-index: 999;
     p {
         color: #ffffff;
         font-size: 14px;
@@ -5482,8 +5484,5 @@ input:invalid {
         bottom: 10px;
         right: 10px;
         cursor: pointer;
-    }
-    &:active {
-        display: none;
     }
 }
