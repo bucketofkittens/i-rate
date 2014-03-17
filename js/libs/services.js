@@ -653,8 +653,15 @@ pgrModule.service('UserService', function (User, AllUserService) {
 
     this.isAdmin = function(sguid, callback) {
         User.is_admin({id: sguid}, {}, function(data) {
-            callback(data);
+            lscache.set("is_admin", data, 2000);
+            if(callback) {
+                callback(data);
+            }
         });
+    }
+
+    this.clearAdmin = function() {
+        lscache.remove("is_admin");
     }
 
     // создание нового пользователя

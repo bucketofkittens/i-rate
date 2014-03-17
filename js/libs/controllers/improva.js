@@ -20,9 +20,14 @@ function ImprovaLoginController($scope, ImprovaService, SessionsService, UserSer
         }
     }
 
+    $scope.isAdminCallback_ = function(data) {
+        $scope.workspace.isAdmin = data;
+    }
+
     $scope.onSigninSuccessCallback_ = function(data) { 
         SocialService.persist(SocialNames.IMPROVA);
 
+        UserService.isAdmin(data.sguid, $scope.isAdminCallback_);
         UserService.setAuthData(data);
         UserService.getFriends(data.sguid, $scope.getFriendsCallback_);
 

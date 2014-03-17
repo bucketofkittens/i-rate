@@ -34,6 +34,8 @@ function MyProfileSettingsController($scope, UserService, SocialService, Friends
 		// убираем данные о пользователе из кеша
 		UserService.clearAuthData();
 
+        UserService.clearAdmin();
+
 		// убираем зписить из кеша о социалках
 		SocialService.clear();
 

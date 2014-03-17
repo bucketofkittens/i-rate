@@ -1,7 +1,7 @@
 /**
  * форма модального окна авторизации
  */
-function SigninController($scope, $rootScope, $timeout, SessionsService, UserService, FacebookService, SocialService, UserService, MSLiveService, GooglePlusService) {
+function SigninController($scope, $rootScope, $timeout, SessionsService, FacebookService, SocialService, UserService, MSLiveService, GooglePlusService, User) {
     // сообщение об ошибке
     $scope.error = null;
 
@@ -26,8 +26,14 @@ function SigninController($scope, $rootScope, $timeout, SessionsService, UserSer
         $scope.error = data.message;
     }
 
+    $scope.isAdminCallback_ = function(data) {
+        $scope.workspace.isAdmin = data;
+    }
+
     $scope.onSigninSuccessCallback_ = function(data) {
         UserService.setAuthData(data);
+        UserService.isAdmin(data.sguid, $scope.isAdminCallback_);
+
         UserService.getFriends(data.sguid, $scope.getFriendsCallback_);
 
         $scope.workspace.user = data;

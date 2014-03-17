@@ -133,7 +133,7 @@
 					readonly="readonly"
 					required />
 			</p>
-			<p ng-controller="QuickUserChangeCtrl">
+			<p ng-controller="QuickUserChangeCtrl" ng-if="workspace.isAdmin">
 				<label for="username_i">Username:</label>
 				<span ng-show="workspace.users.length == 0">Loading...</span>
 				<select
