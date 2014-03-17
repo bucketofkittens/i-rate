@@ -106,11 +106,6 @@ body {
                         cursor: pointer;
                     }
                 }
-                @media (max-height: 600px) {
-                    .all {
-                        padding-bottom: 170px;
-                    }
-                }
                 .search {
                     font-size: 15px;
                     color: #959595;
@@ -532,7 +527,7 @@ body {
                                 color: #ffffff;
                                 text-decoration: none;
                                 float: left;
-                                width: 300px;
+                                width: 200px;
                                 vertical-align: middle;
                                 text-align: left;
                                 cursor: pointer;
@@ -570,11 +565,12 @@ body {
                                 }
                             }
                             .right {
-                                width: 90%;
+                                width: 300px;
                                 position: relative;
-                                left: 20px;
+                                right: 15px;
                                 top: 5px;
                                 cursor: default;
+                                float: right;
                                 b {
                                     font-size: 16px;
                                     color: #000000;
@@ -589,7 +585,7 @@ body {
                                     background: url("../images/needsbg.png") right top no-repeat;
                                     background-size: 100% 5px;
                                     display: block;
-                                    width: 90%;
+                                    width: 300px;
                                     position: relative;
                                     overflow: hidden;
                                     height: 5px;
@@ -2473,7 +2469,7 @@ input[type="checkbox"] {
     background-size: 100% 100%;
     box-shadow: -5px 0 30px 0 #2b2b2b;
     z-index: 999;
-    right: -85px;
+    right: -35px;
     top: 30px;
     width: 300px;
     padding-top: 15px;
@@ -3299,235 +3295,6 @@ sup.bidubi {
     }
 }
 
-
-
-
-@media (max-width: 800px) {
-    #footer {
-        width: 100% !important;
-    }
-    #header {
-        width: 100% !important;
-    }
-    #content {
-        &.controller__login .content_wrap {
-            margin-left: -100px;
-            width: 1020px;
-        } 
-        .content_wrap {
-            width: 100%;
-            .searchfull {
-                width: 280px;
-            }
-            .fusepar {
-                width: 435px;
-                margin-right: 15px;
-                .fsp {
-                    width: 400px;
-                    div {
-                        width: 195px;
-                        img {
-                            margin-left: 5px;
-                        }
-                        input[type="text"] {
-                            width: 130px !important;
-                        }
-                        input[type="button"] {
-                            right: 35px !important;
-                        }
-                    }
-                }
-            }
-        }
-        .mynav {
-            ul {
-                margin: 5px 40px 0px 0px;
-            }
-            h2 {                
-                margin-top: 35px;
-                position: absolute;
-            }
-        }
-
-        .myset {
-            width: 96% !important;
-            .pmain {
-                width: 98%;
-                .pmpar {
-                    width: 450px !important;
-                }
-            }
-        }
-        #setting_info {
-            top: 0px;
-            right: 280px;
-        }
-        #bridge {
-            width: 20px !important;
-        }
-        .mypro_wr {
-            width: 785px !important;
-            .mypro {
-                width: 450px !important;
-                .crits {
-                    h5 {
-                        a {
-                            width: 200px;
-                        }
-                        .right {
-                            width: 190px;
-                            strong {
-                                width: 190px;
-                            }
-                        }
-                    }
-                    .criterion li .bord .crp .tab li {
-                        padding: 0px 5px;
-                        &:first-child {
-                            width: 2px;
-                        }
-                        i:last-child {
-                            padding-right: 3px;
-                        }
-                    }
-                }
-            }
-        }
-        .promain {
-            width: 450px;
-            .pmpar p {
-                font-size: 15px;
-                label {
-                    width: 80px;
-                }
-            }
-            .pmain.pro .il img {
-                width: 35px;
-            }
-            .crits {
-                h5 a {
-                    width: 220px;
-                }
-                .criterion li .bord .crp .tab li {
-                    padding: 0px 5px;
-                    &:first-child {
-                        width: 0px;
-                    }
-                    &:last-child i {
-                        padding-right: 3px;
-                        word-break: break-all;
-                    }
-                }
-            } 
-        }
-        .user_right {
-            width: 260px;
-            #nav2 li {
-                a {
-                    font-size: 14px;
-                }
-            }
-            .pronear {
-                width: 260px;
-                .image {
-                    width: 90px !important;
-                    img {
-                        width: 90px !important;
-                    }
-                }
-                .text {
-                    width: 130px !important;
-                    p {
-                        font-size: 14px !important;
-                    }
-                }
-                .sealin {
-                    width: 30px !important;
-                    height: 30px !important;
-                    margin-top: -15px !important;
-                    right: -10px !important;
-                }
-            }
-            #comments {
-                .comm .cmnt {
-                    width: 230px;
-                }
-                .butcomm {
-                    width: 227px;
-                    bottom: 11%;
-                    textarea {
-                        margin: 10px 0px;
-                    }
-                }
-            }
-        }
-    }
-    #compare_box {
-        .promain, .promain2 {
-            width: 365px;
-            min-width: 365px;
-            .pmpar p {
-                font-size: 15px !important;
-                label {
-                    width: 80px !important;
-                }
-                i {
-                    max-width: 110px;
-                }
-            }
-            .pmain.pro .il img {
-                width: 35px;
-            }
-            .crits {  
-                h5 {
-                    a {
-                        width: 190px;
-                    }
-                    .right {
-                        width: 140px;
-                    }  
-                }             
-                .criterion li .bord .crp .tab li {
-                    padding: 0px 5px;
-                    &:first-child {
-                        width: 0px;
-                    }
-                    i:last-child {
-                        padding-right: 3px;
-                    }
-                }
-            }            
-            sub.du, sup.du {
-                right: -10px;
-                border-width: 20px 0 20px 10px;      
-            }
-            sub.du {
-                left: -25px;
-                border-width: 20px 10px 20px 0;
-            }
-            sub.dubidu {    
-                border-width: 27px 10px 27px 0px;
-            } 
-            sup.dubidu {    
-                border-width: 27px 0px 27px 10px;
-            }
-            sub.bidubi {
-                border-width: 23px 10px 23px 0px;
-            }
-            sup.bidubi {
-                border-width: 23px 0px 23px 10px;
-            }  
-        }          
-        .promain .pmain .du {
-            right: -10px !important;
-            border-width: 95px 0 95px 10px !important;
-        }
-        .promain2 .pmain .du {
-            left: -10px !important;
-            border-width: 95px 10px 95px 0 !important;
-        }
-    } 
-}
 
 #masonry_parent {
     width: 100%;
@@ -5487,4 +5254,268 @@ input:invalid {
         cursor: pointer;
         box-shadow: 0 0 10px 0 rgba(255, 255, 255, 0.3);
     }
+}
+
+
+
+@media (max-width: 800px) {
+    #footer {
+        width: 100% !important;
+    }
+    #header {
+        width: 100% !important;
+    }
+    &.controller__login .content_wrap {
+        margin-left: -100px;
+        width: 1020px;
+    } 
+    .content_wrap {
+        width: 100%;
+        .searchfull {
+            width: 280px;
+        }
+        .fusepar {
+            width: 435px;
+            margin-right: 15px;
+            .fsp {
+                width: 400px;
+                div {
+                    width: 195px;
+                    img {
+                        margin-left: 5px;
+                    }
+                    input[type="text"] {
+                        width: 130px !important;
+                    }
+                    input[type="button"] {
+                        right: 35px !important;
+                    }
+                }
+            }
+        }
+    }
+    .mynav {
+        width: 410px;
+        ul {
+            margin: 0px 0px 0px 50px !important;
+        }
+        h2 {                
+            margin-top: 35px;
+            position: absolute;
+        }
+    }
+    .myset {
+        width: 96% !important;
+        .pmain {
+            width: 98%;
+            .pmpar {
+                width: 450px !important;
+            }
+        }
+    }
+    #setting_info {
+        top: 0px;
+        right: 280px;
+    }
+    #bridge {
+        width: 20px !important;
+    }
+    .mypro_wr {
+        width: 785px !important;
+        .mypro {
+            width: 450px !important;
+        }
+    }
+    .crits {
+        .right {
+            width: 200px !important;
+            strong {
+                width: 200px !important;
+            }
+        }
+        h5 {
+            a {
+                width: 200px !important;
+            }  
+            .right {
+                width: 150px !important;
+                strong {
+                    width: 150px !important;
+                }
+            }          
+        }
+        .criterion  {
+            width: 400px;
+            padding: 5px !important;
+            li {
+                width: 390px;
+                p {
+                    width: 360px;
+                }
+                .bord .crp .tab li {
+                    padding: 0px 5px;
+                    &:first-child {
+                        display: none !important;
+                    }
+                    i:last-child {
+                        padding-right: 3px;
+                    }
+                }
+            }
+        }
+    }
+    .promain {
+        width: 450px;
+        .pmpar p {
+            font-size: 15px;
+            label {
+                width: 80px;
+            }
+        }
+        .pmain.pro .il img {
+            width: 35px;
+        }
+        .crits {
+            h5 a {
+                width: 220px;
+            }
+            .criterion li .bord .crp .tab li {
+                padding: 0px 5px;
+                &:first-child {
+                    width: 0px;
+                }
+                &:last-child i {
+                    padding-right: 3px;
+                    word-break: break-all;
+                }
+            }
+        } 
+    }
+    .user_right {
+        width: 260px;
+        #nav2 li {
+            a {
+                font-size: 14px;
+            }
+        }
+        .pronear {
+            width: 260px;
+            .image {
+                width: 90px !important;
+                img {
+                    width: 90px !important;
+                }
+            }
+            .text {
+                width: 130px !important;
+                p {
+                    font-size: 14px !important;
+                }
+            }
+            .sealin {
+                width: 30px !important;
+                height: 30px !important;
+                margin-top: -15px !important;
+                right: -10px !important;
+            }
+        }
+        #comments {
+            .comm .cmnt {
+                width: 230px;
+            }
+            .butcomm {
+                width: 227px;
+                bottom: 11%;
+                textarea {
+                    margin: 10px 0px;
+                }
+            }
+        }
+    }
+    #compare_box {
+        .promain, .promain2 {
+            width: 365px;
+            min-width: 365px;
+            .pmpar p {
+                font-size: 15px !important;
+                label {
+                    width: 80px !important;
+                }
+                i {
+                    max-width: 110px;
+                }
+            }
+            .pmain.pro .il img {
+                width: 35px;
+            }
+            .crits {  
+                h5 {
+                    a {
+                        width: 190px;
+                    }
+                    .right {
+                        width: 140px;
+                    }  
+                }             
+                .criterion li .bord .crp .tab li {
+                    padding: 0px 5px;
+                    &:first-child {
+                        width: 0px;
+                    }
+                    i:last-child {
+                        padding-right: 3px;
+                    }
+                }
+            }            
+            sub.du, sup.du {
+                right: -10px;
+                border-width: 20px 0 20px 10px;      
+            }
+            sub.du {
+                left: -25px;
+                border-width: 20px 10px 20px 0;
+            }
+            sub.dubidu {    
+                border-width: 27px 10px 27px 0px;
+            } 
+            sup.dubidu {    
+                border-width: 27px 0px 27px 10px;
+            }
+            sub.bidubi {
+                border-width: 23px 10px 23px 0px;
+            }
+            sup.bidubi {
+                border-width: 23px 0px 23px 10px;
+            }  
+        }          
+        .promain .pmain .du {
+            right: -10px !important;
+            border-width: 95px 0 95px 10px !important;
+        }
+        .promain2 .pmain .du {
+            left: -10px !important;
+            border-width: 95px 10px 95px 0 !important;
+        }
+    } 
+
+
+.league_list {
+    width: 130px;
+}
+.person_list {    
+    width: 230px;
+    li {
+        width: 225px;
+        margin-left: 5px;
+        .text {
+            width: 140px;
+        }
+    }
+}
+.persona {
+    width: 410px;
+    .mynav {
+        width: 550px;
+    }
+}
 }
