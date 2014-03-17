@@ -236,6 +236,8 @@ pgrModule.directive('comparator', function() {
       attrs.$observe('values', function(data) {
         if(data && data.length > 0) {
           var values = JSON.parse(data);
+
+          element.removeClass(classes.DOWN).removeClass(classes.UP).removeClass(classes.CENTER);
           
           if(values[usersName.USER1] && values[usersName.USER2]) {
             if(values[usersName.USER1] > values[usersName.USER2]) {
@@ -249,12 +251,13 @@ pgrModule.directive('comparator', function() {
             }
           } else {
             element.removeClass(classes.DOWN).removeClass(classes.UP).removeClass(classes.CENTER);
-                        /*if(!values[usersName.USER1] && values[usersName.USER2]) {
+
+            if(!values[usersName.USER1] && values[usersName.USER2]) {
               element.addClass(classes.UP);
             }
             if(!values[usersName.USER2] && values[usersName.USER1]) {
               element.addClass(classes.DOWN);
-            }*/
+            }
           }
         } else {
           element.removeClass(classes.DOWN).removeClass(classes.UP).removeClass(classes.CENTER);
