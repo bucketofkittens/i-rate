@@ -5796,6 +5796,14 @@ pgrModule.factory('Reports', function ($resource) {
             query: {
                 method: 'GET',
                 isArray: true
+            },
+            allow: {
+                url: host + "/reports/:id/allow",
+                method: 'GET'
+            },
+            deny: {
+                url: host + "/reports/:id/deny",
+                method: 'GET'
             }
         }
     );
@@ -6081,6 +6089,22 @@ pgrModule.service('ReportService', function (Reports) {
     // создание обновление пользователя
     this.update = function(sguid, params, callback) {
         Reports.updateReport({id: sguid},  JSON.stringify(params), function(data) {
+            if(callback) {
+                callback(data);    
+            }
+        });
+    }
+
+    this.allow = function(sguid, callback) {
+        Reports.allow({id: sguid} , function(data) {
+            if(callback) {
+                callback(data);    
+            }
+        });
+    }
+
+    this.deny = function(sguid, callback) {
+        Reports.deny({id: sguid} , function(data) {
             if(callback) {
                 callback(data);    
             }
@@ -8466,7 +8490,6 @@ function MyProfileSettingsController($scope, UserService, SocialService, Friends
 
     $scope.updateName = function() {
         var countView = 0;
-        console.log($scope.workspace.user.name);
         if($scope.workspace.user.name.length > 0) {
             angular.forEach($scope.workspace.users, function(value, key) {
                 var reg = new RegExp($scope.workspace.user.name, "i");

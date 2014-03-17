@@ -20,6 +20,25 @@ pgrModule.directive('cropClick', function() {
   }
 });
 
+pgrModule.directive('textsizechange', function() {
+  return {
+    link: function(scope, element, attrs) {
+      $(element).on("keyup", function() {
+        var commentElement = $(".comm");
+
+        if(!commentElement.attr("basic-height")) {
+          commentElement.attr("basic-height", $(commentElement).height());
+        }
+
+        commentElement.height(commentElement.attr("basic-height")-$(element).height()+20);
+        
+
+        $(element).perfectScrollbar('update');
+      });
+    }
+  }
+});
+
 pgrModule.directive('positionGoal', function() {
   return {
     link: function(scope, element, attrs) {
