@@ -4619,6 +4619,56 @@ pgrModule.config(function(AnalyticsProvider) {
     AnalyticsProvider.setPageEvent('$stateChangeSuccess');
   }
 );
+$(function() {
+  $.fn.swipe = function( callback ) {
+    var touchDown = false,
+      originalPosition = null,
+      $el = $( this );
+
+    function swipeInfo( event ) {
+      var x = event.originalEvent.pageX,
+        y = event.originalEvent.pageY,
+        dx, dy;
+
+      dx = ( x > originalPosition.x ) ? "right" : "left";
+      dy = ( y > originalPosition.y ) ? "down" : "up";
+
+      return {
+        direction: {
+          x: dx,
+          y: dy
+        },
+        offset: {
+          x: x - originalPosition.x,
+          y: originalPosition.y - y
+        }
+      };
+    }
+
+    $el.on( "touchstart", function ( event ) {
+      touchDown = true;
+      originalPosition = {
+        x: event.originalEvent.pageX,
+        y: event.originalEvent.pageY
+      };
+    } );
+
+    $el.on( "touchend", function () {
+      touchDown = false;
+      originalPosition = null;
+    } );
+
+    $el.on( "touchmove", function ( event ) {
+      event.preventDefault();
+      if ( !touchDown ) { return;}
+      var info = swipeInfo( event );
+      callback( info.direction, info.offset );
+    } );
+
+    return true;
+  };
+});
+
 pgrModule.directive('errSrc', function() {
   return {
     link: function(scope, element, attrs) {
@@ -4731,11 +4781,12 @@ pgrModule.directive('scrolls', function() {
         });
       });
 
-      $(element).on("touchmove", function($event) {
+      $(element).swipe(function(direction, offset) {
         var elements = $("."+attrs.scrollsClass);
+        var step = offset.y/4;
 
         $.each(elements, function(key, value) {
-          $(value).scrollTop($(element).scrollTop());
+            $(value).scrollTop($(value).scrollTop()-step);
         });
       });
     }
@@ -10153,7 +10204,7 @@ function SearchController($scope, User, $rootScope, $location, $timeout) {
                 $scope.resultSearch = [];
                 $scope.searchText = "";
                 if($(event.target).parents(searchId).length == 0 && !$location.search().user1 && !$location.search().user2) {
-                    //$rootScope.$broadcast('showRightPanel');    
+                    $rootScope.$broadcast('showRightPanel');    
                 }
             });
         }
@@ -10168,6 +10219,8 @@ function SearchController($scope, User, $rootScope, $location, $timeout) {
 
     $scope.advanceSearchCallback_ = function(data) {
         $scope.resultSearch = data;
+
+        $rootScope.$broadcast('hideRightPanel');
     }
 
     // ищем в списке пользователей
