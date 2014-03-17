@@ -601,5 +601,5 @@ input:invalid{box-shadow:none}
 .person_list li.current{background:rgba(0,0,0,0.4)}
 .persona{width:550px;background:url("../images/glass.png") left top no-repeat;background-size:100% 100%;background-color:rgba(0,0,0,0.2)}.persona .mynav{width:550px}
 .hidden{display:none !important}
-.dsclmr{position:fixed;left:50%;top:30%;margin-left:-250px;width:500px;height:200px;background:rgba(0,0,0,0.9);box-shadow:0 0 80px 5px #000;cursor:pointer;border:1px solid #333;z-index:999}.dsclmr p{color:#fff;font-size:14px;margin:15px 20px}
+.dsclmr{position:fixed;left:50%;top:30%;margin-left:-250px;width:500px;height:200px;background:rgba(0,0,0,0.9);box-shadow:0 0 80px 5px #000;border:1px solid #333;z-index:999}.dsclmr p{color:#fff;font-size:14px;margin:15px 20px}
 .dsclmr button{width:100px;height:25px;line-height:22px;font-size:15px;color:#fff;border-radius:3px;border:1px solid #777;background:rgba(0,0,0,0.8);text-align:center;position:absolute;bottom:10px;right:10px;cursor:pointer}
