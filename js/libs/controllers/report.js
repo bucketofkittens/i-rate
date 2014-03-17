@@ -8,6 +8,17 @@ function ReportController($scope, ReportService, $location, TokenService, $timeo
         user_guid: $location.search().report_user
     }
 
+    // calback для скрытия 
+    this.windowClickCallback_ = function(event) {
+        if($(event.target).parents(".fuckenmorda").size() == 0) {
+            $scope.$apply(function() {
+                $scope.closeModal();
+            });
+        }
+    }
+
+    $(window).on("click", this.windowClickCallback_);
+
     $scope.onReportCallback_ = function(dataItem) {
         var data = new FormData();
         data.append("picture", $scope.selectedFiles[0]);

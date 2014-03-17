@@ -8643,6 +8643,13 @@ function MyProfileSettingsController($scope, UserService, SocialService, Friends
         $scope.showProfessionAddButton = false;
     }
 
+    $scope.$on('quckUpdateUser', function(event, message) {
+        ProfessionsService.getProfessionsByCareer(
+            $scope.workspace.user.profession.goal_sguid, 
+            $scope.getProfessionsByCareerCallback_
+        );
+    });
+
     // событие после обновления пользьвательских данных на сервере
     $scope.updateUserCallback_ = function(data) {
     	if(data.success) {
