@@ -52,7 +52,6 @@ function MyProfileSettingsController($scope, UserService, SocialService, Friends
 
     $scope.updateName = function() {
         var countView = 0;
-        console.log($scope.workspace.user.name);
         if($scope.workspace.user.name.length > 0) {
             angular.forEach($scope.workspace.users, function(value, key) {
                 var reg = new RegExp($scope.workspace.user.name, "i");
