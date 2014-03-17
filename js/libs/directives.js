@@ -236,6 +236,7 @@ pgrModule.directive('comparator', function() {
       attrs.$observe('values', function(data) {
         if(data && data.length > 0) {
           var values = JSON.parse(data);
+          
           if(values[usersName.USER1] && values[usersName.USER2]) {
             if(values[usersName.USER1] > values[usersName.USER2]) {
               element.addClass(classes.DOWN);
