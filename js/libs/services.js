@@ -129,10 +129,7 @@ pgrModule.factory('User', function ($resource) {
             },
             "is_admin": {
                 method: "GET",
-                url: host+"/users/:id/is_admin",
-                transformResponse: function (data) {
-                    return data;
-                }
+                url: host+"/users/:id/is_admin"
             },
             "destroy_friendship": {
                 method: "DELETE",
@@ -653,9 +650,9 @@ pgrModule.service('UserService', function (User, AllUserService) {
 
     this.isAdmin = function(sguid, callback) {
         User.is_admin({id: sguid}, {}, function(data) {
-            lscache.set("is_admin", data, 2000);
+            lscache.set("is_admin",  data.message.is_admin, 2000);
             if(callback) {
-                callback(data);
+                callback(data.message.is_admin);
             }
         });
     }
