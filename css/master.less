@@ -5213,7 +5213,13 @@ input:invalid {
             p {
                 font-size: 16px;
                 color: #ffffff;
-                display: inline-block;
+                display: inline-block;                
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+                &:nth-child(2) {
+                    width: 150px;
+                }
             }
             span {
                 font-size: 14px;
@@ -5399,6 +5405,9 @@ input:invalid {
     }
     .pmain.pro .pmpar p {
         width: 150px !important;
+        i {
+            max-width: 150px !important;
+        }
     }
     .promain {
         width: 450px;
@@ -5543,6 +5552,9 @@ input:invalid {
                 margin-left: 5px;
                 .text {
                     width: 140px;
+                    p:nth-child(2) {
+                        width: 120px;
+                    }
                 }
             }
         }
