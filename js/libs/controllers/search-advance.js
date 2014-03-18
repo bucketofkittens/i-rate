@@ -1,7 +1,7 @@
 /**
  * Контроллер страницы расширенного поиска
  */
-function SearchAdvanceController($scope, $location, $rootScope, User, Professions, CityByState, Leagues, $timeout, LocationService, $timeout) {
+function SearchAdvanceController($scope, $location, $rootScope, User, Professions, CityByState, Leagues, $timeout, LocationService, $timeout, СareerService, ProfessionService) {
     /**
      * Тект поиска
      * @type {[type]}
@@ -77,6 +77,12 @@ function SearchAdvanceController($scope, $location, $rootScope, User, Profession
      * @type {Object}
      */
     $scope.countriesList = {};
+
+    /**
+     * Список стран
+     * @type {Object}
+     */
+    $scope.careerList = {};
 
     /**
      * Список гоалсов
@@ -519,9 +525,6 @@ function SearchAdvanceController($scope, $location, $rootScope, User, Profession
         $scope.showRight = true;
     });
 
-    // загружаем список стран
-    $rootScope.$broadcast('countryLoad');
-
     // настройки календаря
     $scope.dateOptions = {
         changeYear: true,
@@ -537,5 +540,18 @@ function SearchAdvanceController($scope, $location, $rootScope, User, Profession
 
     // загружаем список карьер
     $rootScope.$broadcast('needsLoad');
+
+    $scope.careerServiceCallback_ = function(data) {
+        $scope.careerList = data;
+
+        console.log($scope.careerList);
+    }
+
+    $scope.professionServiceCallback_ = function(data) {
+        $scope.professions = data;
+    }
+
+    СareerService.getList($scope.careerServiceCallback_);
+    ProfessionService.getList($scope.professionServiceCallback_);
     
 }
