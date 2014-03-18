@@ -947,6 +947,12 @@ pgrModule.service('LocationService', function ($location) {
         locations[param] = value;
         $location.search(locations);
     }
+    this.remove = function(yourKey) {
+        if ($location.$$search[yourKey]) {
+            delete $location.$$search[yourKey];
+            $location.$$compose();
+        }
+    }
 });
 
 /**

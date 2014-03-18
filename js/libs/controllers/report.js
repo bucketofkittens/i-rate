@@ -1,5 +1,5 @@
 // контроллер репортов
-function ReportController($scope, ReportService, $location, TokenService, $timeout, $rootScope) {
+function ReportController($scope, ReportService, $location, TokenService, $timeout, $rootScope, LocationService) {
     // форма репорта
     $scope.form = {
         full_name: "",
@@ -12,6 +12,7 @@ function ReportController($scope, ReportService, $location, TokenService, $timeo
     this.windowClickCallback_ = function(event) {
         if($(event.target).parents(".fuckenmorda").size() == 0) {
             $scope.$apply(function() {
+                LocationService.remove("report_user");
                 $scope.closeModal();
             });
         }
