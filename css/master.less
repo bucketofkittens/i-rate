@@ -262,13 +262,16 @@ body {
                 display: inline-block;
                 vertical-align: top;
                 width: auto;
+                height: 140px;
                 img {
                     max-width: 30px;
                 }
                 p {
                     font-size: 18px;
                     color: #969696;
-                    line-height: 21px;
+                    text-overflow: ellipsis;
+                    overflow: hidden;
+                    line-height: 20px;
                     * {
                         vertical-align: middle;
                     }
@@ -2429,7 +2432,7 @@ input[type="checkbox"] {
         text-overflow: ellipsis;
         overflow: hidden;
         display: inline-block;
-        line-height: 120%;
+        line-height: 20px;
         white-space: nowrap;
         vertical-align: middle;
     }
@@ -5391,14 +5394,8 @@ input:invalid {
             }
         }
     }
-    .pmain.pro .pmpar {
-        height: 140px;
-        p {
-            width: 150px !important;
-            text-overflow: ellipsis;
-            overflow: hidden;
-            line-height: 20px;
-        }
+    .pmain.pro .pmpar p {
+        width: 150px !important;
     }
     .promain {
         width: 450px;
