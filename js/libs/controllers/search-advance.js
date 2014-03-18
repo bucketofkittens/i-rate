@@ -133,10 +133,6 @@ function SearchAdvanceController($scope, $location, $rootScope, User, Profession
         $scope.showAllListElement('countriesList');
     });
 
-    $scope.$watch("workspace.careers", function (newVal, oldVal, scope) {
-        $scope.careerList = $scope.showAll($scope.workspace.careers);
-    });
-
     $scope.$watch("workspace.needs", function (newVal, oldVal, scope) {
         var needs = JSON.parse(JSON.stringify($scope.workspace.needs));
         
@@ -264,7 +260,6 @@ function SearchAdvanceController($scope, $location, $rootScope, User, Profession
         setTimeout(function() {
             $.datepicker._clearDate($("#"+paramName));
         }, 0);
-        
     }
 
     /**
@@ -322,11 +317,6 @@ function SearchAdvanceController($scope, $location, $rootScope, User, Profession
      */
     $scope.selectCareerParam = function(paramName, value) {
         $scope.selectParam(paramName, value);
-        $scope.getProfessionByCareer_(value.sguid, $scope.getProfessionByCareerCallback_);
-
-        // очищаем профессию если сменилась карьера
-        $scope.selectParam("profession", "");
-        $scope.toggleShowState("profession");
     }
 
     /**
@@ -395,7 +385,7 @@ function SearchAdvanceController($scope, $location, $rootScope, User, Profession
             params["name"] = $scope.searchText;
         }
         if($scope.search.career && $scope.search.career.sguid) {
-            params["career_goal_guid"] = $scope.search.career.sguid;
+            params["career_guid"] = $scope.search.career.sguid;
         }
         if($scope.search.country && $scope.search.country.sguid) {
             params["state_guid"] = $scope.search.country.sguid;
@@ -542,13 +532,17 @@ function SearchAdvanceController($scope, $location, $rootScope, User, Profession
     $rootScope.$broadcast('needsLoad');
 
     $scope.careerServiceCallback_ = function(data) {
+        angular.forEach(data, function(value, key) {
+            value.show = true;
+        });
         $scope.careerList = data;
-
-        console.log($scope.careerList);
     }
 
     $scope.professionServiceCallback_ = function(data) {
-        $scope.professions = data;
+        angular.forEach(data, function(value, key) {
+            value.show = true;
+        });
+        $scope.professionList = data;
     }
 
     СareerService.getList($scope.careerServiceCallback_);
