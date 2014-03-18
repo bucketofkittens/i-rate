@@ -3,6 +3,9 @@ function MyProfileSettingsController($scope, UserService, SocialService, Friends
 	// список городов
 	$scope.city = [];
 
+    // спиосок карьер
+    $scope.careers = [];
+
 	// спиосок профессий
 	$scope.profession = [];
 
