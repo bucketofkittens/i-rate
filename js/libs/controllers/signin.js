@@ -41,7 +41,7 @@ function SigninController($scope, $rootScope, $timeout, SessionsService, Faceboo
         // если у пользователя нет баллов переходим сразу на колбасы
         if(data.points == 0 || !data.points) {
             $timeout(function() {
-                $rootScope.$broadcast('openProfile', { nav: "Profile" });
+                $rootScope.$broadcast('openProfile', { nav: "Settings" });
             }, 0);
         }
     }
