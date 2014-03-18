@@ -176,37 +176,43 @@ pgrModule.directive('colbasa', function($timeout) {
   return {
     link: function(scope, element, attrs) {
       attrs.$observe('colbasaCurrent', function(data) {
-        var currentElement = $('li[data-id="'+attrs.colbasaCurrent+'"]', $(element).parent());
-        var parentLi  = $(element).parent().find("li"),
-            parentUl  = $(element).parent(),
-            slider = parentUl.find("span");
+        $timeout(function() {
+          var currentElement = $('li[data-id="'+attrs.colbasaCurrent+'"]', $(element).parent());
+          var parentLi  = $(element).parent().find("li"),
+              parentUl  = $(element).parent(),
+              slider = parentUl.find("span");
 
-        currentElement.removeClass("current");
+          currentElement.removeClass("current");
 
-        if($(currentElement).size() > 0 && currentElement.index() != 0) {
-            var size = currentElement.get(0).offsetLeft + currentElement.get(0).clientWidth;
-            if (size <  15) {
-                size = 0;
-            }
-            slider.css("width", size + "px");
-        } else {
-            slider.css("width", "10px");
-        }
-        
-        var isCurrent = false;
-        $.each(parentLi, function(key, value) {
-            if(!isCurrent) {
-                $(value).addClass("white-text");
-            } else {
-                $(value).removeClass("white-text");
-            }
-            
-            if($(value).index() == currentElement.index()) {
-                isCurrent = true;
-            }
-        });
+          if($(currentElement).size() > 0 && currentElement.index() != 0) {
+              var size = currentElement.get(0).offsetLeft + currentElement.get(0).clientWidth;
+              if (size <  15) {
+                  size = 0;
+              }
+              slider.css("width", size + "px");
+          } else {
+              slider.css("width", "10px");
+          }
+          
+          var isCurrent = false;
+          $.each(parentLi, function(key, value) {
+              if(!isCurrent) {
+                  $(value).addClass("white-text");
+              } else {
+                  $(value).removeClass("white-text");
+              }
+              
+              if($(value).index() == currentElement.index()) {
+                  isCurrent = true;
+              }
+          });
 
-        $(element).parent().show();
+          if(!isCurrent) {
+            $(element).parent().find("li").removeClass("white-text");
+          }
+
+          $(element).parent().show();
+        }, 0);
       });
     }
   }
