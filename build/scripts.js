@@ -4797,8 +4797,9 @@ pgrModule.directive('colbasa', function($timeout) {
   return {
     link: function(scope, element, attrs) {
       attrs.$observe('colbasaCurrent', function(data) {
+        console.log($(element).parent());
         var currentElement = $('li[data-id="'+attrs.colbasaCurrent+'"]', $(element).parent());
-
+        console.log(currentElement);
         var parentLi  = $(element).parent().find("li"),
             parentUl  = $(element).parent(),
             slider = parentUl.find("span");
@@ -8900,7 +8901,7 @@ function MyProfileSettingsController($scope, UserService, SocialService, Friends
  * @param {[type]} Goals
  * @param {[type]} Criterion
  */
-function NeedsAndGoalsController($scope, СareerService, UserService, Goals, Criterion, UserCriteriaValue, $rootScope, CriterionByGoal, UserCriteriaValueByUser, $routeParams, Needs, User, $element, NeedsService, UserService, CriterionService) {
+function NeedsAndGoalsController($scope, СareerService, UserService, Goals, Criterion, UserCriteriaValue, $rootScope, CriterionByGoal, UserCriteriaValueByUser, $routeParams, Needs, User, $element, NeedsService, UserService, CriterionService, $timeout) {
     // список needs-сов
     $scope.needs = [];
 
@@ -8994,15 +8995,8 @@ function NeedsAndGoalsController($scope, СareerService, UserService, Goals, Cri
         // создаем массив критериев
         goal.criteriums = [];
 
-        // количество загруженных критериев
-        var countLoad_ = 0;
-
-        // всего критериев
-        var maxCount_ = goal.criterion_guids.length;
-
         CriterionService.criterion_by_user_guid(goal.sguid, $scope.user.sguid, function(data) {
             goal.criteriums = data;
-            goal.criteriums.all_load = true;
 
             $scope.addEmptyElement(goal);
             $scope.getCriteriumValueByUser(goal);
@@ -9015,13 +9009,10 @@ function NeedsAndGoalsController($scope, СareerService, UserService, Goals, Cri
      * @return {[type]}      [description]
      */
     $scope.getCriteriumValueByUser = function(goal) {
-        
         if($scope.user && $scope.user.sguid) {
             angular.forEach(goal.criteriums, function(criteriaItem, criteriaKey) {
+                
                 if(criteriaItem.user_criterion_value) {
-                    criteriaItem.user_criteria_sguid = criteriaItem.user_criterion_value.user_criterion_value;
-                    criteriaItem.user_criteria_id = criteriaItem.user_criterion_value.sguid;
-
                     $rootScope.$broadcast('criteriaUserValueLoaded', {
                         fCriteria: criteriaItem,
                         userId: $scope.user.sguid,
@@ -9029,9 +9020,8 @@ function NeedsAndGoalsController($scope, СareerService, UserService, Goals, Cri
                     });
                 }
             });
-
-            goal.criteriums.show = true;
         }
+        
     }
 
     $scope.$on('closeAllGoals', function($event, message) {
@@ -10437,7 +10427,7 @@ function SigninController($scope, $rootScope, $timeout, SessionsService, Faceboo
         // если у пользователя нет баллов переходим сразу на колбасы
         if(data.points == 0 || !data.points) {
             $timeout(function() {
-                $rootScope.$broadcast('openProfile', { nav: "Profile" });
+                $rootScope.$broadcast('openProfile', { nav: "Settings" });
             }, 0);
         }
     }
