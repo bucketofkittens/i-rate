@@ -1,7 +1,7 @@
 /**
  * Контроллер  профиля
  */
-function UserController($scope, FriendsService, UserService, User, $location, LocationService, $rootScope) {
+function UserController($scope, FriendsService, UserService, User, $location, LocationService, $rootScope, $element) {
     // данные пользователя
     $scope.user = null;
 
@@ -20,6 +20,15 @@ function UserController($scope, FriendsService, UserService, User, $location, Lo
     $scope.$on('$locationChangeSuccess', function(event, newLoc, oldLoc) {
         $scope.setCurrentUser();
     });
+
+    // calback для скрытия 
+    this.windowClickCallback_ = function(event) {
+        if(!$(event.target).hasClass("button")) {
+            $scope.isReport = false;
+        }
+    }
+
+    $(window).on("click", this.windowClickCallback_);
 
     // меняем таб на другой
     $scope.onChangeTab = function(tab) {

@@ -10,7 +10,7 @@ function ReportController($scope, ReportService, $location, TokenService, $timeo
 
     // calback для скрытия 
     this.windowClickCallback_ = function(event) {
-        if($(event.target).parents(".fuckenmorda").size() == 0) {
+        if($(event.target).parents(".fuckenmorda").size() == 0 && !$(event.target).hasClass("button")) {
             $scope.$apply(function() {
                 LocationService.remove("report_user");
                 $scope.closeModal();
@@ -48,7 +48,6 @@ function ReportController($scope, ReportService, $location, TokenService, $timeo
 
     $scope.fileReaderSupported = window.FileReader != null;
     $scope.uploadRightAway = true;
-
 
     $scope.onFileSelect = function($files, league) {
         $scope.selectedFiles = [];

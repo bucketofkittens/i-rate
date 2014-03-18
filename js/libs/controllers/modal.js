@@ -10,10 +10,12 @@ function ModalController($scope, $rootScope, LocationService, $location) {
     });
 
     $scope.$on('closeModal', function(event, message) {
+        console.log("closeModal");
         LocationService.remove("modal");
     });
 
     $scope.closeModal = function() {
+        console.log("closeModal");
         LocationService.remove("modal");
     }
 
