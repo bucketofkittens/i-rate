@@ -4,7 +4,7 @@
  * @param {[type]} Goals
  * @param {[type]} Criterion
  */
-function NeedsAndGoalsController($scope, СareerService, UserService, Goals, Criterion, UserCriteriaValue, $rootScope, CriterionByGoal, UserCriteriaValueByUser, $routeParams, Needs, User, $element, NeedsService, UserService, CriterionService) {
+function NeedsAndGoalsController($scope, СareerService, UserService, Goals, Criterion, UserCriteriaValue, $rootScope, CriterionByGoal, UserCriteriaValueByUser, $routeParams, Needs, User, $element, NeedsService, UserService, CriterionService, $timeout) {
     // список needs-сов
     $scope.needs = [];
 
@@ -98,15 +98,8 @@ function NeedsAndGoalsController($scope, СareerService, UserService, Goals, Cri
         // создаем массив критериев
         goal.criteriums = [];
 
-        // количество загруженных критериев
-        var countLoad_ = 0;
-
-        // всего критериев
-        var maxCount_ = goal.criterion_guids.length;
-
         CriterionService.criterion_by_user_guid(goal.sguid, $scope.user.sguid, function(data) {
             goal.criteriums = data;
-            goal.criteriums.all_load = true;
 
             $scope.addEmptyElement(goal);
             $scope.getCriteriumValueByUser(goal);
@@ -119,13 +112,10 @@ function NeedsAndGoalsController($scope, СareerService, UserService, Goals, Cri
      * @return {[type]}      [description]
      */
     $scope.getCriteriumValueByUser = function(goal) {
-        
         if($scope.user && $scope.user.sguid) {
             angular.forEach(goal.criteriums, function(criteriaItem, criteriaKey) {
+                
                 if(criteriaItem.user_criterion_value) {
-                    criteriaItem.user_criteria_sguid = criteriaItem.user_criterion_value.user_criterion_value;
-                    criteriaItem.user_criteria_id = criteriaItem.user_criterion_value.sguid;
-
                     $rootScope.$broadcast('criteriaUserValueLoaded', {
                         fCriteria: criteriaItem,
                         userId: $scope.user.sguid,
@@ -133,9 +123,8 @@ function NeedsAndGoalsController($scope, СareerService, UserService, Goals, Cri
                     });
                 }
             });
-
-            goal.criteriums.show = true;
         }
+        
     }
 
     $scope.$on('closeAllGoals', function($event, message) {

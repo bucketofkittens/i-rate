@@ -177,7 +177,7 @@ pgrModule.directive('colbasa', function($timeout) {
     link: function(scope, element, attrs) {
       attrs.$observe('colbasaCurrent', function(data) {
         var currentElement = $('li[data-id="'+attrs.colbasaCurrent+'"]', $(element).parent());
-
+        console.log(currentElement);
         var parentLi  = $(element).parent().find("li"),
             parentUl  = $(element).parent(),
             slider = parentUl.find("span");
