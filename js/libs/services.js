@@ -209,6 +209,24 @@ pgrModule.factory('Comments', function ($resource) {
  * @param  {[type]} $resource [description]
  * @return {[type]}           [description]
  */
+pgrModule.factory('Careers', function ($resource) {
+    return $resource(
+        host+'/careers/', 
+        {}, 
+        {
+            query: {
+                method: 'GET',
+                isArray: true
+            },
+        }
+    );
+});
+
+/**
+ * Модель картинов
+ * @param  {[type]} $resource [description]
+ * @return {[type]}           [description]
+ */
 pgrModule.factory('ImprovaLogin', function ($resource) {
     return $resource(
         'http://tutors.improva.com/sessions.json', 
@@ -323,7 +341,7 @@ pgrModule.factory('Goals', function ($resource) {
  */
 pgrModule.factory('Professions', function ($resource) {
     return $resource(
-        host+'/goals/:id/professions', 
+        host+'/professions/:id', 
         {id:'@id'}, 
         {
             create: {
@@ -526,6 +544,9 @@ pgrModule.service('ProfessionsService', function (Professions, ProfessionCreate)
         });
     }
     this.remove = function(sguid, key, callback) {
+        Professions.del({id: sguid}, {}, function(data) {
+            callback(data, key);
+        });
     }
     this.add = function(profession, goal_guid, callback) {
         ProfessionCreate.create({}, {
@@ -927,86 +948,25 @@ pgrModule.service('LocationService', function ($location) {
 /**
  * Сервис списка карьер
  */
-pgrModule.service('СareerService', function (Needs) {
-    // название кеша
-    this.cacheName = 'career';
-
-    // время кеширования
-    this.cacheTime = 1440;
-
-    // id карьеры
-    this.careerId = '169990243011789827';
-
-    // id карьеры
-    this.moneyId = '170689401829983233';
-
-    // название need карьеры
-    this.needItemName = 'Career';
-
-    // название goal money
-    this.moneyItemName = 'Money';
+pgrModule.service('СareerService', function (Careers) {
 
     // забираем пользователя из кеша
-    this.getList = function(needs, callback) {
-        var career = lscache.get(this.cacheName);
-        if(!career) {
-            this.getCareer_(needs, callback);
-        } else {
-            callback(career);
-        }
+    this.getList = function(callback) {
+        Careers.query({}, {}, callback);
     }
-    this.getCareer_ = function(needs, callback) {
-        var needs = JSON.parse(JSON.stringify(needs));
-        var self = this;
+});
 
-        // получаем нужный need
-        var curNeed = needs.filter(function(value) {
-            if(value.sguid == self.careerId) {
-                return value;
-            }
-        })[0];
+pgrModule.service('ProfessionService', function (Professions) {
 
-        // получаем список карьер без money
-        var careerList = curNeed.goals.filter(function(value) {
-            if(value.sguid != self.moneyId) { return value }
+    // забираем пользователя из кеша
+    this.getList = function(callback) {
+        Professions.query({}, {}, callback);
+    }
+
+    this.remove = function(sguid, key, callback) {
+        Professions.del({id: sguid}, {}, function(data) {
+            callback(data, key);
         });
-
-        this.persist(careerList);
-        callback(careerList);
-    }
-
-    // сохранение
-    this.persist = function(data) {
-        lscache.set(this.cacheName, JSON.stringify(data), this.cacheTime);
-    }
-
-    // считаем баллы карьеры по формуле
-    this.calculate = function(needItem) {
-        var max = 0;
-        var carreerMax = {};
-        var moneyPoints = 0;
-
-        angular.forEach(needItem.goals, function(goal) {
-            if (goal.current_value > max && goal.name != this.moneyItemName) {
-              max = goal.current_value;
-              carreerMax = {goal: goal.sguid, points: goal.current_value};
-            }
-            if(goal.name == this.moneyItemName) {
-              moneyPoints = goal.current_value;
-            }
-        });
-
-        return parseInt(carreerMax.points + moneyPoints);
-        needsData[needItem.sguid] = parseInt(carreerMax.points + moneyPoints);
-    }
-
-    // проверяет является ли указанный need карьерой или нет
-    this.isCareer = function(needItem) {
-        if(needItem.name == this.needItemName) {
-            return true;
-        } else {
-            return false;
-        }
     }
 });
 

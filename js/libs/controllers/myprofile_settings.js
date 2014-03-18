@@ -1,5 +1,5 @@
 // контроллер вкладки настроки своего профиля
-function MyProfileSettingsController($scope, UserService, SocialService, FriendsService, TokenService, $rootScope, $location, SocialService, CityService, ProfessionsService, $timeout, AllUserService) {
+function MyProfileSettingsController($scope, UserService, SocialService, FriendsService, TokenService, $rootScope, $location, SocialService, CityService, ProfessionsService, $timeout, AllUserService, СareerService, ProfessionService) {
 	// список городов
 	$scope.city = [];
 
@@ -7,7 +7,7 @@ function MyProfileSettingsController($scope, UserService, SocialService, Friends
     $scope.careers = [];
 
 	// спиосок профессий
-	$scope.profession = [];
+	$scope.professions = [];
 
 	// показывать или нет список городов
 	$scope.showCityList = false;
@@ -120,9 +120,14 @@ function MyProfileSettingsController($scope, UserService, SocialService, Friends
         CityService.remove(item.sguid, key, $scope.deleteCityItemCallback_);
     }
 
-    // callback забора списка профессий по выбранной карьере
-    $scope.getProfessionsByCareerCallback_ = function(data) {
-    	$scope.profession = data;
+    // callback удаления города
+    $scope.deleteProfessionItemCallback_ = function(data, key) {
+        $scope.city.splice(key, 1);
+    }
+
+    // событие удаления города
+    $scope.deleteProfessionItem = function($event, item, key) {
+        ProfessionService.remove(item.sguid, key, $scope.deleteProfessionItemCallback_);
     }
 
     // обновление даты рождения
@@ -155,8 +160,7 @@ function MyProfileSettingsController($scope, UserService, SocialService, Friends
     $scope.selectProfession = function($event, item, key) {
     	$scope.workspace.user.profession = {
         	sguid: item.sguid,
-        	name: item.name,
-        	goal_sguid: $scope.workspace.user.profession.goal_sguid
+        	name: item.name
         };
         
         // сохраняем
@@ -176,27 +180,9 @@ function MyProfileSettingsController($scope, UserService, SocialService, Friends
 
     // событие выбора карьеры
     $scope.selectCareer = function($event) {
-    	ProfessionsService.getProfessionsByCareer(
-    		$scope.workspace.user.profession.goal_sguid, 
-    		$scope.getProfessionsByCareerCallback_
-    	);
-
-    	$scope.workspace.user.profession.sguid = "";
-    	$scope.workspace.user.profession.name = "";
-
     	// сохраняем
-        $scope.updateUserParamByValue("profession.goal_sguid", $scope.workspace.user.profession.goal_sguid);
-
-        $scope.showProfessionList = false;
-        $scope.showProfessionAddButton = false;
+        $scope.updateUserParamByValue("career", $scope.workspace.user.career.sguid);
     }
-
-    $scope.$on('quckUpdateUser', function(event, message) {
-        ProfessionsService.getProfessionsByCareer(
-            $scope.workspace.user.profession.goal_sguid, 
-            $scope.getProfessionsByCareerCallback_
-        );
-    });
 
     // событие после обновления пользьвательских данных на сервере
     $scope.updateUserCallback_ = function(data) {
@@ -266,7 +252,7 @@ function MyProfileSettingsController($scope, UserService, SocialService, Friends
     	var countView = 0;
 
     	if($scope.workspace.user.profession.name.length > 0) {
-            angular.forEach($scope.profession, function(value, key) {
+            angular.forEach($scope.professions, function(value, key) {
                 var reg = new RegExp($scope.workspace.user.profession.name, "i");
                 if(reg.test(value.name)) {
                 	value.show = true;
@@ -309,11 +295,7 @@ function MyProfileSettingsController($scope, UserService, SocialService, Friends
         $scope.showProfessionList = false;
         $scope.showProfessionAddButton = false;
 
-        $scope.profession.push({
-        	sguid: data.message.guid,
-        	name: data.message.name,
-        	goal_sguid: $scope.workspace.user.profession.goal_sguid
-        });
+        ProfessionService.getList($scope.professionServiceCallback_);
     }
 
     // callback добавление нового города
@@ -355,14 +337,6 @@ function MyProfileSettingsController($scope, UserService, SocialService, Friends
     	CityService.getCityByState($scope.workspace.user.state.sguid, $scope.cityByStateCallback_);
     }
 
-    // показываем список профессий
-    if($scope.workspace.user.profession) {
-    	ProfessionsService.getProfessionsByCareer(
-    		$scope.workspace.user.profession.goal_sguid, 
-    		$scope.getProfessionsByCareerCallback_
-    	);
-    }
-
 
     // загружаем список стран
     $rootScope.$broadcast('countryLoad');
@@ -373,5 +347,15 @@ function MyProfileSettingsController($scope, UserService, SocialService, Friends
         yearRange: '1900:-0',
         dateFormat: 'dd/mm/yy'
     };
-    
+
+    $scope.careerServiceCallback_ = function(data) {
+        $scope.careers = data;
+    }
+
+    $scope.professionServiceCallback_ = function(data) {
+        $scope.professions = data;
+    }
+
+    СareerService.getList($scope.careerServiceCallback_);
+    ProfessionService.getList($scope.professionServiceCallback_);
 }

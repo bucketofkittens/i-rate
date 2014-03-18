@@ -96,9 +96,9 @@
 				<select
 					ui-select2="{ width: 230 }"
 					id="i5_i"
-					ng-model="workspace.user.profession.goal_sguid"
+					ng-model="workspace.user.career.sguid"
 					ng-change="selectCareer($event)">
-					<option ng-repeat="(key, value) in workspace.careers" value="{{value.sguid}}" >{{value.name}}</option>
+					<option ng-repeat="(key, value) in careers" value="{{value.sguid}}" >{{value.name}}</option>
 				</select>
 			</p>
 			<p>
@@ -118,9 +118,9 @@
 			</p>
 			<div class="popup_list" ng-if="showProfessionList">
 				<ul>
-					<li ng-if="profItem.show" ng-repeat="(profKey, profItem) in profession">
+					<li ng-if="profItem.show" ng-repeat="(profKey, profItem) in professions">
 						<a ng-click="selectProfession($event, profItem, profKey)">{{profItem.name}}</a>
-						<span class="close icon" ng-click="deleteItem($event, profItem, profKey)"></span>
+						<span class="close icon" ng-click="deleteProfessionItem($event, profItem, profKey)"></span>
 					</li>
 				</ul>
 			</div>

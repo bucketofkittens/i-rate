@@ -6062,7 +6062,8 @@ pgrModule.factory('CriterionByGoal', function ($resource) {
             'criterion_by_user_guid': {
                 method: 'GET',
                 isArray: true,
-                url: host+"/criterion/by_goal/:goal_guid/by_user/:user_guid"
+                url: host+"/criterion/by_goal/:goal_guid/by_user/:user_guid",
+                cache : true
             },
         }
     );
@@ -6099,6 +6100,32 @@ pgrModule.service('CityService', function (CityByState, City) {
             "city": city,
             "state_guid": state_guid
         }, function(data) {
+            callback(data);
+        });
+    }
+});
+
+pgrModule.service('CriterionService', function (CriterionByGoal) {
+    // название кеша
+    this.cacheName = 'criterion_by_user_guid';
+
+    // время кеширования
+    this.cacheTime = 1440;
+
+    this.criterion_by_user_guid = function(goal_guid, user_guid, callback) {
+        //var data = lscache.get(this.cacheName+goal_guid+user_guid);
+        //if(data) {
+            //callback(data);
+        //} else {
+            this.getBackend_(goal_guid, user_guid, callback);
+        //}
+    }
+
+    this.getBackend_ = function(goal_guid, user_guid, callback) {
+        var self = this;
+
+        CriterionByGoal.criterion_by_user_guid({goal_guid: goal_guid, user_guid: user_guid}, {}, function(data) {
+            lscache.set(self.cacheName+goal_guid+user_guid, JSON.stringify(data), self.cacheTime);
             callback(data);
         });
     }
@@ -8547,6 +8574,9 @@ function MyProfileSettingsController($scope, UserService, SocialService, Friends
 	// список городов
 	$scope.city = [];
 
+    // спиосок карьер
+    $scope.careers = [];
+
 	// спиосок профессий
 	$scope.profession = [];
 
@@ -8922,7 +8952,7 @@ function MyProfileSettingsController($scope, UserService, SocialService, Friends
  * @param {[type]} Goals
  * @param {[type]} Criterion
  */
-function NeedsAndGoalsController($scope, СareerService, UserService, Goals, Criterion, UserCriteriaValue, $rootScope, CriterionByGoal, UserCriteriaValueByUser, $routeParams, Needs, User, $element, NeedsService, UserService) {
+function NeedsAndGoalsController($scope, СareerService, UserService, Goals, Criterion, UserCriteriaValue, $rootScope, CriterionByGoal, UserCriteriaValueByUser, $routeParams, Needs, User, $element, NeedsService, UserService, CriterionService) {
     // список needs-сов
     $scope.needs = [];
 
@@ -9022,7 +9052,7 @@ function NeedsAndGoalsController($scope, СareerService, UserService, Goals, Cri
         // всего критериев
         var maxCount_ = goal.criterion_guids.length;
 
-        CriterionByGoal.criterion_by_user_guid({goal_guid: goal.sguid, user_guid: $scope.user.sguid}, function(data) {
+        CriterionService.criterion_by_user_guid(goal.sguid, $scope.user.sguid, function(data) {
             goal.criteriums = data;
             goal.criteriums.all_load = true;
 
@@ -9037,6 +9067,25 @@ function NeedsAndGoalsController($scope, СareerService, UserService, Goals, Cri
      * @return {[type]}      [description]
      */
     $scope.getCriteriumValueByUser = function(goal) {
+        /*
+        if($scope.user && $scope.user.sguid) {
+            angular.forEach(goal.criteriums, function(criteriaItem, criteriaKey) {
+                console.log(criteriaItem);
+                if(criteriaItem.user_criterion_value) {
+                    criteriaItem.user_criteria_sguid = criteriaItem.user_criterion_value.criteria_value_guid;
+                    criteriaItem.user_criteria_id = criteriaItem.user_criterion_value.sguid;
+
+                    $rootScope.$broadcast('criteriaUserValueLoaded', {
+                        fCriteria: criteriaItem,
+                        userId: $scope.user.sguid,
+                        route: $scope.route
+                    });
+                }
+            });
+
+            goal.criteriums.show = true;
+        }
+        */
         UserCriteriaValueByUser.query({id: $scope.user.sguid}, {}, function(d) {
             if($scope.user && $scope.user.sguid) {
                 angular.forEach(d, function(userCriteriaItem, userCriteriaKey) {
@@ -9045,20 +9094,24 @@ function NeedsAndGoalsController($scope, СareerService, UserService, Goals, Cri
                     })[0];
                     
                     if(fCriteria) {
+                        //console.log(userCriteriaItem);
+                        
                         fCriteria.user_criteria_sguid = userCriteriaItem.criteria_value_sguid;
                         fCriteria.user_criteria_id = userCriteriaItem.sguid;
-
+                        console.log(fCriteria);
                         $rootScope.$broadcast('criteriaUserValueLoaded', {
                             fCriteria: fCriteria,
                             userId: $scope.user.sguid,
                             route: $scope.route
                         });
+                        
                     }
                 });
 
                 goal.criteriums.show = true;    
             }
         });
+        
     }
 
     $scope.$on('closeAllGoals', function($event, message) {

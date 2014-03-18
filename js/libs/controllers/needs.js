@@ -150,7 +150,7 @@ function NeedsAndGoalsController($scope, СareerService, UserService, Goals, Cri
                         
                         fCriteria.user_criteria_sguid = userCriteriaItem.criteria_value_sguid;
                         fCriteria.user_criteria_id = userCriteriaItem.sguid;
-                        console.log(fCriteria);
+                        //console.log(fCriteria);
                         $rootScope.$broadcast('criteriaUserValueLoaded', {
                             fCriteria: fCriteria,
                             userId: $scope.user.sguid,

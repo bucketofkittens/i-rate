@@ -46,12 +46,10 @@ function RootController($scope, FacebookService, СareerService, LeagueService, 
     
     $scope.needsServiceCallback_ = function(data) {
         $scope.workspace.needs = data;
-        СareerService.getList($scope.workspace.needs, $scope.careerServiceCallback_);
+        
     }
 
-    $scope.careerServiceCallback_ = function(data) {
-        $scope.workspace.careers = data;
-    }
+    
 
     $scope.countryServiceCallback_ = function(data) {
         $scope.workspace.country = data;
