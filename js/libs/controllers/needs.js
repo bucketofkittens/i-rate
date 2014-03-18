@@ -181,6 +181,7 @@ function NeedsAndGoalsController($scope, СareerService, UserService, Goals, Cri
      */
     $scope.onCriteriaSelect = function(criteriaValue, criteria, $event, needItem, goalItem) {
         if(!$($event.target).hasClass("current")) {
+            CriterionService.remove(goalItem.sguid, $scope.workspace.user.sguid);
             if(criteriaValue.sguid !== "none") {
                 UserCriteriaValue.create({}, $.param({
                     "user_guid": $scope.workspace.user.sguid,
@@ -353,7 +354,6 @@ function NeedsAndGoalsController($scope, СareerService, UserService, Goals, Cri
 
         if($(parentLi).size() > 0 && parentLi.index() != 0) {
             var size = parentLi.get(0).offsetLeft + parentLi.get(0).clientWidth;
-            console.log(size);
             if (size <  15) {
                 size = 0;
             }
