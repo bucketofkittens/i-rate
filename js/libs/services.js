@@ -450,7 +450,8 @@ pgrModule.factory('CriterionByGoal', function ($resource) {
             'criterion_by_user_guid': {
                 method: 'GET',
                 isArray: true,
-                url: host+"/criterion/by_goal/:goal_guid/by_user/:user_guid"
+                url: host+"/criterion/by_goal/:goal_guid/by_user/:user_guid",
+                cache : true
             },
         }
     );
@@ -487,6 +488,32 @@ pgrModule.service('CityService', function (CityByState, City) {
             "city": city,
             "state_guid": state_guid
         }, function(data) {
+            callback(data);
+        });
+    }
+});
+
+pgrModule.service('CriterionService', function (CriterionByGoal) {
+    // название кеша
+    this.cacheName = 'criterion_by_user_guid';
+
+    // время кеширования
+    this.cacheTime = 1440;
+
+    this.criterion_by_user_guid = function(goal_guid, user_guid, callback) {
+        var data = lscache.get(this.cacheName+goal_guid+user_guid);
+        if(data) {
+            callback(data);
+        } else {
+            this.getBackend_(goal_guid, user_guid, callback);
+        }
+    }
+
+    this.getBackend_ = function(goal_guid, user_guid, callback) {
+        var self = this;
+
+        CriterionByGoal.criterion_by_user_guid({goal_guid: goal_guid, user_guid: user_guid}, {}, function(data) {
+            lscache.set(self.cacheName+goal_guid+user_guid, JSON.stringify(data), self.cacheTime);
             callback(data);
         });
     }
