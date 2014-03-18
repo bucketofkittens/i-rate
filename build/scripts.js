@@ -4797,37 +4797,43 @@ pgrModule.directive('colbasa', function($timeout) {
   return {
     link: function(scope, element, attrs) {
       attrs.$observe('colbasaCurrent', function(data) {
-        var currentElement = $('li[data-id="'+attrs.colbasaCurrent+'"]', $(element).parent());
-        var parentLi  = $(element).parent().find("li"),
-            parentUl  = $(element).parent(),
-            slider = parentUl.find("span");
+        $timeout(function() {
+          var currentElement = $('li[data-id="'+attrs.colbasaCurrent+'"]', $(element).parent());
+          var parentLi  = $(element).parent().find("li"),
+              parentUl  = $(element).parent(),
+              slider = parentUl.find("span");
 
-        currentElement.removeClass("current");
+          currentElement.removeClass("current");
 
-        if($(currentElement).size() > 0 && currentElement.index() != 0) {
-            var size = currentElement.get(0).offsetLeft + currentElement.get(0).clientWidth;
-            if (size <  15) {
-                size = 0;
-            }
-            slider.css("width", size + "px");
-        } else {
-            slider.css("width", "10px");
-        }
-        
-        var isCurrent = false;
-        $.each(parentLi, function(key, value) {
-            if(!isCurrent) {
-                $(value).addClass("white-text");
-            } else {
-                $(value).removeClass("white-text");
-            }
-            
-            if($(value).index() == currentElement.index()) {
-                isCurrent = true;
-            }
-        });
+          if($(currentElement).size() > 0 && currentElement.index() != 0) {
+              var size = currentElement.get(0).offsetLeft + currentElement.get(0).clientWidth;
+              if (size <  15) {
+                  size = 0;
+              }
+              slider.css("width", size + "px");
+          } else {
+              slider.css("width", "10px");
+          }
+          
+          var isCurrent = false;
+          $.each(parentLi, function(key, value) {
+              if(!isCurrent) {
+                  $(value).addClass("white-text");
+              } else {
+                  $(value).removeClass("white-text");
+              }
+              
+              if($(value).index() == currentElement.index()) {
+                  isCurrent = true;
+              }
+          });
 
-        $(element).parent().show();
+          if(!isCurrent) {
+            $(element).parent().find("li").removeClass("white-text");
+          }
+
+          $(element).parent().show();
+        }, 0);
       });
     }
   }
@@ -6557,6 +6563,12 @@ pgrModule.service('LocationService', function ($location) {
         var locations = $location.search();
         locations[param] = value;
         $location.search(locations);
+    }
+    this.remove = function(yourKey) {
+        if ($location.$$search[yourKey]) {
+            delete $location.$$search[yourKey];
+            $location.$$compose();
+        }
     }
 });
 
@@ -8304,11 +8316,11 @@ function ModalController($scope, $rootScope, LocationService, $location) {
     });
 
     $scope.$on('closeModal', function(event, message) {
-        LocationService.update("modal", false);
+        LocationService.remove("modal");
     });
 
     $scope.closeModal = function() {
-        LocationService.update("modal", false);
+        LocationService.remove("modal");
     }
 
     $scope.testModal = function() {
@@ -9323,7 +9335,7 @@ function QuickUserChangeCtrl($scope, UserService, User, $rootScope, SessionsServ
     $rootScope.$broadcast('usersLoad');
 }
 // контроллер репортов
-function ReportController($scope, ReportService, $location, TokenService, $timeout, $rootScope) {
+function ReportController($scope, ReportService, $location, TokenService, $timeout, $rootScope, LocationService) {
     // форма репорта
     $scope.form = {
         full_name: "",
@@ -9336,6 +9348,7 @@ function ReportController($scope, ReportService, $location, TokenService, $timeo
     this.windowClickCallback_ = function(event) {
         if($(event.target).parents(".fuckenmorda").size() == 0) {
             $scope.$apply(function() {
+                LocationService.remove("report_user");
                 $scope.closeModal();
             });
         }
