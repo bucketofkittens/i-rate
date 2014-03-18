@@ -8316,10 +8316,12 @@ function ModalController($scope, $rootScope, LocationService, $location) {
     });
 
     $scope.$on('closeModal', function(event, message) {
+        console.log("closeModal");
         LocationService.remove("modal");
     });
 
     $scope.closeModal = function() {
+        console.log("closeModal");
         LocationService.remove("modal");
     }
 
@@ -9346,7 +9348,7 @@ function ReportController($scope, ReportService, $location, TokenService, $timeo
 
     // calback для скрытия 
     this.windowClickCallback_ = function(event) {
-        if($(event.target).parents(".fuckenmorda").size() == 0) {
+        if($(event.target).parents(".fuckenmorda").size() == 0 && !$(event.target).hasClass("button")) {
             $scope.$apply(function() {
                 LocationService.remove("report_user");
                 $scope.closeModal();
@@ -9384,7 +9386,6 @@ function ReportController($scope, ReportService, $location, TokenService, $timeo
 
     $scope.fileReaderSupported = window.FileReader != null;
     $scope.uploadRightAway = true;
-
 
     $scope.onFileSelect = function($files, league) {
         $scope.selectedFiles = [];
@@ -10706,7 +10707,7 @@ function UserNeedsController($scope, $rootScope) {
 /**
  * Контроллер  профиля
  */
-function UserController($scope, FriendsService, UserService, User, $location, LocationService, $rootScope) {
+function UserController($scope, FriendsService, UserService, User, $location, LocationService, $rootScope, $element) {
     // данные пользователя
     $scope.user = null;
 
@@ -10725,6 +10726,15 @@ function UserController($scope, FriendsService, UserService, User, $location, Lo
     $scope.$on('$locationChangeSuccess', function(event, newLoc, oldLoc) {
         $scope.setCurrentUser();
     });
+
+    // calback для скрытия 
+    this.windowClickCallback_ = function(event) {
+        if(!$(event.target).hasClass("button")) {
+            $scope.isReport = false;
+        }
+    }
+
+    $(window).on("click", this.windowClickCallback_);
 
     // меняем таб на другой
     $scope.onChangeTab = function(tab) {
