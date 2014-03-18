@@ -11,7 +11,8 @@
 				<li 
 					ng-class="{ current: value.current }" 
 					ng-repeat="(key, value) in leagueUsers" 
-					ng-click="selectUser(value)">
+					ng-click="selectUser(value)"
+					ng-if="value.avatar">
 					<div class="avatar">
 						<img err-src="/images/unknown-person.png" ng-src="{{value.avatar}}" alt="" />
 					</div>

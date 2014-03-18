@@ -1,3 +1,0 @@
-function ApproveController($scope, $location) {
-    
-}
