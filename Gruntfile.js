@@ -49,7 +49,9 @@ module.exports = function(grunt) {
                 src: [
                     "css/reset.css",
                     "css/rzslider.min.css",
-                    "css/master.css"
+                    "css/master.css",
+                    "css/dark-hive/jquery.ui.theme.css",
+                    "css/dark-hive/jquery-ui.min.css"
                 ],
                 dest: "build/style.css"
             }
