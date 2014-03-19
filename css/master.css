@@ -328,7 +328,7 @@ sup.bidubi{top:13px !important;border-width:23px 0 23px 15px}
 .controller__my_profile .image_box{width:180px !important;height:180px !important}
 .controller__search .proffesion_list{margin-left:0;margin-top:-2px;width:200px;display:none;max-height:300px;overflow:auto}.controller__search .proffesion_list li{cursor:pointer}
 .controller__search .proffesion_list.show{display:block}
-#masonry_parent{width:105%;overflow:auto;-webkit-overflow-scrolling:touch}#masonry_parent::-webkit-scrollbar{width:0;height:0}
+#masonry_parent{width:105%;overflow:auto;-webkit-overflow-scrolling:touch;z-index:9}#masonry_parent::-webkit-scrollbar{width:0;height:0}
 #masonry_parent *{-webkit-transform:translate3d(0, 0, 0)}
 #masonry .item{float:left}
 .isotope,.isotope .isotope-item{-webkit-transition-duration:.8s;-moz-transition-duration:.8s;-ms-transition-duration:.8s;-o-transition-duration:.8s;transition-duration:.8s}
@@ -378,7 +378,7 @@ sup.bidubi{top:13px !important;border-width:23px 0 23px 15px}
 #signin_panel .glass .sign-in ul li a img,#signin_panel .glass .sign-up ul li a img{max-width:70px}
 .full_height{height:100%}
 #leagues{position:absolute;left:0;top:0;width:100%;height:100%}#leagues .center{margin:60px auto 0 auto;width:1000px;height:100%;overflow:hidden;position:relative;z-index:99}
-#users{position:absolute;left:0;top:0;width:100%;height:100%}#users .center{margin:0 auto;max-width:1000px;overflow:hidden;position:relative}#users .center .user{width:500px;float:right;position:relative;z-index:11}#users .center .user .compare.up{display:none}
+#users{position:absolute;left:0;top:0;width:100%;height:100%;z-index:1}#users .center{margin:0 auto;max-width:1000px;overflow:hidden;position:relative;z-index:1}#users .center .user{width:500px;float:right;position:relative;z-index:11}#users .center .user .compare.up{display:none}
 #users .center .user:first-child{float:left}#users .center .user:first-child .compare.down{display:none}
 #users .center .user:first-child .compare.up{display:block;right:-12px;left:auto}
 #users .center .user:first-child .compare.criterium{right:-27px}
