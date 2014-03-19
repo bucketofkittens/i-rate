@@ -3730,13 +3730,11 @@ sup.bidubi {
     top: 0px;
     width: 100%; 
     height: 100%;
-    -webkit-transform: translate3d(0, 0, 0);
     .center {
         margin: 0px auto;
         max-width: 1000px;
         overflow: hidden;
         position: relative;
-        -webkit-transform: translate3d(0, 0, 0);
         .user {
             width: 500px;
             float: right;
@@ -5284,6 +5282,17 @@ input:invalid {
         left: 50%;
         margin: 5px 0px 0px -50px;
         cursor: pointer;
+    }
+}
+
+
+
+@media only screen 
+and (min-device-width : 768px) 
+and (max-device-width : 1024px)  {
+    #users {
+        z-index: 11 !important;
+        width: auto !important;
     }
 }
 
