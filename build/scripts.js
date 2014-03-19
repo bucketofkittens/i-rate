@@ -10854,12 +10854,12 @@ function UserController($scope, FriendsService, UserService, User, $location, Lo
     }
 
     $scope.addViewCallback_ = function(newId) {
-        console.log(newId);
         UserService.getById(newId, $scope.userServiceGetByIdCallback_);
     }
 
     // указываем текущего выбранного пользователя
     $scope.setCurrentUser = function() {
+
         // новый id по указанному rpute в ng-init
         var newId = $location.search()[$scope.route];
 
