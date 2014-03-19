@@ -326,9 +326,6 @@ sup.bidubi{top:13px !important;border-width:23px 0 23px 15px}
 #nav2{position:relative;left:-20px;margin-bottom:10px;width:100%;overflow:hidden}#nav2 li{float:left;width:49.5%}#nav2 li a{font-family:'Lato',sans-serif;line-height:16px;padding:12px 0 10px 0 !important;vertical-align:middle !important;width:100%;cursor:pointer;background:none;display:inline-block;text-align:center;border:1px solid #ccc;font-size:20px}#nav2 li a.current{color:#fff;background:#36374b}
 .user_right{display:inline-block;position:relative;top:80px;float:right;vertical-align:top;width:350px;height:100%}
 .controller__my_profile .image_box{width:180px !important;height:180px !important}
-.animate-list.ng-enter,.animate-list.ng-leave,.animate-list.ng-move{-webkit-transition:1.5s linear all;transition:1.5s linear all}
-.animate-list.ng-enter,.animate-list.ng-leave.ng-leave-active{opacity:0;-webkit-transition:.1s linear all;transition:.1s linear all}
-.animate-list.ng-leave,.animate-list.ng-enter.ng-enter-active{opacity:1}
 .controller__search .proffesion_list{margin-left:0;margin-top:-2px;width:200px;display:none;max-height:300px;overflow:auto}.controller__search .proffesion_list li{cursor:pointer}
 .controller__search .proffesion_list.show{display:block}
 #masonry_parent{width:100%;overflow-x:auto !important;overflow-y:hidden !important}
