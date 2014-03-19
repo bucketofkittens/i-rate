@@ -234,6 +234,8 @@ function MyProfileSettingsController($scope, UserService, SocialService, Friends
             $scope.showCityList = countView == 0 ? false : true;
             $scope.showCityAddButton = countView == 0 ? true : false;
         } else {
+            $scope.updateUserParamByValue("city", "");
+            
         	$scope.showCityList = false;
         	$scope.showCityAddButton = false;
         }

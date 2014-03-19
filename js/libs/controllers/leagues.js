@@ -3,6 +3,10 @@
  */
 function LeaguesController($scope, $location, $rootScope, User, LocationService, LeagueService) {
 
+    $scope.skip = 0;
+
+    $scope.limit = 15;
+
     $scope.testLeague = function() {
         // определяем показываем ли мы панель или нет
         $scope.show = $location.search().leagues ? true : false;
@@ -99,12 +103,11 @@ function LeaguesController($scope, $location, $rootScope, User, LocationService,
     $scope.loadUsersByLeague = function(sguid) {
         $scope.setState(sguid);
 
-        User.by_league({league_guid:sguid}, {}, $scope.selectLeagueCallback_);
+        User.by_league_and_limit({league_guid:sguid, skip: $scope.skip, limit: $scope.limit}, {}, $scope.selectLeagueCallback_);
     }
 
     // callback после загрузки пользователей для текущей лиги
     $scope.selectLeagueCallback_ = function(data) {
-        
         data = data.filter(function(value) {
             if(value.published) {
                 return value;
