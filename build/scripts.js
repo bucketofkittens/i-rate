@@ -8817,6 +8817,7 @@ function MyProfileSettingsController($scope, UserService, SocialService, Friends
 
     // событие выбора карьеры
     $scope.selectCareer = function($event) {
+        $(".select2-input").blur();
     	// сохраняем
         $scope.updateUserParamByValue("career", $scope.workspace.user.career.sguid);
     }
