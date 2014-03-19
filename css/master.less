@@ -1498,7 +1498,6 @@ body {
     height: 100%;
     margin-top: 60px;
     position: relative;
-    overflow: visible !important;
     > div {
         cursor: pointer;
         overflow: visible !important;
@@ -3300,12 +3299,14 @@ sup.bidubi {
 
 
 #masonry_parent {
-    width: 100%;
-    overflow-x: auto !important;
-    overflow-y: hidden !important;
+    width: 105%;
+    overflow: auto;
+    &::-webkit-scrollbar {
+        width: 0px;
+        height: 0px; 
+    }
 }
 #masonry {
-    height: 100%;
     .item {
         float: left;
     }

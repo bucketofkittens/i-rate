@@ -453,9 +453,6 @@ pgrModule.directive('masonry', function(User, $rootScope) {
 
       // добавляем скроллинг мышкой
       $(parentElement).on("mousewheel DOMMouseScroll", function($event) {
-        $(parentElement).stop().animate({
-          scrollLeft: '-='+($event.originalEvent.wheelDeltaY ? $event.originalEvent.wheelDeltaY : $event.originalEvent.detail * 5)+'px' 
-        }, 1600, 'easeOutQuint');
         //parentElement.scrollLeft -= $event.originalEvent.wheelDeltaY ? $event.originalEvent.wheelDeltaY : $event.originalEvent.detail * 5;
         
         if(parentElement.scrollLeft == $(element).width()-$(window).width() && self.view_count < self.total_count) {
@@ -474,7 +471,7 @@ pgrModule.directive('masonry', function(User, $rootScope) {
       });
 
       /** коэффициэнт количество элементов **/
-      var limitCorruption = 30;
+      var limitCorruption = 10;
 
       var isiPad = navigator.userAgent.match(/iPad/i) != null;
 
@@ -519,7 +516,6 @@ pgrModule.directive('masonry', function(User, $rootScope) {
           layoutMode: "perfectMasonry",
           animationEngine: 'css',
           perfectMasonry: {
-              layout: 'horizontal',
               columnWidth: 70,
               rowHeight: 70
          }
