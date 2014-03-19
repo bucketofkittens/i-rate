@@ -476,6 +476,12 @@ pgrModule.factory('CriterionByGoal', function ($resource) {
                 url: host+"/criterion/by_goal/:goal_guid/by_user/:user_guid",
                 cache : true
             },
+            'criterion_by_id_and_user': {
+                method: 'GET',
+                isArray: true,
+                url: host+"/criterion/by_id/:sguid/by_user/:user_sguid",
+                cache : true
+            },
         }
     );
 });

@@ -120,7 +120,7 @@ function NeedsAndGoalsController($scope, СareerService, UserService, Goals, Cri
                     /**
                      * забираем значения для текущего пользователя
                      */
-                    $scope.getCriteriumValueByUser(goal);
+                    $scope.getCriteriumValueByUser(value);
                 }
             });
         });
@@ -131,9 +131,9 @@ function NeedsAndGoalsController($scope, СareerService, UserService, Goals, Cri
      * @param  {[type]} goal [description]
      * @return {[type]}      [description]
      */
-    $scope.getCriteriumValueByUser = function(goal) {
-        UserCriteriaValueByUser.query({id: $scope.user.sguid}, {}, function(d) {
-
+    $scope.getCriteriumValueByUser = function(value) {
+        CriterionByGoal.criterion_by_id_and_user({sguid: value, user_sguid: $scope.user.sguid}, function(data) {
+            console.log();
             angular.forEach(d, function(userCriteriaItem, userCriteriaKey) {
                 var fCriteria = goal.criteriums.filter(function(value) {
                     return value.sguid == userCriteriaItem.criteria_sguid;
