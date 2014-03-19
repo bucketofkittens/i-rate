@@ -149,6 +149,11 @@ pgrModule.factory('User', function ($resource) {
                 method: "POST",
                 isArray: true,
                 url: host+'/users/search'
+            },
+            "search_by_limit": {
+                method: "POST",
+                isArray: true,
+                url: host+'/users/search'
             }
         }
     );

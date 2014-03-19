@@ -68,7 +68,9 @@ function RootController($scope, FacebookService, СareerService, LeagueService, 
     }
 
     $scope.openLeagues = function() {
-        $location.search( { leagues: true } );
+        if(!$location.search().leagues) {
+            $location.search( { leagues: true } );    
+        }
     }
 
     // событие загрузки списка нидсов
