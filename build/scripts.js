@@ -4211,7 +4211,7 @@ pgrModule.directive('masonry', function(User, $rootScope) {
       var isiPad = navigator.userAgent.match(/iPad/i) != null;
 
       if(isiPad) {
-        limitCorruption = 10;
+        limitCorruption = 25;
       }
       
       /** Количество элементов на странице **/
