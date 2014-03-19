@@ -38,7 +38,7 @@ module.exports = function(grunt) {
                     'js/keypress.js',
                     'js/moment+langs.min.js',
                 	'js/localize.js',
-                    'js/rzslider.min.js',
+                    'js/slider.j',
                     'js/lscache.js',
                     'js/elastic.js',
                     'js/libs/*.js',

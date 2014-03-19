@@ -56,7 +56,7 @@ var pgrModule = angular.module(
 		"localization",
 		"googleplus",
 		"facebook",
-    'rzModule',
+    'ui.slider',
     'ui.keypress',
     'vcRecaptcha',
     'ui.select2',

@@ -160,13 +160,7 @@
 			</div>
 			<div class="ri">
 				<h6>Score</h6>
-				<rzslider 
-					rz-slider-floor="0" 
-					rz-slider-ceil="175000" 
-					rz-slider-model="search.minScore" 
-					rz-slider-high="search.maxScore">
-				</rzslider>
-				<input  type="range" min="0" max="175000">
+				<div ui-slider="{range: true}" min="0" max="175000" ng-model="search.score"></div>
 			</div>
 			<em></em>
 		</div>

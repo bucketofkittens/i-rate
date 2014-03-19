@@ -306,7 +306,7 @@ sup.bidubi{top:13px !important;border-width:23px 0 23px 15px}
 .search_user{display:inline-block;position:absolute;top:60px;right:0;vertical-align:top;width:600px;height:90%;background:url("../images/glass.png") left top no-repeat;background-size:100% 100%;box-shadow:inset 5px 0 20px 1px rgba(0,0,0,0.7)}
 .fusepar{display:inline-block;position:absolute;top:60px;right:0;vertical-align:top;width:600px;height:90%;z-index:3;overflow-y:scroll;background:url("../images/glass.png") left top no-repeat;background-size:100% 100%;box-shadow:inset 5px 0 20px 1px rgba(0,0,0,0.7)}.fusepar::-webkit-scrollbar{width:0;height:0}
 .fusepar i{display:block;position:absolute;top:10px;right:10px;width:25px;height:25px;background:url("../images/cl.png") left top no-repeat;background-size:25px 25px;cursor:pointer;z-index:10}
-.fusepar .fsp{margin:0 auto;width:550px;padding:30px 15px 30px 30px;position:relative}.fusepar .fsp:after{content:".";display:block;height:0;clear:both;visibility:hidden}
+.fusepar .fsp{margin:0 auto;width:550px;padding:30px 15px 30px 30px;position:relative;}.fusepar .fsp:after{content:".";display:block;height:0;clear:both;visibility:hidden}
 .fusepar .fsp em{width:530px;text-align:center;border-top:1px solid #666;border-bottom:1px solid #333;display:block;position:absolute;bottom:0}
 .fusepar .fsp .ri{float:right;width:250px;position:relative;margin-right:10px}.fusepar .fsp .ri .goal_icon{width:20px;height:20px}
 .fusepar .fsp .ri:first-child{float:left !important}
@@ -316,7 +316,6 @@ sup.bidubi{top:13px !important;border-width:23px 0 23px 15px}
 .fusepar .fsp .ri input[type="text"]{font-size:18px;line-height:20px;vertical-align:middle;padding:5px 36px 5px 10px !important;border:none;font-family:'Lato',sans-serif;width:155px;background:url("../images/sbg.png") left top no-repeat;background-size:200px 30px;color:#fff}
 .fusepar .fsp .ri input[type="button"],.fusepar .fsp .ri .ui-datepicker-trigger{color:#000;font-family:'Lato',sans-serif;cursor:pointer;background:transparent;font-size:115%;padding:0 !important;float:right;width:33px !important;height:33px !important;background:url(../images/fullsearch.png) center center no-repeat;background-size:33px 33px;position:absolute;right:30px !important;top:27px !important;border:none;vertical-align:middle;display:block;text-indent:-999px}
 .fusepar .fsp .ri img{cursor:pointer;vertical-align:middle;width:35px;height:35px;margin:-1px 0 0 5px}
-.fusepar .fsp div:last-child{float:right}
 .fusepar .fsp rzslider{height:2px;margin:10px 0 0 0;color:#fff}.fusepar .fsp rzslider span.bubble{top:10px;color:#fff;font-size:12px}
 .fusepar .fsp rzslider span.bar.selection{background:rgba(100,180,210,0.7);position:relative;top:-11px}
 .fusepar .fsp rzslider span.bar{-webkit-border-radius:1em;border-radius:1em;background:rgba(0,0,0,0.5);z-index:0;height:3px}

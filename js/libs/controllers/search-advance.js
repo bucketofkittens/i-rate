@@ -43,8 +43,7 @@ function SearchAdvanceController($scope, $location, $rootScope, User, Profession
         country: {},
         city: {},
         league: {},
-        minScore: 0,
-        maxScore: 175000
+        score: [0, 175000]
     };
 
 
@@ -91,8 +90,7 @@ function SearchAdvanceController($scope, $location, $rootScope, User, Profession
     $scope.topList = [];
 
     $scope.clearLeagueParam = function() {
-        $scope.search.minScore = 0;
-        $scope.search.maxScore = 175000;
+        $scope.score = [0, 175000];
 
         selectParam('league', '', true);
     }
@@ -158,7 +156,7 @@ function SearchAdvanceController($scope, $location, $rootScope, User, Profession
      * @param  {[type]} scope  [description]
      * @return {[type]}        [description]
      */
-    $scope.$watch("search.minScore", function (newVal, oldVal, scope) {
+    $scope.$watch("search.score", function (newVal, oldVal, scope) {
         $scope.collapseLeague();
 
         if(newVal && newVal != oldVal) {
@@ -168,28 +166,6 @@ function SearchAdvanceController($scope, $location, $rootScope, User, Profession
                 $scope.$apply(function() {
                     $scope.advanceSearch();
                     $scope.changeMinTimer = false;
-                });
-            }, 700);
-        }
-    });
-
-    /**
-     * Событие изменения maxScore
-     * @param  {[type]} newVal [description]
-     * @param  {[type]} oldVal [description]
-     * @param  {[type]} scope  [description]
-     * @return {[type]}        [description]
-     */
-    $scope.$watch("search.maxScore", function (newVal, oldVal, scope) {
-        $scope.collapseLeague();
-
-        if(newVal && newVal != oldVal) {
-            if($scope.changeMaxTimer !== false) clearTimeout($scope.changeMaxTimer);
-
-            $scope.changeMaxTimer = setTimeout(function() {
-                $scope.$apply(function() {
-                    $scope.advanceSearch();
-                    $scope.changeMaxTimer = false;
                 });
             }, 700);
         }
@@ -224,8 +200,7 @@ function SearchAdvanceController($scope, $location, $rootScope, User, Profession
             country: {},
             city: {},
             league: {},
-            minScore: 0,
-            maxScore: 175000
+            score: [0,  175000]
         };
 
         $scope.shows = {
@@ -271,8 +246,7 @@ function SearchAdvanceController($scope, $location, $rootScope, User, Profession
      */
     $scope.selectLeagueParam = function(paramName, value, isNotToggle) {
         var leagueName = 10 - parseInt(value.name);
-        $scope.search.minScore = value.min_border;
-        $scope.search.maxScore = value.max_border;
+        $scope.search.score = [value.min_border, value.max_border]
 
         $timeout(function(){
             $scope.selectParam(paramName, value);
@@ -405,11 +379,9 @@ function SearchAdvanceController($scope, $location, $rootScope, User, Profession
         if($scope.search.birthday_till) {
             params["birthday_till"] = moment($scope.search.birthday_till).format("DD/MM/YYYY");
         }
-        if($scope.search.minScore) {
-            params["points_from"] = $scope.search.minScore;
-        }
-        if($scope.search.maxScore) {
-            params["points_till"] = $scope.search.maxScore;
+        if($scope.search.score) {
+            params["points_from"] = $scope.search.score[0];
+            params["points_till"] = $scope.search.score[1];
         }
         if($scope.search.top) {
             params["goal_id"] = $scope.search.top.sguid;
