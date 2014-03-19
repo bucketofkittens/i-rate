@@ -471,7 +471,7 @@ pgrModule.directive('masonry', function(User, $rootScope) {
       });
 
       /** коэффициэнт количество элементов **/
-      var limitCorruption = 10;
+      var limitCorruption = 30;
 
       var isiPad = navigator.userAgent.match(/iPad/i) != null;
 
@@ -621,7 +621,7 @@ pgrModule.directive('masonry', function(User, $rootScope) {
             self.total_count = data[0].total_count;
          
             self.view_count += self.limit;
-          if(self.view_count < self.total_count && $(element).width() < $(window).width()) {
+          if(self.view_count < self.total_count && $(element).height() < $(window).height()) {
             self.skip += self.limit;
 
             // рекурсивно берем еще пользователей
