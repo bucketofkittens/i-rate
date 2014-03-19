@@ -107,6 +107,8 @@ function NeedsAndGoalsController($scope, СareerService, UserService, Goals, Cri
         angular.forEach(goal.criterion_guids, function(value, key){
             CriterionByGoal.by_guid({criteria_sguid: value}, function(data) {
                 goal.criteriums.push(data[0]);
+                $scope.getCriteriumValueByUser(data[0]);
+                
                 countLoad_ += 1;
 
                 if(countLoad_ == maxCount_) {
@@ -116,11 +118,6 @@ function NeedsAndGoalsController($scope, СareerService, UserService, Goals, Cri
                     $scope.addEmptyElement(goal);
 
                     goal.criteriums.all_load = true;
-
-                    /**
-                     * забираем значения для текущего пользователя
-                     */
-                    $scope.getCriteriumValueByUser(value);
                 }
             });
         });
@@ -132,26 +129,17 @@ function NeedsAndGoalsController($scope, СareerService, UserService, Goals, Cri
      * @return {[type]}      [description]
      */
     $scope.getCriteriumValueByUser = function(value) {
-        CriterionByGoal.criterion_by_id_and_user({sguid: value, user_sguid: $scope.user.sguid}, function(data) {
-            console.log();
-            angular.forEach(d, function(userCriteriaItem, userCriteriaKey) {
-                var fCriteria = goal.criteriums.filter(function(value) {
-                    return value.sguid == userCriteriaItem.criteria_sguid;
-                })[0];
-                
-                if(fCriteria) {
-                    fCriteria.user_criteria_sguid = userCriteriaItem.criteria_value_sguid;
-                    fCriteria.user_criteria_id = userCriteriaItem.sguid;
+        CriterionByGoal.criterion_by_id_and_user({sguid: value.sguid, user_sguid: $scope.user.sguid}, function(data) {
+            value.user_criteria_sguid = data[0].criteria_value_sguid;
+            value.user_criteria_id = data[0].user_criteria_id;
 
-                    $rootScope.$broadcast('criteriaUserValueLoaded', {
-                        fCriteria: fCriteria,
-                        userId: $scope.user.sguid,
-                        route: $scope.route
-                    });
-                }
+            console.log(value);
+
+            $rootScope.$broadcast('criteriaUserValueLoaded', {
+                fCriteria: value,
+                userId: $scope.user.sguid,
+                route: $scope.route
             });
-
-            goal.criteriums.show = true;
         });
     }
 
