@@ -455,7 +455,7 @@ pgrModule.directive('masonry', function(User, $rootScope) {
       $(parentElement).on("mousewheel DOMMouseScroll", function($event) {
         //parentElement.scrollLeft -= $event.originalEvent.wheelDeltaY ? $event.originalEvent.wheelDeltaY : $event.originalEvent.detail * 5;
         
-        if(parentElement.scrollLeft == $(element).width()-$(window).width() && self.view_count < self.total_count) {
+        if(self.view_count < self.total_count) {
           self.view_count += self.limit;
           self.skip += self.limit;
           self.getUsersFromBackend(self, loadUserCallback_);
@@ -463,7 +463,7 @@ pgrModule.directive('masonry', function(User, $rootScope) {
       });
 
       $(parentElement).on("touchmove", function($event) {
-        if($(parentElement).scrollLeft() == $(element).width()-$(window).width() && self.view_count < self.total_count) {
+        if(self.view_count < self.total_count) {
           self.view_count += self.limit;
           self.skip += self.limit;
           self.getUsersFromBackend(self, loadUserCallback_);
