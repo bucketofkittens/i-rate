@@ -3083,6 +3083,20 @@ sup.bidubi {
             width: 250px;
             position: relative;
             margin-right: 10px;
+            overflow: hidden;
+            span {
+                font-size: 12px;
+                color: #ffffff;
+                float: left;
+                display: inline-block;
+                position: relative;
+                padding-top: 10px;
+                left: 10px;
+                &:last-child {
+                    float: right;
+                    left: -15px;
+                }
+            }
             .goal_icon {
                 width: 20px;
                 height: 20px;
@@ -4888,6 +4902,14 @@ table.quickdate-calendar td.is-today{font-weight:bold;background: url("../images
 
 .ui-corner-all {
     z-index: 999 !important;
+    background: rgba(0, 0, 0, 0.3);
+    position: relative;
+    top: 5px;
+    left: 10px;
+    width: 220px;
+    .ui-slider-range {
+        background: rgba(0, 0, 0, 0.5);
+    }
 }
 
 #follow_tab {
