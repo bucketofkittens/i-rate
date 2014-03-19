@@ -10,6 +10,7 @@ module.exports = function(grunt) {
                 	'js/jquery-2.0.3.min.js',
                     'js/jquery.Jcrop.min.js',
                     'js/jquery.jcrop-canvas.js',
+                    'js/jquery.ui.touch-punch.min.js',
                 	'js/angular.min.js',
                 	'js/angular-route.min.js',
                     'js/angular-animate.min.js',
