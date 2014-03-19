@@ -98,11 +98,31 @@ function NeedsAndGoalsController($scope, СareerService, UserService, Goals, Cri
         // создаем массив критериев
         goal.criteriums = [];
 
-        CriterionService.criterion_by_user_guid(goal.sguid, $scope.user.sguid, function(data) {
-            goal.criteriums = data;
+        // количество загруженных критериев
+        var countLoad_ = 0;
 
-            $scope.addEmptyElement(goal);
-            $scope.getCriteriumValueByUser(goal);
+        // всего критериев
+        var maxCount_ = goal.criterion_guids.length;
+
+        angular.forEach(goal.criterion_guids, function(value, key){
+            CriterionByGoal.by_guid({criteria_sguid: value}, function(data) {
+                goal.criteriums.push(data[0]);
+                countLoad_ += 1;
+
+                if(countLoad_ == maxCount_) {
+                    /**
+                     * добавляем пустой элемент
+                     */
+                    $scope.addEmptyElement(goal);
+
+                    goal.criteriums.all_load = true;
+
+                    /**
+                     * забираем значения для текущего пользователя
+                     */
+                    $scope.getCriteriumValueByUser(goal);
+                }
+            });
         });
     }
 
@@ -112,19 +132,27 @@ function NeedsAndGoalsController($scope, СareerService, UserService, Goals, Cri
      * @return {[type]}      [description]
      */
     $scope.getCriteriumValueByUser = function(goal) {
-        if($scope.user && $scope.user.sguid) {
-            angular.forEach(goal.criteriums, function(criteriaItem, criteriaKey) {
+        UserCriteriaValueByUser.query({id: $scope.user.sguid}, {}, function(d) {
+
+            angular.forEach(d, function(userCriteriaItem, userCriteriaKey) {
+                var fCriteria = goal.criteriums.filter(function(value) {
+                    return value.sguid == userCriteriaItem.criteria_sguid;
+                })[0];
                 
-                if(criteriaItem.user_criterion_value) {
+                if(fCriteria) {
+                    fCriteria.user_criteria_sguid = userCriteriaItem.criteria_value_sguid;
+                    fCriteria.user_criteria_id = userCriteriaItem.sguid;
+
                     $rootScope.$broadcast('criteriaUserValueLoaded', {
-                        fCriteria: criteriaItem,
+                        fCriteria: fCriteria,
                         userId: $scope.user.sguid,
                         route: $scope.route
                     });
                 }
             });
-        }
-        
+
+            goal.criteriums.show = true;
+        });
     }
 
     $scope.$on('closeAllGoals', function($event, message) {
@@ -144,6 +172,7 @@ function NeedsAndGoalsController($scope, СareerService, UserService, Goals, Cri
 
         if(!$($event.target).hasClass("current")) {
             CriterionService.remove(goalItem.sguid, $scope.workspace.user.sguid);
+            
             if(criteriaValue.sguid !== "none") {
                 UserCriteriaValue.create({}, $.param({
                     "user_guid": $scope.workspace.user.sguid,
@@ -154,8 +183,8 @@ function NeedsAndGoalsController($scope, СareerService, UserService, Goals, Cri
                     $rootScope.$broadcast('userCriteriaUpdate');
                 });
             } else {
-                if(criteria.user_criterion_value) {
-                    UserCriteriaValue.del({id: criteria.user_criterion_value.sguid}, {}, function(data) {
+                if(criteria.user_criteria_id) {
+                    UserCriteriaValue.del({id: criteria.user_criteria_id}, {}, function(data) {
                         $rootScope.$broadcast('userCriteriaUpdate');
                     }); 
                 } else {

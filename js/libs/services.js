@@ -524,12 +524,12 @@ pgrModule.service('CriterionService', function (CriterionByGoal) {
     this.cacheTime = 1440;
 
     this.criterion_by_user_guid = function(goal_guid, user_guid, callback) {
-        var data = lscache.get(this.cacheName+goal_guid+user_guid);
-        if(data) {
-            callback(data);
-        } else {
+        //var data = lscache.get(this.cacheName+goal_guid+user_guid);
+       // if(data) {
+        //    callback(data);
+        //} else {
             this.getBackend_(goal_guid, user_guid, callback);
-        }
+       // }
     }
 
     this.remove = function(goal_guid, user_guid) {
