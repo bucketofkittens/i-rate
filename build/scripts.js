@@ -5390,29 +5390,29 @@ pgrModule.service('CityService', function (CityByState, City) {
 
 pgrModule.service('CriterionService', function (CriterionByGoal) {
     // название кеша
-    this.cacheName = 'criterion_by_user_guid';
+    this.cacheName = 'criterion';
 
     // время кеширования
     this.cacheTime = 1440;
 
-    this.criterion_by_user_guid = function(goal_guid, user_guid, callback) {
-        //var data = lscache.get(this.cacheName+goal_guid+user_guid);
-       // if(data) {
-        //    callback(data);
-        //} else {
-            this.getBackend_(goal_guid, user_guid, callback);
-       // }
+    this.by_guid = function(criteria_sguid, callback) {
+        var data = lscache.get(this.cacheName+criteria_sguid);
+        if(data) {
+            callback(data);
+        } else {
+            this.getBackend_(criteria_sguid, callback);
+        }
     }
 
-    this.remove = function(goal_guid, user_guid) {
-        lscache.remove(this.cacheName+goal_guid+user_guid);
+    this.remove = function(criteria_sguid) {
+        lscache.remove(this.cacheName+criteria_sguid);
     }
 
-    this.getBackend_ = function(goal_guid, user_guid, callback) {
+    this.getBackend_ = function(value, callback) {
         var self = this;
 
-        CriterionByGoal.criterion_by_user_guid({goal_guid: goal_guid, user_guid: user_guid}, {}, function(data) {
-            lscache.set(self.cacheName+goal_guid+user_guid, JSON.stringify(data), self.cacheTime);
+        CriterionByGoal.by_guid({criteria_sguid: value}, {}, function(data) {
+            lscache.set(self.cacheName+value, JSON.stringify(data), self.cacheTime);
             callback(data);
         });
     }
@@ -8215,7 +8215,7 @@ function MyProfileSettingsController($scope, UserService, SocialService, Friends
  * @param {[type]} Goals
  * @param {[type]} Criterion
  */
-function NeedsAndGoalsController($scope, СareerService, UserService, Goals, Criterion, UserCriteriaValue, $rootScope, CriterionByGoal, UserCriteriaValueByUser, $routeParams, Needs, User, $element, NeedsService, UserService, CriterionService, $timeout) {
+function NeedsAndGoalsController($scope, СareerService, UserService, Goals, Criterion, UserCriteriaValue, $rootScope, CriterionByGoal, UserCriteriaValueByUser, $routeParams, Needs, User, $element, NeedsService, UserService, CriterionService, $timeout, CriterionService) {
     // список needs-сов
     $scope.needs = [];
 
@@ -8316,10 +8316,10 @@ function NeedsAndGoalsController($scope, СareerService, UserService, Goals, Cri
         var maxCount_ = goal.criterion_guids.length;
 
         angular.forEach(goal.criterion_guids, function(value, key){
-            CriterionByGoal.by_guid({criteria_sguid: value}, function(data) {
+            CriterionService.by_guid(value, function(data) {
                 goal.criteriums.push(data[0]);
                 $scope.getCriteriumValueByUser(data[0]);
-                
+
                 countLoad_ += 1;
 
                 if(countLoad_ == maxCount_) {
@@ -8341,16 +8341,16 @@ function NeedsAndGoalsController($scope, СareerService, UserService, Goals, Cri
      */
     $scope.getCriteriumValueByUser = function(value) {
         CriterionByGoal.criterion_by_id_and_user({sguid: value.sguid, user_sguid: $scope.user.sguid}, function(data) {
-            value.user_criteria_sguid = data[0].criteria_value_sguid;
-            value.user_criteria_id = data[0].user_criteria_id;
+            if(data[0] && data[0].criteria_value_sguid) {
+                value.user_criteria_sguid = data[0].criteria_value_sguid;
+                value.user_criteria_id = data[0].user_criteria_id;
 
-            console.log(value);
-
-            $rootScope.$broadcast('criteriaUserValueLoaded', {
-                fCriteria: value,
-                userId: $scope.user.sguid,
-                route: $scope.route
-            });
+                $rootScope.$broadcast('criteriaUserValueLoaded', {
+                    fCriteria: value,
+                    userId: $scope.user.sguid,
+                    route: $scope.route
+                });    
+            }
         });
     }
 

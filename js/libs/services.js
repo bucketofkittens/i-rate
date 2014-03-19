@@ -524,29 +524,29 @@ pgrModule.service('CityService', function (CityByState, City) {
 
 pgrModule.service('CriterionService', function (CriterionByGoal) {
     // название кеша
-    this.cacheName = 'criterion_by_user_guid';
+    this.cacheName = 'criterion';
 
     // время кеширования
     this.cacheTime = 1440;
 
-    this.criterion_by_user_guid = function(goal_guid, user_guid, callback) {
-        //var data = lscache.get(this.cacheName+goal_guid+user_guid);
-       // if(data) {
-        //    callback(data);
-        //} else {
-            this.getBackend_(goal_guid, user_guid, callback);
-       // }
+    this.by_guid = function(criteria_sguid, callback) {
+        var data = lscache.get(this.cacheName+criteria_sguid);
+        if(data) {
+            callback(data);
+        } else {
+            this.getBackend_(criteria_sguid, callback);
+        }
     }
 
-    this.remove = function(goal_guid, user_guid) {
-        lscache.remove(this.cacheName+goal_guid+user_guid);
+    this.remove = function(criteria_sguid) {
+        lscache.remove(this.cacheName+criteria_sguid);
     }
 
-    this.getBackend_ = function(goal_guid, user_guid, callback) {
+    this.getBackend_ = function(value, callback) {
         var self = this;
 
-        CriterionByGoal.criterion_by_user_guid({goal_guid: goal_guid, user_guid: user_guid}, {}, function(data) {
-            lscache.set(self.cacheName+goal_guid+user_guid, JSON.stringify(data), self.cacheTime);
+        CriterionByGoal.by_guid({criteria_sguid: value}, {}, function(data) {
+            lscache.set(self.cacheName+value, JSON.stringify(data), self.cacheTime);
             callback(data);
         });
     }
