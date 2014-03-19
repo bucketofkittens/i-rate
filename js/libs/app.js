@@ -81,7 +81,7 @@ pgrModule.factory('httpRequestInterceptor', function() {
 
       if(user && token) {
         config.headers['TOKEN'] = token.split('"').join("");
-        config.headers['USER'] = user.split('"').join("");  
+        config.headers['USER'] = user.split('"').join("");
       }
       
       return config;

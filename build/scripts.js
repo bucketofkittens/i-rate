@@ -4652,7 +4652,7 @@ pgrModule.factory('httpRequestInterceptor', function() {
 
       if(user && token) {
         config.headers['TOKEN'] = token.split('"').join("");
-        config.headers['USER'] = user.split('"').join("");  
+        config.headers['USER'] = user.split('"').join("");
       }
       
       return config;
@@ -7598,8 +7598,8 @@ function CropImageController($scope, $rootScope, TokenService, UserService) {
 
             $.ajax({
                 beforeSend: function(xhrObj){
-                    xhrObj.setRequestHeader("AUTH_TOKEN",token.split('"').join(""));
-                    xhrObj.setRequestHeader("REMOTE_USER",user.split('"').join(""));
+                    xhrObj.setRequestHeader("TOKEN",token.split('"').join(""));
+                    xhrObj.setRequestHeader("USER",user.split('"').join(""));
                 },
                 url: host+'/pictures/'+$scope.user.sguid,
                 data: data,
