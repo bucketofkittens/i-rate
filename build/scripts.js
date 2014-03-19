@@ -8733,6 +8733,9 @@ function MyProfileSettingsController($scope, UserService, SocialService, Friends
     // забираем список городов для выбранной страны
     $scope.cityByState = function($event) {
 
+        document.activeElement.blur();
+        $("input").blur();
+
     	$scope.workspace.user.city = {};
 
     	// забираем список
@@ -8819,6 +8822,7 @@ function MyProfileSettingsController($scope, UserService, SocialService, Friends
     $scope.selectCareer = function($event) {
         document.activeElement.blur();
         $("input").blur();
+
     	// сохраняем
         $scope.updateUserParamByValue("career", $scope.workspace.user.career.sguid);
     }
