@@ -93,7 +93,7 @@ body header #header #avatar p span{color:#fff;text-decoration:none;font-size:10p
 #content .tabss{overflow:hidden;position:relative;top:0}#content .tabss.current_2{overflow:visible !important}
 #content .tabss::-webkit-scrollbar{width:0;height:0}
 #content .tabss::-moz-scrollbar{width:0;height:0}
-#content .crits{display:block;width:100%;height:100%;position:relative;z-index:5;transition:all .5s ease-out;-webkit-transition:all .5s ease-out;cursor:default}#content .crits ul{text-align:center;position:relative;margin:0 auto;cursor:default}#content .crits ul li{margin:0 0 5px 15px;position:relative;cursor:default}#content .crits ul li.Spirituality{display:none}#content .crits ul li.Spirituality .cr{background:url("../images/needsbg.png") right top no-repeat;background-size:100% 100%}
+#content .crits{display:block;width:100%;height:100%;position:relative;z-index:5;cursor:default}#content .crits ul{text-align:center;position:relative;margin:0 auto;cursor:default}#content .crits ul li{margin:0 0 5px 15px;position:relative;cursor:default}#content .crits ul li.Spirituality{display:none}#content .crits ul li.Spirituality .cr{background:url("../images/needsbg.png") right top no-repeat;background-size:100% 100%}
 #content .crits ul li.current .cr s{border-width:8px 7.5px 0 7.5px !important;border-color:#fff transparent transparent transparent !important;top:22px !important}
 #content .crits ul li .cr{background:url("../images/needsbg.png") right top no-repeat;background-size:100% 100%;line-height:50px;cursor:pointer;position:relative}#content .crits ul li .cr:after{content:".";display:block;height:0;clear:both;visibility:hidden}
 #content .crits ul li .cr p{font-size:20px;color:#fff;float:left;margin-top:3px;text-align:left;padding-left:15px}
