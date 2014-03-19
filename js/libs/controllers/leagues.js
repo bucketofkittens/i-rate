@@ -96,11 +96,15 @@ function LeaguesController($scope, $location, $rootScope, User, LocationService,
     }
 
     $scope.updateOnScrollEvents = function(event, isEndEvent) {
-        console.log(isEndEvent);
+        if(isEndEvent) {
+            $scope.skip += $scope.limit;
+            User.by_league_and_limit({league_guid:$location.search().league, skip: $scope.skip, limit: $scope.limit}, {}, $scope.leagueCallback_);
+        }
     }
 
     // выбираем нужную нам лигу
     $scope.selectLeague = function(sguid) {
+        $scope.skip = 0;
         LocationService.update("league", sguid);
     }
 
@@ -126,6 +130,22 @@ function LeaguesController($scope, $location, $rootScope, User, LocationService,
 
         $scope.leagueUsers = data;
         $scope.selectUser($scope.leagueUsers[0]);
+    }
+
+    $scope.leagueCallback_ = function(data) {
+        data = data.filter(function(value) {
+            if(value.published) {
+                return value;
+            }
+        });
+        
+        data.sort(function(a, b) {
+            if(a.points < b.points) return 1;
+            if(a.points > b.points) return -1;
+            return 0;
+        });
+
+        $scope.leagueUsers = $scope.leagueUsers.concat(data);
     }
 
     $scope.$on('closeUserPanel', function (event, message) {
