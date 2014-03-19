@@ -337,6 +337,12 @@ pgrModule.directive('masonry', function(User, $rootScope) {
 
       /** коэффициэнт количество элементов **/
       var limitCorruption = 30;
+
+      var isiPad = navigator.userAgent.match(/iPad/i) != null;
+
+      if(isiPad) {
+        limitCorruption = 10;
+      }
       
       /** Количество элементов на странице **/
       this.limit = parseInt($(window).height()/limitCorruption);
