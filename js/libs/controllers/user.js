@@ -36,6 +36,7 @@ function UserController($scope, FriendsService, UserService, User, $location, Lo
     }
 
     $scope.addViewCallback_ = function(newId) {
+        console.log(newId);
         UserService.getById(newId, $scope.userServiceGetByIdCallback_);
     }
 

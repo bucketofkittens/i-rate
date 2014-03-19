@@ -141,6 +141,7 @@ function NeedsAndGoalsController($scope, СareerService, UserService, Goals, Cri
      * @return {[type]}          [description]
      */
     $scope.onCriteriaSelect = function(criteriaValue, criteria, $event, needItem, goalItem) {
+
         if(!$($event.target).hasClass("current")) {
             CriterionService.remove(goalItem.sguid, $scope.workspace.user.sguid);
             if(criteriaValue.sguid !== "none") {
@@ -153,8 +154,8 @@ function NeedsAndGoalsController($scope, СareerService, UserService, Goals, Cri
                     $rootScope.$broadcast('userCriteriaUpdate');
                 });
             } else {
-                if(criteria.user_criteria_id) {
-                    UserCriteriaValue.del({id: criteria.user_criteria_id}, {}, function(data) {
+                if(criteria.user_criterion_value) {
+                    UserCriteriaValue.del({id: criteria.user_criterion_value.sguid}, {}, function(data) {
                         $rootScope.$broadcast('userCriteriaUpdate');
                     }); 
                 } else {
