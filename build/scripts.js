@@ -5615,7 +5615,7 @@ pgrModule.config(['$routeProvider',
           });
     }
 ]);
-var host = "http://dev.sir.improva.com/api/v1";
+var host = "http://sir.improva.com/api/v1";
 //var host = "http://192.168.1.171:3000/api/v1"; 
 var hostShort = host.replace("/api/v1", "");
 
