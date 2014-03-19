@@ -24,7 +24,9 @@
 				</span>
 			</i>
 		<p>
-			<i ng-if="user.career.name || user.profession.name">{{user.career.name}}<span ng-if="user.profession.name">, {{user.profession.name}}</span></i>
+			<i ng-if="user.career.name || user.profession.name">
+				{{user.career.name}}<span ng-if="user.profession.name && user.career.name">,</span> {{user.profession.name}}
+			</i>
 		</p>
 
 		<p>
