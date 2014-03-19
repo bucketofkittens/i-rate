@@ -455,7 +455,7 @@ pgrModule.directive('masonry', function(User, $rootScope) {
       $(parentElement).on("mousewheel DOMMouseScroll", function($event) {
         $(parentElement).stop().animate({
           scrollLeft: '-='+($event.originalEvent.wheelDeltaY ? $event.originalEvent.wheelDeltaY : $event.originalEvent.detail * 5)+'px' 
-        }, 2600, 'easeOutQuint');
+        }, 1600, 'easeOutQuint');
         //parentElement.scrollLeft -= $event.originalEvent.wheelDeltaY ? $event.originalEvent.wheelDeltaY : $event.originalEvent.detail * 5;
         
         if(parentElement.scrollLeft == $(element).width()-$(window).width() && self.view_count < self.total_count) {
