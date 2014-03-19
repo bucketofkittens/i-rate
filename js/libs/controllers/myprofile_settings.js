@@ -235,7 +235,7 @@ function MyProfileSettingsController($scope, UserService, SocialService, Friends
             $scope.showCityAddButton = countView == 0 ? true : false;
         } else {
             $scope.updateUserParamByValue("city", "");
-            
+
         	$scope.showCityList = false;
         	$scope.showCityAddButton = false;
         }
@@ -266,6 +266,9 @@ function MyProfileSettingsController($scope, UserService, SocialService, Friends
             $scope.showProfessionList = countView == 0 ? false : true;
             $scope.showProfessionAddButton = countView == 0 ? true : false;
         } else {
+
+            $scope.updateUserParamByValue("profession", "");
+
         	$scope.showProfessionList = false;
         	$scope.showProfessionAddButton = false;
         }
@@ -351,6 +354,10 @@ function MyProfileSettingsController($scope, UserService, SocialService, Friends
     };
 
     $scope.careerServiceCallback_ = function(data) {
+        data.push({
+            name: "",
+            sguid: ""
+        });
         $scope.careers = data;
     }
 

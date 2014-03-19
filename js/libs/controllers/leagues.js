@@ -95,6 +95,10 @@ function LeaguesController($scope, $location, $rootScope, User, LocationService,
         }
     }
 
+    $scope.updateOnScrollEvents = function(event, isEndEvent) {
+        
+    }
+
     // выбираем нужную нам лигу
     $scope.selectLeague = function(sguid) {
         LocationService.update("league", sguid);

@@ -6,7 +6,7 @@
 				<p>{{value.name}}</p>
 			</li>
 		</ul>
-		<perfect-scrollbar class="user_list" scroller>
+		<perfect-scrollbar class="user_list" scroller ng-scroll-event="updateOnScrollEvents($event, isEndEvent)">
 			<ul class="person_list">
 				<li 
 					ng-class="{ current: value.current }" 
