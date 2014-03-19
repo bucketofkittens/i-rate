@@ -17,6 +17,8 @@ function UserController($scope, FriendsService, UserService, User, $location, Lo
     // видна ли кнопочка репорта или нет
     $scope.isReport = false;
 
+    $scope.cacheId = null;
+
     $scope.$on('$locationChangeSuccess', function(event, newLoc, oldLoc) {
         $scope.setCurrentUser();
     });
@@ -46,7 +48,8 @@ function UserController($scope, FriendsService, UserService, User, $location, Lo
         var newId = $location.search()[$scope.route];
 
         // проверяем а нужно ли вообще менять id
-        if(newId && (!$scope.user || $scope.user.sguid != newId)) {
+        if(newId && (!$scope.user || $scope.user.sguid != newId) && $scope.cacheId != newId) {
+            $scope.cacheId = newId;
             UserService.getById(newId, $scope.userServiceGetByIdCallback_);
 
             if(($scope.workspace.user && newId != $scope.workspace.user.sguid) || !$scope.workspace.user) {
