@@ -100,12 +100,23 @@ function CropImageController($scope, $rootScope, TokenService, UserService) {
             $scope.imageData = data.target.result;
             $(crop_img).attr("src", data.target.result);
             $rootScope.$broadcast('loaderHide');
-            if($scope.jcrop) {
+            
+            /*if($scope.jcrop) {
                 $scope.jcrop.data('Jcrop').destroy();
-            }
-            $scope.jcrop = crop_img.Jcrop({boxHeight: 400, minSize: [200, 200], aspectRatio: 1, setSelect: [0, 0, 200, 200], onChange: function(data) {
-                $scope.positions = data;
-            }}); 
+            }*/
+           
+            //$scope.jcrop = crop_img.Jcrop({boxWidth: 400, boxHeight: "auto", aspectRatio: 1, setSelect: [0, 0, 200, 200], onChange: function(data) {
+              //  $scope.positions = data;
+           //}});
+            
+            crop_img.cropbox({
+                width: 400,
+                height: 400,
+                showControls: "always"
+            }).on('cropbox', function(e, data) {
+                console.log(data);
+            });
+            
         };
         reader.readAsDataURL(file);
     }
