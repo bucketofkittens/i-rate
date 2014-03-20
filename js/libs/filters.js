@@ -33,7 +33,7 @@ pgrModule.filter('unidate', function () {
 
 pgrModule.filter('usadata', function () {
     return function(value) {
-        return moment(value).format("MMM DD, YYYY");
+        return moment(value).format("MM/DD/YYYY");
     }
 })
 
