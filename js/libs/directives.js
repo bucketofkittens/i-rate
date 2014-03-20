@@ -329,7 +329,7 @@ pgrModule.directive('masonry', function(User, $rootScope) {
         }
       });
 
-      $(parentElement).on("touchmove", function($event) {
+      /*$(parentElement).on("touchmove", function($event) {
         if(!self.is_load && self.view_count < self.total_count && $(parentElement).scrollTop()+$(parentElement).height() == $(parentElement)[0].scrollHeight) {
           console.log("touchmove");
           self.view_count += self.limit;
@@ -337,17 +337,16 @@ pgrModule.directive('masonry', function(User, $rootScope) {
           self.is_load = true;
           self.getUsersFromBackend(self, self.loadUserCallback_);
         }
-      });
+      });*/
 
       /** коэффициэнт количество элементов **/
       var limitCorruption = 30;
 
-      /*
       var isiPad = navigator.userAgent.match(/iPad/i) != null;
 
       if(isiPad) {
         limitCorruption = 20;
-      }*/
+      }
       
       /** Количество элементов на странице **/
       this.limit = parseInt($(window).height()/limitCorruption);
