@@ -27,7 +27,6 @@ function RootController($scope, FacebookService, СareerService, LeagueService, 
 
     $scope.needsServiceCallback_ = function(data) {
         $scope.workspace.needs = data;
-        СareerService.getList($scope.workspace.needs, $scope.careerServiceCallback_);
     }
 
     $scope.careerServiceCallback_ = function(data) {
@@ -51,7 +50,6 @@ function RootController($scope, FacebookService, СareerService, LeagueService, 
     }
 
     $scope.getAuthDataCallback_ = function(data) {
-        console.log(data);
         $scope.workspace.user = data;
     }
 
@@ -78,7 +76,13 @@ function RootController($scope, FacebookService, СareerService, LeagueService, 
         // список пользвателей
         UserService.getAll($scope.userServiceCallback_);
     });
-
+    
+    $scope.$on('careerLoad', function(event) {
+        if(!$scope.workspace.careers) {
+            СareerService.getList($scope.workspace.needs, $scope.careerServiceCallback_);
+        }
+    });
+    
     UserService.getAuthData($scope.getAuthDataCallback_);
 
     $scope.location = $location.path().replace("/", "");

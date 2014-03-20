@@ -278,18 +278,18 @@ function MyProfileSettingsController($scope, UserService, SocialService, Friends
         	$scope.showProfessionList = false;
         	$scope.showProfessionAddButton = false;
         }
-    }
+    };
 
     // добавляем новую профессию
     $scope.addProfession = function($event) {
     	ProfessionsService.add(
     		{ 
-                name: $scope.workspace.user.profession.name,
+                name: $scope.workspace.user.profession.name
             },
             $scope.workspace.user.profession.goal_sguid,
             $scope.addProfessionCallback_ 
     	);
-    }
+    };
 
     // callback добавления новой профессии
     $scope.addProfessionCallback_ = function(data) {
@@ -307,7 +307,7 @@ function MyProfileSettingsController($scope, UserService, SocialService, Friends
         $scope.showProfessionAddButton = false;
 
         ProfessionService.getList($scope.professionServiceCallback_);
-    }
+    };
 
     // callback добавление нового города
     $scope.addCityCallback_ = function(data) {
@@ -327,7 +327,7 @@ function MyProfileSettingsController($scope, UserService, SocialService, Friends
         	sguid: data.message.guid,
         	name: data.message.name
         });
-    }
+    };
 
     // добавление нового города
     $scope.addCity = function($event) {
@@ -338,7 +338,7 @@ function MyProfileSettingsController($scope, UserService, SocialService, Friends
     		$scope.workspace.user.state.sguid,
     		$scope.addCityCallback_
     	);
-    }
+    };
 
     // определяем заходили ли мы через социальную сеть
     $scope.social = SocialService.getCurrentSocial();
@@ -365,11 +365,11 @@ function MyProfileSettingsController($scope, UserService, SocialService, Friends
             sguid: ""
         });
         $scope.careers = data;
-    }
+    };
 
     $scope.professionServiceCallback_ = function(data) {
         $scope.professions = data;
-    }
+    };
 
     СareerService.getList($scope.careerServiceCallback_);
     ProfessionService.getList($scope.professionServiceCallback_);

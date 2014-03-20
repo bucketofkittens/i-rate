@@ -24,6 +24,14 @@
     <!-- Контент -->
     <div id="content" class="my-slide-container">
         <div class="content_wrap" ng-view></div>
+
+        <div class="full_height" ng-controller="ChangePasswordController" ng-include src="'partials/changePassword.html'"></div>
+        <div class="full_height" ng-controller="UsersController" ng-include src="'partials/users.html'"></div>
+        <div class="full_height" ng-controller="SearchAdvanceController" ng-include src="'partials/search.html'"></div>
+        <div class="full_height" ng-controller="MyProfileController" ng-include ng-if="workspace.user" src="'partials/myprofile.html'"></div>
+        <div class="full_height" ng-controller="LeaguesController" ng-include src="'partials/leagues.html'"></div>
+        <div class="full_height" ng-controller="RightController" ng-include ng-if="!workspace.user" src="'partials/right.html'"></div>
+        <div class="full_height" ng-controller="BannerController" ng-include src="'partials/banner.html'"></div>
     </div>
 
     <div ng-include src="'partials/footer.html'"></div>
