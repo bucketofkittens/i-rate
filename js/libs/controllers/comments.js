@@ -26,6 +26,7 @@ function CommentsController($scope, $rootScope, Comments, $routeParams, $locatio
     $scope.getMessages = function() {
         Comments.get_by_user({owner_guid: $scope.user, owner_type: 0}, {}, function(data) {
             angular.forEach(data, function(value, key){
+                console.log(moment(value.post_date));
                 value.post_date = moment(value.post_date).format("DD-MM-YYYY");
             });
             
