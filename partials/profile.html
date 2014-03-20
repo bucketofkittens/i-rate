@@ -81,7 +81,10 @@
 											<i ng-if="value.sguid == 'none'" class="null_criteria"></i>
 										</li>
 									</div>
-									<span ng-show="selectedGoal.criteriums.show" colbasa colbasa-current="{{crItem.user_criteria_sguid}}">
+									<span 
+										ng-if="selectedGoal.criteriums.all_load_data"
+										colbasa 
+										colbasa-current="{{crItem.user_criteria_sguid}}">
 										<sup></sup>
 									</span>
 								</ul>

@@ -51,10 +51,10 @@
 							values="{{goalsValues[goalItem.sguid]}}" >
 						</sup>
 					</h5>
-					<ul class="criterion" ng-class="{current: goalItem.current}">
+					<ul class="criterion" ng-class="{current: goalItem.current}" ng-show="goalItem.criteriums.all_load">
 						<li 
 							data-id="{{crItem.sguid}}"
-							ng-repeat="crItem in goalItem.criteriums | orderBy:'position'" >
+							ng-repeat="crItem in goalItem.criteriums | orderBy:'position'"  >
 							<p>{{crItem.name}}</p>
 							<div class="bord">
 								<ul class="crp">
@@ -67,7 +67,10 @@
 											<i ng-if="value.sguid == 'none'" class="null_criteria"></i>
 										</li>
 									</div>
-									<span colbasa colbasa-current="{{crItem.user_criteria_sguid}}">
+									<span 
+										ng-if="goalItem.criteriums.all_load_data"
+										colbasa 
+										colbasa-current="{{crItem.user_criteria_sguid}}">
 										<sup></sup>
 									</span>
 								</ul>

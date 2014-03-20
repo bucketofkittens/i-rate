@@ -101,13 +101,21 @@ function NeedsAndGoalsController($scope, СareerService, UserService, Goals, Cri
         // количество загруженных критериев
         var countLoad_ = 0;
 
+        var countDataLoad_ = 0;
+
         // всего критериев
         var maxCount_ = goal.criterion_guids.length;
 
         angular.forEach(goal.criterion_guids, function(value, key){
             CriterionService.by_guid(value, function(data) {
                 goal.criteriums.push(data[0]);
-                $scope.getCriteriumValueByUser(data[0]);
+                $scope.getCriteriumValueByUser(data[0], function() {
+                    countDataLoad_ += 1;
+
+                    if(countDataLoad_ == maxCount_) {
+                        goal.criteriums.all_load_data = true;
+                    }
+                });
 
                 countLoad_ += 1;
 
@@ -128,7 +136,7 @@ function NeedsAndGoalsController($scope, СareerService, UserService, Goals, Cri
      * @param  {[type]} goal [description]
      * @return {[type]}      [description]
      */
-    $scope.getCriteriumValueByUser = function(value) {
+    $scope.getCriteriumValueByUser = function(value, callback) {
         CriterionByGoal.criterion_by_id_and_user({sguid: value.sguid, user_sguid: $scope.user.sguid}, function(data) {
             if(data[0] && data[0].criteria_value_sguid) {
                 value.user_criteria_sguid = data[0].criteria_value_sguid;
@@ -139,6 +147,10 @@ function NeedsAndGoalsController($scope, СareerService, UserService, Goals, Cri
                     userId: $scope.user.sguid,
                     route: $scope.route
                 });    
+            }
+
+            if(callback) {
+                callback();
             }
         });
     }
