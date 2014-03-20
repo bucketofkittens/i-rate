@@ -9981,7 +9981,7 @@ function UserCommentsController($scope, Comments, $rootScope) {
     $scope.getMessages = function() {
         Comments.get_by_user({owner_guid: $scope.user.sguid, owner_type: 0}, {}, function(data) {
             angular.forEach(data, function(value, key) {
-                value.post_date = moment.utc(value.post_date).format("MM/DD/YYYY h:mm a");
+                value.post_date = moment(value.post_date).format("MM/DD/YYYY h:mm a");
             });
             
             $scope.commentsList = data;
@@ -10009,7 +10009,7 @@ function UserCommentsController($scope, Comments, $rootScope) {
             Comments.create({}, {
                 owner_type: 0,
                 author_guid: $scope.workspace.user.sguid,
-                post_date: moment().format("DD-MM-YYYY HH:mm:ss"),
+                post_date: moment().utc().format("DD-MM-YYYY HH:mm:ss"),
                 message: $scope.form.message,
                 owner_guid: $scope.user.sguid
             }, function(data) {
