@@ -10,7 +10,18 @@ function SearchAdvanceController($scope, $location, $rootScope, User, Profession
 
     // определяем показываем ли мы панель или нет
     $scope.showTest = function() {
-        $scope.show = $location.search().search  ? true : false;    
+        $scope.show = $location.search().search  ? true : false;
+
+        if($scope.show) {
+            // загружаем список лиг
+            $rootScope.$broadcast('reloadLeagues');
+
+            // загружаем список стран
+            $rootScope.$broadcast('countryLoad');
+
+            // загружаем список карьер
+            $rootScope.$broadcast('needsLoad');     
+        }
     }
 
     $scope.showTest();
@@ -132,15 +143,17 @@ function SearchAdvanceController($scope, $location, $rootScope, User, Profession
     });
 
     $scope.$watch("workspace.needs", function (newVal, oldVal, scope) {
-        var needs = JSON.parse(JSON.stringify($scope.workspace.needs));
+        if($scope.workspace.needs) {
+            var needs = JSON.parse(JSON.stringify($scope.workspace.needs));
         
-        angular.forEach(needs, function(need, key) {
-            angular.forEach(need.goals, function(goal, key) {
-                goal.show = true;
-                goal.needName = need.name;
-                $scope.topList.push(goal);
-            });
-        });
+            angular.forEach(needs, function(need, key) {
+                angular.forEach(need.goals, function(goal, key) {
+                    goal.show = true;
+                    goal.needName = need.name;
+                    $scope.topList.push(goal);
+                });
+            });    
+        }
     });
 
     // таймер отправки запроса на сервер
@@ -494,14 +507,6 @@ function SearchAdvanceController($scope, $location, $rootScope, User, Profession
         yearRange: '1900:-0'
     };
 
-    // загружаем список лиг
-    $rootScope.$broadcast('reloadLeagues');
-
-    // загружаем список стран
-    $rootScope.$broadcast('countryLoad');
-
-    // загружаем список карьер
-    $rootScope.$broadcast('needsLoad');
 
     $scope.careerServiceCallback_ = function(data) {
         angular.forEach(data, function(value, key) {

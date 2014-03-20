@@ -10,7 +10,6 @@ function LeaguesController($scope, $location, $rootScope, User, LocationService,
     $scope.testLeague = function() {
         // определяем показываем ли мы панель или нет
         $scope.show = $location.search().leagues ? true : false;
-
         if($scope.show) {
             // забираем данные по лигам
             $rootScope.$broadcast('reloadLeagues');

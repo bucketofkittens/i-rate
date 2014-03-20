@@ -307,7 +307,7 @@ sup.bidubi{top:13px !important;border-width:23px 0 23px 15px}
 .fusepar i{display:block;position:absolute;top:10px;right:10px;width:25px;height:25px;background:url("../images/cl.png") left top no-repeat;background-size:25px 25px;cursor:pointer;z-index:10}
 .fusepar .fsp{margin:0 auto;width:550px;padding:30px 15px 30px 30px;position:relative;}.fusepar .fsp:after{content:".";display:block;height:0;clear:both;visibility:hidden}
 .fusepar .fsp em{width:530px;text-align:center;border-top:1px solid #666;border-bottom:1px solid #333;display:block;position:absolute;bottom:0}
-.fusepar .fsp .ri{float:right;width:250px;position:relative;margin-right:10px;overflow:hidden}.fusepar .fsp .ri span{font-size:12px;color:#fff;float:left;display:inline-block;position:relative;padding-top:10px;left:10px}.fusepar .fsp .ri span:last-child{float:right;left:-15px}
+.fusepar .fsp .ri{float:right;width:250px;position:relative;margin-right:10px}.fusepar .fsp .ri span{font-size:12px;color:#fff;float:left;display:inline-block;position:relative;padding-top:10px;left:10px}.fusepar .fsp .ri span:last-child{float:right;left:-15px}
 .fusepar .fsp .ri .goal_icon{width:20px;height:20px}
 .fusepar .fsp .ri:first-child{float:left !important}
 .fusepar .fsp .ri h6{font-size:20px;margin-bottom:7px;color:#fff}
