@@ -3868,140 +3868,7 @@ pgrModule.config(function(AnalyticsProvider) {
     AnalyticsProvider.setPageEvent('$stateChangeSuccess');
   }
 );
-jQuery.easing['jswing'] = jQuery.easing['swing'];
 
-jQuery.extend( jQuery.easing,
-{
-  def: 'easeOutQuad',
-  swing: function (x, t, b, c, d) {
-    //alert(jQuery.easing.default);
-    return jQuery.easing[jQuery.easing.def](x, t, b, c, d);
-  },
-  easeInQuad: function (x, t, b, c, d) {
-    return c*(t/=d)*t + b;
-  },
-  easeOutQuad: function (x, t, b, c, d) {
-    return -c *(t/=d)*(t-2) + b;
-  },
-  easeInOutQuad: function (x, t, b, c, d) {
-    if ((t/=d/2) < 1) return c/2*t*t + b;
-    return -c/2 * ((--t)*(t-2) - 1) + b;
-  },
-  easeInCubic: function (x, t, b, c, d) {
-    return c*(t/=d)*t*t + b;
-  },
-  easeOutCubic: function (x, t, b, c, d) {
-    return c*((t=t/d-1)*t*t + 1) + b;
-  },
-  easeInOutCubic: function (x, t, b, c, d) {
-    if ((t/=d/2) < 1) return c/2*t*t*t + b;
-    return c/2*((t-=2)*t*t + 2) + b;
-  },
-  easeInQuart: function (x, t, b, c, d) {
-    return c*(t/=d)*t*t*t + b;
-  },
-  easeOutQuart: function (x, t, b, c, d) {
-    return -c * ((t=t/d-1)*t*t*t - 1) + b;
-  },
-  easeInOutQuart: function (x, t, b, c, d) {
-    if ((t/=d/2) < 1) return c/2*t*t*t*t + b;
-    return -c/2 * ((t-=2)*t*t*t - 2) + b;
-  },
-  easeInQuint: function (x, t, b, c, d) {
-    return c*(t/=d)*t*t*t*t + b;
-  },
-  easeOutQuint: function (x, t, b, c, d) {
-    return c*((t=t/d-1)*t*t*t*t + 1) + b;
-  },
-  easeInOutQuint: function (x, t, b, c, d) {
-    if ((t/=d/2) < 1) return c/2*t*t*t*t*t + b;
-    return c/2*((t-=2)*t*t*t*t + 2) + b;
-  },
-  easeInSine: function (x, t, b, c, d) {
-    return -c * Math.cos(t/d * (Math.PI/2)) + c + b;
-  },
-  easeOutSine: function (x, t, b, c, d) {
-    return c * Math.sin(t/d * (Math.PI/2)) + b;
-  },
-  easeInOutSine: function (x, t, b, c, d) {
-    return -c/2 * (Math.cos(Math.PI*t/d) - 1) + b;
-  },
-  easeInExpo: function (x, t, b, c, d) {
-    return (t==0) ? b : c * Math.pow(2, 10 * (t/d - 1)) + b;
-  },
-  easeOutExpo: function (x, t, b, c, d) {
-    return (t==d) ? b+c : c * (-Math.pow(2, -10 * t/d) + 1) + b;
-  },
-  easeInOutExpo: function (x, t, b, c, d) {
-    if (t==0) return b;
-    if (t==d) return b+c;
-    if ((t/=d/2) < 1) return c/2 * Math.pow(2, 10 * (t - 1)) + b;
-    return c/2 * (-Math.pow(2, -10 * --t) + 2) + b;
-  },
-  easeInCirc: function (x, t, b, c, d) {
-    return -c * (Math.sqrt(1 - (t/=d)*t) - 1) + b;
-  },
-  easeOutCirc: function (x, t, b, c, d) {
-    return c * Math.sqrt(1 - (t=t/d-1)*t) + b;
-  },
-  easeInOutCirc: function (x, t, b, c, d) {
-    if ((t/=d/2) < 1) return -c/2 * (Math.sqrt(1 - t*t) - 1) + b;
-    return c/2 * (Math.sqrt(1 - (t-=2)*t) + 1) + b;
-  },
-  easeInElastic: function (x, t, b, c, d) {
-    var s=1.70158;var p=0;var a=c;
-    if (t==0) return b;  if ((t/=d)==1) return b+c;  if (!p) p=d*.3;
-    if (a < Math.abs(c)) { a=c; var s=p/4; }
-    else var s = p/(2*Math.PI) * Math.asin (c/a);
-    return -(a*Math.pow(2,10*(t-=1)) * Math.sin( (t*d-s)*(2*Math.PI)/p )) + b;
-  },
-  easeOutElastic: function (x, t, b, c, d) {
-    var s=1.70158;var p=0;var a=c;
-    if (t==0) return b;  if ((t/=d)==1) return b+c;  if (!p) p=d*.3;
-    if (a < Math.abs(c)) { a=c; var s=p/4; }
-    else var s = p/(2*Math.PI) * Math.asin (c/a);
-    return a*Math.pow(2,-10*t) * Math.sin( (t*d-s)*(2*Math.PI)/p ) + c + b;
-  },
-  easeInOutElastic: function (x, t, b, c, d) {
-    var s=1.70158;var p=0;var a=c;
-    if (t==0) return b;  if ((t/=d/2)==2) return b+c;  if (!p) p=d*(.3*1.5);
-    if (a < Math.abs(c)) { a=c; var s=p/4; }
-    else var s = p/(2*Math.PI) * Math.asin (c/a);
-    if (t < 1) return -.5*(a*Math.pow(2,10*(t-=1)) * Math.sin( (t*d-s)*(2*Math.PI)/p )) + b;
-    return a*Math.pow(2,-10*(t-=1)) * Math.sin( (t*d-s)*(2*Math.PI)/p )*.5 + c + b;
-  },
-  easeInBack: function (x, t, b, c, d, s) {
-    if (s == undefined) s = 1.70158;
-    return c*(t/=d)*t*((s+1)*t - s) + b;
-  },
-  easeOutBack: function (x, t, b, c, d, s) {
-    if (s == undefined) s = 1.70158;
-    return c*((t=t/d-1)*t*((s+1)*t + s) + 1) + b;
-  },
-  easeInOutBack: function (x, t, b, c, d, s) {
-    if (s == undefined) s = 1.70158; 
-    if ((t/=d/2) < 1) return c/2*(t*t*(((s*=(1.525))+1)*t - s)) + b;
-    return c/2*((t-=2)*t*(((s*=(1.525))+1)*t + s) + 2) + b;
-  },
-  easeInBounce: function (x, t, b, c, d) {
-    return c - jQuery.easing.easeOutBounce (x, d-t, 0, c, d) + b;
-  },
-  easeOutBounce: function (x, t, b, c, d) {
-    if ((t/=d) < (1/2.75)) {
-      return c*(7.5625*t*t) + b;
-    } else if (t < (2/2.75)) {
-      return c*(7.5625*(t-=(1.5/2.75))*t + .75) + b;
-    } else if (t < (2.5/2.75)) {
-      return c*(7.5625*(t-=(2.25/2.75))*t + .9375) + b;
-    } else {
-      return c*(7.5625*(t-=(2.625/2.75))*t + .984375) + b;
-    }
-  },
-  easeInOutBounce: function (x, t, b, c, d) {
-    if (t < d/2) return jQuery.easing.easeInBounce (x, t*2, 0, c, d) * .5 + b;
-    return jQuery.easing.easeOutBounce (x, t*2-d, 0, c, d) * .5 + c*.5 + b;
-  }
-});
 
 $(function() {
   $.fn.swipe = function( callback ) {
@@ -5156,10 +5023,10 @@ pgrModule.factory('User', function ($resource) {
                 isArray: true,
                 url: host+'/users/search'
             },
-            "search_by_limit": {
+            "search_skip_limit": {
                 method: "POST",
                 isArray: true,
-                url: host+'/users/search'
+                url: host+'/users/search_skip_limit'
             }
         }
     );
@@ -6470,7 +6337,7 @@ $templateCache.put('partials/profile.html', "<div \n\tng-controller=\"NeedsAndGo
 $templateCache.put('partials/report-success.html', "<div class=\"fuckenmorda\" ng-controller=\"ReportController\">\n\t<h2>Report an Impostor Account</h2>\n\t<a ng-click=\"closeModal()\"></a>\n\t<p>Success!</p>\n</div>");
 $templateCache.put('partials/report.html', "<div class=\"fuckenmorda\" ng-controller=\"ReportController\">\n\t<ng-form name=\"ReportForm\">\n\t\t<h2>Report an Impostor Account</h2>\n\t\t<a ng-click=\"closeModal()\"></a>\n\t\t<p>If someone created an i-Rate account that’s pretending to be yours, please \n\t\tuse this form to file a report.</p>\n\t\t<input placeholder=\"Your full name\" ng-model=\"form.full_name\" required />\n\t\t<input placeholder=\"Your contact email address\" type=\"email\" ng-model=\"form.email\" required  ng-minlength=\"6\" />\n\t\t<p>Please attach a picture of a government-issued ID of the person being impersonated (ex: your ID or the ID of the person you’re authorized to represent). Cover up any personal information (ex: address, license number) that we don’t need to confirm your identity.</p>\n\t\t<b>The ID you provide:</b>\n\t\t<ul>\n\t\t\t<li>Must be government-issued (ex: passport, driver’s license)</li>\n\t\t\t<li>Must be multicolour</li>\n\t\t\t<li>Must clearly show the full name, date of birth, any photo</li>\n\t\t</ul>\n\t\t<s>Note: We won’t be able to process your request unless you submit an ID that meets these requirements.</s>\n\t\t<i>Upload an ID</i>\n\t\t<i>Your ID or an ID of a person you’re authorized to represent</i>\n\t\t<button ng-click=\"onUpload()\">Upload</button>\n\t\t<input class=\"hidden\" id=\"report_upload\" type=\"file\" name=\"file\" ng-file-select=\"onFileSelect($files, value)\" />\n\t\t<input placeholder=\"Additional info\" ng-model=\"form.additional_info\" required />\n\t\t<button ng-click=\"onReport()\" ng-disabled=\"ReportForm.$invalid\">Report</button>\n\t</ng-form>\n</div>");
 $templateCache.put('partials/right.html', "<div id=\"signin_panel\" class=\"full_height\" ng-if=\"showPanel\" >\n\t<perfect-scrollbar class=\"in scroller\" wheel-propagation=\"true\" wheel-speed=\"50\">\n\t\t<div class=\"glass\">\n\t\t\t<div class=\"full_height\" ng-if=\"state == 0\" ng-include ng-controller=\"SigninController\" src=\"'partials/signin.html'\"></div>\n\t\t\t<div class=\"full_height\" ng-if=\"state == 1\" ng-include ng-controller=\"SignupController\" src=\"'partials/signup.html'\"></div>\n\t\t\t<div class=\"full_height\" ng-if=\"state == 2\" ng-include ng-controller=\"ImprovaLoginController\" src=\"'partials/improva.html'\"></div>\n\t\t</div>\n\t</perfect-scrollbar>\n</div>");
-$templateCache.put('partials/search.html', "<div id=\"searchfull\" ng-if=\"show\"> \n\t<section class=\"searchfull\">\n\t\t<div \n\t\t\tid=\"search\" \n\t\t\tclass=\"search fullsearch\" \n\t\t\tng-controller=\"SearchController\">\n\t\t\t<div ng-controller=\"SearchLeftController\">\n\t\t\t\t<input \n\t\t\t\t\ttype=\"text\" \n\t\t\t\t\tng-model=\"searchText\" \n\t\t\t\t\tplaceholder=\"Search people\" \n\t\t\t\t\tclass=\"search\"\n\t\t\t\t\tng-change=\"onSearch()\" />\n\t\t\t\t<input type=\"button\" class=\"searcher\" ng-click=\"onSearch()\" />\n\n\t\t\t\t<div ng-cloak class=\"searchResult\" ng-if=\"resultSearch.length > 0\">\n\t\t\t\t\t<div class=\"item\" ng-repeat=\"(userKey, userItem) in resultSearch\">\n\t\t\t\t\t\t<div class=\"image\" ng-click=\"openSearchProfile(userItem.sguid)\">\n\t\t\t\t\t\t\t<img ng-src=\"{{userItem.avatar}}\" alt=\"\" err-src=\"/images/unknown-person.png\" />\n\t\t\t\t\t\t</div>\n\t\t\t\t\t\t<div class=\"text\" ng-click=\"openSearchProfile(userItem.sguid)\">\n\t\t\t\t\t\t\t<p class=\"name\">{{userItem.name}}</p>\n\t\t\t\t\t\t\t<p class=\"league\">\n\t\t\t\t\t\t\t\t<img class=\"league_icon\" ng-src=\"{{userItem.league.icon}}\" alt=\"\" /> \n\t\t\t\t\t\t\t\t{{userItem.league.name}} league\n\t\t\t\t\t\t\t</p>\n\t\t\t\t\t\t\t<p class=\"points\">{{userItem.points | unidate}}</p>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\n\t\t\t\t<div ng-controller=\"ShortLoaderController\" ng-if=\"loaderShow\" >\n\t\t\t\t\t<div class=\"loader\"></div>\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t</div>\t\n\t</section>\n\t<div \n\t\tclass=\"full_height user sha search_user\" \n\t\tng-controller=\"UserController\" \n\t\tng-include\n\t\tng-init=\"init('search_profile')\"\n\t\tsrc=\"'partials/user.html'\">\n\t</div>\n\t<div class=\"fusepar\" ng-if=\"showRight\" scroller>\n\t\t<i ng-click=\"close()\"></i>\n\t\t<div class=\"fsp\">\n\t\t\t<div class=\"ri\">\n\t\t\t\t<h6>Top</h6>\n\t\t\t\t<input \n\t\t\t\t\ttype=\"text\" \n\t\t\t\t\tng-model=\"search.top.name\" \n\t\t\t\t\tclass=\"search\"\n\t\t\t\t\tng-change=\"filteredList('topList', search.top.name, 'top')\" />\n\t\t\t\t<input type=\"button\" class=\"searcher\" ng-click=\"toggleShowState('top')\" />\n\t\t\t\t<img src=\"./images/fusedel.png\" ng-click=\"selectParam('top', '', true)\">\n\t\t\t\t<ul class=\"popup_list big\" ng-if=\"shows.top\">\n\t\t\t\t\t<li \n\t\t\t\t\t\tng-if=\"value.show\" \n\t\t\t\t\t\tng-repeat=\"(key, value) in topList\" \n\t\t\t\t\t\tng-click=\"selectTopParam('top', value)\">\n\t\t\t\t\t\t\t<img \n\t\t\t\t\t\t\t\tng-src=\"/images/goals/{{value.needName | removewhite}}/{{value.name | removewhite}}.png\"\n\t\t\t\t\t\t\t\talt=\"\"\n\t\t\t\t\t\t\t\tclass=\"goal_icon\"\n\t\t\t\t\t\t\t\ttitle=\"{{value.name}}\" />\n\t\t\t\t\t\t\t{{value.name}}\n\t\t\t\t\t</li>\n\t\t\t\t</ul>\n\t\t\t</div>\n\t\t\t<em></em>\n\t\t</div>\n\t\t<div class=\"fsp\">\n\t\t\t<div class=\"ri\">\n\t\t\t\t<h6>Career</h6>\n\t\t\t\t<input \n\t\t\t\t\ttype=\"text\" \n\t\t\t\t\tng-model=\"search.career.name\" \n\t\t\t\t\tclass=\"search\"\n\t\t\t\t\tng-change=\"filteredList('careerList', search.career.name, 'career')\" />\n\t\t\t\t<input type=\"button\" class=\"searcher\" ng-click=\"toggleShowState('career')\" />\n\t\t\t\t<img src=\"./images/fusedel.png\" ng-click=\"selectParam('career', '', true)\" />\n\t\t\t\t<ul class=\"popup_list\" ng-if=\"shows.career\">\n\t\t\t\t\t<li \n\t\t\t\t\t\tng-if=\"value.show\" \n\t\t\t\t\t\tng-repeat=\"(key, value) in careerList\" \n\t\t\t\t\t\tng-click=\"selectCareerParam('career', value)\">{{value.name}}</li>\n\t\t\t\t</ul>\n\t\t\t</div>\n\t\t\t<div class=\"ri\">\n\t\t\t\t<h6>Profession</h6>\n\t\t\t\t<input \n\t\t\t\t\ttype=\"text\" \n\t\t\t\t\tng-model=\"search.profession.name\" \n\t\t\t\t\tclass=\"search\"\n\t\t\t\t\tng-change=\"filteredList('professionList', search.profession.name, 'profession')\" />\n\t\t\t\t<input type=\"button\" class=\"searcher\" ng-click=\"toggleShowState('profession')\" />\n\t\t\t\t<img src=\"./images/fusedel.png\" ng-click=\"selectParam('profession', '', true)\">\n\t\t\t\t<ul class=\"popup_list\" ng-if=\"shows.profession\">\n\t\t\t\t\t<li ng-if=\"value.show\" ng-repeat=\"(key, value) in professionList\" ng-click=\"selectParam('profession', value)\">{{value.name}}</li>\n\t\t\t\t</ul>\n\t\t\t</div>\n\t\t\t<em></em>\n\t\t</div>\n\t\t<div class=\"fsp\">\n\t\t\t<div class=\"ri\">\n\t\t\t\t<h6>Country</h6>\n\t\t\t\t<input \n\t\t\t\t\ttype=\"text\" \n\t\t\t\t\tng-model=\"search.country.name\" \n\t\t\t\t\tclass=\"search\"\n\t\t\t\t\tng-change=\"filteredList('countriesList', search.country.name, 'country')\" />\n\t\t\t\t<input type=\"button\" class=\"searcher\" ng-click=\"toggleShowState('country')\" />\n\t\t\t\t<img src=\"./images/fusedel.png\" ng-click=\"selectParam('country', '', true)\">\n\t\t\t\t<ul class=\"popup_list\" ng-if=\"shows.country\">\n\t\t\t\t\t<li ng-if=\"value.show\" ng-repeat=\"(key, value) in countriesList\" ng-click=\"selectContryParam('country', value)\">{{value.name}}</li>\n\t\t\t\t</ul>\n\t\t\t</div>\n\t\t\t<div class=\"ri\">\n\t\t\t\t<h6>City</h6>\n\t\t\t\t<input \n\t\t\t\t\ttype=\"text\" \n\t\t\t\t\tng-model=\"search.city.name\" \n\t\t\t\t\tclass=\"search\"\n\t\t\t\t\tng-change=\"filteredList('cityList', search.city.name, 'city')\" />\n\t\t\t\t<input type=\"button\" class=\"searcher\" ng-click=\"toggleShowState('city')\" />\n\t\t\t\t<img src=\"./images/fusedel.png\" ng-click=\"selectParam('city', '', true)\">\n\t\t\t\t<ul class=\"popup_list\" ng-if=\"shows.city\">\n\t\t\t\t\t<li ng-if=\"value.show\" ng-repeat=\"(key, value) in cityList\" ng-click=\"selectParam('city', value)\">{{value.name}}</li>\n\t\t\t\t</ul>\n\t\t\t</div>\n\t\t\t<em></em>\n\t\t</div>\n\t\t<div class=\"fsp\">\n\t\t\t<div class=\"ri\">\n\t\t\t\t<h6>Birthday from</h6>\n\t\t\t\t<input type=\"text\" ng-model=\"search.birthday_from\" id=\"birthday_from\" ui-date=\"dateOptions\"  name=\"DateOfBirth1\" id=\"dFrom\" />\n\t\t\t\t<img src=\"./images/fusedel.png\" ng-click=\"selectDateParam('birthday_from', '', true)\">\n\t\t\t</div>\n\t\t\t<div class=\"ri\">\n\t\t\t\t<h6>Birthday till</h6>\n\t\t\t\t<input type=\"text\" ng-model=\"search.birthday_till\" id=\"birthday_till\" ui-date=\"dateOptions\"  name=\"DateOfBirth2\" id=\"dTill\" />\n\t\t\t\t<img src=\"./images/fusedel.png\" ng-click=\"selectDateParam('birthday_till', '', true)\">\n\t\t\t</div>\n\t\t\t<em></em>\n\t\t</div>\n\t\t<div class=\"fsp\">\n\t\t\t<div class=\"ri\">\n\t\t\t\t<h6>League</h6>\n\t\t\t\t<input \n\t\t\t\t\ttype=\"text\" \n\t\t\t\t\tng-model=\"search.league.name\" \n\t\t\t\t\tclass=\"search\" />\n\t\t\t\t<input type=\"button\" class=\"searcher\" ng-click=\"toggleShowState('league')\" />\n\t\t\t\t<img src=\"./images/fusedel.png\" ng-click=\"clearLeagueParam('league', '', true)\">\n\t\t\t\t<ul class=\"popup_list\" ng-if=\"shows.league\">\n\t\t\t\t\t<li ng-repeat=\"(key, value) in workspace.leagues | orderBy:'min_border':true\" ng-click=\"selectLeagueParam('league', value)\">{{value.name}}</li>\n\t\t\t\t</ul>\n\t\t\t\t\n\t\t\t</div>\n\t\t\t<div class=\"ri\">\n\t\t\t\t<h6>Score</h6>\n\t\t\t\t<div ui-slider=\"{range: true}\" min=\"0\" max=\"175000\" ng-model=\"search.score\"></div>\n\t\t\t\t<span>{{search.score[0]}}</span>\n\t\t\t\t<span>{{search.score[1]}}</span>\n\t\t\t</div>\n\t\t\t<em></em>\n\t\t</div>\n\t\t<div class=\"fsp fspb\">\n\t\t\t<button ng-click=\"clearAll()\">Clear all</button>\n\t\t</div>\n\t</div>\n</div>");
+$templateCache.put('partials/search.html', "<div id=\"searchfull\" ng-if=\"show\"> \n\t<section class=\"searchfull\" scroller  ng-scroll-event=\"updateOnScrollEvents($event, isEndEvent)\">\n\t\t<div \n\t\t\tid=\"search\" \n\t\t\tclass=\"search fullsearch\" \n\t\t\tng-controller=\"SearchController\">\n\t\t\t<div ng-controller=\"SearchLeftController\">\n\t\t\t\t<input \n\t\t\t\t\ttype=\"text\" \n\t\t\t\t\tng-model=\"searchText\" \n\t\t\t\t\tplaceholder=\"Search people\" \n\t\t\t\t\tclass=\"search\"\n\t\t\t\t\tng-change=\"onSearch()\" />\n\t\t\t\t<input type=\"button\" class=\"searcher\" ng-click=\"onSearch()\" />\n\n\t\t\t\t<div ng-cloak class=\"searchResult\" ng-if=\"resultSearch.length > 0\">\n\t\t\t\t\t<div class=\"item\" ng-repeat=\"(userKey, userItem) in resultSearch\">\n\t\t\t\t\t\t<div class=\"image\" ng-click=\"openSearchProfile(userItem.sguid)\">\n\t\t\t\t\t\t\t<img ng-src=\"{{userItem.avatar}}\" alt=\"\" err-src=\"/images/unknown-person.png\" />\n\t\t\t\t\t\t</div>\n\t\t\t\t\t\t<div class=\"text\" ng-click=\"openSearchProfile(userItem.sguid)\">\n\t\t\t\t\t\t\t<p class=\"name\">{{userItem.name}}</p>\n\t\t\t\t\t\t\t<p class=\"league\">\n\t\t\t\t\t\t\t\t<img class=\"league_icon\" ng-src=\"{{userItem.league.icon}}\" alt=\"\" /> \n\t\t\t\t\t\t\t\t{{userItem.league.name}} league\n\t\t\t\t\t\t\t</p>\n\t\t\t\t\t\t\t<p class=\"points\">{{userItem.points | int | unidate}}</p>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t</div>\t\n\t</section>\n\t<div \n\t\tclass=\"full_height user sha search_user\" \n\t\tng-controller=\"UserController\" \n\t\tng-include\n\t\tng-init=\"init('search_profile')\"\n\t\tsrc=\"'partials/user.html'\">\n\t</div>\n\t<div class=\"fusepar\" ng-if=\"showRight\" scroller>\n\t\t<i ng-click=\"close()\"></i>\n\t\t<div class=\"fsp\">\n\t\t\t<div class=\"ri\">\n\t\t\t\t<h6>Top</h6>\n\t\t\t\t<input \n\t\t\t\t\ttype=\"text\" \n\t\t\t\t\tng-model=\"search.top.name\" \n\t\t\t\t\tclass=\"search\"\n\t\t\t\t\tng-change=\"filteredList('topList', search.top.name, 'top')\" />\n\t\t\t\t<input type=\"button\" class=\"searcher\" ng-click=\"toggleShowState('top')\" />\n\t\t\t\t<img src=\"./images/fusedel.png\" ng-click=\"selectParam('top', '', true)\">\n\t\t\t\t<ul class=\"popup_list big\" ng-if=\"shows.top\">\n\t\t\t\t\t<li \n\t\t\t\t\t\tng-if=\"value.show\" \n\t\t\t\t\t\tng-repeat=\"(key, value) in topList\" \n\t\t\t\t\t\tng-click=\"selectTopParam('top', value)\">\n\t\t\t\t\t\t\t<img \n\t\t\t\t\t\t\t\tng-src=\"/images/goals/{{value.needName | removewhite}}/{{value.name | removewhite}}.png\"\n\t\t\t\t\t\t\t\talt=\"\"\n\t\t\t\t\t\t\t\tclass=\"goal_icon\"\n\t\t\t\t\t\t\t\ttitle=\"{{value.name}}\" />\n\t\t\t\t\t\t\t{{value.name}}\n\t\t\t\t\t</li>\n\t\t\t\t</ul>\n\t\t\t</div>\n\t\t\t<em></em>\n\t\t</div>\n\t\t<div class=\"fsp\">\n\t\t\t<div class=\"ri\">\n\t\t\t\t<h6>Career</h6>\n\t\t\t\t<input \n\t\t\t\t\ttype=\"text\" \n\t\t\t\t\tng-model=\"search.career.name\" \n\t\t\t\t\tclass=\"search\"\n\t\t\t\t\tng-change=\"filteredList('careerList', search.career.name, 'career')\" />\n\t\t\t\t<input type=\"button\" class=\"searcher\" ng-click=\"toggleShowState('career')\" />\n\t\t\t\t<img src=\"./images/fusedel.png\" ng-click=\"selectParam('career', '', true)\" />\n\t\t\t\t<ul class=\"popup_list\" ng-if=\"shows.career\">\n\t\t\t\t\t<li \n\t\t\t\t\t\tng-if=\"value.show\" \n\t\t\t\t\t\tng-repeat=\"(key, value) in careerList\" \n\t\t\t\t\t\tng-click=\"selectCareerParam('career', value)\">{{value.name}}</li>\n\t\t\t\t</ul>\n\t\t\t</div>\n\t\t\t<div class=\"ri\">\n\t\t\t\t<h6>Profession</h6>\n\t\t\t\t<input \n\t\t\t\t\ttype=\"text\" \n\t\t\t\t\tng-model=\"search.profession.name\" \n\t\t\t\t\tclass=\"search\"\n\t\t\t\t\tng-change=\"filteredList('professionList', search.profession.name, 'profession')\" />\n\t\t\t\t<input type=\"button\" class=\"searcher\" ng-click=\"toggleShowState('profession')\" />\n\t\t\t\t<img src=\"./images/fusedel.png\" ng-click=\"selectParam('profession', '', true)\">\n\t\t\t\t<ul class=\"popup_list\" ng-if=\"shows.profession\">\n\t\t\t\t\t<li ng-if=\"value.show\" ng-repeat=\"(key, value) in professionList\" ng-click=\"selectParam('profession', value)\">{{value.name}}</li>\n\t\t\t\t</ul>\n\t\t\t</div>\n\t\t\t<em></em>\n\t\t</div>\n\t\t<div class=\"fsp\">\n\t\t\t<div class=\"ri\">\n\t\t\t\t<h6>Country</h6>\n\t\t\t\t<input \n\t\t\t\t\ttype=\"text\" \n\t\t\t\t\tng-model=\"search.country.name\" \n\t\t\t\t\tclass=\"search\"\n\t\t\t\t\tng-change=\"filteredList('countriesList', search.country.name, 'country')\" />\n\t\t\t\t<input type=\"button\" class=\"searcher\" ng-click=\"toggleShowState('country')\" />\n\t\t\t\t<img src=\"./images/fusedel.png\" ng-click=\"selectParam('country', '', true)\">\n\t\t\t\t<ul class=\"popup_list\" ng-if=\"shows.country\">\n\t\t\t\t\t<li ng-if=\"value.show\" ng-repeat=\"(key, value) in countriesList\" ng-click=\"selectContryParam('country', value)\">{{value.name}}</li>\n\t\t\t\t</ul>\n\t\t\t</div>\n\t\t\t<div class=\"ri\">\n\t\t\t\t<h6>City</h6>\n\t\t\t\t<input \n\t\t\t\t\ttype=\"text\" \n\t\t\t\t\tng-model=\"search.city.name\" \n\t\t\t\t\tclass=\"search\"\n\t\t\t\t\tng-change=\"filteredList('cityList', search.city.name, 'city')\" />\n\t\t\t\t<input type=\"button\" class=\"searcher\" ng-click=\"toggleShowState('city')\" />\n\t\t\t\t<img src=\"./images/fusedel.png\" ng-click=\"selectParam('city', '', true)\">\n\t\t\t\t<ul class=\"popup_list\" ng-if=\"shows.city\">\n\t\t\t\t\t<li ng-if=\"value.show\" ng-repeat=\"(key, value) in cityList\" ng-click=\"selectParam('city', value)\">{{value.name}}</li>\n\t\t\t\t</ul>\n\t\t\t</div>\n\t\t\t<em></em>\n\t\t</div>\n\t\t<div class=\"fsp\">\n\t\t\t<div class=\"ri\">\n\t\t\t\t<h6>Birthday from</h6>\n\t\t\t\t<input type=\"text\" ng-model=\"search.birthday_from\" id=\"birthday_from\" ui-date=\"dateOptions\"  name=\"DateOfBirth1\" id=\"dFrom\" />\n\t\t\t\t<img src=\"./images/fusedel.png\" ng-click=\"selectDateParam('birthday_from', '', true)\">\n\t\t\t</div>\n\t\t\t<div class=\"ri\">\n\t\t\t\t<h6>Birthday till</h6>\n\t\t\t\t<input type=\"text\" ng-model=\"search.birthday_till\" id=\"birthday_till\" ui-date=\"dateOptions\"  name=\"DateOfBirth2\" id=\"dTill\" />\n\t\t\t\t<img src=\"./images/fusedel.png\" ng-click=\"selectDateParam('birthday_till', '', true)\">\n\t\t\t</div>\n\t\t\t<em></em>\n\t\t</div>\n\t\t<div class=\"fsp\">\n\t\t\t<div class=\"ri\">\n\t\t\t\t<h6>League</h6>\n\t\t\t\t<input \n\t\t\t\t\ttype=\"text\" \n\t\t\t\t\tng-model=\"search.league.name\" \n\t\t\t\t\tclass=\"search\" />\n\t\t\t\t<input type=\"button\" class=\"searcher\" ng-click=\"toggleShowState('league')\" />\n\t\t\t\t<img src=\"./images/fusedel.png\" ng-click=\"clearLeagueParam('league', '', true)\">\n\t\t\t\t<ul class=\"popup_list\" ng-if=\"shows.league\">\n\t\t\t\t\t<li ng-repeat=\"(key, value) in workspace.leagues | orderBy:'min_border':true\" ng-click=\"selectLeagueParam('league', value)\">{{value.name}}</li>\n\t\t\t\t</ul>\n\t\t\t\t\n\t\t\t</div>\n\t\t\t<div class=\"ri\">\n\t\t\t\t<h6>Score</h6>\n\t\t\t\t<div ui-slider=\"{range: true}\" min=\"0\" max=\"175000\" ng-model=\"search.score\"></div>\n\t\t\t\t<span>{{search.score[0]}}</span>\n\t\t\t\t<span>{{search.score[1]}}</span>\n\t\t\t</div>\n\t\t\t<em></em>\n\t\t</div>\n\t\t<div class=\"fsp fspb\">\n\t\t\t<button ng-click=\"clearAll()\">Clear all</button>\n\t\t</div>\n\t</div>\n</div>");
 $templateCache.put('partials/share.html', "<div ng-controller=\"ShareController\">\n\t<a \n\t\thref=\"https://twitter.com/intent/tweet?text=iRate&url=http://www.irate.com\" \n\t\ttarget=\"_blank\"></a>\n\t<a \n\t\tng-click=\"shareFacebook('http://www.irate.com', 'iRate', '', 'http://www.improva.com/src/assets/images/icons/improva_icon.png')\" class=\"facebook\"></a>\n\t<a \n\t\tng-click=\"shareGoogle('http://www.irate.com')\" \n\t\tclass=\"google\"></a>\t\n</div>");
 $templateCache.put('partials/signin.html', "<h4>Sign in</h4>\n<div class=\"sign-in\">\n  <ng-form \n    id=\"login_form\" \n    name=\"LoginForm\" \n    novalidate \n    class=\"css-form myForm\">\n    <p>\n      <input \n        type=\"email\" \n        id=\"login_i\" \n        class=\"form-input\"\n        ng-model=\"login.email\"\n        name=\"Email\"\n        required \n        ng-minlength=\"6\"\n        placeholder=\"Email\"\n        ui-keypress=\"{13:'onKeyPress(LoginForm.$invalid)'}\"/>\n      <br />\n      <span \n      \tclass=\"errorss\" \n      \tng-show=\"LoginForm.Email.$dirty && (LoginForm.Email.$error.required || LoginForm.Email.$error.minlength || LoginForm.Email.$error.email)\">Incorrect email\n      </span>\n    </p>       \n    <p>\n      <input \n        type=\"password\" \n        id=\"pass_i\"\n        class=\"form-input\"\n        ng-model=\"login.password\"\n        required \n        name=\"Password\"\n        ng-minlength=\"6\"\n        placeholder=\"Password\"\n        ui-keypress=\"{13:'onKeyPress(LoginForm.$invalid)'}\"\n        ng-trim=\"false\" /> \n      <br />\n      <span \n      \tclass=\"errorss rss\" \n      \tng-show=\"LoginForm.Password.$dirty && (LoginForm.Password.$error.required || LoginForm.Password.$error.minlength)\">Incorrect password\n      </span>\n    </p>\n    <div class=\"step\">\n      <p>\n        <a href=\"#/change_password\">Forgot your password?</a>\n      </p>\n      <p>\n        <input type=\"checkbox\"  />\n        <label>Keep me signed in</label>\n      </p>\n      <p class=\"errors\" ng-show=\"error\">{{error}}</p>\n      <p class=\"singin-sub\">\n        <input \n          ng-disabled=\"LoginForm.$invalid\"\n          ng-click=\"onSingin()\" \n          type=\"button\"\n          value=\"Sign in\" />\n      </p>    \n    </div>\n    <div class=\"rere\">\n      <p>Don’t have an iRate account yet?</p>\t\n      <p class=\"singin-sub\">\n        <input \n          ng-click=\"changeState(states.SIGNUP)\" \n          type=\"button\" \n          value=\"Sign up\"\n          />\n      </p>          \n    </div>\n\n    <!-- social link -->\n    <i>Use Improva, Facebook, Google+, LiveID or your email to sign in.</i>    \n    <ul>\n      <li>\n        <a ng-click=\"improvaLogin()\">\n          <span class=\"icon improva\" ng-click=\"changeState(states.IMPROVA)\"></span>\n        </a>\n      </li>\n      <li>\n        <a ng-click=\"socialFacebookLogin()\">\n          <span class=\"icon facebook\"></span>\n        </a>\n      </li>\n      <li>\n        <a ng-click=\"socialGooglePlusLogin()\">\n          <span class=\"icon google\"></span>\n        </a>\n      </li>\n      <li>\n        <a ng-click=\"socialMicrosoftLiveLogin()\">\n          <span class=\"icon live\"></span>\n        </a>\n      </li>\n    </ul>\n  </ng-form>\n</div>");
 $templateCache.put('partials/signup-success.html', "<div class=\"small-message\">\n\t<h2>Successful registration!</h2>\n\t<p>The message have been sent to your email. <br />Sign in by the inner link now.</p>\n\t<a ng-click=\"closeModal()\" class=\"close\">Ok</a>\n</div>");
@@ -9044,7 +8911,7 @@ function RootController($scope, FacebookService, СareerService, LeagueService, 
     });
     
     $scope.$on('professionsLoad', function(event, message) {
-        if(!$scope.workspace.professions || message.force == true) {
+        if(!$scope.workspace.professions || (message && message.force == true)) {
             ProfessionService.getList($scope.professionServiceCallback_);
         }
     });
@@ -9062,6 +8929,12 @@ function SearchAdvanceController($scope, $location, $rootScope, User, Profession
      * @type {[type]}
      */
     $scope.searchText = $location.search().text;
+
+    $scope.skip = 0;
+
+    $scope.limit = 15;
+
+    
 
     // определяем показываем ли мы панель или нет
     $scope.showTest = function() {
@@ -9482,6 +9355,10 @@ function SearchAdvanceController($scope, $location, $rootScope, User, Profession
             params["name"] = $scope.searchText;
         }
 
+        params["skip"] = $scope.skip;
+
+        params["limit"] = $scope.limit;
+
         return params;
     }
 
@@ -9490,20 +9367,27 @@ function SearchAdvanceController($scope, $location, $rootScope, User, Profession
      * @return {[type]} [description]
      */
     $scope.advanceSearch = function() {
-        $scope.loaderShow = true;
+        $scope.skip = 0;
         $rootScope.$broadcast('updateLeftSearchList', {data: []});
 
-        User.search({}, $scope.translateParamsToServer_(), $scope.advanceSearchCallback_);
+        User.search_skip_limit({}, $scope.translateParamsToServer_(), $scope.advanceSearchCallback_);
     }
 
-    /**
-     * Callback для поиска
-     * @param  {[type]} data [description]
-     * @return {[type]}      [description]
-     */
+    $scope.updateOnScrollEvents = function($event, isEndEvent) {
+        if(isEndEvent) {
+            $scope.skip += $scope.limit;
+
+            User.search_skip_limit({}, $scope.translateParamsToServer_(), $scope.advanceSearchPushCallback_);
+        }
+    }
+
+    
     $scope.advanceSearchCallback_ = function(data) {
-        $scope.loaderShow = false;
         $rootScope.$broadcast('updateLeftSearchList', {data: data});
+    }
+
+    $scope.advanceSearchPushCallback_ = function(data) {
+        $rootScope.$broadcast('updateLeftSearchPushList', {data: data});
     }
 
     /**
@@ -9591,7 +9475,7 @@ function SearchAdvanceController($scope, $location, $rootScope, User, Profession
 function SearchLeftController($scope, $location, $rootScope, User, $timeout) {
 	// забираем текст поиска из location
     $scope.searchText = $location.search().text;
-    $scope.resultSearch = User.search({}, { name: $scope.searchText }, $scope.advanceSearchCallback_);
+    $scope.resultSearch = User.search_skip_limit({}, { name: $scope.searchText, skip: $scope.skip, limit: $scope.limit }, $scope.advanceSearchCallback_);
 
 
 	// ловим собыития с данными из расширенного поиска
@@ -9599,8 +9483,14 @@ function SearchLeftController($scope, $location, $rootScope, User, $timeout) {
         $scope.resultSearch = message.data;
     });
 
+    $scope.$on('updateLeftSearchPushList', function(event, message) {
+        $scope.resultSearch = $scope.resultSearch.concat(message.data);
+    });
+
     $scope.advanceSearchCallback_ = function(data) {
+        $scope.loaderShow = false;
         $scope.resultSearch = data;
+        console.log($scope.loaderShow);
     }
 
     // ищем в списке пользователей
@@ -9715,7 +9605,7 @@ function SearchController($scope, User, $rootScope, $location, $timeout) {
 
             $scope.changeTimer = setTimeout(function() {
                 $scope.$apply(function() {
-                    $scope.resultSearch = User.search({}, { name: text }, $scope.advanceSearchCallback_);
+                    $scope.resultSearch = User.search_skip_limit({}, { name: text, limit: 6, skip: 0 }, $scope.advanceSearchCallback_);
                     $scope.changeTimer = false;
                 });
             }, 700);
@@ -9861,7 +9751,7 @@ function ShortLoaderController($scope, $element) {
       top: 'auto',
       left: 'auto'
     };
-    console.log($element.find(".loader")[0]);
+
     var spinner = new Spinner(opts).spin($element.find(".loader")[0]);
 }
 /**

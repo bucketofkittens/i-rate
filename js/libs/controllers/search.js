@@ -96,7 +96,7 @@ function SearchController($scope, User, $rootScope, $location, $timeout) {
 
             $scope.changeTimer = setTimeout(function() {
                 $scope.$apply(function() {
-                    $scope.resultSearch = User.search({}, { name: text }, $scope.advanceSearchCallback_);
+                    $scope.resultSearch = User.search_skip_limit({}, { name: text, limit: 6, skip: 0 }, $scope.advanceSearchCallback_);
                     $scope.changeTimer = false;
                 });
             }, 700);

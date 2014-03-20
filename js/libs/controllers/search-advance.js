@@ -8,6 +8,12 @@ function SearchAdvanceController($scope, $location, $rootScope, User, Profession
      */
     $scope.searchText = $location.search().text;
 
+    $scope.skip = 0;
+
+    $scope.limit = 15;
+
+    
+
     // определяем показываем ли мы панель или нет
     $scope.showTest = function() {
         $scope.show = $location.search().search  ? true : false;
@@ -427,6 +433,10 @@ function SearchAdvanceController($scope, $location, $rootScope, User, Profession
             params["name"] = $scope.searchText;
         }
 
+        params["skip"] = $scope.skip;
+
+        params["limit"] = $scope.limit;
+
         return params;
     }
 
@@ -435,20 +445,27 @@ function SearchAdvanceController($scope, $location, $rootScope, User, Profession
      * @return {[type]} [description]
      */
     $scope.advanceSearch = function() {
-        $scope.loaderShow = true;
+        $scope.skip = 0;
         $rootScope.$broadcast('updateLeftSearchList', {data: []});
 
-        User.search({}, $scope.translateParamsToServer_(), $scope.advanceSearchCallback_);
+        User.search_skip_limit({}, $scope.translateParamsToServer_(), $scope.advanceSearchCallback_);
     }
 
-    /**
-     * Callback для поиска
-     * @param  {[type]} data [description]
-     * @return {[type]}      [description]
-     */
+    $scope.updateOnScrollEvents = function($event, isEndEvent) {
+        if(isEndEvent) {
+            $scope.skip += $scope.limit;
+
+            User.search_skip_limit({}, $scope.translateParamsToServer_(), $scope.advanceSearchPushCallback_);
+        }
+    }
+
+    
     $scope.advanceSearchCallback_ = function(data) {
-        $scope.loaderShow = false;
         $rootScope.$broadcast('updateLeftSearchList', {data: data});
+    }
+
+    $scope.advanceSearchPushCallback_ = function(data) {
+        $rootScope.$broadcast('updateLeftSearchPushList', {data: data});
     }
 
     /**

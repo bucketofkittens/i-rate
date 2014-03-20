@@ -1,5 +1,5 @@
 <div id="searchfull" ng-if="show"> 
-	<section class="searchfull">
+	<section class="searchfull" scroller  ng-scroll-event="updateOnScrollEvents($event, isEndEvent)">
 		<div 
 			id="search" 
 			class="search fullsearch" 
@@ -24,13 +24,9 @@
 								<img class="league_icon" ng-src="{{userItem.league.icon}}" alt="" /> 
 								{{userItem.league.name}} league
 							</p>
-							<p class="points">{{userItem.points | unidate}}</p>
+							<p class="points">{{userItem.points | int | unidate}}</p>
 						</div>
 					</div>
-				</div>
-
-				<div ng-controller="ShortLoaderController" ng-if="loaderShow" >
-					<div class="loader"></div>
 				</div>
 			</div>
 		</div>	

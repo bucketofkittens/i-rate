@@ -352,7 +352,7 @@ sup.bidubi{top:13px !important;border-width:23px 0 23px 15px}
 #searchfull .searchfull{position:absolute;left:0;width:400px;height:100%;min-height:550px;box-shadow:inset -5px 0 20px 1px rgba(0,0,0,0.5);z-index:3;display:inline-block;overflow-y:scroll;overflow-x:hidden;background:url("../images/glass.png") left top no-repeat;background-size:100% 100%}#searchfull .searchfull::-webkit-scrollbar{width:0;height:0}
 #searchfull .searchfull .search{margin-top:60px}
 #searchfull .searchfull .fullsearch input[type="text"]{left:0;width:398px;height:40px;background:url("../images/sbg.png") -3px top no-repeat;background-size:403px 40px;border:none;color:#fff}
-#searchfull .searchfull .fullsearch .searchResult{width:400px;right:0;min-height:2000px;position:relative;top:0;padding-top:0;background:none}#searchfull .searchfull .fullsearch .searchResult img{cursor:pointer}
+#searchfull .searchfull .fullsearch .searchResult{width:400px;right:0;position:relative;top:0;padding-top:0;background:none}#searchfull .searchfull .fullsearch .searchResult img{cursor:pointer}
 #searchfull .searchfull .fullsearch .searchResult .item{width:380px}#searchfull .searchfull .fullsearch .searchResult .item img{width:80px;margin-right:10px}
 #searchfull .searchfull .fullsearch .searchResult .item .sealin{background:none;top:20px}
 #searchfull .searchfull .fullsearch .searchResult .item .text{padding-left:25px}
@@ -383,7 +383,7 @@ sup.bidubi{top:13px !important;border-width:23px 0 23px 15px}
 .controller__search .proffesion_list{margin-left:0;margin-top:-2px;width:200px;display:none;max-height:300px;overflow:auto}.controller__search .proffesion_list li{cursor:pointer}
 .controller__search .proffesion_list.show{display:block}
 #masonry_parent{width:105%;overflow:auto;-webkit-overflow-scrolling:touch;z-index:9}#masonry_parent::-webkit-scrollbar{width:0;height:0}
-#masonry .item{float:left}
+#masonry .item{-webkit-transform:translate3d(0, 0, 0);float:left}
 .isotope,.isotope .isotope-item{-webkit-transition-duration:.8s;-moz-transition-duration:.8s;-ms-transition-duration:.8s;-o-transition-duration:.8s;transition-duration:.8s}
 .isotope{-webkit-transition-property:height,width,opacity;-moz-transition-property:height,width,opacity;-ms-transition-property:height,width,opacity;-o-transition-property:height,width,opacity;transition-property:height,width,opacity}
 .isotope .isotope-item{-webkit-transition-property:height,width,opacity,max-width,max-height;-moz-transition-property:height,width,opacity,max-width,max-height;-ms-transition-property:height,width,opacity,max-width,max-height;-o-transition-property:height,width,opacity,max-width,max-height;transition-property:height,width,opacity,max-width,max-height}

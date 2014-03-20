@@ -150,10 +150,10 @@ pgrModule.factory('User', function ($resource) {
                 isArray: true,
                 url: host+'/users/search'
             },
-            "search_by_limit": {
+            "search_skip_limit": {
                 method: "POST",
                 isArray: true,
-                url: host+'/users/search'
+                url: host+'/users/search_skip_limit'
             }
         }
     );

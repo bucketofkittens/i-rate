@@ -17,6 +17,6 @@ function ShortLoaderController($scope, $element) {
       top: 'auto',
       left: 'auto'
     };
-    console.log($element.find(".loader")[0]);
+
     var spinner = new Spinner(opts).spin($element.find(".loader")[0]);
 }
