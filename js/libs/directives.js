@@ -317,22 +317,24 @@ pgrModule.directive('masonry', function(User, $rootScope) {
   return {
     link: function($scope, element, attrs) {
       var parentElement = element.parent()[0];
-      var timer;
+      var is_load = false;
 
       // добавляем скроллинг мышкой
       $(parentElement).on("mousewheel DOMMouseScroll", function($event) {
-        if(self.view_count < self.total_count && $(parentElement).scrollTop()+$(parentElement).height() == $(parentElement)[0].scrollHeight) {
+        if(!self.is_load && self.view_count < self.total_count && $(parentElement).scrollTop()+$(parentElement).height() == $(parentElement)[0].scrollHeight) {
           self.view_count += self.limit;
           self.skip += self.limit;
-          self.getUsersFromBackend(self, loadUserCallback_);
+          self.is_load = true;
+          self.getUsersFromBackend(self, self.loadUserCallback_);
         }
       });
 
       $(parentElement).on("touchmove", function($event) {
-        if(self.view_count < self.total_count && $(parentElement).scrollTop()+$(parentElement).height() == $(parentElement)[0].scrollHeight) {
+        if(!self.is_load && self.view_count < self.total_count && $(parentElement).scrollTop()+$(parentElement).height() == $(parentElement)[0].scrollHeight) {
           self.view_count += self.limit;
           self.skip += self.limit;
-          self.getUsersFromBackend(self, loadUserCallback_);
+          self.is_load = true;
+          self.getUsersFromBackend(self, self.loadUserCallback_);
         }
       });
 
@@ -471,6 +473,7 @@ pgrModule.directive('masonry', function(User, $rootScope) {
 
       this.loadUserCallback_ = function(data, self, callback) {
         var items = $scope.appendElements(data);
+        self.is_load = false;
 
         $(items).imagesLoaded( function() {
           $(element).isotope("insert", $(items));
