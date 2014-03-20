@@ -19,7 +19,7 @@ function UserCommentsController($scope, Comments, $rootScope) {
     $scope.getMessages = function() {
         Comments.get_by_user({owner_guid: $scope.user.sguid, owner_type: 0}, {}, function(data) {
             angular.forEach(data, function(value, key) {
-                value.post_date = moment.utc(value.post_date).format("MMM DD, YYYY h:mm a");
+                value.post_date = moment.utc(value.post_date).format("MM/DD/YYYY h:mm a");
             });
             
             $scope.commentsList = data;
