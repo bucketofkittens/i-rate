@@ -119,7 +119,6 @@ function RootController($scope, FacebookService, СareerService, LeagueService, 
     });
     
     $scope.$on('professionsLoad', function(event, message) {
-        console.log(event);
         if(!$scope.workspace.professions || message.force == true) {
             ProfessionService.getList($scope.professionServiceCallback_);
         }
