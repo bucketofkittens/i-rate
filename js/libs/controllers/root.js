@@ -46,10 +46,7 @@ function RootController($scope, FacebookService, СareerService, LeagueService, 
     
     $scope.needsServiceCallback_ = function(data) {
         $scope.workspace.needs = data;
-        
     }
-
-    
 
     $scope.countryServiceCallback_ = function(data) {
         $scope.workspace.country = data;
@@ -76,25 +73,34 @@ function RootController($scope, FacebookService, СareerService, LeagueService, 
     // событие загрузки списка нидсов
     $scope.$on('needsLoad', function(event) {
         // список нидсов
-        NeedsService.getList($scope.needsServiceCallback_);
+        if(!$scope.workspace.needs) {
+            NeedsService.getList($scope.needsServiceCallback_);    
+        }
+        
     });
 
     // событие загрузки списка стран
     $scope.$on('countryLoad', function(event) {
         // список стран
-        CountryService.getList($scope.countryServiceCallback_);
+        if(!$scope.workspace.country) {
+            CountryService.getList($scope.countryServiceCallback_);    
+        }
     });
 
     // событие загрузки списка лиг
     $scope.$on('reloadLeagues', function(event) {
         // список лиг
-        LeagueService.getList($scope.leagueServiceCallback_);
+        if(!$scope.workspace.leagues) {
+            LeagueService.getList($scope.leagueServiceCallback_);    
+        }
     });
 
     // событие загрузки пользвателей
     $scope.$on('usersLoad', function(event) {
         // список пользвателей
-        UserService.getAll($scope.userServiceCallback_);
+        if(!$scope.workspace.users) {
+            UserService.getAll($scope.userServiceCallback_);    
+        }
     });
 
     UserService.getAuthData($scope.getAuthDataCallback_);
