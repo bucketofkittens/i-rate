@@ -8,8 +8,7 @@ module.exports = function(grunt) {
             main: {
                 src: [
                 	'js/jquery-2.0.3.min.js',
-                    'js/jquery.Jcrop.min.js',
-                    'js/jquery.jcrop-canvas.js',
+                    'js/js/hammer.min.js',
                 	'js/angular.min.js',
                 	'js/angular-route.min.js',
                     'js/angular-animate.min.js',
@@ -20,6 +19,7 @@ module.exports = function(grunt) {
                     'js/angular-recaptcha.min.js',
                     'js/angular-google-plus.js',
                     'js/angular-google-analytics.js',
+                    'js/jquery.cropbox.js',
                     'js/jquery-ui-1.10.4.custom.min.js',
                     'js/jquery.ui.touch-punch.min.js',
                     'js/jquery.mousewheel.js',
@@ -52,6 +52,7 @@ module.exports = function(grunt) {
                     "css/reset.css",
                     "css/rzslider.min.css",
                     "css/master.css",
+                    "css/jquery.cropbox.css",
                     "css/dark-hive/jquery.ui.theme.css",
                     "css/dark-hive/jquery-ui.min.css"
                 ],
