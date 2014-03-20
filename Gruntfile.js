@@ -8,7 +8,8 @@ module.exports = function(grunt) {
             main: {
                 src: [
                 	'js/jquery-2.0.3.min.js',
-                    'js/js/hammer.min.js',
+                    'js/hammer.min.js',
+                    'js/jquery.hammer.min.js'
                 	'js/angular.min.js', 
                 	'js/angular-route.min.js',
                     'js/angular-animate.min.js',
