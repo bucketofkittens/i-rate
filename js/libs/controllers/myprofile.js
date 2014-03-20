@@ -82,6 +82,10 @@ function MyProfileController($scope, $location, LocationService, $rootScope, $ti
     $scope.updateProfileState = function() {
     	if($location.search().myprofile) {
         	$scope.showProfile = true;
+            
+            $rootScope.$broadcast('careersLoad'); 
+            
+            $rootScope.$broadcast('professionsLoad');
 
         	// проверяем существование nav в location
         	if(!$location.search().nav) {

@@ -1,25 +1,19 @@
 // контроллер вкладки настроки своего профиля
 function MyProfileSettingsController($scope, UserService, SocialService, FriendsService, TokenService, $rootScope, $location, SocialService, CityService, ProfessionsService, $timeout, AllUserService, СareerService, ProfessionService) {
-	// список городов
-	$scope.city = [];
+    // список городов
+    $scope.city = [];
 
-    // спиосок карьер
-    $scope.careers = [];
+    // показывать или нет список городов
+    $scope.showCityList = false;
 
-	// спиосок профессий
-	$scope.professions = [];
+    // показывать или нет список профессий
+    $scope.showProfessionList = false;
 
-	// показывать или нет список городов
-	$scope.showCityList = false;
+    // показывать или нет кнопку добавления города
+    $scope.showCityAddButton = false;
 
-	// показывать или нет список профессий
-	$scope.showProfessionList = false;
-
-	// показывать или нет кнопку добавления города
-	$scope.showCityAddButton = false;
-
-	// показывать или нет кнопку добавления профессии
-	$scope.showProfessionAddButton = false;
+    // показывать или нет кнопку добавления профессии
+    $scope.showProfessionAddButton = false;
 
     $scope.showUsersList = false;
 
@@ -29,31 +23,31 @@ function MyProfileSettingsController($scope, UserService, SocialService, Friends
         }
     });
 
-    	// выходим из пользователя
-	$scope.onLogout = function() {
-		// убиваем токен
-		TokenService.remove();
+    // выходим из пользователя
+    $scope.onLogout = function() {
+        // убиваем токен
+        TokenService.remove();
 
-		// убираем данные о пользователе из кеша
-		UserService.clearAuthData();
+        // убираем данные о пользователе из кеша
+        UserService.clearAuthData();
 
         UserService.clearAdmin();
 
-		// убираем зписить из кеша о социалках
-		SocialService.clear();
+        // убираем зписить из кеша о социалках
+        SocialService.clear();
 
-		// удаляем пользователя из scope
-		$scope.workspace.user = null;
+        // удаляем пользователя из scope
+        $scope.workspace.user = null;
 
-		// забираем список друзей для не авторизованного пользователя
-		$scope.workspace.friends = FriendsService.getList();
+        // забираем список друзей для не авторизованного пользователя
+        $scope.workspace.friends = FriendsService.getList();
 
-		// скрываем окошко профиля
-		$rootScope.$broadcast('closeProfile');
+        // скрываем окошко профиля
+        $rootScope.$broadcast('closeProfile');
 
-		// скрываем подложную тенюшку
-		$rootScope.$broadcast('hideShadow');
-	}
+        // скрываем подложную тенюшку
+        $rootScope.$broadcast('hideShadow');
+    };
 
     $scope.updateName = function() {
         var countView = 0;
@@ -125,7 +119,7 @@ function MyProfileSettingsController($scope, UserService, SocialService, Friends
 
     // callback удаления города
     $scope.deleteProfessionItemCallback_ = function(data, key) {
-        $scope.city.splice(key, 1);
+        $scope.workspace.professions.splice(key, 1);
     }
 
     // событие удаления города
@@ -260,7 +254,7 @@ function MyProfileSettingsController($scope, UserService, SocialService, Friends
     	var countView = 0;
 
     	if($scope.workspace.user.profession.name.length > 0) {
-            angular.forEach($scope.professions, function(value, key) {
+            angular.forEach($scope.workspace.professions, function(value, key) {
                 var reg = new RegExp($scope.workspace.user.profession.name, "i");
                 if(reg.test(value.name)) {
                 	value.show = true;
@@ -305,8 +299,8 @@ function MyProfileSettingsController($scope, UserService, SocialService, Friends
 
         $scope.showProfessionList = false;
         $scope.showProfessionAddButton = false;
-
-        ProfessionService.getList($scope.professionServiceCallback_);
+        
+        $rootScope.$broadcast('professionsLoad', {force: true});
     };
 
     // callback добавление нового города
@@ -348,7 +342,6 @@ function MyProfileSettingsController($scope, UserService, SocialService, Friends
     	CityService.getCityByState($scope.workspace.user.state.sguid, $scope.cityByStateCallback_);
     }
 
-
     // загружаем список стран
     $rootScope.$broadcast('countryLoad');
 
@@ -358,19 +351,6 @@ function MyProfileSettingsController($scope, UserService, SocialService, Friends
         yearRange: '1900:-0',
         dateFormat: 'dd/mm/yy'
     };
-
-    $scope.careerServiceCallback_ = function(data) {
-        data.push({
-            name: "",
-            sguid: ""
-        });
-        $scope.careers = data;
-    };
-
-    $scope.professionServiceCallback_ = function(data) {
-        $scope.professions = data;
-    };
-
-    СareerService.getList($scope.careerServiceCallback_);
-    ProfessionService.getList($scope.professionServiceCallback_);
+    
+    
 }

@@ -20,7 +20,11 @@ function SearchAdvanceController($scope, $location, $rootScope, User, Profession
             $rootScope.$broadcast('countryLoad');
 
             // загружаем список карьер
-            $rootScope.$broadcast('needsLoad');     
+            $rootScope.$broadcast('needsLoad');
+            
+            $rootScope.$broadcast('careersLoad'); 
+            
+            $rootScope.$broadcast('professionsLoad'); 
         }
     }
 
@@ -99,6 +103,26 @@ function SearchAdvanceController($scope, $location, $rootScope, User, Profession
      * @type {Object}
      */
     $scope.topList = [];
+    
+    $scope.$watch('workspace.professions', function (newVal, oldVal, scope) {
+        if($scope.workspace.professions) {
+            angular.forEach($scope.workspace.professions, function(value, key) {
+                value.show = true;
+            });
+            
+            $scope.professionList = $scope.workspace.professions;
+        }
+    });
+    
+    $scope.$watch('workspace.careers', function (newVal, oldVal, scope) {
+        if($scope.workspace.careers) {
+            angular.forEach($scope.workspace.careers, function(value, key) {
+                value.show = true;
+            });
+            
+            $scope.careerList = $scope.workspace.careers;
+        }
+    });
 
     $scope.clearLeagueParam = function() {
         $scope.score = [0, 175000];
@@ -506,23 +530,5 @@ function SearchAdvanceController($scope, $location, $rootScope, User, Profession
         changeMonth: true,
         yearRange: '1900:-0'
     };
-
-
-    $scope.careerServiceCallback_ = function(data) {
-        angular.forEach(data, function(value, key) {
-            value.show = true;
-        });
-        $scope.careerList = data;
-    }
-
-    $scope.professionServiceCallback_ = function(data) {
-        angular.forEach(data, function(value, key) {
-            value.show = true;
-        });
-        $scope.professionList = data;
-    }
-
-    СareerService.getList($scope.careerServiceCallback_);
-    ProfessionService.getList($scope.professionServiceCallback_);
     
 }

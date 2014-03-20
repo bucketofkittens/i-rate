@@ -2,7 +2,7 @@
  * Основной контроллер.
  * В нем используются данные которые нужны на всех страницах.
  */
-function RootController($scope, FacebookService, СareerService, LeagueService, CountryService, NeedsService, FriendsService, UserService, User, $rootScope,  $location) {
+function RootController($scope, FacebookService, СareerService, LeagueService, CountryService, NeedsService, FriendsService, UserService, User, $rootScope,  $location, ProfessionService) {
     
     /**
      * Открывает модальное окно
@@ -59,7 +59,15 @@ function RootController($scope, FacebookService, СareerService, LeagueService, 
     $scope.userServiceCallback_ = function(data) {
         $scope.workspace.users = data;
     }
-
+    
+    $scope.careerServiceCallback_ = function(data) {
+        $scope.workspace.careers = data;
+    }
+    
+    $scope.professionServiceCallback_ = function(data) {
+        $scope.workspace.professions = data;
+    }
+    
     $scope.openProfile = function() {
         $rootScope.$broadcast('openProfile');
     }
@@ -100,6 +108,20 @@ function RootController($scope, FacebookService, СareerService, LeagueService, 
         // список пользвателей
         if(!$scope.workspace.users) {
             UserService.getAll($scope.userServiceCallback_);    
+        }
+    });
+    
+    // событие загрузки пользвателей
+    $scope.$on('careersLoad', function(event) {
+        if(!$scope.workspace.careers) {
+            СareerService.getList($scope.careerServiceCallback_);  
+        }
+    });
+    
+    $scope.$on('professionsLoad', function(event, message) {
+        console.log(event);
+        if(!$scope.workspace.professions || message.force == true) {
+            ProfessionService.getList($scope.professionServiceCallback_);
         }
     });
 
