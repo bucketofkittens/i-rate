@@ -41,10 +41,12 @@ function CropImageController($scope, $rootScope, TokenService, UserService) {
             var cropWidth = crop_img.width();
             var cropHeight = crop_img.height();
 
-            $scope.positions.x = naturalWidth/cropWidth*$scope.positions.x;
-            $scope.positions.y = naturalHeight/cropHeight*$scope.positions.y;
-            $scope.positions.w = naturalWidth/cropWidth*$scope.positions.w;
-            $scope.positions.h = naturalHeight/cropHeight*$scope.positions.h;
+            $scope.positions.x = $scope.positions.cropX;
+            $scope.positions.y = $scope.positions.cropY;
+            $scope.positions.w = $scope.positions.cropW;
+            $scope.positions.h = $scope.positions.cropH;
+
+            console.log($scope.positions);
 
             $(canvas).attr("width",$scope.positions.w);
             $(canvas).attr("height",$scope.positions.h);
@@ -101,20 +103,13 @@ function CropImageController($scope, $rootScope, TokenService, UserService) {
             $(crop_img).attr("src", data.target.result);
             $rootScope.$broadcast('loaderHide');
             
-            /*if($scope.jcrop) {
-                $scope.jcrop.data('Jcrop').destroy();
-            }*/
-           
-            //$scope.jcrop = crop_img.Jcrop({boxWidth: 400, boxHeight: "auto", aspectRatio: 1, setSelect: [0, 0, 200, 200], onChange: function(data) {
-              //  $scope.positions = data;
-           //}});
-            
             crop_img.cropbox({
                 width: 400,
                 height: 400,
                 showControls: "always"
             }).on('cropbox', function(e, data) {
-                console.log(data);
+                console.log(e);
+                $scope.positions = data;
             });
             
         };
