@@ -48,7 +48,7 @@ function MyProfileProfileController($scope, $rootScope, $location, LocationServi
 	    	if(!goalName) {
                 $scope.moveToGoal($scope.defaultGoalName);
 	    	} else {
-                LocationService.update("goal", goalName);
+                $scope.moveToGoal($scope.defaultGoalName);
             }
 	    }
     }
