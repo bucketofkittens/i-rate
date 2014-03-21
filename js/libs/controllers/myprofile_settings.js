@@ -77,8 +77,19 @@ function MyProfileSettingsController($scope, UserService, SocialService, Friends
         $scope.updateUserParamByValue('published', $scope.workspace.user.published);
     }
 
+    $("body").on("change", "#photo_crop", function() {
+        var file = this.files[0];
+        console.log(file);
+        if(file) {
+            $rootScope.$broadcast('cropImageRead');
+        } else {
+            $rootScope.$broadcast('cropImageClose');
+            
+        }
+    });
+
 	// открываем модальное окно манипуляций с картинками
-	$scope.onReadFile = function($event) {
+	$scope.onOpenFile = function($event) {
         $rootScope.$broadcast('cropImage');
     }
 

@@ -407,7 +407,6 @@ pgrModule.directive('masonry', function(User, $rootScope) {
       }
 
       $scope.addUser = function(value) {
-        console.log(value);
         if(value.avatar && value.league ) {
             if(value.artificial || !value.league.secure || (value.league.secure && !value.artificial && value.allowed_for_publish)) {
               var newDiv = document.createElement('div');

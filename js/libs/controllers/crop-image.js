@@ -11,10 +11,14 @@ function CropImageController($scope, $rootScope, TokenService, UserService) {
     $scope.jcrop = null;
 
     $scope.$on('cropImage', function($event) {
-        $rootScope.$broadcast('loaderShow');
+        console.log("cropImage");
         $scope.user = $scope.workspace.user;
         $scope.show = true;
         $("#crop_modal").show();
+    });
+
+    $scope.$on('cropImageRead', function($event) {
+        $rootScope.$broadcast('loaderShow');
         $scope.onReadFile();
     });
 
@@ -24,6 +28,7 @@ function CropImageController($scope, $rootScope, TokenService, UserService) {
 
     $scope.close = function() {
         $scope.show = false;
+
         $("#crop_modal").hide();
     }
 
@@ -96,7 +101,7 @@ function CropImageController($scope, $rootScope, TokenService, UserService) {
         var file = document.getElementById("photo_crop").files[0];
         var reader = new FileReader();
         var positions = [];
-        
+
         reader.onload = function(data) {
             var crop_img = $("#crop_img");
             $scope.imageData = data.target.result;
@@ -108,7 +113,6 @@ function CropImageController($scope, $rootScope, TokenService, UserService) {
                 height: 400,
                 showControls: "always"
             }).on('cropbox', function(e, data) {
-                console.log(e);
                 $scope.positions = data;
             });
             
