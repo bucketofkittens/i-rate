@@ -534,7 +534,7 @@ pgrModule.directive('masonry', function(User, $rootScope) {
             self.total_count = data[0].total_count;
          
             self.view_count += self.limit;
-          if(self.view_count < self.total_count && $(element).height() < $(window).height()) {
+          if(self.view_count < self.total_count) {
             self.skip += self.limit;
 
             // рекурсивно берем еще пользователей
