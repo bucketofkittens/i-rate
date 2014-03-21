@@ -8421,7 +8421,6 @@ function NeedsAndGoalsController($scope, СareerService, UserService, Goals, Cri
      * @return {[type]}      [description]
      */
     $scope.getCriteriumValueByUser = function(value, callback) {
-        console.log("criterion_by_id_and_user");
         CriterionByGoal.criterion_by_id_and_user({sguid: value.sguid, user_sguid: $scope.user.sguid}, function(data) {
             if(data[0] && data[0].criteria_value_sguid) {
                 value.user_criteria_sguid = data[0].criteria_value_sguid;
@@ -8464,11 +8463,15 @@ function NeedsAndGoalsController($scope, СareerService, UserService, Goals, Cri
                     criteria.user_criteria_id = data.message.sguid;
                     criteria.user_criteria_sguid = criteriaValue.sguid;
 
+                    $scope.updateLeague();
+
                     $rootScope.$broadcast('userCriteriaUpdate');
                 });
             } else {
                 if(criteria.user_criteria_id) {
                     UserCriteriaValue.del({id: criteria.user_criteria_id}, {}, function(data) {
+                        $scope.updateLeague();
+                        
                         $rootScope.$broadcast('userCriteriaUpdate');
                     }); 
                 } else {
@@ -8500,11 +8503,13 @@ function NeedsAndGoalsController($scope, СareerService, UserService, Goals, Cri
 
             $scope.workspace.user.points = newPoints;
             UserService.setAuthData($scope.workspace.user);
-
-            User.update_legue({id: $scope.workspace.user.sguid}, function(data) {
-                $scope.workspace.user.league = data.message;
-            });
         }
+    }
+
+    $scope.updateLeague = function() {
+        User.update_legue({id: $scope.workspace.user.sguid}, function(data) {
+            $scope.workspace.user.league = data.message;
+        });
     }
 
     /**
