@@ -78,6 +78,8 @@ function UserController($scope, FriendsService, UserService, User, $location, Lo
 
     // закрывает плашку с текущим пользователем
     $scope.close = function() {
+        $scope.cacheId = null;
+        $scope.user = null;
         $location.search($scope.route, null);
         $rootScope.$broadcast('closeUserPanel', {route: $scope.route});
     }
