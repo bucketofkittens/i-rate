@@ -226,6 +226,8 @@ function NeedsAndGoalsController($scope, СareerService, UserService, Goals, Cri
     $scope.updateLeague = function() {
         User.update_legue({id: $scope.workspace.user.sguid}, function(data) {
             $scope.workspace.user.league = data.message;
+
+            $rootScope.$broadcast('updateLeague');
         });
     }
 
