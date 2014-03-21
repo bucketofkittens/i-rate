@@ -407,35 +407,38 @@ pgrModule.directive('masonry', function(User, $rootScope) {
       }
 
       $scope.addUser = function(value) {
-        if(value.avatar && value.league) {
-            var newDiv = document.createElement('div');
-            newDiv.className = 'item isotope-item iso-item all';
-            newDiv.setAttribute("data-id", value.sguid);
-            
-            newDiv.style.width = value.league.size ? value.league.size+"px" : "70px";
-            newDiv.style.height = value.league.size ? value.league.size+"px" : "70px";  
+        console.log(value);
+        if(value.avatar && value.league ) {
+            if(value.artificial || !value.league.secure || (value.league.secure && !value.artificial && value.allowed_for_publish)) {
+              var newDiv = document.createElement('div');
+              newDiv.className = 'item isotope-item iso-item all';
+              newDiv.setAttribute("data-id", value.sguid);
+              
+              newDiv.style.width = value.league.size ? value.league.size+"px" : "70px";
+              newDiv.style.height = value.league.size ? value.league.size+"px" : "70px";  
 
-            var newSubDiv = document.createElement('div');
-            newSubDiv.className = 'wr';
+              var newSubDiv = document.createElement('div');
+              newSubDiv.className = 'wr';
 
-            newDiv.appendChild(newSubDiv);
+              newDiv.appendChild(newSubDiv);
 
-            var img = document.createElement('img');
-            img.src = value.avatar;
-            img.width = value.league.size ? value.league.size : "70";
-            img.height = value.league.size ? value.league.size : "70";
+              var img = document.createElement('img');
+              img.src = value.avatar;
+              img.width = value.league.size ? value.league.size : "70";
+              img.height = value.league.size ? value.league.size : "70";
 
-            if(value.league.is_points) {
-              var scoreSpan = document.createElement('span');
-              if(value.league.font) {
-                scoreSpan.style.fontSize = value.league.font+"px";  
+              if(value.league.is_points) {
+                var scoreSpan = document.createElement('span');
+                if(value.league.font) {
+                  scoreSpan.style.fontSize = value.league.font+"px";  
+                }
+                scoreSpan.innerHTML = unidate(parseInt(value.points).toString());
+                newSubDiv.appendChild(scoreSpan);
               }
-              scoreSpan.innerHTML = unidate(parseInt(value.points).toString());
-              newSubDiv.appendChild(scoreSpan);
-            }
 
-            newSubDiv.appendChild(img);
-            return $scope.nodeToString(newDiv);  
+              newSubDiv.appendChild(img);
+              return $scope.nodeToString(newDiv);
+            }
           }
           return "";
       }

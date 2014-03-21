@@ -114,7 +114,6 @@ function NSIController($scope, Leagues, $rootScope, $timeout, LeagueService, Tok
      * @return {[type]}       [description]
      */
     $scope.update = function(value) {
-
         Leagues.updateLeague(
             {id: value.sguid}, 
             {
