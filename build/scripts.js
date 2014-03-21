@@ -4098,7 +4098,7 @@ pgrModule.directive('scrolls', function() {
     link: function(scope, element, attrs) {
       $(element).on("scroll", function() {
         var elements = $("."+attrs.scrollsClass);
-        $(elements).not("#"+element.attr("id")).scrollTop($(element).scrollTop());
+        $(elements).scrollTop($(element).scrollTop());
       });
     }
   }
