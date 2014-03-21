@@ -105,6 +105,8 @@ function LeaguesController($scope, $location, $rootScope, User, LocationService,
     $scope.selectLeague = function(sguid) {
         $scope.skip = 0;
         LocationService.update("league", sguid);
+        $(".user_list").scrollTop(0);
+        $(".user_list").perfectScrollbar('update');
     }
 
     $scope.loadUsersByLeague = function(sguid) {
