@@ -383,8 +383,6 @@ body {
     .tabss {
         overflow: hidden;
         position: relative;
-        overflow-y: scroll;
-        -webkit-overflow-scrolling: touch;
         top: 0px;
         &.current_2 {
             overflow: visible !important;
@@ -5310,6 +5308,9 @@ and (max-device-width : 1024px)  {
         .user {
             width: auto !important;
         }
+    }
+    .tabss {
+        overflow-y: auto !important;
     }
 }
 
