@@ -463,7 +463,7 @@ pgrModule.directive('masonry', function(User, $rootScope) {
         if($scope.workspace.user.published) {
           var userElement = $scope.getUserByGuid($scope.workspace.user.sguid);
           if(userElement) {
-            $(userElement).find("span").html($scope.workspace.user.points);
+            $(userElement).find("span").html($scope.workspace.user.points.toString().replace(/(\d)(?=(\d\d\d)+([^\d]|$))/g, '$1 '));
           }
         }
       }
