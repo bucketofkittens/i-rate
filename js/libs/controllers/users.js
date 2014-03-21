@@ -55,6 +55,10 @@ function UsersController($scope, $location, $rootScope, $timeout, NeedsService, 
         $scope.needsValues = $scope.clearRoute($scope.needsValues, message.route);
         $scope.goalsValues = $scope.clearRoute($scope.goalsValues, message.route);
         $scope.criteriumsValues = $scope.clearRoute($scope.criteriumsValues, message.route);
+
+        if(!$location.search().user1 && $location.search().user2) {
+            $location.search({user1: $location.search().user2});
+        }
     });
 
     // строим массив значений
