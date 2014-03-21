@@ -12,6 +12,8 @@ function SearchAdvanceController($scope, $location, $rootScope, User, Profession
 
     $scope.limit = 15;
 
+    $scope.timer = null;
+
     
 
     // определяем показываем ли мы панель или нет
@@ -445,10 +447,16 @@ function SearchAdvanceController($scope, $location, $rootScope, User, Profession
      * @return {[type]} [description]
      */
     $scope.advanceSearch = function() {
-        $scope.skip = 0;
-        $rootScope.$broadcast('updateLeftSearchList', {data: []});
+        if($scope.timer !== false) clearTimeout($scope.timer);
 
-        User.search_skip_limit({}, $scope.translateParamsToServer_(), $scope.advanceSearchCallback_);
+        $scope.timer = setTimeout(function() {
+            $scope.$apply(function() {
+                $scope.skip = 0;
+                $rootScope.$broadcast('updateLeftSearchList', {data: []});
+
+                User.search_skip_limit({}, $scope.translateParamsToServer_(), $scope.advanceSearchCallback_);
+            });
+        }, 700);
     }
 
     $scope.updateOnScrollEvents = function($event, isEndEvent) {
