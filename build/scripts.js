@@ -3936,7 +3936,6 @@ pgrModule.config(function(GooglePlusProvider) {
 pgrModule.config(function(AnalyticsProvider) {
     AnalyticsProvider.setAccount('UA-45318170-2');
     AnalyticsProvider.trackPages(true);
-    AnalyticsProvider.trackPrefix('i-rate');
     AnalyticsProvider.useAnalytics(true);
     AnalyticsProvider.useEnhancedLinkAttribution(true);
     AnalyticsProvider.setPageEvent('$stateChangeSuccess');
@@ -6608,7 +6607,7 @@ function ChangeEmailController($scope, User, $location, Sessions) {
         });
     }
 }
-function ChangePasswordController($scope, Sessions, User, $location, $rootScope, MailHash, $routeParams, Password, $window, $cookieStore) {
+function ChangePasswordController($scope, Sessions, User, $location, $rootScope, MailHash, $routeParams, Password, $window, $cookieStore, $window) {
     $scope.show = false;
 
     $scope.form = {
@@ -6643,13 +6642,7 @@ function ChangePasswordController($scope, Sessions, User, $location, $rootScope,
     }
 
     $scope.onBack = function() {
-        if($cookieStore.get("changePasswordOnUser")) {
-            $location.path("/my_profile");
-        } else {
-            $location.path("/login");
-        }
-
-        $cookieStore.remove("changePasswordOnUser");
+        $window.history.back();
     }
 
     $scope.onChangePasswordChanged = function() {
