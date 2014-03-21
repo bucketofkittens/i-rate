@@ -154,9 +154,8 @@ pgrModule.directive('scrolls', function() {
   return {
     link: function(scope, element, attrs) {
       $(element).on("scroll", function() {
-        console.log(scroll);
         var elements = $("."+attrs.scrollsClass);
-        $(elements).scrollTop($(element).scrollTop());
+        $(elements).not("#"+element.attr("id")).scrollTop($(element).scrollTop());
       });
     }
   }
