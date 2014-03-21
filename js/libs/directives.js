@@ -448,7 +448,11 @@ pgrModule.directive('masonry', function(User, $rootScope) {
 
       $scope.currentUserUpdate = function() {
         if($scope.workspace.user.published) {
-          $scope.addCurrentUser();
+          if($scope.workspace.user.league.secure && !$scope.workspace.user.artificial && !$scope.workspace.user.allowed_for_publish) {
+            $scope.removeCurrentUser();
+          } else {
+            $scope.addCurrentUser();
+          }
         } else {
           $scope.removeCurrentUser();
         }
@@ -461,6 +465,12 @@ pgrModule.directive('masonry', function(User, $rootScope) {
       });
 
       $scope.$watch("workspace.user", function (newVal, oldVal, scope) {
+        if($scope.workspace.user) {
+          $scope.currentUserUpdate();
+        }
+      });
+
+      $scope.$on("userCriteriaUpdate", function (newVal, oldVal, scope) {
         if($scope.workspace.user) {
           $scope.currentUserUpdate();
         }
