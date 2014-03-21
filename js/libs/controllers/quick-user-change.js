@@ -5,7 +5,7 @@ function QuickUserChangeCtrl($scope, UserService, User, $rootScope, SessionsServ
 	$scope.nextUser = null;
 
     $scope.$watch('nextUser', function (newVal, oldVal, scope) {
-        console.log(newVal);
+        
     });
 
 	// переход на другого пользователя

@@ -5428,8 +5428,7 @@ pgrModule.factory('CriterionByGoal', function ($resource) {
             'criterion_by_id_and_user': {
                 method: 'GET',
                 isArray: true,
-                url: host+"/criterion/by_id/:sguid/by_user/:user_sguid",
-                cache : true
+                url: host+"/criterion/by_id/:sguid/by_user/:user_sguid"
             },
         }
     );
@@ -8389,10 +8388,11 @@ function NeedsAndGoalsController($scope, СareerService, UserService, Goals, Cri
 
         // всего критериев
         var maxCount_ = goal.criterion_guids.length;
-
         angular.forEach(goal.criterion_guids, function(value, key){
             CriterionService.by_guid(value, function(data) {
+
                 goal.criteriums.push(data[0]);
+
                 $scope.getCriteriumValueByUser(data[0], function() {
                     countDataLoad_ += 1;
 
@@ -8421,6 +8421,7 @@ function NeedsAndGoalsController($scope, СareerService, UserService, Goals, Cri
      * @return {[type]}      [description]
      */
     $scope.getCriteriumValueByUser = function(value, callback) {
+        console.log("criterion_by_id_and_user");
         CriterionByGoal.criterion_by_id_and_user({sguid: value.sguid, user_sguid: $scope.user.sguid}, function(data) {
             if(data[0] && data[0].criteria_value_sguid) {
                 value.user_criteria_sguid = data[0].criteria_value_sguid;
@@ -8453,10 +8454,7 @@ function NeedsAndGoalsController($scope, СareerService, UserService, Goals, Cri
      * @return {[type]}          [description]
      */
     $scope.onCriteriaSelect = function(criteriaValue, criteria, $event, needItem, goalItem) {
-
         if(!$($event.target).hasClass("current")) {
-            CriterionService.remove(goalItem.sguid, $scope.workspace.user.sguid);
-            
             if(criteriaValue.sguid !== "none") {
                 UserCriteriaValue.create({}, $.param({
                     "user_guid": $scope.workspace.user.sguid,
@@ -8464,6 +8462,8 @@ function NeedsAndGoalsController($scope, СareerService, UserService, Goals, Cri
                     "criteria_value_guid": criteriaValue.sguid
                 }), function(data) {
                     criteria.user_criteria_id = data.message.sguid;
+                    criteria.user_criteria_sguid = criteriaValue.sguid;
+
                     $rootScope.$broadcast('userCriteriaUpdate');
                 });
             } else {
@@ -8476,11 +8476,8 @@ function NeedsAndGoalsController($scope, СareerService, UserService, Goals, Cri
                 }
             }
 
-            var target = $event.target.tagName == "LI" ? $($event.target) : $($event.target).parent();
-            $scope.setCriteriaPosition(target);
             $scope.updateNeedsAndAreaPoints(criteriaValue, criteria, needItem, goalItem, true);
         }
-        
     }
 
     /**
@@ -8616,43 +8613,6 @@ function NeedsAndGoalsController($scope, СareerService, UserService, Goals, Cri
     }
 
     /**
-     * перемещает текущее положение колбасок
-     * @param {[type]} elm [description]
-     */
-    $scope.setCriteriaPosition = function(elm) {
-        var parentLi  = elm,
-            parentUl  = parentLi.parent(),
-            slider = parentUl.parent().find("span");
-
-        parentUl.find("li").removeClass("current");
-        parentLi.addClass("current");
-
-        if($(parentLi).size() > 0 && parentLi.index() != 0) {
-            var size = parentLi.get(0).offsetLeft + parentLi.get(0).clientWidth;
-            if (size <  15) {
-                size = 0;
-            }
-            slider.css("width", size + "px");
-        } else {
-            slider.css("width", "10px");
-        }
-        
-        var isCurrent = false;
-        $.each(parentUl.find("li"), function(key, value) {
-            if(!isCurrent) {
-                $(value).addClass("white-text");
-            } else {
-                $(value).removeClass("white-text");
-            }
-            
-            if(value == parentLi.get(0)) {
-                isCurrent = true;
-            }
-            
-        });
-    }
-
-    /**
      * выставляет колбаски на коль
      * @param {[type]} elm [description]
      */
@@ -8711,7 +8671,7 @@ function QuickUserChangeCtrl($scope, UserService, User, $rootScope, SessionsServ
 	$scope.nextUser = null;
 
     $scope.$watch('nextUser', function (newVal, oldVal, scope) {
-        console.log(newVal);
+        
     });
 
 	// переход на другого пользователя
