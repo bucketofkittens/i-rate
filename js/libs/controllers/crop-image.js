@@ -84,6 +84,8 @@ function CropImageController($scope, $rootScope, TokenService, UserService) {
                         $scope.close();
 
                         UserService.setAuthData($scope.workspace.user);
+
+                        $rootScope.$broadcast('updateAvatar');
                     }
                     $rootScope.$broadcast('loaderHide');
                     $scope.shouldBeOpen = false; 

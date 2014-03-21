@@ -4412,6 +4412,15 @@ pgrModule.directive('masonry', function(User, $rootScope) {
         }
       }
 
+      $scope.currentUserUpdateAvatar = function() {
+        if($scope.workspace.user.published) {
+          var userElement = $scope.getUserByGuid($scope.workspace.user.sguid);
+          if(userElement) {
+            $(userElement).find("img").attr("src", $scope.workspace.user.avatar);
+          }
+        }
+      }
+
       $scope.$watch("workspace.user.published", function (newVal, oldVal, scope) {
         if($scope.workspace.user) {
           $scope.currentUserUpdate();
@@ -4427,6 +4436,13 @@ pgrModule.directive('masonry', function(User, $rootScope) {
       $scope.$on("updateLeague", function (newVal, oldVal, scope) {
         if($scope.workspace.user) {
           $scope.currentUserUpdate();
+        }
+      });
+
+      $scope.$on("updateAvatar", function (newVal, oldVal, scope) {
+        console.log("updateAvatar");
+        if($scope.workspace.user) {
+          $scope.currentUserUpdateAvatar();
         }
       });
 
@@ -6925,6 +6941,8 @@ function CropImageController($scope, $rootScope, TokenService, UserService) {
                         $scope.close();
 
                         UserService.setAuthData($scope.workspace.user);
+
+                        $rootScope.$broadcast('updateAvatar');
                     }
                     $rootScope.$broadcast('loaderHide');
                     $scope.shouldBeOpen = false; 
