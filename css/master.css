@@ -609,3 +609,4 @@ input:invalid{box-shadow:none}
 .cropControls{height:50px !important}.cropControls span{font-size:15px !important;margin:15px 0 0 20px !important}
 .cropControls a{margin:12px 12px 0 20px !important;width:25px !important;height:25px !important;line-height:22px !important;font-size:20px !important}
 p.bla{width:300px !important}
+.pointer{cursor:pointer}

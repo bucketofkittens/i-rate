@@ -1,7 +1,7 @@
 /**
  * форма модального окна авторизации
  */
-function SigninController($scope, $rootScope, $timeout, SessionsService, FacebookService, SocialService, UserService, MSLiveService, GooglePlusService, User) {
+function SigninController($scope, $rootScope, $timeout, SessionsService, FacebookService, SocialService, UserService, MSLiveService, GooglePlusService, User, $location) {
     // сообщение об ошибке
     $scope.error = null;
 
@@ -16,6 +16,11 @@ function SigninController($scope, $rootScope, $timeout, SessionsService, Faceboo
         if(!state) {
             $scope.onSingin();
         }
+    }
+
+    // переход на страницу смены пароля
+    $scope.onChangePassword = function() {
+        $location.search({ change_password: true });
     }
 
     $scope.getFriendsCallback_ = function(data) {
