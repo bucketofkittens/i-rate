@@ -104,7 +104,6 @@ pgrModule.config(function(GooglePlusProvider) {
 pgrModule.config(function(AnalyticsProvider) {
     AnalyticsProvider.setAccount('UA-45318170-2');
     AnalyticsProvider.trackPages(true);
-    AnalyticsProvider.trackPrefix('i-rate');
     AnalyticsProvider.useAnalytics(true);
     AnalyticsProvider.useEnhancedLinkAttribution(true);
     AnalyticsProvider.setPageEvent('$stateChangeSuccess');
