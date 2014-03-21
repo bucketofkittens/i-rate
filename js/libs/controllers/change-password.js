@@ -1,4 +1,4 @@
-function ChangePasswordController($scope, Sessions, User, $location, $rootScope, MailHash, $routeParams, Password, $window, $cookieStore) {
+function ChangePasswordController($scope, Sessions, User, $location, $rootScope, MailHash, $routeParams, Password, $window, $cookieStore, $window) {
     $scope.show = false;
 
     $scope.form = {
@@ -33,13 +33,7 @@ function ChangePasswordController($scope, Sessions, User, $location, $rootScope,
     }
 
     $scope.onBack = function() {
-        if($cookieStore.get("changePasswordOnUser")) {
-            $location.path("/my_profile");
-        } else {
-            $location.path("/login");
-        }
-
-        $cookieStore.remove("changePasswordOnUser");
+        $window.history.back();
     }
 
     $scope.onChangePasswordChanged = function() {
