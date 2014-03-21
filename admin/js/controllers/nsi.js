@@ -124,7 +124,8 @@ function NSIController($scope, Leagues, $rootScope, $timeout, LeagueService, Tok
                     name: value.name,
                     size: value.size,
                     is_points: value.is_points,
-                    font: value.font
+                    font: value.font,
+                    secure: value.secure
                 })
             }, function(data) {
 
