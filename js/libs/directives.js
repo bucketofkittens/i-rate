@@ -451,13 +451,20 @@ pgrModule.directive('masonry', function(User, $rootScope) {
           
           if($scope.workspace.user.league.secure && !$scope.workspace.user.artificial && !$scope.workspace.user.allowed_for_publish) {
             $scope.removeCurrentUser();
-            console.log("removeCurrentUser");
           } else {
             $scope.addCurrentUser();
-            console.log("addCurrentUser");
           }
         } else {
           $scope.removeCurrentUser();
+        }
+      }
+
+      $scope.currentUserUpdatePoints = function() {
+        if($scope.workspace.user.published) {
+          var userElement = $scope.getUserByGuid($scope.workspace.user.sguid);
+          if(userElement) {
+            $(userElement).find("span").html($scope.workspace.user.points);
+          }
         }
       }
 
@@ -476,6 +483,12 @@ pgrModule.directive('masonry', function(User, $rootScope) {
       $scope.$on("updateLeague", function (newVal, oldVal, scope) {
         if($scope.workspace.user) {
           $scope.currentUserUpdate();
+        }
+      });
+
+      $scope.$on("userCriteriaUpdate", function (newVal, oldVal, scope) {
+        if($scope.workspace.user) {
+          $scope.currentUserUpdatePoints();
         }
       });
 
