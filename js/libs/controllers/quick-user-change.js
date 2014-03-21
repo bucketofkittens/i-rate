@@ -4,6 +4,10 @@
 function QuickUserChangeCtrl($scope, UserService, User, $rootScope, SessionsService, TokenService) {
 	$scope.nextUser = null;
 
+    $scope.$watch('nextUser', function (newVal, oldVal, scope) {
+        console.log(newVal);
+    });
+
 	// переход на другого пользователя
     $scope.onMoveUserClick = function($event) {
         SessionsService.signin({
