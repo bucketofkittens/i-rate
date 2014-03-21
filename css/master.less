@@ -231,6 +231,7 @@ body {
     .pmain {   
         display: inline-block;
         vertical-align: top;
+        width: 95%;
         .du {
             left: 0px !important;
             right: auto !important;
@@ -3024,6 +3025,13 @@ sup.bidubi {
     background: url("../images/glass.png") left top no-repeat;
     background-size: 100% 100%;
     box-shadow: inset 5px 0px 20px 1px rgba(0, 0, 0, 0.7);
+    overflow-y: auto;
+    overflow-x: hidden;
+    -webkit-overflow-scrolling: touch;
+    &::-webkit-scrollbar {
+        width: 0px;
+        height: 0px; 
+    }
 }
 .fusepar {
     display: inline-block;
@@ -5183,6 +5191,14 @@ input:invalid {
 
 .league_user {
     float: left;
+    height: 100%;
+    overflow-y: auto;
+    overflow-x: hidden;
+    -webkit-overflow-scrolling: touch;
+    &::-webkit-scrollbar {
+        width: 0px;
+        height: 0px; 
+    }
 } 
 
 #content .search_user .mynav ul {
@@ -5248,8 +5264,12 @@ input:invalid {
     background: url("../images/glass.png") left top no-repeat;
     background-size: 100% 100%;
     background-color: rgba(0, 0, 0, 0.2);
+    position: relative;
     .mynav {
         width: 550px;
+    }
+    .pmain {
+        width: 530px !important;
     }
 }
 
