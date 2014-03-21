@@ -88,7 +88,15 @@ function ChangePasswordController($scope, Sessions, User, $location, $rootScope,
     // событие переключчения состояния страницы.
     $scope.$on('$locationChangeSuccess', function () {
         $scope.show = $location.search().change_password ? true : false;
+
+        if($scope.show) {
+            $scope.state = 1;
+        }
     });
 
     $scope.show = $location.search().change_password ? true : false;
+
+    if($scope.show) {
+        $scope.state = 1;
+    }
 }
