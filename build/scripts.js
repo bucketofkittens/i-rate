@@ -3882,21 +3882,21 @@ var pgrModule = angular.module(
 		"ngResource",
 		"ngAnimate",
 		"ngSanitize",
-    "ui.date",
-    "ui.utils",
+        "ui.date",
+        "ui.utils",
 		'ngTouch', 
 		"localization",
 		"googleplus",
 		"facebook",
-    'ui.slider',
-    'ui.keypress',
-    'vcRecaptcha',
-    'ui.select2',
-    'angular-google-analytics',
-    'monospaced.elastic',
-    'perfect_scrollbar',
-    'angularFileUpload',
-    'ngScrollEvent'
+        'ui.slider',
+        'ui.keypress',
+        'vcRecaptcha',
+        'ui.select2',
+        'angular-google-analytics',
+        'monospaced.elastic',
+        'perfect_scrollbar',
+        'angularFileUpload',
+        'ngScrollEvent'
 	]
 );
 
