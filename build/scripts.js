@@ -4407,7 +4407,7 @@ pgrModule.directive('masonry', function(User, $rootScope) {
         if($scope.workspace.user.published) {
           var userElement = $scope.getUserByGuid($scope.workspace.user.sguid);
           if(userElement) {
-            $(userElement).find("span").html($scope.workspace.user.points);
+            $(userElement).find("span").html($scope.workspace.user.points.toString().replace(/(\d)(?=(\d\d\d)+([^\d]|$))/g, '$1 '));
           }
         }
       }
@@ -7379,6 +7379,8 @@ function LeaguesController($scope, $location, $rootScope, User, LocationService,
     $scope.selectLeague = function(sguid) {
         $scope.skip = 0;
         LocationService.update("league", sguid);
+        $(".user_list").scrollTop(0);
+        $(".user_list").perfectScrollbar('update');
     }
 
     $scope.loadUsersByLeague = function(sguid) {
@@ -7920,7 +7922,7 @@ function MyProfileProfileController($scope, $rootScope, $location, LocationServi
 	    	if(!goalName) {
                 $scope.moveToGoal($scope.defaultGoalName);
 	    	} else {
-                LocationService.update("goal", goalName);
+                $scope.moveToGoal($scope.defaultGoalName);
             }
 	    }
     }
@@ -10238,6 +10240,8 @@ function UserController($scope, FriendsService, UserService, User, $location, Lo
 
     // закрывает плашку с текущим пользователем
     $scope.close = function() {
+        $scope.cacheId = null;
+        $scope.user = null;
         $location.search($scope.route, null);
         $rootScope.$broadcast('closeUserPanel', {route: $scope.route});
     }
@@ -10355,6 +10359,10 @@ function UsersController($scope, $location, $rootScope, $timeout, NeedsService, 
         $scope.needsValues = $scope.clearRoute($scope.needsValues, message.route);
         $scope.goalsValues = $scope.clearRoute($scope.goalsValues, message.route);
         $scope.criteriumsValues = $scope.clearRoute($scope.criteriumsValues, message.route);
+
+        if(!$location.search().user1 && $location.search().user2) {
+            $location.search({user1: $location.search().user2});
+        }
     });
 
     // строим массив значений
