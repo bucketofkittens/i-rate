@@ -4105,14 +4105,16 @@ pgrModule.directive('scrolls', function() {
         });
       });
 
-      /*$(element).swipe(function(direction, offset) {
+      $(element).swipe(function(direction, offset) {
         var elements = $("."+attrs.scrollsClass);
         var step = offset.y/4;
 
         $.each(elements, function(key, value) {
-          $(value).scrollTop($(value).scrollTop()+step);  
+          if($(value).attr("id") != $(element).attr("id")) {
+            $(value).scrollTop($(value).scrollTop()+step); 
+          }
         });
-      });*/
+      });
     }
   }
 })
