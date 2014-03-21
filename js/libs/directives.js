@@ -164,7 +164,7 @@ pgrModule.directive('scrolls', function() {
 
       $(element).swipe(function(direction, offset) {
         var elements = $("."+attrs.scrollsClass);
-        var step = offset.y/3;
+        var step = offset.y/4;
 
         $.each(elements, function(key, value) {
             $(value).scrollTop($(value).scrollTop()+step);
