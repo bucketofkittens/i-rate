@@ -4096,24 +4096,10 @@ pgrModule.directive('positionGraph', function() {
 pgrModule.directive('scrolls', function() {
   return {
     link: function(scope, element, attrs) {
-      $(element).on("mousewheel DOMMouseScroll", function($event) {
+      $(element).on("scroll", function() {
+        console.log(scroll);
         var elements = $("."+attrs.scrollsClass);
-        var step = $event.originalEvent.wheelDeltaY ? $event.originalEvent.wheelDeltaY : $event.originalEvent.detail * 5;
-
-        $.each(elements, function(key, value) {
-            $(value).scrollTop($(value).scrollTop()-step);
-        });
-      });
-
-      $(element).swipe(function(direction, offset) {
-        var elements = $("."+attrs.scrollsClass);
-        var step = offset.y/4;
-
-        $.each(elements, function(key, value) {
-          if($(value).attr("id") != $(element).attr("id")) {
-            $(value).scrollTop($(value).scrollTop()+step); 
-          }
-        });
+        $(elements).scrollTop($(element).scrollTop());
       });
     }
   }
