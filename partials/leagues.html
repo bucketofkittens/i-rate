@@ -24,6 +24,13 @@
 			</ul>
 		</perfect-scrollbar>
 		<div 
+			class="user_short" 
+			ng-controller="UserShortController" 
+			ng-include
+			ng-init="init('league_user')"
+			src="'partials/user/short.html'">
+		</div>
+		<div 
 			class="full_height user sha league_user persona" 
 			ng-controller="UserController" 
 			ng-include

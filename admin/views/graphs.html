@@ -23,7 +23,7 @@
 
 	<ul id="loosers">
 		<li ng-repeat="(uKey,uItem) in looserUser">
-			<a ng-if="uItem" href="#/profile/{{uItem.sguid}}">
+			<a ng-if="uItem" ng-click="openUser(uItem)">
 				<img ng-if="uItem.avatar" ng-src="{{uItem.avatar}}" />
 				<img ng-if="!uItem.avatar" src="./images/unknown-person.png" />	
 			</a>
