@@ -6612,6 +6612,15 @@ function ChangePasswordController($scope, Sessions, User, $location, $rootScope,
     $scope.onChangePasswordChanged = function() {
         $scope.state = 1;
         $scope.message = 0;
+
+        $scope.form = {
+            oldPassword: "",
+            newPassword: "",
+            confirmPassword: "",
+            email: "",
+            code: ""
+        }
+        
         $scope.onBack();
     }
 
