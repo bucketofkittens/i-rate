@@ -24,6 +24,9 @@ function SearchController($scope, User, $rootScope, $location, $timeout) {
      * @return {[type]}          [description]
      */
     $scope.userClick = function(userItem) {
+        $scope.resultSearch = [];
+        $scope.searchText = "";
+        
         $rootScope.$broadcast('showUserProfile', { user: userItem });
     }
 
