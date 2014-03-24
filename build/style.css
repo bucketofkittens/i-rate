@@ -437,8 +437,8 @@ sup.bidubi{top:13px !important;border-width:23px 0 23px 15px}
 #signin_panel .glass .sign-in ul li a img,#signin_panel .glass .sign-up ul li a img{max-width:70px}
 .full_height{height:100%}
 #leagues{position:absolute;left:0;top:0;width:100%;height:100%}#leagues .center{margin:60px auto 0 auto;width:1024px;height:100%;overflow:hidden;position:relative;z-index:99}
-#users{position:absolute;left:0;top:0;width:100%;height:100%}#users .center2{position:absolute;left:0;top:0;width:100%;z-index:999}#users .center2 .center3{margin:0 auto;max-width:1024px;overflow:hidden;position:relative;top:40px;z-index:999}
-#users .center2 .user_short{float:left;width:510px;top:5px;position:relative}
+#users{position:absolute;left:0;top:0;width:100%;height:100%}#users .center2{position:absolute;left:0;top:0;width:100%;z-index:999}#users .center2 .center3{margin:0 auto;max-width:1024px;overflow:hidden;position:relative;top:40px;z-index:999;height:100px}
+#users .center2 .user_short{float:left;width:510px;top:20px;position:relative}
 #users .center2 .user_short:last-child{float:right;right:0;left:auto}
 #users .center{margin:0 auto;max-width:1024px;overflow:hidden;position:relative;height:100%;overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch}#users .center::-webkit-scrollbar{width:0;height:0}
 #users .center .user{float:right;position:relative;z-index:11;-webkit-transform:translate3d(0, 0, 0)}#users .center .user .compare.up{display:none}
