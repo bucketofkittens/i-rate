@@ -79,9 +79,10 @@ function MyProfileSettingsController($scope, UserService, SocialService, Friends
 
     $("body").on("change", "#photo_crop", function() {
         var file = this.files[0];
-        console.log(file);
+        
         if(file) {
             $rootScope.$broadcast('cropImageRead');
+            $rootScope.$broadcast('cropImage');
         } else {
             $rootScope.$broadcast('cropImageClose');
             
@@ -90,7 +91,7 @@ function MyProfileSettingsController($scope, UserService, SocialService, Friends
 
 	// открываем модальное окно манипуляций с картинками
 	$scope.onOpenFile = function($event) {
-        $rootScope.$broadcast('cropImage');
+        
     }
 
     // переход на страницу смены пароля

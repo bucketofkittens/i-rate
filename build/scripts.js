@@ -6956,6 +6956,7 @@ function CropImageController($scope, $rootScope, TokenService, UserService) {
             crop_img.cropbox({
                 width: 400,
                 height: 400,
+                zoom: 2,
                 showControls: "always"
             }).on('cropbox', function(e, data) {
                 $scope.positions = data;
@@ -8044,9 +8045,10 @@ function MyProfileSettingsController($scope, UserService, SocialService, Friends
 
     $("body").on("change", "#photo_crop", function() {
         var file = this.files[0];
-        console.log(file);
+        
         if(file) {
             $rootScope.$broadcast('cropImageRead');
+            $rootScope.$broadcast('cropImage');
         } else {
             $rootScope.$broadcast('cropImageClose');
             
@@ -8055,7 +8057,7 @@ function MyProfileSettingsController($scope, UserService, SocialService, Friends
 
 	// открываем модальное окно манипуляций с картинками
 	$scope.onOpenFile = function($event) {
-        $rootScope.$broadcast('cropImage');
+        
     }
 
     // переход на страницу смены пароля
