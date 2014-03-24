@@ -96,7 +96,7 @@ function NeedsAndGoalsController($scope, СareerService, UserService, Goals, Cri
     
     // забираем данные колбас
     $scope.bindUserNeedsValues = function() {
-        UserService.getGoalsPointsById($scope.user.sguid, $scope.bindUserNeedsValuesCallback_);;
+        UserService.getGoalsPointsById($scope.user.sguid, $scope.bindUserNeedsValuesCallback_);
     }
 
     $scope.addEmptyElement = function(goal) {

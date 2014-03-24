@@ -24,7 +24,10 @@
 								<img class="league_icon" ng-src="{{userItem.league.icon}}" alt="" /> 
 								{{userItem.league.name}} league
 							</p>
-							<p class="points">{{userItem.points | int | unidate}}</p>
+							<p ng-if="!topFilter" class="points">{{userItem.points | int | unidate}}</p>
+							<p ng-if="topFilter" class="points">
+								{{search.top.name}}: {{userItem.top_points | int | unidate}} ({{userItem.points | int | unidate}})
+							</p>
 						</div>
 					</div>
 				</div>

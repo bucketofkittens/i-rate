@@ -50,7 +50,6 @@ pgrModule.directive('sameAs', function() {
               ctrl.$setValidity("repeat", true);
               return value;
           }
-          console.log(ctrl);
           ctrl.$setValidity("repeat", false);
       });
 
@@ -456,7 +455,6 @@ pgrModule.directive('masonry', function(User, $rootScope) {
       });
 
       $scope.$on("updateAvatar", function (newVal, oldVal, scope) {
-        console.log("updateAvatar");
         if($scope.workspace.user) {
           $scope.currentUserUpdateAvatar();
         }

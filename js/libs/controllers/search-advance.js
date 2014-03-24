@@ -14,7 +14,7 @@ function SearchAdvanceController($scope, $location, $rootScope, User, Profession
 
     $scope.timer = null;
 
-    
+    $scope.topFilter = false;
 
     // определяем показываем ли мы панель или нет
     $scope.showTest = function() {
@@ -430,7 +430,11 @@ function SearchAdvanceController($scope, $location, $rootScope, User, Profession
         }
         if($scope.search.top) {
             params["goal_id"] = $scope.search.top.sguid;
+            $scope.topFilter = true;
+        } else {
+            $scope.topFilter = false;
         }
+        
         if($scope.searchText) {
             params["name"] = $scope.searchText;
         }
