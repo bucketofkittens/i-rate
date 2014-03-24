@@ -3752,7 +3752,7 @@ sup.bidubi {
         width: 1024px;
         height: 100%;
         overflow: hidden;
-        position: relative;
+        position: relative; 
         z-index: 99;
     }
 }
@@ -3762,6 +3762,32 @@ sup.bidubi {
     top: 0px;
     width: 100%; 
     height: 100%;
+    .center2 {
+        position: absolute;
+        left: 0px;
+        top: 0px;
+        width: 100%; 
+        z-index: 999;
+        .center3 {
+            margin: 0px auto;
+            max-width: 1024px;
+            overflow: hidden;
+            position: relative;
+            top: 40px;
+            z-index: 999;
+            height: 100px;
+        }
+        .user_short {
+            float: left;
+            width: 510px;
+            top: 5px;
+        }
+        .user_short:last-child {
+            float: right;
+            right: 0px;
+            left: auto;
+        }
+    }
     .center {
         margin: 0px auto;
         max-width: 1024px;
@@ -5708,5 +5734,38 @@ p.bla {
 }
 
 .user_short {
-    display: none;
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    background: #000000;
+    width: 100%;
+    z-index: 999;
+    color: #ffffff;
+    .image_box {
+        float: left;
+    }
+    img, .image_box {
+        width: 50px !important;
+        height: 50px !important;
+    }
+    i {
+        left: 10px;
+        position: relative;
+    }
+    .il img {
+        width: 20px !important;
+        height: 20px !important;
+    }
+    .pmain.pro {
+        padding-bottom: 0px !important;
+    }
+}
+
+#leagues {
+
+    .user_short {
+        right: 0px;
+        left: auto;
+        width: 575px;
+    }
 }

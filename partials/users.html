@@ -1,5 +1,24 @@
 <div id="users" class="full_height" ng-if="show"  >
-	<div class="center" scroller>
+	<div class="center2">
+		<div class="center3">
+			<div 
+				class="user_short" 
+				ng-controller="UserShortController" 
+				ng-include
+				ng-init="init('user1')"
+				src="'partials/user/short.html'">
+			</div>
+
+			<div 
+				class="user_short" 
+				ng-controller="UserShortController" 
+				ng-include
+				ng-init="init('user2')"
+				src="'partials/user/short.html'">
+			</div>
+		</div>
+	</div>
+	<div class="center" scroller scroll-users>
 		<div
 			class="full_height user sha" 
 			ng-controller="UserController" 

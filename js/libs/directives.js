@@ -120,6 +120,24 @@ pgrModule.directive('positionGraph', function() {
   }
 });
 
+pgrModule.directive('scrollUsers', function() {
+  return {
+    link: function(scope, element, attrs) {
+      var size = 230;
+      $(element).on("scroll", function() {
+        if($(element).scrollTop() > size) {
+          scope.$broadcast('showUserShort', {route: "user1"});
+          scope.$broadcast('showUserShort', {route: "user2"});
+        } else {
+          scope.$broadcast('hideUserShort', {route: "user1"});
+          scope.$broadcast('hideUserShort', {route: "user2"});
+        }
+      });
+    }
+  }
+});
+
+
 pgrModule.directive('scrolls', function() {
   return {
     link: function(scope, element, attrs) {
