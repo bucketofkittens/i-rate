@@ -27,7 +27,7 @@ var SocialConfig = {
         client_id: "000000004410A030",
         scope: ["wl.signin", "wl.basic", "wl.emails", "wl.birthday"]
     }
-}
+};
 
 // Название социальных сетей
 var SocialNames = {
@@ -35,7 +35,7 @@ var SocialNames = {
     GOOGLE_PLUS: "google_plus",
     MSLIVE: "mslive",
     IMPROVA: "improva"
-}
+};
 
 
 /**
