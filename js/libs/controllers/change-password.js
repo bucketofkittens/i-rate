@@ -52,6 +52,10 @@ function ChangePasswordController($scope, Sessions, User, $location, $rootScope,
             confirmPassword: "",
             code: ""
         }
+
+        if($scope.workspace.user) {
+            $scope.form.email = $scope.workspace.user.email;
+        }
         
         $scope.onBack();
     }
