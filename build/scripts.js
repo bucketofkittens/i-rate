@@ -6617,7 +6617,6 @@ function ChangePasswordController($scope, Sessions, User, $location, $rootScope,
             oldPassword: "",
             newPassword: "",
             confirmPassword: "",
-            email: "",
             code: ""
         }
         
