@@ -3783,7 +3783,7 @@ sup.bidubi {
                 }
                 .compare.up { 
                     display: block;
-                    right: -12px;
+                    right: -13px;
                     left: auto;
                 }
             }
@@ -3820,20 +3820,29 @@ sup.bidubi {
     }
 }
 
+.crits li ul li {
+    &:first-child h5 .compare.goal {
+        height: 80px;
+        top: -18px;
+    }
+    &:last-child h5 .compare.goal {
+        top: -10px;
+    }
+}
 .compare {
     position: absolute;
     z-index: 10;
     left: -37px;
-    top: -7px;
+    top: -6px;
     width: 35px;
-    height: 68px;
+    height: 65px;
     background-size: 100% 100%;
     &.goal {
         top: -12px;
         height: 75px;
     }
     &.criterium {
-        top: 5px;
+        top: 10px;
         height: 65px;
     }
     &.up {
