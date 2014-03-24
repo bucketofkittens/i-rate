@@ -113,7 +113,6 @@ function CropImageController($scope, $rootScope, TokenService, UserService) {
             crop_img.cropbox({
                 width: 400,
                 height: 400,
-                zoom: 2,
                 showControls: "always"
             }).on('cropbox', function(e, data) {
                 $scope.positions = data;
