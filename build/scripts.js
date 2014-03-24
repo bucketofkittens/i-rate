@@ -4262,6 +4262,7 @@ pgrModule.directive('masonry', function(User, $rootScope) {
       var parentElement = element.parent()[0];
       var is_load = false;
 
+      /*
       // добавляем скроллинг мышкой
       $(parentElement).on("mousewheel DOMMouseScroll", function($event) {
         if(!self.is_load && self.view_count < self.total_count && $(parentElement).scrollTop()+$(parentElement).height() == $(parentElement)[0].scrollHeight) {
@@ -4280,6 +4281,7 @@ pgrModule.directive('masonry', function(User, $rootScope) {
           self.getUsersFromBackend(self, self.loadUserCallback_);
         }
       });
+      */
 
       /** коэффициэнт количество элементов **/
       var limitCorruption = 30;
@@ -4480,7 +4482,6 @@ pgrModule.directive('masonry', function(User, $rootScope) {
           if(self.view_count < self.total_count) {
             self.skip += self.limit;
 
-            // рекурсивно берем еще пользователей
             self.getUsersFromBackend(self, callback);
           }
         });
