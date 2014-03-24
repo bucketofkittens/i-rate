@@ -607,6 +607,12 @@ body {
                             }                      
                         }
                         /** criterion **/
+                        &:first-child .criterion.current {
+                            top: 3px;
+                        }
+                        &:last-child .criterion.current {
+                            top: 10px;
+                        }
                         .criterion {
                             margin: 0px;
                             display: none;
@@ -621,6 +627,7 @@ body {
                                 background: rgba(0, 0, 0, 0.3);
                                 position: relative;
                                 left: -15px;
+                                top: 5px;
                                 padding: 5px 15px;
                                 box-shadow: inset 2px 3px 15px 0 rgba(0, 0, 0, 0.7);
                                 width: 100%;
@@ -3822,11 +3829,21 @@ sup.bidubi {
 
 .crits li ul li {
     &:first-child h5 .compare.goal {
-        height: 80px;
-        top: -18px;
+        height: 83px !important;
+        top: -20px !important;
+        &.down {
+            height: 80px !important;
+        }
     }
     &:last-child h5 .compare.goal {
         top: -10px;
+        height: 78px !important;
+    }
+    h5 .compare.goal.down {
+        height: 73px;
+    }
+    sup.compare.criterium.down {
+        top: 10px !important;
     }
 }
 .compare {
@@ -3838,12 +3855,12 @@ sup.bidubi {
     height: 65px;
     background-size: 100% 100%;
     &.goal {
-        top: -12px;
+        top: -12px !important;
         height: 75px;
     }
     &.criterium {
-        top: 10px;
-        height: 65px;
+        top: 11px;
+        height: 62px;
     }
     &.up {
         background-image: url("../images/sub.png");
@@ -3851,6 +3868,7 @@ sup.bidubi {
     &.down {
         background-image: url("../images/sup.png");
         left: -28px;
+        top: -7px;
     }
     &.same {
         
