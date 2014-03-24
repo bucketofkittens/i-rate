@@ -3892,7 +3892,6 @@ var pgrModule = angular.module(
         'ui.keypress',
         'vcRecaptcha',
         'ui.select2',
-        'angular-google-analytics',
         'monospaced.elastic',
         'perfect_scrollbar',
         'angularFileUpload',
@@ -3932,15 +3931,6 @@ pgrModule.config(function(GooglePlusProvider) {
        scopes: SocialConfig.googlePlus.scopes
      });
 });
-
-pgrModule.config(function(AnalyticsProvider) {
-    AnalyticsProvider.setAccount('UA-45318170-2');
-    AnalyticsProvider.trackPages(true);
-    AnalyticsProvider.useAnalytics(true);
-    AnalyticsProvider.useEnhancedLinkAttribution(true);
-    AnalyticsProvider.setPageEvent('$stateChangeSuccess');
-  }
-);
 
 
 $(function() {
