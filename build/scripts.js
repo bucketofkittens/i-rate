@@ -6101,14 +6101,12 @@ pgrModule.service('FriendsService', function (UserService, User, $rootScope) {
 // сервис авторизации в facebook
 pgrModule.service('FacebookService', function($window) {
     this.init = function() {
-        window.fbAsyncInit = function() {
-            FB.init({
-                appId: SocialConfig.facebook.applicationId[window.location.hostname],
-                cookie: true, 
-                xfbml: true,
-                oauth: true
-            });
-        };
+        FB.init({
+            appId: SocialConfig.facebook.applicationId[window.location.hostname],
+            cookie: true, 
+            xfbml: true,
+            oauth: true
+        });
     },
     this.getUserData = function(callback) {
         FB.api('/me', {fields: 'name,id,location,birthday,email'}, function(response) {
