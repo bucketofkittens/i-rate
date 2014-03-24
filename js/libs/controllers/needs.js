@@ -21,10 +21,23 @@ function NeedsAndGoalsController($scope, СareerService, UserService, Goals, Cri
 
     // когда получаем данные пользователя
     $scope.$watch('user', function (newVal, oldVal, scope) {
+        console.log("user");
         if(newVal != oldVal) {
             $scope.bindUserNeedsValues();
+            $scope.rebindUserData();
+
         }
     });
+
+    $scope.rebindUserData = function() {
+        angular.forEach($scope.needs, function(need, needKey) {
+            angular.forEach(need.goals, function(goal, goalKey) {
+                if(goal.criteriums) {
+                    $scope.getCriteriumByGoal(goal);
+                }
+            });
+        });
+    }
 
     $scope.$on('quckUpdateUser', function(message) {
         $scope.user = $scope.workspace.user;
@@ -35,7 +48,15 @@ function NeedsAndGoalsController($scope, СareerService, UserService, Goals, Cri
         angular.forEach($scope.needs, function(need, key) {
             angular.forEach(need.goals, function(goal, key) {
                 if(goal.criteriums && goal.criteriums.length > 0) {
-                    $scope.getCriteriumByGoal(goal);
+                    angular.forEach(goal.criteriums, function(value, key){
+                        $scope.getCriteriumValueByUser(value, function() {
+                            countDataLoad_ += 1;
+
+                            if(countDataLoad_ == maxCount_) {
+                                goal.criteriums.all_load_data = true;
+                            }
+                        });
+                    });
                 }
             });
         });
