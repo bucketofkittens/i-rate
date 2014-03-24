@@ -383,7 +383,7 @@ sup.bidubi{top:13px !important;border-width:23px 0 23px 15px}
 #users .center .user{float:right;position:relative;z-index:11;-webkit-transform:translate3d(0, 0, 0)}#users .center .user .compare.up{display:none}
 #users .center .user:first-child{float:left}#users .center .user:first-child .compare.down{display:none}
 #users .center .user:first-child .compare.up{display:block;right:-12px;left:auto}
-#users .center .user .sam{width:500px;position:relative;margin-top:60px;background:url("../images/glass.png") left top no-repeat;background-size:100% 100%;z-index:3;box-shadow:inset 5px 2px 20px 1px #2b2b2b;min-height:100%}#users .center .user .sam.big{width:600px;right:94px}
+#users .center .user .sam{width:500px;position:relative;margin-top:60px;background:url("../images/glass.png") left top no-repeat;background-size:100% 100%;z-index:3;box-shadow:inset 5px 2px 20px 1px #2b2b2b;min-height:100%;overflow:hidden}#users .center .user .sam.big{width:600px;right:94px}
 #users .center .user .sam .needs{position:relative;overflow:hidden}
 #users .center .user .sam .null{display:none !important}
 #users .center .user .sam .image_box{cursor:default !important}
