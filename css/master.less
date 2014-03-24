@@ -5764,6 +5764,13 @@ p.bla {
     }
     .pmain.pro {
         padding-bottom: 0px !important;
+        opacity: 0;
+        transition: all 0.5s ease;
+        height: 0px;
+        &.show {
+            opacity: 1;
+            height: 50px;
+        }
     }
 }
 

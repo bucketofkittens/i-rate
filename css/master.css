@@ -626,5 +626,5 @@ p.bla{width:300px !important}
 .user_short img,.user_short .image_box{width:50px !important;height:50px !important}
 .user_short i{left:10px;position:relative}
 .user_short .il img{width:20px !important;height:20px !important}
-.user_short .pmain.pro{padding-bottom:0 !important}
+.user_short .pmain.pro{padding-bottom:0 !important;opacity:0;transition:all .5s ease;height:0}.user_short .pmain.pro.show{opacity:1;height:50px}
 #leagues .user_short{right:0;left:auto;width:575px}

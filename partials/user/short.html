@@ -1,4 +1,4 @@
-<div class="pmain pro" ng-show="show && user" >
+<div class="pmain pro" ng-class="{show: show && user}" >
 	<div class="block">
 		<div class="image_box" >
 			<img class="pp" ng-if="user.avatar" ng-src="{{user.avatar}}" err-src="/images/unknown-person.png" />
