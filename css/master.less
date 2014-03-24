@@ -3785,7 +3785,7 @@ sup.bidubi {
         }
         .user_short {
             float: left;
-            width: 510px;
+            width: 512px;
             top: 20px;
             position: relative;
         }
@@ -5748,15 +5748,21 @@ p.bla {
     z-index: 999;
     color: #ffffff;
     .image_box {
-        float: left;
+        display: inline-block;
+        vertical-align: middle;
     }
     img, .image_box {
-        width: 50px !important;
-        height: 50px !important;
+        width: 45px !important;
+        height: 45px !important;
+        margin: 1px 0px 0px 10px !important;
+        box-shadow: none !important;
     }
     i {
-        left: 10px;
+        left: 20px;
         position: relative;
+        display: inline-block;
+        width: 300px;
+        vertical-align: middle;
     }
     .il {
         top: 15px !important;
@@ -5771,7 +5777,9 @@ p.bla {
         transition: all 0.5s ease;
         height: 0px;
         padding: 0px !important;
-        background: #000000;
+        background: url("../images/ssbg.png") -10px -5px no-repeat;
+        background-size: 105% 115%;
+        background-color: rgba(0, 0, 0, 0.8);
         width: 100% !important;
         &.show {
             opacity: 1;
