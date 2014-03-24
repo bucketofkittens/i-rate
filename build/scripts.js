@@ -4067,16 +4067,22 @@ pgrModule.directive('scrollUsers', function($rootScope, $location) {
   return {
     link: function(scope, element, attrs) {
       var size = 200;
-      $(element).on("scroll", function() {
+      scope.changeTimer = null;
 
-        console.log($(element).scrollTop());
-        if($(element).scrollTop() > size) {
-          $rootScope.$broadcast('showUserShort', {route: "user1"});
-          $rootScope.$broadcast('showUserShort', {route: "user2"});
-        } else {
-          $rootScope.$broadcast('hideUserShort', {route: "user1"});
-          $rootScope.$broadcast('hideUserShort', {route: "user2"});
-        }
+      $(element).on("scroll", function() {
+        if(scope.changeTimer !== false) clearTimeout(scope.changeTimer);
+
+        scope.changeTimer = setTimeout(function() {
+          scope.$apply(function() {
+            if($(element).scrollTop() > size) {
+              $rootScope.$broadcast('showUserShort', {route: "user1"});
+              $rootScope.$broadcast('showUserShort', {route: "user2"});
+            } else {
+              $rootScope.$broadcast('hideUserShort', {route: "user1"});
+              $rootScope.$broadcast('hideUserShort', {route: "user2"});
+            }
+          });
+        }, 100);
       });
 
       scope.$on('$locationChangeSuccess', function(event, newLoc, oldLoc) {
@@ -4101,13 +4107,20 @@ pgrModule.directive('scrollUser', function($rootScope) {
   return {
     link: function(scope, element, attrs) {
       var size = 200;
+      scope.changeTimer = null;
+
       $(element).on("scroll", function() {
-        if($(element).scrollTop() > size) {
-          console.log("showUserShort");
-          $rootScope.$broadcast('showUserShort', {route: scope.route});
-        } else {
-          $rootScope.$broadcast('hideUserShort', {route: scope.route});
-        }
+        if(scope.changeTimer !== false) clearTimeout(scope.changeTimer);
+
+        scope.changeTimer = setTimeout(function() {
+          scope.$apply(function() {
+            if($(element).scrollTop() > size) {
+              $rootScope.$broadcast('showUserShort', {route: scope.route});
+            } else {
+              $rootScope.$broadcast('hideUserShort', {route: scope.route});
+            }
+          });
+        }, 100);
       });
     }
   }
