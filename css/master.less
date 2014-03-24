@@ -5743,7 +5743,6 @@ p.bla {
     position: absolute;
     left: 0px;
     top: 0px;
-    background: #000000;
     width: 100%;
     z-index: 999;
     color: #ffffff;
@@ -5758,6 +5757,9 @@ p.bla {
         left: 10px;
         position: relative;
     }
+    .il {
+        top: 15px !important;
+    }
     .il img {
         width: 20px !important;
         height: 20px !important;
@@ -5767,9 +5769,13 @@ p.bla {
         opacity: 0;
         transition: all 0.5s ease;
         height: 0px;
+        padding: 0px !important;
+        background: #000000;
+        width: 100% !important;
         &.show {
             opacity: 1;
-            height: 50px;
+            padding: 15px;
+            height: 50px !important;
         }
     }
 }
