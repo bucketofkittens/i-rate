@@ -4063,7 +4063,7 @@ pgrModule.directive('positionGraph', function() {
   }
 });
 
-pgrModule.directive('scrollUsers', function($rootScope) {
+pgrModule.directive('scrollUsers', function($rootScope, $location) {
   return {
     link: function(scope, element, attrs) {
       var size = 200;
@@ -4078,9 +4078,24 @@ pgrModule.directive('scrollUsers', function($rootScope) {
           $rootScope.$broadcast('hideUserShort', {route: "user2"});
         }
       });
+
+      scope.$on('$locationChangeSuccess', function(event, newLoc, oldLoc) {
+        if($location.search().user1 && $(element).scrollTop() > size) {
+          $rootScope.$broadcast('showUserShort', {route: "user1"});
+        } else {
+          $rootScope.$broadcast('hideUserShort', {route: "user1"});
+        }
+        if($location.search().user2 && $(element).scrollTop() > size) {
+          $rootScope.$broadcast('showUserShort', {route: "user2"});
+        } else {
+          $rootScope.$broadcast('hideUserShort', {route: "user2"});
+        }
+      });
     }
   }
 });
+
+
 
 pgrModule.directive('scrollUser', function($rootScope) {
   return {
@@ -10266,7 +10281,7 @@ function UserNeedsController($scope, $rootScope) {
 /**
  * Контроллер  профиля
  */
-function UserShortController($scope, $location) {
+function UserShortController($scope, $location, $rootScope) {
     // данные пользователя
     $scope.user = null;
 
@@ -10283,9 +10298,7 @@ function UserShortController($scope, $location) {
     });
 
     $scope.$on('showUserShort', function (event, message) {
-        console.log(message.route);
         if(message.route == $scope.route) {
-
             $scope.show = true;
         }
     });
@@ -10296,11 +10309,17 @@ function UserShortController($scope, $location) {
         }
     });
 
+    $scope.$on('$locationChangeSuccess', function(event, newLoc, oldLoc) {
+        if(!$location.search()[$scope.route]) {
+            $scope.user = null;
+        }
+    });
+
     $scope.close = function() {
         $scope.user = null;
         $scope.show = false;
-        $location.search($scope.route, null);
-        $rootScope.$broadcast('closeUserPanel', {route: $scope.route});
+
+        $rootScope.$broadcast('closeUser', {route: $scope.route});
     }
 }
 /**
@@ -10326,6 +10345,12 @@ function UserController($scope, FriendsService, UserService, User, $location, Lo
 
     $scope.$on('$locationChangeSuccess', function(event, newLoc, oldLoc) {
         $scope.setCurrentUser();
+    });
+
+    $scope.$on('closeUser', function(event, message) {
+        if(message.route == $scope.route) {
+            $scope.close();
+        }
     });
 
     // calback для скрытия 

@@ -120,7 +120,7 @@ pgrModule.directive('positionGraph', function() {
   }
 });
 
-pgrModule.directive('scrollUsers', function($rootScope) {
+pgrModule.directive('scrollUsers', function($rootScope, $location) {
   return {
     link: function(scope, element, attrs) {
       var size = 200;
@@ -135,9 +135,24 @@ pgrModule.directive('scrollUsers', function($rootScope) {
           $rootScope.$broadcast('hideUserShort', {route: "user2"});
         }
       });
+
+      scope.$on('$locationChangeSuccess', function(event, newLoc, oldLoc) {
+        if($location.search().user1 && $(element).scrollTop() > size) {
+          $rootScope.$broadcast('showUserShort', {route: "user1"});
+        } else {
+          $rootScope.$broadcast('hideUserShort', {route: "user1"});
+        }
+        if($location.search().user2 && $(element).scrollTop() > size) {
+          $rootScope.$broadcast('showUserShort', {route: "user2"});
+        } else {
+          $rootScope.$broadcast('hideUserShort', {route: "user2"});
+        }
+      });
     }
   }
 });
+
+
 
 pgrModule.directive('scrollUser', function($rootScope) {
   return {

@@ -23,6 +23,12 @@ function UserController($scope, FriendsService, UserService, User, $location, Lo
         $scope.setCurrentUser();
     });
 
+    $scope.$on('closeUser', function(event, message) {
+        if(message.route == $scope.route) {
+            $scope.close();
+        }
+    });
+
     // calback для скрытия 
     this.windowClickCallback_ = function(event) {
         if(!$(event.target).hasClass("button")) {

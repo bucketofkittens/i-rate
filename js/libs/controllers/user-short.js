@@ -1,7 +1,7 @@
 /**
  * Контроллер  профиля
  */
-function UserShortController($scope, $location) {
+function UserShortController($scope, $location, $rootScope) {
     // данные пользователя
     $scope.user = null;
 
@@ -18,9 +18,7 @@ function UserShortController($scope, $location) {
     });
 
     $scope.$on('showUserShort', function (event, message) {
-        console.log(message.route);
         if(message.route == $scope.route) {
-
             $scope.show = true;
         }
     });
@@ -31,10 +29,16 @@ function UserShortController($scope, $location) {
         }
     });
 
+    $scope.$on('$locationChangeSuccess', function(event, newLoc, oldLoc) {
+        if(!$location.search()[$scope.route]) {
+            $scope.user = null;
+        }
+    });
+
     $scope.close = function() {
         $scope.user = null;
         $scope.show = false;
-        $location.search($scope.route, null);
-        $rootScope.$broadcast('closeUserPanel', {route: $scope.route});
+
+        $rootScope.$broadcast('closeUser', {route: $scope.route});
     }
 }
