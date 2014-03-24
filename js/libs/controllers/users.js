@@ -6,6 +6,9 @@ function UsersController($scope, $location, $rootScope, $timeout, NeedsService, 
     // список значений голсов для пользователя
     $scope.goalsValues = {};
 
+    // список открытых критериев
+    $scope.openGoals = {};
+
     // значения критериев
     $scope.criteriumsValues = {};
 
@@ -18,6 +21,16 @@ function UsersController($scope, $location, $rootScope, $timeout, NeedsService, 
 			$rootScope.$broadcast('hideRightPanel');
 		}, 0);
 	}
+
+    // событие загрузки цифр для колбас для needs
+    $scope.$on('toggleCriteria', function (event, message) {
+        if(message.state) {
+            $scope.openGoals[message.goalItem.sguid] = message.goalItem;    
+        } else {
+            delete $scope.openGoals[message.goalItem.sguid];
+        }
+        
+    });
 
     // событие загрузки цифр для колбас для needs
     $scope.$on('needUserValueLoaded', function (event, message) {
@@ -90,7 +103,7 @@ function UsersController($scope, $location, $rootScope, $timeout, NeedsService, 
         $rootScope.$broadcast('hideRightPanel');
 
         // скрываем список голсов
-        $rootScope.$broadcast('closeAllGoals');
+        //$rootScope.$broadcast('closeAllGoals');
 
 		// позываем пользователя
 		$scope.show = true;
@@ -119,7 +132,7 @@ function UsersController($scope, $location, $rootScope, $timeout, NeedsService, 
         }
 		
         // скрываем гоалсы если они открыты
-        $scope.workspace.needs = NeedsService.closeAllGoals($scope.workspace.needs);
+        // NeedsService.closeAllGoals($scope.workspace.needs);
     });
 
     // событие переключчения состояния страницы.

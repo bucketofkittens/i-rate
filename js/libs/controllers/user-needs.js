@@ -35,4 +35,19 @@ function UserNeedsController($scope, $rootScope) {
             }
         });
     });
+
+    $scope.$watch('needs', function (newVal, oldVal, scope) {
+        if($scope.needs) {
+            angular.forEach($scope.openGoals, function(value, key) {
+                angular.forEach($scope.needs, function(nValue, nKey){
+                    angular.forEach(nValue.goals, function(gValue, gKey){
+                        if(gValue.sguid == value.sguid) {
+                            gValue.current = true;
+                            $scope.$parent.getCriteriumByGoal(gValue); 
+                        }
+                    });
+                });
+            });
+        }
+    });
 }

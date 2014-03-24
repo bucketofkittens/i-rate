@@ -168,7 +168,7 @@ function NeedsAndGoalsController($scope, СareerService, UserService, Goals, Cri
                     fCriteria: value,
                     userId: $scope.user.sguid,
                     route: $scope.route
-                });    
+                });
             }
 
             if(callback) {
