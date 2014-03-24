@@ -17,15 +17,17 @@ function SearchLeftController($scope, $location, $rootScope, User, $timeout, Use
     });
 
     $scope.appendTopData = function(data) {
-        angular.forEach(data, function(value, key) {
-            if(!data[key].top_points) {
-                UserService.getGoalsPointsById(value.sguid, function(dataItem) {
-                    if(dataItem[$scope.search.top.sguid]) {
-                        data[key].top_points = dataItem[$scope.search.top.sguid];
-                    }
-                });    
-            }
-        });
+        if($scope.topFilter) {
+            angular.forEach(data, function(value, key) {
+                if(!data[key].top_points) {
+                    UserService.getGoalsPointsById(value.sguid, function(dataItem) {
+                        if(dataItem[$scope.search.top.sguid]) {
+                            data[key].top_points = dataItem[$scope.search.top.sguid];
+                        }
+                    });    
+                }
+            });    
+        }
     }
 
     $scope.advanceSearchCallback_ = function(data) {

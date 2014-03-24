@@ -120,17 +120,35 @@ pgrModule.directive('positionGraph', function() {
   }
 });
 
-pgrModule.directive('scrollUsers', function() {
+pgrModule.directive('scrollUsers', function($rootScope) {
   return {
     link: function(scope, element, attrs) {
-      var size = 230;
+      var size = 200;
+      $(element).on("scroll", function() {
+
+        console.log($(element).scrollTop());
+        if($(element).scrollTop() > size) {
+          $rootScope.$broadcast('showUserShort', {route: "user1"});
+          $rootScope.$broadcast('showUserShort', {route: "user2"});
+        } else {
+          $rootScope.$broadcast('hideUserShort', {route: "user1"});
+          $rootScope.$broadcast('hideUserShort', {route: "user2"});
+        }
+      });
+    }
+  }
+});
+
+pgrModule.directive('scrollUser', function($rootScope) {
+  return {
+    link: function(scope, element, attrs) {
+      var size = 200;
       $(element).on("scroll", function() {
         if($(element).scrollTop() > size) {
-          scope.$broadcast('showUserShort', {route: "user1"});
-          scope.$broadcast('showUserShort', {route: "user2"});
+          console.log("showUserShort");
+          $rootScope.$broadcast('showUserShort', {route: scope.route});
         } else {
-          scope.$broadcast('hideUserShort', {route: "user1"});
-          scope.$broadcast('hideUserShort', {route: "user2"});
+          $rootScope.$broadcast('hideUserShort', {route: scope.route});
         }
       });
     }

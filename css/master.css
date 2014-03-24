@@ -298,7 +298,8 @@ sup.bidubi{top:13px !important;border-width:23px 0 23px 15px}
 .comments .butcomm .repcha{width:50px;height:41px;background:url("../images/rep.png") left top no-repeat;background-size:50px 43px;margin-left:-2px}
 .comments .butcomm .rep{width:148px;display:block;position:absolute;right:17px;top:-2px;background-size:148px 45px}
 .comments em{display:block;width:100%;border-top:1px solid #666;border-bottom:1px solid #333;margin:10px 0}
-#searchfull{position:absolute;left:50%;top:0;margin-left:-500px;z-index:10;height:100%;width:1000px}#searchfull .popup_list{margin-left:0;min-width:190px}
+#searchfull{position:absolute;left:50%;top:0;margin-left:-500px;z-index:10;height:100%;width:1000px}#searchfull .user_short_search{right:0;left:auto;top:60px;width:600px}
+#searchfull .popup_list{margin-left:0;min-width:190px}
 #searchfull .loader{margin-top:100px}
 #searchfull .searchfull{position:absolute;left:0;width:400px;height:100%;min-height:550px;box-shadow:inset -5px 0 20px 1px rgba(0,0,0,0.5);z-index:3;display:inline-block;overflow-y:scroll;overflow-x:hidden;background:url("../images/glass.png") left top no-repeat;background-size:100% 100%}#searchfull .searchfull::-webkit-scrollbar{width:0;height:0}
 #searchfull .searchfull .search{margin-top:60px}
@@ -382,8 +383,8 @@ sup.bidubi{top:13px !important;border-width:23px 0 23px 15px}
 #signin_panel .glass .sign-in ul li a img,#signin_panel .glass .sign-up ul li a img{max-width:70px}
 .full_height{height:100%}
 #leagues{position:absolute;left:0;top:0;width:100%;height:100%}#leagues .center{margin:60px auto 0 auto;width:1024px;height:100%;overflow:hidden;position:relative;z-index:99}
-#users{position:absolute;left:0;top:0;width:100%;height:100%}#users .center2{position:absolute;left:0;top:0;width:100%;z-index:999}#users .center2 .center3{margin:0 auto;max-width:1024px;overflow:hidden;position:relative;top:40px;z-index:999;height:100px}
-#users .center2 .user_short{float:left;width:510px;top:5px}
+#users{position:absolute;left:0;top:0;width:100%;height:100%}#users .center2{position:absolute;left:0;top:0;width:100%;z-index:999}#users .center2 .center3{margin:0 auto;max-width:1024px;overflow:hidden;position:relative;top:40px;z-index:999}
+#users .center2 .user_short{float:left;width:510px;top:5px;position:relative}
 #users .center2 .user_short:last-child{float:right;right:0;left:auto}
 #users .center{margin:0 auto;max-width:1024px;overflow:hidden;position:relative;height:100%;overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch}#users .center::-webkit-scrollbar{width:0;height:0}
 #users .center .user{float:right;position:relative;z-index:11;-webkit-transform:translate3d(0, 0, 0)}#users .center .user .compare.up{display:none}

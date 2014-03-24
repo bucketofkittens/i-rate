@@ -109,8 +109,10 @@ body header #header #avatar p span{color:#fff;text-decoration:none;font-size:10p
 #content .crits ul li ul li h5 a.current s{border-width:8px 7.5px 0 7.5px !important;border-color:#fff transparent transparent transparent !important;top:15px !important}
 #content .crits ul li ul li h5 .right{width:300px;position:relative;right:15px;top:5px;cursor:default;float:right}#content .crits ul li ul li h5 .right b{font-size:16px;color:#000;text-align:center;display:block;position:relative;z-index:5;text-align:right;line-height:18px}
 #content .crits ul li ul li h5 .right strong{background:url("../images/needsbg.png") right top no-repeat;background-size:100% 5px;display:block;width:300px;position:relative;overflow:hidden;height:5px;float:right}#content .crits ul li ul li h5 .right strong span{position:absolute;left:0;top:1px;height:3px;display:block;background:#759fd2;transition:all .5s ease}
+#content .crits ul li ul li:first-child .criterion.current{top:3px}
+#content .crits ul li ul li:last-child .criterion.current{top:10px}
 #content .crits ul li ul li .criterion{margin:0;display:none;cursor:default;width:470px}#content .crits ul li ul li .criterion .du{top:10px}
-#content .crits ul li ul li .criterion.show,#content .crits ul li ul li .criterion.current{display:block;margin:0;background:rgba(0,0,0,0.3);position:relative;left:-15px;padding:5px 15px;box-shadow:inset 2px 3px 15px 0 rgba(0,0,0,0.7);width:100%}
+#content .crits ul li ul li .criterion.show,#content .crits ul li ul li .criterion.current{display:block;margin:0;background:rgba(0,0,0,0.3);position:relative;left:-15px;top:5px;padding:5px 15px;box-shadow:inset 2px 3px 15px 0 rgba(0,0,0,0.7);width:100%}
 #content .crits ul li ul li .criterion li{text-align:left;cursor:default}#content .crits ul li ul li .criterion li p{color:#fff;font-size:13px;display:block;width:400px;text-align:left;vertical-align:middle;margin:0 0 5px 15px}
 #content .crits ul li ul li .criterion li .bord{width:100%;border-top:1px solid #333;border-bottom:1px solid #666;height:45px;position:relative;overflow:hidden}#content .crits ul li ul li .criterion li .bord .crp{display:inline-block;cursor:default;margin:0;background:rgba(0,0,0,0.3);width:100%;vertical-align:middle;overflow:hidden;opacity:1;left:0}#content .crits ul li ul li .criterion li .bord .crp .tab{display:table;width:100%;cursor:default;table-layout:fixed}#content .crits ul li ul li .criterion li .bord .crp .tab li{display:table-cell;color:#fff;font-size:11px;width:auto;margin:0 auto;line-height:10px;z-index:7;position:relative;border:0;text-align:center;height:50px;vertical-align:middle;overflow:hidden;padding:0 5px;cursor:default}#content .crits ul li ul li .criterion li .bord .crp .tab li.white-text i{color:#000 !important}
 #content .crits ul li ul li .criterion li .bord .crp .tab li i{display:block;cursor:default;position:relative;top:-3px;word-break:normal}#content .crits ul li ul li .criterion li .bord .crp .tab li i.null_criteria{width:20px;height:100%}
@@ -350,7 +352,8 @@ sup.bidubi{top:13px !important;border-width:23px 0 23px 15px}
 .comments .butcomm .repcha{width:50px;height:41px;background:url("../images/rep.png") left top no-repeat;background-size:50px 43px;margin-left:-2px}
 .comments .butcomm .rep{width:148px;display:block;position:absolute;right:17px;top:-2px;background-size:148px 45px}
 .comments em{display:block;width:100%;border-top:1px solid #666;border-bottom:1px solid #333;margin:10px 0}
-#searchfull{position:absolute;left:50%;top:0;margin-left:-500px;z-index:10;height:100%;width:1000px}#searchfull .popup_list{margin-left:0;min-width:190px}
+#searchfull{position:absolute;left:50%;top:0;margin-left:-500px;z-index:10;height:100%;width:1000px}#searchfull .user_short_search{right:0;left:auto;top:60px;width:600px}
+#searchfull .popup_list{margin-left:0;min-width:190px}
 #searchfull .loader{margin-top:100px}
 #searchfull .searchfull{position:absolute;left:0;width:400px;height:100%;min-height:550px;box-shadow:inset -5px 0 20px 1px rgba(0,0,0,0.5);z-index:3;display:inline-block;overflow-y:scroll;overflow-x:hidden;background:url("../images/glass.png") left top no-repeat;background-size:100% 100%}#searchfull .searchfull::-webkit-scrollbar{width:0;height:0}
 #searchfull .searchfull .search{margin-top:60px}
@@ -434,7 +437,10 @@ sup.bidubi{top:13px !important;border-width:23px 0 23px 15px}
 #signin_panel .glass .sign-in ul li a img,#signin_panel .glass .sign-up ul li a img{max-width:70px}
 .full_height{height:100%}
 #leagues{position:absolute;left:0;top:0;width:100%;height:100%}#leagues .center{margin:60px auto 0 auto;width:1024px;height:100%;overflow:hidden;position:relative;z-index:99}
-#users{position:absolute;left:0;top:0;width:100%;height:100%}#users .center{margin:0 auto;max-width:1024px;overflow:hidden;position:relative;height:100%;overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch}#users .center::-webkit-scrollbar{width:0;height:0}
+#users{position:absolute;left:0;top:0;width:100%;height:100%}#users .center2{position:absolute;left:0;top:0;width:100%;z-index:999}#users .center2 .center3{margin:0 auto;max-width:1024px;overflow:hidden;position:relative;top:40px;z-index:999}
+#users .center2 .user_short{float:left;width:510px;top:5px;position:relative}
+#users .center2 .user_short:last-child{float:right;right:0;left:auto}
+#users .center{margin:0 auto;max-width:1024px;overflow:hidden;position:relative;height:100%;overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch}#users .center::-webkit-scrollbar{width:0;height:0}
 #users .center .user{float:right;position:relative;z-index:11;-webkit-transform:translate3d(0, 0, 0)}#users .center .user .compare.up{display:none}
 #users .center .user:first-child{float:left}#users .center .user:first-child .compare.down{display:none}
 #users .center .user:first-child .compare.up{display:block;right:-13px;left:auto}
@@ -443,12 +449,14 @@ sup.bidubi{top:13px !important;border-width:23px 0 23px 15px}
 #users .center .user .sam .null{display:none !important}
 #users .center .user .sam .image_box{cursor:default !important}
 #users .center .user.sha .sam{z-index:5 !important}
-.crits li ul li:first-child h5 .compare.goal{height:80px;top:-18px}
-.crits li ul li:last-child h5 .compare.goal{top:-10px}
-.compare{position:absolute;z-index:10;left:-37px;top:-6px;width:35px;height:65px;background-size:100% 100%}.compare.goal{top:-12px;height:75px}
-.compare.criterium{top:10px;height:65px}
+.crits li ul li:first-child h5 .compare.goal{height:83px !important;top:-20px !important}.crits li ul li:first-child h5 .compare.goal.down{height:80px !important}
+.crits li ul li:last-child h5 .compare.goal{top:-10px;height:78px !important}
+.crits li ul li h5 .compare.goal.down{height:73px}
+.crits li ul li sup.compare.criterium.down{top:10px !important}
+.compare{position:absolute;z-index:10;left:-37px;top:-6px;width:35px;height:65px;background-size:100% 100%}.compare.goal{top:-12px !important;height:75px}
+.compare.criterium{top:11px;height:62px}
 .compare.up{background-image:url("../images/sub.png")}
-.compare.down{background-image:url("../images/sup.png");left:-28px}
+.compare.down{background-image:url("../images/sup.png");left:-28px;top:-7px}
 #myprofile{position:absolute;left:0;top:0;width:100%;height:100%;z-index:20}#myprofile .center{margin:0 auto;width:1000px;position:relative;height:100%}
 #myprofile #profile_header{position:absolute;height:70px;left:0;top:0;width:100%;z-index:11}
 #myprofile .tabs{width:100%;z-index:100}#myprofile .tabs::-webkit-scrollbar{width:0;height:0}
@@ -668,7 +676,12 @@ input:invalid{box-shadow:none}
 .cropControls a{margin:12px 12px 0 20px !important;width:25px !important;height:25px !important;line-height:22px !important;font-size:20px !important}
 p.bla{width:300px !important}
 .pointer{cursor:pointer}
-.user_short{display:none}
+.user_short{position:absolute;left:0;top:0;background:#000;width:100%;z-index:999;color:#fff}.user_short .image_box{float:left}
+.user_short img,.user_short .image_box{width:50px !important;height:50px !important}
+.user_short i{left:10px;position:relative}
+.user_short .il img{width:20px !important;height:20px !important}
+.user_short .pmain.pro{padding-bottom:0 !important}
+#leagues .user_short{right:0;left:auto;width:575px}
 
 .cropFrame {
 	overflow : hidden;
