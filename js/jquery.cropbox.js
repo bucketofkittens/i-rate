@@ -190,8 +190,6 @@
         this.img_width = Math.ceil(this.width * this.percent);
         this.img_height = Math.ceil(this.height * this.percent);
 
-        console.log(this.percent);
-
         if (old_percent) {
           var zoomFactor = this.percent / old_percent;
           this.img_left = fill((1 - zoomFactor) * this.options.width / 2 + zoomFactor * this.img_left, this.img_width, this.options.width);
