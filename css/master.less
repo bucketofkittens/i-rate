@@ -2289,30 +2289,23 @@ ng-form:not(.ng-pristine) {
 }
 
 input[type="checkbox"] {
+    -ms-appearance: none;
+    -webkit-appearance:none;
+    -moz-appearance: none;
+    -moz-box-shadow: none;
+    appearance:none;
     display:inline-block; 
-    width: 23px;
-    height: 23px;
-    visibility: hidden;
+    width: 18px;
+    height: 18px;
+    margin: 0;
+    padding: 0;
+    
+    background: url("../images/minimal.png") no-repeat;
+    border: none;
     cursor: pointer;
-    position: relative;
-    top: 10px;
+    outline: none;
     &:checked {
-        &:before {
-            background-position: -18px 1px !important;
-        }
-    }
-    &:before {
-        content:" "; 
-        display:inline-block; 
-        width: 18px;
-        height: 18px;
-        margin: 0;
-        padding: 0;
-        
-        background: url("../images/minimal.png") no-repeat;
-        border: none;
-        cursor: pointer;
-        visibility: visible;
+        background-position: -18px 1px !important;
     }
 }
 
@@ -3946,6 +3939,9 @@ sup.bidubi {
 .css-form {
     p {
         position: relative;
+        * {
+            vertical-align: middle;
+        }
     }
 }
 

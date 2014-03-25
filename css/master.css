@@ -215,8 +215,7 @@ ng-form:not(.ng-pristine) input.ng-invalid:not(.ng-pristine){border-color:rgba(2
 #crop_modal #cropContainer{width:460px}
 #crop_modal button{width:160px;height:100%;font-size:16px;font-family:'Lato',sans-serif;line-height:16px;padding:10px 5px !important;vertical-align:middle !important;display:inline-block;cursor:pointer;background:url("../images/ssbg.png") center center no-repeat;margin-top:15px;color:#fff;border:none}
 #crop_modal .buttons{width:100%;overflow:hidden;padding:10px 0 0 0}#crop_modal .buttons .apply{float:right}
-input[type="checkbox"]{display:inline-block;width:23px;height:23px;visibility:hidden;cursor:pointer;position:relative;top:10px}input[type="checkbox"]:checked:before{background-position:-18px 1px !important}
-input[type="checkbox"]:before{content:" ";display:inline-block;width:18px;height:18px;margin:0;padding:0;background:url("../images/minimal.png") no-repeat;border:none;cursor:pointer;visibility:visible}
+input[type="checkbox"]{-ms-appearance:none;-webkit-appearance:none;-moz-appearance:none;-moz-box-shadow:none;appearance:none;display:inline-block;width:18px;height:18px;margin:0;padding:0;background:url("../images/minimal.png") no-repeat;border:none;cursor:pointer;outline:none}input[type="checkbox"]:checked{background-position:-18px 1px !important}
 #compare{margin:70px 0 0 0}
 #favorite_compare{border:1px solid #b4b4b4;margin:0 0 0 14px;background:#fff}#favorite_compare .inner>img{float:left;width:60px;display:block;position:relative;z-index:10}
 #favorite_compare .inner{width:100%;overflow:hidden}
@@ -406,7 +405,7 @@ sup.bidubi{top:13px !important;border-width:23px 0 23px 15px}
 #myprofile #profile_header{position:absolute;height:70px;left:0;top:0;width:100%;z-index:11}
 #myprofile .tabs{width:100%;z-index:100}#myprofile .tabs::-webkit-scrollbar{width:0;height:0}
 #myprofile .tabs .tab{position:relative;padding-top:1px}
-.css-form p{position:relative}
+.css-form p{position:relative}.css-form p *{vertical-align:middle}
 .small-message{padding:20px;background:url("../images/glass.png") left top no-repeat;background-size:100% 100%;box-shadow:0 0 20px 0 #000,inset 0 0 10px 0 rgba(0,0,0,0.5)}.small-message h2{color:#fff;font-size:26px;margin-bottom:15px;font-family:'Lato',sans-serif;text-align:center}
 .small-message p{text-align:center;padding-bottom:10px;color:#fff;font-size:16px;line-height:20px}
 .small-message .close{color:#fff;font-family:'Lato',sans-serif;background:url("../images/ssbg.png") left top no-repeat;background-size:150px 35px;font-size:20px;display:block;cursor:pointer;width:150px;height:27px;text-align:center;margin:0 auto;padding-top:8px}
