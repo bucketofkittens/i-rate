@@ -64,6 +64,11 @@ function ShadowController($scope, $rootScope, $location) {
             shadow = true;
         }
 
+        // затенение для модального окна
+        if($location.search().modal) {
+            shadow = true;
+        }
+
         // затенять или нет
         $scope.showShadow2 = shadow ? true : false;
     }
