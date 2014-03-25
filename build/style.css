@@ -681,7 +681,7 @@ p.bla{width:300px !important}
 .user_short .il img{width:20px !important;height:20px !important}
 .user_short .pmain.pro{padding-bottom:0 !important;opacity:0;transition:all .5s ease;height:0;padding:0 !important;background:url("../images/ssbg.png") -10px -5px no-repeat;background-size:105% 115%;box-shadow:-3px 0 10px 0 rgba(0,0,0,0.7);background-color:rgba(0,0,0,0.8);width:100% !important;position:relative;overflow:hidden}.user_short .pmain.pro.show{opacity:1;padding:15px;height:50px !important}
 #leagues .user_short{right:-15px;left:auto;width:575px}#leagues .user_short .il:last-child{right:33px !important}
-.terms-modal{width:100% !important;margin-left:-50% !important;top:60px !important}.terms-modal article#terms{width:1000px;position:relative;margin:0 auto;background-color:rgba(0,0,0,0.7);padding:0 15px 10px 15px;box-shadow:inset 0 0 20px 0 rgba(0,0,0,0.8),0 0 20px 1px #000}.terms-modal article#terms img{display:block;position:absolute;top:15px;right:15px;width:25px;height:25px;cursor:pointer}
+.terms-modal{width:100% !important;margin-left:-50% !important;top:60px !important}.terms-modal article#terms{width:1000px;position:relative;margin:0 auto;background-color:rgba(0,0,0,0.7);padding:0 15px 10px 15px;box-shadow:inset 0 0 20px 0 rgba(0,0,0,0.8),0 0 20px 1px #000}.terms-modal article#terms img{display:block;position:absolute;top:15px;right:25px;width:25px;height:25px;cursor:pointer}
 .terms-modal article#terms h1{color:#fff;font-size:20px;padding:30px 0 20px 0;text-align:center}
 .terms-modal article#terms h2{color:#fff;font-size:18px;padding:20px 0 10px 0}
 .terms-modal article#terms p{color:#fff;font-size:16px;padding-bottom:5px}
