@@ -16,7 +16,17 @@
 			</div>
 
 			<p id="setting_info">
-				<img ng-src="{{workspace.user.league.icon}}" alt="" /> {{workspace.user.league.name}} league &nbsp &nbsp &nbsp Score: {{workspace.user.points}}
+				<img ng-src="{{workspace.user.league.icon}}" alt="" /> 
+				<span ng-if="workspace.user.league.name">
+					{{workspace.user.league.name}} league &nbsp &nbsp &nbsp
+				</span> 
+				Score: 
+				<span ng-if="workspace.user.points">
+					{{workspace.user.points}}
+				</span>
+				<span ng-if="!workspace.user.points">
+					0
+				</span>
 			</p>
 		</div>
 		

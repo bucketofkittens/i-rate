@@ -1,7 +1,7 @@
 /**
  * Форма создания нового пользователя
  */
-function SignupController($scope, UserService, Recaptha, $rootScope) {
+function SignupController($scope, UserService, Recaptha, $rootScope, SessionsService, $timeout) {
     // модель формы
     $scope.user = {
         email: "",
@@ -48,12 +48,32 @@ function SignupController($scope, UserService, Recaptha, $rootScope) {
         
     }
 
+    $scope.onSigninSuccessCallback_ = function(data) {
+        UserService.setAuthData(data);
+        UserService.isAdmin(data.sguid, $scope.isAdminCallback_);
+
+        UserService.getFriends(data.sguid, $scope.getFriendsCallback_);
+
+        $scope.workspace.user = data;
+
+        $timeout(function() {
+            $rootScope.$broadcast('openProfile', { nav: "Settings" });
+        }, 0);
+    }
+
     // событие если пользователь создался
     $scope.onAddUserSuccessCallback_ = function(data) {
-        $scope.clearErrors();
-        $scope.changeState($scope.states.SIGNIN);
-        
-        $rootScope.$broadcast('openModal', {name: "signup-success"});
+        SessionsService.signin({
+                "email": $scope.user.email,
+                "password": $scope.user.password
+            },
+            $scope.onSigninSuccessCallback_,
+            $scope.onSigninFailCallback_
+        );
+    }
+
+    $scope.onSigninFailCallback_ = function(data) {
+        $scope.error = data.message;
     }
 
     // приводим текст ошибок в порядок
