@@ -166,7 +166,7 @@ pgrModule.directive('scrollUser', function($rootScope) {
       var size = 200;
       scope.changeTimer = null;
 
-      $(element).on("scroll touchmove", function() {
+      $(element).on("scroll touchmove touchend", function() {
         if(scope.changeTimer !== false) clearTimeout(scope.changeTimer);
 
         scope.changeTimer = setTimeout(function() {
