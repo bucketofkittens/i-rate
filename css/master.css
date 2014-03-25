@@ -627,5 +627,5 @@ p.bla{width:300px !important}
 .user_short i{left:20px;position:relative;display:inline-block;width:300px;vertical-align:middle}
 .user_short .il{top:15px !important}
 .user_short .il img{width:20px !important;height:20px !important}
-.user_short .pmain.pro{padding-bottom:0 !important;opacity:0;transition:all .5s ease;height:0;padding:0 !important;background:url("../images/ssbg.png") -10px -5px no-repeat;background-size:105% 115%;box-shadow:-3px 0 10px 0 rgba(0,0,0,0.7);background-color:rgba(0,0,0,0.8);width:100% !important}.user_short .pmain.pro.show{opacity:1;padding:15px;height:50px !important}
+.user_short .pmain.pro{padding-bottom:0 !important;opacity:0;transition:all .5s ease;height:0;padding:0 !important;background:url("../images/ssbg.png") -10px -5px no-repeat;background-size:105% 115%;box-shadow:-3px 0 10px 0 rgba(0,0,0,0.7);background-color:rgba(0,0,0,0.8);width:100% !important;position:relative;overflow:hidden}.user_short .pmain.pro.show{opacity:1;padding:15px;height:50px !important}
 #leagues .user_short{right:0;left:auto;width:575px}
