@@ -126,7 +126,7 @@ pgrModule.directive('scrollUsers', function($rootScope, $location) {
       var size = 200;
       scope.changeTimer = null;
 
-      $(element).on("scroll", function() {
+      $(element).on("scroll touchmove", function() {
         if(scope.changeTimer !== false) clearTimeout(scope.changeTimer);
 
         scope.changeTimer = setTimeout(function() {
@@ -166,7 +166,7 @@ pgrModule.directive('scrollUser', function($rootScope) {
       var size = 200;
       scope.changeTimer = null;
 
-      $(element).on("scroll", function() {
+      $(element).on("scroll touchmove", function() {
         if(scope.changeTimer !== false) clearTimeout(scope.changeTimer);
 
         scope.changeTimer = setTimeout(function() {
