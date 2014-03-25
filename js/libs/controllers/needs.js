@@ -50,11 +50,7 @@ function NeedsAndGoalsController($scope, СareerService, UserService, Goals, Cri
                 if(goal.criteriums && goal.criteriums.length > 0) {
                     angular.forEach(goal.criteriums, function(value, key){
                         $scope.getCriteriumValueByUser(value, function() {
-                            countDataLoad_ += 1;
-
-                            if(countDataLoad_ == maxCount_) {
-                                goal.criteriums.all_load_data = true;
-                            }
+                            goal.criteriums.all_load_data = true;
                         });
                     });
                 }

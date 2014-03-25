@@ -3661,6 +3661,7 @@ sup.bidubi {
                 display: block;
                 text-decoration: none;
                 margin-bottom: 10px;
+                cursor: pointer;
             }
             label {
                 color: #b7b7b7;
@@ -5818,6 +5819,7 @@ p.bla {
             right: 15px;
             width: 25px;
             height: 25px;
+            cursor: pointer;
         }
         h1 {
             color: #ffffff;
@@ -5836,4 +5838,18 @@ p.bla {
             padding-bottom: 5px;
         }
     }
+    .scroll {
+        height: 100%;
+        padding-right: 15px;
+        overflow: auto;
+        position: relative;
+        -webkit-overflow-scrolling: touch;
+        &::-webkit-scrollbar {
+            width: 0px;
+            height: 0px; 
+        }
+    }
+}
+.terms {
+    height: 100%;
 }

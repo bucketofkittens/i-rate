@@ -21,7 +21,6 @@ pgrModule.factory('User', function ($resource) {
             updateUser: {method: 'PUT'},
             'query': {
             	method: 'GET', 
-                cache: true,
             	transformResponse: function (data) {
                     if(data) {
                         // подготавливаем данные 
