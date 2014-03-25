@@ -1,9 +1,10 @@
 <div id="searchfull" ng-if="show"> 
-	<section class="searchfull" scroller  ng-scroll-event="updateOnScrollEvents($event, isEndEvent)">
+	<section class="searchfull">
 		<div 
 			id="search" 
 			class="search fullsearch" 
-			ng-controller="SearchController">
+			ng-controller="SearchController"
+			scroller  ng-scroll-event="updateOnScrollEvents($event, isEndEvent)">
 			<div ng-controller="SearchLeftController">
 				<input 
 					type="text" 
@@ -41,140 +42,146 @@
 		ng-init="init('search_profile')"
 		src="'partials/user/short.html'">
 	</div>
-	<div 
-		class="full_height user sha search_user" 
-		ng-controller="UserController" 
-		ng-include
-		scroll-user
-		ng-init="init('search_profile')"
-		src="'partials/user.html'">
+	<div class="search_user_parent" scroller>
+		<div 
+			class="full_height user sha search_user" 
+			ng-controller="UserController" 
+			ng-include
+			scroll-user
+			scroller
+			ng-init="init('search_profile')"
+			src="'partials/user.html'">
+		</div>
 	</div>
+	
 	<div class="fusepar" ng-if="showRight" scroller>
-		<i ng-click="close()"></i>
-		<div class="fsp">
-			<div class="ri">
-				<h6>Top</h6>
-				<input 
-					type="text" 
-					ng-model="search.top.name" 
-					class="search"
-					ng-change="filteredList('topList', search.top.name, 'top')" />
-				<input type="button" class="searcher" ng-click="toggleShowState('top')" />
-				<img src="./images/fusedel.png" ng-click="selectParam('top', '', true)">
-				<ul class="popup_list big" ng-if="shows.top">
-					<li 
-						ng-if="value.show" 
-						ng-repeat="(key, value) in topList" 
-						ng-click="selectTopParam('top', value)">
-							<img 
-								ng-src="/images/goals/{{value.needName | removewhite}}/{{value.name | removewhite}}.png"
-								alt=""
-								class="goal_icon"
-								title="{{value.name}}" />
-							{{value.name}}
-					</li>
-				</ul>
+		<div class="in scroll">
+			<i ng-click="close()"></i>
+			<div class="fsp">
+				<div class="ri">
+					<h6>Top</h6>
+					<input 
+						type="text" 
+						ng-model="search.top.name" 
+						class="search"
+						ng-change="filteredList('topList', search.top.name, 'top')" />
+					<input type="button" class="searcher" ng-click="toggleShowState('top')" />
+					<img src="./images/fusedel.png" ng-click="selectParam('top', '', true)">
+					<ul class="popup_list big" ng-if="shows.top">
+						<li 
+							ng-if="value.show" 
+							ng-repeat="(key, value) in topList" 
+							ng-click="selectTopParam('top', value)">
+								<img 
+									ng-src="/images/goals/{{value.needName | removewhite}}/{{value.name | removewhite}}.png"
+									alt=""
+									class="goal_icon"
+									title="{{value.name}}" />
+								{{value.name}}
+						</li>
+					</ul>
+				</div>
+				<em></em>
 			</div>
-			<em></em>
-		</div>
-		<div class="fsp">
-			<div class="ri">
-				<h6>Career</h6>
-				<input 
-					type="text" 
-					ng-model="search.career.name" 
-					class="search"
-					ng-change="filteredList('careerList', search.career.name, 'career')" />
-				<input type="button" class="searcher" ng-click="toggleShowState('career')" />
-				<img src="./images/fusedel.png" ng-click="selectParam('career', '', true)" />
-				<ul class="popup_list" ng-if="shows.career">
-					<li 
-						ng-if="value.show" 
-						ng-repeat="(key, value) in careerList" 
-						ng-click="selectCareerParam('career', value)">{{value.name}}</li>
-				</ul>
+			<div class="fsp">
+				<div class="ri">
+					<h6>Career</h6>
+					<input 
+						type="text" 
+						ng-model="search.career.name" 
+						class="search"
+						ng-change="filteredList('careerList', search.career.name, 'career')" />
+					<input type="button" class="searcher" ng-click="toggleShowState('career')" />
+					<img src="./images/fusedel.png" ng-click="selectParam('career', '', true)" />
+					<ul class="popup_list" ng-if="shows.career">
+						<li 
+							ng-if="value.show" 
+							ng-repeat="(key, value) in careerList" 
+							ng-click="selectCareerParam('career', value)">{{value.name}}</li>
+					</ul>
+				</div>
+				<div class="ri">
+					<h6>Profession</h6>
+					<input 
+						type="text" 
+						ng-model="search.profession.name" 
+						class="search"
+						ng-change="filteredList('professionList', search.profession.name, 'profession')" />
+					<input type="button" class="searcher" ng-click="toggleShowState('profession')" />
+					<img src="./images/fusedel.png" ng-click="selectParam('profession', '', true)">
+					<ul class="popup_list" ng-if="shows.profession">
+						<li ng-if="value.show" ng-repeat="(key, value) in professionList" ng-click="selectParam('profession', value)">{{value.name}}</li>
+					</ul>
+				</div>
+				<em></em>
 			</div>
-			<div class="ri">
-				<h6>Profession</h6>
-				<input 
-					type="text" 
-					ng-model="search.profession.name" 
-					class="search"
-					ng-change="filteredList('professionList', search.profession.name, 'profession')" />
-				<input type="button" class="searcher" ng-click="toggleShowState('profession')" />
-				<img src="./images/fusedel.png" ng-click="selectParam('profession', '', true)">
-				<ul class="popup_list" ng-if="shows.profession">
-					<li ng-if="value.show" ng-repeat="(key, value) in professionList" ng-click="selectParam('profession', value)">{{value.name}}</li>
-				</ul>
+			<div class="fsp">
+				<div class="ri">
+					<h6>Country</h6>
+					<input 
+						type="text" 
+						ng-model="search.country.name" 
+						class="search"
+						ng-change="filteredList('countriesList', search.country.name, 'country')" />
+					<input type="button" class="searcher" ng-click="toggleShowState('country')" />
+					<img src="./images/fusedel.png" ng-click="selectParam('country', '', true)">
+					<ul class="popup_list" ng-if="shows.country">
+						<li ng-if="value.show" ng-repeat="(key, value) in countriesList" ng-click="selectContryParam('country', value)">{{value.name}}</li>
+					</ul>
+				</div>
+				<div class="ri">
+					<h6>City</h6>
+					<input 
+						type="text" 
+						ng-model="search.city.name" 
+						class="search"
+						ng-change="filteredList('cityList', search.city.name, 'city')" />
+					<input type="button" class="searcher" ng-click="toggleShowState('city')" />
+					<img src="./images/fusedel.png" ng-click="selectParam('city', '', true)">
+					<ul class="popup_list" ng-if="shows.city">
+						<li ng-if="value.show" ng-repeat="(key, value) in cityList" ng-click="selectParam('city', value)">{{value.name}}</li>
+					</ul>
+				</div>
+				<em></em>
 			</div>
-			<em></em>
-		</div>
-		<div class="fsp">
-			<div class="ri">
-				<h6>Country</h6>
-				<input 
-					type="text" 
-					ng-model="search.country.name" 
-					class="search"
-					ng-change="filteredList('countriesList', search.country.name, 'country')" />
-				<input type="button" class="searcher" ng-click="toggleShowState('country')" />
-				<img src="./images/fusedel.png" ng-click="selectParam('country', '', true)">
-				<ul class="popup_list" ng-if="shows.country">
-					<li ng-if="value.show" ng-repeat="(key, value) in countriesList" ng-click="selectContryParam('country', value)">{{value.name}}</li>
-				</ul>
+			<div class="fsp">
+				<div class="ri">
+					<h6>Birthday from</h6>
+					<input type="text" ng-model="search.birthday_from" id="birthday_from" ui-date="dateOptions"  name="DateOfBirth1" id="dFrom" />
+					<img src="./images/fusedel.png" ng-click="selectDateParam('birthday_from', '', true)">
+				</div>
+				<div class="ri">
+					<h6>Birthday till</h6>
+					<input type="text" ng-model="search.birthday_till" id="birthday_till" ui-date="dateOptions"  name="DateOfBirth2" id="dTill" />
+					<img src="./images/fusedel.png" ng-click="selectDateParam('birthday_till', '', true)">
+				</div>
+				<em></em>
 			</div>
-			<div class="ri">
-				<h6>City</h6>
-				<input 
-					type="text" 
-					ng-model="search.city.name" 
-					class="search"
-					ng-change="filteredList('cityList', search.city.name, 'city')" />
-				<input type="button" class="searcher" ng-click="toggleShowState('city')" />
-				<img src="./images/fusedel.png" ng-click="selectParam('city', '', true)">
-				<ul class="popup_list" ng-if="shows.city">
-					<li ng-if="value.show" ng-repeat="(key, value) in cityList" ng-click="selectParam('city', value)">{{value.name}}</li>
-				</ul>
+			<div class="fsp">
+				<div class="ri">
+					<h6>League</h6>
+					<input 
+						type="text" 
+						ng-model="search.league.name" 
+						class="search" />
+					<input type="button" class="searcher" ng-click="toggleShowState('league')" />
+					<img src="./images/fusedel.png" ng-click="clearLeagueParam('league', '', true)">
+					<ul class="popup_list" ng-if="shows.league">
+						<li ng-repeat="(key, value) in workspace.leagues | orderBy:'min_border':true" ng-click="selectLeagueParam('league', value)">{{value.name}}</li>
+					</ul>
+					
+				</div>
+				<div class="ri">
+					<h6>Score</h6>
+					<div ui-slider="{range: true}" min="0" max="175000" ng-model="search.score"></div>
+					<span>{{search.score[0]}}</span>
+					<span>{{search.score[1]}}</span>
+				</div>
+				<em></em>
 			</div>
-			<em></em>
-		</div>
-		<div class="fsp">
-			<div class="ri">
-				<h6>Birthday from</h6>
-				<input type="text" ng-model="search.birthday_from" id="birthday_from" ui-date="dateOptions"  name="DateOfBirth1" id="dFrom" />
-				<img src="./images/fusedel.png" ng-click="selectDateParam('birthday_from', '', true)">
+			<div class="fsp fspb">
+				<button ng-click="clearAll()">Clear all</button>
 			</div>
-			<div class="ri">
-				<h6>Birthday till</h6>
-				<input type="text" ng-model="search.birthday_till" id="birthday_till" ui-date="dateOptions"  name="DateOfBirth2" id="dTill" />
-				<img src="./images/fusedel.png" ng-click="selectDateParam('birthday_till', '', true)">
-			</div>
-			<em></em>
-		</div>
-		<div class="fsp">
-			<div class="ri">
-				<h6>League</h6>
-				<input 
-					type="text" 
-					ng-model="search.league.name" 
-					class="search" />
-				<input type="button" class="searcher" ng-click="toggleShowState('league')" />
-				<img src="./images/fusedel.png" ng-click="clearLeagueParam('league', '', true)">
-				<ul class="popup_list" ng-if="shows.league">
-					<li ng-repeat="(key, value) in workspace.leagues | orderBy:'min_border':true" ng-click="selectLeagueParam('league', value)">{{value.name}}</li>
-				</ul>
-				
-			</div>
-			<div class="ri">
-				<h6>Score</h6>
-				<div ui-slider="{range: true}" min="0" max="175000" ng-model="search.score"></div>
-				<span>{{search.score[0]}}</span>
-				<span>{{search.score[1]}}</span>
-			</div>
-			<em></em>
-		</div>
-		<div class="fsp fspb">
-			<button ng-click="clearAll()">Clear all</button>
 		</div>
 	</div>
 </div>

@@ -18,20 +18,23 @@
 			</div>
 		</div>
 	</div>
-	<div class="center" scroller scroll-users>
-		<div
-			class="full_height user sha" 
-			ng-controller="UserController" 
-			ng-include
-			ng-init="init('user1')"
-			src="'partials/user.html'">
+	<div class="center">
+		<div class="center4" scroller scroll-users>
+			<div
+				class="full_height user sha" 
+				ng-controller="UserController" 
+				ng-include
+				ng-init="init('user1')"
+				src="'partials/user.html'">
+			</div>
+			<div
+				class="full_height user" 
+				ng-controller="UserController" 
+				ng-include
+				ng-init="init('user2')"
+				src="'partials/user.html'">
+			</div>	
 		</div>
-		<div
-			class="full_height user" 
-			ng-controller="UserController" 
-			ng-include
-			ng-init="init('user2')"
-			src="'partials/user.html'">
-		</div>
+		
 	</div>
 </div>

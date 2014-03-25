@@ -204,7 +204,7 @@ footer #footer .sexual a.facebook{background-position:-50px 0}
 footer #footer .sexual a.google{background-position:-90px 0;width:40px}
 .dropdown-menu li>a strong{font-weight:bold}
 [ng\:cloak],[ng-cloak],[data-ng-cloak],[x-ng-cloak],.ng-cloak,.x-ng-cloak{display:none !important}
-.login{width:100%;height:100%;overflow-y:scroll;overflow-x:visible;background:url("../images/glass.png") left top no-repeat;background-size:100% 100%}.login::-webkit-scrollbar{width:0;height:0}
+.login{width:100%;height:100%;background:url("../images/glass.png") left top no-repeat;background-size:100% 100%}.login::-webkit-scrollbar{width:0;height:0}
 .login::-moz-scrollbar{width:0;height:0}
 .login.chepas{width:500px;height:300px;position:absolute;background-size:500px 300px;left:50%;margin-left:-250px;box-shadow:inset 0 0 20px 0 rgba(0,0,0,0.5),0 0 30px 3px rgba(0,0,0,0.8);background-color:rgba(0,0,0,0.5);top:30%}.login.chepas .modal{top:20px !important}.login.chepas .modal .body{margin:30px auto}.login.chepas .modal .body p{margin-bottom:20px}
 .login .modal{z-index:1000;transition:all 1s ease-out;-webkit-transition:all 1s ease-out;width:70%;top:15% !important;margin:0 auto;position:relative}.login .modal .header{width:100%;text-align:center}.login .modal .header h4{color:#fff;font-size:22px;margin-bottom:30px;font-family:'Lato',sans-serif}
@@ -350,18 +350,18 @@ sup.bidubi{top:13px !important;border-width:23px 0 23px 15px}
 .comments .butcomm .repcha{width:50px;height:41px;background:url("../images/rep.png") left top no-repeat;background-size:50px 43px;margin-left:-2px}
 .comments .butcomm .rep{width:148px;display:block;position:absolute;right:17px;top:-2px;background-size:148px 45px}
 .comments em{display:block;width:100%;border-top:1px solid #666;border-bottom:1px solid #333;margin:10px 0}
-#searchfull{position:absolute;left:50%;top:0;margin-left:-500px;z-index:10;height:100%;width:1000px}#searchfull .user_short_search{right:0;left:auto;top:60px;width:600px}
+#searchfull{position:absolute;left:50%;top:0;margin-left:-480px;z-index:10;height:100%;width:1000px;overflow:hidden}#searchfull .user_short_search{right:0;left:auto;top:60px;width:620px}
 #searchfull .popup_list{margin-left:0;min-width:190px}
 #searchfull .loader{margin-top:100px}
-#searchfull .searchfull{position:absolute;left:0;width:400px;height:100%;min-height:550px;box-shadow:inset -5px 0 20px 1px rgba(0,0,0,0.5);z-index:3;display:inline-block;overflow-y:scroll;overflow-x:hidden;background:url("../images/glass.png") left top no-repeat;background-size:100% 100%}#searchfull .searchfull::-webkit-scrollbar{width:0;height:0}
-#searchfull .searchfull .search{margin-top:60px}
+#searchfull .searchfull{position:absolute;left:0;width:380px;height:100%;min-height:550px;z-index:3;display:inline-block;margin-top:60px;overflow:hidden}#searchfull .searchfull .search{overflow-y:scroll;overflow-x:hidden;background:url("../images/glass.png") left top no-repeat;background-size:100% 100%;height:100%;box-shadow:inset -5px 0 20px 1px rgba(0,0,0,0.5);width:400px}
 #searchfull .searchfull .fullsearch input[type="text"]{left:0;width:398px;height:40px;background:url("../images/sbg.png") -3px top no-repeat;background-size:403px 40px;border:none;color:#fff}
 #searchfull .searchfull .fullsearch .searchResult{width:400px;right:0;position:relative;top:0;padding-top:0;background:none}#searchfull .searchfull .fullsearch .searchResult img{cursor:pointer}
 #searchfull .searchfull .fullsearch .searchResult .item{width:380px}#searchfull .searchfull .fullsearch .searchResult .item img{width:80px;margin-right:10px}
 #searchfull .searchfull .fullsearch .searchResult .item .sealin{background:none;top:20px}
 #searchfull .searchfull .fullsearch .searchResult .item .text{padding-left:25px}
-.search_user{display:inline-block;position:absolute;top:60px;right:0;vertical-align:top;width:600px;height:90%;background:url("../images/glass.png") left top no-repeat;background-size:100% 100%;box-shadow:inset 5px 0 20px 1px rgba(0,0,0,0.7);overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch}.search_user::-webkit-scrollbar{width:0;height:0}
-.fusepar{display:inline-block;position:absolute;top:60px;right:0;vertical-align:top;width:600px;height:90%;z-index:3;overflow-y:scroll;background:url("../images/glass.png") left top no-repeat;background-size:100% 100%;box-shadow:inset 5px 0 20px 1px rgba(0,0,0,0.7)}.fusepar::-webkit-scrollbar{width:0;height:0}
+.search_user_parent{width:600px;overflow:hidden;position:relative;display:inline-block;position:absolute;top:60px;right:0;vertical-align:top;width:640px;height:95%}
+.search_user{display:inline-block;position:absolute;top:0;right:-15px;vertical-align:top;width:640px;height:100%;background:url("../images/glass.png") left top no-repeat;background-size:100% 100%;box-shadow:inset 5px 0 20px 1px rgba(0,0,0,0.7);overflow-y:auto;overflow-x:hidden}
+.fusepar{display:inline-block;position:absolute;top:60px;right:0;vertical-align:top;width:620px;height:90%;overflow:hidden}.fusepar .in{z-index:3;float:right;width:640px;position:relative;right:-20px;overflow-y:scroll;overflow-x:hidden;background:url("../images/glass.png") left top no-repeat;background-size:100% 100%;box-shadow:inset 5px 0 20px 1px rgba(0,0,0,0.7);height:100%}
 .fusepar i{display:block;position:absolute;top:10px;right:10px;width:25px;height:25px;background:url("../images/cl.png") left top no-repeat;background-size:25px 25px;cursor:pointer;z-index:10}
 .fusepar .fsp{margin:0 auto;width:550px;padding:30px 15px 30px 30px;position:relative;}.fusepar .fsp:after{content:".";display:block;height:0;clear:both;visibility:hidden}
 .fusepar .fsp em{width:530px;text-align:center;border-top:1px solid #666;border-bottom:1px solid #333;display:block;position:absolute;bottom:0}
@@ -435,18 +435,18 @@ sup.bidubi{top:13px !important;border-width:23px 0 23px 15px}
 #signin_panel .glass .sign-in ul li a img,#signin_panel .glass .sign-up ul li a img{max-width:70px}
 .full_height{height:100%}
 #leagues{position:absolute;left:0;top:0;width:100%;height:100%}#leagues .center{margin:60px auto 0 auto;width:1024px;height:100%;overflow:hidden;position:relative;z-index:99}
-#users{position:absolute;left:0;top:0;width:100%;height:100%}#users .center2{position:absolute;left:0;top:0;width:100%;z-index:999}#users .center2 .center3{margin:0 auto;max-width:1024px;overflow:hidden;position:relative;top:40px;z-index:999}
-#users .center2 .user_short{float:left;width:512px;top:20px;position:relative}
+#users{position:absolute;left:0;top:0;width:100%;height:100%;overflow:hidden}#users .center2{position:absolute;left:0;top:0;width:100%;z-index:999}#users .center2 .center3{margin:0 auto;max-width:1024px;overflow:hidden;position:relative;top:40px;z-index:999}
+#users .center2 .user_short{float:left;width:512px;top:20px;position:relative}#users .center2 .user_short .pmain.pro.show{height:65px !important}
 #users .center2 .user_short:last-child{float:right;right:0;left:auto}
-#users .center{margin:0 auto;max-width:1024px;overflow:hidden;position:relative;height:100%;overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch}#users .center::-webkit-scrollbar{width:0;height:0}
-#users .center .user{float:right;position:relative;z-index:11;-webkit-transform:translate3d(0, 0, 0)}#users .center .user .compare.up{display:none}
-#users .center .user:first-child{float:left}#users .center .user:first-child .compare.down{display:none}
-#users .center .user:first-child .compare.up{display:block;right:-13px;left:auto}
-#users .center .user .sam{width:512px;position:relative;margin-top:60px;background:url("../images/glass.png") left top no-repeat;background-size:100% 100%;z-index:3;box-shadow:inset 5px 2px 20px 1px #2b2b2b;min-height:100%;overflow:hidden}#users .center .user .sam.big{width:600px;right:94px}
-#users .center .user .sam .needs{position:relative;overflow:hidden}
-#users .center .user .sam .null{display:none !important}
-#users .center .user .sam .image_box{cursor:default !important}
-#users .center .user.sha .sam{z-index:5 !important}
+#users .center{width:1024px;position:relative;overflow:hidden;margin:0 auto}#users .center .center4{margin:0 auto;width:1040px;overflow:hidden;position:relative;height:100%;overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch}#users .center .center4::-webkit-scrollbar{width:0;height:0}
+#users .center .center4 .user{float:left;position:relative;z-index:11;-webkit-transform:translate3d(0, 0, 0)}#users .center .center4 .user .compare.up{display:none}
+#users .center .center4 .user:first-child{float:left}#users .center .center4 .user:first-child .compare.down{display:none}
+#users .center .center4 .user:first-child .compare.up{display:block;right:-13px;left:auto}
+#users .center .center4 .user .sam{width:512px;position:relative;margin-top:60px;background:url("../images/glass.png") left top no-repeat;background-size:100% 100%;z-index:3;box-shadow:inset 5px 2px 20px 1px #2b2b2b;min-height:100%;overflow:hidden}#users .center .center4 .user .sam.big{width:600px;right:94px}
+#users .center .center4 .user .sam .needs{position:relative;overflow:hidden}
+#users .center .center4 .user .sam .null{display:none !important}
+#users .center .center4 .user .sam .image_box{cursor:default !important}
+#users .center .center4 .user.sha .sam{z-index:5 !important}
 .crits li ul li:first-child h5 .compare.goal{height:83px !important;top:-20px !important}.crits li ul li:first-child h5 .compare.goal.down{height:80px !important}
 .crits li ul li:last-child h5 .compare.goal{top:-10px;height:78px !important}
 .crits li ul li h5 .compare.goal.down{height:73px}
@@ -653,11 +653,11 @@ input:invalid{box-shadow:none}
 .nsi-modal input[type="checkbox"]:before{display:none}
 .nsi-modal input[type="checkbox"]{visibility:visible}
 .league_link{position:absolute;color:#fff;cursor:pointer;background:url("../images/leag.png") left top no-repeat;background-size:100% 100%;width:109px;right:300px;height:36px;top:12px}
-.league_list{float:left;color:#fff;width:150px;height:auto;background:url("../images/glass.png") left top no-repeat;background-size:100% 100%}.league_list li{background:rgba(0,0,0,0.3);box-shadow:inset 0 0 5px 0 #000;height:50px;width:100%;cursor:pointer}.league_list li img{position:relative;display:inline-block;vertical-align:middle;width:30px;margin:10px 10px 0 10px}
+.league_list{float:left;color:#fff;width:150px;height:auto;background:url("../images/glass.png") left top no-repeat;background-size:100% 100%;position:relative;right:-15px}.league_list li{background:rgba(0,0,0,0.3);box-shadow:inset 0 0 5px 0 #000;height:50px;width:100%;cursor:pointer}.league_list li img{position:relative;display:inline-block;vertical-align:middle;width:30px;margin:10px 10px 0 10px}
 .league_list li p{position:relative;display:inline-block;vertical-align:middle;top:3px}
 .league_list li.current{background:none;box-shadow:none}
-.user_list{float:left;overflow:hidden}
-.league_user{float:left;height:100%;overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch}.league_user::-webkit-scrollbar{width:0;height:0}
+.user_list{float:left;overflow:hidden;position:relative;right:-15px}
+.league_user{float:left;height:100%;overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch;position:relative;right:-15px}
 #content .search_user .mynav ul{margin-left:155px !important}
 .person_list{background:url("../images/glass.png") left top no-repeat;background-size:100% 100%;width:300px;overflow:hidden}.person_list li{width:290px;overflow:hidden;border-bottom:1px solid #333;border-top:1px solid #666;position:relative;margin-left:15px;height:70px !important}.person_list li .avatar{width:70px;position:relative;cursor:pointer;display:inline-block;vertical-align:middle}.person_list li .avatar img{display:block;width:70px}
 .person_list li .text{width:170px;padding:0 0 0 10px;line-height:25px;cursor:pointer;display:inline-block;vertical-align:middle}.person_list li .text p{font-size:16px;color:#fff;display:inline-block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.person_list li .text p:nth-child(2){width:150px}
@@ -679,14 +679,16 @@ p.bla{width:300px !important}
 .user_short i{left:20px;position:relative;display:inline-block;width:300px;vertical-align:middle}
 .user_short .il{top:15px !important}
 .user_short .il img{width:20px !important;height:20px !important}
-.user_short .pmain.pro{padding-bottom:0 !important;opacity:0;transition:all .5s ease;height:0;padding:0 !important;background:url("../images/ssbg.png") -10px -5px no-repeat;background-size:105% 115%;box-shadow:-3px 0 10px 0 rgba(0,0,0,0.7);background-color:rgba(0,0,0,0.8);width:100% !important;position:relative;overflow:hidden}.user_short .pmain.pro.show{opacity:1;padding:15px;height:65px !important}
-#leagues .user_short{right:0;left:auto;width:575px}
+.user_short .pmain.pro{padding-bottom:0 !important;opacity:0;transition:all .5s ease;height:0;padding:0 !important;background:url("../images/ssbg.png") -10px -5px no-repeat;background-size:105% 115%;box-shadow:-3px 0 10px 0 rgba(0,0,0,0.7);background-color:rgba(0,0,0,0.8);width:100% !important;position:relative;overflow:hidden}.user_short .pmain.pro.show{opacity:1;padding:15px;height:50px !important}
+#leagues .user_short{right:-15px;left:auto;width:575px}#leagues .user_short .il:last-child{right:33px !important}
 .terms-modal{width:100% !important;margin-left:-50% !important;top:60px !important}.terms-modal article#terms{width:1000px;position:relative;margin:0 auto;background-color:rgba(0,0,0,0.7);padding:0 15px 10px 15px;box-shadow:inset 0 0 20px 0 rgba(0,0,0,0.8),0 0 20px 1px #000}.terms-modal article#terms img{display:block;position:absolute;top:15px;right:15px;width:25px;height:25px;cursor:pointer}
 .terms-modal article#terms h1{color:#fff;font-size:20px;padding:30px 0 20px 0;text-align:center}
 .terms-modal article#terms h2{color:#fff;font-size:18px;padding:20px 0 10px 0}
 .terms-modal article#terms p{color:#fff;font-size:16px;padding-bottom:5px}
 .terms-modal .scroll{height:100%;padding-right:15px;overflow:auto;position:relative;-webkit-overflow-scrolling:touch}.terms-modal .scroll::-webkit-scrollbar{width:0;height:0}
 .terms{height:100%}
+.scroll_parent{overflow:hidden;width:100%}
+.scroll{height:100%;width:101%;overflow:auto;position:relative;-webkit-overflow-scrolling:touch}.scroll::-webkit-scrollbar{width:0;height:0}
 
 .cropFrame {
 	overflow : hidden;

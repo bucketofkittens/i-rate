@@ -1803,8 +1803,6 @@ footer {
 .login {
     width: 100%;
     height: 100%;
-    overflow-y: scroll;
-    overflow-x: visible;
     background: url("../images/glass.png") left top no-repeat;
     background-size: 100% 100%;
     &::-webkit-scrollbar {
@@ -2956,15 +2954,16 @@ sup.bidubi {
     position: absolute;
     left: 50%;
     top: 0px;
-    margin-left: -500px;
+    margin-left: -480px;
     z-index: 10;
     height: 100%;
     width: 1000px;
+    overflow: hidden;
     .user_short_search {
         right: 0px;
         left: auto;
         top: 60px;
-        width: 600px;
+        width: 620px;
     }
     .popup_list {
         margin-left: 0px;
@@ -2976,22 +2975,21 @@ sup.bidubi {
     .searchfull {
         position: absolute;
         left: 0px;
-        width: 400px;
+        width: 380px;
         height: 100%;
         min-height: 550px;
-        box-shadow: inset -5px 0px 20px 1px rgba(0, 0, 0, 0.5);
         z-index: 3;
         display: inline-block;
-        overflow-y: scroll;
-        overflow-x: hidden;
-        background: url("../images/glass.png") left top no-repeat;
-        background-size: 100% 100%;
-        &::-webkit-scrollbar {
-            width: 0px;
-            height: 0px; 
-        }
+        margin-top: 60px;
+        overflow: hidden;
         .search {
-            margin-top: 60px;
+            overflow-y: scroll;
+            overflow-x: hidden;
+            background: url("../images/glass.png") left top no-repeat;
+            background-size: 100% 100%;
+            height: 100%;
+            box-shadow: inset -5px 0px 20px 1px rgba(0, 0, 0, 0.5);
+            width: 400px;
         }
         .fullsearch {
             input[type="text"] {
@@ -3031,24 +3029,31 @@ sup.bidubi {
         }    
     }
 }
-.search_user {
+.search_user_parent {
+    width: 600px;
+    overflow: hidden;
+    position: relative;
     display: inline-block;
     position: absolute;
     top: 60px;
     right: 0px;
     vertical-align: top;
-    width: 600px;
-    height: 90%;
+    width: 640px;
+    height: 95%;
+}
+.search_user {
+    display: inline-block;
+    position: absolute;
+    top: 0px;
+    right: -15px;
+    vertical-align: top;
+    width: 640px;
+    height: 100%;
     background: url("../images/glass.png") left top no-repeat;
     background-size: 100% 100%;
     box-shadow: inset 5px 0px 20px 1px rgba(0, 0, 0, 0.7);
     overflow-y: auto;
     overflow-x: hidden;
-    -webkit-overflow-scrolling: touch;
-    &::-webkit-scrollbar {
-        width: 0px;
-        height: 0px; 
-    }
 }
 .fusepar {
     display: inline-block;
@@ -3056,16 +3061,21 @@ sup.bidubi {
     top: 60px;
     right: 0px;
     vertical-align: top;
-    width: 600px;
+    width: 620px;
     height: 90%;
-    z-index: 3;
-    overflow-y: scroll;
-    background: url("../images/glass.png") left top no-repeat;
-    background-size: 100% 100%;
-    box-shadow: inset 5px 0px 20px 1px rgba(0, 0, 0, 0.7);
-    &::-webkit-scrollbar {
-        width: 0px;
-        height: 0px; 
+    overflow: hidden;
+    .in {
+        z-index: 3;
+        float: right;
+        width: 640px;
+        position: relative;
+        right: -20px;
+        overflow-y: scroll;
+        overflow-x: hidden;
+        background: url("../images/glass.png") left top no-repeat;
+        background-size: 100% 100%;
+        box-shadow: inset 5px 0px 20px 1px rgba(0, 0, 0, 0.7);
+        height: 100%;
     }
     i {
         display: block;
@@ -3760,6 +3770,7 @@ sup.bidubi {
     top: 0px;
     width: 100%; 
     height: 100%;
+    overflow: hidden;
     .center2 {
         position: absolute;
         left: 0px;
@@ -3779,7 +3790,13 @@ sup.bidubi {
             width: 512px;
             top: 20px;
             position: relative;
+            .pmain.pro {
+                &.show {
+                    height: 65px !important;
+                }    
+            }
         }
+
         .user_short:last-child {
             float: right;
             right: 0px;
@@ -3787,65 +3804,71 @@ sup.bidubi {
         }
     }
     .center {
-        margin: 0px auto;
-        max-width: 1024px;
-        overflow: hidden;
+        width: 1024px;
         position: relative;
-        height: 100%;
-        overflow-y: auto;
-        overflow-x: hidden;
-        -webkit-overflow-scrolling: touch;
-        &::-webkit-scrollbar {
-            width: 0px;
-            height: 0px; 
-        }
-        .user {
-            float: right;
+        overflow: hidden;
+        margin: 0px auto;
+        .center4 {
+            margin: 0px auto;
+            width: 1040px;
+            overflow: hidden;
             position: relative;
-            z-index: 11;
-            -webkit-transform: translate3d(0, 0, 0);
-            .compare.up {
-                display: none;
+            height: 100%;
+            overflow-y: auto;
+            overflow-x: hidden;
+            -webkit-overflow-scrolling: touch;
+            &::-webkit-scrollbar {
+                width: 0px;
+                height: 0px; 
             }
-            &:first-child {
+            .user {
                 float: left;
-                .compare.down {
+                position: relative;
+                z-index: 11;
+                -webkit-transform: translate3d(0, 0, 0);
+                .compare.up {
                     display: none;
                 }
-                .compare.up { 
-                    display: block;
-                    right: -13px;
-                    left: auto;
+                &:first-child {
+                    float: left;
+                    .compare.down {
+                        display: none;
+                    }
+                    .compare.up { 
+                        display: block;
+                        right: -13px;
+                        left: auto;
+                    }
                 }
-            }
-            .sam { 
-                width: 512px;
-                position: relative;
-                margin-top: 60px;
-                background: url("../images/glass.png") left top no-repeat;
-                background-size: 100% 100%;
-                z-index: 3;
-                //box-shadow: 1px 0 30px 0 #2b2b2b, inset 5px 2px 20px 1px #2b2b2b;
-                box-shadow: inset 5px 2px 20px 1px #2b2b2b;
-                min-height: 100%;
-                overflow: hidden;
-                &.big {
-                    width: 600px;
-                    right: 94px;
-                }
-                .needs {
+                .sam { 
+                    width: 512px;
                     position: relative;
+                    margin-top: 60px;
+                    background: url("../images/glass.png") left top no-repeat;
+                    background-size: 100% 100%;
+                    z-index: 3;
+                    //box-shadow: 1px 0 30px 0 #2b2b2b, inset 5px 2px 20px 1px #2b2b2b;
+                    box-shadow: inset 5px 2px 20px 1px #2b2b2b;
+                    min-height: 100%;
                     overflow: hidden;
+                    &.big {
+                        width: 600px;
+                        right: 94px;
+                    }
+                    .needs {
+                        position: relative;
+                        overflow: hidden;
+                    }
+                    .null {
+                        display: none !important;
+                    }
+                    .image_box {
+                        cursor: default !important;
+                    }
                 }
-                .null {
-                    display: none !important;
+                &.sha .sam {
+                    z-index: 5 !important;
                 }
-                .image_box {
-                    cursor: default !important;
-                }
-            }
-            &.sha .sam {
-                z-index: 5 !important;
             }
         }
     }
@@ -5224,6 +5247,8 @@ input:invalid {
     height: auto;
     background: url("../images/glass.png") left top no-repeat;
     background-size: 100% 100%;
+    position: relative;
+    right: -15px;
     li {
         background: rgba(0, 0, 0, 0.3);
         box-shadow: inset 0 0 5px 0 #000000;
@@ -5253,6 +5278,8 @@ input:invalid {
 .user_list {
     float: left;
     overflow: hidden;
+    position: relative;
+    right: -15px;
 }
 
 .league_user {
@@ -5261,10 +5288,8 @@ input:invalid {
     overflow-y: auto;
     overflow-x: hidden;
     -webkit-overflow-scrolling: touch;
-    &::-webkit-scrollbar {
-        width: 0px;
-        height: 0px; 
-    }
+    position: relative;
+    right: -15px;
 } 
 
 #content .search_user .mynav ul {
@@ -5781,17 +5806,19 @@ p.bla {
         &.show {
             opacity: 1;
             padding: 15px;
-            height: 65px !important;
+            height: 50px !important;
         }
     }
 }
 
 #leagues {
-
     .user_short {
-        right: 0px;
+        right: -15px;
         left: auto;
         width: 575px;
+        .il:last-child {
+            right: 33px !important;
+        }
     }
 }
 
@@ -5846,4 +5873,20 @@ p.bla {
 }
 .terms {
     height: 100%;
+}
+
+.scroll_parent {
+    overflow: hidden;
+    width: 100%;
+}
+.scroll {
+    height: 100%;
+    width: 101%;
+    overflow: auto;
+    position: relative;
+    -webkit-overflow-scrolling: touch;
+    &::-webkit-scrollbar {
+        width: 0px;
+        height: 0px; 
+    }
 }
