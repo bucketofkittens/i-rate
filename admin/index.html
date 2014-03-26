@@ -20,16 +20,15 @@
 </head>
 
 <body ng-controller="RootController">
-
     <!-- Header -->
-    <div ng-include src="'admin/partials/header.html'"></div>
+    <div ng-if="workspace.isAdmin" ng-include src="'admin/partials/header.html'"></div>
     
     <!-- Контент -->
     <div id="content" class="{{location}}">
-        <div class="content_wrap" ng-view></div>
+        <div ng-if="workspace.isAdmin" class="content_wrap" ng-view></div>
 
-        <div class="full_height" ng-controller="UsersController" ng-include src="'partials/users.html'"></div>
-        <div id="current_report">
+        <div  ng-if="workspace.isAdmin" class="full_height" ng-controller="UsersController" ng-include src="'partials/users.html'"></div>
+        <div  ng-if="workspace.isAdmin" id="current_report">
             <div
                 class="full_height user sha" 
                 ng-controller="UserController" 
@@ -38,6 +37,8 @@
                 src="'/admin/partials/user.html'">
             </div>
         </div>
+
+        <div ng-if="!workspace.isAdmin" class="noAdmin">No admin ;-(</div>
     </div>
 
     <script src="/js/jquery-2.0.3.min.js" type="text/javascript"></script>

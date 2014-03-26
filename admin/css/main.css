@@ -32,3 +32,4 @@ body #current_report #reps{height:100%;position:relative;overflow:hidden}body #c
 body #current_report #reps .dcdrep button{float:left;font-size:18px;margin:0 50px 30px 50px;color:#fff;line-height:20px;text-align:center;vertical-align:middle;font-family:'Lato',sans-serif;background:none;cursor:pointer;width:100px;height:40px;background:url("../images/ssbg.png") left top no-repeat;background-size:100px 45px;display:inline-block;border:none}body #current_report #reps .dcdrep button:last-child{float:right}
 body #current_report #reps .hstr{width:400px;margin:0 auto;background:rgba(0,0,0,0.2)}body #current_report #reps .hstr tr{height:70px !important}
 input[type="checkbox"]{-ms-appearance:checkbox !important;-webkit-appearance:checkbox !important;-moz-appearance:checkbox !important;-moz-box-shadow:checkbox !important}
+.noAdmin{text-align:center;font-size:30px;color:#fff}

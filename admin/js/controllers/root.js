@@ -19,6 +19,8 @@ function RootController($scope, FacebookService, СareerService, LeagueService, 
      */
     $scope.workspace = {};
 
+    $scope.workspace.isAdmin = UserService.isAdminCache();
+
     /**
      * Забираем юзера из кеша
      * @type {[type]}
