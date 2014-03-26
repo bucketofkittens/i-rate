@@ -19,7 +19,7 @@ function ReportConfirmConroller($scope, ReportService, $location, $rootScope, Co
     $scope.createComment = function() {
     	if($scope.form.message.length > 0) {
             Comments.create({}, {
-                owner_type: 1,
+                owner_type: 4,
                 author_guid: $scope.workspace.user.sguid,
                 post_date: moment().format("DD-MM-YYYY HH:mm:ss"),
                 message: $scope.form.message,

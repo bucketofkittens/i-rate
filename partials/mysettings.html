@@ -28,6 +28,10 @@
 					<strong ng-if="workspace.user.published == 1">
 						Your account is public.<b>Everybody can see you profile.</b>
 					</strong>
+					{{workspace.user.league.secure}}
+					<strong class="red" ng-if="workspace.user.published == 1 && workspace.user.league.secure == true && !workspace.user.artificial == 0 && !workspace.user.allowed_for_publish == 0">
+						Everybody can see you profile after verification
+					</strong>
 					<div class="pubut" ng-class="{ published: workspace.user.published }">
 						<i>Public</i>
 						<span ng-click="changePublish()">
@@ -134,10 +138,7 @@
 				</select>
 			</p>
 			<p class="apply">
-				<label>&nbsp</label>
-				<span class="publish">
-					<button ng-click="onChange()" ng-class="{disable: !isChange}">Apply changes</button>
-				</span>
+				<button class="reset" ng-click="onChange()" ng-class="{disable: !isChange}">Apply changes</button>
 			</p>
 			<p ng-if="!social">
 				<button class="reset" ng-click="onChangePassword()">Reset password</button>
