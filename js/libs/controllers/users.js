@@ -15,6 +15,9 @@ function UsersController($scope, $location, $rootScope, $timeout, NeedsService, 
 	// определяем показываем ли мы панель или нет
 	$scope.show = $location.search().user1 || $location.search().user2 ? true : false;
 
+    $scope.one = $location.search().user1 && !$location.search().user2 ? true : false;
+
+
 	// закрываем правую панель. Грязный хак. нужно будет переписать когда пойму как.
 	if($scope.show) {
 		$timeout(function(){
@@ -141,5 +144,7 @@ function UsersController($scope, $location, $rootScope, $timeout, NeedsService, 
         if(!$location.search().user1 && !$location.search().user2) {
             $scope.show = false;
         }
+
+        $scope.one = $location.search().user1 && !$location.search().user2 ? true : false;
     });
 }

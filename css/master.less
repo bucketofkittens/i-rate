@@ -3370,7 +3370,7 @@ sup.bidubi {
     width: 105%;
     overflow: auto;
     -webkit-overflow-scrolling: touch;
-    z-index: 0;
+    z-index: 10;
     position: relative;
     &::-webkit-scrollbar {
         width: 0px;
@@ -3831,13 +3831,20 @@ sup.bidubi {
         }
     }
     .center {
-        max-width: 1024px;
+        width: 1024px;
         position: relative;
         overflow: hidden;
         margin: 0px auto;
+        &.one {
+            width: 512px;
+            left: -256px;
+            .center4 {
+                width: 512px;
+            }
+        }
         .center4 {
             margin: 0px auto;
-            max-width: 1024px;
+            width: 1024px;
             overflow: hidden;
             position: relative;
             height: 100%;
