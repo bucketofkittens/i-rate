@@ -315,7 +315,7 @@ sup.bidubi{top:13px !important;border-width:23px 0 23px 15px}
 .popup_list.big ul{max-height:240px}
 .popup_list li{padding:10px;position:relative;border-top:1px solid #777;border-bottom:1px solid #333}.popup_list li img{max-height:30px;padding-right:5px}
 .popup_list li a{cursor:pointer;display:block;margin-right:25px}
-.popup_list li span{cursor:pointer;background:url("../images/fusedel.png") left top no-repeat !important;background-size:25px 25px !important;width:25px !important;height:25px !important;top:5px !important;position:relative;right:15px !important}
+.popup_list li span{cursor:pointer;background:url("../images/fusedel.png") left top no-repeat !important;background-size:25px 25px !important;width:25px !important;height:25px !important;top:5px !important;position:relative;right:auto !important;left:200px !important}
 .popup_list li:hover{background:rgba(0,0,0,0.1)}
 .form-show{position:fixed;left:50%;top:50%;z-index:99999;background:rgba(0,0,0,0.8);text-align:center;width:300px;margin-left:-180px;box-shadow:0 0 20px 1px rgba(0,0,0,0.2);padding:30px;margin-top:-150px}.form-show p{font-size:16px;color:#fff}
 .form-show input{float:none !important;background:#000;border:1px solid #777;margin:15px auto}
