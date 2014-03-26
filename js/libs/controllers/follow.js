@@ -5,7 +5,7 @@ function FollowController($scope, $rootScope) {
     $scope.max = 14;
     
     if(navigator.userAgent.match(/iPhone/i)) {
-        $scope.max = 7;
+        $scope.max = 6;
     }
 	$scope.step = 0;
 

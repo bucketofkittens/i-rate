@@ -5,11 +5,12 @@
 			<button ng-click="onConfirm()">Confirm</button>
 			<button ng-click="onReject()">Reject</button>
 		</div>
+		
 		<table class="moder hstr" ng-controller="ReportCommentConroller">
 			<tbody>
 				<tr ng-repeat="(key, value) in commentsList">
 					<td>
-						<p>date<s></s>comment</p>
+						<p>{{value.post_date}}<s></s>{{value.message}}</p>
 					</td>
 				</tr>
 			</tbody>

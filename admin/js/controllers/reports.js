@@ -1,9 +1,14 @@
 /**
  */
-function ReportsController($scope, ReportService, $location, $rootScope) {
+function ReportsController($scope, ReportService, $location, $rootScope, Comments) {
     $scope.reports = [];
 
     $scope.getReportsCallback_ = function(data) {
+        angular.forEach(data, function(value, key) {
+            Comments.get_by_user({owner_guid: value.sguid, owner_type: 4}, {}, function(data) {
+                value.lastComment = data[0];
+            });
+        });
         $scope.reports = data;
     }
 
