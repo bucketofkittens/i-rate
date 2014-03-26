@@ -4283,7 +4283,7 @@ pgrModule.directive('masonry', function(User, $rootScope) {
       var parentElement = element.parent()[0];
       var is_load = false;
 
-      /*
+      
       // добавляем скроллинг мышкой
       $(parentElement).on("mousewheel DOMMouseScroll", function($event) {
         if(!self.is_load && self.view_count < self.total_count && $(parentElement).scrollTop()+$(parentElement).height() == $(parentElement)[0].scrollHeight) {
@@ -4302,7 +4302,7 @@ pgrModule.directive('masonry', function(User, $rootScope) {
           self.getUsersFromBackend(self, self.loadUserCallback_);
         }
       });
-      */
+      
 
       /** коэффициэнт количество элементов **/
       var limitCorruption = 30;
@@ -4513,8 +4513,10 @@ pgrModule.directive('masonry', function(User, $rootScope) {
           if(data[0] && data[0].total_count && !self.total_count)
             self.total_count = data[0].total_count;
          
-            self.view_count += self.limit;
-          if(self.view_count < self.total_count) {
+          self.view_count += self.limit;
+          console.log($(element).height());
+          console.log($(window).height());
+          if(self.view_count < self.total_count && $(element).height() < $(window).height()) {
             self.skip += self.limit;
 
             self.getUsersFromBackend(self, callback);
