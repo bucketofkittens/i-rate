@@ -4347,7 +4347,7 @@ pgrModule.directive('masonry', function(User, $rootScope) {
       this.initIso = function() {
         var size = 70;
         if($(window).width() < 500) {
-          size = 30;
+          size = 40;
         }
         $(element).isotope({
           rowHeight: size,
