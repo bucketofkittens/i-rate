@@ -117,7 +117,7 @@
 			<div class="popup_list" ng-if="showProfessionList">
 				<ul>
 					<li ng-if="profItem.show" ng-repeat="(profKey, profItem) in workspace.professions">
-						<a ng-click="selectProfession($event, profItem, profKey)">{{profItem.name}}</a>
+						<a>{{profItem.name}}</a>
 						<span class="close icon" ng-click="deleteProfessionItem($event, profItem, profKey)"></span>
 					</li>
 				</ul>
