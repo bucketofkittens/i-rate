@@ -50,6 +50,7 @@
 				ng-change="onSearch()" />
 			<input type="submit" class="searcher" ng-click="onAdvanceSearch()" />
 			<perfect-scrollbar wheel-propagation="true" class="searchResult" ng-if="resultSearch.length > 0">
+				<img class="cl" src="../images/cl.png">
 				<div class="item" ng-repeat="(userKey, userItem) in resultSearch | limitTo: limit">
 					<div class="image" ng-click="userClick(userItem)">
 						<img ng-src="{{userItem.avatar}}" err-src="/images/unknown-person.png" alt="" />

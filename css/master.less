@@ -2498,6 +2498,9 @@ input[type="checkbox"] {
         margin: 0px !important;
         vertical-align: middle;
     }
+    img.cl {
+        display: none;
+    }
     .item {
         width: 290px;
         overflow: hidden;
@@ -2525,6 +2528,9 @@ input[type="checkbox"] {
             p {
                 font-size: 14px;
                 color: #ffffff;
+                text-overflow: ellipsis;
+                overflow: hidden;
+                white-space: nowrap;
                 img {
                     vertical-align: middle;
                     max-height: 35px;
@@ -6086,6 +6092,45 @@ p.bla {
             font-size: 14px !important;
             margin: 3px 5px 5px 10px !important;
             line-height: 15px !important;
+        }
+    }
+
+    .searchResult {
+        right: -43px !important;
+        width: 320px !important;
+        padding-top: 5px !important;
+        img.cl {
+            display: block !important;
+            position: absolute !important;
+            top: 5px !important;
+            right: 5px !important;
+            width: 25px !important;
+            height: 25px !important;
+            cursor: pointer !important;
+        }
+        .item {
+            width: 270px !important;
+            margin-left: 8px !important;
+            .image {
+                margin: 0px !important;
+                width: 50px !important;
+                img {
+                    width: 50px !important;
+                }
+            }
+            .text {
+                width: 200px !important;
+                line-height: 20px !important;
+                p {
+                    font-size: 13px !important;
+                    &:first-child {
+                        font-size: 15px !important;
+                    }
+                    img {
+                        max-height: 25px !important;
+                    }
+                }
+            }
         }
     }
 }
