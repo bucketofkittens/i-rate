@@ -4069,24 +4069,6 @@ pgrModule.directive('scrollUsers', function($rootScope, $location) {
       var size = 200;
       scope.changeTimer = null;
 
-      touchmove
-
-      $(element).on("touchmove", function() {
-        if(scope.changeTimer !== false) clearTimeout(scope.changeTimer);
-        console.log(scope.changeTimer);
-        scope.changeTimer = setTimeout(function() {
-          scope.$apply(function() {
-            if($(element).scrollTop() > size) {
-              $rootScope.$broadcast('showUserShort', {route: "user1"});
-              $rootScope.$broadcast('showUserShort', {route: "user2"});
-            } else {
-              $rootScope.$broadcast('hideUserShort', {route: "user1"});
-              $rootScope.$broadcast('hideUserShort', {route: "user2"});
-            }
-          });
-        }, 100);
-      });
-
       $(element).on("scroll", function() {
         if(scope.changeTimer !== false) clearTimeout(scope.changeTimer);
 

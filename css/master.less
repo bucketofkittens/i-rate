@@ -3353,8 +3353,11 @@ sup.bidubi {
     width: 105%;
     overflow: auto;
     -webkit-overflow-scrolling: touch;
-    z-index: 0;
+    z-index: -1;
     position: relative;
+    &.hide {
+        z-index: -1;
+    }
     &::-webkit-scrollbar {
         width: 0px;
         height: 0px; 
