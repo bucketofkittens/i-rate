@@ -49,9 +49,8 @@
 					id="i1_i" 
 					ng-model="workspace.user.name"
 					required
-					ng-change="updateName()" />
+					ng-change="changeData()" />
 			</p>
-			<p class="errors" ng-if="nameIsError">Name already user.</p>
 			<p>
 				<label for="i2_i">Birthday:</label>
 				<input ng-model="workspace.user.birthday" ui-date="dateOptions"  name="DateOfBirth" />
@@ -73,13 +72,6 @@
 					ng-model="workspace.user.city.name"
 					type="text"
 					ng-change="changeCity($event)" />
-					<img 
-						src="/images/7.jpg" 
-						class="cursor" 
-						ng-click="addCity($event)" 
-						width="40px" 
-						alt=""
-						ng-if="showCityAddButton" />
 			</p>
 			<div class="popup_list" ng-if="showCityList">
 				<ul>
@@ -106,19 +98,12 @@
 					ng-model="workspace.user.profession.name"
 					type="text"
 					ng-change="changeProfession($event)" />
-					<img 
-						src="/images/7.jpg" 
-						class="cursor" 
-						ng-click="addProfession($event)" 
-						width="40px" 
-						alt=""
-						ng-if="showProfessionAddButton" />
 			</p>
 			<div class="popup_list" ng-if="showProfessionList">
 				<ul>
 					<li ng-if="profItem.show" ng-repeat="(profKey, profItem) in workspace.professions">
 						<a ng-click="selectProfession($event, profItem, profKey)">{{profItem.name}}</a>
-						<span class="close icon" ng-click="deleteProfessionItem($event, profItem, profKey)"></span>
+						<span class="close icon" ng-if="workspace.isAdmin" ng-click="deleteProfessionItem($event, profItem, profKey)"></span>
 					</li>
 				</ul>
 			</div>
@@ -129,7 +114,8 @@
 					id="i7_i" 
 					ng-model="workspace.user.email"
 					readonly="readonly"
-					required />
+					required
+					class="disable" />
 			</p>
 			<p ng-controller="QuickUserChangeCtrl" ng-if="workspace.isAdmin">
 				<label for="username_i">Username:</label>
@@ -147,8 +133,18 @@
 					</option>
 				</select>
 			</p>
+			<p class="apply">
+				<label>&nbsp</label>
+				<span class="publish">
+					<button ng-click="onChange()" ng-class="{disable: !isChange}">Apply changes</button>
+				</span>
+			</p>
 			<p ng-if="!social">
 				<button class="reset" ng-click="onChangePassword()">Reset password</button>
+			</p>
+			<p class="green green_error" ng-if="isChanged">
+				<label>&nbsp</label>
+				changes are applied
 			</p>
 		</div>
 	</div>
