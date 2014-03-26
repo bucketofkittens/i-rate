@@ -4,7 +4,7 @@
 		<sub class="icon favorite_nav_left" ng-if="step > 0" ng-click="newStep(step-1)"></sub>
 		<div class="list">
 			<div class="sub">
-				<ul ng-style="{left: '-'+step*48+'px'}">
+				<ul ng-style="{left: '-'+step*stepWidth+'px'}">
 					<li 
 						ng-click="openUser(userItem.user)" 
 						ng-repeat="userItem in workspace.friends">
