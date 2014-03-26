@@ -7025,10 +7025,11 @@ function CropImageController($scope, $rootScope, TokenService, UserService) {
  */
 function FollowController($scope, $rootScope) {
     $scope.max = 14;
-    
-    if(navigator.userAgent.match(/iPhone/i)) {
+
+    if($(window).width() < 500) {
         $scope.max = 6;
     }
+
 	$scope.step = 0;
 
 	$scope.newStep = function(step) {
