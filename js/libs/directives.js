@@ -406,6 +406,7 @@ pgrModule.directive('masonry', function(User, $rootScope) {
         if($(window).width() < 500) {
           size = 40;
         }
+        console.log(size);
         $(element).isotope({
           rowHeight: size,
           layoutMode: "perfectMasonry",
