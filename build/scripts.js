@@ -8066,6 +8066,8 @@ function MyProfileSettingsController($scope, UserService, SocialService, Friends
         $scope.allAdd = false;
         $scope.addCount = 0;
         $scope.addMaxCount = 0;
+
+        $scope.cityByState({});
     });
 
     $scope.pepareUserData = function() {
@@ -8145,8 +8147,6 @@ function MyProfileSettingsController($scope, UserService, SocialService, Friends
                 $scope.addProfessionCallback_ 
             );
         }
-
-        console.log(isAdd);
 
         if(!isAdd) {
             $scope.updateUser();
