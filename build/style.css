@@ -887,7 +887,7 @@ sup.bidubi{top:13px !important;border-width:23px 0 23px 15px}
 .controller__my_profile .image_box{width:180px !important;height:180px !important}
 .controller__search .proffesion_list{margin-left:0;margin-top:-2px;width:200px;display:none;max-height:300px;overflow:auto}.controller__search .proffesion_list li{cursor:pointer}
 .controller__search .proffesion_list.show{display:block}
-#masonry_parent{width:105%;overflow:auto;-webkit-overflow-scrolling:touch;z-index:0;position:relative}#masonry_parent::-webkit-scrollbar{width:0;height:0}
+#masonry_parent{width:105%;overflow:auto;-webkit-overflow-scrolling:touch;z-index:10;position:relative}#masonry_parent::-webkit-scrollbar{width:0;height:0}
 #masonry .item{float:left}
 .isotope,.isotope .isotope-item{-webkit-transition-duration:.8s;-moz-transition-duration:.8s;-ms-transition-duration:.8s;-o-transition-duration:.8s;transition-duration:.8s}
 .isotope{-webkit-transition-property:height,width,opacity;-moz-transition-property:height,width,opacity;-ms-transition-property:height,width,opacity;-o-transition-property:height,width,opacity;transition-property:height,width,opacity}
@@ -939,7 +939,8 @@ sup.bidubi{top:13px !important;border-width:23px 0 23px 15px}
 #users{position:absolute;left:0;top:0;width:100%;height:100%;overflow:hidden}#users .center2{position:absolute;left:0;top:0;width:100%;z-index:999}#users .center2 .center3{margin:0 auto;max-width:1024px;overflow:hidden;position:relative;top:40px;z-index:999}
 #users .center2 .user_short{float:left !important;width:502px;top:20px;position:relative}#users .center2 .user_short .pmain.pro.show{height:65px !important}
 #users .center2 .user_short:last-child{right:0;left:auto}
-#users .center{max-width:1024px;position:relative;overflow:hidden;margin:0 auto}#users .center .center4{margin:0 auto;max-width:1024px;overflow:hidden;position:relative;height:100%;overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch}#users .center .center4::-webkit-scrollbar{width:0;height:0}
+#users .center{width:1024px;position:relative;overflow:hidden;margin:0 auto}#users .center.one{width:512px;left:-256px}#users .center.one .center4{width:512px}
+#users .center .center4{margin:0 auto;width:1024px;overflow:hidden;position:relative;height:100%;overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch}#users .center .center4::-webkit-scrollbar{width:0;height:0}
 #users .center .center4 .user{float:left;position:relative;z-index:11;-webkit-transform:translate3d(0, 0, 0)}#users .center .center4 .user .compare.up{display:none}
 #users .center .center4 .user:first-child{float:left}#users .center .center4 .user:first-child .compare.down{display:none}
 #users .center .center4 .user:first-child .compare.up{display:block;right:-13px;left:auto}
