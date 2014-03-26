@@ -77,7 +77,7 @@
 				<ul>
 					<li ng-if="cityItem.show" ng-repeat="(cityKey, cityItem) in city">
 						<a ng-click="selectCity($event, cityItem, cityKey)">{{cityItem.name}}</a>
-						<span class="close icon" ng-click="deleteCityItem($event, cityItem, cityKey)"></span>
+						<span class="close icon"  ng-if="workspace.isAdmin" ng-click="deleteCityItem($event, cityItem, cityKey)"></span>
 					</li>
 				</ul>
 			</div>
