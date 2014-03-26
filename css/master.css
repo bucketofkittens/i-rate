@@ -257,7 +257,7 @@ sup.bidubi{top:13px !important;border-width:23px 0 23px 15px}
 .ui-menu-item:hover .close{display:block;right:-30px}
 .ui-menu .ui-menu-item a{margin-right:30px}
 .singin-sub{margin:40px 17px 0 0}
-.popup_list{position:absolute;margin:-10px 0 0 105px;background:url("../images/glass.png") left top no-repeat;background-size:100% 110%;background-color:rgba(255,255,255,0.8);box-shadow:0 0 20px 0 rgba(0,0,0,0.5);z-index:1999;width:230px;color:#fff;overflow:hidden}.popup_list ul{width:250px;overflow-y:scroll;overflow-x:hidden;position:relative;-webkit-overflow-scrolling:touch;max-height:150px;z-index:1999}
+.popup_list{position:absolute;margin:-10px 0 0 105px;background:url("../images/glass.png") left top no-repeat;background-size:100% 110%;background-color:rgba(255,255,255,0.8);box-shadow:0 0 20px 0 rgba(0,0,0,0.5);z-index:1999;width:230px;color:#fff;overflow:hidden}.popup_list ul{width:250px;overflow-y:scroll;overflow-x:hidden;position:relative;-webkit-overflow-scrolling:touch;max-height:150px;z-index:1999}.popup_list ul *{-webkit-transform:translate3d(0, 0, 0)}
 .popup_list.big ul{max-height:240px}
 .popup_list li{padding:10px;position:relative;border-top:1px solid #777;border-bottom:1px solid #333}.popup_list li img{max-height:30px;padding-right:5px}
 .popup_list li a{cursor:pointer;display:block;margin-right:25px}
