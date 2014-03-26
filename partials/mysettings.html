@@ -28,7 +28,6 @@
 					<strong ng-if="workspace.user.published == 1">
 						Your account is public.<b>Everybody can see you profile.</b>
 					</strong>
-					{{workspace.user.league.secure}}
 					<strong class="red" ng-if="workspace.user.published == 1 && workspace.user.league.secure == true && !workspace.user.artificial == 0 && !workspace.user.allowed_for_publish == 0">
 						Everybody can see you profile after verification
 					</strong>
