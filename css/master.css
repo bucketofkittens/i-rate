@@ -384,11 +384,12 @@ sup.bidubi{top:13px !important;border-width:23px 0 23px 15px}
 .full_height{height:100%}
 #leagues{position:absolute;left:0;top:0;width:100%;height:100%}#leagues .center{margin:60px auto 0 auto;width:1024px;height:100%;overflow:hidden;position:relative;z-index:99}
 #users{position:absolute;left:0;top:0;width:100%;height:100%;overflow:hidden}#users .center2{position:absolute;left:0;top:0;width:100%;z-index:999}#users .center2 .center3{margin:0 auto;max-width:1024px;overflow:hidden;position:relative;top:40px;z-index:999}
-#users .center2 .user_short{float:left !important;width:502px;top:20px;position:relative}#users .center2 .user_short .pmain.pro.show{height:65px !important}
+#users .center2 .user_short{float:left !important;width:512px;top:20px;position:relative}#users .center2 .user_short .pmain.pro.show{height:65px !important}
 #users .center2 .user_short:last-child{right:0;left:auto}
 #users .center{width:1024px;position:relative;overflow:hidden;margin:0 auto}#users .center.one{width:512px;left:-256px}#users .center.one .center4{width:512px}
 #users .center .center4{margin:0 auto;width:1024px;overflow:hidden;position:relative;height:100%;overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch}#users .center .center4::-webkit-scrollbar{width:0;height:0}
-#users .center .center4 .user{float:left;position:relative;z-index:11;-webkit-transform:translate3d(0, 0, 0)}#users .center .center4 .user .compare.up{display:none}
+#users .center .center4 .user{float:left;position:relative;z-index:11;-webkit-transform:translate3d(0, 0, 0);width:512px}#users .center .center4 .user .sam{width:512px !important}
+#users .center .center4 .user .compare.up{display:none}
 #users .center .center4 .user:first-child{float:left}#users .center .center4 .user:first-child .compare.down{display:none}
 #users .center .center4 .user:first-child .compare.up{display:block;right:-13px;left:auto}
 #users .center .center4 .user .sam{width:502px;position:relative;margin-top:60px;background:url("../images/glass.png") left top no-repeat;background-size:100% 100%;z-index:3;box-shadow:inset 5px 2px 20px 1px #2b2b2b;min-height:100%;overflow:hidden}#users .center .center4 .user .sam.big{width:600px;right:94px}
