@@ -4345,13 +4345,17 @@ pgrModule.directive('masonry', function(User, $rootScope) {
       
       /** инициализируем isotope **/
       this.initIso = function() {
+        var size = 70;
+        if($(window).width() < 500) {
+          size = 30;
+        }
         $(element).isotope({
-          rowHeight: 70,
+          rowHeight: size,
           layoutMode: "perfectMasonry",
           animationEngine: 'css',
           perfectMasonry: {
-              columnWidth: 70,
-              rowHeight: 70
+              columnWidth: size,
+              rowHeight: size
          }
         });
       }
