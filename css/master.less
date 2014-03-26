@@ -2660,17 +2660,23 @@ sup.bidubi {
     background-color: rgba(255, 255, 255, 0.8);
     box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.5);
     z-index: 1999;
-    max-height: 150px;
     width: 230px;
-    overflow-y: auto;
     color: #ffffff;
-    -webkit-overflow-scrolling: touch;
-    &.big {
-        max-height: 240px;
+    overflow: hidden;
+    ul {
+        width: 250px;
+        overflow-y: scroll;
+        overflow-x: hidden;
+        position: relative;
+        -webkit-overflow-scrolling: touch;
+        max-height: 150px;
+        z-index: 1999;
     }
-    &::-webkit-scrollbar {
-        width: 0px;
-        height: 0px; 
+    &.big {
+        ul {
+            max-height: 240px;    
+        }
+        
     }
     li {
         padding: 10px;
@@ -2684,7 +2690,7 @@ sup.bidubi {
         a {
             cursor: pointer;
             display: block;
-            margin-right: 15px;
+            margin-right: 25px;
         }
         span {
             cursor: pointer;
@@ -2693,6 +2699,8 @@ sup.bidubi {
             width: 25px !important;
             height: 25px !important;
             top: 5px !important;
+            position: relative;
+            right: 15px !important;
         }
         &:hover {
             background: rgba(0, 0, 0, 0.1);
