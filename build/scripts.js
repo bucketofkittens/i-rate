@@ -4349,6 +4349,7 @@ pgrModule.directive('masonry', function(User, $rootScope) {
         if($(window).width() < 500) {
           size = 40;
         }
+        console.log(size);
         $(element).isotope({
           rowHeight: size,
           layoutMode: "perfectMasonry",
@@ -4387,8 +4388,8 @@ pgrModule.directive('masonry', function(User, $rootScope) {
               newDiv.style.height = value.league.size ? value.league.size+"px" : "70px";  
 
               if($(window).width() < 500) {
-                newDiv.style.width = value.league.iphone_size ? value.league.iphone_size+"px" : "70px";
-                newDiv.style.height = value.league.iphone_size ? value.league.iphone_size+"px" : "70px";  
+                newDiv.style.width = value.league.iphone_size ? value.league.iphone_size+"px" : "40px";
+                newDiv.style.height = value.league.iphone_size ? value.league.iphone_size+"px" : "40px";  
               }
 
               var newSubDiv = document.createElement('div');
@@ -4402,8 +4403,8 @@ pgrModule.directive('masonry', function(User, $rootScope) {
               img.height = value.league.size ? value.league.size : "70";
 
               if($(window).width() < 500) {
-                img.width = value.league.iphone_size ? value.league.iphone_size : "70";
-                img.height = value.league.iphone_size ? value.league.iphone_size : "70"; 
+                img.width = value.league.iphone_size ? value.league.iphone_size : "40";
+                img.height = value.league.iphone_size ? value.league.iphone_size : "40"; 
               }
 
               if(value.league.is_points) {
