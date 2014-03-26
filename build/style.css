@@ -852,7 +852,7 @@ sup.bidubi{top:13px !important;border-width:23px 0 23px 15px}
 .comments .butcomm .repcha{width:50px;height:41px;background:url("../images/rep.png") left top no-repeat;background-size:50px 43px;margin-left:-2px}
 .comments .butcomm .rep{width:148px;display:block;position:absolute;right:17px;top:-2px;background-size:148px 45px}
 .comments em{display:block;width:100%;border-top:1px solid #666;border-bottom:1px solid #333;margin:10px 0}
-#searchfull{position:absolute;left:50%;top:0;margin-left:-500px;z-index:11;height:100%;width:1000px;overflow:hidden}#searchfull .user_short_search{right:0;left:auto;top:60px;width:620px}
+#searchfull{position:absolute;left:50%;top:0;margin-left:-500px;z-index:11;height:100%;width:1000px;overflow:hidden}#searchfull .user_short_search .user_short{right:0;left:auto;top:60px;width:620px}
 #searchfull .popup_list{margin-left:0;min-width:190px}
 #searchfull .loader{margin-top:100px}
 #searchfull .searchfull{position:absolute;left:0;width:380px;height:100%;min-height:550px;z-index:3;display:inline-block;margin-top:60px;overflow:hidden}#searchfull .searchfull .search{overflow-y:scroll;overflow-x:hidden;background:url("../images/glass.png") left top no-repeat;background-size:100% 100%;height:100%;box-shadow:inset -5px 0 20px 1px rgba(0,0,0,0.5);width:400px}
