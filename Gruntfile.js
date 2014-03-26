@@ -52,10 +52,10 @@ module.exports = function(grunt) {
                 src: [
                     "css/reset.css",
                     "css/rzslider.min.css",
-                    "css/master.css",
                     "css/jquery.cropbox.css",
                     "css/dark-hive/jquery.ui.theme.css",
-                    "css/dark-hive/jquery-ui.min.css"
+                    "css/dark-hive/jquery-ui.min.css",
+                    "css/master.css",
                 ],
                 dest: "build/style.css"
             }
