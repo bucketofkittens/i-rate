@@ -2,7 +2,11 @@
  * Контроллер панели друзей  
  */
 function FollowController($scope, $rootScope) {
-
+    $scope.max = 14;
+    
+    if(navigator.userAgent.match(/iPhone/i)) {
+        $scope.max = 7;
+    }
 	$scope.step = 0;
 
 	$scope.newStep = function(step) {
