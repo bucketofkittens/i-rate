@@ -157,6 +157,15 @@ function MyProfileSettingsController($scope, UserService, SocialService, Friends
         }
     }
 
+    $scope.updateUserPublishCallback_ = function(data) {
+        if(data.success) {
+            UserService.setAuthData($scope.workspace.user);
+
+            // скрываем поиск
+            $rootScope.$broadcast('closeSearch');
+        }
+    }
+
     // добавляем новую профессию
     $scope.addProfession = function($event) {
         ProfessionsService.add(
@@ -200,6 +209,8 @@ function MyProfileSettingsController($scope, UserService, SocialService, Friends
     // изменение состояния публикации профигя
     $scope.changePublish = function() {
         $scope.workspace.user.published = !$scope.workspace.user.published;
+
+        UserService.update($scope.workspace.user.sguid, { published: $scope.workspace.user.published ? 1 : 0 }, $scope.updateUserPublishCallback_);
     }
 
     $("body").on("change", "#photo_crop", function() {
