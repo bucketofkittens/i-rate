@@ -298,7 +298,7 @@ sup.bidubi{top:13px !important;border-width:23px 0 23px 15px}
 .comments .butcomm .repcha{width:50px;height:41px;background:url("../images/rep.png") left top no-repeat;background-size:50px 43px;margin-left:-2px}
 .comments .butcomm .rep{width:148px;display:block;position:absolute;right:17px;top:-2px;background-size:148px 45px}
 .comments em{display:block;width:100%;border-top:1px solid #666;border-bottom:1px solid #333;margin:10px 0}
-#searchfull{position:absolute;left:50%;top:0;margin-left:-500px;z-index:10;height:100%;width:1000px;overflow:hidden}#searchfull .user_short_search{right:0;left:auto;top:60px;width:620px}
+#searchfull{position:absolute;left:50%;top:0;margin-left:-500px;z-index:11;height:100%;width:1000px;overflow:hidden}#searchfull .user_short_search{right:0;left:auto;top:60px;width:620px}
 #searchfull .popup_list{margin-left:0;min-width:190px}
 #searchfull .loader{margin-top:100px}
 #searchfull .searchfull{position:absolute;left:0;width:380px;height:100%;min-height:550px;z-index:3;display:inline-block;margin-top:60px;overflow:hidden}#searchfull .searchfull .search{overflow-y:scroll;overflow-x:hidden;background:url("../images/glass.png") left top no-repeat;background-size:100% 100%;height:100%;box-shadow:inset -5px 0 20px 1px rgba(0,0,0,0.5);width:400px}
@@ -384,8 +384,8 @@ sup.bidubi{top:13px !important;border-width:23px 0 23px 15px}
 .full_height{height:100%}
 #leagues{position:absolute;left:0;top:0;width:100%;height:100%}#leagues .center{margin:60px auto 0 auto;width:1024px;height:100%;overflow:hidden;position:relative;z-index:99}
 #users{position:absolute;left:0;top:0;width:100%;height:100%;overflow:hidden}#users .center2{position:absolute;left:0;top:0;width:100%;z-index:999}#users .center2 .center3{margin:0 auto;max-width:1024px;overflow:hidden;position:relative;top:40px;z-index:999}
-#users .center2 .user_short{float:left !important;width:512px;top:20px;position:relative}#users .center2 .user_short .pmain.pro.show{height:65px !important}
-#users .center2 .user_short:last-child{right:0;left:auto}
+#users .center2 .user_short{width:512px;float:left;position:relative;margin-top:20px}#users .center2 .user_short .pmain.pro.show{height:65px !important}
+#users .center2 .last .user_short{float:right}
 #users .center{width:1024px;position:relative;overflow:hidden;margin:0 auto}#users .center.one{width:512px;left:-256px}#users .center.one .center4{width:512px}
 #users .center .center4{margin:0 auto;width:1024px;overflow:hidden;position:relative;height:100%;overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch}#users .center .center4::-webkit-scrollbar{width:0;height:0}
 #users .center .center4 .user{float:left;position:relative;z-index:11;-webkit-transform:translate3d(0, 0, 0);width:512px}#users .center .center4 .user .sam{width:512px !important}
@@ -413,7 +413,7 @@ sup.bidubi{top:13px !important;border-width:23px 0 23px 15px}
 .small-message{padding:20px;background:url("../images/glass.png") left top no-repeat;background-size:100% 100%;box-shadow:0 0 20px 0 #000,inset 0 0 10px 0 rgba(0,0,0,0.5)}.small-message h2{color:#fff;font-size:26px;margin-bottom:15px;font-family:'Lato',sans-serif;text-align:center}
 .small-message p{text-align:center;padding-bottom:10px;color:#fff;font-size:16px;line-height:20px}
 .small-message .close{color:#fff;font-family:'Lato',sans-serif;background:url("../images/ssbg.png") left top no-repeat;background-size:150px 35px;font-size:20px;display:block;cursor:pointer;width:150px;height:27px;text-align:center;margin:0 auto;padding-top:8px}
-#shadow{position:absolute;left:0;top:0;width:100%;height:100%;background:rgba(0,0,0,0.7);z-index:10}
+#shadow{position:absolute;left:0;top:0;width:100%;height:100%;background:rgba(0,0,0,0.7);z-index:11}
 .select2-container{margin:0;position:relative;display:inline-block;zoom:1;*display:inline;vertical-align:middle}
 .select2-container,.select2-drop,.select2-search,.select2-search input{-webkit-box-sizing:border-box;-moz-box-sizing:border-box;box-sizing:border-box;}
 .select2-container .select2-choice{display:block;height:26px;padding:0 0 0 8px;overflow:hidden;position:relative;border:1px solid #aaa;white-space:nowrap;line-height:26px;color:#444;text-decoration:none;border-radius:4px;background-clip:padding-box;-webkit-touch-callout:none;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;background-color:#fff;background-image:-webkit-gradient(linear, left bottom, left top, color-stop(0, #eee), color-stop(.5, #fff));background-image:-webkit-linear-gradient(center bottom, #eee 0, #fff 50%);background-image:-moz-linear-gradient(center bottom, #eee 0, #fff 50%);filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffff', endColorstr='#eeeeee', GradientType=0);background-image:linear-gradient(top, #fff 0, #eee 50%)}
@@ -624,12 +624,13 @@ input:invalid{box-shadow:none}
 .cropControls a{margin:12px 12px 0 20px !important;width:25px !important;height:25px !important;line-height:22px !important;font-size:20px !important}
 p.bla{width:300px !important}
 .pointer{cursor:pointer}
-.user_short{position:absolute;left:0;top:0;width:100%;z-index:999;color:#fff}.user_short .image_box{display:inline-block;vertical-align:middle}
+.user_short{position:absolute;left:0;top:0;width:100%;z-index:999;color:#fff;opacity:0;transition:all .5s ease;height:0}.user_short.show{opacity:1;height:50px !important}
+.user_short .image_box{display:inline-block;vertical-align:middle}
 .user_short img,.user_short .image_box{width:45px !important;height:45px !important;margin:1px 0 0 10px !important;box-shadow:none !important}
 .user_short i{left:20px;position:relative;display:inline-block;width:300px;vertical-align:middle}
-.user_short .il{top:15px !important}
+.user_short .il{top:11px !important;right:15px !important}
 .user_short .il img{width:20px !important;height:20px !important}
-.user_short .pmain.pro{padding-bottom:0 !important;opacity:0;transition:all .5s ease;height:0;padding:0 !important;background:url("../images/ssbg.png") -10px -5px no-repeat;background-size:105% 115%;box-shadow:-3px 0 10px 0 rgba(0,0,0,0.7);background-color:rgba(0,0,0,0.8);width:100% !important;position:relative;overflow:hidden}.user_short .pmain.pro.show{opacity:1;padding:15px;height:50px !important}
+.user_short .pmain.pro{padding-bottom:0 !important;padding:0 !important;background:url("../images/ssbg.png") -10px -5px no-repeat;background-size:105% 115%;box-shadow:-3px 0 10px 0 rgba(0,0,0,0.7);background-color:rgba(0,0,0,0.8);width:100% !important;position:relative;overflow:hidden}
 #leagues .user_short{right:-15px;left:auto;width:575px}#leagues .user_short .il:last-child{right:33px !important}
 .terms-modal{width:100% !important;margin-left:-50% !important;top:60px !important}.terms-modal article#terms{width:1000px;position:relative;margin:0 auto;background-color:rgba(0,0,0,0.7);padding:0 15px 10px 15px;box-shadow:inset 0 0 20px 0 rgba(0,0,0,0.8),0 0 20px 1px #000}.terms-modal article#terms img{display:block;position:absolute;top:15px;right:25px;width:25px;height:25px;cursor:pointer}
 .terms-modal article#terms h1{color:#fff;font-size:20px;padding:30px 0 20px 0;text-align:center}

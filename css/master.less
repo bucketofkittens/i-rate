@@ -2982,7 +2982,7 @@ sup.bidubi {
     left: 50%;
     top: 0px;
     margin-left: -500px;
-    z-index: 10;
+    z-index: 11;
     height: 100%;
     width: 1000px;
     overflow: hidden;
@@ -3814,10 +3814,10 @@ sup.bidubi {
             z-index: 999;
         }
         .user_short {
-            float: left !important;
-            width: 512px; 
-            top: 20px;
+            width: 512px;
+            float: left;
             position: relative;
+            margin-top: 20px;
             .pmain.pro {
                 &.show {
                     height: 65px !important;
@@ -3825,9 +3825,10 @@ sup.bidubi {
             }
         }
 
-        .user_short:last-child {
-            right: 0px;
-            left: auto;
+        .last {
+            .user_short {
+                float: right;
+            }
         }
     }
     .center {
@@ -4049,7 +4050,7 @@ sup.bidubi {
     width: 100%;
     height: 100%;
     background: rgba(0, 0, 0, 0.7);
-    z-index: 10;
+    z-index: 11;
 }
 
 
@@ -5811,6 +5812,13 @@ p.bla {
     width: 100%;
     z-index: 999;
     color: #ffffff;
+    opacity: 0;
+    transition: all 0.5s ease;
+    height: 0px;
+    &.show {
+        opacity: 1;
+        height: 50px !important;
+    }
     .image_box {
         display: inline-block;
         vertical-align: middle;
@@ -5829,7 +5837,8 @@ p.bla {
         vertical-align: middle;
     }
     .il {
-        top: 15px !important;
+        top: 11px !important;
+        right: 15px !important;
     }
     .il img {
         width: 20px !important;
@@ -5837,9 +5846,7 @@ p.bla {
     }
     .pmain.pro {
         padding-bottom: 0px !important;
-        opacity: 0;
-        transition: all 0.5s ease;
-        height: 0px;
+        
         padding: 0px !important;
         background: url("../images/ssbg.png") -10px -5px no-repeat;
         background-size: 105% 115%;
@@ -5848,11 +5855,7 @@ p.bla {
         width: 100% !important;
         position: relative;
         overflow: hidden;
-        &.show {
-            opacity: 1;
-            padding: 15px;
-            height: 50px !important;
-        }
+        
     }
 }
 

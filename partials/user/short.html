@@ -1,11 +1,13 @@
-<div class="pmain pro" ng-class="{show: show && user}" >
-	<div class="image_box" >
-		<img class="pp" ng-if="user.avatar" ng-src="{{user.avatar}}" err-src="/images/unknown-person.png" />
-		<img class="pp" ng-if="!user.avatar" src="/images/unknown-person.png" />
-	</div>
-	<i ng-if="user.name">{{user.name}}</i>
-	<!-- кнопочка закрытия -->
-	<a class="il" ng-click="close()">
-		<img src="../images/cl.png">
-	</a> 
+<div class="user_short" ng-class="{show: show && user}">
+	<div class="pmain pro" >
+		<div class="image_box" >
+			<img class="pp" ng-if="user.avatar" ng-src="{{user.avatar}}" err-src="/images/unknown-person.png" />
+			<img class="pp" ng-if="!user.avatar" src="/images/unknown-person.png" />
+		</div>
+		<i ng-if="user.name">{{user.name}}</i>
+		<!-- кнопочка закрытия -->
+		<a class="il" ng-click="close()">
+			<img src="../images/cl.png">
+		</a> 
+	</div>	
 </div>
