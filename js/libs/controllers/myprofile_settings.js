@@ -52,7 +52,9 @@ function MyProfileSettingsController($scope, UserService, SocialService, Friends
         $scope.addCount = 0;
         $scope.addMaxCount = 0;
 
-        CityService.getCityByState($scope.workspace.user.state.sguid, $scope.cityByStateCallback_);
+        if($scope.workspace.user.state && $scope.workspace.user.state.sguid) {
+            CityService.getCityByState($scope.workspace.user.state.sguid, $scope.cityByStateCallback_);    
+        }
     });
 
     $scope.pepareUserData = function() {
