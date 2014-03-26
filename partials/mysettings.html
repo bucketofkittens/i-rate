@@ -23,13 +23,13 @@
 			
 			<div class="publish" >
 					<strong ng-if="workspace.user.published == 0">
-						Your account is private.<b>Only you can see your profile.</b>
+						Your account is private.<b>Nobody except you can see it.</b>
 					</strong>
 					<strong ng-if="workspace.user.published == 1 && (!workspace.user.league.secure == true || !workspace.user.artificial == 0 || !workspace.user.allowed_for_publish == 0)">
-						Your account is public.<b>Everybody can see you profile.</b>
+						Your account is public.<b>Others can see it.</b>
 					</strong>
 					<strong ng-if="workspace.user.published == 1 && workspace.user.league.secure == true && workspace.user.artificial == 0 && workspace.user.allowed_for_publish == 0">
-						Your account is public.<b class="red">Everybody can see you profile after verification</b>
+						Your account is public.<b class="red">Others can see it after verification.</b>
 					</strong>
 					<div class="pubut" ng-class="{ published: workspace.user.published }">
 						<i>Public</i>
