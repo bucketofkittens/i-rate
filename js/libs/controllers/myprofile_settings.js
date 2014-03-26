@@ -36,7 +36,7 @@ function MyProfileSettingsController($scope, UserService, SocialService, Friends
         $scope.workspace.user = null;
 
         // забираем список друзей для не авторизованного пользователя
-        $scope.workspace.friends = FriendsService.getList();
+        $scope.workspace.friends = {};
 
         // скрываем окошко профиля
         $rootScope.$broadcast('closeProfile');

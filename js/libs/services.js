@@ -1122,7 +1122,7 @@ pgrModule.service('FacebookService', function($window) {
     this.login = function(success, fail) {
         FB.Event.subscribe('auth.authResponseChange', success);
 
-        $window.FB.login(function(response) {
+        FB.login(function(response) {
             if (response.session) {
                 if (response.scope) {
                     if(success) {
