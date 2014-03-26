@@ -8,6 +8,7 @@
 			<col width="50px" />
 			<col width="50px" />
 			<col width="50px" />
+			<col width="50px" />
 			<col width="170px" />
 			<col width="50px" />
 			<thead>
@@ -16,6 +17,7 @@
 					<th>Min</th>
 					<th>Max</th>
 					<th>Size</th>
+					<th>Iphone size</th>
 					<th>Show</th>
 					<th>Secure</th>
 					<th>Font</th>
@@ -36,6 +38,9 @@
 					</td>
 					<td class="editing_cell">
 						<input style="width:50px" type="text" ng-model="value.size" maxlength="3" ng-change="update(value)" />
+					</td>
+					<td class="editing_cell">
+						<input style="width:50px" type="text" ng-model="value.iphone_size" maxlength="3" ng-change="update(value)" />
 					</td>
 					<td class="editing_cell">
 						<input type="checkbox" ng-model="value.is_points" ng-change="update(value)" />

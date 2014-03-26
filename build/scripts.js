@@ -4382,6 +4382,11 @@ pgrModule.directive('masonry', function(User, $rootScope) {
               newDiv.style.width = value.league.size ? value.league.size+"px" : "70px";
               newDiv.style.height = value.league.size ? value.league.size+"px" : "70px";  
 
+              if($(window).width() < 500) {
+                newDiv.style.width = value.league.iphone_size ? value.league.iphone_size+"px" : "70px";
+                newDiv.style.height = value.league.iphone_size ? value.league.iphone_size+"px" : "70px";  
+              }
+
               var newSubDiv = document.createElement('div');
               newSubDiv.className = 'wr';
 
@@ -4391,6 +4396,11 @@ pgrModule.directive('masonry', function(User, $rootScope) {
               img.src = value.avatar;
               img.width = value.league.size ? value.league.size : "70";
               img.height = value.league.size ? value.league.size : "70";
+
+              if($(window).width() < 500) {
+                img.width = value.league.iphone_size ? value.league.iphone_size : "70";
+                img.height = value.league.iphone_size ? value.league.iphone_size : "70"; 
+              }
 
               if(value.league.is_points) {
                 var scoreSpan = document.createElement('span');
