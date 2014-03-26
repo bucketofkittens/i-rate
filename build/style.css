@@ -311,7 +311,7 @@ sup.bidubi{top:13px !important;border-width:23px 0 23px 15px}
 .ui-menu-item:hover .close{display:block;right:-30px}
 .ui-menu .ui-menu-item a{margin-right:30px}
 .singin-sub{margin:40px 17px 0 0}
-.popup_list{position:absolute;margin:-10px 0 0 105px;background:url("../images/glass.png") left top no-repeat;background-size:100% 110%;background-color:rgba(255,255,255,0.8);box-shadow:0 0 20px 0 rgba(0,0,0,0.5);z-index:1999;width:230px;color:#fff;overflow:hidden}.popup_list ul{width:250px;overflow-y:scroll;overflow-x:hidden;position:relative;-webkit-overflow-scrolling:touch;max-height:150px;z-index:1999}.popup_list ul *{-webkit-transform:translate3d(0, 0, 0)}
+.popup_list{position:absolute;margin:-10px 0 0 105px;background:url("../images/glass.png") left top no-repeat;background-size:100% 110%;background-color:rgba(255,255,255,0.8);box-shadow:0 0 20px 0 rgba(0,0,0,0.5);z-index:1999;width:230px;color:#fff;overflow:hidden}.popup_list ul{width:250px;overflow-y:scroll;overflow-x:hidden;position:relative;-webkit-overflow-scrolling:touch;max-height:150px;z-index:1999}
 .popup_list.big ul{max-height:240px}
 .popup_list li{padding:10px;position:relative;border-top:1px solid #777;border-bottom:1px solid #333}.popup_list li img{max-height:30px;padding-right:5px}
 .popup_list li a{cursor:pointer;display:block;margin-right:25px}
@@ -386,7 +386,7 @@ sup.bidubi{top:13px !important;border-width:23px 0 23px 15px}
 .controller__my_profile .image_box{width:180px !important;height:180px !important}
 .controller__search .proffesion_list{margin-left:0;margin-top:-2px;width:200px;display:none;max-height:300px;overflow:auto}.controller__search .proffesion_list li{cursor:pointer}
 .controller__search .proffesion_list.show{display:block}
-#masonry_parent{width:105%;overflow:auto;-webkit-overflow-scrolling:touch;z-index:9}#masonry_parent::-webkit-scrollbar{width:0;height:0}
+#masonry_parent{width:105%;overflow:auto;-webkit-overflow-scrolling:touch;z-index:0;position:relative}#masonry_parent::-webkit-scrollbar{width:0;height:0}
 #masonry .item{float:left}
 .isotope,.isotope .isotope-item{-webkit-transition-duration:.8s;-moz-transition-duration:.8s;-ms-transition-duration:.8s;-o-transition-duration:.8s;transition-duration:.8s}
 .isotope{-webkit-transition-property:height,width,opacity;-moz-transition-property:height,width,opacity;-ms-transition-property:height,width,opacity;-o-transition-property:height,width,opacity;transition-property:height,width,opacity}
