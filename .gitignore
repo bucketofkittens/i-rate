@@ -1,3 +1,5 @@
 /nbproject/private/
-/1build/*
-/1node_modules/*
+/build/scripts.js
+/build/scripts,min.js
+/build/style.css
+/build/style.min.css
