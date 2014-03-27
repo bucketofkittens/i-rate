@@ -21,10 +21,8 @@ function SearchLeftController($scope, $location, $rootScope, User, $timeout, Use
         if($scope.topFilter) {
             angular.forEach(data, function(value, key) {
                 if(!data[key].top_points) {
-                    UserService.getGoalsPointsById(value.sguid, function(dataItem) {
-                        if(dataItem[$scope.search.top.sguid]) {
-                            data[key].top_points = dataItem[$scope.search.top.sguid];
-                        }
+                    UserService.goals_point_by_sguid(value.sguid, $scope.search.top.sguid, function(dataItem) {
+                        data[key].top_points = dataItem.points;
                     });    
                 }
             });    
