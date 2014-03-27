@@ -536,10 +536,11 @@ function SearchAdvanceController($scope, $location, $rootScope, User, Profession
     }
 
     // открываем профиль
-    $scope.openSearchProfile = function(sguid) {
+    $scope.openSearchProfile = function(user) {
         $scope.showRight = false;
+        user.current = true;
 
-        LocationService.update("search_profile", sguid);
+        LocationService.update("search_profile", user.sguid);
     }
 
     // если есть search_profile в location тогда открывает его профиль

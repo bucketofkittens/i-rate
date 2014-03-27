@@ -110,29 +110,34 @@ function MyProfileSettingsController($scope, UserService, SocialService, Friends
 
     $scope.onChange = function() {
         var isAdd = false;
-        if(!$scope.testIn($scope.city, $scope.workspace.user.city.name, "name")) {
-            isAdd = true;
-            $scope.addMaxCount += 1;
+        if($scope.workspace.user.city.name && $scope.workspace.user.city.name.length > 0) {
+            if(!$scope.testIn($scope.city, $scope.workspace.user.city.name, "name")) {
+                isAdd = true;
+                $scope.addMaxCount += 1;
 
-            CityService.add(
-                {
-                    name: $scope.workspace.user.city.name
-                }, 
-                $scope.workspace.user.state.sguid,
-                $scope.addCityCallback_
-            );
+                CityService.add(
+                    {
+                        name: $scope.workspace.user.city.name
+                    }, 
+                    $scope.workspace.user.state.sguid,
+                    $scope.addCityCallback_
+                );
+            }    
         }
-        if(!$scope.testIn($scope.workspace.professions, $scope.workspace.user.profession.name, "name")) {
-            isAdd = true;
-            $scope.addMaxCount += 1;
+        
+        if($scope.workspace.user.profession.name && $scope.workspace.user.profession.name.length > 0) {
+            if(!$scope.testIn($scope.workspace.professions, $scope.workspace.user.profession.name, "name")) {
+                isAdd = true;
+                $scope.addMaxCount += 1;
 
-            ProfessionsService.add(
-                { 
-                    name: $scope.workspace.user.profession.name
-                },
-                $scope.workspace.user.profession.goal_sguid,
-                $scope.addProfessionCallback_ 
-            );
+                ProfessionsService.add(
+                    { 
+                        name: $scope.workspace.user.profession.name
+                    },
+                    $scope.workspace.user.profession.goal_sguid,
+                    $scope.addProfessionCallback_ 
+                );
+            }
         }
 
         if(!isAdd) {
