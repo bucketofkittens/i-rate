@@ -1,5 +1,6 @@
 function ChangePasswordController($scope, Sessions, User, $location, $rootScope, MailHash, $routeParams, Password, $window, $cookieStore, $window) {
     $scope.show = false;
+    $scope.dismath = false;
 
     $scope.form = {
         oldPassword: "",
@@ -92,10 +93,15 @@ function ChangePasswordController($scope, Sessions, User, $location, $rootScope,
             "code": $scope.form.code
         }
 
+        $scope.dismath = false;
+
         Password.update({},  user, function(data) {
+            if(data.success) {
                 $scope.message = 3;
+            } else {
+                $scope.dismath = true;
             }
-        );
+        });
     }
 
     // событие переключчения состояния страницы.
