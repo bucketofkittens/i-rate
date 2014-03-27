@@ -1901,6 +1901,7 @@ footer {
                 display: inline-block;
                 cursor: pointer;
                 background: url("../images/ssbg.png") center center no-repeat;
+                background-size: 100% 100%;
                 margin-top: 15px;
                 color: #ffffff;
                 border: none;
@@ -2071,6 +2072,9 @@ ng-form:not(.ng-pristine) {
     font-size: 14px;
     padding-top: 1px;
     bottom: -22px;
+    &.er12 {
+        bottom: 37px !important;
+    }
 }
 .errorss2 {
     color: rgba(252, 79, 60, 1) !important;
@@ -6264,6 +6268,8 @@ p.bla {
         .pmain.pro {
             padding: 5px !important;
             width: 310px !important;
+            z-index: 3 !important;
+            position: relative !important;
             .block {
                 width: 100px !important;
                 margin-right: 10px !important;
@@ -6349,11 +6355,13 @@ p.bla {
                     padding: 0px !important;
                 }
             }
-        }
+        }           
         #follow_tab {
             width: 310px !important;
             margin: -35px auto 10px auto !important;
             height: auto !important;
+            z-index: 1 !important;
+            position: relative !important;
             .star {
                 font-size: 12px !important;
                 width: 70px !important;
@@ -6543,14 +6551,60 @@ p.bla {
                             font-size: 7px !important;
                             padding: 0px 3px !important;
                         }
+                        span sup {
+                            border-width: 20px 0 20px 10px !important;
+                            right: -10px !important;
+                        }
                     }
                 }
             }
         }
     }
-
-    #content .tab .mypro .crits .criterion li .bord .crp span sup {
-        border-width: 18px 0 23px 15px !important;
+    
+    .login.chepas {
+        top: 50px !important;
+        height: 250px !important;
+        .modal {
+            top: 15px !important;
+            width: 280px !important;
+            h4 {
+                font-size: 18px !important;
+                margin-bottom: 10px !important;
+            }
+            .body {
+                margin: 0px auto !important;
+                left: -7px !important;
+                p {
+                    width: 280px !important;
+                    margin: 10px auto !important;
+                    input[type="text"], input[type="email"], input[type="password"] {
+                        width: 270px !important;
+                        font-size: 15px !important;
+                        background: url("../images/sbg.png") left center no-repeat !important;
+                        background-size: 100% 100% !important;
+                        margin-top: 5px !important;
+                    }
+                    input[type="button"] {
+                        margin-top: 5px !important;
+                    }
+                }
+                .errorss1 {
+                    bottom: -15px !important;
+                    &.er12 {
+                        bottom: 37px !important;
+                    }
+                }
+                .form-show {
+                    top: 70px !important;
+                    width: 200px !important;
+                    margin-left: -130px !important;
+                    margin-top: 0px !important;
+                    p {
+                        width: 200px !important;
+                    }
+                }
+            }
+        }
     }
 }
 
