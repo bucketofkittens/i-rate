@@ -4384,12 +4384,12 @@ pgrModule.directive('masonry', function(User, $rootScope) {
               newDiv.className = 'item isotope-item iso-item all';
               newDiv.setAttribute("data-id", value.sguid);
               
-              newDiv.style.width = value.league.size ? value.league.size+"px" : "70px";
-              newDiv.style.height = value.league.size ? value.league.size+"px" : "70px";  
+              newDiv.style.width = value.league.size ? value.league.size+"px" : "0px";
+              newDiv.style.height = value.league.size ? value.league.size+"px" : "0px";  
 
               if($(window).width() < 500) {
-                newDiv.style.width = value.league.iphone_size ? value.league.iphone_size+"px" : "40px";
-                newDiv.style.height = value.league.iphone_size ? value.league.iphone_size+"px" : "40px";  
+                newDiv.style.width = value.league.iphone_size ? value.league.iphone_size+"px" : "0px";
+                newDiv.style.height = value.league.iphone_size ? value.league.iphone_size+"px" : "0px";  
               }
 
               var newSubDiv = document.createElement('div');
