@@ -1,7 +1,7 @@
 /**
  * Контроллер  профиля
  */
-function UserController($scope, FriendsService, UserService, User, $location, LocationService, $rootScope, $element) {
+function UserController($scope, FriendsService, UserService, User, $location, LocationService, $rootScope, $element, $timeout) {
     // данные пользователя
     $scope.user = null;
 
@@ -33,9 +33,11 @@ function UserController($scope, FriendsService, UserService, User, $location, Lo
 
     // calback для скрытия 
     this.windowClickCallback_ = function(event) {
-        if(!$(event.target).hasClass("button")) {
-            $scope.isReport = false;
-        }
+        $timeout(function() {
+            if(!$(event.target).hasClass("button")) {
+                $scope.isReport = false;
+            }
+        }, 0);
     }
 
     $(window).on("click", this.windowClickCallback_);
