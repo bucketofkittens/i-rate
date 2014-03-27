@@ -4,9 +4,9 @@
 			<img class="pp" ng-if="user.avatar" ng-src="{{user.avatar}}" err-src="/images/unknown-person.png" />
 			<img class="pp" ng-if="!user.avatar" src="/images/unknown-person.png" />
 		</div>
-		<span ng-if="user.points">{{user.points}}</span>
-		<span ng-if="user.league">{{user.league.name}}</span>
 		<i ng-if="user.name">{{user.name}}</i>
+		<span class="fknm" ng-if="user.points">{{user.points}}</span>
+		<span ng-if="user.league"><img ng-src="{{user.league.icon}}" alt="" /> {{user.league.name}} league</span>
 		<!-- кнопочка закрытия -->
 		<a class="il" ng-click="close()">
 			<img src="../images/cl.png">
