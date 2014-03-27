@@ -18,6 +18,8 @@ function UserController($scope, FriendsService, UserService, User, $location, Lo
     $scope.isReport = false;
 
     $scope.cacheId = null;
+    
+    $scope.show = false;
 
     $scope.$on('$locationChangeSuccess', function(event, newLoc, oldLoc) {
         $scope.setCurrentUser();
@@ -56,6 +58,8 @@ function UserController($scope, FriendsService, UserService, User, $location, Lo
         // проверяем а нужно ли вообще менять id
         if(newId && (!$scope.user || $scope.user.sguid != newId) && $scope.cacheId != newId) {
             $scope.cacheId = newId;
+            $scope.show = true;
+            
             UserService.getById(newId, $scope.userServiceGetByIdCallback_);
 
             if(($scope.workspace.user && newId != $scope.workspace.user.sguid) || !$scope.workspace.user) {
@@ -86,6 +90,8 @@ function UserController($scope, FriendsService, UserService, User, $location, Lo
     $scope.close = function() {
         $scope.cacheId = null;
         $scope.user = null;
+        $scope.show = false;
+        
         $location.search($scope.route, null);
         $rootScope.$broadcast('closeUserPanel', {route: $scope.route});
     }
