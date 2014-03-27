@@ -339,7 +339,6 @@ pgrModule.directive('masonry', function(User, $rootScope) {
     link: function($scope, element, attrs) {
       var parentElement = element.parent()[0];
       var is_load = false;
-
       
       // добавляем скроллинг мышкой
       /*

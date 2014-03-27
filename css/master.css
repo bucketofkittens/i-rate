@@ -612,7 +612,7 @@ input:invalid{box-shadow:none}
 .league_user{float:left;height:100%;overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch;position:relative;right:-15px}
 #content .search_user .mynav ul{margin-left:155px !important}
 .person_list{background:url("../images/glass.png") left top no-repeat;background-size:100% 100%;width:300px;overflow:hidden}.person_list li{width:290px;overflow:hidden;border-bottom:1px solid #333;border-top:1px solid #666;position:relative;margin-left:15px;height:70px !important}.person_list li .avatar{width:70px;position:relative;cursor:pointer;display:inline-block;vertical-align:middle}.person_list li .avatar img{display:block;width:70px}
-.person_list li .text{width:170px;padding:0 0 0 10px;line-height:25px;cursor:pointer;display:inline-block;vertical-align:middle}.person_list li .text p{font-size:16px;color:#fff;display:inline-block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.person_list li .text p:nth-child(2){width:150px}
+.person_list li .text{width:170px;padding:0 0 0 10px;line-height:25px;cursor:pointer;display:inline-block;vertical-align:middle}.person_list li .text p{font-size:16px;color:#fff;display:inline-block;overflow:hidden;line-height:120%}.person_list li .text p:nth-child(2){width:150px}
 .person_list li .text span{font-size:14px;color:#fff;display:block}
 .person_list li.current{background:rgba(0,0,0,0.4)}
 .persona{width:574px;background:url("../images/glass.png") left top no-repeat;background-size:100% 100%;background-color:rgba(0,0,0,0.2);position:relative}.persona .mynav{width:550px}
