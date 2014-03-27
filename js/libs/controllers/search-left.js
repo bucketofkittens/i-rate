@@ -2,7 +2,8 @@
 function SearchLeftController($scope, $location, $rootScope, User, $timeout, UserService) {
 	// забираем текст поиска из location
     $scope.searchText = $location.search().text;
-    $scope.resultSearch = User.search_skip_limit({}, { name: $scope.searchText, skip: $scope.skip, limit: $scope.limit }, $scope.advanceSearchCallback_);
+
+    
 
 
 	// ловим собыития с данными из расширенного поиска
@@ -30,9 +31,21 @@ function SearchLeftController($scope, $location, $rootScope, User, $timeout, Use
         }
     }
 
+    $scope.textCurrentUser_ = function() {
+        if($location.search().search_profile) {
+            angular.forEach($scope.resultSearch, function(value, key) {
+                if(value.sguid == $location.search().search_profile) {
+                    value.current = true;
+                }
+            });
+        }
+    }
+
     $scope.advanceSearchCallback_ = function(data) {
         $scope.loaderShow = false;
         $scope.resultSearch = data;
+
+        $scope.textCurrentUser_();
     }
 
     // ищем в списке пользователей
@@ -48,4 +61,16 @@ function SearchLeftController($scope, $location, $rootScope, User, $timeout, Use
             });
         }, 700);
     }
+
+    $scope.closeAllUser_ = function(users) {
+        angular.forEach($scope.resultSearch, function(item, key) {
+            item.current = false;
+        });
+    }
+
+    $scope.$on('closeUserPanel', function () {
+        $scope.closeAllUser_();
+    });
+
+    User.search_skip_limit({}, { name: $scope.searchText, skip: $scope.skip, limit: $scope.limit }, $scope.advanceSearchCallback_);
 }

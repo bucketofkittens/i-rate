@@ -535,9 +535,17 @@ function SearchAdvanceController($scope, $location, $rootScope, User, Profession
         $location.search({});
     }
 
+    $scope.closeAllUser_ = function(users) {
+        angular.forEach(users, function(item, key) {
+            item.current = false;
+        });
+    }
+
     // открываем профиль
-    $scope.openSearchProfile = function(user) {
+    $scope.openSearchProfile = function(user, users) {
+        console.log(users);
         $scope.showRight = false;
+        $scope.closeAllUser_(users);
         user.current = true;
 
         LocationService.update("search_profile", user.sguid);

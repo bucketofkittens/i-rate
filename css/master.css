@@ -307,8 +307,9 @@ sup.bidubi{top:13px !important;border-width:23px 0 23px 15px}
 #searchfull .searchfull .fullsearch .searchResult .item{width:380px}#searchfull .searchfull .fullsearch .searchResult .item img{width:80px;margin-right:10px}
 #searchfull .searchfull .fullsearch .searchResult .item .sealin{background:none;top:20px}
 #searchfull .searchfull .fullsearch .searchResult .item .text{padding-left:25px}
+#searchfull .searchfull .fullsearch .searchResult .item.current{background:rgba(0,0,0,0.3)}
 .search_user_parent{width:600px;overflow:hidden;position:relative;display:inline-block;position:absolute;top:60px;right:0;vertical-align:top;width:640px;height:95%}
-.search_user{display:inline-block;position:absolute;top:0;right:-15px;vertical-align:top;width:640px;height:100%;background:url("../images/glass.png") left top no-repeat;background-size:100% 100%;box-shadow:inset 5px 0 20px 1px rgba(0,0,0,0.7);overflow-y:auto;overflow-x:hidden}
+.search_user{display:inline-block;position:absolute;top:0;right:-15px;vertical-align:top;width:640px;height:100%;background:url("../images/glass.png") left top no-repeat;background-size:100% 100%;box-shadow:inset 5px 0 20px 1px rgba(0,0,0,0.7);overflow-y:scroll;overflow-x:hidden}.search_user .butcomm{width:560px}
 .fusepar{display:inline-block;position:absolute;top:60px;right:0;vertical-align:top;width:620px;height:90%;overflow:hidden}.fusepar .in{z-index:3;float:right;width:640px;position:relative;right:-20px;overflow-y:scroll;overflow-x:hidden;background:url("../images/glass.png") left top no-repeat;background-size:100% 100%;box-shadow:inset 5px 0 20px 1px rgba(0,0,0,0.7);height:100%}
 .fusepar i{display:block;position:absolute;top:10px;right:30px;width:25px;height:25px;background:url("../images/cl.png") left top no-repeat;background-size:25px 25px;cursor:pointer;z-index:10}
 .fusepar .fsp{margin:0 auto;width:550px;padding:30px 15px 30px 30px;position:relative;}.fusepar .fsp:after{content:".";display:block;height:0;clear:both;visibility:hidden}
@@ -625,7 +626,7 @@ input:invalid{box-shadow:none}
 .cropControls a{margin:12px 12px 0 20px !important;width:25px !important;height:25px !important;line-height:22px !important;font-size:20px !important}
 p.bla{width:300px !important}
 .pointer{cursor:pointer}
-.user_short{position:absolute;left:0;top:0;width:100%;z-index:999;color:#fff;opacity:0;transition:all .5s ease;height:0}.user_short.show{opacity:1;height:50px !important}
+.user_short{position:absolute;left:0;top:0;width:100%;z-index:999;color:#fff;opacity:0;transition:all .5s ease;height:0;overflow:hidden}.user_short.show{opacity:1;height:50px !important}
 .user_short .image_box{display:inline-block;vertical-align:middle}
 .user_short img,.user_short .image_box{width:45px !important;height:45px !important;margin:1px 0 0 10px !important;box-shadow:none !important}
 .user_short i{left:20px;position:relative;display:inline-block;width:300px;vertical-align:middle}
