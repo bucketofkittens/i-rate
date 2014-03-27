@@ -66,14 +66,15 @@ function MyProfileSettingsController($scope, UserService, SocialService, Friends
         if($scope.workspace.user.birthday) {
             data.birthday = moment($scope.workspace.user.birthday).format("DD/MM/YYYY");
         }
-        if($scope.workspace.user.profession && $scope.workspace.user.profession.sguid) {
-            data.profession = $scope.workspace.user.profession.sguid;
+        if($scope.workspace.user.profession) {
+            data.profession = $scope.workspace.user.profession.name && $scope.workspace.user.profession.sguid  ? $scope.workspace.user.profession.sguid : "";
         }
         if($scope.workspace.user.state && $scope.workspace.user.state.sguid) {
             data.state = $scope.workspace.user.state.sguid;
         }
-        if($scope.workspace.user.city && $scope.workspace.user.city.sguid) {
-            data.city = $scope.workspace.user.city.sguid;
+
+        if($scope.workspace.user.city) {
+            data.city = $scope.workspace.user.city.name && $scope.workspace.user.city.sguid  ? $scope.workspace.user.city.sguid : "";
         }
         if($scope.workspace.user.career && $scope.workspace.user.career.sguid) {
             data.career = $scope.workspace.user.career.sguid;
@@ -110,7 +111,7 @@ function MyProfileSettingsController($scope, UserService, SocialService, Friends
 
     $scope.onChange = function() {
         var isAdd = false;
-        if($scope.workspace.user.city.name && $scope.workspace.user.city.name.length > 0) {
+        if($scope.workspace.user.city && $scope.workspace.user.city.name && $scope.workspace.user.city.name.length > 0) {
             if(!$scope.testIn($scope.city, $scope.workspace.user.city.name, "name")) {
                 isAdd = true;
                 $scope.addMaxCount += 1;
@@ -125,7 +126,7 @@ function MyProfileSettingsController($scope, UserService, SocialService, Friends
             }    
         }
         
-        if($scope.workspace.user.profession.name && $scope.workspace.user.profession.name.length > 0) {
+        if($scope.workspace.user.profession && $scope.workspace.user.profession.name && $scope.workspace.user.profession.name.length > 0) {
             if(!$scope.testIn($scope.workspace.professions, $scope.workspace.user.profession.name, "name")) {
                 isAdd = true;
                 $scope.addMaxCount += 1;
