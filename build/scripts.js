@@ -5149,6 +5149,10 @@ pgrModule.factory('User', function ($resource) {
                 method: 'GET',
                 url: host+"/users/:id/goals_points"
             },
+            "goals_point_by_sguid": {
+                method: 'GET',
+                url: host+"/users/:id/points_by_goal/:goal_id"
+            },
             "get_friends": {
                 method: 'GET',
                 url: host+"/users/:id/friends",
@@ -5847,6 +5851,12 @@ pgrModule.service('UserService', function (User, AllUserService) {
     // заюираем значения для колбас
     this.getGoalsPointsById = function(id, callback) {
         User.goals_points({id: id}, {}, function(goalsData) {
+            callback(goalsData);
+        });
+    }
+
+    this.goals_point_by_sguid = function(id, goal_id, callback) {
+        User.goals_point_by_sguid({id: id, goal_id: goal_id}, {}, function(goalsData) {
             callback(goalsData);
         });
     }
@@ -9790,10 +9800,8 @@ function SearchLeftController($scope, $location, $rootScope, User, $timeout, Use
         if($scope.topFilter) {
             angular.forEach(data, function(value, key) {
                 if(!data[key].top_points) {
-                    UserService.getGoalsPointsById(value.sguid, function(dataItem) {
-                        if(dataItem[$scope.search.top.sguid]) {
-                            data[key].top_points = dataItem[$scope.search.top.sguid];
-                        }
+                    UserService.goals_point_by_sguid(value.sguid, $scope.search.top.sguid, function(dataItem) {
+                        data[key].top_points = dataItem.points;
                     });    
                 }
             });    
