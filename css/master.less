@@ -5531,8 +5531,7 @@ and (max-device-width : 1024px)  {
     }
     #users .center.one {
         left: 0px !important;
-    }
-            
+    }            
 }
 
 @media (max-width: 999px) {
@@ -5541,19 +5540,77 @@ and (max-device-width : 1024px)  {
         margin-left: -384px !important;
         .searchfull {
             width: 300px !important;
+            .search {
+                width: 315px !important;
+                .searchResult {
+                    width: 300px !important;
+                    .item {
+                        width: 290px !important;
+                        margin-left: 10px !important;
+                        .image {
+                            width: 70px !important;
+                            img {
+                                width: 70px !important;
+                            }
+                        }
+                        .text {
+                            padding-left: 10px !important;
+                            width: 200px !important;
+                            line-height: 20px !important;
+                            p {
+                                &:first-child {
+                                    font-size: 17px !important;
+                                }
+                                img {
+                                    max-height: 25px !important;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
-    }
-    #searchfull .searchfull .search {
-        width: 315px !important;
-    }
-    .fusepar {
-        width: 465px;
-    }
-    .fusepar .fsp .ri {
-        float: none !important;
-    }
-    .fusepar .fsp {
-        width: 300px !important;
+        .fusepar {
+            width: 465px !important;
+            .in {
+                width: 470px !important;
+                right: -3px !important;
+                i {
+                    right: 20px !important;
+                }
+                .fsp {
+                    width: 400px !important;
+                    padding: 30px 20px 30px 0px !important;
+                    em {
+                        width: 370px !important;
+                    }
+                    .ri {
+                        float: none !important;
+                        width: 370px !important;
+                        margin: 10px 0px !important;
+                        h6 {
+                            width: 120px !important;
+                            font-size: 17px !important;
+                            display: inline-block !important;
+                        }
+                        input[type="button"], .ui-datepicker-trigger {
+                            right: 18px !important;
+                            top: 0px !important;
+                        }
+                        .ui-widget-content {
+                            display: inline-block !important;
+                            margin-top: 10px !important;
+                        }
+                        span {
+                            left: 135px !important;
+                        }
+                    }
+                    &.fspb {
+                        margin: -10px 50px 0px 0px !important;
+                    }
+                }
+            }
+        }
     }
     #leagues {
         left: -10px !important;
