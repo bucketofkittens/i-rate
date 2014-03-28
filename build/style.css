@@ -951,7 +951,7 @@ sup.bidubi{top:13px !important;border-width:23px 0 23px 15px}
 #users .center.one .center4{width:512px}
 #users .center .center4{margin:0 auto;width:1024px;overflow:hidden;position:relative;height:100%;overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch;margin-top:250px}#users .center .center4 .mynav{background:rgba(0,0,0,0.7);box-shadow:none;height:40px;margin-top:0}
 #users .center .center4 .notmynav{top:0}#users .center .center4 .notmynav ul{bottom:0}
-#users .center .center4 .sam{margin-top:40px;padding-top:15px}
+#users .center .center4 .sam{padding-top:15px}
 #users .center .center4::-webkit-scrollbar{width:0;height:0}
 #users .center .center4 .user{float:left;position:relative;z-index:11;-webkit-transform:translate3d(0, 0, 0);width:512px}#users .center .center4 .user .sam{width:512px !important}
 #users .center .center4 .user .compare.up{display:none}
