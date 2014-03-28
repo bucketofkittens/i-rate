@@ -246,7 +246,7 @@ function MyProfileSettingsController($scope, UserService, SocialService, Friends
 
     // переход на страницу смены пароля
     $scope.onChangePassword = function() {
-        $location.search({ change_password: true });
+        $rootScope.$broadcast('openModal', {name: "reset_password"});
     }
 
     $scope.fixIpad_ = function() {
