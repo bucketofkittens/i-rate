@@ -1,11 +1,14 @@
 <div class="fuckenmorda" ng-controller="ReportController">
 	<ng-form name="ReportForm">
 		<h2>Report an Impostor Account</h2>
+
 		<a ng-click="closeModal()"></a>
 		<p>If someone created an i-Rate account that’s pretending to be yours, please 
 		use this form to file a report.</p>
+		
 		<input placeholder="Your full name" ng-model="form.full_name" required />
 		<input placeholder="Your contact email address" type="email" ng-model="form.email" required  ng-minlength="6" />
+
 		<p>Please attach a picture of a government-issued ID of the person being impersonated (ex: your ID or the ID of the person you’re authorized to represent). Cover up any personal information (ex: address, license number) that we don’t need to confirm your identity.</p>
 		<b>The ID you provide:</b>
 		<ul>
@@ -16,9 +19,11 @@
 		<s>Note: We won’t be able to process your request unless you submit an ID that meets these requirements.</s>
 		<i>Upload an ID</i>
 		<i>Your ID or an ID of a person you’re authorized to represent</i>
+
 		<button ng-click="onUpload()">Upload</button>
 		<input class="hidden" id="report_upload" type="file" name="file" ng-file-select="onFileSelect($files, value)" />
-		<input placeholder="Additional info" ng-model="form.additional_info" required />
+		<input placeholder="Additional info" ng-model="form.additional_info"  />
 		<button ng-click="onReport()" ng-disabled="ReportForm.$invalid">Report</button>
+
 	</ng-form>
 </div>
