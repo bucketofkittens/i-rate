@@ -4513,8 +4513,6 @@ pgrModule.directive('masonry', function(User, $rootScope) {
             self.total_count = data[0].total_count;
          
           self.view_count += self.limit;
-          console.log($(element).height());
-          console.log($(window).height());
           if(self.view_count < self.total_count) {
             self.skip += self.limit;
 
@@ -8963,18 +8961,6 @@ function ReportController($scope, ReportService, $location, TokenService, $timeo
         additional_info: "",
         user_guid: $location.search().report_user
     }
-
-    // calback для скрытия 
-    this.windowClickCallback_ = function(event) {
-        if($(event.target).parents(".fuckenmorda").size() == 0 && $(event.target).parents(".report-success").size() == 0 && !$(event.target).hasClass("button") && !$(event.target).hasClass("img")) {
-            $scope.$apply(function() {
-                LocationService.remove("report_user");
-                $scope.closeModal();
-            });
-        }
-    }
-
-    $(window).on("click", this.windowClickCallback_);
 
     $scope.onReportCallback_ = function(dataItem) {
         if($scope.issetFile) {
