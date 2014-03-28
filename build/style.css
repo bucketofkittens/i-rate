@@ -945,11 +945,13 @@ sup.bidubi{top:13px !important;border-width:23px 0 23px 15px}
 #leagues{position:absolute;left:0;top:0;width:100%;height:100%}#leagues .center{margin:60px auto 0 auto;width:1024px;height:100%;overflow:hidden;position:relative;z-index:99}
 #users{position:absolute;left:0;top:0;width:100%;height:100%;overflow:hidden}#users .center2{position:absolute;left:0;top:0;width:100%;z-index:999;height:1px}#users .center2 .center3{margin:0 auto;max-width:1024px;overflow:hidden;position:relative;top:40px;z-index:999;height:210px}
 #users .center2.one .center3{width:512px;left:-256px}#users .center2.one .center3 .last{display:none}
+#users .center2.one .user_short{background:rgba(0,0,0,0.9)}
 #users .center2 .user_short{width:512px;float:left;position:relative;margin-top:20px}#users .center2 .user_short .pmain.pro.show{height:65px !important}
 #users .center2 .last .user_short{float:right}
 #users .center{width:1024px;position:relative;overflow:hidden;margin:0 auto}#users .center.one{width:512px;left:-256px}#users .center.one .last_user{display:none}
 #users .center.one .center4{width:512px}
-#users .center .center4{margin:0 auto;width:1024px;overflow:hidden;position:relative;height:100%;overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch;margin-top:250px}#users .center .center4 .mynav{background:rgba(0,0,0,0.7);box-shadow:none;height:40px;margin-top:0}
+#users .center.one .mynav{background:rgba(0,0,0,0.9) !important}
+#users .center .center4{margin:0 auto;width:1024px;overflow:hidden;position:relative;height:100%;overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch;margin-top:245px}#users .center .center4 .mynav{background:rgba(0,0,0,0.7);box-shadow:none;height:40px;margin-top:0}
 #users .center .center4 .notmynav{top:0}#users .center .center4 .notmynav ul{bottom:0}
 #users .center .center4 .sam{padding-top:15px}
 #users .center .center4::-webkit-scrollbar{width:0;height:0}
@@ -1195,7 +1197,7 @@ input:invalid{box-shadow:none}
 .cropControls a{margin:12px 12px 0 20px !important;width:25px !important;height:25px !important;line-height:22px !important;font-size:20px !important}
 p.bla{width:300px !important}
 .pointer{cursor:pointer}
-.user_short{position:absolute;left:0;top:0;width:100%;z-index:999;color:#fff;overflow:hidden;background:rgba(0,0,0,0.7)}.user_short.show{opacity:1;height:50px !important}
+.user_short{position:absolute;left:0;top:0;width:100%;z-index:999;color:#fff;overflow:hidden;background:rgba(0,0,0,0.7);height:185px}.user_short.show{opacity:1;height:50px !important}
 #leagues .user_short{right:-15px;left:auto;width:575px}#leagues .user_short .il:last-child{right:33px !important}
 .terms-modal{width:100% !important;margin-left:-50% !important;top:60px !important}.terms-modal article#terms{width:1000px;position:relative;margin:0 auto;background-color:rgba(0,0,0,0.7);padding:0 15px 10px 15px;box-shadow:inset 0 0 20px 0 rgba(0,0,0,0.8),0 0 20px 1px #000}.terms-modal article#terms img{display:block;position:absolute;top:15px;right:25px;width:25px;height:25px;cursor:pointer}
 .terms-modal article#terms h1{color:#fff;font-size:20px;padding:30px 0 20px 0;text-align:center}
