@@ -22,7 +22,7 @@ function ReportController($scope, ReportService, $location, TokenService, $timeo
 
     $(window).on("click", this.windowClickCallback_);
 
-    $scope.onReportCallback_ = function(dataItem) {\
+    $scope.onReportCallback_ = function(dataItem) {
         if($scope.issetFile) {
             var data = new FormData();
             data.append("picture", $scope.selectedFile);
