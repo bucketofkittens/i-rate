@@ -137,14 +137,31 @@
 				</select>
 			</p>
 			<p class="apply">
-				<button class="reset" ng-click="onChange()" ng-class="{disable: !isChange}">Apply changes</button>
+				<button class="reset" ng-click="onChange()" ng-class="{disable: !isChange}">
+					<span ng-if="!isChanged">Apply changes</span>
+					<span ng-if="isChanged">Changes saved</span>
+					<div id="circularG" ng-if="isChangeng">
+						<div id="circularG_1" class="circularG">
+						</div>
+						<div id="circularG_2" class="circularG">
+						</div>
+						<div id="circularG_3" class="circularG">
+						</div>
+						<div id="circularG_4" class="circularG">
+						</div>
+						<div id="circularG_5" class="circularG">
+						</div>
+						<div id="circularG_6" class="circularG">
+						</div>
+						<div id="circularG_7" class="circularG">
+						</div>
+						<div id="circularG_8" class="circularG">
+						</div>
+					</div>
+				</button>
 			</p>
 			<p ng-if="!social">
 				<button class="reset" ng-click="onChangePassword()">Reset password</button>
-			</p>
-			<p class="green green_error" ng-if="isChanged">
-				<label>&nbsp</label>
-				changes are applied
 			</p>
 		</div>
 	</div>

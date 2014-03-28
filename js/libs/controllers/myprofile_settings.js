@@ -15,6 +15,8 @@ function MyProfileSettingsController($scope, UserService, SocialService, Friends
 
     $scope.isChange = false;
 
+    $scope.isChangeng = false;
+
     $scope.addCount = 0;
 
     $scope.addMaxCount = 0;
@@ -111,6 +113,8 @@ function MyProfileSettingsController($scope, UserService, SocialService, Friends
 
     $scope.onChange = function() {
         var isAdd = false;
+        $scope.isChangeng = true;
+
         if($scope.workspace.user.city && $scope.workspace.user.city.name && $scope.workspace.user.city.name.length > 0) {
             if(!$scope.testIn($scope.city, $scope.workspace.user.city.name, "name")) {
                 isAdd = true;
@@ -162,6 +166,8 @@ function MyProfileSettingsController($scope, UserService, SocialService, Friends
             $scope.addCount = 0;
             $scope.addMaxCount = 0;
             $scope.changeDataDisable();
+
+            $scope.isChangeng = false;
         }
     }
 
