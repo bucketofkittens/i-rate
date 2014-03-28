@@ -9201,7 +9201,7 @@ function RootController($scope, FacebookService, СareerService, LeagueService, 
     });
 
     $scope.$on('enableMasonryScroll', function(event, message) {
-        $scope.mainNoScroll = true;
+        $scope.mainNoScroll = false;
     });
 
     
