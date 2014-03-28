@@ -10343,7 +10343,7 @@ function SignupController($scope, UserService, Recaptha, $rootScope, SessionsSer
     }
 }
 // Вкладка комментариев на странице пользователя
-function UserCommentsController($scope, Comments, $rootScope) {
+function UserCommentsController($scope, Comments, $rootScope, $location) {
     $scope.form = {
         message: ""
     }
@@ -10405,6 +10405,10 @@ function UserCommentsController($scope, Comments, $rootScope) {
     }
 
     $scope.openComments();
+
+    $scope.onSignin = function() {
+        $location.search({});
+    }
 }
 // контроллер работы с колбасами в чужом профиле
 function UserNeedsController($scope, $rootScope) {
