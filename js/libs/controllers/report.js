@@ -10,8 +10,7 @@ function ReportController($scope, ReportService, $location, TokenService, $timeo
 
     // calback для скрытия 
     this.windowClickCallback_ = function(event) {
-        console.log($(event.target).parents(".report-success").size());
-        if($(event.target).parents(".report-success").size() == 0 && !$(event.target).hasClass("button")) {
+        if($(event.target).parents(".fuckenmorda").size() == 0 && $(event.target).parents(".report-success").size() == 0 && !$(event.target).hasClass("button")) {
             $scope.$apply(function() {
                 LocationService.remove("report_user");
                 $scope.closeModal();

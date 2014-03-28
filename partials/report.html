@@ -7,7 +7,12 @@
 		use this form to file a report.</p>
 		
 		<input placeholder="Your full name" ng-model="form.full_name" required />
-		<input placeholder="Your contact email address" type="email" ng-model="form.email" required  ng-minlength="6" />
+		<input placeholder="Your contact email address" type="email" name="Email" ng-model="form.email" required  ng-minlength="6" />
+		<span 
+      		class="errorss" 
+	      	ng-show="ReportForm.Email.$dirty && (ReportForm.Email.$error.required || ReportForm.Email.$error.minlength || ReportForm.Email.$error.email)">
+	      		Incorrect email
+	    </span>
 
 		<p>Please attach a picture of a government-issued ID of the person being impersonated (ex: your ID or the ID of the person you’re authorized to represent). Cover up any personal information (ex: address, license number) that we don’t need to confirm your identity.</p>
 		<b>The ID you provide:</b>
