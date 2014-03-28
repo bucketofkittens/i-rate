@@ -9062,7 +9062,6 @@ function RightController($scope, $location) {
     // показываем плашку
     $scope.$on('showRightPanel', function() {
         $scope.showPanel = true;
-        console.log("show");
     });
 
     // переключаем состояние панели
@@ -10412,7 +10411,7 @@ function UserCommentsController($scope, Comments, $rootScope, $location) {
     $scope.openComments();
 
     $scope.onSignin = function() {
-        $location.search({});
+        $rootScope.$broadcast('showRightPanel');
     }
 }
 // контроллер работы с колбасами в чужом профиле
