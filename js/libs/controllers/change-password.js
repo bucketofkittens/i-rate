@@ -1,4 +1,4 @@
-function ChangePasswordController($scope, Sessions, User, $location, $rootScope, MailHash, $routeParams, Password, $window, $cookieStore, $window) {
+function ChangePasswordController($scope, Sessions, User, $location, $rootScope, MailHash, $routeParams, Password, $window, $cookieStore, $window, LocationService) {
     $scope.show = false;
     $scope.dismath = false;
 
@@ -16,12 +16,21 @@ function ChangePasswordController($scope, Sessions, User, $location, $rootScope,
         }
     });
 
+    $scope.testState = function() {
+        if($location.search().mail_hash) {
+            $scope.state = 2;
+            $scope.hash = $location.search().mail_hash;
+        } else {
+            $scope.state = 1;
+        }
+    }
+
     $scope.onChangePasswordCancel = function() {
         $scope.onBack();
     }
 
     $scope.onChangePasswordCancel2 = function() {
-        $scope.state = 1;
+        LocationService.remove("mail_hash");
     }
 
     $scope.message = 0;
@@ -34,10 +43,9 @@ function ChangePasswordController($scope, Sessions, User, $location, $rootScope,
 
     $scope.isEmailNotFound = false;
 
-    if($routeParams.hash) {
-        $scope.hash = $routeParams.hash;
-        $scope.state = 2;
-    }
+    $scope.$on('$locationChangeSuccess', function () {
+        $scope.testState();
+    });
 
     $scope.onBack = function() {
         $window.history.back();
@@ -68,17 +76,22 @@ function ChangePasswordController($scope, Sessions, User, $location, $rootScope,
     $scope.onChangePasswordOk = function() {
         $scope.message = 0;
         $scope.state = 2;
+
+        
     }
 
     $scope.onChangePassword = function() {
         User.test_email({}, {email: $scope.form.email}, function(data) {
             if(data.success) {
                 $scope.isEmailNotFound = false;
+
                 MailHash.create({}, {
                     "email": $scope.form.email
                 }, function(data) {
                     $scope.userSguid = data.guid;
                     $scope.message = 1;
+
+                    LocationService.update("mail_hash", data.mail_hash);
                 });
             } else {
                 $scope.isEmailNotFound = true;
@@ -89,7 +102,7 @@ function ChangePasswordController($scope, Sessions, User, $location, $rootScope,
     $scope.onChangePasswordBegin = function() {
         var user = {
             "password": $scope.form.newPassword,
-            "email": $scope.form.email,
+            "mail_hash": $location.search().mail_hash,
             "code": $scope.form.code
         }
 
@@ -118,4 +131,6 @@ function ChangePasswordController($scope, Sessions, User, $location, $rootScope,
     if($scope.show) {
         $scope.state = 1;
     }
+
+    $scope.testState();
 }

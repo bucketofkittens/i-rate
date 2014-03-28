@@ -20,7 +20,8 @@ function SigninController($scope, $rootScope, $timeout, SessionsService, Faceboo
 
     // переход на страницу смены пароля
     $scope.onChangePassword = function() {
-        $location.search({ change_password: true });
+        $rootScope.$broadcast('openModal', {name: "reset_password"});
+        //$location.search({ change_password: true });
     }
 
     $scope.getFriendsCallback_ = function(data) {
