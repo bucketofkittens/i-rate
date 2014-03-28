@@ -845,11 +845,11 @@ sup.bidubi{top:13px !important;border-width:23px 0 23px 15px}
 .recaptchatable .recaptcha_r4_c2{width:36px !important}
 #recaptcha_image img{width:218px !important;margin-left:-70px !important}
 .info_user{background:rgba(0,0,0,0.7);height:185px;overflow:hidden}
-.comments{height:100%;overflow:hidden}.comments .comm{height:100%;overflow:hidden;padding-top:10px;margin-top:-10px}.comments .comm .cmnt{overflow:hidden;width:80%;margin:0 auto}.comments .comm .cmnt strong{float:left;color:#aaa;font-size:18px;max-width:170px}
+.comments{height:100%;overflow:hidden;position:relative}.comments .comm{height:100%;overflow:hidden;padding-top:10px;margin-top:-10px}.comments .comm .cmnt{overflow:hidden;width:80%;margin:0 auto}.comments .comm .cmnt strong{float:left;color:#aaa;font-size:18px;max-width:170px}
 .comments .comm .cmnt i{float:right;color:#aaa;font-size:14px;line-height:18px}
 .comments .comm .cmnt br{clear:both}
 .comments .comm .cmnt p{font-size:16px;margin-top:15px;color:#fff;white-space:pre-wrap}
-.comments .butcomm{overflow:hidden;padding:15px;width:420px;position:absolute;margin:0 auto;bottom:55px;margin-left:25px;-webkit-transform:translate3d(0, 0, 0)}.comments .butcomm .sign_label{float:left;width:261px;display:block;height:30px;padding-top:5px;color:#fff;line-height:30px}
+.comments .butcomm{overflow:hidden;padding:15px;width:420px;position:absolute;margin:0 auto;bottom:0;margin-left:25px;-webkit-transform:translate3d(0, 0, 0)}.comments .butcomm .sign_label{float:left;width:261px;display:block;height:30px;padding-top:5px;color:#fff;line-height:30px}
 .comments .butcomm textarea{float:left;font-size:16px;color:#888;line-height:20px;width:250px;height:30px;padding:8px 0 5px 10px !important;font-family:'Lato',sans-serif;vertical-align:middle;margin-top:2px;background:url("../images/sbg.png") left top no-repeat;display:inline-block;border:none;background-size:100% 100%;resize:vertical;max-height:90px;overflow-y:scroll !important}.comments .butcomm textarea.disabled{opacity:.5}
 .comments .butcomm textarea::-webkit-scrollbar{width:0;height:0}
 .comments .butcomm .button{float:left;font-size:18px;margin-left:10px;color:#fff;line-height:20px;text-align:center;vertical-align:middle;font-family:'Lato',sans-serif;background:none;cursor:pointer;width:100px;height:40px;background:url("../images/ssbg.png") left top no-repeat;background-size:100px 45px;display:inline-block;border:none}.comments .butcomm .button.disable{opacity:.5;cursor:default}
