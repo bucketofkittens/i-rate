@@ -11,7 +11,6 @@ function CropImageController($scope, $rootScope, TokenService, UserService) {
     $scope.jcrop = null;
 
     $scope.$on('cropImage', function($event) {
-        console.log("cropImage");
         $scope.user = $scope.workspace.user;
         $scope.show = true;
         $("#crop_modal").show();
