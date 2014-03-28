@@ -5687,6 +5687,9 @@ and (max-device-width : 1024px)  {
             }
         }
     }
+    .image_box s {
+        font-size: 9px !important;
+    }
     .pmain.pro .pmpar p {
         width: 150px !important;
         i {
@@ -5792,37 +5795,33 @@ and (max-device-width : 1024px)  {
                         padding-right: 3px;
                     }
                 }
-            }            
-            sub.du, sup.du {
-                right: -10px;
-                border-width: 20px 0 20px 10px;      
-            }
-            sub.du {
-                left: -25px;
-                border-width: 20px 10px 20px 0;
-            }
-            sub.dubidu {    
-                border-width: 27px 10px 27px 0px;
-            } 
-            sup.dubidu {    
-                border-width: 27px 0px 27px 10px;
-            }
-            sub.bidubi {
-                border-width: 23px 10px 23px 0px;
-            }
-            sup.bidubi {
-                border-width: 23px 0px 23px 10px;
-            }  
-        }          
-        .promain .pmain .du {
-            right: -10px !important;
-            border-width: 95px 0 95px 10px !important;
-        }
-        .promain2 .pmain .du {
-            left: -10px !important;
-            border-width: 95px 10px 95px 0 !important;
+            }   
         }
     } 
+    .crits li ul li {
+        &:first-child h5 .compare.goal {
+            height: 78px !important;
+        }
+        &:last-child h5 .compare.goal {
+            top: -10px !important;
+            height: 72px !important;
+        }
+        h5 .compare.goal.down {
+            height: 68px !important;
+        }
+        sup.compare.criterium.down {
+            top: 10px;
+            left: -21px !important;
+        }
+    }
+    .compare {
+        &.goal {
+            height: 70px !important;
+        }
+        &.criterium {
+            right: -20px !important;
+        }
+    }
 
     .center {
         width: 770px !important;
