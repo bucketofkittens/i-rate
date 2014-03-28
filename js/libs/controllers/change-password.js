@@ -93,7 +93,7 @@ function ChangePasswordController($scope, Sessions, User, $location, $rootScope,
                     $scope.userSguid = data.guid;
                     $scope.message = 1;
 
-                    LocationService.update("mail_hash", "true");
+                    LocationService.update("hash", "true");
                 });
             } else {
                 $scope.isEmailNotFound = true;
@@ -104,7 +104,7 @@ function ChangePasswordController($scope, Sessions, User, $location, $rootScope,
     $scope.onChangePasswordBegin = function() {
         var user = {
             "password": $scope.form.newPassword,
-            "reset_hash": $location.search().mail_hash
+            "reset_hash": $scope.form.code
         }
 
         $scope.dismath = false;
