@@ -2,6 +2,6 @@
 	class="tab  current_{{tab}}"
 	id="tab_{{route}}">
 
-	<div ng-include ng-if="user" src="'partials/user/comments.html'"> </div>
-	<div ng-include ng-if="user" src="'partials/user/needs.html'"> </div>
+	<div ng-include ng-if="user && tab == 2" src="'partials/user/comments.html'" scroller> </div>
+	<div ng-include ng-if="user && tab == 1" src="'partials/user/needs.html'"> </div>
 </div>
