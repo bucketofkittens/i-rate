@@ -34,7 +34,7 @@
 
 		<input class="hidden" id="report_upload" type="file" name="file" ng-file-select="onFileSelect($files, value)" />
 		<input placeholder="Additional info" ng-model="form.additional_info"  />
-		<button ng-click="onReport()" ng-disabled="ReportForm.$invalid">Report</button>
+		<button ng-click="onReport()" ng-class="{disable: !issetFile}" ng-disabled="ReportForm.$invalid">Report</button>
 
 	</ng-form>
 </div>

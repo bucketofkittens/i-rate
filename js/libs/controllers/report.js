@@ -30,14 +30,14 @@ function ReportController($scope, ReportService, $location, TokenService, $timeo
                     }
                 });
             });    
-        } else {
-            $rootScope.$broadcast('openModal', {name: "report-success"});
         }
     }
 
     // отправляем репорт на сервер
     $scope.onReport = function() {
-        ReportService.create($scope.form, $scope.onReportCallback_);
+        if($scope.issetFile) {
+            ReportService.create($scope.form, $scope.onReportCallback_);
+        }
     }
 
     $scope.onFileSelect = function($files, league) {
