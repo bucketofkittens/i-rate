@@ -6942,7 +6942,6 @@ function CropImageController($scope, $rootScope, TokenService, UserService) {
     $scope.jcrop = null;
 
     $scope.$on('cropImage', function($event) {
-        console.log("cropImage");
         $scope.user = $scope.workspace.user;
         $scope.show = true;
         $("#crop_modal").show();
@@ -10263,6 +10262,8 @@ function SignupController($scope, UserService, Recaptha, $rootScope, SessionsSer
      *  добавлям нового пользователя
      */
     $scope.addUser = function ($event) {
+        $rootScope.$broadcast('loaderShow');
+
         // проверяем капчу
         Recaptha.verify(
             {}, 
@@ -10272,8 +10273,6 @@ function SignupController($scope, UserService, Recaptha, $rootScope, SessionsSer
             }, 
             function(data) {
                 if(data.success) {
-                    $scope.clearErrors();
-
                     // если капча верна создаем нового пользователя
                     UserService.create({
                         "name": $scope.user.email.split("@")[0],
@@ -10282,8 +10281,9 @@ function SignupController($scope, UserService, Recaptha, $rootScope, SessionsSer
                         "password": $scope.user.password
                     }, $scope.onAddUserSuccessCallback_, $scope.onAddUserFailCallback_);
                 } else {
-                    $scope.clearErrors();
+                    $rootScope.$broadcast('loaderHide');
 
+                    $scope.clearErrors();
                     $scope.errorValidate = "Text invalid";
                 }
             }
@@ -10298,6 +10298,8 @@ function SignupController($scope, UserService, Recaptha, $rootScope, SessionsSer
         UserService.getFriends(data.sguid, $scope.getFriendsCallback_);
 
         $scope.workspace.user = data;
+
+        $rootScope.$broadcast('loaderHide');
 
         $timeout(function() {
             $rootScope.$broadcast('openProfile', { nav: "Settings" });
@@ -10317,10 +10319,13 @@ function SignupController($scope, UserService, Recaptha, $rootScope, SessionsSer
 
     $scope.onSigninFailCallback_ = function(data) {
         $scope.error = data.message;
+        $rootScope.$broadcast('loaderHide');
     }
 
     // приводим текст ошибок в порядок
     $scope.onAddUserFailCallback_ = function(data) {
+        $rootScope.$broadcast('loaderHide');
+
         $scope.clearErrors();
 
         angular.forEach(data.errors, function(value, key) {
