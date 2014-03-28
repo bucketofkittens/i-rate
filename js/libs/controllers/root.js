@@ -13,8 +13,6 @@ function RootController($scope, FacebookService, СareerService, LeagueService, 
         $rootScope.$broadcast('openModal', { name: nameModal});
     }
 
-    $scope.mainNoScroll = false;
-
     /**
      * Массив всяких данных
      * @type {Object}
@@ -125,17 +123,7 @@ function RootController($scope, FacebookService, СareerService, LeagueService, 
             ProfessionService.getList($scope.professionServiceCallback_);
         }
     });
-
-    $scope.$on('disableMasonryScroll', function(event, message) {
-        $scope.mainNoScroll = true;
-    });
-
-    $scope.$on('enableMasonryScroll', function(event, message) {
-        $scope.mainNoScroll = false;
-    });
-
     
-
     UserService.getAuthData($scope.getAuthDataCallback_);
     
     FacebookService.init();

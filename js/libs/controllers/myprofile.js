@@ -87,8 +87,6 @@ function MyProfileController($scope, $location, LocationService, $rootScope, $ti
             
             $rootScope.$broadcast('professionsLoad');
 
-            $rootScope.$broadcast('disableMasonryScroll');
-
         	// проверяем существование nav в location
         	if(!$location.search().nav) {
 
@@ -102,8 +100,6 @@ function MyProfileController($scope, $location, LocationService, $rootScope, $ti
 			}
         } else {
         	$scope.showProfile = false;
-
-        	$rootScope.$broadcast('enableMasonryScroll');
         }
     }
 
@@ -120,6 +116,4 @@ function MyProfileController($scope, $location, LocationService, $rootScope, $ti
 
     // загружаем список нидсов
     $rootScope.$broadcast('needsLoad');
-
-    $rootScope.$broadcast('disableMasonryScroll');
 }
