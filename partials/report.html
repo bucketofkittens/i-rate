@@ -7,6 +7,7 @@
 		use this form to file a report.</p>
 		
 		<input placeholder="Your full name" ng-model="form.full_name" required />
+		
 		<input placeholder="Your contact email address" type="email" name="Email" ng-model="form.email" required  ng-minlength="6" />
 		<span 
       		class="errorss" 
@@ -25,7 +26,12 @@
 		<i>Upload an ID</i>
 		<i>Your ID or an ID of a person you’re authorized to represent</i>
 
-		<button ng-click="onUpload()">Upload</button>
+		<p class="upload">
+			<button ng-click="onUpload()">Upload</button> 
+			<img ng-if="issetFile" class="clear img" src="./images/fusedel.png" ng-click="clearFile()" />
+			<span ng-if="issetFile">File uploaded.</span>
+		</p>
+
 		<input class="hidden" id="report_upload" type="file" name="file" ng-file-select="onFileSelect($files, value)" />
 		<input placeholder="Additional info" ng-model="form.additional_info"  />
 		<button ng-click="onReport()" ng-disabled="ReportForm.$invalid">Report</button>
