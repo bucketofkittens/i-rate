@@ -34,7 +34,7 @@ function ChangePasswordController($scope, Sessions, User, $location, $rootScope,
     }
 
     $scope.onChangePasswordCancel2 = function() {
-        LocationService.remove("mail_hash");
+        LocationService.remove("hash");
     }
 
     $scope.message = 0;
