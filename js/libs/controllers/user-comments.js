@@ -63,6 +63,6 @@ function UserCommentsController($scope, Comments, $rootScope, $location) {
     $scope.openComments();
 
     $scope.onSignin = function() {
-        $location.search({});
+        $rootScope.$broadcast('showRightPanel');
     }
 }

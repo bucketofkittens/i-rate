@@ -23,7 +23,6 @@ function RightController($scope, $location) {
     // показываем плашку
     $scope.$on('showRightPanel', function() {
         $scope.showPanel = true;
-        console.log("show");
     });
 
     // переключаем состояние панели
