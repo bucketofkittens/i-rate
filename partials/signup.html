@@ -19,7 +19,7 @@
       <br />
       <span 
         class="errorss" 
-        ng-show="RegForm.NewEmail.$dirty && (RegForm.NewEmail.$error.required || RegForm.NewEmail.$error.minlength || RegForm.NewEmail.$error.email)">Incorrect email</span>
+        ng-show="RegForm.NewEmail.$dirty && (RegForm.NewEmail.$error.required || RegForm.NewEmail.$error.minlength || RegForm.NewEmail.$error.email)">Invalid Email</span>
       <span class="errorss" ng-if="errorEmail">{{errorEmail}}</span>
     </p>
     <p>
@@ -40,7 +40,7 @@
       <br />
       <span 
         class="errorss rss" 
-        ng-show="RegForm.NewMassEmail.$dirty && (RegForm.NewMassEmail.$error.required || RegForm.NewMassEmail.$error.minlength || RegForm.NewEmail.$error.email)">E-mail mismatch</span> 
+        ng-show="RegForm.NewMassEmail.$dirty && (RegForm.NewMassEmail.$error.required || RegForm.NewMassEmail.$error.minlength || RegForm.NewEmail.$error.email)">Password must contain at least 6 characters.</span> 
       <span class="errorss" ng-if="errorName">{{errorName}}</span>
     </p>
     <p>
@@ -71,7 +71,7 @@
 
     <p class="acknowledge">
       <input type="checkbox"  required="required" ng-model="acknowledge" class="icheckbox_minimal" />
-      <label>I acknowledge I have read and accept the <a ng-click="openTerms()" class="notdark">Terms and Conditions</a> and consent to the <a ng-click="openTerms()" class="notdark">Privacy Policy</a>.</label>
+      <label>I acknowledge that I have read and accept the <a ng-click="openTerms()" class="notdark">Terms and Conditions</a> and consent to the <a ng-click="openTerms()" class="notdark">Privacy Policy</a>.</label>
     </p>
     <p class="signup-submit">
       <input 

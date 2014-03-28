@@ -23,7 +23,7 @@
 			
 			<div class="publish" >
 					<strong ng-if="workspace.user.published == 0">
-						Your account is private.<b>Nobody except you can see it.</b>
+						Your account is Private. <b>Nobody except you can see it.</b>
 					</strong>
 					<strong ng-if="workspace.user.published == 1 && (!workspace.user.league.secure == true || !workspace.user.artificial == 0 || !workspace.user.allowed_for_publish == 0)">
 						Your account is public.<b>Others can see it.</b>
@@ -141,7 +141,7 @@
 			</p>
 			<p class="apply">
 				<button class="reset" ng-click="onChange()" ng-class="{disable: !isChange}">
-					<span ng-if="!isChanged">Apply changes</span>
+					<span ng-if="!isChanged">Save changes</span>
 					<span ng-if="isChanged">Changes saved</span>
 					<div id="circularG" ng-if="isChangeng">
 						<div id="circularG_1" class="circularG">
