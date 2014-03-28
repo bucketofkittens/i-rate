@@ -844,7 +844,7 @@ sup.bidubi{top:13px !important;border-width:23px 0 23px 15px}
 .recaptchatable .recaptcha_image_cell{padding:0 !important}
 .recaptchatable .recaptcha_r4_c2{width:36px !important}
 #recaptcha_image img{width:218px !important;margin-left:-70px !important}
-.info_user{background:rgba(0,0,0,0.7);height:185px}
+.info_user{background:rgba(0,0,0,0.7);height:185px;overflow:hidden}
 .comments{height:100%;overflow:hidden}.comments .comm{height:100%;overflow:hidden;padding-top:10px;margin-top:-10px}.comments .comm .cmnt{overflow:hidden;width:80%;margin:0 auto}.comments .comm .cmnt strong{float:left;color:#aaa;font-size:18px;max-width:170px}
 .comments .comm .cmnt i{float:right;color:#aaa;font-size:14px;line-height:18px}
 .comments .comm .cmnt br{clear:both}
