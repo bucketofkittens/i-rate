@@ -40,7 +40,7 @@
       <br />
       <span 
         class="errorss rss" 
-        ng-show="RegForm.NewMassEmail.$dirty && (RegForm.NewMassEmail.$error.required || RegForm.NewMassEmail.$error.minlength || RegForm.NewEmail.$error.email)">Password must contain at least 6 characters.</span> 
+        ng-show="RegForm.NewMassEmail.$dirty && (RegForm.NewMassEmail.$error.required || RegForm.NewMassEmail.$error.minlength || RegForm.NewEmail.$error.email)">Emails do not match</span> 
       <span class="errorss" ng-if="errorName">{{errorName}}</span>
     </p>
     <p>
@@ -57,7 +57,7 @@
       <br />
       <span 
         class="errorss rrss" 
-        ng-show="RegForm.NewPassword.$dirty && (RegForm.NewPassword.$error.required || RegForm.NewPassword.$error.minlength)">Incorrect password</span>
+        ng-show="RegForm.NewPassword.$dirty && (RegForm.NewPassword.$error.required || RegForm.NewPassword.$error.minlength)">Password must contain at least 6 characters</span>
     </p>
     <div
       vc-recaptcha
