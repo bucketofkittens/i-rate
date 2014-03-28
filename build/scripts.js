@@ -6633,9 +6633,13 @@ function ChangePasswordController($scope, Sessions, User, $location, $rootScope,
     });
 
     $scope.testState = function() {
-        if($location.search().mail_hash) {
+        if($location.search().hash) {
             $scope.state = 2;
             $scope.hash = $location.search().mail_hash;
+
+            if($location.search().hash && $location.search().hash != "true") {
+                $scope.form.code = $location.search().hash;
+            }
         } else {
             $scope.state = 1;
         }
@@ -6692,8 +6696,6 @@ function ChangePasswordController($scope, Sessions, User, $location, $rootScope,
     $scope.onChangePasswordOk = function() {
         $scope.message = 0;
         $scope.state = 2;
-
-        
     }
 
     $scope.onChangePassword = function() {
