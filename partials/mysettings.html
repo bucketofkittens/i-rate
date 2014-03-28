@@ -42,6 +42,9 @@
 			<div class="publish">
 				<button ng-click="onLogout()">Sign out</button>
 			</div>
+			<div class="publish" ng-if="!social">
+				<button ng-click="onChangePassword()">Reset password</button>
+			</div>
 		</div>
 
 		<div class="pmpar" >
@@ -159,9 +162,6 @@
 						</div>
 					</div>
 				</button>
-			</p>
-			<p ng-if="!social">
-				<button class="reset" ng-click="onChangePassword()">Reset password</button>
 			</p>
 		</div>
 	</div>
