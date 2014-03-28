@@ -999,7 +999,7 @@ sup.bidubi{top:13px !important;border-width:23px 0 23px 15px}
 .select2-dropdown-open.select2-drop-above .select2-choice,.select2-dropdown-open.select2-drop-above .select2-choices{border:1px solid #5897fb;border-top-color:transparent;background-image:-webkit-gradient(linear, left top, left bottom, color-stop(0, #fff), color-stop(.5, #eee));background-image:-webkit-linear-gradient(center top, #fff 0, #eee 50%);background-image:-moz-linear-gradient(center top, #fff 0, #eee 50%);filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#eeeeee', endColorstr='#ffffff', GradientType=0);background-image:linear-gradient(bottom, #fff 0, #eee 50%)}
 .select2-dropdown-open .select2-choice .select2-arrow{background:transparent;border-left:none;filter:none}
 .select2-dropdown-open .select2-choice .select2-arrow b{background-position:-18px 1px}
-.select2-results{max-height:230px;padding:0;margin:0 0 0 13px;position:relative;overflow-x:hidden;overflow-y:auto;-webkit-tap-highlight-color:rgba(0,0,0,0)}.select2-results::-webkit-scrollbar{width:0;height:0}
+.select2-results{max-height:230px;padding:0;margin:0 0 0 13px;position:relative;overflow-x:hidden;overflow-y:auto;-webkit-tap-highlight-color:rgba(0,0,0,0);-webkit-overflow-scrolling:touch}.select2-results::-webkit-scrollbar{width:0;height:0}
 .select2-results ul.select2-result-sub{margin:0;padding-left:0}
 .select2-results ul.select2-result-sub>li .select2-result-label{padding-left:20px}
 .select2-results ul.select2-result-sub ul.select2-result-sub>li .select2-result-label{padding-left:40px}
