@@ -340,7 +340,7 @@ sup.bidubi{top:13px !important;border-width:23px 0 23px 15px}
 .controller__search .proffesion_list{margin-left:0;margin-top:-2px;width:200px;display:none;max-height:300px;overflow:auto}.controller__search .proffesion_list li{cursor:pointer}
 .controller__search .proffesion_list.show{display:block}
 #masonry_parent{width:105%;overflow:auto;-webkit-overflow-scrolling:touch;z-index:10;position:relative}#masonry_parent::-webkit-scrollbar{width:0;height:0}
-#masonry_parent.noscroll{z-index:-1}
+#masonry_parent.noscroll{-webkit-overflow-scrolling:auto}
 #masonry .item{float:left}
 .isotope,.isotope .isotope-item{-webkit-transition-duration:.8s;-moz-transition-duration:.8s;-ms-transition-duration:.8s;-o-transition-duration:.8s;transition-duration:.8s}
 .isotope{-webkit-transition-property:height,width,opacity;-moz-transition-property:height,width,opacity;-ms-transition-property:height,width,opacity;-o-transition-property:height,width,opacity;transition-property:height,width,opacity}
