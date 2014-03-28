@@ -35,20 +35,11 @@
 			</div>
 		</div>	
 	</section>
-	<div 
-		class="user_short_search" 
-		ng-controller="UserShortController" 
-		ng-include
-		ng-init="init('search_profile')"
-		src="'partials/user/short.html'">
-	</div>
-	<div class="search_user_parent" scroller>
+	<div class="search_user_parent" >
 		<div 
 			class="full_height user sha search_user" 
 			ng-controller="UserController" 
 			ng-include
-			scroll-user
-			scroller
 			ng-init="init('search_profile')"
 			src="'partials/user.html'">
 		</div>

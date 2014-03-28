@@ -1,17 +1,19 @@
 <div id="users" class="full_height" ng-if="show"  >
-	<div class="center2">
+	<div class="center2" ng-class="{one: one}">
 		<div class="center3">
 			<div 
 				ng-controller="UserShortController" 
 				ng-include
+				class="user_short"
 				ng-init="init('user1')"
 				src="'partials/user/short.html'">
 			</div>
 
 			<div
-				class="last" 
+				class="last user_short" 
 				ng-controller="UserShortController" 
 				ng-include
+				class=""
 				ng-init="init('user2')"
 				src="'partials/user/short.html'">
 			</div>
@@ -24,14 +26,14 @@
 				ng-controller="UserController" 
 				ng-include
 				ng-init="init('user1')"
-				src="'partials/user.html'">
+				src="'partials/user_compare.html'">
 			</div>
 			<div
 				class="full_height user last_user" 
 				ng-controller="UserController" 
 				ng-include
 				ng-init="init('user2')"
-				src="'partials/user.html'">
+				src="'partials/user_compare.html'">
 			</div>	
 		</div>
 		

@@ -1,7 +1,10 @@
 <div ng-if="show" class="sam">
-	<div ng-include src="'partials/user/info.html'"> </div>
+	<div ng-include src="'partials/user/info.html'" class="info_user"> </div>
 
-	<div ng-include src="'partials/user/nav.html'"> </div>
+	<div class="scrolls" scroller>
+		<div ng-include src="'partials/user/nav.html'"> </div>
 	
-	<div ng-include src="'partials/user/tabs.html'"> </div>
+		<div ng-include src="'partials/user/tabs.html'"> </div>	
+	</div>
+	
 </div>

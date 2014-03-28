@@ -135,6 +135,7 @@ pgrModule.directive('scrollUsers', function($rootScope, $location) {
               $rootScope.$broadcast('showUserShort', {route: "user1"});
               $rootScope.$broadcast('showUserShort', {route: "user2"});
             } else {
+
               $rootScope.$broadcast('hideUserShort', {route: "user1"});
               $rootScope.$broadcast('hideUserShort', {route: "user2"});
             }

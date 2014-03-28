@@ -31,6 +31,12 @@ function UserController($scope, FriendsService, UserService, User, $location, Lo
         }
     });
 
+    $scope.$on('changeTab', function(event, message) {
+        if(message.route == $scope.route) {
+            $scope.onChangeTab(message.tab);
+        }
+    });
+
     // calback для скрытия 
     this.windowClickCallback_ = function(event) {
         $timeout(function() {

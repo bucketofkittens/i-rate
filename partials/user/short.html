@@ -1,15 +1,55 @@
-<div class="user_short" ng-class="{show: show && user}">
-	<div class="pmain pro" >
+<div class="pmain pro" ng-if="user" >
+	<div class="block">
 		<div class="image_box" >
 			<img class="pp" ng-if="user.avatar" ng-src="{{user.avatar}}" err-src="/images/unknown-person.png" />
-			<img class="pp" ng-if="!user.avatar" src="/images/unknown-person.png" />
+			<img class="pp" ng-if="user && !user.avatar" src="/images/unknown-person.png" />
+
+			<s ng-if="user.artificial">This Profile was compiled by experts using publically available information sources.</s>
 		</div>
-		<i ng-if="user.name">{{user.name}}</i>
-		<span class="fknm" ng-if="user.points">{{user.points}}</span>
-		<span ng-if="user.league"><img ng-src="{{user.league.icon}}" alt="" /> {{user.league.name}} league</span>
-		<!-- кнопочка закрытия -->
-		<a class="il" ng-click="close()">
-			<img src="../images/cl.png">
-		</a> 
-	</div>	
+	</div>
+	
+	<div class="pmpar" ng-if="user">
+		<p>
+			<i ng-if="user.name">{{user.name}}</i>
+		</p>
+		<p>
+			<i ng-if="user.birthday">{{user.birthday | usadata}}</i>
+		</p>
+		<p>
+			<i ng-if="user.state.name || user.city.name">
+				<span ng-if="user.state.name">{{user.state.name}}</span>
+				<span ng-if="user.city.name">
+					<span ng-if="user.state.name">,</span> 
+					{{user.city.name}}
+				</span>
+			</i>
+		<p>
+			<i ng-if="user.career.name || user.profession.name">
+				{{user.career.name}}<span ng-if="user.profession.name && user.career.name">,</span> {{user.profession.name}}
+			</i>
+		</p>
+
+		<p>
+			<i><img ng-src="{{user.league.icon}}" alt="" /> {{user.league.name}} league</i>
+		</p>															
+		<p>
+			<i>Overall score: {{user.points | unidate}}</i>
+		</p>
+	</div>
+
+	<!-- статситика -->
+	<b class="statis stf">{{user.likes}}</b>
+	<b class="statis stv">{{user.views}} views</b>
+
+	<a class="il" ng-if="user && !isFriend && !compare" ng-click="onFollow()">
+		<img src="../images/i3.png" alt="" />
+	</a>
+	<a class="il" ng-if="user && isFriend && !compare" ng-click="onUnFollow()">
+		<img src="../images/i3i.png" alt="" />
+	</a>
+
+	<!-- кнопочка закрытия -->
+	<a class="il" ng-click="close()">
+		<img src="../images/cl.png">
+	</a> 
 </div>

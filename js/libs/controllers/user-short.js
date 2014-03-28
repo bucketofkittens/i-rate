@@ -7,6 +7,8 @@ function UserShortController($scope, $location, $rootScope) {
 
     $scope.show = false;
 
+    $scope.tab = 1;
+
     $scope.init = function(route) {
         $scope.route = route;
     }
@@ -34,6 +36,11 @@ function UserShortController($scope, $location, $rootScope) {
             $scope.user = null;
         }
     });
+
+    $scope.onChangeTab = function(tab) {
+        $scope.tab = tab;
+        $rootScope.$broadcast('changeTab', {tab: tab, route: $scope.route});
+    }
 
     $scope.close = function() {
         $scope.user = null;
