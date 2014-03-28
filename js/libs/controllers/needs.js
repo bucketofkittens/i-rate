@@ -21,7 +21,6 @@ function NeedsAndGoalsController($scope, СareerService, UserService, Goals, Cri
 
     // когда получаем данные пользователя
     $scope.$watch('user', function (newVal, oldVal, scope) {
-        console.log("user");
         if(newVal != oldVal) {
             $scope.bindUserNeedsValues();
             $scope.rebindUserData();
