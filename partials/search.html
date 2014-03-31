@@ -35,14 +35,13 @@
 			</div>
 		</div>	
 	</section>
-	<div class="search_user_parent" >
+	<div class="search_user_parent" ng-if="showUser" >
 		<div 
 			class="full_height user sha search_user" 
 			ng-controller="UserController" 
 			ng-include
 			ng-init="init('search_profile')"
-			src="'partials/user.html'"
-			ng-if="showUser">
+			src="'partials/user.html'">
 		</div>
 	</div>
 	
