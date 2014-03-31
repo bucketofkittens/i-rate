@@ -32,6 +32,8 @@ function RootController($scope, FacebookService, СareerService, LeagueService, 
 
     $scope.workspace.isAdmin = UserService.isAdminCache();
 
+    $scope.phone = $(window).width() < 500 ? true : false;
+
     // забираем профиль пользователя
     $scope.getAuthDataCallback_ = function(data) {
         $scope.workspace.user = data;
@@ -70,6 +72,10 @@ function RootController($scope, FacebookService, СareerService, LeagueService, 
     
     $scope.openProfile = function() {
         $rootScope.$broadcast('openProfile');
+    }
+
+    $scope.openRightPanel = function() {
+        $rootScope.$broadcast('showRightPanel'); 
     }
 
     $scope.openLeagues = function() {

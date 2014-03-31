@@ -21,12 +21,12 @@
 
 		<!-- Аватар -->
 		<section id="avatar" ng-cloak>
-		    <p ng-if="workspace.user">
+		    <p ng-if="(workspace.user && !phone) || phone">
 		        <img 
-		        	ng-click="openProfile()"
+		        	ng-click="openRightPanel()"
 		        	ng-src="/images/unknown-person.png" 
 		        	class="current" 
-		        	ng-if="!workspace.user.avatar" />
+		        	ng-if="phone" />
 
 		        <img 
 		        	ng-click="openProfile()"
