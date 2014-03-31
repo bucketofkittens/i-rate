@@ -1,6 +1,8 @@
 // контроллер репортов
-function ReportController($scope, ReportService, $location, TokenService, $timeout, $rootScope, LocationService) {
+function ReportController($scope, ReportService, $location, TokenService, $timeout, $rootScope, LocationService, User) {
     $scope.issetFile = false;
+
+    $scope.isEmailFound = false;
 
     // форма репорта
     $scope.form = {
@@ -36,7 +38,14 @@ function ReportController($scope, ReportService, $location, TokenService, $timeo
     // отправляем репорт на сервер
     $scope.onReport = function() {
         if($scope.issetFile) {
-            ReportService.create($scope.form, $scope.onReportCallback_);
+            User.test_email({}, {email: $scope.form.email}, function(data) {
+                if(data.success) {
+                    $scope.isEmailFound = true;
+                } else {
+                    $scope.isEmailFound = false;
+                    ReportService.create($scope.form, $scope.onReportCallback_);
+                }
+            });
         }
     }
 

@@ -14,6 +14,11 @@
 	      	ng-show="ReportForm.Email.$dirty && (ReportForm.Email.$error.required || ReportForm.Email.$error.minlength || ReportForm.Email.$error.email)">
 	      		Incorrect email
 	    </span>
+	    <span 
+      		class="errorss" 
+	      	ng-show="isEmailFound">
+	      		Email exist
+	    </span>
 
 		<p>Please attach a picture of a government-issued ID of the person being impersonated (ex: your ID or the ID of the person you’re authorized to represent). Cover up any personal information (ex: address, license number) that we don’t need to confirm your identity.</p>
 		<b>The ID you provide:</b>
