@@ -1,0 +1,19 @@
+<div ng-if="tab == 2" ng-controller="ApproveConfirmConroller">
+	<div id="reps">
+		<div class="dcdrep">
+			<textarea ng-model="form.message" id="comment_msg" name="comment" placeholder="Enter your comment here"></textarea>
+			<button ng-click="onConfirm()">Confirm</button>
+			<button ng-click="onReject()">Reject</button>
+		</div>
+		
+		<table class="moder hstr" ng-controller="ApproveCommentConroller">
+			<tbody>
+				<tr ng-repeat="(key, value) in commentsList">
+					<td>
+						<p>{{value.post_date}}<s></s>{{value.message}}</p>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</div>
