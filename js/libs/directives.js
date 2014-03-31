@@ -310,6 +310,24 @@ pgrModule.directive('scroller', function($window) {
   }
 })
 
+pgrModule.directive('scroller2', function($window) {
+  return {
+    link: function(scope, element, attrs) {
+      setTimeout(function() {
+        if($(window).height() < $(element).height()+$(element).offset().top) {
+          $(element).height($(window).height()-$(element).offset().top);  
+        }
+        
+        $(window).resize(function() {
+          if($(window).height() < $(element).height()+$(element).offset().top) {
+            $(element).height($(window).height()-$(element).offset().top);
+          }
+        });
+      }, 0);
+    }
+  }
+})
+
 pgrModule.directive('scrollerStep', function($window) {
   return {
     link: function(scope, element, attrs) {

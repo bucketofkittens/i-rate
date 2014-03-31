@@ -5018,12 +5018,18 @@ table.quickdate-calendar td.is-today{font-weight:bold;background: url("../images
         background-size: 500px 560px;
         display: block; 
         position: absolute;
+        overflow-y: auto;
         left: 50%;
         margin-left: -250px;
         top: 10px;
         font-family: 'Lato', sans-serif;
         padding: 15px 20px;
         box-shadow: 0px 0px 30px 1px rgba(0, 0, 0, 0.8);
+        -webkit-overflow-scrolling: touch;
+        &::-webkit-scrollbar {
+            width: 0px;
+            height: 0px; 
+        }
         .disable {
             opacity: 0.5;
             cursor: default;
@@ -7419,4 +7425,8 @@ transform:scale(.3)}
         width: 320px !important;
         margin-top: 160px !important;
     }
+}
+
+.report {
+
 }
