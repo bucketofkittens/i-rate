@@ -66,7 +66,6 @@ var pgrModule = angular.module(
         'ngScrollEvent'
 	]
 );
-
 // добавляем в ajax token в заголовок
 pgrModule.factory('httpRequestInterceptor', function() {
   return {

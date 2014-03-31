@@ -33,3 +33,23 @@ pgrModule.config(['$routeProvider',
           });
     }
 ]);
+
+pgrModule.factory('httpRequestInterceptor', function() {
+  return {
+    request: function (config) {
+      var token = lscache.get("admin_token") ? lscache.get("admin_token") : lscache.get("token") ? lscache.get("token") : "";
+      var user = lscache.get("user") ? lscache.get("user") : "";
+
+      if(!config.headers) {
+        config.headers = {};
+      }
+
+      if(user && token) {
+        config.headers['TOKEN'] = token.split('"').join("");
+        config.headers['USER'] = user.split('"').join("");
+      }
+      
+      return config;
+    }
+  };
+});
