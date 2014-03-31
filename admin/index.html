@@ -38,6 +38,16 @@
             </div>
         </div>
 
+        <div  ng-if="workspace.isAdmin" id="current_approve">
+            <div
+                class="full_height user sha" 
+                ng-controller="UserController" 
+                ng-include
+                ng-init="init('approve_profile')"
+                src="'/admin/partials/user_approve.html'">
+            </div>
+        </div>
+
         <div ng-if="!workspace.isAdmin" class="noAdmin">No admin ;-(</div>
     </div>
 
@@ -118,6 +128,8 @@
     <script src="/admin/js/controllers/reports.js"></script>
     <script src="/admin/js/controllers/report-confirm.js"></script>
     <script src="/admin/js/controllers/report-comment.js"></script>
+    <script src="/admin/js/controllers/approve-confirm.js"></script>
+    <script src="/admin/js/controllers/approve-comment.js"></script>
     <script src="/admin/js/controllers/nsi.js"></script>
     <script src="/admin/js/controllers/graph.js"></script>
     <script src="/admin/js/controllers/nsi-add.js"></script>

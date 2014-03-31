@@ -12,7 +12,7 @@
 		<tbody>
 			<tr ng-repeat="(key, value) in reports">
 				<td 
-					ng-click="openReport(value)" 
+					ng-click="openReport(value)"
 					ng-class="{accept: value.status == 2, denied: value.status == 1, quest: value.status == 0}">
 				</td>
 				<td>

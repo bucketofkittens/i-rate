@@ -158,6 +158,19 @@ pgrModule.factory('User', function ($resource) {
                 method: "POST",
                 isArray: true,
                 url: host+'/users/search_skip_limit'
+            },
+            "not_allowed_for_publish": {
+                method: "GET",
+                isArray: true,
+                url: host+'/users/not/allowed/for/publish'
+            },
+            "allow_for_publish": {
+                method: "GET",
+                url: host+'/users/:id/allow_for_publish'
+            },
+            "deny_for_publish": {
+                method: "GET",
+                url: host+'/users/:id/deny_for_publish'
             }
         }
     );
