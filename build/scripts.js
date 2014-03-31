@@ -9324,7 +9324,6 @@ function SearchAdvanceController($scope, $location, $rootScope, User, Profession
                 }
             });  
         }
-          
     });
 
     /**
