@@ -3,6 +3,8 @@
  */
 function LeaguesController($scope, $location, $rootScope, User, LocationService, LeagueService) {
 
+    $scope.showUser = $scope.phone ? false : true;
+
     $scope.skip = 0;
 
     $scope.limit = 15;
@@ -68,6 +70,11 @@ function LeaguesController($scope, $location, $rootScope, User, LocationService,
         $scope.usersAllNotCurrent();
         value.current = true;
         LocationService.update("league_user", value.sguid);
+    }
+
+    $scope.clickSelectUser = function(value) {
+        $scope.showUser = true;
+        $scope.selectUser(value);
     }
 
     // делаем все лиги не текущими
@@ -151,7 +158,15 @@ function LeaguesController($scope, $location, $rootScope, User, LocationService,
 
     $scope.$on('closeUserPanel', function (event, message) {
         if(message.route == "league_user") {
-            $location.search({});
+          $location.search({});  
         }
     });
+
+    $scope.iphoneEvent = function() {
+        if(!$scope.showUser) {
+            $location.search({}); 
+        } else {
+            $scope.showUser = false;
+        }
+    }
 }
