@@ -6670,7 +6670,7 @@ function ChangePasswordController($scope, Sessions, User, $location, $rootScope,
     });
 
     $scope.onBack = function() {
-        $window.history.back();
+        $scope.closeModal();
     }
 
     $scope.onChangePasswordChanged = function() {
