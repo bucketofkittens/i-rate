@@ -16,6 +16,8 @@ function SearchAdvanceController($scope, $location, $rootScope, User, Profession
 
     $scope.topFilter = false;
 
+    $scope.showUser = false;
+
     // определяем показываем ли мы панель или нет
     $scope.showTest = function() {
         $scope.show = $location.search().search  ? true : false;
@@ -542,7 +544,7 @@ function SearchAdvanceController($scope, $location, $rootScope, User, Profession
 
     // открываем профиль
     $scope.openSearchProfile = function(user, users) {
-        console.log(users);
+        $scope.showUser = true;
         $scope.showRight = false;
         $scope.closeAllUser_(users);
         user.current = true;
@@ -554,11 +556,13 @@ function SearchAdvanceController($scope, $location, $rootScope, User, Profession
     if($location.search().search_profile) {
         $scope.openProfile($location.search().search_profile);
         $scope.showRight = false;
+        $scope.showUser = true;
     }
 
     // если закрываем панель пользователя тогда показываем панель справа в поиске
     $scope.$on('closeUserPanel', function () {
         $scope.showRight = true;
+        $scope.showUser = false;
     });
 
     // настройки календаря
