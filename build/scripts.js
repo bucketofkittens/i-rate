@@ -3908,7 +3908,6 @@ var pgrModule = angular.module(
         'ngScrollEvent'
 	]
 );
-
 // добавляем в ajax token в заголовок
 pgrModule.factory('httpRequestInterceptor', function() {
   return {
@@ -10098,7 +10097,7 @@ function ShortLoaderController($scope, $element) {
 /**
  * форма модального окна авторизации
  */
-function SigninController($scope, $rootScope, $timeout, SessionsService, FacebookService, SocialService, UserService, MSLiveService, GooglePlusService, User, $location) {
+function SigninController($scope, $rootScope, $timeout, SessionsService, FacebookService, SocialService, UserService, MSLiveService, GooglePlusService, User, $location, TokenService) {
     // сообщение об ошибке
     $scope.error = null;
 
@@ -10131,6 +10130,12 @@ function SigninController($scope, $rootScope, $timeout, SessionsService, Faceboo
 
     $scope.isAdminCallback_ = function(data) {
         $scope.workspace.isAdmin = data;
+
+        if($scope.workspace.isAdmin) {
+            var admin_token = TokenService.get();
+
+            lscache.set("admin_token", admin_token, 1440);
+        }
     }
 
     $scope.onSigninSuccessCallback_ = function(data) {
