@@ -62,11 +62,12 @@ function SearchController($scope, User, $rootScope, $location, $timeout) {
             IMG: "IMG",
             INPUT: "INPUT"
         }
+
         if(event.target.tagName != tags.IMG && event.target.tagName != tags.INPUT) {
             $scope.$apply(function() {
                 $scope.resultSearch = [];
                 $scope.searchText = "";
-                if($(event.target).parents(searchId).length == 0 && !$location.search().user1 && !$location.search().user2) {
+                if($(event.target).parents(searchId).length == 0 && !$location.search().user1 && !$location.search().user2 && !$location.search().leagues && !$location.search().search) {
                     $rootScope.$broadcast('showRightPanel');    
                 }
             });
