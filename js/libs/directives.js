@@ -279,6 +279,7 @@ pgrModule.directive('comparator', function() {
               element.addClass(classes.CENTER);
             }
           } else {
+            /*
             element.removeClass(classes.DOWN).removeClass(classes.UP).removeClass(classes.CENTER);
 
             if(!values[usersName.USER1] && values[usersName.USER2]) {
@@ -287,6 +288,7 @@ pgrModule.directive('comparator', function() {
             if(!values[usersName.USER2] && values[usersName.USER1]) {
               element.addClass(classes.DOWN);
             }
+            */
           }
         } else {
           element.removeClass(classes.DOWN).removeClass(classes.UP).removeClass(classes.CENTER);
