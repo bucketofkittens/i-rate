@@ -1,4 +1,4 @@
-<div id="users" class="full_height" ng-if="show"  >
+	<div id="users" class="full_height" ng-if="show"  >
 	<div class="center2" ng-class="{one: one}">
 		<div class="center3">
 			<div 
@@ -6,7 +6,7 @@
 				ng-include
 				class="user_short"
 				ng-init="init('user1')"
-				src="'partials/user/short.html'">
+				src="!phone ? 'partials/user/short.html' : 'partials/user/short_phone.html'" >
 			</div>
 
 			<div
@@ -15,7 +15,7 @@
 				ng-include
 				class=""
 				ng-init="init('user2')"
-				src="'partials/user/short.html'">
+				src="!phone ? 'partials/user/short.html' : 'partials/user/short_phone.html'">
 			</div>
 		</div>
 	</div>
