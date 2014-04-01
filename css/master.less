@@ -7174,23 +7174,27 @@ transform:scale(.3)}
             }
         }
         .drop {
-            width: 98%;
+            width: 100%;
+            .drop_in {
+                width: 100%;
+                float: left;
+                margin-right: -30px; 
+            }
             p {
-                width: 80%;
                 height: 30px;
                 background: url("../images/needsbg.png") left top no-repeat;
                 background-size: 100% 100%;
                 font-size: 12px;
                 line-height: 28px;
-                display: inline-block;
                 vertical-align: middle;
                 text-align: center;                
                 overflow: hidden;
                 text-overflow: ellipsis;
                 white-space: nowrap;
-                &:last-child {
+                &.lastP {
                     width: 30px;
                     margin-left: -4px;
+                    float: right;
                     i {
                         display: block;
                         text-align: center;
