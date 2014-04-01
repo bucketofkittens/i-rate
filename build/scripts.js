@@ -4398,7 +4398,7 @@ pgrModule.directive('masonry', function(User, $rootScope) {
 
       $scope.addUser = function(value) {
         if(value.avatar && value.league ) {
-            if(value.artificial || !value.league.secure || (value.league.secure && !value.artificial && value.allowed_for_publish)) {
+            if(value.artificial || !value.league.secure || (value.league.secure && !value.artificial && value.allowed_for_publish == 1)) {
               var newDiv = document.createElement('div');
               newDiv.className = 'item isotope-item iso-item all';
               newDiv.setAttribute("data-id", value.sguid);
@@ -5273,6 +5273,23 @@ pgrModule.factory('Comments', function ($resource) {
         }
     );
 });
+
+pgrModule.factory('PublishReports', function ($resource) {
+    return $resource(
+        host+'/publish_reports/:id', 
+        {id:'@id'}, 
+        {
+            add: {method: 'PUT' },
+            get_by_user: {
+                url: host + "/publish_reports/by_user/:user_guid",
+                method: 'GET',
+                isArray: true
+            }
+        }
+    );
+});
+
+
 
 /**
  * Модель картинов
@@ -8650,6 +8667,7 @@ function NeedsAndGoalsController($scope, СareerService, UserService, Goals, Cri
         angular.forEach(goal.criterion_guids, function(value, key){
             CriterionService.by_guid(value, function(data) {
 
+                
                 goal.criteriums.push(data[0]);
 
                 $scope.getCriteriumValueByUser(data[0], function() {
