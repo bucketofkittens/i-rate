@@ -226,6 +226,23 @@ pgrModule.factory('Comments', function ($resource) {
     );
 });
 
+pgrModule.factory('PublishReports', function ($resource) {
+    return $resource(
+        host+'/publish_reports/:id', 
+        {id:'@id'}, 
+        {
+            add: {method: 'PUT' },
+            get_by_user: {
+                url: host + "/publish_reports/by_user/:user_guid",
+                method: 'GET',
+                isArray: true
+            }
+        }
+    );
+});
+
+
+
 /**
  * Модель картинов
  * @param  {[type]} $resource [description]

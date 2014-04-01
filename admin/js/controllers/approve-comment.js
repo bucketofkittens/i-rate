@@ -1,4 +1,4 @@
-function ApproveCommentConroller($scope, Comments, $location) {
+function ApproveCommentConroller($scope, Comments, $location, PublishReports) {
 	$scope.reportSguid = null;
 	$scope.commentsList = [];
 
@@ -9,7 +9,7 @@ function ApproveCommentConroller($scope, Comments, $location) {
 	}
 
 	$scope.getMessages = function() {
-        Comments.get_by_user({owner_guid: $scope.reportSguid, owner_type: 4}, {}, function(data) {
+        PublishReports.get_by_user({user_guid: $location.search().approve_profile}, {}, function(data) {
             angular.forEach(data, function(value, key){
                 value.post_date = moment(value.post_date).format("MMM DD, YYYY h:mm a");
             });

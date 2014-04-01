@@ -456,7 +456,7 @@ pgrModule.directive('masonry', function(User, $rootScope) {
 
       $scope.addUser = function(value) {
         if(value.avatar && value.league ) {
-            if(value.artificial || !value.league.secure || (value.league.secure && !value.artificial && value.allowed_for_publish)) {
+            if(value.artificial || !value.league.secure || (value.league.secure && !value.artificial && value.allowed_for_publish == 1)) {
               var newDiv = document.createElement('div');
               newDiv.className = 'item isotope-item iso-item all';
               newDiv.setAttribute("data-id", value.sguid);

@@ -1,4 +1,4 @@
-function ApproveConfirmConroller($scope, ReportService, $location, $rootScope, Comments, User) {
+function ApproveConfirmConroller($scope, ReportService, $location, $rootScope, Comments, User, PublishReports) {
 	$scope.form = {
 		message: ""
 	}
@@ -9,12 +9,12 @@ function ApproveConfirmConroller($scope, ReportService, $location, $rootScope, C
 
     $scope.createComment = function() {
     	if($scope.form.message.length > 0) {
-            Comments.create({}, {
-                owner_type: 4,
-                author_guid: $scope.workspace.user.sguid,
+            PublishReports.add({}, {
+                //  owner_type: 4,
+                user_guid: $location.search().approve_profile,
                 post_date: moment().format("DD-MM-YYYY HH:mm:ss"),
                 message: $scope.form.message,
-                owner_guid: $scope.reportSguid
+                //owner_guid: $scope.reportSguid
             }, function(data) {
                 
             });

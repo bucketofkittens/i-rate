@@ -124,6 +124,7 @@ function NeedsAndGoalsController($scope, СareerService, UserService, Goals, Cri
         angular.forEach(goal.criterion_guids, function(value, key){
             CriterionService.by_guid(value, function(data) {
 
+                
                 goal.criteriums.push(data[0]);
 
                 $scope.getCriteriumValueByUser(data[0], function() {
