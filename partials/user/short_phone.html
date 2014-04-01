@@ -3,12 +3,11 @@
 		<div class="image_box" >
 			<img class="pp" ng-if="user.avatar" ng-src="{{user.avatar}}" err-src="/images/unknown-person.png" />
 			<img class="pp" ng-if="user && !user.avatar" src="/images/unknown-person.png" />
-
-			<s ng-if="user.artificial">TEST PHONE This Profile was compiled by experts using publically available information sources.</s>
 		</div>
 	</div>
 	
 	<div class="pmpar" ng-if="user">
+		<!--
 		<p>
 			<i ng-if="user.name">{{user.name}}</i>
 		</p>
@@ -23,12 +22,13 @@
 					{{user.city.name}}
 				</span>
 			</i>
+		</p>
 		<p>
 			<i ng-if="user.career.name || user.profession.name">
 				{{user.career.name}}<span ng-if="user.profession.name && user.career.name">,</span> {{user.profession.name}}
 			</i>
 		</p>
-
+		-->
 		<p>
 			<i><img ng-src="{{user.league.icon}}" alt="" /> {{user.league.name}} league</i>
 		</p>															
@@ -37,9 +37,14 @@
 		</p>
 	</div>
 
+	<div class="drop">
+		<p ng-if="user.name">{{user.name}}</p>
+		<p><i></i></p>
+	</div>
+
 	<!-- статситика -->
-	<b class="statis stf">{{user.likes}}</b>
-	<b class="statis stv">{{user.views}} views</b>
+	<!-- <b class="statis stf">{{user.likes}}</b>
+	<b class="statis stv">{{user.views}} views</b> -->
 
 	<a class="il" ng-if="user && !isFriend && !compare" ng-click="onFollow()">
 		<img src="../images/i3.png" alt="" />
