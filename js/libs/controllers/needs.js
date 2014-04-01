@@ -252,6 +252,9 @@ function NeedsAndGoalsController($scope, СareerService, UserService, Goals, Cri
 
     $scope.updateLeague = function() {
         User.update_legue({id: $scope.workspace.user.sguid}, function(data) {
+            if(data.message.secure && !$scope.workspace.user.league.secure && $scope.workspace.user.allowed_for_publish == 0 ) {
+                $rootScope.$broadcast('openModal', {name: "moderate"});
+            }
             $scope.workspace.user.league = data.message;
 
             $rootScope.$broadcast('updateLeague');
