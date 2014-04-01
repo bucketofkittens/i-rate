@@ -50,8 +50,6 @@ function CropImageController($scope, $rootScope, TokenService, UserService) {
             $scope.positions.w = $scope.positions.cropW;
             $scope.positions.h = $scope.positions.cropH;
 
-            console.log($scope.positions);
-
             $(canvas).attr("width",$scope.positions.w);
             $(canvas).attr("height",$scope.positions.h);
 
