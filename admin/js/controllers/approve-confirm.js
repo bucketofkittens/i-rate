@@ -13,8 +13,7 @@ function ApproveConfirmConroller($scope, ReportService, $location, $rootScope, C
                 //  owner_type: 4,
                 user_guid: $location.search().approve_profile,
                 post_date: moment().format("DD-MM-YYYY HH:mm:ss"),
-                message: $scope.form.message,
-                //owner_guid: $scope.reportSguid
+                message: $scope.form.message
             }, function(data) {
                 
             });
@@ -22,13 +21,13 @@ function ApproveConfirmConroller($scope, ReportService, $location, $rootScope, C
     }
 
     $scope.denyCallback_ = function(data) {
-    	$rootScope.$broadcast('updateReport');
+    	$rootScope.$broadcast('updateApprove');
     	$scope.createComment();
     	$scope.close();
     }
 
     $scope.allowCallback_ = function(data) {
-    	$rootScope.$broadcast('updateReport');
+    	$rootScope.$broadcast('updateApprove');
     	$scope.createComment();
     	$scope.close();
     }

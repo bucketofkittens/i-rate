@@ -231,7 +231,7 @@ pgrModule.factory('PublishReports', function ($resource) {
         host+'/publish_reports/:id', 
         {id:'@id'}, 
         {
-            add: {method: 'PUT' },
+            add: {method: 'POST' },
             get_by_user: {
                 url: host + "/publish_reports/by_user/:user_guid",
                 method: 'GET',

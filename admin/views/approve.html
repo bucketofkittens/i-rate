@@ -17,7 +17,7 @@
 			<tr ng-repeat="(key, value) in approves">
 				<td 
 					ng-click="openAprove(value)"
-					ng-class="{accept: value.allowed_for_publish == 1, denied: value.allowed_for_publish == 3, quest: value.allowed_for_publish == 0}">
+					ng-class="{accept: value.allowed_for_publish == 1, denied: value.allowed_for_publish == 2 || value.allowed_for_publish == 3, quest: value.allowed_for_publish == 0}">
 				</td>
 				<td>{{value.points}} <br /> {{value.league.name}} league</td>
 				<td><img ng-src="{{value.avatar}}" alt="" err-src="/images/unknown-person.png"></td>
@@ -26,7 +26,7 @@
 				<td><p>{{value.state.name}}<br /> {{value.city.name}}</p></td>
 				<td><p>{{value.career.name}} <br /> {{value.profession.name}}</p></td>
 				<td><p>{{value.email}}</p></td>
-				<td>{{value.1}}</td>
+				<td><p>{{value.lastComment.message}}</p></td>
 			</tr>
 		</tbody>
 	</table>
