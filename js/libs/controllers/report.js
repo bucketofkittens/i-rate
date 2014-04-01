@@ -29,6 +29,7 @@ function ReportController($scope, ReportService, $location, TokenService, $timeo
                 $scope.$apply(function(){
                     if(data.success) {
                         $rootScope.$broadcast('openModal', {name: "report-success"});
+                        $rootScope.$broadcast('loaderHide');
                     }
                 });
             });    
@@ -38,9 +39,11 @@ function ReportController($scope, ReportService, $location, TokenService, $timeo
     // отправляем репорт на сервер
     $scope.onReport = function() {
         if($scope.issetFile) {
+            $rootScope.$broadcast('loaderShow');
             User.test_email({}, {email: $scope.form.email}, function(data) {
                 if(data.success) {
                     $scope.isEmailFound = true;
+                    $rootScope.$broadcast('loaderHide');
                 } else {
                     $scope.isEmailFound = false;
                     ReportService.create($scope.form, $scope.onReportCallback_);
