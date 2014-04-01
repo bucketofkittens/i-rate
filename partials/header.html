@@ -26,8 +26,12 @@
 		        	ng-click="openRightPanel()"
 		        	ng-src="/images/unknown-person.png" 
 		        	class="current" 
-		        	ng-if="phone && !workspace.user.avatar" />
-
+		        	ng-if="(phone && !workspace.user.avatar)" />
+				<img 
+		        	ng-click="openProfile()"
+		        	ng-src="/images/unknown-person.png" 
+		        	class="current" 
+		        	ng-if="!phone && workspace.user && !workspace.user.avatar" />
 		        <img 
 		        	ng-click="openProfile()"
 		        	err-src="/images/unknown-person.png" 
