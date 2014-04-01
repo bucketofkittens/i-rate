@@ -1,7 +1,7 @@
 /**
  * Контроллер  профиля
  */
-function UserShortController($scope, $location, $rootScope) {
+function UserShortController($scope, $location, $rootScope, FriendsService) {
     // данные пользователя
     $scope.user = null;
 
@@ -55,5 +55,33 @@ function UserShortController($scope, $location, $rootScope) {
         $scope.phoneNeedsShow = !$scope.phoneNeedsShow;
 
         $rootScope.$broadcast('stateShowUser', {state: $scope.phoneNeedsShow, route: $scope.route});
+    }
+
+    /** Событие добавление в друзья */
+    $scope.onFollow = function() {
+        if($scope.workspace.user) {
+            FriendsService.follow($scope.user, $scope.workspace.friends, $scope.followCallback_);    
+        }
+    }
+
+    /** Событие удаление из друзей */
+    $scope.onUnFollow = function() {
+        if($scope.workspace.user) {
+            FriendsService.unfollow($scope.user, $scope.workspace.friends, $scope.unfollowCallback_);
+        }
+    }
+
+    // callback после добавления пользователя в друзья
+    $scope.followCallback_ = function(friends) {
+        $scope.workspace.friends = friends;
+        $scope.isFriend = true;
+        $scope.user.likes += 1;
+    }
+
+    // callback после удаления пользователя из друзей
+    $scope.unfollowCallback_ = function(friends) {
+        $scope.workspace.friends = friends;
+        $scope.isFriend = false;
+        $scope.user.likes -= 1;
     }
 }
