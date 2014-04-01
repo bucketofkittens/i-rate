@@ -1,5 +1,5 @@
 // контроллер вкладки настроки своего профиля
-function MyProfileSettingsController($scope, UserService, SocialService, FriendsService, TokenService, $rootScope, $location, SocialService, CityService, ProfessionsService, $timeout, AllUserService, СareerService, ProfessionService) {
+function MyProfileSettingsController($scope, UserService, SocialService, FriendsService, TokenService, $rootScope, $location, SocialService, CityService, ProfessionsService, $timeout, AllUserService, СareerService, ProfessionService, PublishReports) {
     // список городов
     $scope.city = [];
 
@@ -20,6 +20,16 @@ function MyProfileSettingsController($scope, UserService, SocialService, Friends
     $scope.addCount = 0;
 
     $scope.addMaxCount = 0;
+
+    $scope.lastModerateComment = null;
+
+    $scope.getLastModerateComment = function() {
+        PublishReports.get_by_user({user_guid: $scope.workspace.user.sguid}, {}, function(data) {
+            $scope.lastModerateComment = data[0];
+        });
+    }
+
+    $scope.getLastModerateComment();
 
     // выходим из пользователя
     $scope.onLogout = function() {

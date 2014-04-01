@@ -748,7 +748,7 @@ pgrModule.service('UserService', function (User, AllUserService) {
         User.is_admin({id: sguid}, {}, function(data) {
             lscache.set("is_admin",  data.message.is_admin, 2000);
             if(callback) {
-                callback(data.message.is_admin);
+                callback(data.message.is_admin, sguid);
             }
         });
     }
@@ -1337,7 +1337,8 @@ pgrModule.service('ImprovaService', function(ImprovaLogin, UserService, Sessions
             "name": improvaForm.email,
             "password": "",
             "confirmed": "1",
-            "improva_user_guid": improvaData.improva_user_guid
+            "improva_user_guid": improvaData.improva_user_guid,
+            "avatar": improvaData.avatar
 
         }, function(data) {
             var user = {};

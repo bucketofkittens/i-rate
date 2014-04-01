@@ -32,12 +32,13 @@ function SigninController($scope, $rootScope, $timeout, SessionsService, Faceboo
         $scope.error = data.message;
     }
 
-    $scope.isAdminCallback_ = function(data) {
+    $scope.isAdminCallback_ = function(data, sguid) {
         $scope.workspace.isAdmin = data;
 
         if($scope.workspace.isAdmin) {
             var admin_token = TokenService.get();
 
+            lscache.set("admin_user", '"'+sguid+'"', 1440);
             lscache.set("admin_token", admin_token, 1440);
         }
     }

@@ -27,10 +27,10 @@
 					</strong>
 					<strong ng-if="workspace.user.published == 1">
 						Your account is public.
-						<b ng-if="!workspace.user.league.secure == true || !workspace.user.artificial == 0 || !workspace.user.allowed_for_publish == 0">Others can see it.</b>
-					</strong>
-					<strong ng-if="workspace.user.published == 1 && workspace.user.league.secure == true && workspace.user.artificial == 0 && workspace.user.allowed_for_publish == 0">
-						Your account is public.<b class="red">Others can see it after verification.</b>
+						<span ng-if="!workspace.user.league.secure == true || !workspace.user.artificial == 0 || workspace.user.allowed_for_publish == 1"><b>Others can see it.</b></span>
+						<span ng-if="workspace.user.league.secure == true && workspace.user.artificial == 0 && workspace.user.allowed_for_publish == 0"><b class="red">Others can see it after verification.</b></span>
+						<span ng-if="workspace.user.league.secure == true && workspace.user.artificial == 0 && workspace.user.allowed_for_publish == 3"><b class="red">Others can see it after verification.</b></span>
+						<span ng-if="workspace.user.league.secure == true && workspace.user.artificial == 0 && workspace.user.allowed_for_publish == 2"><b class="red2">Profile rejected: {{lastModerateComment.message}} </b></span>
 					</strong>
 					<div class="pubut" ng-class="{ published: workspace.user.published }">
 						<i>Public</i>

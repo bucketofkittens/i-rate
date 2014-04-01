@@ -38,7 +38,7 @@ pgrModule.factory('httpRequestInterceptor', function() {
   return {
     request: function (config) {
       var token = lscache.get("admin_token") ? lscache.get("admin_token") : lscache.get("token") ? lscache.get("token") : "";
-      var user = lscache.get("user") ? lscache.get("user") : "";
+      var user = lscache.get("admin_user") ? lscache.get("admin_user").toString() : lscache.get("user") ? lscache.get("user") : "";
 
       if(!config.headers) {
         config.headers = {};
