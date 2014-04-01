@@ -17,6 +17,8 @@ function UsersController($scope, $location, $rootScope, $timeout, NeedsService, 
 
     $scope.one = $location.search().user1 && !$location.search().user2 ? true : false;
 
+    $scope.showCrits = false;
+
 
 	// закрываем правую панель. Грязный хак. нужно будет переписать когда пойму как.
 	if($scope.show) {
@@ -32,7 +34,21 @@ function UsersController($scope, $location, $rootScope, $timeout, NeedsService, 
         } else {
             delete $scope.openGoals[message.goalItem.sguid];
         }
+
+        var size = 0;
+
+        angular.forEach($scope.openGoals, function(value, key) {
+            size += 1;
+        });
         
+
+        if(size > 0) {
+            $scope.showCrits = true;
+        } else {
+            $scope.showCrits = false;
+        }
+
+        console.log(size);
     });
 
     // событие загрузки цифр для колбас для needs
