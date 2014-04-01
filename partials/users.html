@@ -6,6 +6,7 @@
 				ng-include
 				class="user_short"
 				ng-init="init('user1')"
+				ng-class="{two_user: !one}"
 				src="!phone ? 'partials/user/short.html' : 'partials/user/short_phone.html'" >
 			</div>
 
@@ -15,6 +16,7 @@
 				ng-include
 				class=""
 				ng-init="init('user2')"
+				ng-class="{two_user: !one}"
 				src="!phone ? 'partials/user/short.html' : 'partials/user/short_phone.html'">
 			</div>
 		</div>
