@@ -9,6 +9,8 @@ function UserShortController($scope, $location, $rootScope) {
 
     $scope.tab = 1;
 
+    $scope.phoneNeedsShow = true;
+
     $scope.init = function(route) {
         $scope.route = route;
     }
@@ -47,5 +49,11 @@ function UserShortController($scope, $location, $rootScope) {
         $scope.show = false;
 
         $rootScope.$broadcast('closeUser', {route: $scope.route});
+    }
+
+    $scope.changeStatePhoneNeed = function() {
+        $scope.phoneNeedsShow = !$scope.phoneNeedsShow;
+
+        $rootScope.$broadcast('stateShowUser', {state: $scope.phoneNeedsShow, route: $scope.route});
     }
 }

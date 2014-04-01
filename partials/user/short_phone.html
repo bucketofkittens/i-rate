@@ -37,11 +37,11 @@
 		</p>
 	</div>
 
-	<div class="drop">
+	<div class="drop" ng-click="changeStatePhoneNeed()">
 		<div class="drop_in">
 			<p ng-if="user.name">{{user.name}}</p>
 		</div>
-		<p class="lastP"><i></i></p>
+		<p class="lastP"><i ng-class="{current: phoneNeedsShow}"></i></p>
 	</div>
 
 	<!-- статситика -->
