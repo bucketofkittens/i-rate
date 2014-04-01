@@ -7740,8 +7740,51 @@ transform:scale(.3)}
                             .right {
                                 top: 0px !important;
                                 width: 140px !important;
+                                width: 140px !important;
                             }
                         }
+                    }
+                }
+
+                .crits li ul li {
+                    &:first-child h5 .compare.goal {
+                        height: 52px !important;
+                        top: -7px !important;
+                        &.down {
+                            height: 53px !important;
+                            top: -9px !important;
+                        }
+                    }
+                    &:last-child h5 .compare.goal {
+                        height: 47px !important;
+                    }
+                    h5 .compare.goal.down {
+                        height: 45px !important;
+                        top: -4px !important;
+                    }
+                    /* sup.compare.criterium.down {
+                        top: 10px;
+                    } */
+                }
+                .compare {
+                    left: -8px;
+                    top: -6px !important;
+                    width: 20px !important;
+                    height: 48px !important;
+                    &.goal {
+                        top: -4px !important;
+                        height: 46px !important;
+                    }
+                    /* &.criterium {
+                        top: 11px;
+                        height: 62px;
+                    } */
+                    &.up {
+                        right: -8px !important;
+                        left: auto !important;
+                    }
+                    &.down {
+                        height: 46px !important;
                     }
                 }
             }
