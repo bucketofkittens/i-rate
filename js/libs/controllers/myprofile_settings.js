@@ -45,6 +45,7 @@ function MyProfileSettingsController($scope, UserService, SocialService, Friends
 
         // скрываем подложную тенюшку
         $rootScope.$broadcast('hideShadow');
+        
     };
 
     $scope.$on('quckUpdateUser', function(message) {

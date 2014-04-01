@@ -1143,18 +1143,13 @@ pgrModule.service('FacebookService', function($window) {
         });
     }
     this.login = function(success, fail) {
-        FB.Event.subscribe('auth.authResponseChange', success);
+        //FB.Event.subscribe('auth.authResponseChange', success);
 
         FB.login(function(response) {
-            if (response.session) {
-                if (response.scope) {
-                    if(success) {
-                        success(response);
-                    }
-                } else {
-                    if(fail) {
-                        fail(response);
-                    }
+            console.log(response);
+            if (response.status == "connected") {
+                if(success) {
+                    success(response);    
                 }
             } else {
                 if(fail) {

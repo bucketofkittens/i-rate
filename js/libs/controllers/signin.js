@@ -82,7 +82,11 @@ function SigninController($scope, $rootScope, $timeout, SessionsService, Faceboo
 
     // авторизиуемся в facebook
     $scope.facebookLoginSuccess_ = function(data) {
-        FacebookService.getUserData($scope.facebookGetUserDataSuccess_);
+        console.log(data);
+        if(data.status == "connected") {
+            FacebookService.getUserData($scope.facebookGetUserDataSuccess_);    
+        }
+        
     }
 
     // забираем данные о себе из фейсубка
