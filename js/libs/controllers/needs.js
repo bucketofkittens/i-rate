@@ -1,4 +1,4 @@
-/**
+    /**
  * 
  * @param {[type]} $scope
  * @param {[type]} Goals
@@ -197,6 +197,11 @@ function NeedsAndGoalsController($scope, СareerService, UserService, Goals, Cri
                     criteria.user_criteria_id = data.message.sguid;
                     criteria.user_criteria_sguid = criteriaValue.sguid;
 
+                    if(data.message.allowed_for_publish) {
+                        $scope.workspace.user.allowed_for_publish = data.message.allowed_for_publish;
+                        UserService.setAuthData($scope.workspace.user);
+                    }
+
                     $scope.updateLeague();
 
                     $rootScope.$broadcast('userCriteriaUpdate');
@@ -204,6 +209,11 @@ function NeedsAndGoalsController($scope, СareerService, UserService, Goals, Cri
             } else {
                 if(criteria.user_criteria_id) {
                     UserCriteriaValue.del({id: criteria.user_criteria_id}, {}, function(data) {
+                        if(data.message.allowed_for_publish) {
+                            $scope.workspace.user.allowed_for_publish = data.message.allowed_for_publish;
+                            UserService.setAuthData($scope.workspace.user);
+                        }
+                        
                         $scope.updateLeague();
                         
                         $rootScope.$broadcast('userCriteriaUpdate');

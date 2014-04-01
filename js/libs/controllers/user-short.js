@@ -9,7 +9,7 @@ function UserShortController($scope, $location, $rootScope) {
 
     $scope.tab = 1;
 
-    $scope.phoneNeedsShow = true;
+    $scope.phoneNeedsShow = false;
 
     $scope.init = function(route) {
         $scope.route = route;

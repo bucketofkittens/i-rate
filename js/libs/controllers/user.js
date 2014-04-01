@@ -72,7 +72,7 @@ function UserController($scope, FriendsService, UserService, User, $location, Lo
         // проверяем а нужно ли вообще менять id
         if(newId && (!$scope.user || $scope.user.sguid != newId) && $scope.cacheId != newId) {
             $scope.cacheId = newId;
-            $scope.show = true;
+            $scope.show = $scope.phone ? false :  true;
             
             UserService.getById(newId, $scope.userServiceGetByIdCallback_);
 
