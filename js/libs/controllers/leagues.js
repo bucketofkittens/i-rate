@@ -157,10 +157,14 @@ function LeaguesController($scope, $location, $rootScope, User, LocationService,
     }
 
     $scope.$on('closeUserPanel', function (event, message) {
-        /*if(message.route == "league_user") {
-          $location.search({});  
-        }*/
-        $scope.showUser = false;
+        if(message.route == "league_user") {
+            if($scope.phone) {
+                $scope.showUser = false;
+            } else {
+              $location.search({});    
+            }
+        }
+        
     });
 
     $scope.iphoneEvent = function() {
