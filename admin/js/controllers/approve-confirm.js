@@ -12,7 +12,7 @@ function ApproveConfirmConroller($scope, ReportService, $location, $rootScope, C
             PublishReports.add({}, {
                 //  owner_type: 4,
                 user_guid: $location.search().approve_profile,
-                post_date: moment().format("DD-MM-YYYY HH:mm:ss"),
+                post_date: moment().utc().format("DD-MM-YYYY HH:mm:ss"),
                 message: $scope.form.message
             }, function(data) {
                 
