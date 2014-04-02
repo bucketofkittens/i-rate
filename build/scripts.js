@@ -7614,10 +7614,14 @@ function LeaguesController($scope, $location, $rootScope, User, LocationService,
     }
 
     $scope.$on('closeUserPanel', function (event, message) {
-        /*if(message.route == "league_user") {
-          $location.search({});  
-        }*/
-        $scope.showUser = false;
+        if(message.route == "league_user") {
+            if($scope.phone) {
+                $scope.showUser = false;
+            } else {
+              $location.search({});    
+            }
+        }
+        
     });
 
     $scope.iphoneEvent = function() {
@@ -10715,7 +10719,13 @@ function UserController($scope, FriendsService, UserService, User, $location, Lo
     
     $scope.show = false;
 
-    $scope.showInPhone = false;
+    $scope.showInPhone = $scope.one ? false : true;
+
+    $scope.$watch('one', function (newVal, oldVal, scope) {
+        if($scope.one) {
+            $scope.showInPhone = $scope.one ? false : true;
+        }
+    });
 
     $scope.$on('$locationChangeSuccess', function(event, newLoc, oldLoc) {
         $scope.setCurrentUser();
