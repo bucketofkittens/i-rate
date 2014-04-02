@@ -72,7 +72,7 @@ function UserController($scope, FriendsService, UserService, User, $location, Lo
         // проверяем а нужно ли вообще менять id
         if(newId && (!$scope.user || $scope.user.sguid != newId) && $scope.cacheId != newId) {
             $scope.cacheId = newId;
-            $scope.show = $scope.phone ? false :  true;
+            $scope.show = $scope.phone ? false : true;
             
             UserService.getById(newId, $scope.userServiceGetByIdCallback_);
 
@@ -92,6 +92,10 @@ function UserController($scope, FriendsService, UserService, User, $location, Lo
         $scope.getProgressFlag = false;
 
         $scope.user = data;
+
+        if($scope.phone) {
+            $scope.show = true;
+        }
         
         // отправляем полученные данные в событие
         $rootScope.$broadcast('userGetById', { user: data, route: $scope.route });
