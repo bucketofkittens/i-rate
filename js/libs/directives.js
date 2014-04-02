@@ -356,7 +356,7 @@ pgrModule.directive('caruselPosition', function($window) {
 pgrModule.directive('showcrits', function($window) {
   return {
     link: function(scope, element, attrs) {
-      $(parentElement).on("touchmove", function($event) {
+      $(element).on("touchmove", function($event) {
         if($(element).hasClass("show_crits")) {
           $(element).css("left", "320px");
         }
