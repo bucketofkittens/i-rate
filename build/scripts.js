@@ -4312,10 +4312,17 @@ pgrModule.directive('caruselPosition', function($window) {
 pgrModule.directive('showcrits', function($window) {
   return {
     link: function(scope, element, attrs) {
+      var lastX;
       $(element).on("touchmove", function($event) {
+        var currentX = $event.touches[0].clientX;
         if($(element).hasClass("show_crits")) {
-          $(element).css("left", "-320px");
+          if(currentY > lastY) {
+            $(element).css("left", "-320px");
+          } else {
+            $(element).css("left", "0px");
+          }
         }
+        lastY = currentY;
       });
     }
   }
