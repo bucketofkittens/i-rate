@@ -5603,7 +5603,7 @@ pgrModule.factory('Criterion', function ($resource) {
  */
 pgrModule.factory('CriterionByGoal', function ($resource) {
     return $resource(
-        host+'/criterion/by_goal/:id', 
+        host+'/criterion/points_by_goal/:id', 
         {id:'@id'},
         {
             query: {
@@ -5618,12 +5618,10 @@ pgrModule.factory('CriterionByGoal', function ($resource) {
             'criterion_by_user_guid': {
                 method: 'GET',
                 isArray: true,
-                url: host+"/criterion/by_goal/:goal_guid/by_user/:user_guid",
-                cache : true
+                url: host+"/criterion/by_goal/:goal_guid/by_user/:user_guid"
             },
             'criterion_by_id_and_user': {
                 method: 'GET',
-                isArray: true,
                 url: host+"/criterion/by_id/:sguid/by_user/:user_sguid"
             },
         }
@@ -5648,6 +5646,13 @@ pgrModule.factory('Sessions', function ($resource) {
 pgrModule.service('CityService', function (CityByState, City) {
     this.getCityByState = function(sguid, callback) {
         CityByState.query({ id: sguid }, {}, function(data) {
+            data.sort(function(item1, item2) {
+                if ( item1.name < item2.name )
+                  return -1;
+                if ( item1.name > item2.name )
+                  return 1;
+                return 0;
+            });
             callback(data);
         });
     }
@@ -5699,6 +5704,13 @@ pgrModule.service('CriterionService', function (CriterionByGoal) {
 pgrModule.service('ProfessionsService', function (Professions, ProfessionCreate) {
     this.getProfessionsByCareer = function(sguid, callback) {
         Professions.query({ id: sguid }, {}, function(data) {
+            data.sort(function(item1, item2) {
+                if ( item1.name < item2.name )
+                  return -1;
+                if ( item1.name > item2.name )
+                  return 1;
+                return 0;
+            });
             callback(data);
         });
     }
@@ -6131,7 +6143,16 @@ pgrModule.service('ProfessionService', function (Professions) {
 
     // забираем пользователя из кеша
     this.getList = function(callback) {
-        Professions.query({}, {}, callback);
+        Professions.query({}, {}, function(data) {
+            data.sort(function(item1, item2) {
+                if ( item1.name < item2.name )
+                  return -1;
+                if ( item1.name > item2.name )
+                  return 1;
+                return 0;
+            });
+            callback(data);
+        });
     }
 
     this.remove = function(sguid, key, callback) {
@@ -8747,7 +8768,6 @@ function NeedsAndGoalsController($scope, СareerService, UserService, Goals, Cri
         angular.forEach(goal.criterion_guids, function(value, key){
             CriterionService.by_guid(value, function(data) {
 
-                
                 goal.criteriums.push(data[0]);
 
                 $scope.getCriteriumValueByUser(data[0], function() {
@@ -8779,9 +8799,10 @@ function NeedsAndGoalsController($scope, СareerService, UserService, Goals, Cri
      */
     $scope.getCriteriumValueByUser = function(value, callback) {
         CriterionByGoal.criterion_by_id_and_user({sguid: value.sguid, user_sguid: $scope.user.sguid}, function(data) {
-            if(data[0] && data[0].criteria_value_sguid) {
-                value.user_criteria_sguid = data[0].criteria_value_sguid;
-                value.user_criteria_id = data[0].user_criteria_id;
+            console.log(data);
+            if(data.criteria_value_sguid) {
+                value.user_criteria_sguid = data.criteria_value_sguid;
+                value.user_criteria_id = data.user_criteria_id;
 
                 $rootScope.$broadcast('criteriaUserValueLoaded', {
                     fCriteria: value,
@@ -10723,8 +10744,9 @@ function UserController($scope, FriendsService, UserService, User, $location, Lo
 
     $scope.$watch('one', function (newVal, oldVal, scope) {
         if($scope.one) {
-            $scope.showInPhone = $scope.one ? false : true;
+            $scope.showInPhone = $scope.one ? true : false;
         }
+        console.log($scope.showInPhone);
     });
 
     $scope.$on('$locationChangeSuccess', function(event, newLoc, oldLoc) {
@@ -11041,5 +11063,9 @@ function UsersController($scope, $location, $rootScope, $timeout, NeedsService, 
         }
 
         $scope.one = $location.search().user1 && !$location.search().user2 ? true : false;
+
+        if($location.search().user1 && $location.search().user2) {
+            $scope.showUser = true;
+        }
     });
 }
