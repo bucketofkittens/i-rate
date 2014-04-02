@@ -166,5 +166,9 @@ function UsersController($scope, $location, $rootScope, $timeout, NeedsService, 
         }
 
         $scope.one = $location.search().user1 && !$location.search().user2 ? true : false;
+
+        if($location.search().user1 && $location.search().user2) {
+            $scope.showUser = true;
+        }
     });
 }
