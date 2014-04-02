@@ -2022,6 +2022,20 @@ angular.module('ui.select2', []).value('uiSelect2Config', {}).directive('uiSelec
           });
         }
 
+        opts.matcher = function(term, text, opt) {
+          //console.log(term);
+          
+          var textArr = text.split(" ");
+          var inText = false;
+
+          angular.forEach(textArr, function(item, key) {
+            if(item.toUpperCase().indexOf(term.toUpperCase()) == 0) {
+              inText = true;
+            }
+          });
+          return inText;
+        }
+
         // Initialize the plugin late so that the injected DOM does not disrupt the template compiler
         $timeout(function () {
           elm.select2(opts);
