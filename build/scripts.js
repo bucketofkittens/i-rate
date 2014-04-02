@@ -7063,8 +7063,8 @@ function CropImageController($scope, $rootScope, TokenService, UserService) {
             $rootScope.$broadcast('loaderHide');
             
             crop_img.cropbox({
-                width: 400,
-                height: 400,
+                width: 200,
+                height: 200,
                 showControls: "always"
             }).on('cropbox', function(e, data) {
                 $scope.positions = data;
@@ -8331,7 +8331,7 @@ function MyProfileSettingsController($scope, UserService, SocialService, Friends
 
     $("body").on("change", "#photo_crop", function() {
         var file = this.files[0];
-        
+        console.log(file);
         if(file) {
             $rootScope.$broadcast('cropImageRead');
             $rootScope.$broadcast('cropImage');
