@@ -240,7 +240,7 @@ function MyProfileSettingsController($scope, UserService, SocialService, Friends
 
     $("body").on("change", "#photo_crop", function() {
         var file = this.files[0];
-        
+        console.log(file);
         if(file) {
             $rootScope.$broadcast('cropImageRead');
             $rootScope.$broadcast('cropImage');
