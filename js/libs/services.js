@@ -492,7 +492,7 @@ pgrModule.factory('Criterion', function ($resource) {
  */
 pgrModule.factory('CriterionByGoal', function ($resource) {
     return $resource(
-        host+'/criterion/by_goal/:id', 
+        host+'/criterion/points_by_goal/:id', 
         {id:'@id'},
         {
             query: {
@@ -507,12 +507,10 @@ pgrModule.factory('CriterionByGoal', function ($resource) {
             'criterion_by_user_guid': {
                 method: 'GET',
                 isArray: true,
-                url: host+"/criterion/by_goal/:goal_guid/by_user/:user_guid",
-                cache : true
+                url: host+"/criterion/by_goal/:goal_guid/by_user/:user_guid"
             },
             'criterion_by_id_and_user': {
                 method: 'GET',
-                isArray: true,
                 url: host+"/criterion/by_id/:sguid/by_user/:user_sguid"
             },
         }
@@ -537,6 +535,13 @@ pgrModule.factory('Sessions', function ($resource) {
 pgrModule.service('CityService', function (CityByState, City) {
     this.getCityByState = function(sguid, callback) {
         CityByState.query({ id: sguid }, {}, function(data) {
+            data.sort(function(item1, item2) {
+                if ( item1.name < item2.name )
+                  return -1;
+                if ( item1.name > item2.name )
+                  return 1;
+                return 0;
+            });
             callback(data);
         });
     }
@@ -588,6 +593,13 @@ pgrModule.service('CriterionService', function (CriterionByGoal) {
 pgrModule.service('ProfessionsService', function (Professions, ProfessionCreate) {
     this.getProfessionsByCareer = function(sguid, callback) {
         Professions.query({ id: sguid }, {}, function(data) {
+            data.sort(function(item1, item2) {
+                if ( item1.name < item2.name )
+                  return -1;
+                if ( item1.name > item2.name )
+                  return 1;
+                return 0;
+            });
             callback(data);
         });
     }
@@ -1020,7 +1032,16 @@ pgrModule.service('ProfessionService', function (Professions) {
 
     // забираем пользователя из кеша
     this.getList = function(callback) {
-        Professions.query({}, {}, callback);
+        Professions.query({}, {}, function(data) {
+            data.sort(function(item1, item2) {
+                if ( item1.name < item2.name )
+                  return -1;
+                if ( item1.name > item2.name )
+                  return 1;
+                return 0;
+            });
+            callback(data);
+        });
     }
 
     this.remove = function(sguid, key, callback) {
