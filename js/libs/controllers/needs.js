@@ -155,7 +155,6 @@ function NeedsAndGoalsController($scope, СareerService, UserService, Goals, Cri
      */
     $scope.getCriteriumValueByUser = function(value, callback) {
         CriterionByGoal.criterion_by_id_and_user({sguid: value.sguid, user_sguid: $scope.user.sguid}, function(data) {
-            console.log(data);
             if(data.criteria_value_sguid) {
                 value.user_criteria_sguid = data.criteria_value_sguid;
                 value.user_criteria_id = data.user_criteria_id;
