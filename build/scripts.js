@@ -4314,7 +4314,7 @@ pgrModule.directive('showcrits', function($window) {
     link: function(scope, element, attrs) {
       $(element).on("touchmove", function($event) {
         if($(element).hasClass("show_crits")) {
-          $(element).css("left", "320px");
+          $(element).css("left", "-320px");
         }
       });
     }
