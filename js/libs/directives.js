@@ -215,7 +215,8 @@ pgrModule.directive('colbasa', function($timeout) {
               }
               slider.css("width", size + "px");
           } else {
-              slider.css("width", "10px");
+            var size = attrs.colbasaMin;
+              slider.css("width", size);
           }
           
           var isCurrent = false;
