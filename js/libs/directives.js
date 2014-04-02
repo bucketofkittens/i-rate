@@ -366,9 +366,9 @@ pgrModule.directive('showcrits', function($window) {
     link: function(scope, element, attrs) {
       var lastX;
       var lastY;
-      //if(scope.phone) {
+      if(scope.phone) {
         $(element).on("touchmove mousemove", function($event) {
-          //if($(element).hasClass("show_crits")) {
+          if($(element).hasClass("show_crits")) {
             //console.log($event.originalEvent);
             var currentX = $event.originalEvent.touches ? $event.originalEvent.touches[0].pageX : $event.pageX;
             var currentY = $event.originalEvent.touches ? $event.originalEvent.touches[0].pageY : $event.pageY;
@@ -380,9 +380,9 @@ pgrModule.directive('showcrits', function($window) {
             }
             lastX = currentX;
             lastY = currentY;
-          //}
+          }
         });  
-      //}
+      }
       
     }
   }
