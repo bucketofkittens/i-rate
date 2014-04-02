@@ -686,7 +686,7 @@ pgrModule.directive('masonry', function(User, $rootScope) {
               self.getUsersFromBackend(self, callback);
             }
           } else {
-            if(self.view_count < self.total_count && $(element).height() < $(window).height()) {
+            if(self.view_count < self.total_count && self.view_count < 100) {
               self.skip += self.limit;
 
               self.getUsersFromBackend(self, callback);
