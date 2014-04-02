@@ -47,8 +47,6 @@ function UsersController($scope, $location, $rootScope, $timeout, NeedsService, 
         } else {
             $scope.showCrits = false;
         }
-
-        console.log(size);
     });
 
     // событие загрузки цифр для колбас для needs
