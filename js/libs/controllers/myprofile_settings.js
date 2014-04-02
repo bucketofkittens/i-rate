@@ -384,6 +384,14 @@ function MyProfileSettingsController($scope, UserService, SocialService, Friends
 
     	if($scope.workspace.user.profession.name.length > 0) {
             angular.forEach($scope.workspace.professions, function(value, key) {
+                var textArr = text.split(" ");
+                var inText = false;
+
+                angular.forEach(textArr, function(item, key) {
+                    if(item.toUpperCase().indexOf(term.toUpperCase()) == 0) {
+                    inText = true;
+                    }
+                });
                 var reg = new RegExp($scope.workspace.user.profession.name, "i");
                 if(reg.test(value.name)) {
                 	value.show = true;
