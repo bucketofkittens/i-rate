@@ -19,7 +19,7 @@ function UsersController($scope, $location, $rootScope, $timeout, NeedsService, 
 
     $scope.showCrits = false;
 
-    $scope.showUser = true;
+    $scope.showUser = false;
 
     $scope.$on('stateShowUser', function(event, message) {
         $scope.showUser = message.state;
