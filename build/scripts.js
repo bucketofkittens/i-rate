@@ -4314,7 +4314,7 @@ pgrModule.directive('showcrits', function($window) {
     link: function(scope, element, attrs) {
       var lastX;
       $(element).on("touchmove", function($event) {
-        var currentX = $event.touches[0].clientX;
+        var currentX = $event.originalEvent.touches[0].clientX;
         if($(element).hasClass("show_crits")) {
           if(currentX > lastX) {
             $(element).css("left", "-320px");
