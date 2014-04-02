@@ -4368,14 +4368,17 @@ pgrModule.directive('caruselPosition', function($window) {
 pgrModule.directive('showcrits', function($window) {
   return {
     link: function(scope, element, attrs) {
-      $(element).on("swipeLeft", function($event) {
+      var lastX;
+      $(element).on("touchmove", function($event) {
         if($(element).hasClass("show_crits")) {
-          $(element).css("left", "-320px");
-        }
-      });
-      $(element).on("swipeRight", function($event) {
-        if($(element).hasClass("show_crits")) {
-          $(element).css("left", "0px");
+          //console.log($event.originalEvent);
+          var currentX = $event.originalEvent.touches ? $event.originalEvent.touches[0].pageX : $event.pageX;
+          if (currentX > lastX) {
+              $(element).css("left", "-320px");
+          } else {
+              $(element).css("left", "0px");
+          }
+          lastX = currentX;
         }
       });
     }
