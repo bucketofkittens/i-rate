@@ -421,7 +421,7 @@ pgrModule.directive('showcrits', function($window) {
             if (currentX > lastX) {
                 $(element).find(".center2, .center").css("left", "0px");
             } else {
-                $(element).find(".center2, .center").css("left", "-220px");
+                $(element).find(".center2, .center").css("left", "-240px");
             }
             lastX = currentX;
           }
