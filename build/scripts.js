@@ -7502,7 +7502,7 @@ function ImprovaLoginController($scope, ImprovaService, SessionsService, UserSer
         );
 	}
 }
-/**
+    /**
  * Контроллер страны лиг
  */
 function LeaguesController($scope, $location, $rootScope, User, LocationService, LeagueService) {
@@ -7661,9 +7661,10 @@ function LeaguesController($scope, $location, $rootScope, User, LocationService,
     }
 
     $scope.$on('closeUserPanel', function (event, message) {
-        if(message.route == "league_user") {
+        /*if(message.route == "league_user") {
           $location.search({});  
-        }
+        }*/
+        $scope.showUser = false;
     });
 
     $scope.iphoneEvent = function() {
