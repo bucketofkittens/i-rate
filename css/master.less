@@ -7660,7 +7660,10 @@ transform:scale(.3)}
     .center4 {
         width: 320px !important;
         margin-top: 130px !important;
-        z-index: 9999;
+        .user {
+            -webkit-transform: translateZ(0);
+            z-index: 9999;
+        }
     }
 
     #users .center2 .user_short.two_user {
