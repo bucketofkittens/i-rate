@@ -420,7 +420,7 @@ pgrModule.directive('showcrits', function($window) {
             //console.log($event.originalEvent);
             var currentX = $event.originalEvent.touches ? $event.originalEvent.touches[0].pageX : $event.pageX;
             var currentY = $event.originalEvent.touches ? $event.originalEvent.touches[0].pageY : $event.pageY;
-            if (currentX > lastX && currentY == lastY) {
+            if (currentX > lastX ) {
                 $(element).find(".center2, .center").css("left", "0px");
             } else {
                 $(element).find(".center2, .center").css("left", "-240px");
