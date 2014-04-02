@@ -8534,12 +8534,20 @@ function MyProfileSettingsController($scope, UserService, SocialService, Friends
 
     	if($scope.workspace.user.city.name.length > 0) {
             angular.forEach($scope.city, function(value, key) {
-                var reg = new RegExp($scope.workspace.user.city.name, "i");
-                if(reg.test(value.name)) {
-                	value.show = true;
-                	countView += 1;
+                var textArr = value.name.split(" ");
+                var inText = false;
+
+                angular.forEach(textArr, function(item, key) {
+                    if(item.toUpperCase().indexOf($scope.workspace.user.city.name.toUpperCase()) == 0) {
+                        inText = true;
+                    }
+                });
+
+                if(inText) {
+                    value.show = true;
+                    countView += 1;
                 } else {
-                	value.show = false;
+                    value.show = false;
                 }
             });
             $scope.showCityList = countView == 0 ? false : true;
@@ -8564,12 +8572,20 @@ function MyProfileSettingsController($scope, UserService, SocialService, Friends
 
     	if($scope.workspace.user.profession.name.length > 0) {
             angular.forEach($scope.workspace.professions, function(value, key) {
-                var reg = new RegExp($scope.workspace.user.profession.name, "i");
-                if(reg.test(value.name)) {
-                	value.show = true;
-                	countView += 1;
+                var textArr = value.name.split(" ");
+                var inText = false;
+
+                angular.forEach(textArr, function(item, key) {
+                    if(item.toUpperCase().indexOf($scope.workspace.user.profession.name.toUpperCase()) == 0) {
+                        inText = true;
+                    }
+                });
+
+                if(inText) {
+                    value.show = true;
+                    countView += 1;
                 } else {
-                	value.show = false;
+                    value.show = false;
                 }
             });
             $scope.showProfessionList = countView == 0 ? false : true;
@@ -8799,7 +8815,6 @@ function NeedsAndGoalsController($scope, СareerService, UserService, Goals, Cri
      */
     $scope.getCriteriumValueByUser = function(value, callback) {
         CriterionByGoal.criterion_by_id_and_user({sguid: value.sguid, user_sguid: $scope.user.sguid}, function(data) {
-            console.log(data);
             if(data.criteria_value_sguid) {
                 value.user_criteria_sguid = data.criteria_value_sguid;
                 value.user_criteria_id = data.user_criteria_id;
