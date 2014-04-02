@@ -7762,9 +7762,11 @@ transform:scale(.3)}
                         height: 45px !important;
                         top: -4px !important;
                     }
-                    /* sup.compare.criterium.down {
-                        top: 10px;
-                    } */
+                    sup.compare.criterium.down {
+                        top: 7px !important;
+                        height: 47px !important;
+                        left: -13px !important;
+                    }
                 }
                 .compare {
                     left: -8px;
@@ -7775,10 +7777,11 @@ transform:scale(.3)}
                         top: -4px !important;
                         height: 46px !important;
                     }
-                    /* &.criterium {
-                        top: 11px;
-                        height: 62px;
-                    } */
+                    &.criterium.up {
+                        right: -12px !important;
+                        top: 8px !important;
+                        height: 45px !important;
+                    }
                     &.up {
                         right: -8px !important;
                         left: auto !important;
@@ -7824,8 +7827,16 @@ transform:scale(.3)}
                             .cr .right {
                                 top: 7px !important;
                             }
-                            ul li h5 .right {
-                                top: 7px !important;
+                            ul li h5 {
+                                /*&:first-child {
+                                    padding: 10px 0px 0px 0px !important;
+                                    s {
+                                        top: 15px !important;
+                                    }
+                                }*/
+                                .right {
+                                    top: 7px !important;
+                                }
                             }
                         }
                         .criterion.current {
@@ -7849,6 +7860,23 @@ transform:scale(.3)}
                                 }
                             }
                         }
+                        .crits li ul li {
+                            &:first-child h5 .compare.goal {
+                                height: 47px !important;
+                                &.down {
+                                    height: 48px !important;
+                                }
+                            }  
+                            &:last-child h5 .compare.goal {
+                                height: 43px !important;
+                            }                                            
+                            .compare.goal {
+                                height: 43px !important;
+                                &.down {
+                                    height: 42px !important;
+                                }
+                            }
+                        } 
                     }
                 }
             }
