@@ -19,6 +19,12 @@ function UsersController($scope, $location, $rootScope, $timeout, NeedsService, 
 
     $scope.showCrits = false;
 
+    $scope.showUser = true;
+
+    $scope.$on('stateShowUser', function(event, message) {
+        $scope.showUser = message.state;
+    });
+
 
 	// закрываем правую панель. Грязный хак. нужно будет переписать когда пойму как.
 	if($scope.show) {
