@@ -21,6 +21,8 @@ function UserController($scope, FriendsService, UserService, User, $location, Lo
     
     $scope.show = false;
 
+    $scope.showInPhone = false;
+
     $scope.$on('$locationChangeSuccess', function(event, newLoc, oldLoc) {
         $scope.setCurrentUser();
     });
@@ -39,7 +41,7 @@ function UserController($scope, FriendsService, UserService, User, $location, Lo
 
     $scope.$on('stateShowUser', function(event, message) {
         if(message.route == $scope.route) {
-            $scope.show = message.state;
+            $scope.showInPhone = message.state;
         }
     });
 
