@@ -4374,9 +4374,9 @@ pgrModule.directive('showcrits', function($window) {
           //console.log($event.originalEvent);
           var currentX = $event.originalEvent.touches ? $event.originalEvent.touches[0].pageX : $event.pageX;
           if (currentX > lastX) {
-              $(element).css("left", "160px");
-          } else {
               $(element).css("left", "0px");
+          } else {
+              $(element).css("left", "-160px");
           }
           lastX = currentX;
         }
