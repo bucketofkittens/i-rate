@@ -124,10 +124,9 @@ function NeedsAndGoalsController($scope, СareerService, UserService, Goals, Cri
         angular.forEach(goal.criterion_guids, function(value, key){
             CriterionService.by_guid(value, function(data) {
 
-                
                 goal.criteriums.push(data[0]);
 
-                $scope.getCriteriumValueByUser(data[0], function() {
+                $scope.getCriteriumValueByUser(goal.sguid, function() {
                     countDataLoad_ += 1;
 
                     if(countDataLoad_ == maxCount_) {
@@ -154,8 +153,8 @@ function NeedsAndGoalsController($scope, СareerService, UserService, Goals, Cri
      * @param  {[type]} goal [description]
      * @return {[type]}      [description]
      */
-    $scope.getCriteriumValueByUser = function(value, callback) {
-        CriterionByGoal.criterion_by_id_and_user({sguid: value.sguid, user_sguid: $scope.user.sguid}, function(data) {
+    $scope.getCriteriumValueByUser = function(sguid, callback) {
+        CriterionByGoal.criterion_by_user_guid({goal_guid: sguid, user_guid: $scope.user.sguid}, function(data) {
             if(data[0] && data[0].criteria_value_sguid) {
                 value.user_criteria_sguid = data[0].criteria_value_sguid;
                 value.user_criteria_id = data[0].user_criteria_id;
