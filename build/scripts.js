@@ -4369,7 +4369,7 @@ pgrModule.directive('showcrits', function($window) {
   return {
     link: function(scope, element, attrs) {
       var lastX;
-      $(element).on("<touchmove></touchmove>", function($event) {
+      $(element).on("touchmove", function($event) {
         if($(element).hasClass("show_crits")) {
           //console.log($event.originalEvent);
           var currentX = $event.originalEvent.touches ? $event.originalEvent.touches[0].pageX : $event.pageX;
