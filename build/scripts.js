@@ -4316,13 +4316,13 @@ pgrModule.directive('showcrits', function($window) {
       $(element).on("touchmove", function($event) {
         var currentX = $event.touches[0].clientX;
         if($(element).hasClass("show_crits")) {
-          if(currentY > lastY) {
+          if(currentX > lastX) {
             $(element).css("left", "-320px");
           } else {
             $(element).css("left", "0px");
           }
         }
-        lastY = currentY;
+        lastX = currentX;
       });
     }
   }
