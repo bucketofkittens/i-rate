@@ -372,16 +372,19 @@ pgrModule.directive('masonry', function(User, $rootScope) {
           self.getUsersFromBackend(self, self.loadUserCallback_);
         }
       });
-
-      $(parentElement).on("touchmove", function($event) {
-        if(!self.is_load && self.view_count < self.total_count && $(parentElement).scrollTop()+$(parentElement).height() == $(parentElement)[0].scrollHeight) {
-          self.view_count += self.limit;
-          self.skip += self.limit;
-          self.is_load = true;
-          self.getUsersFromBackend(self, self.loadUserCallback_);
-        }
-      });
-      */
+    */
+      if($scope.phone) {
+        $(parentElement).on("touchmove", function($event) {
+          if(!self.is_load && self.view_count < self.total_count && $(parentElement).scrollTop()+$(parentElement).height() == $(parentElement)[0].scrollHeight) {
+            self.view_count += self.limit;
+            self.skip += self.limit;
+            self.is_load = true;
+            self.getUsersFromBackend(self, self.loadUserCallback_);
+          }
+        });
+      }
+        
+      
 
       /** коэффициэнт количество элементов **/
       var limitCorruption = 30;
@@ -592,10 +595,18 @@ pgrModule.directive('masonry', function(User, $rootScope) {
             self.total_count = data[0].total_count;
          
           self.view_count += self.limit;
-          if(self.view_count < self.total_count) {
-            self.skip += self.limit;
+          if(!$scope.phone) {
+            if(self.view_count < self.total_count) {
+              self.skip += self.limit;
 
-            self.getUsersFromBackend(self, callback);
+              self.getUsersFromBackend(self, callback);
+            }
+          } else {
+            if(self.view_count < self.total_count && $(element).height() < $(window).height()) {
+              self.skip += self.limit;
+
+              self.getUsersFromBackend(self, callback);
+            }
           }
         });
       }
