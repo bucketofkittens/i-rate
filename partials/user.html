@@ -1,5 +1,5 @@
 <div ng-if="show" class="sam">
-	<div ng-include src="'partials/user/info.html'" class="info_user"> </div>
+	<div ng-include src="!phone ? 'partials/user/info.html' : 'partials/user/short_phone.html'" class="info_user"> </div>
 
 	<div class="scrolls" scroller>
 		<div ng-include src="'partials/user/nav.html'"> </div>
