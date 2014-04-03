@@ -364,25 +364,14 @@ function module(number) {
 pgrModule.directive('showcrits', function($window) {
   return {
     link: function(scope, element, attrs) {
-      var lastX;
-      var lastY;
       //if(scope.phone) {
-        $(element).on("touchstart touchend", function($event) {
-          //if($(element).hasClass("show_crits")) {
-            //console.log($event.originalEvent);
-            var currentX = $event.originalEvent.touches ? $event.originalEvent.touches[0].pageX : $event.pageX;
-            var currentY = $event.originalEvent.touches ? $event.originalEvent.touches[0].pageY : $event.pageY;
-            
-            if (currentX > lastX) {
-                $(element).find(".center2, .center").css("left", "0px");
-            } else {
-                $(element).find(".center2, .center").css("left", "-240px");
-            }  
-            
-            lastX = currentX;
-            lastY = currentY;
-          //}
-        });  
+      Hammer(element[0]).on("swipeleft", function($event) {
+        $(element).find(".center2, .center").css("left", "0px");
+      }); 
+
+      Hammer(element[0]).on("swiperight", function($event) {
+        $(element).find(".center2, .center").css("left", "-240px");
+      }); 
       //}
       
     }
