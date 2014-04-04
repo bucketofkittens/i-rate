@@ -80,9 +80,7 @@ function UsersController($scope, $location, $rootScope, $timeout, NeedsService, 
                 return value.sguid == message.fCriteria.user_criteria_sguid;
             })[0];
 
-            if(fCriteriumValue) {
-                $scope.criteriumsValues[message.fCriteria.sguid][message.route] = fCriteriumValue.value;     
-            }
+            $scope.criteriumsValues[message.fCriteria.sguid][message.route] = fCriteriumValue ? fCriteriumValue.value : 0;
         }
     });
 

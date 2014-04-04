@@ -75,14 +75,12 @@
 									<div class="tab">
 										<li data-id="{{value.sguid}}"  
 											ng-repeat="value in crItem.criteria_values | orderBy:'position'"  
-											class="{{value.user_criteria}} position_{{value.position}}" 
 											ng-click="onCriteriaSelect(value, crItem, $event, selectedNeed, selectedGoal)">
 											<i ng-if="value.sguid != 'none'">{{value.name}}</i>
 											<i ng-if="value.sguid == 'none'" class="null_criteria"></i>
 										</li>
 									</div>
 									<span 
-										ng-if="selectedGoal.criteriums.all_load_data"
 										colbasa 
 										colbasa-current="{{crItem.user_criteria_sguid}}"
 										colbasa-min="10px">

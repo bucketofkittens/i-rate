@@ -114,36 +114,29 @@ function NeedsAndGoalsController($scope, СareerService, UserService, Goals, Cri
         // создаем массив критериев
         goal.criteriums = [];
 
-        // количество загруженных критериев
-        var countLoad_ = 0;
+        CriterionService.by_goal(goal.sguid, function(data) {
 
-        var countDataLoad_ = 0;
+            goal.criteriums = data;
 
-        // всего критериев
-        var maxCount_ = goal.criterion_guids.length;
-        angular.forEach(goal.criterion_guids, function(value, key){
-            CriterionService.by_guid(value, function(data) {
-
-                goal.criteriums.push(data[0]);
-
-                $scope.getCriteriumValueByUser(data[0], function() {
-                    countDataLoad_ += 1;
-
-                    if(countDataLoad_ == maxCount_) {
-                        goal.criteriums.all_load_data = true;
-                    }
+            CriterionByGoal.criterion_by_id_and_user({sguid: goal.sguid, user_sguid: $scope.user.sguid}, function(dataValues) {
+                angular.forEach(dataValues, function(item, key) {
+                    angular.forEach(goal.criteriums, function(criterium, key2) {
+                        if(criterium.sguid == item.criteria_sguid) {
+                            criterium.user_criteria_sguid = item.criteria_value_sguid;
+                            criterium.user_criteria_id = item.sguid;
+                        }
+                    });
                 });
 
-                countLoad_ += 1;
+                angular.forEach(goal.criteriums, function(item, key) {
+                    $rootScope.$broadcast('criteriaUserValueLoaded', {
+                        fCriteria: item,
+                        userId: $scope.user.sguid,
+                        route: $scope.route
+                    });
+                });
 
-                if(countLoad_ == maxCount_) {
-                    /**
-                     * добавляем пустой элемент
-                     */
-                    $scope.addEmptyElement(goal);
-
-                    goal.criteriums.all_load = true;
-                }
+                $scope.addEmptyElement(goal);
             });
         });
     }

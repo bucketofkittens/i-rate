@@ -504,6 +504,11 @@ pgrModule.factory('CriterionByGoal', function ($resource) {
                 method: 'GET',
                 isArray: true
             },
+            'criterion_by_goal': {
+                method: 'GET',
+                isArray: true,
+                url: host+"/criterion/by_goal/:goal_guid"
+            },
             'criterion_by_user_guid': {
                 method: 'GET',
                 isArray: true,
@@ -511,7 +516,8 @@ pgrModule.factory('CriterionByGoal', function ($resource) {
             },
             'criterion_by_id_and_user': {
                 method: 'GET',
-                url: host+"/criterion/by_id/:sguid/by_user/:user_sguid"
+                isArray: true,
+                url: host+"/criterion/by_goal/:sguid/by_user/:user_sguid"
             },
         }
     );
@@ -562,17 +568,17 @@ pgrModule.service('CityService', function (CityByState, City) {
 
 pgrModule.service('CriterionService', function (CriterionByGoal) {
     // название кеша
-    this.cacheName = 'criterion';
+    this.cacheName = 'criterion_by_goal_';
 
     // время кеширования
     this.cacheTime = 1440;
 
-    this.by_guid = function(criteria_sguid, callback) {
-        var data = lscache.get(this.cacheName+criteria_sguid);
+    this.by_goal = function(sguid, callback) {
+        var data = lscache.get(this.cacheName+sguid);
         if(data) {
             callback(data);
         } else {
-            this.getBackend_(criteria_sguid, callback);
+            this.getBackend_(sguid, callback);
         }
     }
 
@@ -583,7 +589,7 @@ pgrModule.service('CriterionService', function (CriterionByGoal) {
     this.getBackend_ = function(value, callback) {
         var self = this;
 
-        CriterionByGoal.by_guid({criteria_sguid: value}, {}, function(data) {
+        CriterionByGoal.criterion_by_goal({goal_guid: value}, {}, function(data) {
             lscache.set(self.cacheName+value, JSON.stringify(data), self.cacheTime);
             callback(data);
         });

@@ -269,27 +269,14 @@ pgrModule.directive('comparator', function() {
 
           element.removeClass(classes.DOWN).removeClass(classes.UP).removeClass(classes.CENTER);
           
-          if(values[usersName.USER1] && values[usersName.USER2]) {
-            if(values[usersName.USER1] > values[usersName.USER2]) {
-              element.addClass(classes.DOWN);
-            }
-            if(values[usersName.USER1] < values[usersName.USER2]) {
-              element.addClass(classes.UP);
-            }
-            if(values[usersName.USER1] == values[usersName.USER2]) {
-              element.addClass(classes.CENTER);
-            }
-          } else {
-            /*
-            element.removeClass(classes.DOWN).removeClass(classes.UP).removeClass(classes.CENTER);
-
-            if(!values[usersName.USER1] && values[usersName.USER2]) {
-              element.addClass(classes.UP);
-            }
-            if(!values[usersName.USER2] && values[usersName.USER1]) {
-              element.addClass(classes.DOWN);
-            }
-            */
+          if(values[usersName.USER1] > values[usersName.USER2]) {
+            element.addClass(classes.DOWN);
+          }
+          if(values[usersName.USER1] < values[usersName.USER2]) {
+            element.addClass(classes.UP);
+          }
+          if(values[usersName.USER1] == values[usersName.USER2]) {
+            element.addClass(classes.CENTER);
           }
         } else {
           element.removeClass(classes.DOWN).removeClass(classes.UP).removeClass(classes.CENTER);
