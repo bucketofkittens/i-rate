@@ -24,9 +24,7 @@ function UserController($scope, FriendsService, UserService, User, $location, Lo
     $scope.showInPhone = $scope.one ? false : true;
 
     $scope.$watch('one', function (newVal, oldVal, scope) {
-        if($scope.one) {
-            $scope.showInPhone = $scope.one ? true : false;
-        }
+        $scope.showInPhone = $scope.one ? false : true;
     });
 
     $scope.$on('$locationChangeSuccess', function(event, newLoc, oldLoc) {

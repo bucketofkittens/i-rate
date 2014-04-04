@@ -1,7 +1,7 @@
 /**
  * Контроллер  профиля
  */
-function UserShortController($scope, $location, $rootScope, FriendsService) {
+function UserShortController($scope, $location, $rootScope, FriendsService, $timeout) {
     // данные пользователя
     $scope.user = null;
 
@@ -11,10 +11,8 @@ function UserShortController($scope, $location, $rootScope, FriendsService) {
 
     $scope.phoneNeedsShow = $location.search().user1 && $location.search().user2 ? true : false;
 
-    $scope.$on('closeUserPanel', function (event, message) {
-        $timeout(function() {
-            $scope.phoneNeedsShow = $location.search().user1 && $location.search().user2 ? true : false;
-        }, 0);
+    $scope.$watch('one', function (newVal, oldVal, scope) {
+        $scope.phoneNeedsShow = $scope.one ? false : true;
     });
 
     $scope.init = function(route) {

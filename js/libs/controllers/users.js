@@ -90,6 +90,8 @@ function UsersController($scope, $location, $rootScope, $timeout, NeedsService, 
         $scope.goalsValues = $scope.clearRoute($scope.goalsValues, message.route);
         $scope.criteriumsValues = $scope.clearRoute($scope.criteriumsValues, message.route);
 
+        $scope.showCrits = false;
+
         if(!$location.search().user1 && $location.search().user2) {
             $location.search({user1: $location.search().user2});
         }
@@ -167,6 +169,8 @@ function UsersController($scope, $location, $rootScope, $timeout, NeedsService, 
 
         if($location.search().user1 && $location.search().user2) {
             $scope.showUser = true;
+        } else {
+            $scope.showUser = false;
         }
     });
 }
