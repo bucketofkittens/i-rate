@@ -7,28 +7,6 @@
 	</div>
 	
 	<div class="pmpar" ng-if="user">
-		<!--
-		<p>
-			<i ng-if="user.name">{{user.name}}</i>
-		</p>
-		<p>
-			<i ng-if="user.birthday">{{user.birthday | usadata}}</i>
-		</p>
-		<p>
-			<i ng-if="user.state.name || user.city.name">
-				<span ng-if="user.state.name">{{user.state.name}}</span>
-				<span ng-if="user.city.name">
-					<span ng-if="user.state.name">,</span> 
-					{{user.city.name}}
-				</span>
-			</i>
-		</p>
-		<p>
-			<i ng-if="user.career.name || user.profession.name">
-				{{user.career.name}}<span ng-if="user.profession.name && user.career.name">,</span> {{user.profession.name}}
-			</i>
-		</p>
-		-->
 		<p>
 			<i><img ng-src="{{user.league.icon}}" alt="" /> {{user.league.name}} league</i>
 		</p>															

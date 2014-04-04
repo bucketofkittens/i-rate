@@ -9,7 +9,7 @@ function UserShortController($scope, $location, $rootScope, FriendsService) {
 
     $scope.tab = 1;
 
-    $scope.phoneNeedsShow = false;
+    $scope.phoneNeedsShow = $location.search().user1 && $location.search().user2 ? true : false;
 
     $scope.init = function(route) {
         $scope.route = route;
@@ -52,10 +52,20 @@ function UserShortController($scope, $location, $rootScope, FriendsService) {
     }
 
     $scope.changeStatePhoneNeed = function() {
-        $scope.phoneNeedsShow = !$scope.phoneNeedsShow;
+        //$scope.phoneNeedsShow = !$scope.phoneNeedsShow;
 
-        $rootScope.$broadcast('stateShowUser', {state: $scope.phoneNeedsShow, route: $scope.route});
+        $rootScope.$broadcast('stateShowUser', {state: !$scope.phoneNeedsShow, route: $scope.route});
     }
+
+    $scope.$on('stateShowUser', function(event, message) {
+        if($location.search().user1 && $location.search().user2) {
+            $scope.phoneNeedsShow = message.state;
+        } else {
+            if(message.route == $scope.route) {
+                $scope.phoneNeedsShow = message.state;
+            }
+        }
+    });
 
     /** Событие добавление в друзья */
     $scope.onFollow = function() {

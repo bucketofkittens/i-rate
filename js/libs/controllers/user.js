@@ -47,8 +47,12 @@ function UserController($scope, FriendsService, UserService, User, $location, Lo
     });
 
     $scope.$on('stateShowUser', function(event, message) {
-        if(message.route == $scope.route) {
+        if($location.search().user1 && $location.search().user2) {
             $scope.showInPhone = message.state;
+        } else {
+            if(message.route == $scope.route) {
+                $scope.showInPhone = message.state;
+            }
         }
     });
 
