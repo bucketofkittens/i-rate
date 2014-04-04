@@ -10637,7 +10637,7 @@ function UserNeedsController($scope, $rootScope) {
 /**
  * Контроллер  профиля
  */
-function UserShortController($scope, $location, $rootScope, FriendsService) {
+function UserShortController($scope, $location, $rootScope, FriendsService, $timeout) {
     // данные пользователя
     $scope.user = null;
 
@@ -10647,10 +10647,8 @@ function UserShortController($scope, $location, $rootScope, FriendsService) {
 
     $scope.phoneNeedsShow = $location.search().user1 && $location.search().user2 ? true : false;
 
-    $scope.$on('closeUserPanel', function (event, message) {
-        $timeout(function() {
-            $scope.phoneNeedsShow = $location.search().user1 && $location.search().user2 ? true : false;
-        }, 0);
+    $scope.$watch('one', function (newVal, oldVal, scope) {
+        $scope.phoneNeedsShow = $scope.one ? false : true;
     });
 
     $scope.init = function(route) {
@@ -10764,9 +10762,7 @@ function UserController($scope, FriendsService, UserService, User, $location, Lo
     $scope.showInPhone = $scope.one ? false : true;
 
     $scope.$watch('one', function (newVal, oldVal, scope) {
-        if($scope.one) {
-            $scope.showInPhone = $scope.one ? true : false;
-        }
+        $scope.showInPhone = $scope.one ? false : true;
     });
 
     $scope.$on('$locationChangeSuccess', function(event, newLoc, oldLoc) {
@@ -11015,6 +11011,8 @@ function UsersController($scope, $location, $rootScope, $timeout, NeedsService, 
         $scope.goalsValues = $scope.clearRoute($scope.goalsValues, message.route);
         $scope.criteriumsValues = $scope.clearRoute($scope.criteriumsValues, message.route);
 
+        $scope.showCrits = false;
+
         if(!$location.search().user1 && $location.search().user2) {
             $location.search({user1: $location.search().user2});
         }
@@ -11092,6 +11090,8 @@ function UsersController($scope, $location, $rootScope, $timeout, NeedsService, 
 
         if($location.search().user1 && $location.search().user2) {
             $scope.showUser = true;
+        } else {
+            $scope.showUser = false;
         }
     });
 }
