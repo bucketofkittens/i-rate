@@ -4307,24 +4307,29 @@ function module(number) {
 pgrModule.directive('showcrits', function($window) {
   return {
     link: function(scope, element, attrs) {
-      //if(scope.phone) {
-      Hammer(element[0]).on("swipeleft", function($event) {
-        $(element).find(".center2, .center").css("left", "0px");
-      }); 
+        Hammer(element[0]).on("swiperight", function($event) {
+          if($(element).hasClass("show_crits")) {
+            $(element).find(".center2, .center").css("left", "0px");
+          }
+        }); 
 
-      Hammer(element[0]).on("swiperight", function($event) {
-        $(element).find(".center2, .center").css("left", "-240px");
-      }); 
+        Hammer(element[0]).on("swipeleft", function($event) {
+          if($(element).hasClass("show_crits")) {
+            $(element).find(".center2, .center").css("left", "-240px");
+          }
+        }); 
 
-      Hammer(element[0]).on("dragleft", function($event) {
-        $(element).find(".center2, .center").css("left", "0px");
-      }); 
+        Hammer(element[0]).on("dragright", function($event) {
+          if($(element).hasClass("show_crits")) {
+            $(element).find(".center2, .center").css("left", "0px");
+          }
+        }); 
 
-      Hammer(element[0]).on("dragright", function($event) {
-        $(element).find(".center2, .center").css("left", "-240px");
-      }); 
-      //}
-      
+        Hammer(element[0]).on("dragleft", function($event) {
+          if($(element).hasClass("show_crits")) {
+            $(element).find(".center2, .center").css("left", "-240px");
+          }
+        }); 
     }
   }
 })
@@ -10642,6 +10647,12 @@ function UserShortController($scope, $location, $rootScope, FriendsService) {
 
     $scope.phoneNeedsShow = $location.search().user1 && $location.search().user2 ? true : false;
 
+    $scope.$on('closeUserPanel', function (event, message) {
+        $timeout(function() {
+            $scope.phoneNeedsShow = $location.search().user1 && $location.search().user2 ? true : false;
+        }, 0);
+    });
+
     $scope.init = function(route) {
         $scope.route = route;
     }
@@ -10678,6 +10689,7 @@ function UserShortController($scope, $location, $rootScope, FriendsService) {
     $scope.close = function() {
         $scope.user = null;
         $scope.show = false;
+        $scope.phoneNeedsShow = false;
 
         $rootScope.$broadcast('closeUser', {route: $scope.route});
     }
@@ -10755,7 +10767,6 @@ function UserController($scope, FriendsService, UserService, User, $location, Lo
         if($scope.one) {
             $scope.showInPhone = $scope.one ? true : false;
         }
-        console.log($scope.showInPhone);
     });
 
     $scope.$on('$locationChangeSuccess', function(event, newLoc, oldLoc) {
@@ -10782,6 +10793,10 @@ function UserController($scope, FriendsService, UserService, User, $location, Lo
                 $scope.showInPhone = message.state;
             }
         }
+    });
+
+    $scope.$on('closeUserPanel', function (event, message) {
+        $scope.showInPhone = false;
     });
 
     // calback для скрытия 
