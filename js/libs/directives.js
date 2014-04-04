@@ -351,24 +351,29 @@ function module(number) {
 pgrModule.directive('showcrits', function($window) {
   return {
     link: function(scope, element, attrs) {
-      //if(scope.phone) {
-      Hammer(element[0]).on("swipeleft", function($event) {
-        $(element).find(".center2, .center").css("left", "0px");
-      }); 
+        Hammer(element[0]).on("swiperight", function($event) {
+          if($(element).hasClass("show_crits")) {
+            $(element).find(".center2, .center").css("left", "0px");
+          }
+        }); 
 
-      Hammer(element[0]).on("swiperight", function($event) {
-        $(element).find(".center2, .center").css("left", "-240px");
-      }); 
+        Hammer(element[0]).on("swipeleft", function($event) {
+          if($(element).hasClass("show_crits")) {
+            $(element).find(".center2, .center").css("left", "-240px");
+          }
+        }); 
 
-      Hammer(element[0]).on("dragleft", function($event) {
-        $(element).find(".center2, .center").css("left", "0px");
-      }); 
+        Hammer(element[0]).on("dragright", function($event) {
+          if($(element).hasClass("show_crits")) {
+            $(element).find(".center2, .center").css("left", "0px");
+          }
+        }); 
 
-      Hammer(element[0]).on("dragright", function($event) {
-        $(element).find(".center2, .center").css("left", "-240px");
-      }); 
-      //}
-      
+        Hammer(element[0]).on("dragleft", function($event) {
+          if($(element).hasClass("show_crits")) {
+            $(element).find(".center2, .center").css("left", "-240px");
+          }
+        }); 
     }
   }
 })

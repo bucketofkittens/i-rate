@@ -11,6 +11,12 @@ function UserShortController($scope, $location, $rootScope, FriendsService) {
 
     $scope.phoneNeedsShow = $location.search().user1 && $location.search().user2 ? true : false;
 
+    $scope.$on('closeUserPanel', function (event, message) {
+        $timeout(function() {
+            $scope.phoneNeedsShow = $location.search().user1 && $location.search().user2 ? true : false;
+        }, 0);
+    });
+
     $scope.init = function(route) {
         $scope.route = route;
     }
@@ -47,6 +53,7 @@ function UserShortController($scope, $location, $rootScope, FriendsService) {
     $scope.close = function() {
         $scope.user = null;
         $scope.show = false;
+        $scope.phoneNeedsShow = false;
 
         $rootScope.$broadcast('closeUser', {route: $scope.route});
     }

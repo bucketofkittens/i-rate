@@ -27,7 +27,6 @@ function UserController($scope, FriendsService, UserService, User, $location, Lo
         if($scope.one) {
             $scope.showInPhone = $scope.one ? true : false;
         }
-        console.log($scope.showInPhone);
     });
 
     $scope.$on('$locationChangeSuccess', function(event, newLoc, oldLoc) {
@@ -54,6 +53,10 @@ function UserController($scope, FriendsService, UserService, User, $location, Lo
                 $scope.showInPhone = message.state;
             }
         }
+    });
+
+    $scope.$on('closeUserPanel', function (event, message) {
+        $scope.showInPhone = false;
     });
 
     // calback для скрытия 
