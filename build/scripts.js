@@ -4315,6 +4315,14 @@ pgrModule.directive('showcrits', function($window) {
       Hammer(element[0]).on("swiperight", function($event) {
         $(element).find(".center2, .center").css("left", "-240px");
       }); 
+
+      Hammer(element[0]).on("dragleft", function($event) {
+        $(element).find(".center2, .center").css("left", "0px");
+      }); 
+
+      Hammer(element[0]).on("dragright", function($event) {
+        $(element).find(".center2, .center").css("left", "-240px");
+      }); 
       //}
       
     }
