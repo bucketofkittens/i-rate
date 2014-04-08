@@ -6754,6 +6754,7 @@ transform:scale(.3)}
             }
             .pmpar {
                 width: 195px !important;
+                height: auto !important;
                 p {
                     padding-bottom: 5px !important;
                     label {
@@ -6794,49 +6795,55 @@ transform:scale(.3)}
                     position: relative;
                 }
             }
-        }           
-        #follow_tab {
-            width: 310px !important;
-            margin: 0px auto 10px auto !important;
-            height: auto !important;
-            z-index: 1 !important;
-            position: relative !important;
-            .star {
-                font-size: 12px !important;
-                width: 70px !important;
-                height: 20px !important;
-                background-size: 15px 15px !important;
-                display: block !important;
-                margin: 3px 5px !important;
-            }
-            .list {
-                background: url("http://localhost:8000/images/sbg.png") -2px top no-repeat !important;
-                background-size: 100% 100% !important;
-                width: 270px !important;
-                height: 40px !important;
-                margin: 0px !important;
-                padding: 0px 18px 0px 22px !important;
-                .sub {
-                    width: 265px !important;
-                    ul {
-                        height: 40px;
-                        img {
-                            max-height: 38px !important;
+        }
+        .lnbl {
+            z-index: 999;
+            position: relative;
+            left: 5px;
+            top: -22px;
+            #follow_tab {
+                width: 310px !important;
+                margin: 0px auto 10px auto !important;
+                height: auto !important;
+                z-index: 1 !important;
+                position: relative !important;
+                .star {
+                    font-size: 12px !important;
+                    width: 70px !important;
+                    height: 20px !important;
+                    background-size: 15px 15px !important;
+                    display: block !important;
+                    margin: 3px 5px !important;
+                }
+                .list {
+                    background: url("http://localhost:8000/images/sbg.png") -2px top no-repeat !important;
+                    background-size: 100% 100% !important;
+                    width: 270px !important;
+                    height: 40px !important;
+                    margin: 0px !important;
+                    padding: 0px 18px 0px 22px !important;
+                    .sub {
+                        width: 265px !important;
+                        ul {
+                            height: 40px;
+                            img {
+                                max-height: 38px !important;
+                            }
                         }
                     }
                 }
-            }
-            sub, sup {
-                width: 10px !important;
-                height: 15px !important;
-                top: 37px !important;
-                right: 6px !important;
-                background-size: 100% 100% !important;
-            }
-            sub {
-                right: auto !important;
-                left: 4px !important;
-            }
+                sub, sup {
+                    width: 10px !important;
+                    height: 15px !important;
+                    top: 37px !important;
+                    right: 6px !important;
+                    background-size: 100% 100% !important;
+                }
+                sub {
+                    right: auto !important;
+                    left: 4px !important;
+                }
+            }           
         }
     }
     .select2-drop {        
