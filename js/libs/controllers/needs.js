@@ -21,10 +21,9 @@ function NeedsAndGoalsController($scope, СareerService, UserService, Goals, Cri
 
     // когда получаем данные пользователя
     $scope.$watch('user', function (newVal, oldVal, scope) {
-        if(newVal != oldVal) {
+        if(newVal && newVal.sguid != oldVal.sguid) {
             $scope.bindUserNeedsValues();
             $scope.rebindUserData();
-
         }
     });
 
@@ -94,19 +93,6 @@ function NeedsAndGoalsController($scope, СareerService, UserService, Goals, Cri
         UserService.getGoalsPointsById($scope.user.sguid, $scope.bindUserNeedsValuesCallback_);
     }
 
-    $scope.addEmptyElement = function(goal) {
-        angular.forEach(goal.criteriums, function(criteriumsItem, criteriumsKey) {
-            if(criteriumsItem.criteria_values) {
-                criteriumsItem.criteria_values.splice(0, 0, {
-                    name: "none",
-                    position: 0,
-                    sguid: "none",
-                    value: 0,
-                }); 
-            }
-        });
-    }
-
     /**
      * Забираем список критериев для goals
      */
@@ -134,9 +120,16 @@ function NeedsAndGoalsController($scope, СareerService, UserService, Goals, Cri
                         userId: $scope.user.sguid,
                         route: $scope.route
                     });
-                });
 
-                $scope.addEmptyElement(goal);
+                    if(item.criteria_values) {
+                        item.criteria_values.splice(0, 0, {
+                            name: "none",
+                            position: 0,
+                            sguid: "none",
+                            value: 0,
+                        }); 
+                    }
+                });
             });
         });
     }

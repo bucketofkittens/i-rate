@@ -28,7 +28,7 @@ function UserCommentsController($scope, Comments, $rootScope, $location) {
 
     // если сменился пользователь меняем данные
     $scope.$watch('user', function (newVal, oldVal, scope) {
-        if(newVal != oldVal) {
+        if(newVal && newVal.sguid != oldVal.sguid) {
             $scope.getMessages();
         }
     });
