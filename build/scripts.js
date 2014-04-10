@@ -11016,6 +11016,10 @@ function UsersController($scope, $location, $rootScope, $timeout, NeedsService, 
         if(!$location.search().user1 && $location.search().user2) {
             $location.search({user1: $location.search().user2});
         }
+
+        if($scope.phone) {
+            $scope.openGoals = {};
+        }
     });
 
     // строим массив значений
