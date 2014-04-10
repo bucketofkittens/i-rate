@@ -103,7 +103,7 @@ function LeaguesController($scope, $location, $rootScope, User, LocationService,
         }
     }
 
-    $scope.updateOnScrollEvents = function(event, isEndEvent) {
+    $scope.updateOnScrollEvents = function(event) {
         if($scope.timeoutId) clearTimeout($scope.timeoutId);
         $scope.timeoutId = setTimeout(function() {
             $scope.$apply(function() {
@@ -113,6 +113,8 @@ function LeaguesController($scope, $location, $rootScope, User, LocationService,
           
         }, 300);
     }
+
+    $("body").on("touchmove mousewheel", $scope.updateOnScrollEvents);
 
     // выбираем нужную нам лигу
     $scope.selectLeague = function(sguid) {

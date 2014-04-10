@@ -6,24 +6,26 @@
 				<p>{{value.name}}</p>
 			</li>
 		</ul>
-		<perfect-scrollbar class="user_list" scroller ng-scroll-event="updateOnScrollEvents($event, isEndEvent)">
-			<a class="gni" ng-click="iphoneEvent()"></a>
-			<ul class="person_list">
-				<li 
-					ng-class="{ current: value.current }" 
-					ng-repeat="(key, value) in leagueUsers" 
-					ng-click="clickSelectUser(value)">
-					<div class="avatar">
-						<img err-src="/images/unknown-person.png" ng-src="{{value.avatar}}" alt="" />
-					</div>
-					<div class="text">
-						<!--<p>{{key+1}}.</p> -->
-						<p>{{value.name}}</p>
-						<span>{{value.points | int | unidate}}</span>
-					</div>
-				</li>
-			</ul>
-		</perfect-scrollbar>
+		<div class="user_list">
+			<div class="user_list_sub" scroller>
+				<a class="gni" ng-click="iphoneEvent()"></a>
+				<ul class="person_list">
+					<li 
+						ng-class="{ current: value.current }" 
+						ng-repeat="(key, value) in leagueUsers" 
+						ng-click="clickSelectUser(value)">
+						<div class="avatar">
+							<img err-src="/images/unknown-person.png" ng-src="{{value.avatar}}" alt="" />
+						</div>
+						<div class="text">
+							<!--<p>{{key+1}}.</p> -->
+							<p>{{value.name}}</p>
+							<span>{{value.points | int | unidate}}</span>
+						</div>
+					</li>
+				</ul>
+			</div>
+		</div>
 		<div 
 			class="full_height user sha league_user persona" 
 			scroll-user
