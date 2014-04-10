@@ -7503,6 +7503,8 @@ function LeaguesController($scope, $location, $rootScope, User, LocationService,
 
     $scope.testLeague();
 
+    $scope.timeoutId = null;
+
     // событие переключчения состояния страницы.
     $scope.$on('$locationChangeSuccess', function (event, next) {
         $scope.testLeague();
@@ -7576,10 +7578,14 @@ function LeaguesController($scope, $location, $rootScope, User, LocationService,
     }
 
     $scope.updateOnScrollEvents = function(event, isEndEvent) {
-        if(isEndEvent) {
-            $scope.skip += $scope.limit;
-            User.by_league_and_limit({league_guid:$location.search().league, skip: $scope.skip, limit: $scope.limit}, {}, $scope.leagueCallback_);
-        }
+        if($scope.timeoutId) clearTimeout($scope.timeoutId);
+        $scope.timeoutId = setTimeout(function() {
+            $scope.$apply(function() {
+                $scope.skip += $scope.limit;
+                User.by_league_and_limit({league_guid:$location.search().league, skip: $scope.skip, limit: $scope.limit}, {}, $scope.leagueCallback_);
+            });
+          
+        }, 300);
     }
 
     // выбираем нужную нам лигу
