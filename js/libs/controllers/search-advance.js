@@ -511,19 +511,24 @@ function SearchAdvanceController($scope, $location, $rootScope, User, Profession
      * @return {[type]}          [description]
      */
     $scope.filteredList = function(listName, filteredText, showParam) {
-        var countView = 0;
+        var countView = false;
         if($scope[listName].length > 0 && filteredText.length > 0) {
             angular.forEach($scope[listName], function(value, key) {
-                var reg = new RegExp(filteredText, "i");
-                if(reg.test(value.name)) {
-                    $scope.enableShowState(showParam);
-                    value.show = true;
-                    countView += 1;
-                } else {
-                    value.show = false;
-                }
+                value.show = false;
             });
-            if(countView == 0) {
+
+            angular.forEach($scope[listName], function(value, key) {
+                var textArr = value.name.split(" ");
+                angular.forEach(textArr, function(item, key) {
+                    if($.trim(item.toUpperCase()).indexOf($.trim(filteredText).toUpperCase()) == 0) {
+                        $scope.enableShowState(showParam);
+                        value.show = true;
+                        countView = true;
+                        console.log(value);
+                    }
+                });
+            });
+            if(countView == false) {
                 $scope.disableShowState(showParam);
             }
         } else {
