@@ -6,7 +6,7 @@ function FollowController($scope, $rootScope) {
     $scope.stepWidth = 48;
 
     if($scope.phone) {
-        $scope.max = 6;
+        $scope.max = 7;
         $scope.stepWidth = 38;
     }
 
