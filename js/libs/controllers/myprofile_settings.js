@@ -476,5 +476,7 @@ function MyProfileSettingsController($scope, UserService, SocialService, Friends
         dateFormat: 'dd/mm/yy'
     };
     
-    
+    $scope.openTerms = function() {
+        $rootScope.$broadcast('openModal', {name: "terms"});
+    }
 }
