@@ -1,4 +1,5 @@
 <section ng-controller="FollowController" >
+	{{size}} - {{position}}
 	<div id="follow_tab">
 		<span class="icon star">Favorites</span>
 		<sub class="icon favorite_nav_left" ng-if="step > 0" ng-click="newStep(step-1)"></sub>
@@ -16,7 +17,7 @@
 				</ul>	
 			</div>
 		</div>
-		{{size}} - {{position}}
+		
 		<sup class="icon favorite_nav_right" ng-click="newStep(step+1)"  ng-if="position <= size"></sup>		
 		<a ng-click="openTerms()" class="tcpp">Terms and Conditions and Privacy Policy</a>
 	</div>
