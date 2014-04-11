@@ -6965,7 +6965,7 @@ transform:scale(.3)}
                     }
                     a {
                         width: 90px !important;
-                        margin-left: 3px !important;
+                        margin-left: -5px !important;
                         line-height: 15px !important;
                         h6 {
                             height: 10px !important;
@@ -6975,6 +6975,10 @@ transform:scale(.3)}
                             margin-right: 0px !important;
                             img {
                                 max-width: 15px !important;
+                                image-rendering: optimizeSpeed;
+                                image-rendering: -moz-crisp-edges;
+                                image-rendering: -webkit-optimize-contrast;
+                                -ms-interpolation-mode: nearest-neighbor;
                             }
                         }
                         em {
