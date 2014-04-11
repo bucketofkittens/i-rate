@@ -16,7 +16,8 @@
 				</ul>	
 			</div>
 		</div>
-		<sup class="icon favorite_nav_right" ng-click="newStep(step+1)"  ng-if="step+max <= workspace.friends.length"></sup>		
+		{{size}} - {{position}}
+		<sup class="icon favorite_nav_right" ng-click="newStep(step+1)"  ng-if="position <= size"></sup>		
 		<a ng-click="openTerms()" class="tcpp">Terms and Conditions and Privacy Policy</a>
 	</div>
 </section>

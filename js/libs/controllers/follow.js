@@ -11,11 +11,19 @@ function FollowController($scope, $rootScope) {
     }
 
 	$scope.step = 0;
+    $scope.position = $scope.step+$scope.max;
+    $scope.size = 0;
 
-    alert($scope.workspace.friends.length);
+    $scope.$watch('workspace.friends', function (newVal, oldVal, scope) {
+        if(newVal) {
+            $scope.size = $scope.workspace.friends.length;
+        }
+    });
 
 	$scope.newStep = function(step) {
 		$scope.step = step;
+
+        $scope.position = $scope.step+$scope.max;
 	}
 
     // открываем планшку с пользователем
