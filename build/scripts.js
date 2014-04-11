@@ -7600,14 +7600,16 @@ function LeaguesController($scope, $location, $rootScope, User, LocationService,
     }
 
     $scope.updateOnScrollEvents = function(event) {
+        /*
         if($scope.timeoutId) clearTimeout($scope.timeoutId);
         $scope.timeoutId = setTimeout(function() {
             $scope.$apply(function() {
                 $scope.skip += $scope.limit;
-                User.by_league_and_limit({league_guid:$location.search().league, skip: $scope.skip, limit: $scope.limit}, {}, $scope.leagueCallback_);
+                
             });
           
-        }, 300);
+        }, 30);
+        */
     }
 
     $("body").on("touchmove mousewheel", $scope.updateOnScrollEvents);
@@ -7628,36 +7630,49 @@ function LeaguesController($scope, $location, $rootScope, User, LocationService,
 
     // callback после загрузки пользователей для текущей лиги
     $scope.selectLeagueCallback_ = function(data) {
-        data = data.filter(function(value) {
-            if(value.published) {
-                return value;
-            }
-        });
         
-        data.sort(function(a, b) {
-            if(a.points < b.points) return 1;
-            if(a.points > b.points) return -1;
-            return 0;
-        });
+        if(data.length > 0) {
+            data = data.filter(function(value) {
+                if(value.published) {
+                    return value;
+                }
+            });
+            
+            data.sort(function(a, b) {
+                if(a.points < b.points) return 1;
+                if(a.points > b.points) return -1;
+                return 0;
+            });
 
-        $scope.leagueUsers = data;
-        $scope.selectUser($scope.leagueUsers[0]);
+            $scope.skip += $scope.limit;
+
+            $scope.leagueUsers = data;
+            $scope.selectUser($scope.leagueUsers[0]);    
+
+            User.by_league_and_limit({league_guid:$location.search().league, skip: $scope.skip, limit: $scope.limit}, {}, $scope.leagueCallback_);
+        }
     }
 
     $scope.leagueCallback_ = function(data) {
-        data = data.filter(function(value) {
-            if(value.published) {
-                return value;
-            }
-        });
-        
-        data.sort(function(a, b) {
-            if(a.points < b.points) return 1;
-            if(a.points > b.points) return -1;
-            return 0;
-        });
+        if(data.length > 0) {
+            data = data.filter(function(value) {
+                if(value.published) {
+                    return value;
+                }
+            });
+            
+            data.sort(function(a, b) {
+                if(a.points < b.points) return 1;
+                if(a.points > b.points) return -1;
+                return 0;
+            });
 
-        $scope.leagueUsers = $scope.leagueUsers.concat(data);
+            $scope.skip += $scope.limit;
+
+            $scope.leagueUsers = $scope.leagueUsers.concat(data);
+            
+            User.by_league_and_limit({league_guid:$location.search().league, skip: $scope.skip, limit: $scope.limit}, {}, $scope.leagueCallback_);
+        }
     }
 
     $scope.$on('closeUserPanel', function (event, message) {
