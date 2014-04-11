@@ -9429,7 +9429,9 @@ function SearchAdvanceController($scope, $location, $rootScope, User, Profession
         country: {},
         city: {},
         league: {},
-        score: [0, 175000]
+        score: [0, 175000],
+        birthday_from: "",
+        birthday_till: ""
     };
 
 
@@ -9474,7 +9476,15 @@ function SearchAdvanceController($scope, $location, $rootScope, User, Profession
      * @type {Object}
      */
     $scope.topList = [];
-    
+
+    $scope.$watch('search.birthday_from', function (newVal, oldVal, scope) {
+        $scope.advanceSearch();
+    });
+
+    $scope.$watch('search.birthday_till', function (newVal, oldVal, scope) {
+        $scope.advanceSearch();
+    });
+
     $scope.$watch('workspace.professions', function (newVal, oldVal, scope) {
         if($scope.workspace.professions) {
             angular.forEach($scope.workspace.professions, function(value, key) {
@@ -9514,7 +9524,9 @@ function SearchAdvanceController($scope, $location, $rootScope, User, Profession
                     profession: false,
                     country: false,
                     city: false, 
-                    league: false
+                    league: false,
+                    birthday_from: "",
+                    birthday_till: ""
                 }
             });  
         }
@@ -9530,6 +9542,11 @@ function SearchAdvanceController($scope, $location, $rootScope, User, Profession
             value.show = true;
         });
     }
+
+    $scope.$watch("workspace.country", function (newVal, oldVal, scope) {
+        $scope.countriesList = $scope.workspace.country;
+        $scope.showAllListElement('countriesList');
+    });
 
     $scope.$watch("workspace.country", function (newVal, oldVal, scope) {
         $scope.countriesList = $scope.workspace.country;
@@ -9596,6 +9613,8 @@ function SearchAdvanceController($scope, $location, $rootScope, User, Profession
         $scope.search.league = {};
     }
 
+    $scope.dates = $("#birthday_from, #birthday_till");
+
     /**
      * Метод очищает все текущие выбранные значения в форме
      * @return {[type]} [description]
@@ -9617,6 +9636,11 @@ function SearchAdvanceController($scope, $location, $rootScope, User, Profession
             city: false, 
             league: false
         }
+
+        $scope.dates.attr('value', '');
+        $scope.dates.each(function() {
+            $.datepicker._clearDate(this);
+        });
 
         $scope.advanceSearch();
     }
