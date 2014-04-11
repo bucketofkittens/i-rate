@@ -637,7 +637,9 @@ pgrModule.service('SessionsService', function (Sessions, User, TokenService) {
                 TokenService.set(data.token);
                 self.signinSuccess_(data.guid, callback);
             } else {
-                fail(data);
+                if(fail) {
+                    fail(data);    
+                }
             }
         });
     }
