@@ -202,7 +202,7 @@ angular.module('ui.select2', []).value('uiSelect2Config', {}).directive('uiSelec
           var inText = false;
 
           angular.forEach(textArr, function(item, key) {
-            if(item.toUpperCase().indexOf(term.toUpperCase()) == 0) {
+            if($.trim(item.toUpperCase()).indexOf(term.toUpperCase()) == 0) {
               inText = true;
             }
           });
