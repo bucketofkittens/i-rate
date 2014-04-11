@@ -18,6 +18,32 @@ function SearchAdvanceController($scope, $location, $rootScope, User, Profession
 
     $scope.showUser = false;
 
+    $scope.dates = $("#birthday_from, #birthday_till");
+
+    $scope.clearFields = function() {
+        $scope.search = {
+            career: {},
+            profession: {},
+            country: {},
+            city: {},
+            league: {},
+            score: [0,  175000]
+        };
+
+        $scope.shows = {
+            career: false,
+            profession: false,
+            country: false,
+            city: false, 
+            league: false
+        }
+
+        $scope.dates.attr('value', '');
+        $scope.dates.each(function() {
+            $.datepicker._clearDate(this);
+        });
+    }
+
     // определяем показываем ли мы панель или нет
     $scope.showTest = function() {
         $scope.show = $location.search().search  ? true : false;
@@ -35,6 +61,8 @@ function SearchAdvanceController($scope, $location, $rootScope, User, Profession
             $rootScope.$broadcast('careersLoad'); 
             
             $rootScope.$broadcast('professionsLoad'); 
+        } else {
+            $scope.clearFields();
         }
     }
 
@@ -252,35 +280,16 @@ function SearchAdvanceController($scope, $location, $rootScope, User, Profession
         $scope.search.league = {};
     }
 
-    $scope.dates = $("#birthday_from, #birthday_till");
+    
+
+    
 
     /**
      * Метод очищает все текущие выбранные значения в форме
      * @return {[type]} [description]
      */
     $scope.clearAll = function() {
-        $scope.search = {
-            career: {},
-            profession: {},
-            country: {},
-            city: {},
-            league: {},
-            score: [0,  175000]
-        };
-
-        $scope.shows = {
-            career: false,
-            profession: false,
-            country: false,
-            city: false, 
-            league: false
-        }
-
-        $scope.dates.attr('value', '');
-        $scope.dates.each(function() {
-            $.datepicker._clearDate(this);
-        });
-
+        $scope.clearFields();
         $scope.advanceSearch();
     }
 
@@ -562,6 +571,7 @@ function SearchAdvanceController($scope, $location, $rootScope, User, Profession
     }
 
     $scope.close = function() {
+        $scope.clearFields();
         $location.search({});
     }
 
