@@ -200,19 +200,16 @@ angular.module('ui.select2', []).value('uiSelect2Config', {}).directive('uiSelec
           
           var textArr = text.split(" ");
           var inText = false;
+          var textArr2 = term.split(" ");
+          var textArr2Size = textArr2.length;
+          var textArr2Count = 0;
 
           angular.forEach(textArr, function(item, key) {
-            var textArr2 = term.split(" ");
-            var textArr2Size = textArr2.length;
-            var textArr2Count = 0;
-            
             angular.forEach(textArr2, function(item2, key2) {
               if($.trim(item.toUpperCase()).indexOf(item2.toUpperCase()) == 0) {
                 textArr2Count += 1;
               }
 
-              console.log(textArr2Size);
-              console.log(textArr2Count);
               if(textArr2Count == textArr2Size) {
                 inText = true;
               }
