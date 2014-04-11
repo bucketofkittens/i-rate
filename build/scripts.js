@@ -7177,6 +7177,8 @@ function FollowController($scope, $rootScope) {
         $scope.stepWidth = 38;
     }
 
+    alert($scope.max);
+
 	$scope.step = 0;
 
 	$scope.newStep = function(step) {
