@@ -135,7 +135,7 @@
 					ng-show="workspace.users.length > 0">
 					<option value=""></option>
 					<option 
-						ng-repeat="(key, value) in workspace.users track by $index" value="{{value.email}}" >
+						ng-repeat="(key, value) in workspace.users | orderBy: 'login'" value="{{value.email}}" >
 						{{value | title}}
 					</option>
 				</select>
