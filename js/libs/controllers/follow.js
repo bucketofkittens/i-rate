@@ -5,7 +5,7 @@ function FollowController($scope, $rootScope) {
     $scope.max = 14;
     $scope.stepWidth = 48;
 
-    if($(window).width() < 500) {
+    if($scope.phone) {
         $scope.max = 4;
         $scope.stepWidth = 38;
     }
