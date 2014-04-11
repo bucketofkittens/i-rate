@@ -12,6 +12,8 @@ function FollowController($scope, $rootScope) {
 
 	$scope.step = 0;
 
+    alert($scope.workspace.friends.length);
+
 	$scope.newStep = function(step) {
 		$scope.step = step;
 	}
