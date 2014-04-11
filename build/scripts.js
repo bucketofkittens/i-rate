@@ -7173,11 +7173,9 @@ function FollowController($scope, $rootScope) {
     $scope.stepWidth = 48;
 
     if($scope.phone) {
-        $scope.max = 4;
+        $scope.max = 7;
         $scope.stepWidth = 38;
     }
-
-    alert($scope.max);
 
 	$scope.step = 0;
 
