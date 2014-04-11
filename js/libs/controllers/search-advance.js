@@ -135,9 +135,9 @@ function SearchAdvanceController($scope, $location, $rootScope, User, Profession
     });
 
     $scope.clearLeagueParam = function() {
-        $scope.score = [0, 175000];
+        $scope.search.score = [0, 175000];
 
-        selectParam('league', '', true);
+        $scope.selectParam('league', '', true);
     }
 
     /**
