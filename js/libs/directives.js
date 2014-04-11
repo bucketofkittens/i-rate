@@ -400,6 +400,7 @@ pgrModule.directive('masonry', function(User, $rootScope) {
         }
       });
     */
+    
       if($scope.phone) {
         $(parentElement).on("touchmove", function($event) {
           if(!self.is_load && self.view_count < self.total_count && $(parentElement).scrollTop()+$(parentElement).height() == $(parentElement)[0].scrollHeight) {
@@ -629,7 +630,7 @@ pgrModule.directive('masonry', function(User, $rootScope) {
               self.getUsersFromBackend(self, callback);
             }
           } else {
-            if(self.view_count < self.total_count && self.view_count < 100) {
+            if(self.view_count < self.total_count && self.view_count < 100 && $(element).height() < $(window).height()) {
               self.skip += self.limit;
 
               self.getUsersFromBackend(self, callback);
