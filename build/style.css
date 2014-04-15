@@ -866,7 +866,7 @@ sup.bidubi{top:13px !important;border-width:23px 0 23px 15px}
 #searchfull .searchfull .fullsearch .searchResult .item .sealin{background:none;top:20px}
 #searchfull .searchfull .fullsearch .searchResult .item .text{padding-left:25px}
 #searchfull .searchfull .fullsearch .searchResult .item.current{background:rgba(0,0,0,0.3)}
-.search_user_parent{width:600px;overflow:hidden;position:relative;display:inline-block;position:absolute;top:60px;right:0;vertical-align:top;width:640px;height:95%}.search_user_parent .scrolls{overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch;position:relative}
+.search_user_parent{width:600px;overflow:hidden;position:relative;display:inline-block;position:absolute;top:60px;right:0;vertical-align:top;width:640px;height:95%}.search_user_parent .scrolls{overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch;position:relative;width:650px}
 .search_user_parent .crits{padding-top:15px}
 .search_user{display:inline-block;position:absolute;top:0;right:-15px;vertical-align:top;width:640px;height:100%;background:url("../images/glass.png") left top no-repeat;background-size:100% 100%;box-shadow:inset 5px 0 20px 1px rgba(0,0,0,0.7)}.search_user .butcomm{width:560px}
 .fusepar{display:inline-block;position:absolute;top:60px;right:0;vertical-align:top;width:620px;height:90%;overflow:hidden}.fusepar .in{z-index:3;float:right;width:640px;position:relative;right:-20px;overflow-y:scroll;overflow-x:hidden;background:url("../images/glass.png") left top no-repeat;background-size:100% 100%;box-shadow:inset 5px 0 20px 1px rgba(0,0,0,0.7);height:100%}
@@ -1182,7 +1182,7 @@ input:invalid{box-shadow:none}
 .league_list li p{position:relative;display:inline-block;vertical-align:middle;top:3px}
 .league_list li.current{background:none;box-shadow:none}
 .user_list{float:left;overflow:hidden;position:relative;right:-15px;height:100%;width:300px}.user_list .user_list_sub{width:325px;overflow:hidden;overflow-y:scroll;-webkit-overflow-scrolling:touch}
-.league_user{float:left;height:100%;position:relative;right:-15px}.league_user .scrolls{overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch;position:relative}
+.league_user{float:left;height:100%;position:relative;right:-15px}.league_user .scrolls{overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch;position:relative;width:580px}
 .league_user .crits{padding-top:15px}
 #content .search_user .mynav ul{margin-left:155px !important}
 a.gni{display:none}
