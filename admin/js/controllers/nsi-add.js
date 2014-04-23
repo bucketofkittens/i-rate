@@ -25,9 +25,8 @@ function NSIAddController($scope, Leagues, $rootScope, LeagueService) {
         Leagues.create({}, {
             "league": JSON.stringify($scope.form)
         }, function(data) {
-            LeagueService.remove();
             $rootScope.$broadcast('reloadLeagues');
-            $scope.close();
+            $rootScope.$broadcast('openModal', { name: 'nsi'});
         });
     }
 }
