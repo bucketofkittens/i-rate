@@ -4420,10 +4420,14 @@ pgrModule.directive('masonry', function(User, $rootScope) {
       
       /** инициализируем isotope **/
       this.initIso = function() {
-        var size = 70;
-        if($(window).width() < 500) {
-          size = 40;
-        }
+        var size = 9999;
+        angular.forEach($scope.workspace.leagues, function(value, key) {
+          var new_size = $scope.phone ? value.iphone_size : value.size;
+          if(new_size < size) {
+            size = new_size;
+          } 
+        });
+        
         $(element).isotope({
           rowHeight: size,
           layoutMode: "perfectMasonry",
@@ -4627,9 +4631,17 @@ pgrModule.directive('masonry', function(User, $rootScope) {
        */
       isCached = false;
       $scope.users = [];
-      self.initIso();
+      
 
-      this.getUsersFromBackend(this, this.firstLoadUserCallback_);  
+      $rootScope.$broadcast('reloadLeagues');
+
+      $scope.$watch('workspace.leagues', function (newVal, oldVal, scope) {
+          if($scope.workspace.leagues) {
+              self.initIso();
+              self.getUsersFromBackend(self, self.firstLoadUserCallback_);  
+          }
+      });
+      
     }
   }
 })
