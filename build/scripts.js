@@ -9004,7 +9004,7 @@ function NeedsAndGoalsController($scope, СareerService, UserService, Goals, Cri
             }
         );
 
-        if(criteria["depend_guids"].length == 0) {
+        if(criteria["depend_guids"] && criteria["depend_guids"].length == 0) {
           currentValue = fCriteriumValue[0].value;
         } else {
           var criteriums = $scope.getAffects(criteria["depend_guids"], goalItem, true);
@@ -9013,7 +9013,7 @@ function NeedsAndGoalsController($scope, СareerService, UserService, Goals, Cri
         }
 
         if(!criteria["affects?"]) {
-            if(criteria["depend_guids"].length == 0) {
+            if(criteria["depend_guids"] && criteria["depend_guids"].length == 0) {
               $scope.onPointsSet(currentValue, criteriaValue.value, needItem, goalItem);
             } else {
               var criteriums = $scope.getAffects(criteria["depend_guids"], goalItem);
